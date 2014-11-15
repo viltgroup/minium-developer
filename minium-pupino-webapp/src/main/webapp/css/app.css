@@ -1,0 +1,206 @@
+/* app css stylesheet */
+
+.container {
+    width: auto !important;
+}
+.container-editor {
+    padding: 5px 15px 15px 15px !important;
+    height: 100%;
+}
+.navbar-brand {
+    background: url(../img/minium_logo.png) no-repeat left center;
+}
+.navbar-brand .text {
+    margin-left: 100px;
+}
+.full {
+    /** Setting height is also important, otherwise editor wont showup**/
+    
+    width: 100%;
+    height: 100%;
+}
+.ace_editor {
+    height: 800px;
+}
+.error_line {
+    position: absolute;
+    background: rgb(217, 83, 79);
+    z-index: 40
+}
+.success_line {
+    position: absolute;
+    background: rgb(0, 141, 76);
+    z-index: 40
+}
+/** THEME CHANGES **/
+
+.content {
+    min-height: 400px;
+}
+.skin-blue .sidebar > .sidebar-menu > li {
+    border-top: 0px;
+    border-bottom: 1px solid #e7e7e7;
+}
+.skin-blue .right-side > .content-header {
+    background: white;
+}
+.content {
+    background: #ecf0f1;
+}
+/** LEFT BAR COLOR **/
+
+.skin-blue .left-side {
+    /* background-color: #34495E;
+    color: #ECF0F1;*/
+}
+.info {
+    padding: 5px 5px 0px;
+    /*margin-left: 450px;*/
+    
+    width: 100%;
+}
+.chat {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.chat li {
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px dotted #999;
+}
+.chat li.left .chat-body {
+    margin-left: 60px;
+}
+.chat li.right .chat-body {
+    margin-right: 60px;
+}
+.chat li .chat-body p {
+    margin: 0;
+}
+.panel .slidedown .glyphicon, .chat .glyphicon {
+    margin-right: 5px;
+}
+.chat-panel .panel-body {
+    height: 350px;
+    overflow-y: scroll;
+}
+/**
+ * SLIDER
+ */
+
+.thumb {
+    width: 50px;
+    height: 50px;
+}
+.thumb img {
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+}
+/**
+ * LOADER 
+ * http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/
+ */
+
+.bar-loading {
+    font-size: 20px;
+    width: 10em;
+    height: 1em;
+    position: relative;
+    margin-left: 310px;
+    border-radius: .5em;
+    background: #3c8dbc;
+    box-shadow: 0 0 0 .05em rgba(100, 100, 100, 0.075), 0 0 0 .25em rgba(0, 0, 0, 0.1), inset 0 .1em .05em rgba(0, 0, 0, 0.1), 0 .05em rgba(255, 255, 255, 0.7);
+}
+.bar-loading:after {
+    content: "Please wait.";
+    position: absolute;
+    left: 25%;
+    top: 150%;
+    font-family: 'Carrois Gothic', sans-serif;
+    font-size: 1em;
+    color: #555;
+    text-shadow: 0 .05em rgba(255, 255, 255, 0.7);
+}
+.bar-loading .sphere {
+    border-radius: 50%;
+    width: 1em;
+    height: 100%;
+    background: -webkit-linear-gradient(#eee, #ddd);
+    background: linear-gradient(#eee, #ddd);
+    box-shadow: inset 0 .15em .1em rgba(255, 255, 255, 0.3), inset 0 -.1em .15em rgba(0, 0, 0, 0.15), 0 0 .25em rgba(0, 0, 0, 0.3);
+    display: block;
+    -webkit-animation: slide 1.75s ease-in-out infinite alternate;
+    animation: slide 1.75s ease-in-out infinite alternate;
+}
+@-webkit-keyframes slide {
+    from {} to {
+        margin-left: 90%;
+    }
+}
+@keyframes slide {
+    from {} to {
+        margin-left: 90%;
+    }
+}
+/**
+ * PANEL WITH TABS
+ */
+/* Tabs panel */
+
+.nav-tabs {
+    margin-bottom: 0px;
+}
+.tab-report {
+    background: #ecf0f1;
+    padding: 15px;
+    -moz-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    -webkit-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    -moz-border-radius: 0 0 3px 3px;
+    -webkit-border-radius: 0 0 3px 3px;
+    border-radius: 0 0 3px 3px;
+}
+.nav-tabs-custom > .tab-report {
+    background: white;
+}
+.nav-color {
+    background: #1d2939;
+}
+.table-list .fa-bug {
+    color: #D9534F;
+}
+.colored .fa-bug {
+    color: #D9534F;
+}
+.colored .fa-check-square {
+    color: #1CAF9A;
+}
+.table-list .fa-check-square {
+    color: #1CAF9A;
+}
+.table-list .fa {
+    cursor: pointer;
+}
+.danger {
+    color: #D9534F;
+}
+.success {
+    color: #1CAF9A;
+}
+/**
+ * BLOCK LIST
+ */
+
+.fail-body {
+    margin-left: 150px;
+}
+.panel-border-left {
+    border-left: 3px solid #f56954;
+}
+/* Center modal dialog */
+
+.modal-dialog-center {
+    margin-top: 5%;
+}

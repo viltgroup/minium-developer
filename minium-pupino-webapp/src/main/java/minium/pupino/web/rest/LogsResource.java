@@ -19,22 +19,25 @@ import java.util.List;
 @RequestMapping("/app")
 public class LogsResource {
 
-	@RequestMapping(value = "/rest/logs", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	@Timed
-	public List<LoggerDTO> getList() {
-		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-		List<LoggerDTO> loggers = new ArrayList<>();
-		for (ch.qos.logback.classic.Logger logger : context.getLoggerList()) {
-			loggers.add(new LoggerDTO(logger));
-		}
-		return loggers;
-	}
+    @RequestMapping(value = "/rest/logs",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<LoggerDTO> getList() {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        List<LoggerDTO> loggers = new ArrayList<>();
+        for (ch.qos.logback.classic.Logger logger : context.getLoggerList()) {
+            loggers.add(new LoggerDTO(logger));
+        }
+        return loggers;
+    }
 
-	@RequestMapping(value = "/rest/logs", method = RequestMethod.PUT)
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	@Timed
-	public void changeLevel(@RequestBody LoggerDTO jsonLogger) {
-		LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
-		context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
-	}
+    @RequestMapping(value = "/rest/logs",
+            method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Timed
+    public void changeLevel(@RequestBody LoggerDTO jsonLogger) {
+        LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
+        context.getLogger(jsonLogger.getName()).setLevel(Level.valueOf(jsonLogger.getLevel()));
+    }
 }

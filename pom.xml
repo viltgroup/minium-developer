@@ -61,12 +61,18 @@
     <modules>
     	<module>minium-pupino-webapp</module>
     	<module>minium-pupino-common</module>
+    	<module>minium-pupino-core</module>
     </modules>
 
     <dependencies>
         <dependency>
             <groupId>com.codahale.metrics</groupId>
             <artifactId>metrics-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.codahale.metrics</groupId>
+            <artifactId>metrics-ehcache</artifactId>
+            <version>${codahale-metrics.version}</version>
         </dependency>
         <dependency>
             <groupId>com.codahale.metrics</groupId>

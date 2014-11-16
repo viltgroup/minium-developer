@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.actuate.health.AbstractHealthIndicator;
 import org.springframework.boot.actuate.health.Health;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.util.Assert;
 
@@ -19,10 +18,9 @@ public class JavaMailHealthIndicator extends AbstractHealthIndicator {
 
     private JavaMailSenderImpl javaMailSender;
 
-    public JavaMailHealthIndicator(JavaMailSender javaMailSender) {
+    public JavaMailHealthIndicator(JavaMailSenderImpl javaMailSender) {
         Assert.notNull(javaMailSender, "javaMailSender must not be null");
-        Assert.isInstanceOf(JavaMailSenderImpl.class, javaMailSender, "javaMailSender must be a JavaMailSenderImpl");
-        this.javaMailSender = (JavaMailSenderImpl) javaMailSender;
+        this.javaMailSender = javaMailSender;
     }
 
     @Override

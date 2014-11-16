@@ -1,23 +1,17 @@
 package minium.pupino.web.rest;
 
-import java.util.List;
-
-import javax.annotation.security.RolesAllowed;
-import javax.inject.Inject;
-
 import minium.pupino.security.AuthoritiesConstants;
-import minium.pupino.service.audit.AuditEventService;
+import minium.pupino.service.AuditEventService;
 import minium.pupino.web.propertyeditors.LocaleDateTimeEditor;
-
 import org.joda.time.LocalDateTime;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * REST controller for getting the audit events.
@@ -34,15 +28,20 @@ public class AuditResource {
         binder.registerCustomEditor(LocalDateTime.class, new LocaleDateTimeEditor("yyyy-MM-dd", false));
     }
 
-    @RequestMapping(value = "/rest/audits/all", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/audits/all",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
     public List<AuditEvent> findAll() {
         return auditEventService.findAll();
     }
 
-    @RequestMapping(value = "/rest/audits/byDates", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/audits/byDates",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @RolesAllowed(AuthoritiesConstants.ADMIN)
-    public List<AuditEvent> findByDates(@RequestParam(value = "fromDate") LocalDateTime fromDate, @RequestParam(value = "toDate") LocalDateTime toDate) {
+    public List<AuditEvent> findByDates(@RequestParam(value = "fromDate") LocalDateTime fromDate,
+                                    @RequestParam(value = "toDate") LocalDateTime toDate) {
         return auditEventService.findByDates(fromDate, toDate);
     }
 }

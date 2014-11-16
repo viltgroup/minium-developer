@@ -25,10 +25,7 @@ public class LoggingAspect {
     @Inject
     private Environment env;
 
-    @Pointcut(
-    		"within(minium.pupino..*) && (@annotation(org.springframework.stereotype.Service) || "
-    		+ "@annotation(org.springframework.stereotype.Repository) ||"
-    		+ "@annotation(org.springframework.stereotype.Controller))")
+    @Pointcut("within(minium.pupino.repository..*) || within(minium.pupino.service..*) || within(minium.pupino.web.rest..*)")
     public void loggingPoincut() {}
 
     @AfterThrowing(pointcut = "loggingPoincut()", throwing = "e")

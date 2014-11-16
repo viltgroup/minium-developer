@@ -1,15 +1,10 @@
 package minium.pupino.config;
 
-import javax.inject.Inject;
-
-import minium.pupino.security.AjaxAuthenticationFailureHandler;
-import minium.pupino.security.AjaxAuthenticationSuccessHandler;
-import minium.pupino.security.AjaxLogoutSuccessHandler;
-import minium.pupino.security.AuthoritiesConstants;
-import minium.pupino.security.Http401UnauthorizedEntryPoint;
-
+import minium.pupino.security.*;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
@@ -19,7 +14,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
+
+import javax.inject.Inject;
 
 @Configuration
 @EnableWebSecurity
@@ -46,12 +44,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Inject
     private RememberMeServices rememberMeServices;
 
-    @Inject
-    private PasswordEncoder passwordEncoder;
-    
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+        auth
+            .userDetailsService(userDetailsService)
+                .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -117,6 +119,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
     
+    
+	
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
     }

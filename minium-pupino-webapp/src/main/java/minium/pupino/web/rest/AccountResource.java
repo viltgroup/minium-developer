@@ -1,30 +1,15 @@
 package minium.pupino.web.rest;
 
-import static java.lang.String.format;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.inject.Inject;
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import minium.pupino.domain.auth.Authority;
-import minium.pupino.domain.auth.PersistentToken;
-import minium.pupino.domain.auth.User;
-import minium.pupino.repository.auth.PersistentTokenRepository;
-import minium.pupino.repository.auth.UserRepository;
+import com.codahale.metrics.annotation.Timed;
+import minium.pupino.domain.Authority;
+import minium.pupino.domain.PersistentToken;
+import minium.pupino.domain.User;
+import minium.pupino.repository.PersistentTokenRepository;
+import minium.pupino.repository.UserRepository;
 import minium.pupino.security.SecurityUtils;
-import minium.pupino.service.auth.UserService;
-import minium.pupino.service.mail.MailService;
+import minium.pupino.service.MailService;
+import minium.pupino.service.UserService;
 import minium.pupino.web.rest.dto.UserDTO;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,17 +17,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.context.IWebContext;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.context.SpringWebContext;
 
-import com.codahale.metrics.annotation.Timed;
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.*;
 
 /**
  * REST controller for managing the current user's account.
@@ -77,20 +63,18 @@ public class AccountResource {
     /**
      * POST  /rest/register -> register the user.
      */
-	@RequestMapping(value = "/rest/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/register",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-	public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request,
+                                             HttpServletResponse response) {
         User user = userRepository.findOne(userDTO.getLogin());
         if (user != null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         } else {
-            user = userService.createUserInformation(
-            		userDTO.getLogin(), 
-            		userDTO.getPassword(), 
-            		userDTO.getFirstName(),
-                    userDTO.getLastName(), 
-                    userDTO.getEmail().toLowerCase(), 
-                    userDTO.getLangKey());
+            user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(), userDTO.getFirstName(),
+                    userDTO.getLastName(), userDTO.getEmail().toLowerCase(), userDTO.getLangKey());
             final Locale locale = Locale.forLanguageTag(user.getLangKey());
             String content = createHtmlContentFromTemplate(user, locale, request, response);
             mailService.sendActivationEmail(user.getEmail(), content, locale);
@@ -100,7 +84,9 @@ public class AccountResource {
     /**
      * GET  /rest/activate -> activate the registered user.
      */
-	@RequestMapping(value = "/rest/activate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/activate",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
         User user = userService.activateRegistration(key);
@@ -113,7 +99,9 @@ public class AccountResource {
     /**
      * GET  /rest/authenticate -> check if the user is authenticated, and return its login.
      */
-	@RequestMapping(value = "/rest/authenticate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/authenticate",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
@@ -123,7 +111,9 @@ public class AccountResource {
     /**
      * GET  /rest/account -> get the current user.
      */
-	@RequestMapping(value = "/rest/account", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/account",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         User user = userService.getUserWithAuthorities();
@@ -149,7 +139,9 @@ public class AccountResource {
     /**
      * POST  /rest/account -> update the current user information.
      */
-	@RequestMapping(value = "/rest/account", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/account",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public void saveAccount(@RequestBody UserDTO userDTO) {
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
@@ -158,7 +150,9 @@ public class AccountResource {
     /**
      * POST  /rest/change_password -> changes the current user's password
      */
-	@RequestMapping(value = "/rest/account/change_password", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/account/change_password",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> changePassword(@RequestBody String password) {
         if (StringUtils.isEmpty(password)) {
@@ -171,14 +165,18 @@ public class AccountResource {
     /**
      * GET  /rest/account/sessions -> get the current open sessions.
      */
-	@RequestMapping(value = "/rest/account/sessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/account/sessions",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-		return new ResponseEntity<>(persistentTokenRepository.findByUser(user), HttpStatus.OK);
+        return new ResponseEntity<>(
+            persistentTokenRepository.findByUser(user),
+            HttpStatus.OK);
     }
 
     /**
@@ -208,11 +206,15 @@ public class AccountResource {
         }
     }
 
-	private String createHtmlContentFromTemplate(final User user, final Locale locale, final HttpServletRequest request, final HttpServletResponse response) {
+    private String createHtmlContentFromTemplate(final User user, final Locale locale, final HttpServletRequest request,
+                                                 final HttpServletResponse response) {
         Map<String, Object> variables = new HashMap<>();
         variables.put("user", user);
-        variables.put("baseUrl", format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort()));
-		IWebContext context = new SpringWebContext(request, response, servletContext, locale, variables, applicationContext);
+        variables.put("baseUrl", request.getScheme() + "://" +   // "http" + "://
+                                 request.getServerName() +       // "myhost"
+                                 ":" + request.getServerPort());
+        IWebContext context = new SpringWebContext(request, response, servletContext,
+                locale, variables, applicationContext);
         return templateEngine.process("activationEmail", context);
     }
 }

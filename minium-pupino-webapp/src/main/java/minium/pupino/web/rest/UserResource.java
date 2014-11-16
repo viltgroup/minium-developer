@@ -1,11 +1,9 @@
 package minium.pupino.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-
-import minium.pupino.domain.auth.User;
-import minium.pupino.repository.auth.UserRepository;
+import minium.pupino.domain.User;
+import minium.pupino.repository.UserRepository;
 import minium.pupino.security.AuthoritiesConstants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -33,7 +31,9 @@ public class UserResource {
     /**
      * GET  /rest/users/:login -> get the "login" user.
      */
-	@RequestMapping(value = "/rest/users/{login}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/rest/users/{login}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     @RolesAllowed(AuthoritiesConstants.ADMIN)
     public User getUser(@PathVariable String login, HttpServletResponse response) {

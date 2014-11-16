@@ -1,10 +1,10 @@
 package minium.pupino.web.filter.gzip;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.WriteListener;
+
+import java.io.IOException;
+import java.io.OutputStream;
 
 class GZipServletOutputStream extends ServletOutputStream {
     private OutputStream stream;
@@ -40,15 +40,14 @@ class GZipServletOutputStream extends ServletOutputStream {
         this.stream.write(b);
     }
 
-    @Override
-    public boolean isReady() {
-        // TODO implement it
-        return false;
-    }
+	@Override
+	public boolean isReady() {
+		// TODO
+		return false;
+	}
 
-    @Override
-    public void setWriteListener(WriteListener listener) {
-        // TODO implement it
-
-    }
+	@Override
+	public void setWriteListener(WriteListener listener) {
+		// TODO
+	}
 }

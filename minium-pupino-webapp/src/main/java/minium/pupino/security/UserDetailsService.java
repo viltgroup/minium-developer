@@ -1,9 +1,8 @@
 package minium.pupino.security;
 
-import minium.pupino.domain.auth.Authority;
-import minium.pupino.domain.auth.User;
-import minium.pupino.repository.auth.UserRepository;
-
+import minium.pupino.domain.Authority;
+import minium.pupino.domain.User;
+import minium.pupino.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-
 import java.util.ArrayList;
 import java.util.Collection;
 

@@ -1,26 +1,24 @@
 package minium.pupino.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.List;
-
-import javax.inject.Inject;
-
 import minium.pupino.Application;
-import minium.pupino.domain.auth.PersistentToken;
-import minium.pupino.domain.auth.User;
-import minium.pupino.repository.auth.PersistentTokenRepository;
-import minium.pupino.repository.auth.UserRepository;
-import minium.pupino.service.auth.UserService;
-
+import minium.pupino.domain.PersistentToken;
+import minium.pupino.domain.User;
+import minium.pupino.repository.PersistentTokenRepository;
+import minium.pupino.repository.UserRepository;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.inject.Inject;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * Test class for the UserResource REST controller.

@@ -19,6 +19,11 @@
             <artifactId>minium-pupino-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.vilt-group.minium</groupId>
+            <artifactId>minium-pupino-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -8,7 +8,6 @@ import minium.pupino.security.AjaxLogoutSuccessHandler;
 import minium.pupino.security.AuthoritiesConstants;
 import minium.pupino.security.Http401UnauthorizedEntryPoint;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,7 +18,6 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
 
@@ -48,14 +46,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Inject
     private RememberMeServices rememberMeServices;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
+    @Inject
+    private PasswordEncoder passwordEncoder;
+    
     @Inject
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -121,8 +117,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
     
-    
-	
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
     }

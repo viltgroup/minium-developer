@@ -1,5 +1,12 @@
 package minium.pupino.security;
 
+import java.security.SecureRandom;
+import java.util.Arrays;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import minium.pupino.domain.auth.PersistentToken;
 import minium.pupino.domain.auth.User;
 import minium.pupino.repository.auth.PersistentTokenRepository;
@@ -19,13 +26,6 @@ import org.springframework.security.web.authentication.rememberme.InvalidCookieE
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.security.SecureRandom;
-import java.util.Arrays;
 
 /**
  * Custom implementation of Spring Security's RememberMeServices.
@@ -52,10 +52,9 @@ import java.util.Arrays;
  * <p/>
  */
 @Service
-public class CustomPersistentRememberMeServices extends
-        AbstractRememberMeServices {
+public class PupinoPersistentRememberMeServices extends AbstractRememberMeServices {
 
-    private final Logger log = LoggerFactory.getLogger(CustomPersistentRememberMeServices.class);
+    private final Logger log = LoggerFactory.getLogger(PupinoPersistentRememberMeServices.class);
 
     // Token is valid for one month
     private static final int TOKEN_VALIDITY_DAYS = 31;
@@ -75,7 +74,7 @@ public class CustomPersistentRememberMeServices extends
     private UserRepository userRepository;
 
     @Inject
-    public CustomPersistentRememberMeServices(Environment env, org.springframework.security.core.userdetails.UserDetailsService userDetailsService) {
+    public PupinoPersistentRememberMeServices(Environment env, org.springframework.security.core.userdetails.UserDetailsService userDetailsService) {
 
         super(env.getProperty("jhipster.security.rememberme.key"), userDetailsService);
         random = new SecureRandom();

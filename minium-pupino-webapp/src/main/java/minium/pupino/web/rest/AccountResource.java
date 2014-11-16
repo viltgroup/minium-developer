@@ -1,5 +1,7 @@
 package minium.pupino.web.rest;
 
+import static java.lang.String.format;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -75,18 +77,20 @@ public class AccountResource {
     /**
      * POST  /rest/register -> register the user.
      */
-    @RequestMapping(value = "/rest/register",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/register", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request,
-                                             HttpServletResponse response) {
+	public ResponseEntity<?> registerAccount(@RequestBody UserDTO userDTO, HttpServletRequest request, HttpServletResponse response) {
         User user = userRepository.findOne(userDTO.getLogin());
         if (user != null) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         } else {
-            user = userService.createUserInformation(userDTO.getLogin(), userDTO.getPassword(), userDTO.getFirstName(),
-                    userDTO.getLastName(), userDTO.getEmail().toLowerCase(), userDTO.getLangKey());
+            user = userService.createUserInformation(
+            		userDTO.getLogin(), 
+            		userDTO.getPassword(), 
+            		userDTO.getFirstName(),
+                    userDTO.getLastName(), 
+                    userDTO.getEmail().toLowerCase(), 
+                    userDTO.getLangKey());
             final Locale locale = Locale.forLanguageTag(user.getLangKey());
             String content = createHtmlContentFromTemplate(user, locale, request, response);
             mailService.sendActivationEmail(user.getEmail(), content, locale);
@@ -96,9 +100,7 @@ public class AccountResource {
     /**
      * GET  /rest/activate -> activate the registered user.
      */
-    @RequestMapping(value = "/rest/activate",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/activate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<String> activateAccount(@RequestParam(value = "key") String key) {
         User user = userService.activateRegistration(key);
@@ -111,9 +113,7 @@ public class AccountResource {
     /**
      * GET  /rest/authenticate -> check if the user is authenticated, and return its login.
      */
-    @RequestMapping(value = "/rest/authenticate",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/authenticate", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public String isAuthenticated(HttpServletRequest request) {
         log.debug("REST request to check if the current user is authenticated");
@@ -123,9 +123,7 @@ public class AccountResource {
     /**
      * GET  /rest/account -> get the current user.
      */
-    @RequestMapping(value = "/rest/account",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/account", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         User user = userService.getUserWithAuthorities();
@@ -151,9 +149,7 @@ public class AccountResource {
     /**
      * POST  /rest/account -> update the current user information.
      */
-    @RequestMapping(value = "/rest/account",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/account", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public void saveAccount(@RequestBody UserDTO userDTO) {
         userService.updateUserInformation(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getEmail());
@@ -162,9 +158,7 @@ public class AccountResource {
     /**
      * POST  /rest/change_password -> changes the current user's password
      */
-    @RequestMapping(value = "/rest/account/change_password",
-            method = RequestMethod.POST,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/account/change_password", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<?> changePassword(@RequestBody String password) {
         if (StringUtils.isEmpty(password)) {
@@ -177,18 +171,14 @@ public class AccountResource {
     /**
      * GET  /rest/account/sessions -> get the current open sessions.
      */
-    @RequestMapping(value = "/rest/account/sessions",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/account/sessions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
         User user = userRepository.findOne(SecurityUtils.getCurrentLogin());
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(
-            persistentTokenRepository.findByUser(user),
-            HttpStatus.OK);
+		return new ResponseEntity<>(persistentTokenRepository.findByUser(user), HttpStatus.OK);
     }
 
     /**
@@ -218,15 +208,11 @@ public class AccountResource {
         }
     }
 
-    private String createHtmlContentFromTemplate(final User user, final Locale locale, final HttpServletRequest request,
-                                                 final HttpServletResponse response) {
+	private String createHtmlContentFromTemplate(final User user, final Locale locale, final HttpServletRequest request, final HttpServletResponse response) {
         Map<String, Object> variables = new HashMap<>();
         variables.put("user", user);
-        variables.put("baseUrl", request.getScheme() + "://" +   // "http" + "://
-                                 request.getServerName() +       // "myhost"
-                                 ":" + request.getServerPort());
-        IWebContext context = new SpringWebContext(request, response, servletContext,
-                locale, variables, applicationContext);
+        variables.put("baseUrl", format("%s://%s:%d", request.getScheme(), request.getServerName(), request.getServerPort()));
+		IWebContext context = new SpringWebContext(request, response, servletContext, locale, variables, applicationContext);
         return templateEngine.process("activationEmail", context);
     }
 }

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 /**
  * Persistent tokens are used by Spring Security to automatically log in users.
  *
- * @see minium.pupino.security.CustomPersistentRememberMeServices
+ * @see minium.pupino.security.PupinoPersistentRememberMeServices
  */
 @Entity
 @Table(name = "T_PERSISTENT_TOKEN")

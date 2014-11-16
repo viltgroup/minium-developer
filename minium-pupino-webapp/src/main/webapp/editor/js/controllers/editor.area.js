@@ -176,10 +176,10 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
                 var markerId;
                 switch (step.status) {
                     case "failed":
-                        markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "line");
+                        markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
                         break;
                     case "passed":
-                        markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "line");
+                        markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
                         break;
                     default: //do nothing
                 }

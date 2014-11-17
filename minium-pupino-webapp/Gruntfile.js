@@ -315,9 +315,15 @@ module.exports = function (grunt) {
             ]
         },
         karma: {
-            unit: {
-                configFile: 'src/test/javascript/karma.conf.js',
+            options: {
+                configFile: 'src/test/javascript/karma.conf.js'
+            },
+            continuous: {
                 singleRun: true
+            },
+            dev: {
+              browsers: ['Chrome'],
+              autowatch: true
             }
         },
         cdnify: {
@@ -398,7 +404,7 @@ module.exports = function (grunt) {
         'concurrent:test',
         'autoprefixer',
         'connect:test',
-        'karma'
+        'karma:continuous'
     ]);
 
     grunt.registerTask('build', [

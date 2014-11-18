@@ -14,3 +14,4 @@ src/main/webapp/dist
 .gradle
 build
 /minium-pupino-webapp/src/main/webapp/bower_components
+/minium-pupino-core/.springBeans

@@ -1,8 +1,6 @@
 'use strict';
 
 var LaunchController = function($scope, $modalInstance, $state, $stateParams, launcherService) {
-
-    alert($stateParams.results);
     
     launcherService.launch($scope.launchParams)
         .success(function(data) {

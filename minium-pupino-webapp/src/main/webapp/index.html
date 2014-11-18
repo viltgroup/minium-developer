@@ -11,8 +11,11 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.tmp) styles/main.css -->
+
     <link rel="stylesheet" href="styles/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="../editor/css/theme.css" />
+
     <!-- endbuild -->
   </head>
   <body ng-app="pupinoApp" ng-controller="MainController">
@@ -33,6 +36,12 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse" ng-switch="authenticated">
           <ul class="nav navbar-nav nav-pills navbar-right">
+            <li>
+              <a href="/editor/index.html">
+                <span class="glyphicon glyphicon-list"></span>
+                <span>Editor</span>
+              </a>
+            </li>
             <li>
               <a href="#">
                 <span class="glyphicon glyphicon-home"></span>

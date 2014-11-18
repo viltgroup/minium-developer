@@ -291,4 +291,13 @@ pupinoApp.controller('AuditsController', function ($scope, $translate, $filter, 
     AuditsService.findByDates($scope.fromDate, $scope.toDate).then(function(data){
       $scope.audits = data;
     });
-  });
+  })
+
+angular.module('pupinoApp.controllers', [])
+    .controller('GlobalController', GlobalController)
+    .controller('OpenFileController', OpenFileController)
+    .controller('LaunchController', LaunchController)
+    .controller('EditorAreaController', EditorAreaController)
+    .controller('ReportController', ReportController)
+    .controller('ConfigsController', ConfigsController)
+    .controller('SocketTestController', SocketTestController);

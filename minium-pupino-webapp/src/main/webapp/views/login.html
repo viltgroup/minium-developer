@@ -1,4 +1,11 @@
- <div class="alert alert-danger" ng-show="authenticationError" translate="login.messages.error.authentication">
+
+<style type="text/css">
+html,body{
+    background-color: #222 !important;
+}
+</style>
+
+<div class="alert alert-danger" ng-show="authenticationError" translate="login.messages.error.authentication">
         <strong>Authentication failed!</strong>Please check your credentials and try again.
     </div>
 <div class="form-box" id="login-box">
@@ -20,7 +27,7 @@
         </div>
         <div class="footer">
 
-            <button type="submit" class="btn bg-olive btn-block" ng-click="login()" translate="login.form.button">Sign me in</button>
+            <button type="submit" class="btn bg-primary btn-block" ng-click="login()" translate="login.form.button">Sign me in</button>
 
             <p><a href="#">I forgot my password</a>
             </p>

@@ -9,6 +9,8 @@ import minium.pupino.web.method.support.BaseURL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,4 +35,11 @@ public class LaunchResource {
     public Resource dotcucumber() throws IOException {
         return launchService.dotcucumber();
     }
+    
+    @RequestMapping(value = "/stop", method = RequestMethod.POST)
+    public ResponseEntity<String>  stop() throws IOException, SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
+        launchService.stopLaunch();
+        return new ResponseEntity<String>("OK", HttpStatus.OK);
+    }
+
 }

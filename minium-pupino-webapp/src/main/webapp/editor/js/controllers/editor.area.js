@@ -114,7 +114,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         $timeout.cancel(stopwatch);
         stopwatch = null;
     };
-
+    
     $scope.runtimer = function() {
         timer();
     };

@@ -28,4 +28,6 @@ pupinoApp.controller('ProjectController', function ($scope, resolvedProject, Pro
         $scope.clear = function () {
             $scope.project = {name: null, description: null, id: null};
         };
+
+        
     });

@@ -51,7 +51,7 @@ filter('iconUrl', function() {
                 }
             }
         }
-        return "/app/icons/" + iconName + ".png";
+        return "../icons/" + iconName + ".png";
     };
 }).
 filter('isEmpty', function() {

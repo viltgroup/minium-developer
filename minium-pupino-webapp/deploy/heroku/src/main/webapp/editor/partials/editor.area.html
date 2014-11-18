@@ -28,15 +28,15 @@
                     <span class="ladda-label">Running</span>
                 </button>
 
-                 <button type="button" class="btn btn-success" ng-hide="resultsSummary | isEmpty" data-toggle="modal" data-target="#launchModal">
-                    <span class="fa  fa-bar-chart"></span> Summary Report
+                <button type="button" class="btn btn-success" ng-hide="resultsSummary | isEmpty" data-toggle="modal" data-target="#launchModal">
+                    <span class="fa  fa-bar-chart"></span>Summary Report
                 </button>
 
                 <button type="button" class="btn btn-primary">
                     <span class="fa fa-rocket"></span>Latest Jobs
                 </button>
 
-                
+
                 <a class="btn btn-primary " id="clear" ui-sref="global.report" target="_blank">
                     <span class="fa fa-clipboard"></span>See Reports
                 </a>
@@ -57,8 +57,14 @@
                     <i class="fa fa-arrow-circle-o-down"></i> Open File
                 </a>
 
-                 <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
+                <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
                     <i class="fa fa-arrow-circle-o-down"></i> See Execution
+                </button>
+
+
+                <button class="btn btn-danger btn-xs pull-right" ng-click="stopLaunch()" ng-hide="testExecuting == false">
+                    <span class="fa fa-ban"></span>
+                    <span class="ladda-label">Stop</span>
                 </button>
 
             </p>

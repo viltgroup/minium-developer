@@ -103,9 +103,9 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
     $scope.image = {};
     var stopwatch = null;
     var timer = function() {
-        $scope.image = "/screenshot?timestamp=" + new Date().getTime();
+        $scope.image = "/app/rest/screenshot?timestamp=" + new Date().getTime();
         stopwatch = $timeout(function() {
-            $scope.image = "/screenshot?timestamp=" + new Date().getTime();
+            $scope.image = "/app/rest/screenshot?timestamp=" + new Date().getTime();
             timer();
         }, 2000);
     };
@@ -114,13 +114,13 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         $timeout.cancel(stopwatch);
         stopwatch = null;
     };
-
+    
     $scope.runtimer = function() {
         timer();
     };
 
-    $scope.openExecution = function  (argument) {
-         $('#screenShotsModal').modal({
+    $scope.openExecution = function(argument) {
+        $('#screenShotsModal').modal({
             show: true
         });
     }
@@ -130,18 +130,19 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
     };
 
     $scope.markerIds = [];
-    $scope.clearMarkers = function () {
-        $scope.markerIds.forEach(function (markerId) {
+    $scope.clearMarkers = function() {
+        $scope.markerIds.forEach(function(markerId) {
             $scope.editor.session.removeMarker(markerId);
         });
         $scope.markerIds = [];
+        $scope.editor.session.clearBreakpoints();
     }
 
     /**
      * WebSocket
      * @type {SockJS}
      */
-    var subscribeMessages = function () {
+    var subscribeMessages = function() {
 
         $scope.tests = {};
         var socket = new SockJS("/app/ws");
@@ -181,6 +182,10 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
                     case "passed":
                         markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
                         break;
+                    case "executing":
+                        markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
+                        breakpoint(step.line - 1);
+                        break;
                     default: //do nothing
                 }
                 if (markerId) $scope.markerIds.push(markerId);
@@ -218,8 +223,13 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         // clear markers
         $scope.clearMarkers();
 
+        //reset the variable
+        executionWasStopped = false;
+
         launcherService.launch(launchParams).success(function(data) {
 
+            //if execution was stopped there's no need to execute the block
+            if (executionWasStopped == true) return;
 
             var notPassingsteps = jsonPath.eval(data, "$..steps[?(@.result.status!='passed')]");
 
@@ -277,21 +287,42 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
                 });
             }
 
-            $scope.killtimer();
-            //stop button
-            runningTest.stop();
-            //$('#screenShotsModal').modal('hide');
+            onFinishTestExecution();
 
-            //$('#launchModal').modal('show');
-            $scope.editor.getSession().setAnnotations(annotations);
 
-            //remove the lock in test execution
-            $scope.testExecuting = false;
         });
     }
 
 
+    //to know when the execution was stopped
+    //inicialize a false
+    var executionWasStopped = false;
+    //stops a launch execution
+    $scope.stopLaunch = function() {
+        launcherService.stop().success(function() {
+            toastr.warning("Test Stopped with success!!")
+            onFinishTestExecution();
+            executionWasStopped = true;
+        });
+    };
+    var onFinishTestExecution = function() {
+        $scope.killtimer();
+        //stop button
+        runningTest.stop();
+        //$('#screenShotsModal').modal('hide');
+        //$('#launchModal').modal('show');
+        $scope.editor.getSession().setAnnotations(annotations);
+        //remove the lock in test execution
+        $scope.testExecuting = false;
+    }
+
     $scope.resultsSummary = {};
+
+    //creates breakpoint in ace editor
+    var breakpoint = function(row) {
+        $scope.editor.getSession().setBreakpoint(row, "breakpoint");
+    };
+
     // ACE
     $scope.aceLoaded = function(editor) {
         console.debug("new editor", editor);
@@ -313,11 +344,16 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             var selectedItem = $scope.selected.item;
             if (!selectedItem) return;
 
-            var range = editor.getSelectionRange();
-            var line = range.start.row;
-
+            var lines = [];
+            var range;
+            $scope.editor.forEachSelection({
+                exec: function() {
+                    range = $scope.editor.getSelectionRange();
+                    lines.push(range.start.row + 1);
+                }
+            });
             var launchParams = {
-                line: line,
+                line: lines.reverse(),
                 fileProps: selectedItem.fileProps
             };
             //launch the execution
@@ -487,7 +523,41 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         var snippets = SnippetsProvider.all();
         snippetManager.register(snippets, "gherkin");
 
-
+        // uses http://rhymebrain.com/api.html
+        var rhymeCompleter = {
+            getCompletions: function(editor, session, pos, prefix, callback) {
+                if (prefix.length === 0) {
+                    callback(null, []);
+                    return;
+                }
+                $scope.search = function() {
+                    $http({
+                        method: 'JSONP',
+                        url: "http://something.com/lol?query=?callback=JSON_CALLBACK&query=" + $scope.searchString
+                    }).
+                    success(function(data, status) {
+                        $scope.items = data.entries;
+                    }).
+                    error(function(data, status) {
+                        console.log(data || "Request failed");
+                    });
+                };
+                $.getJSON(
+                    "http://rhymebrain.com/talk?function=getRhymes&word=" + prefix,
+                    function(wordList) {
+                        // wordList like [{"word":"flow","freq":24,"score":300,"flags":"bc","syllables":"1"}]
+                        callback(null, wordList.map(function(ea) {
+                            return {
+                                name: ea.word,
+                                value: ea.word,
+                                score: ea.score,
+                                meta: "rhyme"
+                            }
+                        }));
+                    })
+            }
+        }
+        langTools.addCompleter(rhymeCompleter);
 
 
 
@@ -500,14 +570,14 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         $timeout.cancel(stopwatch);
     });
 
-    //Handle onclose and on change location browser
-    window.onbeforeunload = function(e) {
-        socket.close();
-    };
+    // //Handle onclose and on change location browser
+    // window.onbeforeunload = function(e) {
+    //     socket.close();
+    // };
 
-    $scope.$on('$locationChangeStart', function(event, next, current) {
-        socket.close();
-    });
+    // $scope.$on('$locationChangeStart', function(event, next, current) {
+    //     socket.close();
+    // });
 
     $('#miniumOnDrugs').click(function() {
         $(".navbar-brand").css('background', 'url(/app/img/minium_loader.gif) no-repeat left center');

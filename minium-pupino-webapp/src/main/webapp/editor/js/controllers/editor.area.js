@@ -91,10 +91,8 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             }
         });
     };
-
-
+    
     $scope.selected = {};
-
 
     if ($stateParams.path) {
         loadFile($stateParams.path);
@@ -109,12 +107,12 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             timer();
         }, 2000);
     };
-
+    
     $scope.killtimer = function() {
         $timeout.cancel(stopwatch);
         stopwatch = null;
     };
-    
+
     $scope.runtimer = function() {
         timer();
     };

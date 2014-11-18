@@ -1,7 +1,7 @@
 # cucumby.yml
 
 fs:
-    baseDir: /home/raphael/workspace/cp-e2e-tests/src/test/resources
+    baseDir: D:/Dev/workspace-sts/cp-e2e-tests/src/test/resources
 
 launcher:
     classNames:

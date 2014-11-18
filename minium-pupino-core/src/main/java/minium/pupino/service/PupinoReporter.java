@@ -3,6 +3,7 @@ package minium.pupino.service;
 import gherkin.formatter.Formatter;
 import gherkin.formatter.Reporter;
 import gherkin.formatter.model.Background;
+import gherkin.formatter.model.DataTableRow;
 import gherkin.formatter.model.Examples;
 import gherkin.formatter.model.Feature;
 import gherkin.formatter.model.Match;
@@ -11,6 +12,7 @@ import gherkin.formatter.model.Scenario;
 import gherkin.formatter.model.ScenarioOutline;
 import gherkin.formatter.model.Step;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
@@ -31,34 +33,52 @@ import com.google.common.collect.Queues;
 public class PupinoReporter implements Formatter, Reporter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(PupinoReporter.class);
-	
+
 	private Queue<Step> queue = Queues.newArrayDeque();
 
 	private String uri;
-	
+
 	private StepDTO stepDTO;
 
 	private WebApplicationContext webApplicationContext;
-	
+
+	private Integer exampleLine;
+
+	private List<Result> results;
+
 	public PupinoReporter() {
-		ServletContext servletContext = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession().getServletContext();
+		ServletContext servletContext = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
+				.getServletContext();
 		webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
 	}
-	
+
 	@Override
 	public void before(Match match, Result result) {
 	}
 
-	@Override
 	public void result(Result result) {
 		Step step = queue.poll();
-		stepDTO = new StepDTO(step.getName(), step.getLine(), uri, result.getStatus());
-		LOGGER.info("Step {} ({}:{}) got result {}", step.getName(), uri, step.getLine(), result.getStatus());
+		int line = step.getLine();
+		int i = 0;
 		@SuppressWarnings("unchecked")
 		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
-		messagingTemplate.convertAndSend("/cucumber", stepDTO );
+		// check if step has a dataTable
+		if (step.getRows() != null) {
+			for (DataTableRow dt : step.getRows()) {
+				stepDTO = new StepDTO(step.getName(), dt.getLine(), uri, "executing");
+				messagingTemplate.convertAndSend("/cucumber", stepDTO);
+			}
+		}
+		stepDTO = new StepDTO(step.getName(), line, uri, result.getStatus());
+		LOGGER.info("Step {} ({}:{}) got result {}", step.getName(), uri, line, result.getStatus());
+		messagingTemplate.convertAndSend("/cucumber", stepDTO);
+
+		// store the results of a scenario outline
+		if (exampleLine != null) {
+			results.add(result);
+		}
 	}
-	
+
 	@Override
 	public void after(Match match, Result result) {
 	}
@@ -73,7 +93,7 @@ public class PupinoReporter implements Formatter, Reporter {
 
 	@Override
 	public void write(String text) {
-		
+
 	}
 
 	@Override
@@ -107,6 +127,17 @@ public class PupinoReporter implements Formatter, Reporter {
 
 	@Override
 	public void scenario(Scenario scenario) {
+		// check if it is scenario outline
+		// to hightLight the example line
+		if (scenario.getKeyword().equals("Scenario Outline")) {
+			exampleLine = scenario.getLine();
+			stepDTO = new StepDTO(scenario.getName(), exampleLine, uri, "executing");
+			LOGGER.info("Scenario {} ({}:{}) got result {}", scenario.getName(), uri, exampleLine, "Executing");
+			@SuppressWarnings("unchecked")
+			MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
+			messagingTemplate.convertAndSend("/cucumber", stepDTO);
+			results = new ArrayList<Result>();
+		}
 	}
 
 	@Override
@@ -116,6 +147,20 @@ public class PupinoReporter implements Formatter, Reporter {
 
 	@Override
 	public void endOfScenarioLifeCycle(Scenario scenario) {
+		String r = "passed";
+		for (Result result : results) {
+			if (result.getStatus().equals("failed")) {
+				r = "failed";
+				break;
+			}
+		}
+		stepDTO = new StepDTO(scenario.getDescription(), scenario.getLine(), uri, r);
+		@SuppressWarnings("unchecked")
+		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
+		messagingTemplate.convertAndSend("/cucumber", stepDTO);
+		results.clear();
+		// reset the example line
+		exampleLine = null;
 	}
 
 	@Override

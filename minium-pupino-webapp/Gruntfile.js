@@ -31,6 +31,8 @@ module.exports = function (grunt) {
                 files: [
                     'src/main/webapp/**/*.html',
                     'src/main/webapp/**/*.json',
+                    'src/main/webapp/**/*.css',
+		    'src/main/webapp/**/*.js',
                     '.tmp/styles/**/*.css',
                     '{.tmp/,}src/main/webapp/scripts/**/*.js',
                     'src/main/webapp/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
@@ -89,7 +91,7 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 // Change this to 'localhost' to deny access to the server from outside.
-                hostname: '0.0.0.0',
+                hostname: 'localhost',
                 livereload: 35729
             },
             livereload: {
@@ -276,7 +278,13 @@ module.exports = function (grunt) {
                     src: [
                         'generated/*'
                     ]
-                }]
+                },
+		{
+    		expand: true,
+     		cwd: 'src/main/webapp/bower_components/font-awesome/',
+     		src: 'fonts/*.*',
+     		dest: '<%= yeoman.dist %>'
+		}]
             },
             styles: {
                 expand: true,

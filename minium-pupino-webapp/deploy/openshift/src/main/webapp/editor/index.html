@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="cucumby" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="cucumby" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="cucumby" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="cucumby" class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cucumby App</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../styles/bootstrap.css">
+    <link rel="stylesheet" href="../bower_components/html5-boilerplate/css/normalize.css">
+    <link rel="stylesheet" href="../bower_components/html5-boilerplate/css/main.css">
+    <link rel="stylesheet" href="../bower_components/ladda/dist/ladda-themeless.min.css">
+    <link rel="stylesheet" href="../bower_components/toastr/toastr.min.css" />
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../bower_components/nvd3/nv.d3.css" />
+
+    <link rel="stylesheet" href="css/theme.css" />
+    <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+
+<body class="skin-blue">
+
+
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+  <![endif]-->
+
+    <div class="full" ui-view></div>
+
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/lodash/dist/lodash.js"></script>
+    <script src="../bower_components/angular/angular.js"></script>
+    <script src="../bower_components/angular-resource/angular-resource.js"></script>
+    <script src="../bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="../bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="../bower_components/angular-bootstrap-show-errors/src/showErrors.js"></script>
+    <script src="../bower_components/angular-touch/angular-touch.js"></script>
+    <script src="../bower_components/moment/moment.js"></script>
+    <script src="../bower_components/jsonpath/lib/jsonpath.js"></script>
+    <script src="../bower_components/ladda/js/spin.js"></script>
+    <script src="../bower_components/ladda/js/ladda.js"></script>
+    <script src="../bower_components/toastr/toastr.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/affix.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/transition.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/button.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/popover.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/carousel.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/scrollspy.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/collapse.js"></script>
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
+
+    <!-- Sockets -->
+    <script src="../bower_components/sockjs/sockjs.js"></script>
+    <script src="../bower_components/stomp-websocket/lib/stomp.js"></script>
+
+    <!-- Graph Library -->
+    <script src="../bower_components/d3/d3.js"></script>
+    <script src="../bower_components/nvd3/nv.d3.js"></script>
+    <script src="../bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+
+
+    <!-- ace editor -->
+    <script src="../bower_components/ace-builds/src/ace.js"></script>
+    <script src="../bower_components/ace-builds/src/ext-language_tools.js"></script>
+    <script src="../bower_components/angular-ui-ace/ui-ace.js"></script>
+    <script src="ext/ace/gherkin.js"></script>
+    <script src="ext/ace/lexer.js"></script>
+
+    <!-- controllers -->
+    <script src="js/controllers/global.js"></script>
+    <script src="js/controllers/open.file.js"></script>
+    <script src="js/controllers/launch.js"></script>
+    <script src="js/controllers/editor.area.js"></script>
+    <script src="js/controllers/ConfigsCtrl.js"></script>
+    <script src="js/controllers/ReportCtrl.js"></script>
+    <script src="js/controllers/SocketTestCtrl.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
+
+    <!-- LOAD AFTER ACE EDITOR or the css gonna be overwrited -->
+    <link rel="stylesheet" href="css/app.css" />
+
+
+</body>
+
+</html>

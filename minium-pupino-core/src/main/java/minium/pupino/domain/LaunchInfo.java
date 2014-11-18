@@ -1,5 +1,7 @@
 package minium.pupino.domain;
 
+import java.util.List;
+
 public class LaunchInfo {
 
 	private FileProps fileProps;
@@ -7,12 +9,14 @@ public class LaunchInfo {
 	/**
 	 * 0-based number of line
 	 */
-	private Integer line;
+	private List<Integer> line;
+	
 
+	
 	public LaunchInfo() {
 	}
 
-	public FileProps getFileProps() {
+	public FileProps getFileProps() {		
 		return fileProps;
 	}
 
@@ -20,11 +24,11 @@ public class LaunchInfo {
 		this.fileProps = fileProps;
 	}
 
-	public Integer getLine() {
+	public List<Integer> getLine() {
 		return line;
 	}
 
-	public void setLine(Integer line) {
+	public void setLine(List<Integer> line) {
 		this.line = line;
 	}
 

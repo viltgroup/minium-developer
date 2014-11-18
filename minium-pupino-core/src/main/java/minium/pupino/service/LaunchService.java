@@ -4,14 +4,18 @@ import static java.lang.String.format;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.List;
 
 import minium.pupino.domain.LaunchInfo;
+import minium.pupino.utils.Utils;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
+import org.junit.runner.notification.RunNotifier;
+import org.junit.runner.notification.StoppedByUserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,28 +37,30 @@ public class LaunchService {
 
 	public static MessageSendingOperations<String> messagingTemplate;
 
+	private JUnitCore runner;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
-    
+
 	private List<String> classNames = Lists.newArrayList();
 
 	public List<String> getClassNames() {
 		return classNames;
 	}
-	
-    public Class<?>[] getClasses() {
-        List<Class<?>> classes = FluentIterable.from(classNames).transform(new Function<String, Class<?>>() {
+
+	public Class<?>[] getClasses() {
+		List<Class<?>> classes = FluentIterable.from(classNames).transform(new Function<String, Class<?>>() {
 			@Override
 			public Class<?> apply(String input) {
 				try {
-		            return Class.forName(input);
-		        } catch (ClassNotFoundException e) {
-		            throw Throwables.propagate(e);
-		        }
+					return Class.forName(input);
+				} catch (ClassNotFoundException e) {
+					throw Throwables.propagate(e);
+				}
 			}
 		}).toList();
-        return classes.toArray(new Class<?>[classes.size()]);
-    }
-    
+		return classes.toArray(new Class<?>[classes.size()]);
+	}
+
 	@Autowired
 	public LaunchService(final MessageSendingOperations<String> messagingTemplate) {
 		LaunchService.messagingTemplate = messagingTemplate;
@@ -66,30 +72,34 @@ public class LaunchService {
 		File tmpFile = File.createTempFile("cucumber", ".json");
 
 		String path;
-		if (launchInfo.getLine() == null) {
+		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
 			path = format("classpath:%s ", resourceDir.getPath());
 		} else {
-			path = format("classpath:%s:%s", resourceDir.getPath(), launchInfo.getLine() + 1);
+			String lines = Utils.array2String(launchInfo.getLine());
+			path = format("classpath:%s:%s", resourceDir.getPath(), lines);
 		}
-		
+
 		String cucumberOptions = format("%s --format json:%s --format %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
 		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
 		System.setProperty("cucumber.options", cucumberOptions);
 
-		JUnitCore runner = new JUnitCore();
-		// Adding listener
-		runner.addListener(new PupinoJUnitListener(messagingTemplate));
-		
-		Result result = runner.run(getClasses());
+		Result result = null;
+		try {
+			runner = new JUnitCore();
+			runner.addListener(new PupinoJUnitListener(messagingTemplate));
+			result = runner.run(getClasses());
 
-		for (Failure failure : result.getFailures()) {
-			LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
+			for (Failure failure : result.getFailures()) {
+				LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
+			}
+		} catch (StoppedByUserException e) {
+			LOGGER.debug("Stopped by user ", e);
 		}
 
 		return new FileSystemResource(tmpFile);
 	}
-	
+
 	public Resource dotcucumber() throws IOException {
 		File tmpFile = Files.createTempDir();
 		String cucumberOptions = format("--dry-run --dotcucumber %s", tmpFile.getAbsolutePath());
@@ -105,4 +115,12 @@ public class LaunchService {
 
 		return new FileSystemResource(new File(tmpFile, "stepdefs.json"));
 	}
+
+	public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field field = JUnitCore.class.getDeclaredField("fNotifier");
+		field.setAccessible(true);
+		RunNotifier runNotifier = (RunNotifier) field.get(runner);
+		runNotifier.pleaseStop();
+	}
+
 }

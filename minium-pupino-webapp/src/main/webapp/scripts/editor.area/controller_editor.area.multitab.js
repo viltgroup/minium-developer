@@ -51,7 +51,7 @@ function SelectorGadgetCtrl($rootScope, $scope, $location, $modalInstance, Selec
     };
 };
 
-var EditorAreaMultiTapController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider) {
+var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider) {
 
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 

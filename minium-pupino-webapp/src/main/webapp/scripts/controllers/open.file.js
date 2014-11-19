@@ -91,5 +91,4 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
           console.debug("error", data);
         });
     }
-     alert("sdsds")
 };

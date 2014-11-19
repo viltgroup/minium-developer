@@ -75,6 +75,14 @@ pupinoApp
                 authorizedRoles: [USER_ROLES.all]
             }
         })
+        .state('global.multi', {
+            url: "/editor-multi",
+            templateUrl: "views/partials/editor.area.html",
+            controller: "EditorAreaMultiTabController",
+            access: {
+                authorizedRoles: [USER_ROLES.all]
+            }
+        })
         .state('global.bugtracker', {
             url: "/bugtracker",
             templateUrl: "views/partials/bug-tracker.html",

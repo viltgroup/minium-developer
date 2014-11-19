@@ -53,7 +53,7 @@
                     <i class="fa fa-arrow-circle-o-down"></i> Run All
                 </button>
 
-                <a ui-sref="global.editorarea.open" class="btn btn-primary " type="button">
+                <a ui-sref="global.editorarea.open" ui-sref-opts="{ reload: false }" class="btn btn-primary " type="button">
                     <i class="fa fa-arrow-circle-o-down"></i> Open File
                 </a>
 
@@ -71,8 +71,15 @@
 
         </div>
 
-        <div id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
+        <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
 
+        <button ng-show="multiTab" class="btn" id="addTab">Add an editor</button>
+        <div id="tabs">
+            <ul>
+            </ul>
+        </div>
+
+       
     </section>
     <!-- /.content -->
 

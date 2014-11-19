@@ -1,6 +1,8 @@
 'use strict';
 
 var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService) {
+    
+   
     $scope.fs = {
         current: {}
     };
@@ -89,5 +91,5 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
           console.debug("error", data);
         });
     }
-
+     alert("sdsds")
 };

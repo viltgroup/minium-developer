@@ -299,5 +299,4 @@ angular.module('pupinoApp.controllers', [])
     .controller('LaunchController', LaunchController)
     .controller('EditorAreaController', EditorAreaController)
     .controller('ReportController', ReportController)
-    .controller('ConfigsController', ConfigsController)
-    .controller('SocketTestController', SocketTestController);
+    .controller('ConfigsController', ConfigsController);

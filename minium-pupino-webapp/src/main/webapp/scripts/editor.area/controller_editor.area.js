@@ -53,6 +53,9 @@ function SelectorGadgetCtrl($rootScope, $scope, $location, $modalInstance, Selec
 
 var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider) {
 
+    var i = 0;
+    console.log("load " + i++);
+
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
     var setAceContent = function() {};
@@ -91,7 +94,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             }
         });
     };
-    
+
     $scope.selected = {};
 
     if ($stateParams.path) {
@@ -107,7 +110,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             timer();
         }, 2000);
     };
-    
+
     $scope.killtimer = function() {
         $timeout.cancel(stopwatch);
         stopwatch = null;
@@ -419,6 +422,17 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             });
         };
         // END from minium app
+        editor.commands.addCommand({
+            name: 'newFile',
+            bindKey: {
+                win: 'Ctrl-P',
+                mac: 'Command-P',
+                sender: 'editor|cli'
+            },
+            exec: function(env, args, request) {
+                alert("HI!");
+            }
+        });
 
         editor.commands.addCommand({
             name: "saveFile",
@@ -568,19 +582,11 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         $timeout.cancel(stopwatch);
     });
 
-    // //Handle onclose and on change location browser
-    // window.onbeforeunload = function(e) {
-    //     socket.close();
-    // };
-
-    // $scope.$on('$locationChangeStart', function(event, next, current) {
-    //     socket.close();
-    // });
-
     $('#miniumOnDrugs').click(function() {
         $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');
         $(".navbar-brand").css('background-color', '#367fa9');
         $(".navbar-brand").css('color', '#f9f9f9');
     });
 
+    $scope.multiTab = false;
 };

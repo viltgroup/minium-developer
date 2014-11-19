@@ -49,7 +49,7 @@ pupinoApp
         };
     })
 
-.config(function($routeProvider, $httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
+.config(function( $httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
 
     $urlRouterProvider
         .when("", "/editor/")

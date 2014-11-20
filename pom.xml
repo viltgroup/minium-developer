@@ -57,8 +57,11 @@
 		<guava.version>18.0</guava.version>
 		<minium.version>0.9.6-SNAPSHOT</minium.version>
 		<cucumber.version>1.1.8</cucumber.version>
-	</properties>
+		<!-- Version of Jenkins to use for Integration Tests -->
+		<jenkins-version>1.447.2</jenkins-version>
 
+	</properties>
+	
 	<modules>
 		<module>minium-pupino-webapp</module>
 		<module>minium-pupino-common</module>
@@ -352,7 +355,54 @@
 			<artifactId>jenkins-client</artifactId>
 			<version>0.2.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jvnet.hudson.main</groupId>
+			<artifactId>hudson-core</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.hudson.main</groupId>
+			<artifactId>hudson-core</artifactId>
+			<version>3.0.0-M2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.hudson</groupId>
+			<artifactId>hudson-test-framework</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.jvnet.hudson</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.6-hudson-2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jvnet.hudson</groupId>
+			<artifactId>test-annotations</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.jenkins-ci.main</groupId>
+			<artifactId>jenkins-test-harness</artifactId>
+			<version>${jenkins-version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+	</repositories>
+
 	<build>
 		<pluginManagement>
 			<plugins>

@@ -1,0 +1,64 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <i class="glyphicon glyphicon-file"></i>
+            Projects
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
+            </li>
+            <li class=>Report X</li>
+            <li class="active">Feature X</li>
+
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <button class="btn btn-primary " data-toggle="modal" data-target="#saveProjectModal" ng-click="clear()">
+            <span class="glyphicon glyphicon-flash"></span>Create a new Project
+        </button>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="project in projects">
+                        <td>
+                            {{project.id}}
+                        </td>
+                        <td>
+                            <a ui-sref="global.project-detail({ id: project.id })">
+                                {{project.name}}
+                            </a>
+                        </td>
+                        <td>{{project.description}}</td>
+                        <td style="text-align: center;">
+                            <button type="submit" ng-click="update(project.id)" class="btn btn-default">
+                                <span class="glyphicon glyphicon-pencil"></span>Edit
+                            </button>
+                            <button type="submit" ng-click="delete(project.id)" class="btn btn-danger">
+                                <span class="glyphicon glyphicon-remove-circle"></span>Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <!-- /.content -->
+</aside>
+<!-- /.right-side -->
+
+<div ng-include="'views/partials/modal/project/modal.html'"></div>

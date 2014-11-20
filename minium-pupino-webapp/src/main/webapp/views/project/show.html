@@ -1,0 +1,119 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <i class="glyphicon glyphicon-file"></i>
+            {{project.name}}
+            <small></small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
+            </li>
+            <li class=>Projects</li>
+            <li class="active">{{project.name}} X</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="row info">
+            <p>
+                <i class="glyphicon glyphicon-info-sign"></i>Project : <a href="">{{project.name}}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-hdd"></i> Number of Tests: 1000 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="glyphicon glyphicon-user"></i> Weather:  <i class="fa fa-sun-o fa-2x"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <button class="btn btn-primary" ng-click="createBuild()"><i class="fa fa-rocket"></i> Run Tests</button>
+            </p>
+
+        </div>
+
+        <div class="nav-tabs-custom">
+
+            <ul class="nav nav-tabs nav-color">
+
+                <li class="active">
+                    <a show-tab data-toggle="tab" href="#builds">
+                        <i class="fa fa-gears"></i> 
+                        <strong>Last Builds</strong>
+                        <span class="label label-danger">{{builds.lenght}}</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a show-tab data-toggle="tab" href="#buildsList">
+                        <i class="fa fa-bug"></i> 
+                        <strong>Last Builds List</strong>
+                        <span class="label label-danger">{{builds.lenght}}</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a show-tab data-toggle="tab" href="#reports">
+                        <i class="fa fa-bars"></i> 
+                        <strong>Report</strong>
+                    </a>
+                </li>
+
+                <li>
+                    <a show-tab data-toggle="tab" href="#scheduled">
+                        <i class="fa fa-bars"></i> 
+                        <strong>Schedule Build</strong>
+                    </a>
+                </li>
+
+                <li class="">
+                    <a show-tab data-toggle="tab" href="#statistic">
+                        <i class="fa fa-bar-chart"></i> 
+                        <strong>Statistics</strong>
+                    </a>
+                </li>
+            </ul>
+            <!--TAB CONTENT -->
+            <div class="tab-content tab-report">
+
+
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div>
+                            <label>Search:
+                                <input aria-controls="example1" type="text">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 1 -->
+                <div id="builds" class="tab-pane active">
+                    <div ng-include="'views/project/partials/build.html'"></div>
+                </div>
+                <!-- tab-pane -->
+
+                <!-- TAB 2 -->
+                <div id="buildsList" class="tab-pane">
+                    <div ng-include="'views/project/partials/build-list.html'"></div>
+                </div>
+                <!-- tab-pane -->
+
+                <!-- TAB 3 -->
+                <div id="reports" class="tab-pane">
+                    <div ng-include="'views/project/partials/report.html'"></div>
+                </div>
+                <!-- tab-pane -->
+
+                <!-- TAB 4 -->
+                <div id="statistic" class="tab-pane">
+
+                </div>
+                <!-- tab-pane -->
+
+            </div>
+            <!-- tab-content -->
+
+        </div>
+
+    </section>
+    <!-- /.content -->
+</aside>
+<!-- /.right-side -->

@@ -22,8 +22,8 @@ import com.vilt.minium.debug.DebugWebElements;
 import com.vilt.minium.tips.TipWebElements;
 
 @Component
-@ConfigurationProperties(prefix = "webElementsDriverFactory", locations = "classpath:cucumby.yml", ignoreUnknownFields = false)
-public class CucumbyWebElementsDriverFactory {
+@ConfigurationProperties(prefix = "webElementsDriverFactory", locations = "classpath:pupino.yml", ignoreUnknownFields = false)
+public class PupinoWebElementsDriverFactory {
 
     @SuppressWarnings("unchecked")
     private static final Class<? extends WebElements>[] WEB_ELEMS_INTFS = (Class<? extends WebElements>[]) new Class<?>[] {

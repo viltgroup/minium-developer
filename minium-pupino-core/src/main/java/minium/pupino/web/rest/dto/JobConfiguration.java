@@ -1,0 +1,24 @@
+package minium.pupino.web.rest.dto;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "project")
+public class JobConfiguration {
+	
+	String description;
+	
+	public JobConfiguration() {
+	}
+
+	public String getDescription() {
+		return description;
+	}
+	
+	@XmlElement
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	
+}

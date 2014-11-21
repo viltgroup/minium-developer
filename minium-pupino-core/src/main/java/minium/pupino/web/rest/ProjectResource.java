@@ -50,7 +50,7 @@ public class ProjectResource {
 	public void create(@RequestBody Project project) throws URISyntaxException, IOException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		jenkinService.createJob(project.getName());
+		//jenkinService.createJob(project.getName(),project.getDescription());
 	}
 
 	/**

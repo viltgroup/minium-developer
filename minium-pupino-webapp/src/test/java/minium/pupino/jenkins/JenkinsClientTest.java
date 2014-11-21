@@ -3,20 +3,14 @@ package minium.pupino.jenkins;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import hudson.model.AbstractProject;
 
-import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import jenkins.model.Jenkins;
-
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.google.common.collect.Maps;
 import com.offbytwo.jenkins.JenkinsServer;
@@ -35,20 +29,20 @@ public class JenkinsClientTest {
 		jenkins = new JenkinsServer(new URI(uri), "admin", "admin");
 	}
 
-//	@Test
+	@Test
 	public void shoulGetJobByName() throws Exception {
 		JobWithDetails job = jenkins.getJob(JENKINS_TEST_JOB);
 		assertEquals(JENKINS_TEST_JOB, job.getName());
 		assertEquals(JENKINS_TEST_JOB, job.getDisplayName());
 	}
 
-//	@Test
+	@Test
 	public void shouldntGetJobByName() throws Exception {
 		JobWithDetails job = jenkins.getJob(JENKINS_TEST_JOB + "ca");
 		assertEquals(null, job);
 	}
 
-//	@Test
+	@Test
 	public void shouldReturnListOfJobs() throws Exception {
 		Map<String, Job> jobs = jenkins.getJobs();
 		assertTrue(jobs.containsKey(JENKINS_TEST_JOB));
@@ -59,9 +53,6 @@ public class JenkinsClientTest {
 	public void shouldCreateJob() throws Exception {
 		final String jobName = "test-job-" + RandomStringUtils.randomNumeric(3);
 		String sourceXml = jenkins.getJobXml(JENKINS_TEST_JOB);
-		File f = new File("src/main/resources/job.xml");
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("job.xml");
 		
 		jenkins.createJob(jobName, sourceXml);
 		Map<String, Job> jobs = jenkins.getJobs();
@@ -69,12 +60,10 @@ public class JenkinsClientTest {
 		JobWithDetails thisJob = jobs.get(jobName).details();
 		assertNotNull(thisJob);
 		
-		AbstractProject job = Jenkins.getInstance().getItem(jobName,Jenkins.getInstance(),AbstractProject.class);
-		
 		assertTrue(thisJob.getBuilds().size() == 0);
 	}
 
-//	@Test
+	@Test
 	public void shouldBuildAJob() throws Exception {
 		final String jobName = "test-job-" + RandomStringUtils.randomNumeric(3);
 		
@@ -90,7 +79,7 @@ public class JenkinsClientTest {
 		//assertTrue(job.getBuilds().size() == 1);
 	}
 
-	//@Test
+	@Test
 	public void shouldReturnBuildsForJob() throws Exception {
 		JobWithDetails job = jenkins.getJobs().get(JENKINS_TEST_JOB).details();
 		assertEquals(1, job.getBuilds().get(0).getNumber());

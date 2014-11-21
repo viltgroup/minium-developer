@@ -10,7 +10,7 @@
                     <h4 class="group inner list-group-item-heading">
                         {{build.fullDisplayName}}
                         <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
-                        <i ng-if="!isSuccess(build.result)" class="danger fa fa-check-bug fa-2x"></i>
+                        <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
                     </h4>
                     <p class="group inner list-group-item-text">
                         Description {{build.description}}</p>
@@ -22,34 +22,12 @@
                             <small>{{build.id | humanizeDate}}</small>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <a class="btn btn-success" href="">View Build</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="item  col-xs-4 col-lg-4">
-            <div class="thumbnail panel-border-top-danger">
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading">
-                        {{item.builds}} <i class="danger fa fa-bug fa-2x"></i>
-                    </h4>
-                    <p class="group inner list-group-item-text">
-                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead">
-                                {{item}}</p>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
                             <a class="btn" ng-class="{'btn-success' : isSuccess(build.result), 'btn-danger' : !isSuccess(build.result) }" href="">View Build</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
 
     </div>
 </div>

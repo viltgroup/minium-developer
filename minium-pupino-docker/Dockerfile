@@ -58,7 +58,7 @@ EXPOSE 50000
 EXPOSE 8081
 
 #Install Chrome driver
-#RUN wget https://chromedriver.storage.googleapis.com/2.12/chromedriver_linux64.zip | unzip -d /usr/bin/
+RUN wget https://chromedriver.storage.googleapis.com/2.12/chromedriver_linux64.zip | unzip -d /usr/bin/
 
 
 USER pupino
@@ -68,7 +68,7 @@ USER pupino
 RUN mkdir /opt/pupino
 RUN cd /opt/pupino/ && git clone git@artemis.vilt-group.com:mario.lameiras/minium-pupino.git
 RUN cd /opt/pupino/minium-pupino && mvn install -DskipTests
-COPY /opt/pupino/minium-pupino/minium-pupino-webapp/target/minium-pupino-webapp-0.9.6-SNAPSHOT.war /opt/pupino/pupino.war
+COPY/ jaopt/pupino/minium-pupino/minium-pupino-webapp/target/minium-pupino-webapp-0.9.6-SNAPSHOT.war /opt/pupino/pupino.war
 COPY /opt/pupino/minium-pupino/minium-pupino-webapp/target/classes/minium-prefs.json /opt/pupino/
 
 

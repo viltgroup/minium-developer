@@ -1,15 +1,14 @@
 FROM      ubuntu:14.04
 
-
 # make sure the package repository is up to date
 RUN echo "deb http://archive.ubuntu.com/ubuntu trusty main universe" > /etc/apt/sources.list
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" > /etc/apt/sources.list.d/webupd8team-ubuntu-java-trusty.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7B2C3B0889BF5709A105D03AC2518248EEA14886
+#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7B2C3B0889BF5709A105D03AC2518248EEA14886
 RUN apt-get -y update
 
 # install oracle java from PPA
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-RUN apt-get -y install oracle-java8-installer && apt-get clean
+RUN apt-get -y install --force-yes oracle-java8-installer && apt-get clean
 
 # Set oracle java as the default java
 RUN update-java-alternatives -s java-8-oracle
@@ -17,6 +16,13 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc
 
 # Install utilities
 RUN apt-get update && apt-get install -y wget zip git curl maven git && rm -rf /var/lib/apt/lists/*
+
+# Install npm bower and grunt
+RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
+RUN sudo apt-get install -y nodejs
+RUN npm install bower -g
+RUN npm install grunt -g
+
 
 # Setup Jenkins
 ENV JENKINS_VERSION 1.565.3
@@ -50,11 +56,11 @@ RUN chown -R pupino /opt/
 
 #NETWORK PORTS
 
-# for jenkins
+# for Pupini
 EXPOSE 8080 
 # will be used by attached slave agents:
 EXPOSE 50000
-# Pupino
+# Jenkins
 EXPOSE 8081
 
 
@@ -64,14 +70,15 @@ USER pupino
 # Clone Latest from Pupino
 RUN mkdir /opt/pupino
 RUN cd /opt/pupino/ && git clone git@artemis.vilt-group.com:mario.lameiras/minium-pupino.git
-RUN cd /opt/pupino/minium-pupino && mvn install -DskipTests
+RUN cd /opt/pupino/minium-pupino/minium-pupino-webapp && bower install --config.interactive=false
+#RUN cd /opt/pupino/minium-pupino && mvn clean install -P prod -DskipTests
+RUN cd /opt/pupino/minium-pupino && mvn clean install -DskipTests
 RUN cp /opt/pupino/minium-pupino/minium-pupino-webapp/target/minium-pupino-webapp-0.9.6-SNAPSHOT.war /opt/pupino/pupino.war
 RUN cp /opt/pupino/minium-pupino/minium-pupino-webapp/target/classes/minium-prefs.json /opt/pupino/
-
 
 
 # Setup Jenkins
 COPY jenkins.sh /usr/local/bin/jenkins.sh
 COPY pupino.sh /usr/local/bin/pupino.sh
+COPY startServices.sh /opt/pupino/startServices.sh
 ENTRYPOINT ["/usr/local/bin/pupino.sh"]
-#ENTRYPOINT ["/usr/local/bin/jenkins.sh"]

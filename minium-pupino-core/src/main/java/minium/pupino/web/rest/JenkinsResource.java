@@ -41,28 +41,32 @@ public class JenkinsResource {
 	@RequestMapping(value = "/jenkins/builds/{jobName}", method = RequestMethod.GET)
 	public @ResponseBody List<BuildDTO> getAllBuilds(@PathVariable("jobName") String jobName) throws URISyntaxException, IOException {
 		LOGGER.debug("REST request to get all builds for {}", jobName);
-		List<com.offbytwo.jenkins.model.Build> builds = jenkinService.buildsForJob(jobName);
+		List<Build> builds = jenkinService.buildsForJob(jobName);
 		List<BuildDTO> buildsDTO = Lists.newArrayList();
 		BuildDTO buildDTO;
 		BuildWithDetails bd;
 		for (Build b : builds) {
 			bd = b.details();
+			String result;
+			if (bd.getResult() != null)
+				result = bd.getResult().toString();
+			else
+				result = "BUILDING";
 			
-			buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(),bd.getId(),
-					bd.getTimestamp(), bd.getResult().toString());
-			
+			buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+					bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result);
+
 			buildsDTO.add(buildDTO);
 		}
 
 		return buildsDTO;
 	}
-	
+
 	@RequestMapping(value = "/jenkins/builds/create/{jobName}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> createBuild(@PathVariable("jobName") String jobName) throws URISyntaxException, IOException {
 		LOGGER.debug("Create a Build for Job {}", jobName);
 		jenkinService.createBuild(jobName);
 		return new ResponseEntity<String>("Created", HttpStatus.OK);
 	}
-	
 
 }

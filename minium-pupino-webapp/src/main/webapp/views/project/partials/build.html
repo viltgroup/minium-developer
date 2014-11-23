@@ -11,6 +11,7 @@
                         {{build.fullDisplayName}}
                         <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
                         <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
+                        <i ng-if="build.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
                     </h4>
                     <p class="group inner list-group-item-text">
                         Description {{build.description}}</p>

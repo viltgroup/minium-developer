@@ -3,7 +3,7 @@ package minium.pupino.config;
 import java.io.IOException;
 import java.util.List;
 
-import minium.pupino.webdriver.CucumbyWebElementsDriverFactory;
+import minium.pupino.webdriver.PupinoWebElementsDriverFactory;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.shell.Global;
@@ -52,8 +52,8 @@ public class PupinoConfiguration implements DisposableBean {
     }
 
     @Bean
-    public CucumbyWebElementsDriverFactory webElementsDriverFactory() {
-        return new CucumbyWebElementsDriverFactory();
+    public PupinoWebElementsDriverFactory webElementsDriverFactory() {
+        return new PupinoWebElementsDriverFactory();
     }
 
     @Override

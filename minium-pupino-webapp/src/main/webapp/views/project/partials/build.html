@@ -23,7 +23,7 @@
                             <small>{{build.id | humanizeDate}}</small>
                         </div>
                         <div class="col-xs-12 col-md-6">
-                            <a class="btn" ng-class="{'btn-success' : isSuccess(build.result), 'btn-danger' : !isSuccess(build.result) }" href="">View Build</a>
+                            <a class="btn" ng-class="{'btn-success' : isSuccess(build.result), 'btn-danger' : !isSuccess(build.result) }" ui-sref="global.build({ id: project.id, number: build.number })">View Build</a>
                         </div>
                     </div>
                 </div>

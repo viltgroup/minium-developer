@@ -20,7 +20,7 @@
 	<prerequisites>
 		<maven>3.0.0</maven>
 	</prerequisites>
-	
+
 	<properties>
 		<HikariCP.version>1.4.0</HikariCP.version>
 		<assertj-core.version>1.6.1</assertj-core.version>
@@ -44,23 +44,23 @@
 		<sonar-maven-plugin.version>2.2</sonar-maven-plugin.version>
 		<swagger-springmvc.version>0.8.8</swagger-springmvc.version>
 		<usertype-core.version>3.2.0.GA</usertype-core.version>
- 
-        <!-- Overriding Spring boot versions -->
-        <spring.version>4.1.1.RELEASE</spring.version>
-        <jackson.version>2.4.3</jackson.version>
-        <h2.version>1.4.182</h2.version>
-        <joda-time.version>2.5</joda-time.version>
-        <spring-data-releasetrain.version>Dijkstra-RELEASE</spring-data-releasetrain.version>
-        <tomcat.version>8.0.14</tomcat.version>
-        
-        <!-- Other libraries -->
-        <guava.version>18.0</guava.version>
-        <minium.version>0.9.6-SNAPSHOT</minium.version>
-        <cucumber.version>1.1.8</cucumber.version>
-        <!-- Version of Jenkins to use for Integration Tests -->
+
+		<!-- Overriding Spring boot versions -->
+		<spring.version>4.1.1.RELEASE</spring.version>
+		<jackson.version>2.4.3</jackson.version>
+		<h2.version>1.4.182</h2.version>
+		<joda-time.version>2.5</joda-time.version>
+		<spring-data-releasetrain.version>Dijkstra-RELEASE</spring-data-releasetrain.version>
+		<tomcat.version>8.0.14</tomcat.version>
+
+		<!-- Other libraries -->
+		<guava.version>18.0</guava.version>
+		<minium.version>0.9.6-SNAPSHOT</minium.version>
+		<cucumber.version>1.1.8</cucumber.version>
+		<!-- Version of Jenkins to use for Integration Tests -->
 		<jenkins-version>1.447.2</jenkins-version>
-    </properties>
-    	
+	</properties>
+
 	<modules>
 		<module>minium-pupino-webapp</module>
 		<module>minium-pupino-common</module>
@@ -125,6 +125,11 @@
 			<artifactId>jackson-datatype-json-org</artifactId>
 			<version>${jackson.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.11</version>
+        </dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -352,7 +357,7 @@
 		<dependency>
 			<groupId>com.offbytwo.jenkins</groupId>
 			<artifactId>jenkins-client</artifactId>
-			<version>0.2.0</version>
+			<version>0.2.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hudson.main</groupId>

@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class JobConfiguration {
 	
 	String description;
+	String goals;
 	
 	public JobConfiguration() {
 	}
@@ -18,6 +19,15 @@ public class JobConfiguration {
 	@XmlElement
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getGoals() {
+		return goals;
+	}
+	
+	@XmlElement
+	public void setGoals(String goals) {
+		this.goals = goals;
 	}
 	
 	

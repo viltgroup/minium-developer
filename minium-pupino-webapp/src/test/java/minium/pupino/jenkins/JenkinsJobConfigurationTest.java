@@ -11,7 +11,7 @@ import com.offbytwo.jenkins.JenkinsServer;
 public class JenkinsJobConfigurationTest {
 	private JenkinsServer jenkins;
 
-	private static final String JENKINS_TEST_JOB = "maven-project-jenkins-test";
+	private static final String JENKINS_TEST_JOB = "test-example";
 	private static final String uri = "http://lw255:8080/jenkins/";
 
 	@Before

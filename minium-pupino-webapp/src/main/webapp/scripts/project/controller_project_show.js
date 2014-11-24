@@ -3,20 +3,18 @@
 pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject, Project, JenkinsProvider) {
     $scope.project = resolvedProject;
 
+    $scope.report;
     var getBuilds = function(argument) {
         var resource = JenkinsProvider.builds.query({
             "jobName": $scope.project.name
         }).$promise.then(function(data) {
             console.log(data);
             $scope.builds = data;
+            //get the report of the last build
+            $scope.report = JSON.parse($scope.builds[0].resultJSON);
+            console.log($scope.report);
+            
         });
-    }
-
-    //get all the builds
-    getBuilds();
-
-    $scope.isSuccess = function(value) {
-        return value === "SUCCESS";
     }
 
     $scope.createBuild = function() {
@@ -53,5 +51,19 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
         $scope.repeatInterval.name = option.name;
         $scope.repeatInterval.value = option.value;
     }
-    
+
+    /*
+        Initializations
+     */
+
+    //get all the builds
+    getBuilds();
+
+
+    /**
+     * AUX functions
+     */
+    $scope.isSuccess = function(value) {
+        return value === "SUCCESS";
+    }
 });

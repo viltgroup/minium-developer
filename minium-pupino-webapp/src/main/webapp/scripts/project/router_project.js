@@ -22,8 +22,21 @@ pupinoApp
                 templateUrl: 'views/project/show.html',
                 controller: 'ProjectDetailController',
                 resolve: {
-                    resolvedProject: ['Project', function(Project) {
-                        return Project.get({id: 1}).$promise;
+                    resolvedProject: ['Project','$stateParams' ,function(Project,$stateParams) {
+                        return Project.get({id: $stateParams.id}).$promise;
+                    }]
+                },
+                access: {
+                    authorizedRoles: [USER_ROLES.all]
+                }
+            })
+            .state('global.build', {
+                url: "/project/:id/build/:number",
+                templateUrl: 'views/project/build.html',
+                controller: 'ProjectDetailController',
+                resolve: {
+                    resolvedProject: ['Project','$stateParams' ,function(Project,$stateParams) {
+                        return Project.get({id: $stateParams.id}).$promise;
                     }]
                 },
                 access: {

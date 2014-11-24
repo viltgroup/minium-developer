@@ -14,9 +14,10 @@ public class BuildDTO {
 	String id;
 	long timestamp;
 	String result;
+	String resultJSON;
 	
 	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
-			String id, long timestamp, String result) {
+			String id, long timestamp, String result,String resultJSON) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -28,6 +29,7 @@ public class BuildDTO {
 		this.id = id;
 		this.timestamp = timestamp;
 		this.result = result;
+		this.resultJSON = resultJSON;
 	}
 	
 	
@@ -100,6 +102,16 @@ public class BuildDTO {
 
 	public void setResult(String result) {
 		this.result = result;
+	}
+
+
+	public String getResultJSON() {
+		return resultJSON;
+	}
+
+
+	public void setResultJSON(String resultJSON) {
+		this.resultJSON = resultJSON;
 	}
 
 

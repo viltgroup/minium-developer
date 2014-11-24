@@ -16,7 +16,7 @@
         <tr ng-repeat="build in builds" ng-class="{'danger' : (build.result != 'SUCCESS') }">
             <td>
                 <i class="fa fa-check-square fa-2x tooltips" data-toggle="tooltip" title="" data-original-title="Bug"></i>
-                
+
             </td>
             <td><a ui-sref="#">{{build.fullDisplayName}}</a>
             </td>
@@ -24,15 +24,16 @@
                 {{build.description}}
             </td>
             <td>
-               <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
+                <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
             </td>
             <td>
                 {{build.duration}}
             </td>
-            
+
             <td>
-                <a class='btn btn-info btn-xs' href="#">
-                                       View Build</a>
+                <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, number: build.number })">
+                    View Build
+                </a>
 
             </td>
             <td>

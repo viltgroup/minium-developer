@@ -19,10 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
-import com.offbytwo.jenkins.model.Build;
-import com.offbytwo.jenkins.model.BuildWithDetails;
-
 @Controller
 @RequestMapping("/app/rest")
 public class JenkinsResource {
@@ -41,25 +37,7 @@ public class JenkinsResource {
 	@RequestMapping(value = "/jenkins/builds/{jobName}", method = RequestMethod.GET)
 	public @ResponseBody List<BuildDTO> getAllBuilds(@PathVariable("jobName") String jobName) throws URISyntaxException, IOException {
 		LOGGER.debug("REST request to get all builds for {}", jobName);
-		List<Build> builds = jenkinService.buildsForJob(jobName);
-		List<BuildDTO> buildsDTO = Lists.newArrayList();
-		BuildDTO buildDTO;
-		BuildWithDetails bd;
-		for (Build b : builds) {
-			bd = b.details();
-			String result;
-			if (bd.getResult() != null)
-				result = bd.getResult().toString();
-			else
-				result = "BUILDING";
-			
-			buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-					bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result);
-
-			buildsDTO.add(buildDTO);
-		}
-
-		return buildsDTO;
+		return jenkinService.getBuilds(jobName);
 	}
 
 	@RequestMapping(value = "/jenkins/builds/create/{jobName}", method = RequestMethod.POST)

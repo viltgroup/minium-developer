@@ -1,1 +1,68 @@
-{{report}}
+<table class="table table-primary table-list">
+    <thead>
+        <tr>
+            <th>Feature</th>
+            <th>Total</th>
+            <th>Passed</th>
+            <th>Failed</th>
+            <th>Result</th>
+            <th>Duration</th>
+            <th>File</th>
+            <th class="text-center"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}" ng-repeat="feature in features">
+            <td>
+                {{feature.rawName}}
+            </td>
+            <td>
+               {{feature.numberOfSteps}}
+            </td>
+            <td style="background-color:grenn;">
+                {{feature.numberOfPasses}}
+            </td>
+            <td>
+               {{feature.numberOfFailures}}
+            </td>
+            <td>
+                <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
+                <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
+            </td>
+            <td>
+               {{feature.durationOfSteps}}
+            </td>
+            <td>
+                <a class='btn btn-info btn-xs' href="#/editor/features/cgd/Consultas/Lojas/Filtros.feature?line=3">
+                    Go to File
+                </a>
+            </td>
+            
+
+            <td>
+                <div class="btn-group">
+                    <a data-toggle="dropdown" class="dropdown-toggle">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                    <ul role="menu" class="dropdown-menu pull-right">
+                        <li><a href="#">View</a>
+                        </li>
+                        <li><a href="#">Close</a>
+                        </li>
+                        <li><a href="#">Resolve</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="#">Assign</a>
+                        </li>
+                        <li><a href="#">Comment</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
+<!-- table-responsive -->

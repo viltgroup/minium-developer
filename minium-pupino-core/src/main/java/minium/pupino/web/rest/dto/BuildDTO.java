@@ -2,6 +2,8 @@ package minium.pupino.web.rest.dto;
 
 import java.util.List;
 
+import net.masterthought.cucumber.json.Feature;
+
 public class BuildDTO {
 
 	int number;
@@ -15,7 +17,26 @@ public class BuildDTO {
 	long timestamp;
 	String result;
 	String resultJSON;
+	List<Feature> features;
 	
+	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName, String id,
+			long timestamp, String result, String resultJSON, List<Feature> features) {
+		super();
+		this.number = number;
+		this.url = url;
+		this.actions = actions;
+		this.building = building;
+		this.description = description;
+		this.duration = duration;
+		this.fullDisplayName = fullDisplayName;
+		this.id = id;
+		this.timestamp = timestamp;
+		this.result = result;
+		this.resultJSON = resultJSON;
+		this.features = features;
+	}
+
+
 	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
 			String id, long timestamp, String result,String resultJSON) {
 		super();
@@ -112,6 +133,16 @@ public class BuildDTO {
 
 	public void setResultJSON(String resultJSON) {
 		this.resultJSON = resultJSON;
+	}
+
+
+	public List<Feature> getFeatures() {
+		return features;
+	}
+
+
+	public void setFeatures(List<Feature> features) {
+		this.features = features;
 	}
 
 

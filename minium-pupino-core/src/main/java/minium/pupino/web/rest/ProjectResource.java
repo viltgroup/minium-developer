@@ -1,6 +1,7 @@
 package minium.pupino.web.rest;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -8,6 +9,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import minium.pupino.domain.Project;
+import minium.pupino.domain.SourceRepository;
+import minium.pupino.domain.SourceRepository.Type;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.JenkinsService;
 
@@ -34,11 +37,14 @@ public class ProjectResource {
 
 	private final Logger log = LoggerFactory.getLogger(ProjectResource.class);
 
+	private int i = 0;
+
 	@Inject
 	private ProjectRepository projectRepository;
-	
+
 	@Autowired
 	private JenkinsService jenkinService;
+
 	/**
 	 * POST /rest/projects -> Create a new project.
 	 * 
@@ -50,7 +56,7 @@ public class ProjectResource {
 	public void create(@RequestBody Project project) throws URISyntaxException, IOException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		//jenkinService.createJob(project.getName(),project.getDescription());
+		// jenkinService.createJob(project.getName(),project.getDescription());
 	}
 
 	/**
@@ -60,6 +66,17 @@ public class ProjectResource {
 	@Timed
 	public List<Project> getAll() {
 		log.debug("REST request to get all Projects");
+		if (i == 0) {
+			Project project = new Project();
+			project.setDescription("sds");
+			project.setName("cp-e2e-test");
+			SourceRepository sr = new SourceRepository();
+			sr.setType(Type.GIT);
+			sr.setUrl(URI.create("url"));
+			project.setSourceRepository(sr);
+			projectRepository.save(project);
+			i = 1;
+		}
 		return projectRepository.findAll();
 	}
 

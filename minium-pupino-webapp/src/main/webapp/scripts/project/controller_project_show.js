@@ -4,6 +4,7 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
     $scope.project = resolvedProject;
 
     $scope.report;
+    $scope.features = [];
     var getBuilds = function(argument) {
         var resource = JenkinsProvider.builds.query({
             "jobName": $scope.project.name
@@ -12,7 +13,9 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
             $scope.builds = data;
             //get the report of the last build
             $scope.report = JSON.parse($scope.builds[0].resultJSON);
-            console.log($scope.report);
+
+            $scope.features = eval($scope.builds[0].features);
+            console.log($scope.features);
             
         });
     }
@@ -65,5 +68,9 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
      */
     $scope.isSuccess = function(value) {
         return value === "SUCCESS";
+    }
+
+     $scope.isPassed = function(value) {
+        return value === "PASSED";
     }
 });

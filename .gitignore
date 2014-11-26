@@ -15,3 +15,4 @@ src/main/webapp/dist
 build
 /minium-pupino-webapp/src/main/webapp/bower_components
 /minium-pupino-core/.springBeans
+/minium-pupino-webapp/.externalToolBuilders

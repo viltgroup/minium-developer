@@ -19,6 +19,11 @@ filter('durationInMinutes', function() {
         return time.seconds();
     };
 }).
+filter('humanizeDate', function() {
+    return function(date) {
+        return moment(date,'YYYY-MM-DD h-mm-ss').fromNow();
+    };
+}).
 filter('humanize', function() {
     return function(duration) {
         return duration.humanize();
@@ -33,6 +38,9 @@ filter('fromNow', function() {
     return function(time) {
         return moment(time).fromNow();
     };
+}).
+filter('escape', function() {
+    return window.escape;
 }).
 filter('unescape', function() {
     return window.unescape;

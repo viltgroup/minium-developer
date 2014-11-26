@@ -71,8 +71,15 @@
 
         </div>
 
-        <div id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
+        <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
 
+        <button ng-show="multiTab" class="btn" id="addTab">Add an editor</button>
+        <div id="tabs">
+            <ul>
+            </ul>
+        </div>
+
+       
     </section>
     <!-- /.content -->
 

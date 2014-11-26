@@ -19,6 +19,5 @@
             <column name="description" type="varchar(255)"/>
             <column name="source_repository" type="clob"/>
         </createTable>
-        
     </changeSet>
 </databaseChangeLog>

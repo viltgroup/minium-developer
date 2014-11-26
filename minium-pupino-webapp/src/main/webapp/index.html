@@ -22,16 +22,18 @@
     <link rel="stylesheet" href="../bower_components/toastr/toastr.min.css" />
     <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../bower_components/nvd3/nv.d3.css" />
-
-    <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+    <link rel="stylesheet" href="../bower_components/jqueryui/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="../styles/theme.css" />
+    
+    <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
+
 
     <!-- endbuild -->
 </head>
 
 <body class="skin-blue" ng-app="pupinoApp" ng-controller="MainController">
-   
-    
+
+
     <div class="full" ui-view></div>
 
 
@@ -48,8 +50,10 @@
     <script src="../bower_components/ladda/js/spin.js"></script>
     <script src="../bower_components/ladda/js/ladda.js"></script>
     <script src="../bower_components/toastr/toastr.js"></script>
+    <script src="../bower_components/jqueryui/jquery-ui.min.js"></script>
 
     <!-- Bootstrap -->
+    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/affix.js"></script>
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/alert.js"></script>
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/dropdown.js"></script>
@@ -61,7 +65,6 @@
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/carousel.js"></script>
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/scrollspy.js"></script>
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
 
     <!-- Sockets -->
     <script src="../bower_components/sockjs/sockjs.js"></script>
@@ -94,12 +97,12 @@
 
     <script src="scripts/controllers/global.js"></script>
     <script src="scripts/controllers/open.file.js"></script>
-    <script src="scripts/controllers/launch.js"></script>
-    <script src="scripts/controllers/editor.area.js"></script>
-    <script src="scripts/controllers/ConfigsCtrl.js"></script>
-    <script src="scripts/controllers/ReportCtrl.js"></script>
-    <script src="scripts/controllers/SocketTestCtrl.js"></script>
-
+    <script src="scripts/launch/controller_launch.js"></script>
+    <script src="scripts/editor.area/controller_editor.area.js"></script>
+    <script src="scripts/editor.area/controller_editor.area.multitab.js"></script>
+    <script src="scripts/editor.area/controller_configs.editor.area.js"></script>
+    <script src="scripts/report/controller_report.js"></script>
+    <script src="scripts/report/controller_feature_detail.js"></script>
 
     <script src="scripts/truncate.js"></script>
     <script src="scripts/utils.js"></script>
@@ -110,12 +113,14 @@
     <script src="scripts/directives.js"></script>
     <script src="scripts/filters.js"></script>
 
-   
+
     <script src="scripts/project/router_project.js"></script>
     <script src="scripts/project/controller_project.js"></script>
+    <script src="scripts/project/controller_project_show.js"></script>
     <script src="scripts/project/service_project.js"></script>
-    
-<!--     <script src="scripts/build/router_build.js"></script>
+
+
+    <!--     <script src="scripts/build/router_build.js"></script>
     <script src="scripts/build/controller_build.js"></script>
     <script src="scripts/build/service_build.js"></script> -->
     <!-- endbuild -->

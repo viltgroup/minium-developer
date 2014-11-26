@@ -224,7 +224,6 @@ angular.module('pupinoApp')
     return {
         link: function(scope, element, attrs) {
             element.click(function(e) {
-                console.log("sdsdsd " + element)
                 e.preventDefault();
                 element.tab('show');
             });

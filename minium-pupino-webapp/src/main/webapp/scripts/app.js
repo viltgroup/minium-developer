@@ -49,7 +49,7 @@ pupinoApp
         };
     })
 
-.config(function($routeProvider, $httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
+.config(function( $httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
 
     $urlRouterProvider
         .when("", "/editor/")
@@ -71,6 +71,14 @@ pupinoApp
             url: "/editor/*path?line",
             templateUrl: "views/partials/editor.area.html",
             controller: "EditorAreaController",
+            access: {
+                authorizedRoles: [USER_ROLES.all]
+            }
+        })
+        .state('global.multi', {
+            url: "/editor-multi",
+            templateUrl: "views/partials/editor.area.html",
+            controller: "EditorAreaMultiTabController",
             access: {
                 authorizedRoles: [USER_ROLES.all]
             }

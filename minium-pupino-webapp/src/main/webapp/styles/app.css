@@ -54,7 +54,7 @@
 /** THEME CHANGES **/
 
 .content {
-    min-height: 400px;
+    min-height: 700px;
 }
 .skin-blue .sidebar > .sidebar-menu > li {
     border-top: 0px;
@@ -67,7 +67,7 @@
     background: #ecf0f1;
 }
 .form-box .header {
-  background: #428bca;
+    background: #428bca;
 }
 /** LEFT BAR COLOR **/
 
@@ -209,7 +209,7 @@
     color: #D9534F;
 }
 .success {
-    color: #1CAF9A;
+    color: #00a65a;
 }
 /**
  * BLOCK LIST
@@ -221,8 +221,21 @@
 .panel-border-left {
     border-left: 3px solid #f56954;
 }
+.panel-border-top-danger {
+    border-top: 3px solid #f56954;
+}
+
+.panel-border-top-success {
+    border-top: 3px solid #00a65a;
+}
 /* Center modal dialog */
 
 .modal-dialog-center {
     margin-top: 5%;
+}
+
+.info {
+    margin-left: 450px;
+    /*padding: 15px 15px 0px;*/
+    width: 60%;
 }

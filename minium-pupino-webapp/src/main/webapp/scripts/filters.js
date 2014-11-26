@@ -21,7 +21,7 @@ filter('durationInMinutes', function() {
 }).
 filter('humanizeDate', function() {
     return function(date) {
-        return moment(date,'YYYY-MM-DD h-mm-ss').fromNow();
+        return moment(date, 'YYYY-MM-DD h-mm-ss').fromNow();
     };
 }).
 filter('humanize', function() {
@@ -72,4 +72,10 @@ filter('isEmpty', function() {
         }
         return true;
     };
-});
+}).
+filter('split', function() {
+    return function(input, splitChar, splitIndex) {
+        // do some bounds checking here to ensure it has that index
+        return input.split(splitChar)[splitIndex];
+    }
+});;

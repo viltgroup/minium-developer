@@ -24,7 +24,6 @@
     "angular-loading-bar": "~0.6.0",
     "angular-ui-router": "~0.2.x",
     "angularjs-nvd3-directives": "~0.0.7",
-    "angular-bootstrap-lightbox": "0.3.2",
     "angular-ui-ace": "latest",
     "swagger-ui": "2.0.18",
     "lodash": "latest",

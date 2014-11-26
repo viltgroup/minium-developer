@@ -1,5 +1,7 @@
 package minium.pupino.jenkins;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -7,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import minium.pupino.utils.UrlUtils;
 import minium.pupino.web.rest.dto.BuildDTO;
 import net.masterthought.cucumber.json.Feature;
 
@@ -132,7 +133,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					// get the artifact of the build and return the string
 					artifact = getArtifactsBuild(bd);
 					lastBuild = false;
-					Map<String,Feature> features = reporter.parseJsonResultSet(artifact);
+					Map<String, Feature> features = reporter.parseJsonResultSet(artifact);
 					Feature f = features.get(featureURI);
 					f.processSteps();
 					buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
@@ -154,8 +155,32 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 
 			// function from the jenkins client was not working properly
 			// use this temporary solution
-			if (artifact.getDisplayPath().equals("result.json")) {
-				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
+//			if (artifact.getDisplayPath().equals("result.json")) {
+//				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
+//			}
+			//remove this
+			BufferedReader br = null;
+			try {
+				br = new BufferedReader(new FileReader("mock.json"));
+				StringBuilder sb = new StringBuilder();
+				String line = br.readLine();
+
+				while (line != null) {
+					sb.append(line);
+					sb.append(System.lineSeparator());
+					line = br.readLine();
+				}
+				artifactContent = sb.toString();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally {
+				try {
+					br.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return artifactContent;

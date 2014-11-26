@@ -27,10 +27,13 @@
                         <h2></h2>
                     </div>
 
-
                     <div class="btn-group pull-right">
-                        <button class="btn btn-primary" ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">Go to File</button>
-                        <button class="btn btn-default" type="button">Close Issue</button>
+                        <a class="btn btn-primary" ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">Go to File</a>
+
+                        <!-- Button trigger modal -->
+                        <button class="btn btn-default" href="#stats" data-toggle="modal" data-target="#summary">
+                            Summary
+                        </button>
 
                         <button data-toggle="dropdown" class="btn btn-success dropdown-toggle" type="button">
                             <i class="fa fa-arrow-circle-o-down "></i> Export
@@ -50,46 +53,58 @@
                 <!-- panel-heading-->
                 <div class="panel-body">
                     <label>Search:
-                        <input aria-controls="example1" type="text">
+                        <input type="text" ng-model="query">
                     </label>
-                    <table class="table table-primary table-list">
-                        <thead>
-                            <tr>
-                                <th>Result</th>
-                                <th>Feature</th>
-                                <th>Total</th>
-                                <th>Passed</th>
-                                <th>Failed</th>
+                    <!-- BACKGROUND -->
+                    <accordion close-others="oneAtATime">
+                        <accordion-group is-open="status.open">
+                            <accordion-heading class="success">
+                                <i ng-if="isPassed(background.status)" class="success fa fa-check-square "></i>
+                                <i ng-if="!isPassed(background.status)" class="danger fa fa-bug "></i>
+                                <strong>{{background.keyword}}</strong>
 
-                                <th>Duration</th>
-                                <th>File</th>
-                                <th class="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 
-                            <tr ng-class="{'danger' : !isPassed(element.status),'success' : isPassed(element.status)}" ng-repeat="element in feature.elements">
-                                <td>
-                                    {{element.keyword}}
-                                    <span ng-repeat="step in element.steps">
-                                     <p> {{step.rawName}}</p>
-                                  </span>
-                                </td>
-                                <td>
-                                    {{element.status}}
-                                </td>
-                            </tr>
+                                <a class="pull-right btn btn-primary btn-xs" ng-href="#/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
 
-                        </tbody>
-                    </table>
+                                <a class="pull-right btn btn-warning btn-xs" ng-href="#/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
+                            </accordion-heading>
+                            <table class="table table-primary table-list">
+                                <thead>
+                                    <tr>
+                                        <th>Step</th>
+                                        <th></th>
+                                        <th class="text-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="step in background.steps  | filter:query">
+                                        <td>
+                                            <p ng-class="{'danger' : !isPassed(step.status),'success' : isPassed(step.status)}"> {{step.rawName}}
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-info btn-xs" ng-href="#/editor/{{step.match.location }}?line={{step.match.location}}" target="_blank">
+                                        Go Step file
+                                    </a>
 
-                    <!-- table-responsive -->
+                                        </td>
+                                        <td>
+                                            {{step.status}}
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </accordion-group>
+                    </accordion>
+
+                    <div ng-include="'views/project/partials/features-details.html'"></div>
 
                 </div>
                 <!-- panel-body -->
             </div>
             <!-- panel -->
-
         </div>
     </section>
     <!-- /.content -->

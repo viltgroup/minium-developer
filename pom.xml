@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<groupId>org.springframework.boot</groupId>
@@ -22,6 +21,7 @@
 	</prerequisites>
 
 	<properties>
+
 		<HikariCP.version>1.4.0</HikariCP.version>
 		<assertj-core.version>1.6.1</assertj-core.version>
 		<awaitility.version>1.4.0</awaitility.version>
@@ -30,6 +30,7 @@
 		<geronimo-javamail_1.4_mail.version>1.8.4</geronimo-javamail_1.4_mail.version>
 		<hibernate.version>4.3.6.Final</hibernate.version>
 		<java.version>1.7</java.version>
+
 		<javax.inject.version>1</javax.inject.version>
 		<jhipster-loaded.version>0.12</jhipster-loaded.version>
 		<joda-time-hibernate.version>1.3</joda-time-hibernate.version>
@@ -190,9 +191,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- The HikariCP Java Agent is disabled by default, as it is experimental 
-			<dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP-agent</artifactId> 
-			<version>${HikariCP.version}</version> </dependency> -->
+		<!-- The HikariCP Java Agent is disabled by default, as it is experimental <dependency> <groupId>com.zaxxer</groupId> <artifactId>HikariCP-agent</artifactId> <version>${HikariCP.version}</version> </dependency> -->
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
@@ -423,27 +422,6 @@
 		</dependency>
 	</dependencies>
 
-	<repositories>
-		<repository>
-			<id>repo.jenkins-ci.org</id>
-			<url>http://repo.jenkins-ci.org/public/</url>
-		</repository>
-		<repository>
-			<id>repo.bodar.com</id>
-			<url>http://repo.bodar.com</url>
-		</repository>
-		<repository>
-			<id>vilt-snapshots</id>
-			<name>Vilt Snapshots</name>
-			<url>https://maven.vilt-group.com/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>engineering-thirdparty</id>
-			<name>Engineering 3rd party</name>
-			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
-		</repository>
-	</repositories>
-
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -503,4 +481,25 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+	
+		<repositories>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+		<repository>
+			<id>repo.bodar.com</id>
+			<url>http://repo.bodar.com</url>
+		</repository>
+		<repository>
+			<id>vilt-snapshots</id>
+			<name>Vilt Snapshots</name>
+			<url>https://maven.vilt-group.com/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>engineering-thirdparty</id>
+			<name>Engineering 3rd party</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
+		</repository>
+	</repositories>
 </project>

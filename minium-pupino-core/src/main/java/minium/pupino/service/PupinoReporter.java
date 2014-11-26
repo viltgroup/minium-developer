@@ -59,7 +59,7 @@ public class PupinoReporter implements Formatter, Reporter {
 	public void result(Result result) {
 		Step step = queue.poll();
 		int line = step.getLine();
-		int i = 0;
+
 		@SuppressWarnings("unchecked")
 		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
 		// check if step has a dataTable

@@ -54,7 +54,6 @@ function SelectorGadgetCtrl($rootScope, $scope, $location, $modalInstance, Selec
 var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider) {
 
     var i = 0;
-    console.log("load " + i++);
 
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -64,6 +63,8 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
 
     var loadFile = function(props) {
         var path = props.relativeUri || props;
+        console.debug(path);
+        alert("asd")
         FS.get({
             path: path
         }, function(fileContent) {

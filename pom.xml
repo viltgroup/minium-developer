@@ -57,8 +57,14 @@
 		<guava.version>18.0</guava.version>
 		<minium.version>0.9.6-SNAPSHOT</minium.version>
 		<cucumber.version>1.1.8</cucumber.version>
-		<!-- Version of Jenkins to use for Integration Tests -->
+
+		<!-- Integration with Jenkins -->
 		<jenkins-version>1.447.2</jenkins-version>
+		<jenkins.client.version>0.2.2</jenkins.client.version>
+		<hudson.version>2.2.1</hudson.version>
+		<hudson.core.version>3.0.0-M2</hudson.core.version>
+		<hudson-test.version>3.2.1</hudson-test.version>
+		<cucumber-reporting.version>0.0.24</cucumber-reporting.version>
 	</properties>
 
 	<modules>
@@ -357,33 +363,22 @@
 		<dependency>
 			<groupId>com.offbytwo.jenkins</groupId>
 			<artifactId>jenkins-client</artifactId>
-			<version>0.2.2-SNAPSHOT</version>
+			<version>${jenkins.client.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jvnet.hudson.main</groupId>
 			<artifactId>hudson-core</artifactId>
-			<version>2.2.1</version>
+			<version>${hudson.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.hudson.main</groupId>
 			<artifactId>hudson-core</artifactId>
-			<version>3.0.0-M2</version>
+			<version>${hudson.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.hudson</groupId>
 			<artifactId>hudson-test-framework</artifactId>
-			<version>3.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jvnet.hudson</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>2.6-hudson-2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jvnet.hudson</groupId>
-			<artifactId>test-annotations</artifactId>
-			<version>1.0</version>
+			<version>${hudson-test.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.jenkins-ci.main</groupId>
@@ -394,12 +389,37 @@
 		<dependency>
 			<groupId>net.masterthought</groupId>
 			<artifactId>cucumber-reporting</artifactId>
-			<version>0.0.24-SNAPSHOT</version>
+			<version>${cucumber-reporting.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jvnet.hudson</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.6-hudson-2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jvnet.hudson</groupId>
+			<artifactId>test-annotations</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- Added because of an error classNotFound -->
 		<dependency>
 			<groupId>com.googlecode.totallylazy</groupId>
 			<artifactId>totallylazy</artifactId>
 			<version>1.20</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>velocity-tools</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
 		</dependency>
 	</dependencies>
 
@@ -411,6 +431,16 @@
 		<repository>
 			<id>repo.bodar.com</id>
 			<url>http://repo.bodar.com</url>
+		</repository>
+		<repository>
+			<id>vilt-snapshots</id>
+			<name>Vilt Snapshots</name>
+			<url>https://maven.vilt-group.com/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>engineering-thirdparty</id>
+			<name>Engineering 3rd party</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
 		</repository>
 	</repositories>
 

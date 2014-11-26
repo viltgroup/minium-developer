@@ -14,6 +14,7 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
     $("search-query").focus();
 
     var asyncLoad = function(node) {
+        console.debug(node);
         var params = {
             path: node.relativeUri || ""
         };

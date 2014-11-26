@@ -3,7 +3,9 @@ package minium.pupino.jenkins;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import minium.pupino.utils.UrlUtils;
 import minium.pupino.web.rest.dto.BuildDTO;
@@ -24,6 +26,8 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 public class JenkinsClientAdaptor implements JenkinsClient {
 
 	private JenkinsServer jenkins;
+
+	private ReporterParser reporter = new ReporterParser();
 
 	private static URI uri;
 
@@ -77,26 +81,17 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		BuildDTO buildDTO;
 		BuildWithDetails bd;
 		boolean lastBuild = true;
-		ReporterParser reporter = new ReporterParser();
 
 		for (Build b : builds) {
 			String artifact = "";
 			bd = b.details();
-			String result;
-			if (bd.getResult() != null)
-				result = bd.getResult().toString();
-			else
-				result = "BUILDING";
-
-			// only want the report of the lastBuild
-			if (lastBuild) {
+			String result = getStatusForBuild(bd);
+			// only want the report of the lastBuild finished
+			if (lastBuild && !bd.isBuilding()) {
 				// get the artifact of the build and return the string
 				artifact = getArtifactsBuild(bd);
 				lastBuild = false;
 				List<Feature> features = reporter.parseJsonResult(artifact);
-				System.out.println(result);
-				
-				// List<String> uris = JsonPath.parse(artifact).read("$..*");
 				for (Feature f : features) {
 					f.getUri();
 					f.processSteps();
@@ -107,11 +102,45 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact);
 			}
-
 			buildsDTO.add(buildDTO);
 		}
-
 		return buildsDTO;
+	}
+
+	/**
+	 * Get a specific build
+	 * 
+	 * @param jobName
+	 * @param buildId
+	 * @return
+	 * @throws IOException
+	 * @throws URISyntaxException
+	 */
+	@Override
+	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException {
+		List<Build> builds = buildsForJob(jobName);
+		BuildDTO buildDTO = null;
+		BuildWithDetails bd;
+		boolean lastBuild = true;
+		for (Build b : builds) {
+			String artifact = "";
+			bd = b.details();
+			if (bd.getId().equals(buildId)) {
+				String result = getStatusForBuild(bd);
+				// only want the report of the lastBuild finished
+				if (lastBuild && !bd.isBuilding()) {
+					// get the artifact of the build and return the string
+					artifact = getArtifactsBuild(bd);
+					lastBuild = false;
+					Map<String,Feature> features = reporter.parseJsonResultSet(artifact);
+					Feature f = features.get(featureURI);
+					f.processSteps();
+					buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+							bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, Arrays.asList(f));
+				}
+			}
+		}
+		return buildDTO;
 	}
 
 	/*
@@ -130,5 +159,9 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			}
 		}
 		return artifactContent;
+	}
+
+	private String getStatusForBuild(BuildWithDetails bd) {
+		return (bd.getResult() != null) ? bd.getResult().toString() : "BUILDING";
 	}
 }

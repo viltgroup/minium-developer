@@ -1,11 +1,12 @@
 <table class="table table-primary table-list">
     <thead>
         <tr>
+            <th>Result</th>
             <th>Feature</th>
             <th>Total</th>
             <th>Passed</th>
             <th>Failed</th>
-            <th>Result</th>
+
             <th>Duration</th>
             <th>File</th>
             <th class="text-center"></th>
@@ -15,30 +16,33 @@
 
         <tr ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}" ng-repeat="feature in features">
             <td>
-                {{feature.rawName}}
+                <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
+                <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
             </td>
             <td>
-               {{feature.numberOfSteps}}
+                <a ui-sref="global.build-feature({ id: project.id, buildId: buildId, featureURI: (feature.uri | escape) })">
+                   {{feature.rawName}}
+                </a>
+            </td>
+            <td>
+                {{feature.numberOfSteps}}
             </td>
             <td style="background-color:grenn;">
                 {{feature.numberOfPasses}}
             </td>
             <td>
-               {{feature.numberOfFailures}}
+                {{feature.numberOfFailures}}
+            </td>
+
+            <td>
+                {{feature.durationOfSteps}}
             </td>
             <td>
-                <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
-                <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
-            </td>
-            <td>
-               {{feature.durationOfSteps}}
-            </td>
-            <td>
-                <a class='btn btn-info btn-xs' href="#/editor/features/cgd/Consultas/Lojas/Filtros.feature?line=3">
+                <a class='btn btn-info btn-xs' ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">
                     Go to File
                 </a>
             </td>
-            
+
 
             <td>
                 <div class="btn-group">

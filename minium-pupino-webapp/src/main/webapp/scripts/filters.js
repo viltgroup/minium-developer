@@ -39,6 +39,9 @@ filter('fromNow', function() {
         return moment(time).fromNow();
     };
 }).
+filter('escape', function() {
+    return window.escape;
+}).
 filter('unescape', function() {
     return window.unescape;
 }).

@@ -33,7 +33,6 @@ public class JenkinsService {
 		jenkinsClient.createJob(jobName);
 	}
 	
-	
 	/*
 	 * BUILDS
 	 */
@@ -48,8 +47,13 @@ public class JenkinsService {
 	public void createBuild(String jobName) throws IOException, URISyntaxException {
 		jenkinsClient.createBuild(jobName);
 	}
+	
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException {
 		return jenkinsClient.getBuilds(jobName);
+	}
+	
+	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException{
+		return jenkinsClient.getBuild(jobName, buildId, featureURI);
 	}
 	
 	/*

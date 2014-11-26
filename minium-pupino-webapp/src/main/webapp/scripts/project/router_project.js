@@ -43,4 +43,17 @@ pupinoApp
                     authorizedRoles: [USER_ROLES.all]
                 }
             })
+             .state('global.build-feature', {
+                url: "/project/:id/build/:buildId/*featureURI",
+                templateUrl: 'views/project/features-details.html',
+                controller: 'FeatureController',
+                resolve: {
+                    resolvedProject: ['Project','$stateParams' ,function(Project,$stateParams) {
+                        return Project.get({id: $stateParams.id}).$promise;
+                    }]
+                },
+                access: {
+                    authorizedRoles: [USER_ROLES.all]
+                }
+            })
     });

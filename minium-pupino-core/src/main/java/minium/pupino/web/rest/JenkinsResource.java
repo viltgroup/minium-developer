@@ -6,6 +6,7 @@ import java.util.List;
 
 import minium.pupino.service.FormatService;
 import minium.pupino.service.JenkinsService;
+import minium.pupino.web.method.support.AntPath;
 import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
@@ -45,6 +46,12 @@ public class JenkinsResource {
 		LOGGER.debug("Create a Build for Job {}", jobName);
 		jenkinService.createBuild(jobName);
 		return new ResponseEntity<String>("Created", HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/jenkins/builds/{jobName}/{buildId}/**", method = RequestMethod.GET)
+	public @ResponseBody BuildDTO getBuild(@PathVariable("jobName") String jobName,@PathVariable("buildId") String buildId,@AntPath("featureURI") String featureURI) throws URISyntaxException, IOException {
+		LOGGER.debug("Listing a Build and feature for Job {} and feature {}", jobName, featureURI);
+		return jenkinService.getBuild(jobName, buildId, featureURI);
 	}
 
 }

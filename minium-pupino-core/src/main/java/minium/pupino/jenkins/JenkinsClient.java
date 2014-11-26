@@ -30,10 +30,13 @@ public interface JenkinsClient {
 	public void createBuild(String jobName) throws IOException, URISyntaxException;
 
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException;
+	
+	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException;
 
 	/*
 	 * ARTIFACTS
 	 */
 	public String getArtifactsBuild(BuildWithDetails buildDetails);
+
 
 }

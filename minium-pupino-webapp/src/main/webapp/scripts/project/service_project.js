@@ -22,6 +22,9 @@ pupinoApp
             }),
             createBuild: function(project) {
                 return $http.post('app/rest/jenkins/builds/create/' + project.name, {});
+            },
+            getFeatureBuild: function(project,buildId,featureURI) {
+                return $http.get('app/rest/jenkins/builds/' + project.name + '/'+ buildId + '/' + featureURI , {});
             }
         };
     }]);

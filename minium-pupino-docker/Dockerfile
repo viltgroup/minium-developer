@@ -40,7 +40,8 @@ RUN chown -R pupino /opt/
 USER pupino
 
 #Setup Pupino
-RUN mkdir /opt/pupino/bin && curl -L http://bragagw/public/tmp/pupino.war -o /opt/pupino/bin/pupino.war
+#RUN mkdir /opt/pupino/bin && curl -L http://bragagw/public/tmp/pupino.war -o /opt/pupino/bin/pupino.war
+RUN mkdir /opt/pupino/bin
 COPY config/pupino.yml /opt/pupino/config/
 COPY config/minium-prefs.json /opt/pupino/config/
 RUN mkdir /opt/pupino/logs/

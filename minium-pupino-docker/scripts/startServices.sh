@@ -7,4 +7,4 @@
 
  # Start pupino
  echo "running pupino"
- nohup java -Dminium.home=/opt/pupino/config -jar /opt/pupino/bin/pupino*.war &> /opt/pupino/logs/pupino.log io
+ nohup java -Dminium.home=/opt/pupino/config -jar /opt/pupino/bin/minium-pupino-webapp-*.war &> /opt/pupino/logs/pupino.log

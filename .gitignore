@@ -16,3 +16,5 @@ build
 /minium-pupino-webapp/src/main/webapp/bower_components
 /minium-pupino-core/.springBeans
 /minium-pupino-webapp/.externalToolBuilders
+/minium-pupino-webapp/deploy
+/minium-pupino-docker/logs/*

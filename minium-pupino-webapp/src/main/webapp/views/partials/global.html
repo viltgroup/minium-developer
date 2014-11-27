@@ -8,7 +8,7 @@
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <a href class="navbar-btn sidebar-toggle" sidebar-toggle="active" role="button" >
+        <a href class="navbar-btn sidebar-toggle" sidebar-toggle="active" role="button">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -44,10 +44,10 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span>
                             <span class="glyphicon glyphicon-th-list"></span>
-                            <span class="hidden-tablet" translate="global.menu.entities.main">
+                        <span class="hidden-tablet" translate="global.menu.entities.main">
                                 Entities
                             </span>
-                            <b class="caret"></b>
+                        <b class="caret"></b>
                         </span>
                     </a>
                     <ul class="dropdown-menu" ng-controller="MenuController">
@@ -66,53 +66,47 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span>
                             <span class="glyphicon glyphicon-user"></span>
-                            <span class="hidden-tablet" translate="global.menu.account.main">
+                        <span class="hidden-tablet" translate="global.menu.account.main">
                                 Account
                             </span>
-                            <b class="caret"></b>
+                        <b class="caret"></b>
                         </span>
                     </a>
                     <ul class="dropdown-menu" ng-controller="MenuController">
                         <li ng-switch-when="true">
                             <a href="#/settings">
-                                <span class="glyphicon glyphicon-wrench"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-wrench"></span> &nbsp;
                                 <span translate="global.menu.account.settings">Settings</span>
                             </a>
                         </li>
                         <li ng-switch-when="true">
                             <a href="#/password">
-                                <span class="glyphicon glyphicon-lock"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-lock"></span> &nbsp;
                                 <span translate="global.menu.account.password">Password</span>
                             </a>
                         </li>
                         <li ng-switch-when="true">
                             <a href="#/sessions">
-                                <span class="glyphicon glyphicon-cloud"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-cloud"></span> &nbsp;
                                 <span translate="global.menu.account.sessions">Sessions</span>
                             </a>
                         </li>
                         <li ng-switch-when="true">
                             <a href="#/logout">
-                                <span class="glyphicon glyphicon-log-out"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-log-out"></span> &nbsp;
                                 <span translate="global.menu.account.logout">Log out</span>
                             </a>
                         </li>
                         <li ng-switch-when="false">
                             <a href="#/login">
-                                <span class="glyphicon glyphicon-log-in"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-log-in"></span> &nbsp;
                                 <span translate="global.menu.account.login">Authenticate</span>
                             </a>
                         </li>
 
                         <li ng-switch-when="false">
                             <a href="#/register">
-                                <span class="glyphicon glyphicon-plus-sign"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-plus-sign"></span> &nbsp;
                                 <span translate="global.menu.account.register">Register</span>
                             </a>
                         </li>
@@ -123,43 +117,38 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span>
                             <span class="glyphicon glyphicon-tower"></span>
-                            <span class="hidden-tablet" translate="global.menu.admin">Admin</span>
-                            <b class="caret"></b>
+                        <span class="hidden-tablet" translate="global.menu.admin">Admin</span>
+                        <b class="caret"></b>
                         </span>
                     </a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="#/metrics">
-                                <span class="glyphicon glyphicon-dashboard"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-dashboard"></span> &nbsp;
                                 <span translate="global.menu.account.metrics">Metrics</span>
                             </a>
                         </li>
                         <li>
                             <a href="#/health">
-                                <span class="glyphicon glyphicon-heart"></span>
-                                &#xA0;
+                                <span class="glyphicon glyphicon-heart"></span> &#xA0;
                                 <span translate="global.menu.account.health">Health</span>
                             </a>
                         </li>
                         <li>
                             <a href="#/audits">
-                                <span class="glyphicon glyphicon-bell"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-bell"></span> &nbsp;
                                 <span translate="global.menu.account.audits">Audits</span>
                             </a>
                         </li>
                         <li>
                             <a href="#/logs">
-                                <span class="glyphicon glyphicon-tasks"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-tasks"></span> &nbsp;
                                 <span translate="global.menu.account.logs">Logs</span>
                             </a>
                         </li>
                         <li>
                             <a href="#/docs">
-                                <span class="glyphicon glyphicon-book"></span>
-                                &nbsp;
+                                <span class="glyphicon glyphicon-book"></span> &nbsp;
                                 <span translate="global.menu.account.apidocs">API Docs</span>
                             </a>
                         </li>
@@ -170,8 +159,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span>
                             <span class="glyphicon glyphicon-flag"></span>
-                            <span class="hidden-tablet" translate="global.menu.language">Language</span>
-                            <b class="caret"></b>
+                        <span class="hidden-tablet" translate="global.menu.language">Language</span>
+                        <b class="caret"></b>
                         </span>
                     </a>
                     <ul class="dropdown-menu">
@@ -184,9 +173,8 @@
             </div>
     </nav>
 </header>
-<!---********************************************** HEADER END ******************************************-->
-<!---********************************************** *****************************************************-->
-<!---********************************************** *****************************************************-->
+
+<!---********************************************** HEADER END ***********-->
 <div class="wrapper row-offcanvas row-offcanvas-left">
     <!-- Left side column. contains the logo and sidebar -->
     <aside class="left-side sidebar-offcanvas">
@@ -208,22 +196,29 @@
             <ul class="sidebar-menu">
                 <li ng-class="getClass('#/dashboard')">
                     <a href="#/dashboard">
-                        <i class="glyphicon glyphicon-dashboard"></i> 
+                        <i class="glyphicon glyphicon-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
 
                 <li ng-class="getClass('#/editor')">
                     <a href="#/editor">
-                        <i class="glyphicon glyphicon-pencil"></i> 
+                        <i class="glyphicon glyphicon-pencil"></i>
                         <span>Editor</span>
                     </a>
                 </li>
 
-                 <li ng-class="getClass('#/editor')">
+                <!--  <li ng-class="getClass('#/editor')">
                     <a href="#/editor-multi">
                         <i class="glyphicon glyphicon-pencil"></i> 
                         <span>Multi Editor</span>
+                    </a>
+                </li> -->
+
+                <li ng-class="getClass('#/project')">
+                    <a href="#/project">
+                        <i class="glyphicon glyphicon-list"></i>
+                        <span>Projects</span>
                     </a>
                 </li>
 
@@ -233,21 +228,6 @@
                         <span>Bug Tracker</span>
                     </a>
                 </li>
-
-                <li ng-class="getClass('#/project')">
-                    <a href="#/project">
-                        <i class="glyphicon glyphicon-list"></i>
-                        <span>Projects</span>
-                    </a>
-                </li>
-
-                <li ng-class="getClass('#/jobs')">
-                    <a href="#/jobs">
-                        <i class="fa  fa-code-fork"></i>
-                        <span>Jobs</span>
-                    </a>
-                </li>
-
             </ul>
         </section>
         <!-- /.sidebar -->

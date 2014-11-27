@@ -1,0 +1,64 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        <h1>
+            <i class="fa fa-file"></i>
+            Feature
+            <small>{{feature.rawName}}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
+            </li>
+            <li class=>Report X</li>
+            <li class="active">Feature X</li>
+
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="nav-tabs-custom">
+
+            <ul class="nav nav-tabs nav-color">
+                <li ui-sref-active="active" class="active">
+                    <a ui-sref="global.feature.scenarios">
+                        <i class="fa fa-bars"></i>
+                        <strong>Scenarios</strong>
+                    </a>
+                </li>
+                <li ui-sref-active="active" class="active">
+                    <a  ui-sref="global.feature.failling">
+                        <i class="fa fa-bug"></i>
+                        <strong>Failing Scenarios</strong>
+                        <span class="label label-danger">{{faillingScenarios.length}}</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" class="active">
+                    <a  ui-sref="global.feature.stats">
+                        <i class="fa fa-bar-chart"></i>
+                        <strong>Statistics</strong>
+                    </a>
+                </li>
+               <!--  <li  ui-sref-active="active" class="active">
+                    <a  href="#resolved">
+                        <strong>Resolved</strong>
+                    </a>
+                </li> -->
+            </ul>
+
+            <!--TAB CONTENT -->
+            <div class="tab-content tab-report">
+
+                <div ui-view></div>
+
+            </div>
+            <!-- tab-content -->
+
+        </div>
+
+    </section>
+    <!-- /.content -->
+</aside>
+<!-- /.right-side -->

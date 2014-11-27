@@ -62,27 +62,6 @@ pupinoApp
             templateUrl: "views/partials/global.html",
             controller: "GlobalController"
         })
-        .state('global.dashboard', {
-            url: "/dashboard",
-            templateUrl: "views/partials/dashboard.html",
-            controller: "GlobalController"
-        })
-        .state('global.editorarea', {
-            url: "/editor/*path?line",
-            templateUrl: "views/partials/editor.area.html",
-            controller: "EditorAreaController",
-            access: {
-                authorizedRoles: [USER_ROLES.all]
-            }
-        })
-        .state('global.multi', {
-            url: "/editor-multi",
-            templateUrl: "views/partials/editor.area.html",
-            controller: "EditorAreaMultiTabController",
-            access: {
-                authorizedRoles: [USER_ROLES.all]
-            }
-        })
         .state('global.bugtracker', {
             url: "/bugtracker",
             templateUrl: "views/partials/bug-tracker.html",
@@ -100,7 +79,7 @@ pupinoApp
         })
         .state('register', {
             url: "/register",
-            templateUrl: 'views/register.html',
+            templateUrl: 'views/jhipster/register.html',
             controller: 'RegisterController',
             access: {
                 authorizedRoles: [USER_ROLES.all]
@@ -108,7 +87,7 @@ pupinoApp
         })
         .state('activate', {
             url: "/activate",
-            templateUrl: 'views/activate.html',
+            templateUrl: 'views/jhipster/activate.html',
             controller: 'ActivationController',
             access: {
                 authorizedRoles: [USER_ROLES.all]
@@ -116,7 +95,7 @@ pupinoApp
         })
         .state('login', {
             url: "/login",
-            templateUrl: 'views/login.html',
+            templateUrl: 'views/jhipster/login.html',
             controller: 'LoginController',
             access: {
                 authorizedRoles: [USER_ROLES.all]
@@ -124,14 +103,14 @@ pupinoApp
         })
         .state('global.error', {
             url: "/error",
-            templateUrl: 'views/error.html',
+            templateUrl: 'views/jhipster/error.html',
             access: {
                 authorizedRoles: [USER_ROLES.all]
             }
         })
         .state('global.settings', {
             url: "/settings",
-            templateUrl: 'views/settings.html',
+            templateUrl: 'views/jhipster/settings.html',
             controller: 'SettingsController',
             access: {
                 authorizedRoles: [USER_ROLES.user]
@@ -139,7 +118,7 @@ pupinoApp
         })
         .state('global.password', {
             url: "/password",
-            templateUrl: 'views/password.html',
+            templateUrl: 'views/jhipster/password.html',
             controller: 'PasswordController',
             access: {
                 authorizedRoles: [USER_ROLES.user]
@@ -147,7 +126,7 @@ pupinoApp
         })
         .state('global.sessions', {
             url: "/sessions",
-            templateUrl: 'views/sessions.html',
+            templateUrl: 'views/jhipster/sessions.html',
             controller: 'SessionsController',
             resolve: {
                 resolvedSessions: ['Sessions', function(Sessions) {
@@ -160,7 +139,7 @@ pupinoApp
         })
         .state('global.metrics', {
             url: "/metrics",
-            templateUrl: 'views/metrics.html',
+            templateUrl: 'views/jhipster/metrics.html',
             controller: 'MetricsController',
             access: {
                 authorizedRoles: [USER_ROLES.admin]
@@ -168,7 +147,7 @@ pupinoApp
         })
         .state('global.health', {
             url: "/health",
-            templateUrl: 'views/health.html',
+            templateUrl: 'views/jhipster/health.html',
             controller: 'HealthController',
             access: {
                 authorizedRoles: [USER_ROLES.admin]
@@ -176,7 +155,7 @@ pupinoApp
         })
         .state('global.logs', {
             url: "/logs",
-            templateUrl: 'views/logs.html',
+            templateUrl: 'views/jhipster/logs.html',
             controller: 'LogsController',
             resolve: {
                 resolvedLogs: ['LogsService', function(LogsService) {
@@ -189,7 +168,7 @@ pupinoApp
         })
         .state('global.audits', {
             url: "/audits",
-            templateUrl: 'views/audits.html',
+            templateUrl: 'views/jhipster/audits.html',
             controller: 'AuditsController',
             access: {
                 authorizedRoles: [USER_ROLES.admin]
@@ -197,7 +176,7 @@ pupinoApp
         })
         .state('global.logout', {
             url: "/logout",
-            templateUrl: 'views/main.html',
+            templateUrl: 'views/jhipster/main.html',
             controller: 'LogoutController',
             access: {
                 authorizedRoles: [USER_ROLES.all]
@@ -205,7 +184,7 @@ pupinoApp
         })
         .state('global.docs', {
             url: "/docs",
-            templateUrl: 'views/docs.html',
+            templateUrl: 'views/jhipster/docs.html',
             access: {
                 authorizedRoles: [USER_ROLES.admin]
             }

@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-default panel-border-left" ng-repeat="scenario in faillingScenarios">
+            <div class="panel-body">
+                <a class="pull-left" href="#">
+                    <img src="data:{{scenario.steps[3].embeddings[0].mime_type}};base64,{{scenario.steps[3].embeddings[0].data}}" style="width: 150px; height: 120px;">
+                </a>
+
+                <div class="col-sm-8" ng-repeat="step in scenario.steps">
+                    <div ng-show="step.status === 'FAILED'">
+                        <div class="fail-description">
+                            <p>
+                                <a href="#">Element Not Found</a>
+                            </p>
+                            <p class="danger"> Step:{{step.rawName}}</p>
+                        </div>
+
+                        <div class="pull-right">
+                            <a class="btn btn-success btn-xs" href="">
+                            Details
+                         </a>
+                            <a class="btn btn-info btn-xs" href="#/editor/features/cgd/Consultas/Lojas/Filtros.feature?line=19">
+                             Go to File
+                         </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+</div>

@@ -46,7 +46,7 @@ pupinoApp.controller('FeatureController', function($scope, $stateParams, $sce, $
             }
         });
     }
-
+    
     var processData = function() {
         $scope.exampleData = [{
             key: "X",

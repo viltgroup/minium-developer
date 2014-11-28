@@ -10,6 +10,11 @@
                 <input type="radio"></input>
                 <i class="fa fa-square text-red"></i> Failling
             </label>
+
+            <label class="btn btn-default" ng-click="status = ''">
+                <input type="radio"></input>
+                <i class="fa fa-square "></i> All
+            </label>
         </div>
     </div>
     <div class="col-sm-4 col-md-4">
@@ -38,10 +43,9 @@
     </thead>
     <tbody>
 
-        <tr ng-repeat="feature in features | filter:query | filter:status" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+        <tr ng-repeat="feature in features | filter:query | filter:{status : status}" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
 
             <td>
-                <span class="hide">{{feature.status}}</span>
                 <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
                 <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
             </td>

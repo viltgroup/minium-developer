@@ -38,7 +38,7 @@
         <!-- BACKGROUND -->
         <accordion close-others="oneAtATime">
             <accordion-group is-open="status.open">
-                <accordion-heading >
+                <accordion-heading>
                     <i ng-if="isPassed(background.status)" class="success fa fa-check-square "></i>
                     <i ng-if="!isPassed(background.status)" class="danger fa fa-bug "></i>
                     <strong>{{background.keyword}}</strong>
@@ -80,7 +80,7 @@
         </accordion>
 
         <accordion close-others="oneAtATime">
-            <accordion-group is-open="status.open" ng-repeat="element in scenarios | filter:query | filter:status" >
+            <accordion-group is-open="status.open" ng-repeat="element in scenarios | filter:query | filter:status">
                 <accordion-heading>
                     <!-- HEADER -->
                     <i ng-if="isPassed(element.status)" class="success fa fa-check-square "></i>
@@ -106,7 +106,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr  ng-repeat="step in element.steps">
+                        <tr ng-repeat="step in element.steps">
                             <td>
                                 <p ng-class="{'danger' : !isPassed(step.status),'success' : isPassed(step.status)}"> {{step.rawName}}
                                 </p>

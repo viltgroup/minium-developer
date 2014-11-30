@@ -224,7 +224,6 @@
 .panel-border-top-danger {
     border-top: 3px solid #f56954;
 }
-
 .panel-border-top-success {
     border-top: 3px solid #00a65a;
 }
@@ -233,9 +232,15 @@
 .modal-dialog-center {
     margin-top: 5%;
 }
-
 .info {
     margin-left: 450px;
     /*padding: 15px 15px 0px;*/
+    
     width: 60%;
+}
+.hiddenRow {
+    padding: 0 !important;
+}
+.panel-default>.panel-heading {
+    background-color: #ddd;
 }

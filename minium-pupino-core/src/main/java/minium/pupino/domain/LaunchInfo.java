@@ -10,13 +10,13 @@ public class LaunchInfo {
 	 * 0-based number of line
 	 */
 	private List<Integer> line;
-	
 
-	
+
+
 	public LaunchInfo() {
 	}
 
-	public FileProps getFileProps() {		
+	public FileProps getFileProps() {
 		return fileProps;
 	}
 

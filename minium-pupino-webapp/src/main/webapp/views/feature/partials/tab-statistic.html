@@ -1,0 +1,207 @@
+<div class="row">
+    <div class="col-md-6">
+        <!-- Line chart -->
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="fa fa-bar-chart-o"></i>
+                <h3 class="box-title">Pie Chart</h3>
+            </div>
+            <div class="box-body">
+                <nvd3-pie-chart data="exampleData" id="exampleId" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true">
+                    <svg></svg>
+                </nvd3-pie-chart>
+            </div>
+            <!-- /.box-body-->
+        </div>
+        <!-- /.box -->
+
+
+
+    </div>
+    <!-- /.col -->
+
+    <div class="col-md-6">
+        <div class="box box-warning">
+            <div class="box-header">
+                <!-- panel-btns -->
+                <h5 class="box-title">Stats</h5>
+            </div>
+            <!-- panel-heading -->
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-alt">
+                                <th>Status</th>
+                                <th>Issues</th>
+                                <th>Percentage</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="">Passed</a>
+                                </td>
+                                <td>{{feature.numberOfPasses}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{(100*feature.numberOfPasses/feature.numberOfSteps)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                            <span class="sr-only">{{(100*feature.numberOfPasses/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{(100*feature.numberOfPasses/feature.numberOfSteps)| number:0}}%</td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Failures</a>
+                                </td>
+                                <td>{{feature.numberOfFailures}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{(100*feature.numberOfFailures/feature.numberOfSteps)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                            <span class="sr-only">{{(100*feature.numberOfFailures/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{(100*feature.numberOfFailures/feature.numberOfSteps)| number:0}}%</td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Skipped</a>
+                                </td>
+                                <td>{{feature.numberOfSkipped}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{(100*feature.numberOfSkipped/feature.numberOfSteps)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="52" role="progressbar" class="progress-bar progress-bar-warning">
+                                            <span class="sr-only">{{(100*feature.numberOfSkipped/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{(100*feature.numberOfSkipped/feature.numberOfSteps)| number:0}}%</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="">Undifined</a>
+                                </td>
+                                <td>{{feature.numberOfUndefined}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{(100*feature.numberOfUndefined/feature.numberOfSteps)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="52" role="progressbar" class="progress-bar progress-bar-primary">
+                                            <span class="sr-only">{{(100*feature.numberOfUndefined/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{(100*feature.numberOfUndefined/feature.numberOfSteps)| number:0}}%
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- table-responsive -->
+            </div>
+            <!-- panel-body -->
+        </div>
+        <!-- panel -->
+        <div class="box box-solid">
+            <div class="box-header">
+                <h3 class="box-title">Scrennshots</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div ng-repeat="scenario in faillingScenarios">
+                            <div class="item active" ng-repeat="step in scenario" ng-show="step.status === 'FAILED'">
+                                <img src="data:{{steps.embeddings[0].mime_type}};base64,{{scenario.steps.embeddings[0].data}}">
+                                <div class="carousel-caption">
+                                    First Slide
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a show-tab href="#tab_1" data-toggle="tab">Tab 1</a>
+                </li>
+                <li class=""><a show-tab href="#tab_2" data-toggle="tab">Tab 2</a>
+                </li>
+                <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab_1">
+                    <b>TAB 1</b>
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="tab_2">
+                    <b>Tab 2</b>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+
+
+
+    </div>
+    <!-- /.col -->
+</div>
+
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>
+                   {{feature.numberOfPasses}}
+                </h3>
+                <p>
+                    Steps Passed
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-check-square"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>
+                    {{feature.numberOfFailures}}
+                </h3>
+                <p>
+                    Step Fail
+                </p>
+            </div>
+            <div class="icon">
+                <i class="fa fa-bug"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+        </div>
+    </div>
+</div>

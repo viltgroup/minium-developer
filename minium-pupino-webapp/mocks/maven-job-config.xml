@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>\n
+<maven2-moduleset plugin="maven-plugin@2.7.1">\n
+    <actions/>\n
+    <description></description>\n
+    <keepDependencies>false</keepDependencies>\n
+    <properties/>\n
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.3">\n
+        <configVersion>2</configVersion>\n
+        <userRemoteConfigs>\n
+            <hudson.plugins.git.UserRemoteConfig>\n
+                <url>git@artemis.vilt-group.com:raphael.rodrigues/cp-e2e-tests.git</url>\n
+                <credentialsId>b5a5497f-f3a8-453a-93ea-99eef6bb765e</credentialsId>\n </hudson.plugins.git.UserRemoteConfig>\n </userRemoteConfigs>\n
+        <branches>\n
+            <hudson.plugins.git.BranchSpec>\n
+                <name>*/master</name>\n </hudson.plugins.git.BranchSpec>\n </branches>\n
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>\n
+        <submoduleCfg class="list" />\n
+        <extensions/>\n </scm>\n
+    <canRoam>true</canRoam>\n
+    <disabled>false</disabled>\n
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>\n
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>\n
+    <jdk>java1.7</jdk>\n
+    <triggers/>\n
+    <concurrentBuild>false</concurrentBuild>\n
+    <rootModule>\n
+        <groupId>pt.cp</groupId>\n
+        <artifactId>cp-e2e-tests</artifactId>\n </rootModule>\n
+    <goals>clean install -U -Dremote.web.driver.url=http://silenus.vilt-group.com:4444/wd/hub -Dcucumber.options=&quot;--format json:result.json&quot;</goals>\n
+    <aggregatorStyleBuild>true</aggregatorStyleBuild>\n
+    <incrementalBuild>false</incrementalBuild>\n
+    <ignoreUpstremChanges>false</ignoreUpstremChanges>\n
+    <archivingDisabled>false</archivingDisabled>\n
+    <siteArchivingDisabled>false</siteArchivingDisabled>\n
+    <fingerprintingDisabled>false</fingerprintingDisabled>\n
+    <resolveDependencies>false</resolveDependencies>\n
+    <processPlugins>false</processPlugins>\n
+    <mavenValidationLevel>-1</mavenValidationLevel>\n
+    <runHeadless>false</runHeadless>\n
+    <disableTriggerDownstreamProjects>false</disableTriggerDownstreamProjects>\n
+    <blockTriggerWhenBuilding>true</blockTriggerWhenBuilding>\n
+    <settings class="jenkins.mvn.DefaultSettingsProvider" />\n
+    <globalSettings class="jenkins.mvn.DefaultGlobalSettingsProvider" />\n
+    <reporters/>\n
+    <publishers>\n
+        <hudson.tasks.ArtifactArchiver>\n
+            <artifacts>result.json</artifacts>\n
+            <allowEmptyArchive>false</allowEmptyArchive>\n
+            <onlyIfSuccessful>false</onlyIfSuccessful>\n
+            <fingerprint>false</fingerprint>\n
+            <defaultExcludes>true</defaultExcludes>\n </hudson.tasks.ArtifactArchiver>\n </publishers>\n
+    <buildWrappers/>\n
+    <prebuilders/>\n
+    <postbuilders/>\n
+    <runPostStepsIfResult>\n
+        <name>FAILURE</name>\n
+        <ordinal>2</ordinal>\n
+        <color>RED</color>\n
+        <completeBuild>true</completeBuild>\n </runPostStepsIfResult>\n</maven2-moduleset>

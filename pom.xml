@@ -30,6 +30,7 @@
         <commons-lang.version>2.6</commons-lang.version>
         <geronimo-javamail_1.4_mail.version>1.8.4</geronimo-javamail_1.4_mail.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
+
         <javax.inject.version>1</javax.inject.version>
         <jhipster-loaded.version>0.12</jhipster-loaded.version>
         <joda-time-hibernate.version>1.3</joda-time-hibernate.version>
@@ -58,10 +59,19 @@
         <minium.version>0.9.6-SNAPSHOT</minium.version>
         <cucumber.version>1.1.8</cucumber.version>
         
-        <!-- checkstyle stuff -->
+		<!-- Integration with Jenkins -->
+		<jenkins-version>1.447.2</jenkins-version>
+		<jenkins.client.version>0.2.2-SNAPSHOT</jenkins.client.version>
+		<hudson.version>2.2.1</hudson.version>
+		<hudson.core.version>3.0.0-M2</hudson.core.version>
+		<hudson-test.version>3.2.1</hudson-test.version>
+		<cucumber-reporting.version>0.0.24-SNAPSHOT</cucumber-reporting.version>
+
+		<!-- checkstyle stuff -->
         <checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
-        
-    </properties>
+		<checkstyle.failsonerror>false</checkstyle.failsonerror>
+		
+	</properties>
     
     <modules>
     	<module>minium-pupino-webapp</module>
@@ -355,14 +365,19 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.offbytwo.jenkins</groupId>
+			<artifactId>jenkins-client</artifactId>
+			<version>${jenkins.client.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.masterthought</groupId>
+			<artifactId>cucumber-reporting</artifactId>
+			<version>${cucumber-reporting.version}</version>
+		</dependency>
     </dependencies>
+
     <build>
-    	<plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-            </plugin>
-    	</plugins>
         <pluginManagement>
             <plugins>
                 <!--This plugin's configuration is used to store Eclipse m2e settings
@@ -452,7 +467,7 @@
                             checkstyle.config.dir=${checkstyle.config.dir}
                         </propertyExpansion>
                         <consoleOutput>true</consoleOutput>
-                        <failsOnError>true</failsOnError>
+                        <failsOnError>${checkstyle.failsonerror}</failsOnError>
                         <linkXRef>false</linkXRef>
                         <includeTestSourceDirectory>true</includeTestSourceDirectory>
                         <includes>minium/pupino/**/*.java</includes>
@@ -470,4 +485,25 @@
             </plugins>
         </pluginManagement>
     </build>
+	<repositories>
+		<repository>
+			<id>vilt-snapshots</id>
+			<name>Vilt Snapshots</name>
+			<url>https://maven.vilt-group.com/content/repositories/snapshots/</url>
+		</repository>
+		<repository>
+			<id>engineering-thirdparty</id>
+			<name>Engineering 3rd party</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
+		</repository>
+		<repository>
+			<id>repo.jenkins-ci.org</id>
+			<url>http://repo.jenkins-ci.org/public/</url>
+		</repository>
+		<repository>
+			<id>repo.bodar.com</id>
+			<url>http://repo.bodar.com</url>
+		</repository>
+	</repositories>
+
 </project>

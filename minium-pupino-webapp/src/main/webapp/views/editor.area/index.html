@@ -1,0 +1,104 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Editor
+            <small>Cucumber</small>
+        </h1>
+
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
+            </li>
+            <li class="active " id="miniumOnDrugs">Editor</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container container-editor full ">
+
+        <div class="info">
+            <p>
+                <i class="fa fa-info-circle"></i> Status:
+                <span class="label label-default" id="status">
+                    Not Run</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                <button id="runningTest" class="btn btn-warning ladda-button disabled " data-style="expand-right">
+                    <span class="fa fa-gears"></span>
+                    <span class="ladda-label">Running</span>
+                </button>
+
+                <button type="button" class="btn btn-success" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)" data-toggle="modal" data-target="#launchModal">
+                    <span class="fa  fa-bar-chart"></span>Summary Report
+                </button>
+
+                <!-- <a class="btn btn-primary " id="clear" ui-sref="global.report" target="_blank">
+                    <span class="fa fa-clipboard"></span>See Reports
+                </a>
+ -->
+                <!--
+                <button ui-sref="global.editorarea.configs" type="button" class="btn btn-primary " id="clear" ng-click="">
+                    <span class="fa fa-cog"></span>Configurations
+                </button>
+                -->
+                <button data-toggle="dropdown" class="btn btn-warning" type="button" ng-hide="markerIds | isEmpty" ng-click="clearMarkers()">
+                    <i class="fa fa-arrow-circle-o-down"></i> Clear Markers
+                </button>
+                <button data-toggle="dropdown" class="btn btn-primary" type="button" ng-click="launchAll()">
+                    <i class="fa fa-arrow-circle-o-down"></i> Run All
+                </button>
+
+                <a ui-sref="global.editorarea.open" class="btn btn-primary " type="button">
+                    <i class="fa fa-arrow-circle-o-down"></i> Open File
+                </a>
+
+                <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
+                    <i class="fa fa-arrow-circle-o-down"></i> See Execution
+                </button>
+
+
+                <button class="btn btn-danger btn-xs pull-right" ng-click="stopLaunch()" ng-hide="testExecuting == false">
+                    <span class="fa fa-ban"></span>
+                    <span class="ladda-label">Stop</span>
+                </button>
+
+            </p>
+
+        </div>
+
+        <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
+
+        <button ng-show="multiTab" class="btn" id="addTab">Add an editor</button>
+        <div id="tabs">
+            <ul>
+            </ul>
+        </div>
+
+       
+    </section>
+    <!-- /.content -->
+
+    <div ui-view></div>
+
+
+</aside>
+
+
+
+<div ng-include="'views/partials/modal/execution.html'"></div>
+
+<div ng-include="'views/partials/modal/launch.html'"></div>
+
+<script type="text/ng-template" id="selectorGadgetModal.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Pick elements with Selector Gadget</h4>
+    </div>
+    <div class="modal-body">
+        <p>Pick elements with Selector Gadget to generate a CSS selector expression.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
+        <button type="submit" class="btn btn-primary" ng-click="accept()">Accept</button>
+    </div>
+</script>

@@ -6,6 +6,9 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
     $scope.report;
     $scope.features = [];
     $scope.buildId;
+
+    $scope.faillingFeatures = [];
+    
     var getBuilds = function(argument) {
         var resource = JenkinsProvider.builds.query({
             "jobName": $scope.project.name
@@ -16,13 +19,32 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
             var i = 0;
             while ($scope.builds[i].result === "BUILDING")
                 i++;
-            
+
             $scope.report = eval($scope.builds[i].resultJSON);
             $scope.features = eval($scope.builds[i].features);
             $scope.buildId = $scope.builds[i].id;
-            console.log($scope.buildId);
+            console.log(data);
 
+            
+            extractSummary();
+            processData();
         });
+    }
+
+    var extractSummary = function() {
+        $scope.summary = {
+            totalScenarios : 0,
+            passed : 0,
+            failed : 0
+        }
+
+        angular.forEach($scope.features, function(elem) {
+            this.passed += elem.numberOfScenariosPassed;
+            this.failed += elem.numberOfScenariosFailed;
+            this.totalScenarios += elem.numberOfScenarios;
+            if( elem.status === "FAILED")
+                $scope.faillingFeatures.push(elem)
+        }, $scope.summary);
     }
 
     $scope.createBuild = function() {
@@ -34,30 +56,41 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
         });
     }
 
-    $scope.options = [{
-        name: 'None (run once)',
-        value: 'none'
-    }, {
-        name: 'Hourly',
-        value: 'hourly'
-    }, {
-        name: 'Daily',
-        value: 'daily'
-    }, {
-        name: 'Weekdays',
-        value: 'weekdays'
-    }, {
-        name: 'Weekly',
-        value: 'weekly'
-    }, {
-        name: 'Monthly',
-        value: 'monthly'
-    }];
+    var processData = function() {
+        $scope.exampleData = [{
+            key: "X",
+            y: 0
+        }, {
+            key: "Y",
+            y: 0
+        }, {
+            key: "Skipped",
+            y: 0
+        }, {
+            key: "X",
+            y: 0
+        }, {
+            key: "Passing",
+            y: $scope.summary.passed
+        }, {
+            key: "X",
+            y: 0
+        }, {
+            key: "Failling",
+            y: $scope.summary.failed
+        }];
+    }
 
-    $scope.repeatInterval = $scope.options[0];
-    $scope.setValue = function(option) {
-        $scope.repeatInterval.name = option.name;
-        $scope.repeatInterval.value = option.value;
+
+    $scope.xFunction = function() {
+        return function(d) {
+            return d.key;
+        };
+    }
+    $scope.yFunction = function() {
+        return function(d) {
+            return d.y;
+        };
     }
 
     /*

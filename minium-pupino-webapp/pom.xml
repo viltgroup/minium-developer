@@ -24,7 +24,7 @@
             <artifactId>minium-pupino-core</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
+
     </dependencies>
 
     <build>
@@ -68,6 +68,23 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <copy file="${project.build.directory}/${project.build.finalName}.war" tofile="${project.build.directory}/pupino.war" />
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <configuration>
                     <downloadSources>true</downloadSources>
@@ -89,11 +106,13 @@
                 <configuration>
                     <rules>
                         <requireMavenVersion>
-                            <message>You are running an older version of Maven. JHipster requires at least Maven 3.0</message>
+                            <message>You are running an older version of Maven. JHipster
+								requires at least Maven 3.0</message>
                             <version>[3.0.0,)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
-                            <message>You are running an older version of Java. JHipster requires at least JDK ${java.version}</message>
+                            <message>You are running an older version of Java. JHipster
+								requires at least JDK ${java.version}</message>
                             <version>[${java.version}.0,)</version>
                         </requireJavaVersion>
                     </rules>
@@ -126,7 +145,8 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jvmArguments>-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
+                    <jvmArguments>-Xdebug
+						-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
                     <arguments>
                         <argument>--spring.profiles.active=dev</argument>
                     </arguments>

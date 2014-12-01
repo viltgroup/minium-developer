@@ -8,7 +8,7 @@ Cucumber
 
 Cucucmber backend is very similar to [Cucumber Rhino](https://github.com/cucumber/cucumber-jvm/tree/master/rhino). Actually, it was adapted from there and even uses the same Javascript API.
 
-You can create a Minium Cucumber test project with the `minium-script-cucumber-archetype`:
+You can create a Minium Cucumber test project with the `minium-pupino-cucumber-archetype`:
 
 ```sh
 mvn archetype:generate \
@@ -39,4 +39,3 @@ mvn verify
 ```
 
 You can then add scenarios in `src/test/resources/features/test_my_archetype.feature` and code for new steps in `src/test/resources/steps/test_my_archetype_stepdefs.js`.
-

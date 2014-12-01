@@ -495,15 +495,46 @@
     </build>
 	<repositories>
 		<repository>
-			<id>vilt-snapshots</id>
-			<name>Vilt Snapshots</name>
-			<url>https://maven.vilt-group.com/content/repositories/snapshots/</url>
+			<id>engineering-snapshots</id>
+			<name>VILT Engineering Snapshots Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>engineering-releases</id>
+			<name>VILT Engineering Releases Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-releases/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 		<repository>
 			<id>engineering-thirdparty</id>
-			<name>Engineering 3rd party</name>
+			<name>VILT Engineering Thirdparty Repository</name>
 			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
+		<repository>
+	        <id>spring-milestones</id>
+	        <name>Spring Milestones</name>
+	        <url>http://repo.spring.io/milestone</url>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+        </repository>
 		<repository>
 			<id>repo.jenkins-ci.org</id>
 			<url>http://repo.jenkins-ci.org/public/</url>
@@ -512,11 +543,6 @@
 			<id>repo.bodar.com</id>
 			<url>http://repo.bodar.com</url>
 		</repository>
-        <repository>
-            <id>spring-lib-milestone</id>
-            <name>Spring Framework Maven Milestone Repository</name>
-            <url>http://repo.spring.io/milestone/</url>
-        </repository>
     </repositories>
     
     <pluginRepositories>

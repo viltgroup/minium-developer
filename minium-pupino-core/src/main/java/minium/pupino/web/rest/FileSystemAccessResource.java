@@ -45,7 +45,7 @@ public class FileSystemAccessResource {
     @Autowired
     private List<AutoFormatter> autoFormatters = Lists.newArrayList();
 
-    File baseDir;
+    private File baseDir = new File("src/test/resources");
 
     public void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
@@ -64,7 +64,7 @@ public class FileSystemAccessResource {
     @ResponseBody
     public Set<FileProps> list(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException {
         File file = getFile(path);
-        if (!file.exists()) throw new ResourceNotFoundException();
+        if (!file.exists()) throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
         if (!file.isDirectory()) new IllegalOperationException();
 
         File[] childFiles = file.listFiles();
@@ -143,14 +143,14 @@ public class FileSystemAccessResource {
 
     protected FileSystemResource get(String path) throws IOException, URISyntaxException {
         File file = getFile(path);
-        if (!file.exists()) throw new ResourceNotFoundException();
+        if (!file.exists()) throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
         if (file.isDirectory()) return null;
         return new FileSystemResource(file);
     }
 
     protected FileContent extractFileContent(String baseUrl, File file) throws IOException {
         FileProps props = extractFileProps(baseUrl, file);
-        String content = FileUtils.readFileToString(file);
+        String content = FileUtils.readFileToString(file, Charsets.UTF_8);
         return new FileContent(props, content);
     }
 

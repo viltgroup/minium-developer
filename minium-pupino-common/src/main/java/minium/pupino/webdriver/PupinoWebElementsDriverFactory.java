@@ -66,10 +66,10 @@ public class PupinoWebElementsDriverFactory {
                     capabilities = DesiredCapabilities.internetExplorer();
                 }
                 webDriver = new RemoteWebDriver(new URL(url), capabilities);
-                if (width != null && height != null) {
-                    webDriver.manage().window().setSize(new Dimension(1920, 1080));
-                }
                 webDriver = new Augmenter().augment(webDriver);
+            }
+            if (width != null && height != null) {
+                webDriver.manage().window().setSize(new Dimension(1920, 1080));
             }
 //            webDriver = new StatefulWebDriver(webDriver);
             return new DefaultWebElementsDriver(webDriver, WEB_ELEMS_INTFS);

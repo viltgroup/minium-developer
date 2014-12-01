@@ -1,0 +1,11 @@
+{
+    "searches" : {
+        "Minium Github" : [
+            "https://github.com/viltgroup/minium"      
+        ],
+        "Selenium" : [
+            "http://www.seleniumhq.org/",
+            "http://en.wikipedia.org/wiki/Selenium"
+        ]
+    }
+} 

@@ -12,7 +12,7 @@ mvn archetype:generate \
   -DarchetypeGroupId=com.vilt-group.minium \
   -DarchetypeArtifactId=minium-pupino-cucumber-archetype \
   -DarchetypeVersion=0.9.6-SNAPSHOT \
-  -DarchetypeRepository=https://maven.vilt-group.com/content/repositories/snapshots/ \
+  -DarchetypeRepository=https://maven.vilt-group.com/content/repositories/engineering-snapshots/ \
   -DgroupId=my.archetype \
   -DartifactId=my-archetype-test \
   -Dversion=1.0-SNAPSHOT \

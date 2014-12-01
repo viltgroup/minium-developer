@@ -1,10 +1,16 @@
 package minium.pupino.config;
 
-import minium.pupino.security.*;
+import javax.inject.Inject;
+
+import minium.pupino.security.AjaxAuthenticationFailureHandler;
+import minium.pupino.security.AjaxAuthenticationSuccessHandler;
+import minium.pupino.security.AjaxLogoutSuccessHandler;
+import minium.pupino.security.AuthoritiesConstants;
+import minium.pupino.security.Http401UnauthorizedEntryPoint;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
@@ -13,16 +19,14 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.RememberMeServices;
-
-import javax.inject.Inject;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    
+
     @Inject
     private Environment env;
 
@@ -69,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui/**")
             .antMatchers("/console/**");
     }
-    
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -103,7 +107,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/app/rest/activate").permitAll()
                 .antMatchers("/app/rest/authenticate").permitAll()
                 .antMatchers("/app/rest/logs/**").hasAuthority(AuthoritiesConstants.ADMIN)
-                .antMatchers("/app/**").authenticated()
                 .antMatchers("/metrics/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers("/health/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers("/trace/**").hasAuthority(AuthoritiesConstants.ADMIN)
@@ -117,10 +120,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api-docs/**").hasAuthority(AuthoritiesConstants.ADMIN)
                 .antMatchers("/protected/**").authenticated();
 
+        if (env.acceptsProfiles("local")) {
+            http.authorizeRequests()
+                .antMatchers("/app/**").permitAll();
+        } else {
+            http.authorizeRequests()
+            .antMatchers("/app/**").authenticated();
+        }
+
     }
-    
-    
-	
+
+
+
     @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
     private static class GlobalSecurityConfiguration extends GlobalMethodSecurityConfiguration {
     }

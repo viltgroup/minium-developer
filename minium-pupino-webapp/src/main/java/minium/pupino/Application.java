@@ -6,14 +6,17 @@ import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import minium.pupino.browser.BrowserLauncher;
 import minium.pupino.config.Constants;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.boot.actuate.autoconfigure.MetricFilterAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.MetricRepositoryAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
@@ -21,7 +24,7 @@ import org.springframework.core.env.SimpleCommandLinePropertySource;
 @ComponentScan
 @EnableAutoConfiguration(exclude = {MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class})
 public class Application {
-	
+
 	private final Logger log = LoggerFactory.getLogger(Application.class);
 
     @Inject
@@ -48,6 +51,7 @@ public class Application {
     public static void main(String[] args) {
         SpringApplicationBuilder appBuilder = new SpringApplicationBuilder(Application.class)
 			.showBanner(true)
+			.headless(Boolean.getBoolean("java.awt.headless"))
 			.profiles("pupino");
 
         SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
@@ -56,7 +60,8 @@ public class Application {
         // if not the development profile will be added
         addDefaultProfile(appBuilder, source);
 
-        appBuilder.run(args);
+        ConfigurableApplicationContext context = appBuilder.run(args);
+        maybeLaunchBrowser(context);
     }
 
     /**
@@ -65,6 +70,16 @@ public class Application {
     private static void addDefaultProfile(SpringApplicationBuilder appBuilder, SimpleCommandLinePropertySource source) {
         if (!source.containsProperty("spring.profiles.active")) {
             appBuilder.profiles(Constants.SPRING_PROFILE_DEVELOPMENT);
+        }
+    }
+
+    private static void maybeLaunchBrowser(ConfigurableApplicationContext context) {
+        try {
+            BrowserLauncher browserLauncher = context.getBean(BrowserLauncher.class);
+            browserLauncher.launch();
+        }
+        catch (BeansException e) {
+            // not a big deal
         }
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.annotation.Autowire;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -21,6 +22,7 @@ import com.vilt.minium.script.MiniumScriptEngine;
 import com.vilt.minium.script.RhinoPreferences;
 
 @Configuration
+@Lazy
 public class PupinoConfiguration implements DisposableBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PupinoConfiguration.class);

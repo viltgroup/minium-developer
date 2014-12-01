@@ -21,7 +21,6 @@
 		<selenium.version>2.42.2</selenium.version>
 		
 		<spring.version>4.1.2.RELEASE</spring.version>
-		<liquibase.version>3.1.1</liquibase.version>
 		
 		<minium.pupino.heap>512m</minium.pupino.heap>
 		<minium.pupino.permgen>128m</minium.pupino.permgen>
@@ -61,23 +60,35 @@
 		</dependency>
 	</dependencies>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>false</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 	<profiles>
 		<profile>
 			<id>pupino</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 			</activation>
+			<properties>
+				<skipTests>true</skipTests>
+			</properties>
 			<dependencies>
-		        <dependency>
-		            <groupId>org.liquibase</groupId>
-		            <artifactId>liquibase-core</artifactId>
-		            <exclusions>
-		                <exclusion>
-		                    <artifactId>jetty-servlet</artifactId>
-		                    <groupId>org.eclipse.jetty</groupId>
-		                </exclusion>
-		            </exclusions>
-		        </dependency>
 				<dependency>
 					<groupId>com.vilt-group.minium</groupId>
 					<artifactId>minium-pupino-webapp</artifactId>
@@ -91,6 +102,7 @@
 			        <artifactId>exec-maven-plugin</artifactId>
 					<executions>
 						<execution>
+							<phase>integration-test</phase>
 							<goals>
 								<goal>exec</goal>
 							</goals>
@@ -117,14 +129,36 @@
 
 	<repositories>
 		<repository>
-			<id>com.vilt.snapshots</id>
-			<name>VILT Snapshots Repository</name>
-			<url>https://maven.vilt-group.com/content/repositories/snapshots/</url>
+			<id>engineering-snapshots</id>
+			<name>VILT Engineering Snapshots Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>engineering-releases</id>
+			<name>VILT Engineering Releases Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-releases/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
 			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>engineering-thirdparty</id>
+			<name>VILT Engineering Thirdparty Repository</name>
+			<url>https://maven.vilt-group.com/content/repositories/engineering-thirdparty/</url>
+			<releases>
 				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
 			</snapshots>
 		</repository>
 		<repository>

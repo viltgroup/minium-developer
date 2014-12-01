@@ -1,12 +1,9 @@
 Minium Pupino - Cucumber Archetype
-=======================
+==================================
 
 **Note:** Ensure [chromedriver](https://code.google.com/p/selenium/wiki/ChromeDriver) is installed and configured.
 
-Cucumber
---------
-
-Cucucmber backend is very similar to [Cucumber Rhino](https://github.com/cucumber/cucumber-jvm/tree/master/rhino). Actually, it was adapted from there and even uses the same Javascript API.
+Minium cucumber backend is very similar to [Cucumber Rhino](https://github.com/cucumber/cucumber-jvm/tree/master/rhino). Actually, it was adapted from there and even uses the same Javascript API.
 
 You can create a Minium Cucumber test project with the `minium-pupino-cucumber-archetype`:
 
@@ -28,10 +25,11 @@ That will create a project `my-archetype-test` with a JUnit structure ready to r
 
 ```sh
 cd my-archetype-test
-mvn exec:exec -P pupino
+mvn verify -P pupino
 ```
 
-Or if you just want to run all the tests:
+You can then open it at http://localhost:8080/#/editor/ (user `admin` / `admin`).
+Or if you just want to run all the tests without pupino:
 
 ```sh
 cd my-archetype-test

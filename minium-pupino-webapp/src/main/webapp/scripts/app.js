@@ -16,9 +16,9 @@ var pupinoApp = angular.module('pupinoApp', [
     'ui.bootstrap',
     'ui.bootstrap.showErrors',
     'nvd3ChartDirectives',
+    'pasvaz.bindonce',
     'pupinoApp.controllers',
     'pupinoApp.filters'
-
 ]);
 
 pupinoApp
@@ -190,23 +190,7 @@ pupinoApp
             }
         });
 
-    modalStateProvider
-        .state('global.editorarea.open', {
-            templateUrl: "views/partials/modal/open.file.html",
-            controller: "OpenFileController"
-        });
-
-    modalStateProvider
-        .state('global.editorarea.results', {
-            templateUrl: "views/partials/modal/launch.html",
-            controller: "LaunchController"
-        });
-
-    //configuration to execute the file
-    modalStateProvider.state('global.editorarea.configs', {
-        templateUrl: "views/partials/modal/configs.html",
-        controller: "ConfigsController"
-    });
+    
 
     // Initialize angular-translate
     $translateProvider.useStaticFilesLoader({

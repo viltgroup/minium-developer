@@ -1,6 +1,6 @@
 <div class="row">
     <h1>List of features
-    <div class="col-sm-2 col-md-2">
+    <div class="col-sm-3 col-md-3">
         <div class="btn-group pull-right" data-toggle="buttons">
             <label class="btn btn-default" ng-click="status = 'PASSED'">
                 <input type="radio"></input>
@@ -31,19 +31,19 @@
     <thead>
         <tr>
             <th>Result</th>
-            <th>Feature</th>
-            <th>Total</th>
-            <th>Passed</th>
-            <th>Failed</th>
+            <th><a href="" ng-click="predicate = 'rawName'; reverse=!reverse">Feature</a></th>
+            <th><a href="" ng-click="predicate = 'numberOfSteps'; reverse=!reverse">Total</a></th>
+            <th><a href="" ng-click="predicate = 'numberOfPasses'; reverse=!reverse">Passed</a></th>
+            <th><a href="" ng-click="predicate = 'numberOfFailures'; reverse=!reverse">Failed</a></th>
 
-            <th>Duration</th>
+            <th><a href="" ng-click="predicate = 'duration'; reverse=!reverse">Duration</a></th>
             <th>File</th>
             <th class="text-center"></th>
         </tr>
     </thead>
     <tbody>
 
-        <tr ng-repeat="feature in features | filter:query | filter:{status : status}" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+        <tr ng-repeat="feature in faillingFeatures | filter:query | filter:{status : status} | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
 
             <td>
                 <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
@@ -100,3 +100,87 @@
 </table>
 
 <!-- table-responsive -->
+
+
+<accordion close-others="oneAtATime">
+    <accordion-group is-open="status.open">
+        <accordion-heading>
+           <i class="success fa fa-check-square "></i>
+                
+           <strong>Passing Features</strong>
+        </accordion-heading>
+                
+            <table class="table table-primary table-list">
+                <thead>
+                    <tr>
+                        <th>Result</th>
+                        <th><a href="" ng-click="predicate = 'rawName'; reverse=!reverse">Feature</a></th>
+                        <th><a href="" ng-click="predicate = 'numberOfSteps'; reverse=!reverse">Total</a></th>
+                        <th><a href="" ng-click="predicate = 'numberOfPasses'; reverse=!reverse">Passed</a></th>
+                        <th><a href="" ng-click="predicate = 'numberOfFailures'; reverse=!reverse">Failed</a></th>
+
+                        <th><a href="" ng-click="predicate = 'duration'; reverse=!reverse">Duration</a></th>
+                        <th>File</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr ng-repeat="feature in passingFeatures | filter:query  | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+
+                        <td>
+                            {{feature.status}}
+                            <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
+                            <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
+                        </td>
+                        <td>
+                            <a ui-sref="global.feature({ id: project.id, buildId: buildId, featureURI: (feature.uri | escape) })">
+                               {{feature.rawName}}
+                            </a>
+                        </td>
+                        <td>
+                            {{feature.numberOfSteps}}
+                        </td>
+                        <td style="background-color:grenn;">
+                            {{feature.numberOfPasses}}
+                        </td>
+                        <td>
+                            {{feature.numberOfFailures}}
+                        </td>
+
+                        <td>
+                            {{feature.durationOfSteps}}
+                        </td>
+                        <td>
+                            <a class='btn btn-info btn-xs' ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">
+                                Go to File
+                            </a>
+                        </td>
+
+
+                        <td>
+                            <div class="btn-group">
+                                <a data-toggle="dropdown" class="dropdown-toggle">
+                                    <i class="fa fa-cog"></i>
+                                </a>
+                                <ul role="menu" class="dropdown-menu pull-right">
+                                    <li><a href="#">View</a>
+                                    </li>
+                                    <li><a href="#">Close</a>
+                                    </li>
+                                    <li><a href="#">Resolve</a>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Assign</a>
+                                    </li>
+                                    <li><a href="#">Comment</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+    </accordion-group>
+</accordion>

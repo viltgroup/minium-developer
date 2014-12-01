@@ -19,6 +19,11 @@ filter('durationInMinutes', function() {
         return time.seconds();
     };
 }).
+filter('durationMilliseconds', function() {
+    return function(time) {
+        return moment.duration(time,"milliseconds").humanize();
+    };
+}).
 filter('humanizeDate', function() {
     return function(date) {
         return moment(date, 'YYYY-MM-DD h-mm-ss').fromNow();

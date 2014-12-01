@@ -1,50 +1,69 @@
 'use strict';
 
-pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject, Project, JenkinsProvider) {
-    $scope.project = resolvedProject;
+pupinoApp.controller('ProjectDetailController', function($scope, $state, resolvedProject, Project, JenkinsProvider, BuildsFacade) {
 
-    $scope.report;
+
+    //init variables
+    $scope.project = resolvedProject;
     $scope.features = [];
     $scope.buildId;
 
     $scope.faillingFeatures = [];
-    
+    $scope.passingFeatures = [];
+
+    $scope.summary = {
+        totalScenarios: 0,
+        passed: 0,
+        failed: 0
+    }
+
+    $state.go('.overview');
+
+    var buildSuccess, buildFailling;
+
+
     var getBuilds = function(argument) {
         var resource = JenkinsProvider.builds.query({
             "jobName": $scope.project.name
         }).$promise.then(function(data) {
             console.log(data);
-            $scope.builds = data;
+            var buildsFacade = new BuildsFacade(data);
+            $scope.builds = buildsFacade.builds;
             //get the report of the last build finished
             var i = 0;
             while ($scope.builds[i].result === "BUILDING")
                 i++;
 
-            $scope.report = eval($scope.builds[i].resultJSON);
-            $scope.features = eval($scope.builds[i].features);
-            $scope.buildId = $scope.builds[i].id;
-            console.log(data);
+            $scope.lastFinishedBuild = buildsFacade.lastBuild;
 
-            
-            extractSummary();
+            $scope.features = buildsFacade.features;
+            $scope.buildId = $scope.lastFinishedBuild.id;
+
+            //get some stats
+            buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
+            var summary = buildsFacade.getSummary();
+            buildSuccess = summary.passingScenarios;
+            buildFailling = summary.faillingScenarios;
+
+
+            console.log(JSON.stringify(buildSuccess));
+
+            buildSuccess = [
+                [1, 100],
+                [2, 200],
+                [3, 59],
+                [4, 569]
+
+            ];
+
+            buildFailling = [
+                [1, 169],
+                [2, 269],
+                [3, 609],
+                [4, 0]
+            ];
             processData();
         });
-    }
-
-    var extractSummary = function() {
-        $scope.summary = {
-            totalScenarios : 0,
-            passed : 0,
-            failed : 0
-        }
-
-        angular.forEach($scope.features, function(elem) {
-            this.passed += elem.numberOfScenariosPassed;
-            this.failed += elem.numberOfScenariosFailed;
-            this.totalScenarios += elem.numberOfScenarios;
-            if( elem.status === "FAILED")
-                $scope.faillingFeatures.push(elem)
-        }, $scope.summary);
     }
 
     $scope.createBuild = function() {
@@ -56,28 +75,47 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
         });
     }
 
+    var colorArray = ['green', 'red', 'blue'];
+    $scope.colorFunction = function() {
+        return function(d, i) {
+            return colorArray[i];
+        };
+    }
+
+    $scope.toolTipContentFunction = function() {
+        return function(key, x, y, e, graph) {
+            return 'Super New Tooltip';
+        }
+    }
+
+    $scope.isArea = function() {
+        return function(d, i) {
+            return false;
+        };
+    }
+
     var processData = function() {
+
+
         $scope.exampleData = [{
-            key: "X",
-            y: 0
+                "key": "Failling",
+                "values": buildFailling
+            }, {
+                "key": "Sucess",
+                "values": buildSuccess,
+            }
+
+        ];
+
+        $scope.exampleData1 = [{
+            key: "Passing",
+            y: ($scope.summary.passed / 100)
         }, {
-            key: "Y",
-            y: 0
+            key: "Failling",
+            y: ($scope.summary.failed / 100)
         }, {
             key: "Skipped",
             y: 0
-        }, {
-            key: "X",
-            y: 0
-        }, {
-            key: "Passing",
-            y: $scope.summary.passed
-        }, {
-            key: "X",
-            y: 0
-        }, {
-            key: "Failling",
-            y: $scope.summary.failed
         }];
     }
 
@@ -89,9 +127,16 @@ pupinoApp.controller('ProjectDetailController', function($scope, resolvedProject
     }
     $scope.yFunction = function() {
         return function(d) {
-            return d.y;
+            console.log(d.y)
+            return d3.format(',f')(d.y);
         };
     }
+
+    $scope.yAxisTickFormat = function() {
+        return function(d){
+            return d3.format(',f');
+        }
+    };
 
     /*
         Initializations

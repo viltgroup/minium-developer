@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import minium.pupino.web.rest.dto.BuildDTO;
+import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
 import org.apache.commons.io.FileUtils;
@@ -19,6 +20,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.offbytwo.jenkins.JenkinsServer;
 import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
@@ -86,7 +89,39 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		BuildDTO buildDTO;
 		BuildWithDetails bd;
 		boolean lastBuild = true;
-
+		SummaryDTO summary = null;
+		for (Build b : builds) {
+			String artifact = "";
+			bd = b.details();
+			String result = getStatusForBuild(bd);
+			
+			artifact = getArtifactsBuild(bd);
+			
+			// only want the report of the lastBuild finished
+			if (lastBuild && !bd.isBuilding()) {
+				// get the artifact of the build and return the string
+				
+				lastBuild = false;
+				List<Feature> features = reporter.parseJsonResult(artifact);
+				summary = reporter.getSummaryFromFeatures(features);
+				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features,summary);
+			} else {
+				summary = reporter.getSummaryFromResult(artifact);
+				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, summary);
+			}
+			buildsDTO.add(buildDTO);
+		}
+		return buildsDTO;
+	}
+	
+	@Override
+	public BuildDTO getBuildById(String jobName, String buildId) throws JsonSyntaxException, JsonIOException, IOException, URISyntaxException {
+		List<Build> builds = buildsForJob(jobName);
+		BuildDTO buildDTO = null;
+		BuildWithDetails bd;
+		boolean lastBuild = true;
 		for (Build b : builds) {
 			String artifact = "";
 			bd = b.details();
@@ -102,16 +137,13 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					f.processSteps();
 				}
 				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features);
-			} else {
-				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact);
+						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features,null);
 			}
-			buildsDTO.add(buildDTO);
+			
 		}
-		return buildsDTO;
+		return buildDTO;
 	}
-
+	
 	/**
 	 * Get a specific build
 	 * 
@@ -141,7 +173,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					Feature f = features.get(featureURI);
 					f.processSteps();
 					buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-							bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, Arrays.asList(f));
+							bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, Arrays.asList(f),null);
 				}
 			}
 		}
@@ -165,6 +197,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			artifactContent = artifactFromFile("mocks/mock-cgd-store.json");
 			
 		}
+		
 		return artifactContent;
 	}
 
@@ -222,4 +255,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
         return content;
         
 	}
+
+	
 }

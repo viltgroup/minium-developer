@@ -87,7 +87,14 @@ public class FileSystemAccessResource {
         File file = resource.getFile();
         return extractFileContent(baseUrl, file);
     }
-
+    
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @ResponseBody
+    public void create(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException, URISyntaxException {
+       
+    }
+    
+    
     @RequestMapping(value = "/**", method = RequestMethod.DELETE)
     @ResponseBody
     public void delete(@AntPath("path") String path) throws IOException {

@@ -78,7 +78,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         });
     };
 
-
+    
     var checkModified = function() {
         var selectedItem = $scope.selected.item;
         if (!selectedItem) return;

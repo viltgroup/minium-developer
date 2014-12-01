@@ -56,6 +56,10 @@ public class JenkinsService {
 		return jenkinsClient.getBuild(jobName, buildId, featureURI);
 	}
 	
+	public BuildDTO getBuildById(String jobName, String buildId) throws IOException, URISyntaxException{
+		return jenkinsClient.getBuildById(jobName, buildId);
+	}
+	
 	/*
 	 * ARTIFACTS
 	 */

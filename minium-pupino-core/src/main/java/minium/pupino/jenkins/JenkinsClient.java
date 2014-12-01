@@ -1,11 +1,14 @@
 package minium.pupino.jenkins;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
 import minium.pupino.web.rest.dto.BuildDTO;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
@@ -33,10 +36,13 @@ public interface JenkinsClient {
 	
 	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException;
 
+	public BuildDTO getBuildById(String jobName, String buildId) throws JsonSyntaxException, JsonIOException, FileNotFoundException, IOException, URISyntaxException;
+	
 	/*
 	 * ARTIFACTS
 	 */
 	public String getArtifactsBuild(BuildWithDetails buildDetails);
+
 
 
 }

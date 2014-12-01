@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
 import com.google.gson.Gson;
@@ -29,6 +30,33 @@ public class ReporterParser {
 			features.put(f.getUri(), f);
 		}
 		return features;
+	}
+
+	public SummaryDTO getSummaryFromResult(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+		SummaryDTO summary;
+		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;
+		List<Feature> features = parseJsonResult(results);
+		for (Feature f : features) {
+			f.processSteps();
+			totalScenarios   += f.getNumberOfScenarios();
+			passingScenarios += f.getNumberOfScenariosPassed();
+			failingScenarios += f.getNumberOfScenariosFailed();
+		}
+		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios);
+		return summary;
+	}
+	
+	public SummaryDTO getSummaryFromFeatures(List<Feature> features) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+		SummaryDTO summary;
+		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;
+		for (Feature f : features) {
+			f.processSteps();
+			totalScenarios   += f.getNumberOfScenarios();
+			passingScenarios += f.getNumberOfScenariosPassed();
+			failingScenarios += f.getNumberOfScenariosFailed();
+		}
+		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios);
+		return summary;
 	}
 
 }

@@ -1,354 +1,385 @@
 <div class="content">
-    <!-- Main row -->
-    <section class="col-md-7">
-        <div class="row">
-            <div class="box box-danger">
-                <div class="box-header">
-                    <i class="fa fa-gear"></i>
-                    <h3 class="box-title">Last Builds</h3>
-
-                    <div class="box-tools btn-group pull-right" data-toggle="buttons">
-                        <label class="btn btn-default btn-sm" ng-click="status = 'SUCCESS'">
-                            <input type="radio"></input>
-                            <i class="fa fa-square text-green"></i>
-                        </label>
-                        <label class="btn btn-default btn-sm"  ng-click="status = 'UNSTABLE'">
-                            <input type="radio"></input>
-                            <i class="fa fa-square text-red"></i>
-                        </label>
-
-                        <label class="btn btn-default btn-sm" ng-click="status = ''">
-                            <input type="radio"></input>
-                            <i class="fa fa-square"></i>
-                        </label>
-                    </div>
-                </div>
-                <div class="box-body ">
-                    <table class="table table-primary table-list">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Description</th>
-                                <th>Time</th>
-                                <th>Duration</th>
-                                <th></th>
-                                <th class="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="build in builds | filter:status" ng-class="{'danger' : (build.result != 'SUCCESS') }">
-                                <td>
-                                    <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
-                                    <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
-                                    <i ng-if="build.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
-
-                                </td>
-                                <td><a ui-sref="#">{{build.fullDisplayName}}</a>
-                                </td>
-                                <td>
-                                    {{build.description}}
-                                </td>
-                                <td>
-                                    <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
-                                </td>
-                                <td>
-                                    {{build.duration}}
-                                </td>
-
-                                <td>
-                                    <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, number: build.number })">
-                    View Build
-                </a>
-
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a data-toggle="dropdown" class="dropdown-toggle">
-                                            <i class="fa fa-cog"></i>
-                                        </a>
-                                        <ul role="menu" class="dropdown-menu pull-right">
-                                            <li><a href="#">View</a>
-                                            </li>
-                                            <li><a href="#">Close</a>
-                                            </li>
-                                            <li><a href="#">Resolve</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Assign</a>
-                                            </li>
-                                            <li><a href="#">Comment</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <!-- /.box-->
-
+   <!-- Main row -->
+   <section class="col-md-7">
+      <div class="row">
+         <div class="box box-danger">
+            <div class="box-header">
+               <i class="fa fa-gear"></i>
+               <h3 class="box-title">Last Builds</h3>
+               <div class="box-tools btn-group pull-right" data-toggle="buttons">
+                  <label class="btn btn-default btn-sm" ng-click="status = 'SUCCESS'" title="Succeeded">
+                  <input type="radio"></input>
+                  <i class="fa fa-square text-green"></i>
+                  </label>
+                  <label class="btn btn-default btn-sm"  ng-click="status = 'UNSTABLE'" title="Failed">
+                  <input type="radio"></input>
+                  <i class="fa fa-square text-red"></i>
+                  </label>
+                  <label class="btn btn-default btn-sm" ng-click="status = ''" title="All">
+                  <input type="radio"></input>
+                  <i class="fa fa-square"></i>
+                  </label>
+               </div>
             </div>
-        </div>
-
-
-
-
-
-        <div class="row">
-            <div class="box box-success">
-                <div class="box-header">
-                    <i class="fa fa-warning"></i>
-                    <h3 class="box-title">Identified problems</h3>
-                </div>
-                <div class="box-body ">
-                    <table class="table table-primary table-list">
-                        <thead>
-                            <tr>
-                                <th>Result</th>
-                                <th>Feature</th>
-                                <th>Total</th>
-                                <th>Passed</th>
-                                <th>Failed</th>
-
-                                <th>Duration</th>
-                                <th>File</th>
-                                <th class="text-center"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            <tr ng-repeat="feature in faillingFeatures" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
-
-                                <td>
-                                    <span class="hide">{{feature.status}}</span>
-                                    <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
-                                    <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
-                                </td>
-                                <td>
-                                    <a ui-sref="global.feature({ id: project.id, buildId: buildId, featureURI: (feature.uri | escape) })">
-                   {{feature.rawName}}
-                </a>
-                                </td>
-                                <td>
-                                    {{summary.totalScenarios}}
-                                </td>
-                                <td style="background-color:grenn;">
-                                    {{summary.passed}}
-                                </td>
-                                <td>
-                                    {{feature.numberOfFailures}}
-                                </td>
-
-                                <td>
-                                    {{feature.durationOfSteps}}
-                                </td>
-                                <td>
-                                    <a class='btn btn-info btn-xs' ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">
-                    Go to File
-                </a>
-                                </td>
-
-
-                                <td>
-                                    <div class="btn-group">
-                                        <a data-toggle="dropdown" class="dropdown-toggle">
-                                            <i class="fa fa-cog"></i>
-                                        </a>
-                                        <ul role="menu" class="dropdown-menu pull-right">
-                                            <li><a href="#">View</a>
-                                            </li>
-                                            <li><a href="#">Close</a>
-                                            </li>
-                                            <li><a href="#">Resolve</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Assign</a>
-                                            </li>
-                                            <li><a href="#">Comment</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                </div>
-                <!-- /.box-->
-
+            <strong>Last Build</strong>
+            <div class="box-body ">
+               <table class="table table-primary table-list">
+                  <thead>
+                     <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Time</th>
+                        <th>Duration</th>
+                        <th>%</th>
+                        <th></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr  ng-class="{'danger' : (lastFinishedBuild.result != 'SUCCESS') }">
+                        <td>
+                           <i ng-if="isSuccess(lastFinishedBuild.result)" class="success fa fa-check-square fa-2x"></i>
+                           <i ng-if="!isSuccess(lastFinishedBuild.result)" class="danger fa fa-bug fa-2x"></i>
+                           <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i><br>
+                           <span ng-if="$index == 0" class="label label-primary" >Last Stable lastFinishedBuild</span>
+                        </td>
+                        <td><a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">{{lastFinishedBuild.fullDisplayName}}</a>
+                        </td>
+                        <td>
+                           {{lastFinishedBuild.description}}
+                        </td>
+                        <td>
+                           <i class="fa fa-clock-o"></i> {{lastFinishedBuild.id | humanizeDate}}
+                        </td>
+                        <td>
+                           {{lastFinishedBuild.duration | durationMilliseconds}}
+                        </td>
+                         <td>
+                         <span class="label label-danger">{{(100*summary.failed/summary.totalScenarios)| number:2}}% failing</span>
+                        </td>
+                        <td>
+                           <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.number })">
+                           View Build
+                           </a>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <br><strong>Other Builds</strong>
+               <table class="table table-primary table-list">
+                  <thead>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="build in builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
+                        <td>
+                           <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
+                           <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
+                           <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i><br>
+                        </td>
+                        <td><a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">{{build.fullDisplayName}}</a>
+                        </td>
+                        <td>
+                           {{build.description}}
+                        </td>
+                        <td>
+                           <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
+                        </td>
+                        <td>
+                           {{build.duration | durationMilliseconds}}
+                        </td>
+                        <td>
+                           <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, buildId: build.number })">
+                           View Build
+                           </a>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
             </div>
-        </div>
+            <!-- /.box-->
+         </div>
+      </div>
+      <div class="row">
+         <div class="box box-success">
+            <div class="box-header">
+               <i class="fa fa-warning"></i>
+               <h3 class="box-title">Identified problems</h3>
+            </div>
+            <div class="box-body ">
+               <table class="table table-primary table-list">
+                  <thead>
+                     <tr>
+                        <th>Result</th>
+                        <th>Feature</th>
+                        <th>Total</th>
+                        <th>Passed</th>
+                        <th>Failed</th>
+                        <th>Duration</th>
+                        <th>File</th>
+                        <th class="text-center"></th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr ng-repeat="feature in faillingFeatures" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+                        <td>    
+                           <span class="hide">{{feature.status}}</span>
+                           <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
+                           <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
+                        </td>
+                        <td>
+                           <a ui-sref="global.feature({ id: project.id, buildId: buildId, featureURI: (feature.uri | escape) })">
+                           {{feature.rawName}}
+                           </a>
+                        </td>
+                        <td>
+                           {{summary.totalScenarios}}
+                        </td>
+                        <td style="background-color:grenn;">
+                           {{summary.passed}}
+                        </td>
+                        <td>
+                           {{feature.numberOfFailures}}
+                        </td>
+                        <td>
+                           {{feature.durationOfSteps}}
+                        </td>
+                        <td>
+                           <a class='btn btn-info btn-xs' ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">
+                           Go to File
+                           </a>
+                        </td>
+                        <td>
+                           <div class="btn-group">
+                              <a data-toggle="dropdown" class="dropdown-toggle">
+                              <i class="fa fa-cog"></i>
+                              </a>
+                              <ul role="menu" class="dropdown-menu pull-right">
+                                 <li><a href="#">View</a>
+                                 </li>
+                                 <li><a href="#">Close</a>
+                                 </li>
+                                 <li><a href="#">Resolve</a>
+                                 </li>
+                                 <li class="divider"></li>
+                                 <li><a href="#">Assign</a>
+                                 </li>
+                                 <li><a href="#">Comment</a>
+                                 </li>
+                              </ul>
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <!-- /.box-->
+         </div>
+      </div>
+   </section>
+   <!-- end of section col-md-7 -->
+   <section class="col-md-5 connectedSortable ui-sortable">
+      <div class="nav-tabs-custom" style="cursor: move;">
+         <!-- Tabs within a box -->
+         <ul class="nav nav-tabs pull-right">
+            <li ><a show-tab href="#revenue-chart" data-toggle="tab">Area</a>
+            </li>
+            <li><a show-tab href="#pie-chart" data-toggle="tab">Donut</a>
+            </li>
+            <li class="active"><a show-tab href="#line-chart" data-toggle="tab">area</a>
+            </li>
+            
+            <li class="pull-left header"><i class="fa fa-inbox"></i> Evolution</li>
+         </ul>
+         <div class="tab-content no-padding">
+            <!-- Morris chart - Sales -->
+            <div class="chart tab-pane " id="revenue-chart" >
+               <svg height="250" version="1.1" width="420" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
+                  <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc>
+                  <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
+                  <text x="49.21875" y="261" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
+                     <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan>
+                  </text>
+                  <path fill="none" stroke="#aaaaaa" d="M61.71875,261H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <text x="49.21875" y="202" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
+                     <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">7,500</tspan>
+                  </text>
+                  <path fill="none" stroke="#aaaaaa" d="M61.71875,202H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <text x="49.21875" y="143" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
+                     <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">15,000</tspan>
+                  </text>
+                  <path fill="none" stroke="#aaaaaa" d="M61.71875,143H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <text x="49.21875" y="84.00000000000003" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
+                     <tspan dy="4.000000000000028" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">22,500</tspan>
+                  </text>
+                  <path fill="none" stroke="#aaaaaa" d="M61.71875,84.00000000000003H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <text x="49.21875" y="25.00000000000003" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
+                     <tspan dy="4.000000000000028" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">30,000</tspan>
+                  </text>
+                  <path fill="none" stroke="#aaaaaa" d="M61.71875,25.00000000000003H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <text x="578.8348453875753" y="273.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)">
+                     <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2013</tspan>
+                  </text>
+                  <text x="297.19125772112807" y="273.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)">
+                     <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012</tspan>
+                  </text>
+                  <path fill="#74a5c1" stroke="none" d="M61.71875,219.05493333333334C79.40964816654852,219.56626666666668,114.79144449964559,222.6231049981125,132.4823426661941,221.10026666666667C150.18125664523316,219.57673833144582,185.57908460331123,209.1350666666667,203.27799858235028,206.86946666666668C220.79254887410764,204.6274666666667,255.8216494576224,204.88256480506598,273.3361997493798,203.06986666666666C290.84273422864663,201.2579981383993,325.8558031871804,194.91349669779092,343.3623376664473,192.3712C361.0532358329958,189.80213003112425,396.43503216609287,182.51724094375237,414.1259303326414,182.6244C431.82484431168047,182.73160761041905,467.2226722697585,204.17807818499128,484.92158624879755,193.22866666666667C502.4361365405549,182.3933115183246,537.4652371240697,101.94542370540854,554.9797874158271,95.48533333333336C572.2939423953218,89.09915703874188,606.9222523543112,135.13648756583467,624.2364073338059,141.8436C641.9273055003545,148.69665423250134,677.3091018334515,147.7554,695,149.726L695,261L61.71875,261Z" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></path>
+                  <path fill="none" stroke="#3c8dbc" d="M61.71875,219.05493333333334C79.40964816654852,219.56626666666668,114.79144449964559,222.6231049981125,132.4823426661941,221.10026666666667C150.18125664523316,219.57673833144582,185.57908460331123,209.1350666666667,203.27799858235028,206.86946666666668C220.79254887410764,204.6274666666667,255.8216494576224,204.88256480506598,273.3361997493798,203.06986666666666C290.84273422864663,201.2579981383993,325.8558031871804,194.91349669779092,343.3623376664473,192.3712C361.0532358329958,189.80213003112425,396.43503216609287,182.51724094375237,414.1259303326414,182.6244C431.82484431168047,182.73160761041905,467.2226722697585,204.17807818499128,484.92158624879755,193.22866666666667C502.4361365405549,182.3933115183246,537.4652371240697,101.94542370540854,554.9797874158271,95.48533333333336C572.2939423953218,89.09915703874188,606.9222523543112,135.13648756583467,624.2364073338059,141.8436C641.9273055003545,148.69665423250134,677.3091018334515,147.7554,695,149.726" stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <circle cx="61.71875" cy="219.05493333333334" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="132.4823426661941" cy="221.10026666666667" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="203.27799858235028" cy="206.86946666666668" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="273.3361997493798" cy="203.06986666666666" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="343.3623376664473" cy="192.3712" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="414.1259303326414" cy="182.6244" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="484.92158624879755" cy="193.22866666666667" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="554.9797874158271" cy="95.48533333333336" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="624.2364073338059" cy="141.8436" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="695" cy="149.726" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <path fill="#eaf2f5" stroke="none" d="M61.71875,240.02746666666667C79.40964816654852,239.8072,114.79144449964559,241.35446642506605,132.4823426661941,239.1464C150.18125664523316,236.93733309173274,185.57908460331123,223.3365417102967,203.27799858235028,222.35893333333334C220.79254887410764,221.39150837696334,255.8216494576224,233.23306051728085,273.3361997493798,231.36626666666666C290.84273422864663,229.5003271839475,325.8558031871804,209.28948157595082,343.3623376664473,207.428C361.0532358329958,205.54691490928414,396.43503216609287,214.43960989052474,414.1259303326414,216.39600000000002C431.82484431168047,218.3532765571914,467.2226722697585,232.37735986038396,484.92158624879755,223.08266666666668C502.4361365405549,213.8847931937173,537.4652371240697,148.22814457230533,554.9797874158271,142.42573333333334C572.2939423953218,136.68971123897202,606.9222523543112,170.46889944279064,624.2364073338059,176.92893333333336C641.9273055003545,183.529532776124,677.3091018334515,190.23343333333335,695,194.66826666666668L695,261L61.71875,261Z" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></path>
+                  <path fill="none" stroke="#a0d0e0" d="M61.71875,240.02746666666667C79.40964816654852,239.8072,114.79144449964559,241.35446642506605,132.4823426661941,239.1464C150.18125664523316,236.93733309173274,185.57908460331123,223.3365417102967,203.27799858235028,222.35893333333334C220.79254887410764,221.39150837696334,255.8216494576224,233.23306051728085,273.3361997493798,231.36626666666666C290.84273422864663,229.5003271839475,325.8558031871804,209.28948157595082,343.3623376664473,207.428C361.0532358329958,205.54691490928414,396.43503216609287,214.43960989052474,414.1259303326414,216.39600000000002C431.82484431168047,218.3532765571914,467.2226722697585,232.37735986038396,484.92158624879755,223.08266666666668C502.4361365405549,213.8847931937173,537.4652371240697,148.22814457230533,554.9797874158271,142.42573333333334C572.2939423953218,136.68971123897202,606.9222523543112,170.46889944279064,624.2364073338059,176.92893333333336C641.9273055003545,183.529532776124,677.3091018334515,190.23343333333335,695,194.66826666666668" stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+                  <circle cx="61.71875" cy="240.02746666666667" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="132.4823426661941" cy="239.1464" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="203.27799858235028" cy="222.35893333333334" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="273.3361997493798" cy="231.36626666666666" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="343.3623376664473" cy="207.428" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="414.1259303326414" cy="216.39600000000002" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="484.92158624879755" cy="223.08266666666668" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="554.9797874158271" cy="142.42573333333334" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="624.2364073338059" cy="176.92893333333336" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+                  <circle cx="695" cy="194.66826666666668" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
+               </svg>
+               <div class="morris-hover morris-default-style" style="left: 573.736407333806px; top: 80px; display: none;">
+                  <div class="morris-hover-row-label">2013 Q1</div>
+                  <div class="morris-hover-point" style="color: #a0d0e0">
+                     Item 1: 10,687
+                  </div>
+                  <div class="morris-hover-point" style="color: #3c8dbc">
+                     Item 2: 4,460
+                  </div>
+               </div>
+            </div>
+            <div class="chart tab-pane" id="pie-chart" >
+               <nvd3-pie-chart 
+               data="exampleData1" 
+               id="exampleId1" 
+               width="550" 
+               height="350" 
+               x="xFunction()" 
+               y="yFunction()" 
+               showLabels="true"  
+               showLegend="true"
+               color="colorFunction()"
+                legendColor="colorFunction()"
+               labelType="percent" 
+               donut="true" 
+               donutRatio=".50">
+                  <svg></svg>
+               </nvd3-pie-chart>
+            </div>
 
-    </section>
-    <!-- end of section col-md-7 -->
+            <div class="chart tab-pane active" id="line-chart" >
+               <!-- <nvd3-stacked-area-chart
+                  data="exampleData"
+                    id="showLegendExample"
+                    showXAxis="true"
+                    showYAxis="true"
+                    width="550"
+                    height="300"
+                    legendColor="colorFunction()"
+                    color="colorFunction()"
+                    showLegend="true">
+                     <svg></svg>
+                </nvd3-stacked-area-chart> -->
 
-
-
-    <section class="col-md-5 connectedSortable ui-sortable">
-
-        <div class="nav-tabs-custom" style="cursor: move;">
-            <!-- Tabs within a box -->
-            <ul class="nav nav-tabs pull-right">
-                <li class="active"><a show-tab href="#revenue-chart" data-toggle="tab">Area</a>
-                </li>
-                <li><a show-tab href="#sales-chart" data-toggle="tab">Donut</a>
-                </li>
-                <li class="pull-left header"><i class="fa fa-inbox"></i> Evolution</li>
-            </ul>
-            <div class="tab-content no-padding">
-                <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
-                    <svg height="300" version="1.1" width="720" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
-                        <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc>
-                        <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
-                        <text x="49.21875" y="261" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
-                            <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan>
-                        </text>
-                        <path fill="none" stroke="#aaaaaa" d="M61.71875,261H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <text x="49.21875" y="202" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
-                            <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">7,500</tspan>
-                        </text>
-                        <path fill="none" stroke="#aaaaaa" d="M61.71875,202H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <text x="49.21875" y="143" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
-                            <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">15,000</tspan>
-                        </text>
-                        <path fill="none" stroke="#aaaaaa" d="M61.71875,143H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <text x="49.21875" y="84.00000000000003" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
-                            <tspan dy="4.000000000000028" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">22,500</tspan>
-                        </text>
-                        <path fill="none" stroke="#aaaaaa" d="M61.71875,84.00000000000003H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <text x="49.21875" y="25.00000000000003" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
-                            <tspan dy="4.000000000000028" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">30,000</tspan>
-                        </text>
-                        <path fill="none" stroke="#aaaaaa" d="M61.71875,25.00000000000003H695" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <text x="578.8348453875753" y="273.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)">
-                            <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2013</tspan>
-                        </text>
-                        <text x="297.19125772112807" y="273.5" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,7)">
-                            <tspan dy="4" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2012</tspan>
-                        </text>
-                        <path fill="#74a5c1" stroke="none" d="M61.71875,219.05493333333334C79.40964816654852,219.56626666666668,114.79144449964559,222.6231049981125,132.4823426661941,221.10026666666667C150.18125664523316,219.57673833144582,185.57908460331123,209.1350666666667,203.27799858235028,206.86946666666668C220.79254887410764,204.6274666666667,255.8216494576224,204.88256480506598,273.3361997493798,203.06986666666666C290.84273422864663,201.2579981383993,325.8558031871804,194.91349669779092,343.3623376664473,192.3712C361.0532358329958,189.80213003112425,396.43503216609287,182.51724094375237,414.1259303326414,182.6244C431.82484431168047,182.73160761041905,467.2226722697585,204.17807818499128,484.92158624879755,193.22866666666667C502.4361365405549,182.3933115183246,537.4652371240697,101.94542370540854,554.9797874158271,95.48533333333336C572.2939423953218,89.09915703874188,606.9222523543112,135.13648756583467,624.2364073338059,141.8436C641.9273055003545,148.69665423250134,677.3091018334515,147.7554,695,149.726L695,261L61.71875,261Z" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></path>
-                        <path fill="none" stroke="#3c8dbc" d="M61.71875,219.05493333333334C79.40964816654852,219.56626666666668,114.79144449964559,222.6231049981125,132.4823426661941,221.10026666666667C150.18125664523316,219.57673833144582,185.57908460331123,209.1350666666667,203.27799858235028,206.86946666666668C220.79254887410764,204.6274666666667,255.8216494576224,204.88256480506598,273.3361997493798,203.06986666666666C290.84273422864663,201.2579981383993,325.8558031871804,194.91349669779092,343.3623376664473,192.3712C361.0532358329958,189.80213003112425,396.43503216609287,182.51724094375237,414.1259303326414,182.6244C431.82484431168047,182.73160761041905,467.2226722697585,204.17807818499128,484.92158624879755,193.22866666666667C502.4361365405549,182.3933115183246,537.4652371240697,101.94542370540854,554.9797874158271,95.48533333333336C572.2939423953218,89.09915703874188,606.9222523543112,135.13648756583467,624.2364073338059,141.8436C641.9273055003545,148.69665423250134,677.3091018334515,147.7554,695,149.726" stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <circle cx="61.71875" cy="219.05493333333334" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="132.4823426661941" cy="221.10026666666667" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="203.27799858235028" cy="206.86946666666668" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="273.3361997493798" cy="203.06986666666666" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="343.3623376664473" cy="192.3712" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="414.1259303326414" cy="182.6244" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="484.92158624879755" cy="193.22866666666667" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="554.9797874158271" cy="95.48533333333336" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="624.2364073338059" cy="141.8436" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="695" cy="149.726" r="4" fill="#3c8dbc" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <path fill="#eaf2f5" stroke="none" d="M61.71875,240.02746666666667C79.40964816654852,239.8072,114.79144449964559,241.35446642506605,132.4823426661941,239.1464C150.18125664523316,236.93733309173274,185.57908460331123,223.3365417102967,203.27799858235028,222.35893333333334C220.79254887410764,221.39150837696334,255.8216494576224,233.23306051728085,273.3361997493798,231.36626666666666C290.84273422864663,229.5003271839475,325.8558031871804,209.28948157595082,343.3623376664473,207.428C361.0532358329958,205.54691490928414,396.43503216609287,214.43960989052474,414.1259303326414,216.39600000000002C431.82484431168047,218.3532765571914,467.2226722697585,232.37735986038396,484.92158624879755,223.08266666666668C502.4361365405549,213.8847931937173,537.4652371240697,148.22814457230533,554.9797874158271,142.42573333333334C572.2939423953218,136.68971123897202,606.9222523543112,170.46889944279064,624.2364073338059,176.92893333333336C641.9273055003545,183.529532776124,677.3091018334515,190.23343333333335,695,194.66826666666668L695,261L61.71875,261Z" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></path>
-                        <path fill="none" stroke="#a0d0e0" d="M61.71875,240.02746666666667C79.40964816654852,239.8072,114.79144449964559,241.35446642506605,132.4823426661941,239.1464C150.18125664523316,236.93733309173274,185.57908460331123,223.3365417102967,203.27799858235028,222.35893333333334C220.79254887410764,221.39150837696334,255.8216494576224,233.23306051728085,273.3361997493798,231.36626666666666C290.84273422864663,229.5003271839475,325.8558031871804,209.28948157595082,343.3623376664473,207.428C361.0532358329958,205.54691490928414,396.43503216609287,214.43960989052474,414.1259303326414,216.39600000000002C431.82484431168047,218.3532765571914,467.2226722697585,232.37735986038396,484.92158624879755,223.08266666666668C502.4361365405549,213.8847931937173,537.4652371240697,148.22814457230533,554.9797874158271,142.42573333333334C572.2939423953218,136.68971123897202,606.9222523543112,170.46889944279064,624.2364073338059,176.92893333333336C641.9273055003545,183.529532776124,677.3091018334515,190.23343333333335,695,194.66826666666668" stroke-width="3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
-                        <circle cx="61.71875" cy="240.02746666666667" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="132.4823426661941" cy="239.1464" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="203.27799858235028" cy="222.35893333333334" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="273.3361997493798" cy="231.36626666666666" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="343.3623376664473" cy="207.428" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="414.1259303326414" cy="216.39600000000002" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="484.92158624879755" cy="223.08266666666668" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="554.9797874158271" cy="142.42573333333334" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="624.2364073338059" cy="176.92893333333336" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                        <circle cx="695" cy="194.66826666666668" r="4" fill="#a0d0e0" stroke="#ffffff" stroke-width="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle>
-                    </svg>
-                    <div class="morris-hover morris-default-style" style="left: 573.736407333806px; top: 80px; display: none;">
-                        <div class="morris-hover-row-label">2013 Q1</div>
-                        <div class="morris-hover-point" style="color: #a0d0e0">
-                            Item 1: 10,687
-                        </div>
-                        <div class="morris-hover-point" style="color: #3c8dbc">
-                            Item 2: 4,460
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <nvd3-pie-chart data="exampleData" id="exampleId" width="550" height="250" x="xFunction()" y="yFunction()" showLabels="true">
+                  <nvd3-line-chart
+                     data="exampleData"
+                       id="exampleId"
+                       width="550"
+                       height="300"
+                       showXAxis="true"
+                       showYAxis="true"
+                       showLegend="true"
+                        legendColor="colorFunction()"
+                        color="colorFunction()"
+                        isArea="true"
+                        tooltips="true"
+                        interactive="true">
                         <svg></svg>
-                    </nvd3-pie-chart>
-                </div>
+                   </nvd3-line-chart>
             </div>
-        </div>
 
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">Shortcuts</h3>
+         </div>
+      </div>
+      <div class="box">
+         <div class="box-header">
+            <h3 class="box-title">Shortcuts</h3>
+         </div>
+         <div class="box-body">
+            <a class="btn btn-app">
+            <i class="fa fa-play"></i> Launch Build
+            </a>
+            <a class="btn btn-app">
+            <i class="fa fa-list"></i> Feature List
+            </a>
+            <a class="btn btn-app">
+            <i class="fa fa-edit"></i> Edit Files
+            </a>
+         </div>
+         <!-- /.box-body -->
+      </div>
+      <div class="box">
+         <div class="box-header">
+            <h3 class="box-title">
+               <i class="fa fa-star"></i> Summary Last Build 
+               <strong>Total Scenarios</strong> 
+               <span class="label label-primary">{{summary.totalScenarios}}</span>
+            </h3>
+         </div>
+         <!-- /.box-header -->
+         <div class="box-body no-padding">
+            <div class="tab-pane fade active in" id="summary">
+               <table class="table">
+                  <thead>
+                     <tr class="table-head-alt">
+                        <th>Status</th>
+                        <th>Issues</th>
+                        <th>Percentage</th>
+                        <th>&nbsp;</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td><a href="">Passed</a>
+                        </td>
+                        <td>{{summary.passed}}</td>
+                        <td>
+                           <div class="progress">
+                              <div style="width: {{(100*summary.passed/summary.totalScenarios)| number:2}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                 <span class="sr-only">{{(100*summary.passed/summary.totalScenarios)| number:2}}% Complete (success)</span>
+                              </div>
+                           </div>
+                        </td>
+                        <td>{{(100*summary.passed/summary.totalScenarios)| number:2}}%</td>
+                     </tr>
+                     <tr>
+                        <td><a href="">Failures</a>
+                        </td>
+                        <td>{{summary.failed}}</td>
+                        <td>
+                           <div class="progress">
+                              <div style="width: {{(100*summary.failed/summary.totalScenarios)| number:2}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                 <span class="sr-only">{{(100*summary.failed/summary.totalScenarios)| number:2}}% Complete (success)</span>
+                              </div>
+                           </div>
+                        </td>
+                        <td>{{(100*summary.failed/summary.totalScenarios)| number:2}}%</td>
+                     </tr>
+                  </tbody>
+               </table>
             </div>
-            <div class="box-body">
-                <a class="btn btn-app">
-                    <i class="fa fa-play"></i> Launch Build
-                </a>
-
-
-                <a class="btn btn-app">
-                    <i class="fa fa-list"></i> Feature List
-                </a>
-
-                <a class="btn btn-app">
-                    <i class="fa fa-edit"></i> Edit Files
-                </a>
-
-            </div>
-            <!-- /.box-body -->
-        </div>
-        <div class="box">
-            <div class="box-header">
-                <h3 class="box-title">
-                <i class="fa fa-star"></i> Summary Last Build 
-                <strong>Total Scenarios</strong> 
-                <span class="label label-primary">{{summary.totalScenarios}}</span>
-                </h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body no-padding">
-                <div class="tab-pane fade active in" id="summary">
-                    <table class="table">
-                        <thead>
-                            <tr class="table-head-alt">
-                                <th>Status</th>
-                                <th>Issues</th>
-                                <th>Percentage</th>
-                                <th>&nbsp;</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><a href="">Passed</a>
-                                </td>
-                                <td>{{summary.passed}}</td>
-                                <td>
-                                    <div class="progress">
-                                        <div style="width: {{(100*summary.passed/summary.totalScenarios)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
-                                            <span class="sr-only">{{(100*summary.passed/summary.totalScenarios)| number:0}}% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{(100*summary.passed/summary.totalScenarios)| number:0}}%</td>
-                            </tr>
-                            <tr>
-                                <td><a href="">Failures</a>
-                                </td>
-                                <td>{{summary.failed}}</td>
-                                <td>
-                                    <div class="progress">
-                                        <div style="width: {{(100*summary.failed/summary.totalScenarios)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
-                                            <span class="sr-only">{{(100*summary.failed/summary.totalScenarios)| number:0}}% Complete (success)</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>{{(100*summary.failed/summary.totalScenarios)| number:0}}%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <!-- /.box-body -->
-        </div>
-    </section>
+         </div>
+         <!-- /.box-body -->
+      </div>
+   </section>
 </div>
-
 </section>
+

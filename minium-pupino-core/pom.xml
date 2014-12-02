@@ -9,6 +9,7 @@
 	</parent>
 
 	<artifactId>minium-pupino-core</artifactId>
+	<name>Minium Pupino - Core</name>
 
 	<dependencies>
 		<dependency>
@@ -17,5 +18,14 @@
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

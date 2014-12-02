@@ -2,7 +2,6 @@
 
 var FileController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, launcherService) {
     
-   
     $scope.fs = {
         current: {}
     };

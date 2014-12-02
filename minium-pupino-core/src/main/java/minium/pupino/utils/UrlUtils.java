@@ -25,8 +25,7 @@ public class UrlUtils {
 				sb.append(inputLine);
 			}
 			br.close();
-
-			System.out.println("Done");
+			
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

@@ -18,3 +18,4 @@ build
 /minium-pupino-webapp/.externalToolBuilders
 /minium-pupino-webapp/deploy
 /minium-pupino-docker/logs/*
+/minium-pupino-common/.checkstyle

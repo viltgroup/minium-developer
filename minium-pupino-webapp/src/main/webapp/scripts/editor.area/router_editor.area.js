@@ -21,13 +21,7 @@ pupinoApp
                 }
             })
 
-
-        modalStateProvider
-            .state('global.editorarea.file', {
-                abstract: true,
-                templateUrl: "views/partials/modal/file.html",
-                controller: "FileController"
-        });
+        
 
         modalStateProvider
             .state('global.editorarea.newFile', {

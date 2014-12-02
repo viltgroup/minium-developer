@@ -5,8 +5,6 @@ import java.util.List;
 
 import minium.pupino.webdriver.PupinoWebElementsDriverFactory;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -19,10 +17,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.google.common.collect.Lists;
 import com.vilt.minium.DefaultWebElementsDriver;
-import com.vilt.minium.prefs.AppPreferences;
-import com.vilt.minium.script.MiniumContextLoader;
 import com.vilt.minium.script.MiniumScriptEngine;
-import com.vilt.minium.script.WebElementsDriverFactory;
+import com.vilt.minium.script.RhinoPreferences;
 
 @Configuration
 public class PupinoConfiguration implements DisposableBean {
@@ -39,14 +35,9 @@ public class PupinoConfiguration implements DisposableBean {
 
     @Bean
     public MiniumScriptEngine miniumScriptEngine() throws IOException {
-        Context cx = Context.enter();
-        Global scope = new Global(cx);
-        scope.installRequire(cx, getModulesUrls(), false);
-        WebElementsDriverFactory webElementsDriverFactory = WebElementsDriverFactory.instance();
-        MiniumContextLoader contextLoader = new MiniumContextLoader(Thread.currentThread().getContextClassLoader(), webElementsDriverFactory);
-        contextLoader.load(cx, scope);
-        MiniumScriptEngine miniumScriptEngine = new MiniumScriptEngine(contextLoader, new AppPreferences());
-
+        RhinoPreferences preferences = new RhinoPreferences();
+        preferences.setModulePath(getModulesUrls());
+        MiniumScriptEngine miniumScriptEngine = new MiniumScriptEngine(preferences);
         miniumScriptEngine.put("wd", wd());
         return miniumScriptEngine;
     }

@@ -38,7 +38,9 @@
             <input type="text" placeholder="File Name" class="form-control" ng-model="fileName">
         </div>
     </div>
-    <br><br>
+    
+    <br>
+    <br>
     <span ng-show="fileName.length > 0">
       The new file <strong>{{fileName}}</strong> will be created in <strong>{{fs.current.relativeUri}}</strong>
     </span>
@@ -48,5 +50,5 @@
 <div class="modal-footer">
 
 
-    <button class="btn btn-primary" ng-click="createFile(fileName)">Create</button>
+    <button class="btn btn-primary" ng-click="createFile(fileName,fs.current.relativeUri)">Create</button>
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>

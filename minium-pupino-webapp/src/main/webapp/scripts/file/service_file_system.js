@@ -17,9 +17,14 @@ pupinoApp.factory('FS', function($resource) {
                 action: "search"
             },
             isArray: true
-        },
-        new: {
-            method: 'POST'
         }
     });
 })
+
+pupinoApp.factory('FileFactory', function($resource, $http) {
+    return {
+        create: function(path) {
+            return $http.post('/app/rest/fs/new',path );
+        },
+    };
+});

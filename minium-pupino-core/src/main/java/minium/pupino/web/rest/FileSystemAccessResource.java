@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import minium.pupino.domain.FileContent;
 import minium.pupino.domain.FileProps;
 import minium.pupino.service.AutoFormatter;
+import minium.pupino.service.FileSystemAccessService;
 import minium.pupino.web.method.support.AntPath;
 import minium.pupino.web.method.support.BaseURL;
 
@@ -25,6 +26,8 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,8 +47,11 @@ public class FileSystemAccessResource {
 
     @Autowired
     private List<AutoFormatter> autoFormatters = Lists.newArrayList();
-
-    File baseDir;
+    
+    @Autowired
+    private FileSystemAccessService fileSystemService;
+    
+    private File baseDir = new File("src/test/resources");
 
     public void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
@@ -64,7 +70,7 @@ public class FileSystemAccessResource {
     @ResponseBody
     public Set<FileProps> list(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException {
         File file = getFile(path);
-        if (!file.exists()) throw new ResourceNotFoundException();
+        if (!file.exists()) throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
         if (!file.isDirectory()) new IllegalOperationException();
 
         File[] childFiles = file.listFiles();
@@ -88,12 +94,21 @@ public class FileSystemAccessResource {
         return extractFileContent(baseUrl, file);
     }
     
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     @ResponseBody
-    public void create(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException, URISyntaxException {
-       
+    public ResponseEntity<String> create(@BaseURL String baseUrl,@RequestBody String path) throws IOException, URISyntaxException {
+       int result = fileSystemService.create(path);
+       String response;
+       HttpStatus status;
+       if( result == 0){
+    	   response = "Created";
+    	   status = HttpStatus.CREATED;
+       }else{
+    	   response = "Not Created";
+    	   status = HttpStatus.PRECONDITION_FAILED;
+       }
+       return new ResponseEntity<String>(response, status);
     }
-    
     
     @RequestMapping(value = "/**", method = RequestMethod.DELETE)
     @ResponseBody
@@ -150,14 +165,14 @@ public class FileSystemAccessResource {
 
     protected FileSystemResource get(String path) throws IOException, URISyntaxException {
         File file = getFile(path);
-        if (!file.exists()) throw new ResourceNotFoundException();
+        if (!file.exists()) throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
         if (file.isDirectory()) return null;
         return new FileSystemResource(file);
     }
 
     protected FileContent extractFileContent(String baseUrl, File file) throws IOException {
         FileProps props = extractFileProps(baseUrl, file);
-        String content = FileUtils.readFileToString(file);
+        String content = FileUtils.readFileToString(file, Charsets.UTF_8);
         return new FileContent(props, content);
     }
 

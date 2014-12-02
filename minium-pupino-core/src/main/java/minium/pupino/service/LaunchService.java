@@ -6,30 +6,32 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URI;
-import java.util.List;
+import java.util.Set;
 
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.utils.Utils;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import org.junit.runner.RunWith;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runner.notification.StoppedByUserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Function;
-import com.google.common.base.Throwables;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.google.common.io.Files;
+import com.vilt.minium.script.cucumber.MiniumCucumber;
 
 @Service
 @ConfigurationProperties(prefix = "launcher", locations = "classpath:pupino.yml", ignoreUnknownFields = false)
@@ -39,31 +41,14 @@ public class LaunchService {
 
 	private JUnitCore runner;
 
+    private Class<?>[] testClasses;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
-
-	private List<String> classNames = Lists.newArrayList();
-
-	public List<String> getClassNames() {
-		return classNames;
-	}
-
-	public Class<?>[] getClasses() {
-		List<Class<?>> classes = FluentIterable.from(classNames).transform(new Function<String, Class<?>>() {
-			@Override
-			public Class<?> apply(String input) {
-				try {
-					return Class.forName(input);
-				} catch (ClassNotFoundException e) {
-					throw Throwables.propagate(e);
-				}
-			}
-		}).toList();
-		return classes.toArray(new Class<?>[classes.size()]);
-	}
 
 	@Autowired
 	public LaunchService(final MessageSendingOperations<String> messagingTemplate) {
 		LaunchService.messagingTemplate = messagingTemplate;
+		testClasses = findTestClasses();
 	}
 
 	public Resource launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
@@ -83,12 +68,13 @@ public class LaunchService {
 		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
 		System.setProperty("cucumber.options", cucumberOptions);
+		System.setProperty("spring.profiles.active", "pupino");
 
 		Result result = null;
 		try {
 			runner = new JUnitCore();
 			runner.addListener(new PupinoJUnitListener(messagingTemplate));
-			result = runner.run(getClasses());
+			result = runner.run(testClasses);
 
 			for (Failure failure : result.getFailures()) {
 				LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
@@ -107,7 +93,7 @@ public class LaunchService {
 		LOGGER.info("Running with dotcucumber: {}", cucumberOptions);
 
 		System.setProperty("cucumber.options", cucumberOptions);
-		Result result = new JUnitCore().run(getClasses());
+		Result result = new JUnitCore().run(testClasses);
 
 		for (Failure failure : result.getFailures()) {
 			LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
@@ -122,5 +108,30 @@ public class LaunchService {
 		RunNotifier runNotifier = (RunNotifier) field.get(runner);
 		runNotifier.pleaseStop();
 	}
+
+    protected Class<?>[] findTestClasses(){
+        ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
+        scanner.addIncludeFilter(new AnnotationTypeFilter(RunWith.class));
+        Set<BeanDefinition> components = scanner.findCandidateComponents("");
+        Set<Class<?>> results = Sets.newHashSet();
+        for (BeanDefinition component : components) {
+            if (!component.isAbstract()) {
+                try {
+                    Class<?> testClass = Thread.currentThread().getContextClassLoader().loadClass(component.getBeanClassName());
+                    RunWith runWithAnnotation = testClass.getAnnotation(RunWith.class);
+                    if (runWithAnnotation.value() == MiniumCucumber.class) {
+                        LOGGER.debug("Found Minium Cucumber test class {}", component.getBeanClassName());
+                        results.add(testClass);
+                    }
+                } catch (ClassNotFoundException e) {
+                    LOGGER.debug("Class {} not found, skipping", component.getBeanClassName());
+                }
+            }
+        }
+        if (results.isEmpty()) {
+            LOGGER.warn("No Minium Cucumber test class found");
+        }
+        return results.toArray(new Class<?>[results.size()]);
+    }
 
 }

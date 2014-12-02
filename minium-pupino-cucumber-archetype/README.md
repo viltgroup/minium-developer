@@ -54,7 +54,7 @@ mvn archetype:generate \
   -DartifactId=my-archetype-test \
   -Dversion=1.0-SNAPSHOT \
   -Dfeature=test_my_archetype \
-  -DtestClassname=MyArchetypeTest \
+  -DtestClassname=MyArchetypeIT \
   -DinteractiveMode=false
 ```
 

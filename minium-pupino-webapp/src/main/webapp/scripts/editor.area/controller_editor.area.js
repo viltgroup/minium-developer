@@ -534,46 +534,8 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
 
         var snippets = SnippetsProvider.all();
         snippetManager.register(snippets, "gherkin");
-
-        // uses http://rhymebrain.com/api.html
-        var rhymeCompleter = {
-            getCompletions: function(editor, session, pos, prefix, callback) {
-                if (prefix.length === 0) {
-                    callback(null, []);
-                    return;
-                }
-                $scope.search = function() {
-                    $http({
-                        method: 'JSONP',
-                        url: "http://something.com/lol?query=?callback=JSON_CALLBACK&query=" + $scope.searchString
-                    }).
-                    success(function(data, status) {
-                        $scope.items = data.entries;
-                    }).
-                    error(function(data, status) {
-                        console.log(data || "Request failed");
-                    });
-                };
-                $.getJSON(
-                    "http://rhymebrain.com/talk?function=getRhymes&word=" + prefix,
-                    function(wordList) {
-                        // wordList like [{"word":"flow","freq":24,"score":300,"flags":"bc","syllables":"1"}]
-                        callback(null, wordList.map(function(ea) {
-                            return {
-                                name: ea.word,
-                                value: ea.word,
-                                score: ea.score,
-                                meta: "rhyme"
-                            }
-                        }));
-                    })
-            }
-        }
-        langTools.addCompleter(rhymeCompleter);
-
-
-
     };
+    
     //stop the timeouts
     $scope.$on('$destroy', function() {
         $timeout.cancel(stopwatch);

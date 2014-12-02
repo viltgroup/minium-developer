@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -10,20 +11,21 @@
 		<relativePath />
 	</parent>
 
-    <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}</artifactId>
-    <version>${version}</version>
+	<groupId>${groupId}</groupId>
+	<artifactId>${artifactId}</artifactId>
+	<version>${version}</version>
 
-   	<properties>
+	<properties>
 		<java.version>1.7</java.version>
 
 		<minium.version>0.9.6-SNAPSHOT</minium.version>
 		<selenium.version>2.42.2</selenium.version>
-		
+
 		<spring.version>4.1.2.RELEASE</spring.version>
-		
+
 		<minium.pupino.heap>512m</minium.pupino.heap>
 		<minium.pupino.permgen>128m</minium.pupino.permgen>
+		<failsafe.skip.tests>false</failsafe.skip.tests>
 	</properties>
 
 	<dependencies>
@@ -64,17 +66,25 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<skipTests>true</skipTests>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
-					<skipTests>false</skipTests>
+					<skipTests>${failsafe.skip.tests}</skipTests>
 				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -86,7 +96,7 @@
 				<activeByDefault>false</activeByDefault>
 			</activation>
 			<properties>
-				<skipTests>true</skipTests>
+				<failsafe.skip.tests>true</failsafe.skip.tests>
 			</properties>
 			<dependencies>
 				<dependency>
@@ -97,30 +107,31 @@
 			</dependencies>
 			<build>
 				<plugins>
-			      <plugin>
-			        <groupId>org.codehaus.mojo</groupId>
-			        <artifactId>exec-maven-plugin</artifactId>
-					<executions>
-						<execution>
-							<phase>integration-test</phase>
-							<goals>
-								<goal>exec</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-					 	<executable>java</executable>
-						<classpathScope>test</classpathScope>
-						<arguments>
-							<argument>-classpath</argument>
-	            			<classpath/>
-							<argument>-Xmx${minium.pupino.heap}</argument>
-							<argument>-XX:MaxPermSize=${minium.pupino.permgen}</argument>
-							<argument>-Xdebug</argument>
-							<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</argument>
-							<argument>minium.pupino.Application</argument>
-						</arguments>
-					</configuration>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<phase>integration-test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<executable>java</executable>
+							<classpathScope>test</classpathScope>
+							<arguments>
+								<argument>-classpath</argument>
+								<classpath />
+								<argument>-Xmx${minium.pupino.heap}</argument>
+								<argument>-XX:MaxPermSize=${minium.pupino.permgen}</argument>
+								<argument>-Xdebug</argument>
+								<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</argument>
+								<argument>-Dspring.profiles.active=dev,local</argument>
+								<argument>minium.pupino.Application</argument>
+							</arguments>
+						</configuration>
 					</plugin>
 				</plugins>
 			</build>
@@ -162,13 +173,13 @@
 			</snapshots>
 		</repository>
 		<repository>
-	        <id>spring-milestones</id>
-	        <name>Spring Milestones</name>
-	        <url>http://repo.spring.io/milestone</url>
-	        <snapshots>
-	            <enabled>false</enabled>
-	        </snapshots>
-        </repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>http://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
 	</repositories>
 
 </project>

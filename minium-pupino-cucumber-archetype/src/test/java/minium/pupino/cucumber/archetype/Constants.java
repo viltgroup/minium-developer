@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.script.cucumber.archetype;
+package minium.pupino.cucumber.archetype;
 
 import java.util.Properties;
 
@@ -29,7 +29,7 @@ public class Constants {
     public static final String TEST_ARTIFACT_ID = "my-archetype-test";
     public static final String TEST_VERSION = "1.0-SNAPSHOT";
     public static final String TEST_FEATURE = "test_my_archetype";
-    public static final String TEST_CLASS_NAME = "MyArchetypeTest";
+    public static final String TEST_CLASS_NAME = "MyArchetypeIT";
 
     public static Properties getSystemProperties() {
         Properties props = new Properties(System.getProperties());

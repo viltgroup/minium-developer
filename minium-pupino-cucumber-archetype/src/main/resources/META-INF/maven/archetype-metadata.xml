@@ -8,7 +8,7 @@
             <defaultValue>my_feature</defaultValue>
         </requiredProperty>
         <requiredProperty key="testClassname">
-            <defaultValue>MyFeatureTest</defaultValue>
+            <defaultValue>MyFeatureIT</defaultValue>
         </requiredProperty>
         <requiredProperty key="archetypeVersion"></requiredProperty>        
     </requiredProperties>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.vilt.minium.script.cucumber.archetype;
+package minium.pupino.cucumber.archetype;
 
 import static java.lang.String.format;
 
@@ -78,11 +78,11 @@ public class CreateArchetypeTest {
         verifier.verifyErrorFreeLog();
 
         // verify output
-        verifier.verifyTextInLog("Running my.archetype.MyArchetypeTest");
+        verifier.verifyTextInLog(format("Running %s.%s", Constants.TEST_GROUP_ID, Constants.TEST_CLASS_NAME));
         verifier.verifyTextInLog("Tests run: 12, Failures: 0, Errors: 0, Skipped: 0");
 
         // ensure files exist
-        verifier.assertFilePresent(format("src/test/resources/%s/%s.feature",     Constants.TEST_GROUP_ID.replace('.', '/'), Constants.TEST_FEATURE));
-        verifier.assertFilePresent(format("src/test/resources/%s/%s_stepdefs.js", Constants.TEST_GROUP_ID.replace('.', '/'), Constants.TEST_FEATURE));
+        verifier.assertFilePresent(format("src/test/resources/features/%s.feature", Constants.TEST_FEATURE));
+        verifier.assertFilePresent(format("src/test/resources/steps/%s_stepdefs.js", Constants.TEST_FEATURE));
     }
 }

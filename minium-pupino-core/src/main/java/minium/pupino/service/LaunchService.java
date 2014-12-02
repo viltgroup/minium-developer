@@ -41,6 +41,7 @@ public class LaunchService {
 
 	private JUnitCore runner;
 
+	private String resourcesBaseDir = "src/test/resources";
     private Class<?>[] testClasses;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
@@ -58,10 +59,10 @@ public class LaunchService {
 
 		String path;
 		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
-			path = format("classpath:%s ", resourceDir.getPath());
+			path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
 		} else {
 			String lines = Utils.array2String(launchInfo.getLine());
-			path = format("classpath:%s:%s", resourceDir.getPath(), lines);
+			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
 		}
 
 		String cucumberOptions = format("%s --format json:%s --format %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());

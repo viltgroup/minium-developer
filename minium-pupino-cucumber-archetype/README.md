@@ -54,7 +54,7 @@ mvn archetype:generate \
   -DartifactId=my-archetype-test \
   -Dversion=1.0-SNAPSHOT \
   -Dfeature=test_my_archetype \
-  -DtestClassname=MyArchetypeTest \
+  -DtestClassname=MyArchetypeIT \
   -DinteractiveMode=false
 ```
 
@@ -65,9 +65,9 @@ cd my-archetype-test
 mvn verify -P pupino
 ```
 
-You can then open it at http://localhost:8080/#/editor/ (user `admin` / `admin`).
+That will take a while, and will open a new browser window (that is controlled with Selenium, don't use it directly), and when it is done, it will open http://localhost:8080/#/editor/ in your browser.
 
-Or if you just want to run all the tests without pupino:
+If you just want to run all the tests without pupino:
 
 ```sh
 cd my-archetype-test

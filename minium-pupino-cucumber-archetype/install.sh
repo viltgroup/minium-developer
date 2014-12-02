@@ -4,7 +4,7 @@ rm /tmp/temp.zip
 sudo chmod +x /usr/bin/chromedriver
 
 
-ARTIFACT=${1:-foo}
+ARTIFACT=${1:-"my-archetype-test"}
 
 
 mvn archetype:generate \
@@ -21,5 +21,5 @@ mvn archetype:generate \
 
 cd $ARTIFACT
 mvn verify -P pupino
-echo "$ARTIFACT"
-#curl -sSL https://artemis.vilt-group.com/engineering/minium-pupino/raw/master/minium-pupino-cucumber-archetype/install.sh | sh
+
+#curl -sSL https://artemis.vilt-group.com/engineering/minium-pupino/raw/master/minium-pupino-cucumber-archetype/install.sh | sh /dev/stdin pupino-test

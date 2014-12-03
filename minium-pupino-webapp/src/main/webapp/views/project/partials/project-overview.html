@@ -64,10 +64,11 @@
                         </td>
                      </tr>
                   </tbody>
-               </table>
-               <br><strong>Other Builds</strong>
-               <table class="table table-primary table-list">
+              
                   <thead>
+                     <tr>
+                        <th colspan="7"></th>
+                     </tr>
                   </thead>
                   <tbody>
                      <tr ng-repeat="build in builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
@@ -87,6 +88,7 @@
                         <td>
                            {{build.duration | durationMilliseconds}}
                         </td>
+                        <td></td>
                         <td>
                            <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, buildId: build.number })">
                            View Build

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import minium.pupino.web.rest.dto.BuildDTO;
 
 import com.google.gson.JsonIOException;
@@ -21,7 +23,7 @@ public interface JenkinsClient {
 	/*
 	 * JOBS
 	 */
-	public void createJob(String jobName) throws IOException;
+	public void createJob(String jobName,String scmType,String repository) throws IOException, JAXBException;
 
 	/*
 	 * BUILDS

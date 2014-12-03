@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBException;
+
+import minium.pupino.utils.UrlUtils;
 import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
@@ -23,6 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
@@ -32,13 +36,16 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 public class JenkinsClientAdaptor implements JenkinsClient {
 
 	private JenkinsServer jenkins;
-
+	
+	private JenkinsJobConfigurator jobConfigurator;
+	
 	private ReporterParser reporter = new ReporterParser();
 
 	private static URI uri;
 
 	public JenkinsClientAdaptor() throws URISyntaxException {
 		uri = new URI("http://lw255:8080/jenkins/");
+		jobConfigurator = new JenkinsJobConfigurator();
 	}
 
 	@Override
@@ -52,11 +59,15 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	 * JOBS
 	 */
 	@Override
-	public void createJob(String jobName) throws IOException {
-		jenkins = new JenkinsServer(uri, "admin", "admin");
-
-		String sourceXml = jenkins.getJobXml("pupino-jenkins-test");
-		jenkins.createJob(jobName, sourceXml);
+	public void createJob(String jobName,String scmType,String repository) throws IOException, JAXBException {
+		try {
+			jenkins = new JenkinsServer(uri, "admin", "admin");
+			String sourceXml = jobConfigurator.getXMLSource(scmType, repository);
+			jenkins.createJob(jobName, sourceXml);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -93,20 +104,18 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			String artifact = "";
 			bd = b.details();
 			String result = getStatusForBuild(bd);
-
-			artifact = getArtifactsBuild(bd);
-
+			
 			// only want the report of the lastBuild finished
 			if (lastBuild && !bd.isBuilding()) {
 				// get the artifact of the build and return the string
-
+				artifact = getArtifactsBuild(bd);
 				lastBuild = false;
 				List<Feature> features = reporter.parseJsonResult(artifact);
 				summary = reporter.getSummaryFromFeatures(features);
 				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features, summary);
 			} else {
-				summary = reporter.getSummaryFromResult(artifact);
+				summary = null;
 				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, summary);
 			}
@@ -185,18 +194,16 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	@Override
 	public String getArtifactsBuild(BuildWithDetails buildDetails) {
 		String artifactContent = "";
-//		if (!buildDetails.getArtifacts().isEmpty()) {
-//			Artifact artifact = buildDetails.getArtifacts().get(0);
-////			// function from the jenkins client was not working properly
-////			// use this temporary solution
-//			if (artifact.getDisplayPath().equals("result.json")) {
-//				// artifactContent =
-//				UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
-//			}else{
+		if (!buildDetails.getArtifacts().isEmpty()) {
+		Artifact artifact = buildDetails.getArtifacts().get(0);
+			// function from the jenkins client was not working properly
+			// use this temporary solution
+			if (artifact.getDisplayPath().equals("result.json")) {
+				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
+			}else{
 				artifactContent = artifactFromFile("mocks/mock-cgd-store.json");
-//			}
-//		}
-
+			}
+		}
 		return artifactContent;
 	}
 

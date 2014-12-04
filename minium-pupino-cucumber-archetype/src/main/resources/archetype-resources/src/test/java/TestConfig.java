@@ -28,7 +28,7 @@ public class TestConfig {
     public static class PupinoWebElementsDriverConfig {
     }
     
-    @Value("classpath:config/${symbol_dollar}{minium.env:dev}.json")
+    @Value("file:src/test/resources/config/${symbol_dollar}{minium.env:dev}.json")
     private Resource configFile;
 
     @Bean(name = "configFile")

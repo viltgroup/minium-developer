@@ -387,15 +387,22 @@ pupinoApp.factory('BuildsFacade', function() {
      */
     function BuildsFacade(report) {
         this.builds = report;
-        this.lastBuild = report[0];
-        this.features = eval(report[0].features);
+        //get the report of the last build finished
+        var i = 0;
+
+        while (i <= (this.builds.length - 1) && this.builds[i].result === "BUILDING") {
+            this.buildingBuild = report[i];
+            i++;
+        }
+
+        this.lastBuild = report[i];
+        this.features = eval(report[i].features);
         this.passed = 0;
         this.failed = 0;
         this.totalScenarios = 0;
 
-        
         //remove the last build
-        this.builds.splice(0, 1);
+        this.builds.splice(i, 1);
     }
 
     /**

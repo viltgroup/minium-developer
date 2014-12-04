@@ -3,7 +3,8 @@
 var NewFileController = function($scope, $rootScope, $modalInstance, $state,$controller, $stateParams, $log, $location, FS, FileFactory, FormatService, launcherService) {
 
     //extends controller
-   // $.extend(this, $controller('FileController', {$scope: $scope}));
+    //$.extend(this, $controller('FileController', {$scope: $scope}));
+    
     $scope.fileName = "";
 
     $scope.createFile = function(fileName, path) {

@@ -27,7 +27,16 @@
     </h2>
 </div>
 
-<table class="table table-primary table-list">
+<!-- Alert No data -->
+<div class="alert alert-info" ng-show="!lastFinishedBuild">
+    <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
+        <i class="fa fa-play"></i> Launch Build
+    </a>
+    <strong>Info:</strong> Theres no data
+</div>
+
+
+<table class="table table-primary table-list" ng-show="faillingFeatures.length > 0">
     <thead>
         <tr>
             <th>Result</th>
@@ -73,7 +82,6 @@
                 </a>
             </td>
 
-
             <td>
                 <div class="btn-group">
                     <a data-toggle="dropdown" class="dropdown-toggle">
@@ -102,7 +110,7 @@
 <!-- table-responsive -->
 
 
-<accordion close-others="oneAtATime">
+<accordion close-others="oneAtATime" ng-show="passingFeatures.length > 0">
     <accordion-group is-open="status.open">
         <accordion-heading>
            <i class="success fa fa-check-square "></i>
@@ -129,7 +137,6 @@
                     <tr ng-repeat="feature in passingFeatures | filter:query  | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
 
                         <td>
-                            {{feature.status}}
                             <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
                             <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
                         </td>

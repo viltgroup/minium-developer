@@ -27,25 +27,23 @@ pupinoApp.controller('ProjectDetailController', function($scope, $state, resolve
             "jobName": $scope.project.name
         }).$promise.then(function(data) {
             console.log(data);
+            //check if has builds
+            if( isEmptyObject(data)){
+                return;
+            }
+
             var buildsFacade = new BuildsFacade(data);
             $scope.builds = buildsFacade.builds;
-            //get the report of the last build finished
-            var i = 0;
-            while ($scope.builds[i].result === "BUILDING")
-                i++;
 
             $scope.lastFinishedBuild = buildsFacade.lastBuild;
 
             $scope.features = buildsFacade.features;
-            $scope.buildId = $scope.lastFinishedBuild.id;
 
             //get some stats
             buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
-            var summary = buildsFacade.getSummary();
-            buildSuccess = summary.passingScenarios;
-            buildFailling = summary.faillingScenarios;
-
-
+            // var summary = buildsFacade.getSummary();
+            // buildSuccess = summary.passingScenarios;
+            //buildFailling = summary.faillingScenarios;
             console.log(JSON.stringify(buildSuccess));
 
             buildSuccess = [
@@ -68,8 +66,8 @@ pupinoApp.controller('ProjectDetailController', function($scope, $state, resolve
 
     $scope.createBuild = function() {
         JenkinsProvider.createBuild($scope.project).success(function() {
-            getBuilds();
             toastr.success("Created");
+            getBuilds();
         }).error(function(data) {
             toastr.error("Error " + data);
         });
@@ -82,29 +80,16 @@ pupinoApp.controller('ProjectDetailController', function($scope, $state, resolve
         };
     }
 
-    $scope.toolTipContentFunction = function() {
-        return function(key, x, y, e, graph) {
-            return 'Super New Tooltip';
-        }
-    }
-
-    $scope.isArea = function() {
-        return function(d, i) {
-            return false;
-        };
-    }
-
     var processData = function() {
 
 
         $scope.exampleData = [{
-                "key": "Failling",
-                "values": buildFailling
-            }, {
                 "key": "Sucess",
                 "values": buildSuccess,
+            }, {
+                "key": "Failling",
+                "values": buildFailling
             }
-
         ];
 
         $scope.exampleData1 = [{
@@ -127,13 +112,12 @@ pupinoApp.controller('ProjectDetailController', function($scope, $state, resolve
     }
     $scope.yFunction = function() {
         return function(d) {
-            console.log(d.y)
-            return d3.format(',f')(d.y);
+            return d.y;
         };
     }
 
     $scope.yAxisTickFormat = function() {
-        return function(d){
+        return function(d) {
             return d3.format(',f');
         }
     };
@@ -156,4 +140,14 @@ pupinoApp.controller('ProjectDetailController', function($scope, $state, resolve
     $scope.isPassed = function(value) {
         return value === "PASSED";
     }
+
+
+    var  isEmptyObject = function(obj) {
+
+       if (obj.length && obj.length > 0)
+           return false;          
+
+       if (obj.length === 0)
+          return true;           
+    }  
 });

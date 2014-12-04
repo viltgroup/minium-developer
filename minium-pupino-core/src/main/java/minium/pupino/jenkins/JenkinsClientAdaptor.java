@@ -196,8 +196,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		String artifactContent = "";
 		if (!buildDetails.getArtifacts().isEmpty()) {
 		Artifact artifact = buildDetails.getArtifacts().get(0);
-			// function from the jenkins client was not working properly
-			// use this temporary solution
+			// function from the jenkins client was not working properly use this temporary solution
 			if (artifact.getDisplayPath().equals("result.json")) {
 				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
 			}else{
@@ -251,7 +250,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			e.printStackTrace();
 		}
 		return content;
-
 	}
 
 }

@@ -1,4 +1,4 @@
-<div id="builds-list" class="row list-group">
+<div id="builds-list" class="row list-group" ng-show="builds.length > 0">
 
     <div class="item  col-xs-4 col-lg-4" ng-repeat="build in builds">
         <div class="thumbnail panel-border-top-danger" ng-class="{'panel-border-top-success' : isSuccess(build.result)}">

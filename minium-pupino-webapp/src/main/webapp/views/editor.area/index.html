@@ -3,15 +3,20 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <ol class="breadcrumb">
-            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
+            <li>
+                <a href="#">
+                    <i class="glyphicon glyphicon-dashboard"></i>
+                    <span translate="global.home">Home</span>
+                </a>
             </li>
-            <li class="active " id="miniumOnDrugs">Editor</li>
+            <li class="active " id="miniumOnDrugs">
+                <span translate="editor.editor">Editor</span>
+            </li>
         </ol>
         <h1>
-            Editor
+            <span translate="editor.editor">Editor</span>
             <small>Cucumber</small>
         </h1>
-
 
     </section>
 
@@ -20,50 +25,63 @@
 
         <div class="info">
             <p>
-                <i class="fa fa-info-circle"></i> Status:
+                <i class="fa fa-info-circle"></i>
+                <span translate="editor.status">Status</span>:
                 <span class="label label-default" id="status">
-                    Not Run</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Not Run
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                 <button id="runningTest" class="btn btn-warning ladda-button disabled " data-style="expand-right">
                     <span class="fa fa-gears"></span>
-                    <span class="ladda-label">Running</span>
+                    <span class="ladda-label" translate="editor.running">Running</span>
                 </button>
 
                 <button type="button" class="btn btn-success" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)" data-toggle="modal" data-target="#launchModal">
-                    <span class="fa  fa-bar-chart"></span>Summary Report
+                    <span class="fa  fa-bar-chart"></span>
+                    <span translate="editor.summary">Summary Report</span>
                 </button>
 
                 <!-- <a class="btn btn-primary " id="clear" ui-sref="global.report" target="_blank">
                     <span class="fa fa-clipboard"></span>See Reports
-                </a>
- -->
+                </a>-->
                 <!--
                 <button ui-sref="global.editorarea.configs" type="button" class="btn btn-primary " id="clear" ng-click="">
                     <span class="fa fa-cog"></span>Configurations
                 </button>
                 -->
                 <button data-toggle="dropdown" class="btn btn-warning" type="button" ng-hide="markerIds | isEmpty" ng-click="clearMarkers()">
-                    <i class="fa fa-arrow-circle-o-down"></i> Clear Markers
+                    <i class="fa fa-arrow-circle-o-down"></i>
+                    <span translate="editor.clearMarkers">Clear Markers</span>
                 </button>
                 <button data-toggle="dropdown" class="btn btn-primary" type="button" ng-click="launchAll()">
-                    <i class="fa fa-arrow-circle-o-down"></i> Run All
+                    <i class="fa fa-arrow-circle-o-down"></i>
+                    <span translate="editor.runAll">Run All</span>
                 </button>
 
                 <a ui-sref="global.editorarea.open" class="btn btn-primary " type="button">
-                    <i class="fa fa-arrow-circle-o-down"></i> Open File
+                    <i class="fa fa-arrow-circle-o-down"></i>
+                    <span translate="editor.openFile">Open File</span>
                 </a>
 
                 <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
-                    <i class="fa fa-arrow-circle-o-down"></i> See Execution
+                    <i class="fa fa-arrow-circle-o-down"></i>
+                    <span translate="editor.seeExecution">See Execution</span>
                 </button>
 
-                <button class="btn btn-primary pull-right" ui-sref="global.editorarea.newFile"><i class="fa fa-plus"></i> New File</button>
+                <button class="btn btn-primary pull-right" ui-sref="global.editorarea.newFile">
+                    <i class="fa fa-plus"></i>
+                    <span translate="editor.newFile">New File</span>
+                </button>
 
                 <button class="btn btn-danger btn-xs pull-right" ng-click="stopLaunch()" ng-hide="testExecuting == false">
                     <span class="fa fa-ban"></span>
-                    <span class="ladda-label">Stop</span>
+                    <span class="ladda-label" translate="editor.stop">Stop</span>
                 </button>
-
+                <!-- {{tests.total}} +++ {{tests.executed}}
+                <span class="col-sm-4 pull-right">
+                    <progressbar class="progress-striped active" max="tests.total" value="tests.executed"></progressbar>
+                </span> -->
+                
             </p>
 
         </div>

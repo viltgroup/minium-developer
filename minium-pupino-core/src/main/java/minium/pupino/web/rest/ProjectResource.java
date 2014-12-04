@@ -57,9 +57,6 @@ public class ProjectResource {
 	public void create(@RequestBody Project project) throws URISyntaxException, IOException, JAXBException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		String a = project.getSourceRepository().getType().toString();
-		String b = project.getSourceRepository().getUrl().toString();
-		
 		jenkinService.createJob(project.getName(),project.getSourceRepository().getType().toString(),project.getSourceRepository().getUrl().toString());
 	}
 

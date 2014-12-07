@@ -4,7 +4,7 @@
         <div class="box box-primary">
             <div class="box-header">
                 <i class="fa fa-bar-chart-o"></i>
-                <h3 class="box-title">Pie Chart</h3>
+                <h3 class="box-title">Features Stats</h3>
             </div>
             <div class="box-body">
                 <nvd3-pie-chart data="exampleData" id="exampleId" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true">
@@ -16,6 +16,47 @@
         <!-- /.box -->
 
 
+        <div class="row">
+            <div class="col-lg-5 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3>
+                   {{feature.numberOfPasses}}
+                </h3>
+                        <p>
+                            Steps Passed
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-check-square"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-5 col-xs-6">
+                <!-- small box -->
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h3>
+                    {{feature.numberOfFailures}}
+                </h3>
+                        <p>
+                            Step Fail
+                        </p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-bug"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">
+                                    More info <i class="fa fa-arrow-circle-right"></i>
+                                </a>
+                </div>
+            </div>
+        </div>
 
     </div>
     <!-- /.col -->
@@ -102,106 +143,91 @@
             </div>
             <!-- panel-body -->
         </div>
-        <!-- panel -->
-        <div class="box box-solid">
+
+
+        <div class="box box-info">
             <div class="box-header">
-                <h3 class="box-title">Scrennshots</h3>
+                <!-- panel-btns -->
+                <h5 class="box-title">Steps Stats</h5>
             </div>
-            <!-- /.box-header -->
+            <!-- panel-heading -->
             <div class="box-body">
 
-                <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
-                        <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div ng-repeat="scenario in faillingScenarios">
-                            <div class="item active" ng-repeat="step in scenario" ng-show="step.status === 'FAILED'">
-                                <img src="data:{{steps.embeddings[0].mime_type}};base64,{{scenario.steps.embeddings[0].data}}">
-                                <div class="carousel-caption">
-                                    First Slide
+                <nvd3-discrete-bar-chart data="exampleData1" id="exampleId2" showXAxis="true" showYAxis="true" showValues="true" tooltips="true" color="colorFunction()" width="550" height="400">
+                    <svg></svg>
+                </nvd3-discrete-bar-chart>
+
+                <table class="table table-primary table-list">
+                    <thead>
+                        <tr>
+                            <th>Result</th>
+                            <th>Feature</th>
+                            <th>Total</th>
+                            <th>Passed</th>
+                            <th>Failed</th>
+                            <th>Duration</th>
+                            <th>File</th>
+                            <th class="text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+                            <td>
+                                <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
+                                <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug"></i>
+                            </td>
+                            <td>
+                                <a ui-sref="global.feature({ id: project.id, buildId: buildId, featureURI: (feature.uri | escape) })">
+                                 {{feature.rawName}}
+                                 </a>
+                            </td>
+                            <td>
+                                {{feature.numberOfSteps}}
+                            </td>
+                            <td style="background-color:grenn;">
+                                {{feature.numberOfPasses}}
+                            </td>
+                            <td>
+                                {{feature.numberOfFailures}}
+                            </td>
+                            <td>
+                                {{feature.durationOfSteps}}
+                            </td>
+                            <td>
+                                <a class='btn btn-info btn-xs' ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">
+                                 Go to File
+                                 </a>
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a data-toggle="dropdown" class="dropdown-toggle">
+                                        <i class="fa fa-cog"></i>
+                                    </a>
+                                    <ul role="menu" class="dropdown-menu pull-right">
+                                        <li><a href="#">View</a>
+                                        </li>
+                                        <li><a href="#">Close</a>
+                                        </li>
+                                        <li><a href="#">Resolve</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#">Assign</a>
+                                        </li>
+                                        <li><a href="#">Comment</a>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span>
-                    </a>
-                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span>
-                    </a>
-                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <!-- /.box-body -->
+            <!-- panel-body -->
         </div>
-        <div class="nav-tabs-custom">
-            <ul class="nav nav-tabs">
-                <li class="active"><a show-tab href="#tab_1" data-toggle="tab">Tab 1</a>
-                </li>
-                <li class=""><a show-tab href="#tab_2" data-toggle="tab">Tab 2</a>
-                </li>
-                <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div class="tab-pane active" id="tab_1">
-                    <b>TAB 1</b>
-                </div>
-                <!-- /.tab-pane -->
-                <div class="tab-pane" id="tab_2">
-                    <b>Tab 2</b>
-                </div>
-                <!-- /.tab-pane -->
-            </div>
-            <!-- /.tab-content -->
-        </div>
+        <!-- panel -->
 
 
 
     </div>
     <!-- /.col -->
-</div>
-
-<div class="row">
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-green">
-            <div class="inner">
-                <h3>
-                   {{feature.numberOfPasses}}
-                </h3>
-                <p>
-                    Steps Passed
-                </p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-check-square"></i>
-            </div>
-            <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-        </div>
-    </div>
-    <!-- ./col -->
-    <div class="col-lg-3 col-xs-6">
-        <!-- small box -->
-        <div class="small-box bg-red">
-            <div class="inner">
-                <h3>
-                    {{feature.numberOfFailures}}
-                </h3>
-                <p>
-                    Step Fail
-                </p>
-            </div>
-            <div class="icon">
-                <i class="fa fa-bug"></i>
-            </div>
-            <a href="#" class="small-box-footer">
-                                    More info <i class="fa fa-arrow-circle-right"></i>
-                                </a>
-        </div>
-    </div>
 </div>

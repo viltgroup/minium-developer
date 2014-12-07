@@ -1,34 +1,23 @@
 <div class="container">
     <div class="well well-sm">
         <strong>Builds</strong>
-    </div>
-    <div id="builds-list" class="row list-group">
-
-        <div class="item  col-xs-4 col-lg-4" ng-repeat="build in builds">
-            <div class="thumbnail panel-border-top-danger" ng-class="{'panel-border-top-success' : isSuccess(build.result)}">
-                <div class="caption">
-                    <h4 class="group inner list-group-item-heading">
-                        {{build.fullDisplayName}}
-                        <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
-                        <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
-                        <i ng-if="build.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
-                    </h4>
-                    <p class="group inner list-group-item-text">
-                        Description {{build.description}}</p>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-6">
-                            <p class="lead">
-                                <i class="fa fa-clock-o"></i> {{build.id}}
-                            </p>
-                            <small>{{build.id | humanizeDate}}</small>
-                        </div>
-                        <div class="col-xs-12 col-md-6">
-                            <a class="btn" ng-class="{'btn-success' : isSuccess(build.result), 'btn-danger' : !isSuccess(build.result) }" ui-sref="global.build({ id: project.id, number: build.number })">View Build</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="btn-group">
+            <a ui-sref="global.project-detail.builds.grid" id="grid" class="btn btn-default btn-sm active" ui-sref-active="active"><span
+                class="glyphicon glyphicon-th active"></span> Grid
+            </a>
+            <a ui-sref="global.project-detail.builds.list" id="list" class="btn btn-default btn-sm active" ui-sref-active="active"><span class="glyphicon glyphicon-th-list">
+            </span> List
+            </a>
         </div>
-
     </div>
+
+    <!-- Alert No data -->
+    <div class="alert alert-info" ng-show="!lastFinishedBuild">
+        <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
+            <i class="fa fa-play"></i> Launch Build
+        </a>
+        <strong>Info:</strong> Theres no data
+    </div>
+    
+    <div ui-view></div>
 </div>

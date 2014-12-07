@@ -1,12 +1,12 @@
 package minium.pupino.web.rest;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 
 import minium.pupino.domain.Project;
 import minium.pupino.domain.SourceRepository;
@@ -50,13 +50,14 @@ public class ProjectResource {
 	 * 
 	 * @throws URISyntaxException
 	 * @throws IOException
+	 * @throws JAXBException 
 	 */
 	@RequestMapping(value = "/rest/projects", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void create(@RequestBody Project project) throws URISyntaxException, IOException {
+	public void create(@RequestBody Project project) throws URISyntaxException, IOException, JAXBException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		jenkinService.createJob(project.getName());
+		jenkinService.createJob(project.getName(),project.getSourceRepository().getType().toString(),project.getSourceRepository().getUrl().toString());
 	}
 
 	/**
@@ -72,7 +73,7 @@ public class ProjectResource {
 			project.setName("cp-e2e-test");
 			SourceRepository sr = new SourceRepository();
 			sr.setType(Type.GIT);
-			sr.setUrl(URI.create("url"));
+			sr.setUrl("url@dsdsd.gti");
 			project.setSourceRepository(sr);
 			projectRepository.save(project);
 			i = 1;

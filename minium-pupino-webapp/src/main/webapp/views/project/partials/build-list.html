@@ -1,4 +1,4 @@
-<table class="table table-primary table-list">
+<table class="table table-primary table-list" ng-show="builds.length > 0">
     <thead>
         <tr>
             <th>ID</th>
@@ -34,7 +34,6 @@
                 <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, number: build.number })">
                     View Build
                 </a>
-
             </td>
             <td>
                 <span class="label label-danger">{{build.building}}</span>

@@ -6,45 +6,89 @@
                 <div class="box-header">
                     <i class="fa fa-gear"></i>
                     <h3 class="box-title">Last Builds</h3>
-
                     <div class="box-tools btn-group pull-right" data-toggle="buttons">
-                        <label class="btn btn-default btn-sm" ng-click="status = 'SUCCESS'">
+                        <label class="btn btn-default btn-sm" ng-click="status = 'SUCCESS'" title="Succeeded">
                             <input type="radio"></input>
                             <i class="fa fa-square text-green"></i>
                         </label>
-                        <label class="btn btn-default btn-sm"  ng-click="status = 'UNSTABLE'">
+                        <label class="btn btn-default btn-sm" ng-click="status = 'UNSTABLE'" title="Failed">
                             <input type="radio"></input>
                             <i class="fa fa-square text-red"></i>
                         </label>
-
-                        <label class="btn btn-default btn-sm" ng-click="status = ''">
+                        <label class="btn btn-default btn-sm" ng-click="status = ''" title="All">
                             <input type="radio"></input>
                             <i class="fa fa-square"></i>
                         </label>
                     </div>
                 </div>
+                <strong>&nbsp;&nbsp;&nbsp;Last Build</strong>
                 <div class="box-body ">
-                    <table class="table table-primary table-list">
+                    <!-- Alert No data -->
+                    <div class="alert alert-info" ng-show="!lastFinishedBuild">
+                        <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
+                            <i class="fa fa-play"></i> Launch Build
+                        </a>
+                        <strong>Info:</strong> Theres no data
+                    </div>
+
+                    <table class="table table-primary table-list" ng-show="lastFinishedBuild">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Status</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Time</th>
                                 <th>Duration</th>
+                                <th>%</th>
                                 <th></th>
-                                <th class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="build in builds | filter:status" ng-class="{'danger' : (build.result != 'SUCCESS') }">
+                            <tr ng-class="{'danger' : (lastFinishedBuild.result != 'SUCCESS') }">
+                                <td>
+                                    <i ng-if="isSuccess(lastFinishedBuild.result)" class="success fa fa-check-square fa-2x"></i>
+                                    <i ng-if="!isSuccess(lastFinishedBuild.result)" class="danger fa fa-bug fa-2x"></i>
+                                    <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i>
+                                    <br>
+                                    <span ng-if="$index == 0" class="label label-primary">Last Stable lastFinishedBuild</span>
+                                </td>
+                                <td><a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">{{lastFinishedBuild.fullDisplayName}}</a>
+                                </td>
+                                <td>
+                                    {{lastFinishedBuild.description}}
+                                </td>
+                                <td>
+                                    <i class="fa fa-clock-o"></i> {{lastFinishedBuild.id | humanizeDate}}
+                                </td>
+                                <td>
+                                    {{lastFinishedBuild.duration | durationMilliseconds}}
+                                </td>
+                                <td>
+                                    <span class="label label-danger">{{(100*summary.failed/summary.totalScenarios)| number:2}}% failing</span>
+                                </td>
+                                <td>
+                                    <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.number })">
+                           View Build
+                           </a>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                        <!-- other builds -->
+                        <thead>
+                            <tr>
+                                <th colspan="7"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="build in builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
                                 <td>
                                     <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
                                     <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
-                                    <i ng-if="build.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
-
+                                    <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i>
+                                    <br>
                                 </td>
-                                <td><a ui-sref="#">{{build.fullDisplayName}}</a>
+                                <td><a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">{{build.fullDisplayName}}</a>
                                 </td>
                                 <td>
                                     {{build.description}}
@@ -53,49 +97,21 @@
                                     <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
                                 </td>
                                 <td>
-                                    {{build.duration}}
+                                    {{build.duration | durationMilliseconds}}
                                 </td>
-
+                                <td></td>
                                 <td>
-                                    <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, number: build.number })">
-                    View Build
-                </a>
-
-                                </td>
-                                <td>
-                                    <div class="btn-group">
-                                        <a data-toggle="dropdown" class="dropdown-toggle">
-                                            <i class="fa fa-cog"></i>
-                                        </a>
-                                        <ul role="menu" class="dropdown-menu pull-right">
-                                            <li><a href="#">View</a>
-                                            </li>
-                                            <li><a href="#">Close</a>
-                                            </li>
-                                            <li><a href="#">Resolve</a>
-                                            </li>
-                                            <li class="divider"></li>
-                                            <li><a href="#">Assign</a>
-                                            </li>
-                                            <li><a href="#">Comment</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                    <a class='btn btn-info btn-xs' ui-sref="global.build({ id: project.id, buildId: build.number })">
+                           View Build
+                           </a>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
                 </div>
                 <!-- /.box-->
-
             </div>
         </div>
-
-
-
-
-
         <div class="row">
             <div class="box box-success">
                 <div class="box-header">
@@ -103,7 +119,13 @@
                     <h3 class="box-title">Identified problems</h3>
                 </div>
                 <div class="box-body ">
-                    <table class="table table-primary table-list">
+
+                    <!-- Alert No data -->
+                    <div class="alert alert-info" ng-show="faillingFeatures.length == 0">
+                        <strong>Info:</strong> Theres no data
+                    </div>
+
+                    <table class="table table-primary table-list" ng-show="faillingFeatures.length > 0">
                         <thead>
                             <tr>
                                 <th>Result</th>
@@ -111,25 +133,22 @@
                                 <th>Total</th>
                                 <th>Passed</th>
                                 <th>Failed</th>
-
                                 <th>Duration</th>
                                 <th>File</th>
                                 <th class="text-center"></th>
                             </tr>
                         </thead>
                         <tbody>
-
                             <tr ng-repeat="feature in faillingFeatures" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
-
                                 <td>
                                     <span class="hide">{{feature.status}}</span>
                                     <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
                                     <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
                                 </td>
                                 <td>
-                                    <a ui-sref="global.feature({ id: project.id, buildId: buildId, featureURI: (feature.uri | escape) })">
-                   {{feature.rawName}}
-                </a>
+                                    <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
+                                    {{feature.rawName}}
+                                    </a>
                                 </td>
                                 <td>
                                     {{summary.totalScenarios}}
@@ -140,17 +159,14 @@
                                 <td>
                                     {{feature.numberOfFailures}}
                                 </td>
-
                                 <td>
                                     {{feature.durationOfSteps}}
                                 </td>
                                 <td>
                                     <a class='btn btn-info btn-xs' ng-href="#/editor/{{feature.uri}}?line=1" target="_blank">
-                    Go to File
-                </a>
+                           Go to File
+                           </a>
                                 </td>
-
-
                                 <td>
                                     <div class="btn-group">
                                         <a data-toggle="dropdown" class="dropdown-toggle">
@@ -172,36 +188,31 @@
                                     </div>
                                 </td>
                             </tr>
-
                         </tbody>
                     </table>
-
                 </div>
                 <!-- /.box-->
-
             </div>
         </div>
-
     </section>
     <!-- end of section col-md-7 -->
-
-
-
     <section class="col-md-5 connectedSortable ui-sortable">
-
         <div class="nav-tabs-custom" style="cursor: move;">
             <!-- Tabs within a box -->
             <ul class="nav nav-tabs pull-right">
-                <li class="active"><a show-tab href="#revenue-chart" data-toggle="tab">Area</a>
+                <li><a show-tab href="#revenue-chart" data-toggle="tab">Area</a>
                 </li>
-                <li><a show-tab href="#sales-chart" data-toggle="tab">Donut</a>
+                <li><a show-tab href="#pie-chart" data-toggle="tab">Donut</a>
                 </li>
+                <li class="active"><a show-tab href="#line-chart" data-toggle="tab">area</a>
+                </li>
+
                 <li class="pull-left header"><i class="fa fa-inbox"></i> Evolution</li>
             </ul>
             <div class="tab-content no-padding">
                 <!-- Morris chart - Sales -->
-                <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;">
-                    <svg height="300" version="1.1" width="720" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
+                <div class="chart tab-pane " id="revenue-chart">
+                    <svg height="250" version="1.1" width="420" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative;">
                         <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.0</desc>
                         <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs>
                         <text x="49.21875" y="261" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-style: normal; font-variant: normal; font-weight: normal; font-stretch: normal; font-size: 12px; line-height: normal; font-family: sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal">
@@ -265,43 +276,44 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                    <nvd3-pie-chart data="exampleData" id="exampleId" width="550" height="250" x="xFunction()" y="yFunction()" showLabels="true">
+                <div class="chart tab-pane" id="pie-chart">
+                    <nvd3-pie-chart data="exampleData1" id="exampleId1" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true" showLegend="true" color="colorFunction()" legendColor="colorFunction()" labelType="percent" donut="true" donutRatio=".50" noData="No Data For You!">
                         <svg></svg>
                     </nvd3-pie-chart>
                 </div>
+
+                <div class="chart tab-pane active" id="line-chart">
+                    <nvd3-line-chart data="exampleData" id="exampleId" width="550" height="300" showXAxis="true" showYAxis="true" showLegend="true" legendColor="colorFunction()" color="colorFunction()" isArea="true" tooltips="true" interactive="true" noData="No Data For You!">
+                        <svg></svg>
+                    </nvd3-line-chart>
+                </div>
+
             </div>
         </div>
-
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Shortcuts</h3>
             </div>
             <div class="box-body">
-                <a class="btn btn-app">
+                <a class="btn btn-app" ng-click="createBuild()">
                     <i class="fa fa-play"></i> Launch Build
                 </a>
-
-
                 <a class="btn btn-app">
                     <i class="fa fa-list"></i> Feature List
                 </a>
-
                 <a class="btn btn-app">
                     <i class="fa fa-edit"></i> Edit Files
                 </a>
-
             </div>
             <!-- /.box-body -->
         </div>
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">
-                <i class="fa fa-star"></i> Summary Last Build 
-                <strong>Total Scenarios</strong> 
-                <span class="label label-primary">{{summary.totalScenarios}}</span>
-                </h3>
+               <i class="fa fa-star"></i> Summary Last Build 
+               <strong>Total Scenarios</strong> 
+               <span class="label label-primary">{{summary.totalScenarios}}</span>
+            </h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
@@ -322,12 +334,12 @@
                                 <td>{{summary.passed}}</td>
                                 <td>
                                     <div class="progress">
-                                        <div style="width: {{(100*summary.passed/summary.totalScenarios)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
-                                            <span class="sr-only">{{(100*summary.passed/summary.totalScenarios)| number:0}}% Complete (success)</span>
+                                        <div style="width: {{(100*summary.passed/summary.totalScenarios)| number:2}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                            <span class="sr-only">{{(100*summary.passed/summary.totalScenarios)| number:2}}% Complete (success)</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{(100*summary.passed/summary.totalScenarios)| number:0}}%</td>
+                                <td>{{(100*summary.passed/summary.totalScenarios)| number:2}}%</td>
                             </tr>
                             <tr>
                                 <td><a href="">Failures</a>
@@ -335,12 +347,12 @@
                                 <td>{{summary.failed}}</td>
                                 <td>
                                     <div class="progress">
-                                        <div style="width: {{(100*summary.failed/summary.totalScenarios)| number:0}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
-                                            <span class="sr-only">{{(100*summary.failed/summary.totalScenarios)| number:0}}% Complete (success)</span>
+                                        <div style="width: {{(100*summary.failed/summary.totalScenarios)| number:2}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                            <span class="sr-only">{{(100*summary.failed/summary.totalScenarios)| number:2}}% Complete (success)</span>
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{(100*summary.failed/summary.totalScenarios)| number:0}}%</td>
+                                <td>{{(100*summary.failed/summary.totalScenarios)| number:2}}%</td>
                             </tr>
                         </tbody>
                     </table>
@@ -350,5 +362,4 @@
         </div>
     </section>
 </div>
-
 </section>

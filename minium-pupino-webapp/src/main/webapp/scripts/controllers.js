@@ -295,6 +295,5 @@ pupinoApp.controller('AuditsController', function ($scope, $translate, $filter, 
 
 angular.module('pupinoApp.controllers', [])
     .controller('GlobalController', GlobalController)
-    .controller('OpenFileController', OpenFileController)
     .controller('LaunchController', LaunchController)
     .controller('ReportController', ReportController);

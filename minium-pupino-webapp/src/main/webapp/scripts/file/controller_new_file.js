@@ -1,17 +1,31 @@
 'use strict';
 
-var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService) {
+var NewFileController = function($scope, $rootScope, $modalInstance, $state,$controller, $stateParams, $log, $location, FS, FileFactory, FormatService, launcherService) {
+
+    //extends controller
+    //$.extend(this, $controller('FileController', {$scope: $scope}));
     
-   
+    $scope.fileName = "";
+
+    $scope.createFile = function(fileName, path) {
+        var fs = path || "";
+        FileFactory.create(fs + fileName).success(function() {
+            asyncLoad($scope.fs.current);
+            toastr.success("Created file " + $scope.fileName);
+            $scope.fileName = "";
+
+        }).error(function(data) {
+            toastr.error("Error " + data);
+        });
+    }
+
+    //NEED to put this code on a parent controller 
     $scope.fs = {
         current: {}
     };
     $scope.form = {};
 
     $scope.type = $stateParams.type | ''
-
-    //focus on search input
-    $("search-query").focus();
 
     var asyncLoad = function(node) {
         console.debug(node);
@@ -55,11 +69,11 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
     };
 
     $scope.select = function(item) {
-       
+
         $state.go("global.editorarea", {
             path: item.relativeUri
         });
-        //$scope.$close(true);
+        $scope.$close(true);
     };
 
     $scope.ok = function() {
@@ -76,20 +90,22 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
         var path = props.relativeUri || props;
 
         FormatService.file(path).success(function(data) {
-          console.debug(data);
+            console.debug(data);
         }).error(function(data) {
-          console.debug("error", data);
+            console.debug("error", data);
         });
     }
 
-     $scope.formatDirectory = function(props) {
+    $scope.formatDirectory = function(props) {
 
         var path = props.relativeUri || props;
 
         FormatService.directory(path).success(function(data) {
-          console.debug(data);
+            console.debug(data);
         }).error(function(data) {
-          console.debug("error", data);
+            console.debug("error", data);
         });
     }
+
+
 };

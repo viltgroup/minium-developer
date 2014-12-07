@@ -16,10 +16,11 @@ public class BuildDTO {
 	String id;
 	long timestamp;
 	String result;
+	SummaryDTO summary;
 	List<Feature> features;
 	
 	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName, String id,
-			long timestamp, String result, String resultJSON, List<Feature> features) {
+			long timestamp, String result, String resultJSON, List<Feature> features,SummaryDTO summary) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -32,11 +33,12 @@ public class BuildDTO {
 		this.timestamp = timestamp;
 		this.result = result;
 		this.features = features;
+		this.summary = summary;
 	}
 
 
 	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
-			String id, long timestamp, String result,String resultJSON) {
+			String id, long timestamp, String result,SummaryDTO summary) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -48,6 +50,7 @@ public class BuildDTO {
 		this.id = id;
 		this.timestamp = timestamp;
 		this.result = result;
+		this.summary = summary;
 	}
 	
 	
@@ -130,6 +133,16 @@ public class BuildDTO {
 
 	public void setFeatures(List<Feature> features) {
 		this.features = features;
+	}
+
+
+	public SummaryDTO getSummary() {
+		return summary;
+	}
+
+
+	public void setSummary(SummaryDTO summary) {
+		this.summary = summary;
 	}
 
 

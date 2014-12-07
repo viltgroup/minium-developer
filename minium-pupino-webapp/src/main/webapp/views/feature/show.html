@@ -3,11 +3,16 @@
     <!-- Content Header (Page header) -->
 
     <section class="content-header">
-        <h1>
-            <i class="fa fa-file"></i>
+
+        <h2>
+        <i class="fa fa-file"></i> Project 
+              <a ui-sref="global.project-detail({ id: project.id })">
+                                {{project.name}}
+              </a>
+            
             Feature
             <small>{{feature.rawName}}</small>
-        </h1>
+        </h2>
         <ol class="breadcrumb">
             <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
             </li>
@@ -29,19 +34,19 @@
                     </a>
                 </li>
                 <li ui-sref-active="active" class="active">
-                    <a  ui-sref="global.feature.failling">
+                    <a ui-sref="global.feature.failling">
                         <i class="fa fa-bug"></i>
                         <strong>Failing Scenarios</strong>
                         <span class="label label-danger">{{faillingScenarios.length}}</span>
                     </a>
                 </li>
                 <li ui-sref-active="active" class="active">
-                    <a  ui-sref="global.feature.stats">
+                    <a ui-sref="global.feature.stats">
                         <i class="fa fa-bar-chart"></i>
                         <strong>Statistics</strong>
                     </a>
                 </li>
-               <!--  <li  ui-sref-active="active" class="active">
+                <!--  <li  ui-sref-active="active" class="active">
                     <a  href="#resolved">
                         <strong>Resolved</strong>
                     </a>

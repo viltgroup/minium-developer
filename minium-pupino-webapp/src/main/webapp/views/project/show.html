@@ -4,7 +4,7 @@
 
     <section class="content-header">
         <h1>
-            <i class="glyphicon glyphicon-file"></i>
+            <i class="fa fa-cloud-download"></i>
             {{project.name}}
             <small></small>
         </h1>
@@ -33,33 +33,26 @@
 
             <ul class="nav nav-tabs nav-color">
 
-                <li  class="active">
-                    <a show-tab data-toggle="tab" href="#project-overview">
-                        <i class="fa fa-gears"></i>
-                        <strong>project-overview</strong>
+                <li  ui-sref-active="active" class="active">
+                    <a ui-sref="global.project-detail.overview">
+                        <i class="fa  fa-dashboard "></i>
+                        <strong>Project Overview</strong>
                     </a>
                 </li>
 
-                <li>
-                    <a show-tab data-toggle="tab" href="#builds">
+                <li ui-sref-active="active" class="active">
+                    <a  ui-sref="global.project-detail.builds">
                         <i class="fa fa-gears"></i>
                         <strong>Last Builds</strong>
                         <span class="label label-danger">{{builds.lenght}}</span>
                     </a>
                 </li>
 
-                <li>
-                    <a show-tab data-toggle="tab" href="#buildsList">
-                        <i class="fa fa-bug"></i>
-                        <strong>Last Builds List</strong>
-                        <span class="label label-danger">{{builds.lenght}}</span>
-                    </a>
-                </li>
 
-                <li>
-                    <a show-tab data-toggle="tab" href="#reports">
+                <li ui-sref-active="active" class="active">
+                    <a  ui-sref="global.project-detail.features-list">
                         <i class="fa fa-bars"></i>
-                        <strong>Report</strong>
+                        <strong>Features List</strong>
                     </a>
                 </li>
 
@@ -69,52 +62,11 @@
                         <strong>Schedule Build</strong>
                     </a>
                 </li> -->
-
-                <li class="">
-                    <a show-tab data-toggle="tab" href="#statistic">
-                        <i class="fa fa-bar-chart"></i>
-                        <strong>Statistics</strong>
-                    </a>
-                </li>
             </ul>
             <!--TAB CONTENT -->
             <div class="tab-content tab-report">
-
-                <!-- TAB 1 -->
-                <div id="project-overview" class="tab-pane active">
-                    <div ng-include="'views/project/partials/project-overview.html'"></div>
-                </div>
-
-                <!-- tab-pane -->
-                <!-- TAB 1 -->
-                <div id="builds" class="tab-pane ">
-                    <div ng-include="'views/project/partials/build.html'"></div>
-                </div>
-                <!-- tab-pane -->
-
-                <!-- TAB 2 -->
-                <div id="buildsList" class="tab-pane">
-                    <div ng-include="'views/project/partials/build-list.html'"></div>
-                </div>
-                <!-- tab-pane -->
-
-                <!-- TAB 3 -->
-                <div id="reports" class="tab-pane ">
-                    <div ng-include="'views/project/partials/features-list.html'"></div>
-                </div>
-                <!-- tab-pane -->
-
-                <!-- TAB  -->
-                <div id="scheduled" class="tab-pane">
-                    <div ng-include="'views/project/partials/scheduler.html'"></div>
-                </div>
-                <!-- tab-pane -->
-
-                <!-- TAB 4 -->
-                <div id="statistic" class="tab-pane">
-
-                </div>
-                <!-- tab-pane -->
+                
+                  <div ui-view></div>
 
             </div>
             <!-- tab-content -->

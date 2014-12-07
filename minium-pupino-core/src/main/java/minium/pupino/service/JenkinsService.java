@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import javax.xml.bind.JAXBException;
+
 import minium.pupino.jenkins.JenkinsClient;
 import minium.pupino.web.rest.dto.BuildDTO;
 
@@ -29,8 +31,8 @@ public class JenkinsService {
 	/*
 	 * JOBS
 	 */
-	public void createJob(String jobName) throws IOException {
-		jenkinsClient.createJob(jobName);
+	public void createJob(String jobName,String scmType,String repository) throws IOException, JAXBException {
+		jenkinsClient.createJob(jobName,scmType,repository);
 	}
 	
 	/*
@@ -54,6 +56,10 @@ public class JenkinsService {
 	
 	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException{
 		return jenkinsClient.getBuild(jobName, buildId, featureURI);
+	}
+	
+	public BuildDTO getBuildById(String jobName, String buildId) throws IOException, URISyntaxException{
+		return jenkinsClient.getBuildById(jobName, buildId);
 	}
 	
 	/*

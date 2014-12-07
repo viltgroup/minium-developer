@@ -23,7 +23,9 @@
                 "register": "Registre"
             },
             "admin": "Administració",
-            "language": "Idioma"
+            "language": "Idioma",
+            "editor": "Editor",
+            "projects": "Projectes"
         },
         "form": {
             "username": "Iniciar sessió",
@@ -317,5 +319,17 @@
         "title": "Pàgina d'error!",
         "403": "No té autorització per accedir a la pàgina."
     },
-    "footer": "Aquest és el teu footer"
+    "footer": "Aquest és el teu footer",
+    "editor":{
+        "status": "Estat",
+        "summary": "Resum de l'Informe",
+        "clearMarkers": "Treure marcadors",
+        "runAll": "Executar Tot",
+        "openFile": "Abrir Archivo",
+        "newFile": "Nou Arxiu",
+        "seeExecution": "Veure Execució",
+        "stop": "Parar",
+        "running": "córrer",
+        "editor" : "Editor"
+    }
 }

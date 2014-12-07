@@ -5,6 +5,8 @@ pupinoApp.controller('ProjectController', function ($scope, resolvedProject, Pro
         $scope.projects = resolvedProject;
 
         $scope.create = function () {
+            console.log($scope.project);
+            
             Project.save($scope.project,
                 function () {
                     $scope.projects = Project.query();

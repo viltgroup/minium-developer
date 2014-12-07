@@ -52,7 +52,7 @@
         
 		<!-- Integration with Jenkins -->
 		<jenkins-version>1.447.2</jenkins-version>
-		<jenkins.client.version>0.2.2.VILT-SNAPSHOT</jenkins.client.version>
+		<jenkins.client.version>0.2.3</jenkins.client.version>
 		<hudson.version>2.2.1</hudson.version>
 		<hudson.core.version>3.0.0-M2</hudson.core.version>
 		<hudson-test.version>3.2.1</hudson-test.version>
@@ -383,6 +383,32 @@
 			<artifactId>cucumber-reporting</artifactId>
 			<version>${cucumber-reporting.version}</version>
 		</dependency>
+			<!-- Added because of an error classNotFound -->
+		<dependency>
+			<groupId>com.googlecode.totallylazy</groupId>
+			<artifactId>totallylazy</artifactId>
+			<version>1.20</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>velocity-tools</groupId>
+			<artifactId>velocity-tools</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.2.4</version>
+		</dependency>
+		 <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.11</version>
+	    <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -474,6 +500,7 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
+
 		<repository>
 	        <id>spring-milestones</id>
 	        <name>Spring Milestones</name>

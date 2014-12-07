@@ -23,7 +23,9 @@
                 "register": "Register"
             },
             "admin": "Administration",
-            "language": "Language"
+            "language": "Language",
+            "editor": "Editor",
+            "projects": "Projects"
         },
         "form": {
             "username": "Login",
@@ -317,5 +319,17 @@
         "title": "Error page!",
         "403": "You are not authorized to access the page."
     },
-    "footer": "This is your footer"
+    "footer": "This is your footer",
+    "editor":{
+        "status": "Status",
+        "summary": "Summary",
+        "clearMarkers": "Clear Markers",
+        "runAll": "Run All",
+        "openFile": "Open File",
+        "newFile": "New File",
+        "seeExecution": "See execution",
+        "stop": "Stop",
+        "running": "Running",
+        "editor" : "Editor"
+    }
 }

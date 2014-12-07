@@ -220,28 +220,6 @@ pupinoApp.factory('AuthenticationSharedService', function($rootScope, $http, aut
 });
 
 
-pupinoApp.factory('FS', function($resource) {
-    return $resource("/app/rest/fs", {
-        path: "/"
-    }, {
-        list: {
-            method: 'GET',
-            params: {
-                action: "list"
-            },
-            isArray: true
-        },
-        search: {
-            method: 'GET',
-            params: {
-                action: "search"
-            },
-            isArray: true
-        }
-    });
-})
-
-
 pupinoApp.factory('launcherService', function($http) {
     return {
         launch: function(params) {
@@ -375,4 +353,152 @@ pupinoApp.factory('EvalService', function($http) {
             });
         }
     };
+});
+
+pupinoApp.factory('JenkinsProvider', ['$resource', '$http', function($resource, $http) {
+    return {
+        builds: $resource('app/rest/jenkins/builds/:jobName', {}, {
+            query: {
+                method: 'GET',
+                isArray: true
+            }
+        }),
+        createBuild: function(project) {
+            return $http.post('app/rest/jenkins/builds/create/' + project.name, {});
+        },
+        getFeatureBuild: function(project, buildId, featureURI) {
+            return $http.get('app/rest/jenkins/builds/' + project.name + '/' + buildId + '/' + featureURI, {});
+        }
+    };
+}]);
+
+pupinoApp.factory('JenkinsProvider1', function($resource, $http) {
+    return {
+        getBuild: function(project, buildId, featureURI) {
+            return $http.get('app/rest/jenkins/builds/' + project.name + '/' + buildId + '/as', {});
+        },
+    };
+});
+
+
+pupinoApp.factory('BuildsFacade', function() {
+    /**
+     * Constructor
+     */
+    function BuildsFacade(report) {
+        this.builds = report;
+        //get the report of the last build finished
+        var i = 0;
+
+        while (i <= (this.builds.length - 1) && this.builds[i].result === "BUILDING") {
+            this.buildingBuild = report[i];
+            i++;
+        }
+
+        this.lastBuild = report[i];
+        this.features = eval(report[i].features);
+        this.passed = 0;
+        this.failed = 0;
+        this.totalScenarios = 0;
+
+        //remove the last build
+        this.builds.splice(i, 1);
+    }
+
+    /**
+     * Public method, assigned to prototype
+     */
+
+    BuildsFacade.prototype.processReport = function(summary, faillingFeatures, passingFeatures) {
+        var totalScenarios = 0;
+        var passed = 0;
+        var failed = 0;
+
+        angular.forEach(this.features, function(elem) {
+
+            passed += elem.numberOfScenariosPassed;
+            failed += elem.numberOfScenariosFailed;
+            totalScenarios += elem.numberOfScenarios;
+
+            if (elem.status === "FAILED")
+                faillingFeatures.push(elem);
+            else
+                passingFeatures.push(elem);
+
+        })
+
+        summary.totalScenarios = totalScenarios;
+        summary.failed = failed;
+        summary.passed = passed;
+
+    };
+
+
+    BuildsFacade.prototype.getSummary = function() {
+        var passingScenarios = [];
+        var faillingScenarios = [];
+
+        angular.forEach(this.builds, function(elem) {
+            console.log(elem.summary)
+            passingScenarios.push([elem.number, elem.summary.passingScenarios]);
+            faillingScenarios.push([elem.number, elem.summary.faillingScenarios]);
+        })
+
+        return {
+            passingScenarios: passingScenarios,
+            faillingScenarios: faillingScenarios
+        }
+    };
+    /**
+     * Return the constructor function
+     */
+    return BuildsFacade;
+});
+
+
+pupinoApp.factory('BuildFacade', function() {
+    /**
+     * Constructor
+     */
+    function BuildFacade(data) {
+        this.build = data;
+        this.feature = data.features[0];
+        var elements = this.processBuild();
+        this.background = elements.background;
+        this.scenarios = elements.scenarios;
+        this.faillingScenarios = elements.faillingScenarios;
+    }
+
+    /**
+     * Public method, assigned to prototype
+     */
+
+    BuildFacade.prototype.processBuild = function() {
+        var r = true;
+        var background = {};
+        var scenarios = [];
+        var faillingScenarios = [];
+        angular.forEach(this.feature.elements, function(elem) {
+            if (elem.keyword === "Background" && r === true) {
+                background = elem;
+                r = false;
+            } else if (elem.keyword !== "Background") {
+                if (elem.status === "FAILED") {
+                    faillingScenarios.push(elem)
+                }
+                scenarios.push(elem);
+            }
+        });
+
+        return {
+            background: background,
+            scenarios: scenarios,
+            faillingScenarios: faillingScenarios
+        }
+    };
+
+    /**
+     * Return the constructor function
+     */
+    return BuildFacade;
 });

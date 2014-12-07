@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import minium.pupino.domain.FileContent;
 import minium.pupino.domain.FileProps;
 import minium.pupino.service.AutoFormatter;
+import minium.pupino.service.FileSystemAccessService;
 import minium.pupino.web.method.support.AntPath;
 import minium.pupino.web.method.support.BaseURL;
 
@@ -25,6 +26,8 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +47,10 @@ public class FileSystemAccessResource {
 
     @Autowired
     private List<AutoFormatter> autoFormatters = Lists.newArrayList();
-
+    
+    @Autowired
+    private FileSystemAccessService fileSystemService;
+    
     private File baseDir = new File("src/test/resources");
 
     public void setBaseDir(File baseDir) {
@@ -87,7 +93,23 @@ public class FileSystemAccessResource {
         File file = resource.getFile();
         return extractFileContent(baseUrl, file);
     }
-
+    
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> create(@BaseURL String baseUrl,@RequestBody String path) throws IOException, URISyntaxException {
+       int result = fileSystemService.create(path);
+       String response;
+       HttpStatus status;
+       if( result == 0){
+    	   response = "Created";
+    	   status = HttpStatus.CREATED;
+       }else{
+    	   response = "Not Created";
+    	   status = HttpStatus.PRECONDITION_FAILED;
+       }
+       return new ResponseEntity<String>(response, status);
+    }
+    
     @RequestMapping(value = "/**", method = RequestMethod.DELETE)
     @ResponseBody
     public void delete(@AntPath("path") String path) throws IOException {

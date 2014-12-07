@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoApp.controller('FeatureController', function($scope, $stateParams, $sce, $state, resolvedProject, Project, JenkinsProvider) {
+pupinoApp.controller('FeatureController', function($scope, $stateParams, $sce, $state, resolvedProject, Project, JenkinsProvider, BuildFacade) {
 
     $state.go('global.feature.scenarios');
     $scope.project = resolvedProject;
@@ -11,6 +11,7 @@ pupinoApp.controller('FeatureController', function($scope, $stateParams, $sce, $
     $scope.background = {};
     $scope.scenarios = [];
     $scope.faillingScenarios = [];
+
     var getFeatureDetails = function() {
         var resource = JenkinsProvider.getFeatureBuild(
             $scope.project,
@@ -18,15 +19,25 @@ pupinoApp.controller('FeatureController', function($scope, $stateParams, $sce, $
             featureURI
         ).success(function(data) {
             console.log(data);
-            $scope.build = data;
-            $scope.feature = data.features[0];
-            extractBackGround();
+            //refactor
+            //better get only one object in buildFacade
+            //and in the view get the field that we want
+            var buildFacade = new BuildFacade(data);
 
-            $scope.faillingScenarios = jsonPath.eval(data, "$..elements[?(@.status=='FAILED')]");
+            $scope.build = buildFacade.build;
+            $scope.feature = buildFacade.feature;
+
+            $scope.background = buildFacade.background;
+            $scope.scenarios = buildFacade.scenarios;
+
+            $scope.faillingScenarios = buildFacade.faillingScenarios
 
             console.log($scope.faillingScenarios);
             processData();
             toastr.success("Created");
+
+            console.log()
+
         }).error(function(data) {
             toastr.error("Error " + data);
         });
@@ -34,20 +45,24 @@ pupinoApp.controller('FeatureController', function($scope, $stateParams, $sce, $
 
     getFeatureDetails();
 
-    var extractBackGround = function() {
-        var r = true;
-        angular.forEach($scope.feature.elements, function(elem) {
-            if (elem.keyword === "Background" && r === true) {
-                $scope.background = elem;
-                r = false;
-            } else if (elem.keyword !== "Background") {
-                //console.log(elem)
-                $scope.scenarios.push(elem);
-            }
-        });
+     var colorArray = [ 'green','red','yellow','blue'];
+    $scope.colorFunction = function() {
+        return function(d, i) {
+            return colorArray[i];
+        };
     }
-    
     var processData = function() {
+
+        $scope.exampleData1 = [{
+            key: "Steps",
+            values: [
+                ["Success", $scope.feature.numberOfPasses],
+                ["Failling", $scope.feature.numberOfFailures],
+                ["Skipped", $scope.feature.numberOfSkipped],
+                ["Undifined", $scope.feature.numberOfUndefined]
+            ]
+        }];
+
         $scope.exampleData = [{
             key: "X",
             y: 0

@@ -1,7 +1,7 @@
 'use strict';
 
 pupinoApp
-    .config(function($stateProvider, $httpProvider, $translateProvider, USER_ROLES) {
+    .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, USER_ROLES) {
 
         $stateProvider
             .state('global.editorarea', {
@@ -20,4 +20,32 @@ pupinoApp
                     authorizedRoles: [USER_ROLES.all]
                 }
             })
+
+        
+
+        modalStateProvider
+            .state('global.editorarea.newFile', {
+                templateUrl: "views/partials/modal/new-file.html",
+                controller: "NewFileController"
+            });
+
+        modalStateProvider
+            .state('global.editorarea.open', {
+                templateUrl: "views/partials/modal/open.file.html",
+                controller: "OpenFileController"
+            });
+
+        modalStateProvider
+            .state('global.editorarea.results', {
+                templateUrl: "views/partials/modal/launch.html",
+                controller: "LaunchController"
+            })
+
+
+
+        //configuration to execute the file
+        modalStateProvider.state('global.editorarea.configs', {
+            templateUrl: "views/partials/modal/configs.html",
+            controller: "ConfigsController"
+        });
     });

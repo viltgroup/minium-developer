@@ -34,7 +34,8 @@
     "font-awesome": "~4.2.0",
     "sockjs": "~0.3.4",
     "stomp-websocket": "~2.3.3",
-    "jqueryui": "~1.11.2"
+    "jqueryui": "~1.11.2",
+    "angular-bindonce": "~0.3.2"
   },
   "devDependencies": {
     "d3": "~3.4.1",

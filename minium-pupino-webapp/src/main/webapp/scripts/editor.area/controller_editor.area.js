@@ -79,6 +79,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
     };
 
 
+
     var checkModified = function() {
         var selectedItem = $scope.selected.item;
         if (!selectedItem) return;
@@ -143,9 +144,11 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
      * WebSocket
      * @type {SockJS}
      */
+    $scope.tests = {};
+    $scope.tests.total = 0;
+    $scope.tests.executed = 0;
     var subscribeMessages = function() {
-
-        $scope.tests = {};
+        
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
@@ -162,13 +165,17 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
                         break;
                     case "failing":
                         $scope.tests.failing = $scope.tests.failing + "\n\n\n" + testMessage.body;
+                        $scope.tests.executed += 1;
                         break;
                     case "passed":
-                        $scope.tests.passed = testMessage.body;
+                        $scope.tests.executed += 1;
+                        $scope.tests.passed = testMessage.body;  
                         break;
                     default: //do nothing
                 }
+                console.log($scope.tests.total)
             });
+
 
             var range = ace.require('ace/range').Range;
 
@@ -195,7 +202,11 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         });
     };
 
-    $scope.launchAll = function(argument) {
+    $scope.launchAll = function() {
+        //if no file is selected
+        if ($scope.selected.item === undefined)
+            return;
+
         var launchParams = {
             fileProps: $scope.selected.item.fileProps
         };
@@ -228,7 +239,6 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         executionWasStopped = false;
 
         launcherService.launch(launchParams).success(function(data) {
-
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
 
@@ -535,7 +545,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         var snippets = SnippetsProvider.all();
         snippetManager.register(snippets, "gherkin");
     };
-    
+
     //stop the timeouts
     $scope.$on('$destroy', function() {
         $timeout.cancel(stopwatch);

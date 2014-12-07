@@ -1,7 +1,6 @@
 package minium.pupino.domain;
 
 import java.io.Serializable;
-import java.net.URI;
 
 public class SourceRepository implements Serializable {
 
@@ -13,7 +12,7 @@ public class SourceRepository implements Serializable {
 
 	private Type type;
 
-	private URI url;
+	private String url;
 
 	public Type getType() {
 		return type;
@@ -23,11 +22,11 @@ public class SourceRepository implements Serializable {
 		this.type = type;
 	}
 
-	public URI getUrl() {
+	public String getUrl() {
 		return url;
 	}
 
-	public void setUrl(URI url) {
+	public void setUrl(String url) {
 		this.url = url;
 	}
 }

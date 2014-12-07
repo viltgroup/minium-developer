@@ -38,3 +38,25 @@ mvn verify
 ```
 
 You can then add scenarios in `src/test/resources/features/test_my_archetype.feature` and code for new steps in `src/test/resources/steps/test_my_archetype_stepdefs.js`.
+
+# Usage
+## 1. Open pupino
+Open the browser on this location <http://localhost:8080/>
+## 2. Open Test File
+* Click on the button **Open File**
+* Go to the tab **Navigation**
+* Click on **features** and select the file **your-project-name.feature**. 
+
+    At this point you should have the feature file open the editor of pupino.
+    
+## 3. Run the test
+* Click on the button **Run all** to run all the scenarios on the feature file 
+
+### or 
+
+* Put the cursor on one of the scenario line and press **Ctlr** + **enter** (this will execute only the scenario where the cursor is, if you don't want to execute the all feature)
+
+## 4. Execution
+In the webdriver opened by pupino you can see the execution of the test. While the tests are being executed the steps of your feature file will be colored giving the result of each step.
+
+

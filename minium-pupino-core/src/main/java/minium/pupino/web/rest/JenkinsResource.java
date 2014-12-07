@@ -40,6 +40,12 @@ public class JenkinsResource {
 		LOGGER.debug("REST request to get all builds for {}", jobName);
 		return jenkinService.getBuilds(jobName);
 	}
+	
+	@RequestMapping(value = "/jenkins/builds/{jobName}/{buildID}/as", method = RequestMethod.GET)
+	public @ResponseBody BuildDTO getBuild(@PathVariable("jobName") String jobName,@PathVariable("buildID") String buildID) throws URISyntaxException, IOException {
+		LOGGER.debug("REST request to get all builds for {}", jobName);
+		return jenkinService.getBuildById(jobName,buildID);
+	}
 
 	@RequestMapping(value = "/jenkins/builds/create/{jobName}", method = RequestMethod.POST)
 	public @ResponseBody ResponseEntity<String> createBuild(@PathVariable("jobName") String jobName) throws URISyntaxException, IOException {

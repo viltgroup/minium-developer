@@ -11,7 +11,7 @@ You can create a Minium Cucumber test project with the `minium-pupino-cucumber-a
 mvn archetype:generate \
   -DarchetypeGroupId=com.vilt-group.minium \
   -DarchetypeArtifactId=minium-pupino-cucumber-archetype \
-  -DarchetypeVersion=0.9.6-SNAPSHOT \
+  -DarchetypeVersion=0.9.7-SNAPSHOT \
   -DarchetypeRepository=https://maven.vilt-group.com/content/repositories/engineering-snapshots/ \
   -DgroupId=my.archetype \
   -DartifactId=my-archetype-test \

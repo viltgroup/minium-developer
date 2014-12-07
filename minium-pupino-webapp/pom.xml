@@ -5,7 +5,7 @@
     <parent>
         <artifactId>minium-pupino</artifactId>
         <groupId>com.vilt-group.minium</groupId>
-        <version>0.9.6-SNAPSHOT</version>
+        <version>0.9.7-SNAPSHOT</version>
     </parent>
 
     <artifactId>minium-pupino-webapp</artifactId>

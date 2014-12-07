@@ -9,7 +9,6 @@ import java.net.URI;
 import java.util.Set;
 
 import minium.pupino.domain.LaunchInfo;
-import minium.pupino.utils.Utils;
 
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
@@ -29,6 +28,7 @@ import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.vilt.minium.script.cucumber.MiniumCucumber;
@@ -61,7 +61,7 @@ public class LaunchService {
 		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
 			path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
 		} else {
-			String lines = Utils.array2String(launchInfo.getLine());
+			String lines = Joiner.on(":").join(launchInfo.getLine());
 			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
 		}
 

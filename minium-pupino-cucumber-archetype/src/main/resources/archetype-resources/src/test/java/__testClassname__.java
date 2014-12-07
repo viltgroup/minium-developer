@@ -16,7 +16,7 @@ import cucumber.api.CucumberOptions;
 
 @RunWith(MiniumCucumber.class)
 @CucumberOptions(
-        format   = { "json:target/cucumber-json-report.json" },
+        plugin   = { "json:target/cucumber-json-report.json" },
         glue     = { "classpath:cucumber/runtime/minium", "src/test/resources/steps" },
         features = { "src/test/resources/features" }
 )

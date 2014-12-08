@@ -55,7 +55,7 @@ public class JenkinsService {
 	}
 	
 	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException{
-		return jenkinsClient.getBuild(jobName, buildId, featureURI);
+		return jenkinsClient.getBuildAndFeature(jobName, buildId, featureURI);
 	}
 	
 	public BuildDTO getBuildById(String jobName, String buildId) throws IOException, URISyntaxException{

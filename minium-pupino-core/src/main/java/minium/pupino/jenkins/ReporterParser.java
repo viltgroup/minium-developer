@@ -15,14 +15,23 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
 public class ReporterParser {
-
+	
+	/**
+	 * Parse the results from the jenkins report
+	 * @param results
+	 * @return
+	 * @throws JsonSyntaxException
+	 * @throws JsonIOException
+	 * @throws FileNotFoundException
+	 */
 	public List<Feature> parseJsonResult(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		List<Feature> features = new ArrayList<Feature>();
 		Feature[] features1 = new Gson().fromJson(results, Feature[].class);
 		features.addAll(Arrays.asList(features1));
 		return features;
 	}
-
+	
+	
 	public Map<String, Feature> parseJsonResultSet(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		Map<String, Feature> features = new HashMap<String, Feature>();
 		Feature[] features1 = new Gson().fromJson(results, Feature[].class);

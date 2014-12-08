@@ -13,12 +13,10 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
-import minium.pupino.utils.UrlUtils;
 import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +24,6 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.offbytwo.jenkins.JenkinsServer;
-import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
@@ -44,7 +41,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	private static URI uri;
 
 	public JenkinsClientAdaptor() throws URISyntaxException {
-		uri = new URI("http://lw255:8080/jenkins/");
+		uri = new URI("http://localhost:8083/");
 		jobConfigurator = new JenkinsJobConfigurator();
 	}
 
@@ -100,11 +97,10 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		BuildWithDetails bd;
 		boolean lastBuild = true;
 		SummaryDTO summary = null;
+		String artifact = "";
 		for (Build b : builds) {
-			String artifact = "";
 			bd = b.details();
 			String result = getStatusForBuild(bd);
-			
 			// only want the report of the lastBuild finished
 			if (lastBuild && !bd.isBuilding()) {
 				// get the artifact of the build and return the string
@@ -130,8 +126,8 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		BuildDTO buildDTO = null;
 		BuildWithDetails bd;
 		boolean lastBuild = true;
+		String artifact = "";
 		for (Build b : builds) {
-			String artifact = "";
 			bd = b.details();
 			String result = getStatusForBuild(bd);
 			// only want the report of the lastBuild finished
@@ -141,7 +137,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 				lastBuild = false;
 				List<Feature> features = reporter.parseJsonResult(artifact);
 				for (Feature f : features) {
-					f.getUri();
 					f.processSteps();
 				}
 				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
@@ -162,7 +157,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	 * @throws URISyntaxException
 	 */
 	@Override
-	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException {
+	public BuildDTO getBuildAndFeature(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException {
 		List<Build> builds = buildsForJob(jobName);
 		BuildDTO buildDTO = null;
 		BuildWithDetails bd;
@@ -194,15 +189,15 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	@Override
 	public String getArtifactsBuild(BuildWithDetails buildDetails) {
 		String artifactContent = "";
-		if (!buildDetails.getArtifacts().isEmpty()) {
-		Artifact artifact = buildDetails.getArtifacts().get(0);
-			// function from the jenkins client was not working properly use this temporary solution
-			if (artifact.getDisplayPath().equals("result.json")) {
-				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
-			}else{
+//		if (!buildDetails.getArtifacts().isEmpty()) {
+//		Artifact artifact = buildDetails.getArtifacts().get(0);
+//			// function from the jenkins client was not working properly use this temporary solution
+//			if (artifact.getDisplayPath().equals("result.json")) {
+//				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
+//			}else{
 				artifactContent = artifactFromFile("mocks/mock-cgd-store.json");
-			}
-		}
+//			}
+//		}
 		return artifactContent;
 	}
 
@@ -238,18 +233,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			}
 		}
 		return artifactContent;
-	}
-
-	private String fromXMLFile(String xmlFile) {
-		File file = new File(xmlFile);
-		String content = null;
-		try {
-			// Read the entire contents
-			content = FileUtils.readFileToString(file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return content;
 	}
 
 }

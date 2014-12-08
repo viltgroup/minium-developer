@@ -36,7 +36,7 @@ public interface JenkinsClient {
 
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException;
 	
-	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException;
+	public BuildDTO getBuildAndFeature(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException;
 
 	public BuildDTO getBuildById(String jobName, String buildId) throws JsonSyntaxException, JsonIOException, FileNotFoundException, IOException, URISyntaxException;
 	

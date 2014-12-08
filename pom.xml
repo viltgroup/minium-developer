@@ -55,7 +55,7 @@
 		<hudson.version>2.2.1</hudson.version>
 		<hudson.core.version>3.0.0-M2</hudson.core.version>
 		<hudson-test.version>3.2.1</hudson-test.version>
-		<cucumber-reporting.version>0.0.24-SNAPSHOT</cucumber-reporting.version>
+		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
 
 		<!-- checkstyle stuff -->
         <checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>

@@ -8,4 +8,11 @@ var GlobalController = function($scope, $modal, $http, $log, $location, $timeout
             controller: "OpenFileController"
         });
     };
+
+    $scope.search = function() {
+        var searchQuery = $scope.form.searchQuery;
+        $scope.results = FS.search({
+            q: searchQuery
+        });
+    };
 };

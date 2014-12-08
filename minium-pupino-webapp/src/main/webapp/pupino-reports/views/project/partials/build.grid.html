@@ -1,0 +1,61 @@
+<div id="builds-list" class="row list-group" ng-show="builds.length > 0">
+
+    <!-- lastFinishedBuildd -->
+    <div class="item  col-xs-4 col-lg-4">
+        <div class="thumbnail panel-border-top-danger box-mt" ng-class="{'panel-border-top-success' : isSuccess(lastFinishedBuild.result)}">
+            <div class="caption">
+                <h3 class="group inner list-group-item-heading">
+                        
+                        <i ng-if="isSuccess(lastFinishedBuild.result)" class="success fa fa-check-square fa-2x"></i>
+                        <i ng-if="!isSuccess(lastFinishedBuild.result)" class="danger fa fa-bug fa-2x"></i>
+                        <i ng-if="lastFinishedBuild.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
+                        Build <strong>{{ lastFinishedBuild.number}}</strong>
+                    </h3>
+
+                <p class="group inner list-group-item-text">
+                    Description {{lastFinishedBuild.description}}</p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead">
+                            <i class="fa fa-clock-o"></i> {{lastFinishedBuild.id | humanizeDate}}
+                        </p>
+                        <small>Duration <strong>{{lastFinishedBuild.duration | durationMilliseconds}}</strong></small>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <a class="btn btn-sm" ng-class="{'btn-success' : isSuccess(lastFinishedBuild.result), 'btn-danger' : !isSuccess(lastFinishedBuild.result) }" ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">View Build  {{ lastFinishedBuild.number}} </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="item  col-xs-4 col-lg-4" ng-repeat="build in builds">
+        <div class="thumbnail panel-border-top-danger box-mt" ng-class="{'panel-border-top-success' : isSuccess(build.result)}">
+            <div class="caption">
+                <h3 class="group inner list-group-item-heading">
+                        <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
+                        <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
+                        <i ng-if="build.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
+                         Build <strong>{{ lastFinishedBuild.number}}</strong>
+                    </h3>
+                <p class="group inner list-group-item-text">
+                    Description {{build.description}}</p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead">
+                            <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
+                        </p>
+                         <small>Duration <strong>{{lastFinishedBuild.duration | durationMilliseconds}}</strong></small>
+                    </div>
+                    <div class="col-xs-12 col-md-6 pull-right">
+                        <a class="btn btn-sm" ng-class="{'btn-success' : isSuccess(build.result), 'btn-danger' : !isSuccess(build.result) }" ui-sref="global.build({ id: project.id, buildId: build.id })">View Build  {{ build.number}} </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

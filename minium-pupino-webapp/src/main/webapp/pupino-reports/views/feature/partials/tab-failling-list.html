@@ -1,0 +1,36 @@
+<!-- Alert No data -->
+<br>
+<div class="alert alert-success" ng-show="faillingScenarios.length == 0">
+    <strong>Info:</strong> This features is all Green  <i class="fa fa-thumbs-up fa-2x"></i>!!
+</div>
+
+<div class="row">
+    <div class="col-sm-4 col-md-4">
+        <div class="panel panel-default panel-border-left" ng-repeat="scenario in faillingScenarios">
+            <div class="panel-body box-mt" ng-repeat="step in scenario.steps" ng-if="step.status === 'FAILED'">
+                <div class="post-img-content">
+                    <img src="data:{{scenario.steps[3].embeddings[0].mime_type}};base64,{{scenario.steps[3].embeddings[0].data}}" style="width: 590px; height: 215px;">
+                </div>
+                <div class="alert alert-info" ng-show="faillingScenarios.length == 0">
+                    No fails
+                </div>
+
+                <div>
+                    <div class="author">
+                        Step: <b>{{step.rawName}}</b>
+                    </div>
+                    <div>
+                        <pre> {{step.errorMessage}}</pre>
+                    </div>
+                    <div class="pull-right">
+                        <a class="btn btn-primary btn-xs" ng-href="http://localhost:8080/#/editor/features/cgd/Consultas/Lojas/Filtros.feature?line={{step.line}}">
+                             Go to File
+                         </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+</div>

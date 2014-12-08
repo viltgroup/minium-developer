@@ -1,0 +1,23 @@
+<div class="container">
+    <div class="well well-sm">
+        <strong>Builds</strong>
+        <div class="btn-group">
+            <a ui-sref="global.project-detail.builds.grid" id="grid" class="btn btn-default btn-sm active" ui-sref-active="active"><span
+                class="glyphicon glyphicon-th active"></span> Grid
+            </a>
+            <a ui-sref="global.project-detail.builds.list" id="list" class="btn btn-default btn-sm active" ui-sref-active="active"><span class="glyphicon glyphicon-th-list">
+            </span> List
+            </a>
+        </div>
+    </div>
+
+    <!-- Alert No data -->
+    <div class="alert alert-info" ng-show="!lastFinishedBuild">
+        <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
+            <i class="fa fa-play"></i> Launch Build
+        </a>
+        <strong>Info:</strong> Theres no data
+    </div>
+    
+    <div ui-view></div>
+</div>

@@ -51,11 +51,11 @@
         
 		<!-- Integration with Jenkins -->
 		<jenkins-version>1.447.2</jenkins-version>
-		<jenkins.client.version>0.2.3</jenkins.client.version>
+		<jenkins.client.version>0.2.2.VILT-SNAPSHOT</jenkins.client.version>
 		<hudson.version>2.2.1</hudson.version>
 		<hudson.core.version>3.0.0-M2</hudson.core.version>
 		<hudson-test.version>3.2.1</hudson-test.version>
-		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
+		<cucumber-reporting.version>0.0.24.VILT-SNAPSHOT</cucumber-reporting.version>
 
 		<!-- checkstyle stuff -->
         <checkstyle.config.dir>${basedir}/../src/main/checkstyle</checkstyle.config.dir>
@@ -151,7 +151,6 @@
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>${json-path.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -200,7 +199,6 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP-java6</artifactId>
-            <version>${HikariCP.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>tools</artifactId>
@@ -252,7 +250,6 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>${hibernate.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>net.sf.ehcache</groupId>
@@ -276,7 +273,6 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>jetty-servlet</artifactId>
@@ -295,12 +291,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-loader-tools</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -413,60 +407,7 @@
 
     <build>
         <pluginManagement>
-            <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
-                only. It has no influence on the Maven build itself.-->
-                <plugin>
-                    <groupId>org.eclipse.m2e</groupId>
-                    <artifactId>lifecycle-mapping</artifactId>
-                    <version>1.0.0</version>
-                    <configuration>
-                        <lifecycleMappingMetadata>
-                            <pluginExecutions>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-dependency-plugin</artifactId>
-                                        <versionRange>[1.0,)</versionRange>
-                                        <goals>
-                                            <goal>copy</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.apache.maven.plugins</groupId>
-                                        <artifactId>maven-enforcer-plugin</artifactId>
-                                        <versionRange>[1.0,)</versionRange>
-                                        <goals>
-                                            <goal>enforce</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <execute />
-                                    </action>
-                                </pluginExecution>
-                                <pluginExecution>
-                                    <pluginExecutionFilter>
-                                        <groupId>org.codehaus.mojo</groupId>
-                                        <artifactId>exec-maven-plugin</artifactId>
-                                        <versionRange>[1.2.1,)</versionRange>
-                                        <goals>
-                                            <goal>java</goal>
-                                            <goal>exec</goal>
-                                        </goals>
-                                    </pluginExecutionFilter>
-                                    <action>
-                                        <ignore />
-                                    </action>
-                                </pluginExecution>
-                            </pluginExecutions>
-                        </lifecycleMappingMetadata>
-                    </configuration>
-                </plugin>
+        	<plugins>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-enforcer-plugin</artifactId>

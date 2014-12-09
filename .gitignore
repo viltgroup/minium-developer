@@ -19,3 +19,4 @@ build
 /minium-pupino-webapp/deploy
 /minium-pupino-docker/logs/*
 /minium-pupino-common/.checkstyle
+/minium-pupino-webapp/src/main/webapp/dist/

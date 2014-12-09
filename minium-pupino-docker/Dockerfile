@@ -7,7 +7,8 @@ RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /
 
 # install oracle java from PPA
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
-RUN apt-get -y update && apt-get -y --force-yes install oracle-java8-installer && rm -rf /var/lib/apt/lists/*
+RUN apt-get -y update && apt-get -y --force-yes install oracle-java8-installer oracle-java6-installer  oracle-java7-installer && rm -rf /var/lib/apt/lists/*
+
 
 # Set oracle java as the default java
 RUN update-java-alternatives -s java-8-oracle

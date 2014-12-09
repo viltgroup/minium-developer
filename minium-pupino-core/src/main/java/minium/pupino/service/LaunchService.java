@@ -65,7 +65,7 @@ public class LaunchService {
 			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
 		}
 
-		String cucumberOptions = format("%s --format json:%s --format %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
+		String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
 		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
 		System.setProperty("cucumber.options", cucumberOptions);

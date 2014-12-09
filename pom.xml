@@ -48,7 +48,7 @@
         <guava.version>18.0</guava.version>
         <minium.version>0.9.7-SNAPSHOT</minium.version>
         <cucumber.version>1.2.0</cucumber.version>
-        <cucumber.remote.version>1.2.1-SNAPSHOT</cucumber.remote.version>
+        <cucumber.rest.version>1.2.1-SNAPSHOT</cucumber.rest.version>
         
 		<!-- Integration with Jenkins -->
 		<jenkins-version>1.447.2</jenkins-version>
@@ -171,6 +171,22 @@
                     <artifactId>scala-compiler</artifactId>
                     <groupId>org.scala-lang</groupId>
                 </exclusion>
+                <dependency>
+		            <groupId>org.springframework</groupId>
+		            <artifactId>spring-webmvc</artifactId>
+		        </dependency>
+		        <dependency>
+		            <groupId>org.springframework</groupId>
+		            <artifactId>spring-web</artifactId>
+		        </dependency>
+		        <dependency>
+		            <groupId>cglib</groupId>
+		            <artifactId>cglib</artifactId>
+		        </dependency>
+		        <dependency>
+		            <groupId>com.google.guava</groupId>
+		            <artifactId>guava</artifactId>
+		        </dependency>
             </exclusions>
         </dependency>
         <dependency>
@@ -354,10 +370,10 @@
             <version>${cucumber.version}</version>
         </dependency>
 		<dependency>
-            <groupId>info.cukes</groupId>
-            <artifactId>cucumber-remote</artifactId>
-            <version>${cucumber.remote.version}</version>
-        </dependency>
+            <groupId>com.vilt-group.minium</groupId>
+            <artifactId>cucumber-rest</artifactId>
+            <version>${cucumber.rest.version}</version>
+z        </dependency>
 		<dependency>
 			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>minium-script-cucumber</artifactId>

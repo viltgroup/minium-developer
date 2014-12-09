@@ -1,4 +1,4 @@
-<div id="builds-list" class="row list-group" ng-show="builds.length > 0">
+<div id="builds-list" class="row list-group" ng-show="builds.length > 0 || lastFinishedBuild">
 
     <!-- lastFinishedBuildd -->
     <div class="item  col-xs-4 col-lg-4">
@@ -9,7 +9,7 @@
                         <i ng-if="isSuccess(lastFinishedBuild.result)" class="success fa fa-check-square fa-2x"></i>
                         <i ng-if="!isSuccess(lastFinishedBuild.result)" class="danger fa fa-bug fa-2x"></i>
                         <i ng-if="lastFinishedBuild.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
-                        Build <strong>{{ lastFinishedBuild.number}}</strong>
+                        Build <strong>{{lastFinishedBuild.number}}</strong>
                     </h3>
 
                 <p class="group inner list-group-item-text">
@@ -39,7 +39,7 @@
                         <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
                         <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
                         <i ng-if="build.result === 'BUILDING'" class="fa fa-cog fa-spin fa-2x"></i>
-                         Build <strong>{{ lastFinishedBuild.number}}</strong>
+                         Build <strong>{{ builds.number}}</strong>
                     </h3>
                 <p class="group inner list-group-item-text">
                     Description {{build.description}}</p>

@@ -144,8 +144,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
      * @type {SockJS}
      */
     $scope.tests = {};
-    $scope.tests.total;
-    $scope.tests.executed;
+    $scope.cenas= 0;
     var subscribeMessages = function() {
         
         var socket = new SockJS("/app/ws");
@@ -160,18 +159,20 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
 
                 switch (testMessage.type) {
                     case "total":
-                        $scope.tests.total = testMessage.body;
+                        $scope.cenas = testMessage.body;
                         break;
                     case "failing":
                         $scope.tests.failing = $scope.tests.failing + "\n\n\n" + testMessage.body;
-                        $scope.tests.executed += 1;
+                        $scope.isFailing = true;
                         break;
                     case "passed":
-                        $scope.tests.executed += 1;
+                        $scope.testsExecuted = $scope.testsExecuted + 1;
                         $scope.tests.passed = testMessage.body;  
+                        //alert("tests.executed " + ($scope.testsExecuted ))
                         break;
                     default: //do nothing
                 }
+                $scope.$apply();
                 console.log($scope.tests.total)
             });
 
@@ -223,6 +224,11 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
 
         //put a lock in test execution
         $scope.testExecuting = true;
+
+        //init values for live results
+        $scope.tests.total;
+        $scope.testsExecuted = 0;
+        $scope.isFailing = false;
 
         toastr.success("Test Started...");
         runningTest.start();

@@ -11,7 +11,7 @@ pupinoIDE.factory('FS', function($resource) {
             },
             isArray: true
         },
-        search: {
+        search: {   
             method: 'GET',
             params: {
                 action: "search"

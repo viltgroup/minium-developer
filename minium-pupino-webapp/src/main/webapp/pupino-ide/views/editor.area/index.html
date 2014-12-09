@@ -23,8 +23,9 @@
     <!-- Main content -->
     <section class="content container container-editor full ">
 
-        <div class="info">
+        <div class="infoX">
             <p>
+
                 <i class="fa fa-info-circle"></i>
                 <span translate="editor.status">Status</span>:
                 <span class="label label-default" id="status">
@@ -40,6 +41,11 @@
                     <span class="fa  fa-bar-chart"></span>
                     <span translate="editor.summary">Summary Report</span>
                 </button>
+
+
+                <span class="col-sm-4 pull-left">
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100"  value="( testsExecuted * 100 ) / cenas"></progressbar>
+                </span>
 
                 <!-- <a class="btn btn-primary " id="clear" ui-sref="global.report" target="_blank">
                     <span class="fa fa-clipboard"></span>See Reports
@@ -71,10 +77,9 @@
                     <span class="fa fa-ban"></span>
                     <span class="ladda-label" translate="editor.stop">Stop</span>
                 </button>
-              <!--   {{tests.total}} +++ {{tests.executed}}
-                <span class="col-sm-4 pull-left">
-                    <progressbar class="progress-striped active" max="tests.total" value="tests.executed"></progressbar>
-                </span> -->
+                
+
+                
                 
                  <button class="btn btn-primary pull-right" ui-sref="global.editorarea.newFile">
                     <i class="fa fa-plus"></i>

@@ -42,7 +42,7 @@ public class LaunchService {
 	private JUnitCore runner;
 
 	private String resourcesBaseDir = "src/test/resources";
-    private Class<?>[] testClasses;
+    private Class<?>[] testClasses;	
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
 

@@ -42,7 +42,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
             // var summary = buildsFacade.getSummary();
             // buildSuccess = summary.passingScenarios;
             //buildFailling = summary.faillingScenarios;
-            console.log(JSON.stringify(buildSuccess));
+            console.log(buildsFacade);
 
             buildSuccess = [
                 [1, 100],

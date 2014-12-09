@@ -38,6 +38,7 @@ RUN echo 'pupino:liberty09' |chpasswd
 RUN chown -R pupino /opt/
 
 
+
 USER pupino
 
 #Setup Pupino
@@ -58,9 +59,9 @@ EXPOSE 50000
 COPY scripts/pupino.sh /usr/local/bin/pupino.sh
 COPY scripts/startServices.sh /opt/pupino/startServices.sh
 COPY scripts/update.sh /opt/pupino/update.sh
-ENTRYPOINT ["/usr/local/bin/pupino.sh"]
+CMD ["/opt/pupino/startServices.sh"]
 
+#VOLUME ["/opt/pupino/logs"]
+#VOLUME ["/opt/pupino/bin"]
+#VOLUME $pupino_HOME
 
-VOLUME ["/opt/pupino/logs"]
-VOLUME ["/opt/pupino/bin"]
-VOLUME $pupino_HOME

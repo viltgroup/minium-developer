@@ -59,7 +59,7 @@ EXPOSE 50000
 COPY scripts/pupino.sh /usr/local/bin/pupino.sh
 COPY scripts/startServices.sh /opt/pupino/startServices.sh
 COPY scripts/update.sh /opt/pupino/update.sh
-CMD ["/opt/pupino/startServices.sh"]
+CMD ["/bin/sh","/opt/pupino/startServices.sh"]
 
 #VOLUME ["/opt/pupino/logs"]
 #VOLUME ["/opt/pupino/bin"]

@@ -1,3 +1,3 @@
 #! /bin/bash
 
-sudo docker build --force-rm=true -t minium-pupino .
+sudo docker build --no-cache --force-rm=true -t minium-pupino .

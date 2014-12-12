@@ -10,10 +10,13 @@ import java.util.Map;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
+import org.springframework.stereotype.Component;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 
+@Component
 public class ReporterParser {
 	
 	/**

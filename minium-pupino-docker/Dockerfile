@@ -18,6 +18,10 @@ RUN echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle" >> ~/.bashrc
 # install SSH and utilities
 RUN apt-get update && apt-get install -y zip curl && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
+RUN apt-get -y update
+RUN apt-get -y install openssh-server
+
 # Setup Jenkins
 ENV pupino_HOME /home/pupino
 ENV JENKINS_VERSION 1.580.1
@@ -37,7 +41,16 @@ RUN echo 'root:liberty09' |chpasswd
 RUN echo 'pupino:liberty09' |chpasswd
 RUN chown -R pupino /opt/
 
-
+# Manage ssh keys
+RUN ssh-keygen -f file.rsa -t rsa -N ''
+RUN mkdir /var/pupino/
+RUN mkdir /var/pupino/.ssh
+COPY file.rsa /var/pupino/.ssh/id_rsa
+COPY file.rsa.pub /var/pupino/.ssh/id_rsa.pub
+#COPY known_hosts /var/pupino/.ssh/known_hosts
+RUN chmod 600 /var/pupino/.ssh/id_rsa
+RUN echo -e "Host artemis.vilt-group.com\n\tStrictHostKeyChecking no\n" >> /var/pupino/.ssh/config
+RUN chown -R pupino /var/pupino/.ssh
 
 USER pupino
 

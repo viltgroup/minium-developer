@@ -51,7 +51,7 @@ function SelectorGadgetCtrl($rootScope, $scope, $location, $modalInstance, Selec
     };
 };
 
-var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider) {
+var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider, FeatureFacade) {
     var i = 0;
 
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
@@ -144,9 +144,9 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
      * @type {SockJS}
      */
     $scope.tests = {};
-    $scope.cenas= 0;
+    $scope.cenas = 0;
     var subscribeMessages = function() {
-        
+
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
@@ -167,7 +167,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
                         break;
                     case "passed":
                         $scope.testsExecuted = $scope.testsExecuted + 1;
-                        $scope.tests.passed = testMessage.body;  
+                        $scope.tests.passed = testMessage.body;
                         //alert("tests.executed " + ($scope.testsExecuted ))
                         break;
                     default: //do nothing
@@ -246,40 +246,32 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
         launcherService.launch(launchParams).success(function(data) {
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
+            var feature = new FeatureFacade(data);
+            console.debug(feature);
 
-            var notPassingsteps = jsonPath.eval(data, "$..steps[?(@.result.status!='passed')]");
+            $scope.resultsSummary.passed = feature.passedSteps.length;
+            $scope.resultsSummary.failures = feature.failingSteps.length;
+            $scope.resultsSummary.skipped = feature.skippedSteps.length;
 
-            var failingSteps = jsonPath.eval(data, "$..steps[?(@.result.status=='failed')]");
-            var skippedSteps = jsonPath.eval(data, "$..steps[?(@.result.status=='skipped')]");
-            var passedSteps = jsonPath.eval(data, "$..steps[?(@.result.status=='passed')]");
-            var durations = jsonPath.eval(data, "$..duration");
-
-            $scope.resultsSummary.passed = passedSteps.length;
-            $scope.resultsSummary.failures = failingSteps.length;
-            $scope.resultsSummary.skipped = skippedSteps.length;
-
-            $scope.resultsSummary.runCount = passedSteps.length + notPassingsteps.length;
-            var totalDuration = 0;
-            $.each(durations, function() {
-                totalDuration += this;
-            });
-            //convert in millisecond
-            $scope.resultsSummary.runTime = totalDuration / 1000000.0;
-            console.log(totalDuration);
+            $scope.resultsSummary.runCount = feature.passedSteps.length + feature.notPassingsteps.length;
+            
+            // //convert in millisecond
+            $scope.resultsSummary.runTime = feature.totalDuration / 1000000.0;
 
             console.log($scope.resultsSummary);
 
-            annotations = _.map(notPassingsteps, function(step) {
-                var result = step.result;
-                var msg = result.status === 'failed' ? result.error_message : 'Skipped';
-                var lines = msg.split("\n");
-                if (lines.length > 10) {
-                    msg = lines.slice(0, 10).join("\n");
-                }
+            annotations = _.map(feature.notPassingsteps, function(step) {
+                var result = step.status;
+                var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
+                var lines = msg;
+                console.debug(step + "\n"+ lines.slice(0, 10));
+                // if (lines.length > 10) {
+                //     msg = lines.slice(0, 10).join("\n");
+                // }
                 return {
                     row: step.line - 1,
                     text: msg,
-                    type: (result.status === 'failed' ? 'error' : 'warning')
+                    type: (result === 'FAILED' ? 'error' : 'warning')
                 };
             });
 

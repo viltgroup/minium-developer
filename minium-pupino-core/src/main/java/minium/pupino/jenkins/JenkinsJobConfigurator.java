@@ -64,7 +64,7 @@ public class JenkinsJobConfigurator {
 			UserRemoteConfigs usersRemoteConfigs = new UserRemoteConfigs();
 			RemoteConfigPlugin hudson = new RemoteConfigPlugin();
 			hudson.setCredentialsId("b5a5497f-f3a8-453a-93ea-99eef6bb765e");
-			hudson.setUrl("git@artemis.vilt-group.com:raphael.rodrigues/cp-e2e-tests.git");
+			hudson.setUrl(repository);
 			usersRemoteConfigs.setHudson(hudson);
 			scm.setRemoteConfig(usersRemoteConfigs);
 			scm.setBranch(branches);

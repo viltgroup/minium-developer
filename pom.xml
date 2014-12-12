@@ -52,11 +52,11 @@
 		<!-- Integration with Jenkins -->
 		<jenkins-version>1.447.2</jenkins-version>
 
-		<jenkins.client.version>0.2.2.VILT-SNAPSHOT</jenkins.client.version>
+		<jenkins.client.version>0.2.3-SNAPSHOT</jenkins.client.version>
 		<hudson.version>2.2.1</hudson.version>
 		<hudson.core.version>3.0.0-M2</hudson.core.version>
 		<hudson-test.version>3.2.1</hudson-test.version>
-		<cucumber-reporting.version>0.0.24.VILT-SNAPSHOT</cucumber-reporting.version>
+		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
 
 
 		<!-- checkstyle stuff -->
@@ -370,12 +370,12 @@
 			<artifactId>junit</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.offbytwo.jenkins</groupId>
+			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>jenkins-client</artifactId>
 			<version>${jenkins.client.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>net.masterthought</groupId>
+			<groupId>com.vilt-group.minium</groupId>
 			<artifactId>cucumber-reporting</artifactId>
 			<version>${cucumber-reporting.version}</version>
 		</dependency>

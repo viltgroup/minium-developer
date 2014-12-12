@@ -8,6 +8,9 @@ endpoints.jolokia.enabled: false
 # security configuration (this key should be unique for your application, and kept secret)
 jhipster.security.rememberme.key: pupino
 
+server:
+  port: 8090
+
 async:
     corePoolSize: 2
     maxPoolSize: 50

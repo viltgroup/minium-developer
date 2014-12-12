@@ -185,7 +185,8 @@
                                     <goal>build</goal>
                                 </goals>
                                 <configuration>
-                                    <gruntBuildArgs>--force</gruntBuildArgs>
+                                	<gruntTestArgs>--force</gruntTestArgs>
+                                    <gruntBuildArgs>--no-color --force</gruntBuildArgs>
                                 </configuration>
                             </execution>
                         </executions>

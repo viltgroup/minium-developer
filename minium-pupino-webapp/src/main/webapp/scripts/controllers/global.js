@@ -15,4 +15,6 @@ var GlobalController = function($scope, $modal, $http, $log, $location, $timeout
             q: searchQuery
         });
     };
+
+    $scope.location = "http://localhost:8080/#"
 };

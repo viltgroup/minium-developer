@@ -133,4 +133,41 @@ pupinoIDE.factory('EvalService', function($http) {
             });
         }
     };
+})
+
+pupinoIDE.factory('FeatureFacade', function() {
+    /**
+     * Constructor
+     */
+    function FeatureFacade(data) {
+        console.debug(data);
+        this.feature = data;
+        var elements = this.process(data);
+    }
+
+    /**
+     * Public method, assigned to prototype
+     */
+
+    FeatureFacade.prototype.process = function(data) {
+        var r = true;
+        this.notPassingsteps = jsonPath.eval(data, "$..steps[?(@.status!='PASSED')]");
+        this.failingSteps = jsonPath.eval(data, "$..steps[?(@.status=='FAILED')]");
+        this.skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
+        this.passedSteps = jsonPath.eval(data, "$..steps[?(@.status=='PASSED')]");
+        var durations = jsonPath.eval(data, "$..duration");
+
+        var totalDuration = 0;
+        $.each(durations, function() {
+            totalDuration += this;
+        });
+        this.totalDuration = totalDuration;
+
+        console.debug(this.notPassingsteps);
+    };
+
+    /**
+     * Return the constructor function
+     */
+    return FeatureFacade;
 });

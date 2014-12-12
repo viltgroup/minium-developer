@@ -6,11 +6,15 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.net.URI;
+import java.util.List;
 import java.util.Set;
 
 import minium.pupino.domain.LaunchInfo;
+import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.utils.Utils;
+import net.masterthought.cucumber.json.Feature;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
@@ -43,6 +47,8 @@ public class LaunchService {
 
 	private String resourcesBaseDir = "src/test/resources";
     private Class<?>[] testClasses;	
+    
+	private ReporterParser reporter = new ReporterParser();
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
 
@@ -52,7 +58,7 @@ public class LaunchService {
 		testClasses = findTestClasses();
 	}
 
-	public Resource launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
+	public Feature launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
 		URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
 		File tmpFile = File.createTempFile("cucumber", ".json");
@@ -83,8 +89,10 @@ public class LaunchService {
 		} catch (StoppedByUserException e) {
 			LOGGER.debug("Stopped by user ", e);
 		}
-
-		return new FileSystemResource(tmpFile);
+		String content = FileUtils.readFileToString(tmpFile);
+		List<Feature> features = reporter.parseJsonResult(content);
+		features.get(0).processSteps();
+		return features.get(0);
 	}
 
 	public Resource dotcucumber() throws IOException {

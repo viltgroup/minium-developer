@@ -6,6 +6,7 @@ import java.net.URI;
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.service.LaunchService;
 import minium.pupino.web.method.support.BaseURL;
+import net.masterthought.cucumber.json.Feature;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -26,7 +27,7 @@ public class LaunchResource {
 	
     @RequestMapping(value = "/launch", method = RequestMethod.POST)
     @ResponseBody
-    public Resource launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo) throws IOException {
+    public Feature launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo) throws IOException {
         return launchService.launch(baseUri, launchInfo);
     }
 

@@ -309,3 +309,5 @@ margin-top: 15px;
     font-size: 16px;
     margin-right: 5px;
 }
+
+div.inline { float:left; }

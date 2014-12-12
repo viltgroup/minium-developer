@@ -69,7 +69,7 @@ public class ProjectResource {
 		log.debug("REST request to get all Projects");
 		if (i == 0) {
 			Project project = new Project();
-			project.setDescription("sds");
+			project.setDescription("Project Example for CP");
 			project.setName("cp-e2e-test");
 			SourceRepository sr = new SourceRepository();
 			sr.setType(Type.GIT);

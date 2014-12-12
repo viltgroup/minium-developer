@@ -31,7 +31,6 @@ public class ReporterParser {
 		return features;
 	}
 	
-	
 	public Map<String, Feature> parseJsonResultSet(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		Map<String, Feature> features = new HashMap<String, Feature>();
 		Feature[] features1 = new Gson().fromJson(results, Feature[].class);

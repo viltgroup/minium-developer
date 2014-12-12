@@ -1,7 +1,7 @@
 <div class="panel">
     <div class="panel-heading">
         <div class="btn-group pull-right">
-            <a class="btn btn-primary" ng-href="http://localhost:8080/#/editor/{{feature.uri}}?line=1" target="_blank">Go to File</a>
+            <a class="btn btn-primary" ng-href="{{location}}/editor/{{feature.uri}}?line=1" target="_blank">Go to File</a>
             <!-- Button trigger modal -->
             <button class="btn btn-default" href="#stats" data-toggle="modal" data-target="#summary">
                 Summary
@@ -42,8 +42,8 @@
                     <i ng-if="!isPassed(background.status)" class="danger fa fa-bug "></i>
                     <strong>{{background.keyword}}</strong>
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                    <a class="pull-right btn btn-primary btn-xs" ng-href="http://localhost:8080/#/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
-                    <a class="pull-right btn btn-warning btn-xs" ng-href="http://localhost:8080/#/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
+                    <a class="pull-right btn btn-primary btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
+                    <a class="pull-right btn btn-warning btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
                 </accordion-heading>
                 <table class="table table-primary table-list">
                     <thead>
@@ -72,7 +72,7 @@
                                 
                             </td>
                             <td>
-                                <a class="btn btn-info btn-xs" ng-href="http://localhost:8080/#/editor/{{step.match.location }}?line={{step.match.location}}" target="_blank">
+                                <a class="btn btn-info btn-xs" ng-href="{{location}}/editor/{{step.match.location }}?line={{step.match.location}}" target="_blank">
                         Go Step file
                         </a>
                             </td>
@@ -98,8 +98,8 @@
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 
                     
-                    <a class="pull-right btn btn-primary btn-xs" ng-href="http://localhost:8080/#/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
-                    <a class="pull-right btn btn-warning btn-xs" ng-href="http://localhost:8080/#/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
+                    <a class="pull-right btn btn-primary btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
+                    <a class="pull-right btn btn-warning btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
                     <span class="hide">{{element.status}}</span>
                 </accordion-heading>
                 <!-- CONTENT -->
@@ -123,10 +123,10 @@
                                 <pre ng-if="!isPassed(step.status)"> {{step.errorMessage}}</pre>
                             </td>
                             <td>
-                                <a class="btn btn-primary btn-xs" ng-href="http://localhost:8080/#/editor/{{feature.uri}}?line={{step.line}}" target="_blank">
+                                <a class="btn btn-primary btn-xs" ng-href="{{location}}/editor/{{feature.uri}}?line={{step.line}}" target="_blank">
                         Go Feature File
                         </a>
-                                <a class="btn btn-info btn-xs" ng-href="http://localhost:8080/#/editor/{{step.match.location | split:':':0}}?line={{step.match.location | split:':':1}}" target="_blank">
+                                <a class="btn btn-info btn-xs" ng-href="{{location}}/editor/{{step.match.location | split:':':0}}?line={{step.match.location | split:':':1}}" target="_blank">
                         Go Step file
                         </a>
                             </td>
@@ -203,7 +203,7 @@
                                                 {{feature.durationOfSteps}}
                                             </td>
                                             <td>
-                                                <a class='btn btn-info btn-xs' ng-href="http://localhost:8080/#/editor/{{feature.uri}}?line=1" target="_blank">
+                                                <a class='btn btn-info btn-xs' ng-href="{{location}}/editor/{{feature.uri}}?line=1" target="_blank">
                                                 Go to File
                                                 </a>
                                             </td>

@@ -111,35 +111,35 @@
                     
                     <ul class="list-group no-margin col-sm-4 pull-left">
                         <li class="list-group-item">
-                            <span class="badge success-bg">23</span>
+                            <span class="badge success-bg">{{resultsSummary.runCount}}</span>
                             <span class="fa-stack">
                                         <em class="fa fa-circle fa-stack-2x text-primary"></em>
                                         <em class="fa fa-rocket fa-stack-1x fa-inverse text-white"></em>
                                      </span>
                             <strong>Run Count</strong>
                         </li>
-                        <li class="list-group-item"><span class="badge info-bg">19</span>
+                        <li class="list-group-item"><span class="badge info-bg">{{resultsSummary.passed}}</span>
                             <span class="fa-stack">
                                         <em class="fa fa-circle fa-stack-2x text-success"></em>
                                         <em class="fa fa-check-square fa-stack-1x fa-inverse text-white"></em>
                                      </span>
                             <strong>Passing</strong>
                         </li>
-                        <li class="list-group-item"><span class="badge warning-bg">11</span>
+                        <li class="list-group-item"><span class="badge warning-bg">{{resultsSummary.failures}}</span>
                             <span class="fa-stack">
                                         <em class="fa fa-circle fa-stack-2x text-danger"></em>
                                         <em class="fa fa-bug fa-stack-1x fa-inverse text-white"></em>
                                      </span>
                             <strong>Failures</strong>
                         </li>
-                        <li class="list-group-item"><span class="badge danger-bg">17</span>
+                        <li class="list-group-item"><span class="badge danger-bg">{{resultsSummary.skipped}}</span>
                             <span class="fa-stack">
                                         <em class="fa fa-circle fa-stack-2x text-warning"></em>
                                         <em class="fa fa-warning fa-stack-1x fa-inverse text-white"></em>
                                      </span>
                             <strong>Skipped</strong>
                         </li>
-                        <li class="list-group-item"><span class="badge fb-bg">32</span>
+                        <li class="list-group-item"><span class="badge fb-bg">{{resultsSummary.runTime | durationInMinutes}} seconds</span>
                             <span class="fa-stack">
                                         <em class="fa fa-circle fa-stack-2x text-info"></em>
                                         <em class="fa fa-clock-o fa-stack-1x fa-inverse text-white"></em>

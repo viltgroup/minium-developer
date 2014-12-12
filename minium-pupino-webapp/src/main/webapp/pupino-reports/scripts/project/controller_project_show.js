@@ -1,8 +1,7 @@
 'use strict';
 
 pupinoReports.controller('ProjectDetailController', function($scope, $state, resolvedProject, Project, JenkinsProvider, BuildsFacade) {
-
-
+    
     //init variables
     $scope.project = resolvedProject;
     $scope.features = [];
@@ -146,4 +145,5 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
        if (obj.length === 0)
           return true;           
     }  
+
 });

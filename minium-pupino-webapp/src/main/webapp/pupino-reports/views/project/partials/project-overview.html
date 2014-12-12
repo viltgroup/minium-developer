@@ -52,8 +52,18 @@
                                     <br>
                                     <span ng-if="$index == 0" class="label label-primary">Last Stable lastFinishedBuild</span>
                                 </td>
-                                <td><a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">{{lastFinishedBuild.fullDisplayName}}</a>
+                                <td>
+                                    <a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">
+                                        {{lastFinishedBuild.fullDisplayName}}
+                                    </a>
+
+                                     <a ui-sref="global.build-detail({id: 1})">
+                                        Build 1
+                                    </a>
+
                                 </td>
+
+
                                 <td>
                                     {{lastFinishedBuild.description}}
                                 </td>

@@ -1,10 +1,6 @@
 package minium.pupino.jenkins;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
@@ -14,6 +10,7 @@ import java.util.Map;
 import javax.xml.bind.JAXBException;
 
 import minium.pupino.utils.UrlUtils;
+import minium.pupino.utils.Utils;
 import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
@@ -197,7 +194,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			if (artifact.getDisplayPath().equals("result.json")) {
 				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
 			}else{
-				artifactContent = artifactFromFile("mocks/mock-cgd-store.json");
+				artifactContent = Utils.artifactFromFile("mocks/mock-cgd-store.json");
 			}
 		}
 		return artifactContent;
@@ -207,34 +204,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		return (bd.getResult() != null) ? bd.getResult().toString() : "BUILDING";
 	}
 
-	private String artifactFromFile(String file) {
-		BufferedReader br = null;
-		String artifactContent = null;
-		try {
-			File fileDir = new File(file);
 
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(fileDir), "UTF8"));
-			StringBuilder sb = new StringBuilder();
-			String line = br.readLine();
-
-			while (line != null) {
-				sb.append(line);
-				sb.append(System.lineSeparator());
-				line = br.readLine();
-			}
-			artifactContent = sb.toString();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				br.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return artifactContent;
-	}
 
 }

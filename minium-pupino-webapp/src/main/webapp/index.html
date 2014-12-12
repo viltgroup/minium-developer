@@ -1,3 +1,4 @@
+<li ng-switch-when="true"><a href="#/build"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;build</a></li>
 <!doctype html>
 <!--[if lt IE 7]>    <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>     <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -133,6 +134,13 @@
     <script src="pupino-reports/scripts/project/controller_project_show.js"></script>
     <script src="pupino-reports/scripts/project/service_project.js"></script>
 
+    <!--BUILD-->
+    <script src="pupino-reports/scripts/build/router_build.js"></script>
+    <script src="pupino-reports/scripts/build/controller_build.js"></script>
+    <script src="pupino-reports/scripts/build/controller_build_from_jenkins.js"></script>
+    <script src="pupino-reports/scripts/build/service_build.js"></script>
+
+    
     <!-- PUPINO-APP -->
     <script src="scripts/app.js"></script>
 
@@ -141,10 +149,6 @@
     <script src="pupino-reports/scripts/dashboard/router_dashboard.js"></script>
     <script src="pupino-reports/scripts/dashboard/controller_dashboard.js"></script>
 
-    <!-- Build -->
-    <script src="pupino-reports/scripts/build/router_build.js"></script>
-    <script src="pupino-reports/scripts/build/controller_build.js"></script>
-    <script src="pupino-reports/scripts/build/service_build.js"></script>
 
     <!-- Features -->
     <script src="pupino-reports/scripts/feature/router_feature.js"></script>

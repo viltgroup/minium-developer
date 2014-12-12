@@ -10,14 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDateTime;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
-
 /**
  * A Build.
  */
@@ -25,17 +17,18 @@ import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
 @Table(name = "T_BUILD")
 public class Build implements Serializable {
 
-	private static final long serialVersionUID = 6476717872080280260L;
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    @Column(name = "number")
+    private String number;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "artifact")
+    private String artifact;
 
     @ManyToOne
     private Project project;
@@ -48,12 +41,28 @@ public class Build implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public String getNumber() {
+        return number;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getArtifact() {
+        return artifact;
+    }
+
+    public void setArtifact(String artifact) {
+        this.artifact = artifact;
     }
 
     public Project getProject() {
@@ -89,7 +98,9 @@ public class Build implements Serializable {
     public String toString() {
         return "Build{" +
                 "id=" + id +
-                ", startTime='" + startTime + "'" +
+                ", number='" + number + "'" +
+                ", name='" + name + "'" +
+                ", artifact='" + artifact + "'" +
                 '}';
     }
 }

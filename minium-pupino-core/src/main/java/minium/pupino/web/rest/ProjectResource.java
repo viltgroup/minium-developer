@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 
 import minium.pupino.domain.Project;
-import minium.pupino.domain.SourceRepository;
-import minium.pupino.domain.SourceRepository.Type;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.JenkinsService;
 
@@ -57,7 +55,7 @@ public class ProjectResource {
 	public void create(@RequestBody Project project) throws URISyntaxException, IOException, JAXBException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		jenkinService.createJob(project.getName(),project.getSourceRepository().getType().toString(),project.getSourceRepository().getUrl().toString());
+		//jenkinService.createJob(project.getName(),project.getSourceRepository().getType().toString(),project.getSourceRepository().getUrl().toString());
 	}
 
 	/**
@@ -71,14 +69,15 @@ public class ProjectResource {
 			Project project = new Project();
 			project.setDescription("Project Example for CP");
 			project.setName("cp-e2e-test");
-			SourceRepository sr = new SourceRepository();
-			sr.setType(Type.GIT);
-			sr.setUrl("url@dsdsd.gti");
-			project.setSourceRepository(sr);
+//			SourceRepository sr = new SourceRepository();
+//			sr.setType(Type.GIT);
+//			sr.setUrl("url@dsdsd.gti");
+//			project.setSourceRepository(sr);
 			projectRepository.save(project);
 			i = 1;
 		}
-		return projectRepository.findAll();
+		List<Project> p = projectRepository.findAll();
+		return p;
 	}
 
 	/**

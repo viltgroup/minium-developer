@@ -242,12 +242,14 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
 
         //reset the variable
         executionWasStopped = false;
-
+        var x ;
+        
         launcherService.launch(launchParams).success(function(data) {
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
             var feature = new FeatureFacade(data);
             console.debug(feature);
+            $scope.faillingSteps = feature.notPassingsteps;
 
             $scope.resultsSummary.passed = feature.passedSteps.length;
             $scope.resultsSummary.failures = feature.failingSteps.length;

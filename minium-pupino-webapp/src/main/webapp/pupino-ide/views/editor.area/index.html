@@ -41,8 +41,10 @@
                 <span translate="editor.summary">Summary Report</span>
             </button>
 
-            <span class="col-sm-2 pull-left ">
-                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100"  value="( testsExecuted * 100 ) / cenas" style="height: 10px;"></progressbar>
+            <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
+                    <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100"  value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
+                    </progressbar>
             </span>
 
 
@@ -70,7 +72,7 @@
             </span>
 
             <!-- Single button -->
-            <div class="btn-group">
+            <div class="btn-group pull-right">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     Actions <span class="caret"></span>
                 </button>

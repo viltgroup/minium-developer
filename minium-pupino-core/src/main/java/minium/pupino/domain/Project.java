@@ -3,18 +3,12 @@ package minium.pupino.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
-
-import minium.pupino.domain.util.JsonUserType;
-
-import org.hibernate.annotations.Type;
 
 /**
  * A Project.
@@ -35,11 +29,11 @@ public class Project implements Serializable {
     @Column(name = "description")
     private String description;
     
-    @Column(name = "source_repository")
-    @Type(type = JsonUserType.TYPE_NAME)
-    @Basic
-    @Lob
-    private SourceRepository sourceRepository;
+//    @Column(name = "source_repository")
+//    @Type(type = JsonUserType.TYPE_NAME)
+//    @Basic
+//    @Lob
+//    private SourceRepository sourceRepository;
 
     public Long getId() {
         return id;
@@ -65,13 +59,13 @@ public class Project implements Serializable {
         this.description = description;
     }
 
-    public SourceRepository getSourceRepository() {
-		return sourceRepository;
-	}
-    
-    public void setSourceRepository(SourceRepository sourceRepository) {
-		this.sourceRepository = sourceRepository;
-	}
+//    public SourceRepository getSourceRepository() {
+//		return sourceRepository;
+//	}
+//    
+//    public void setSourceRepository(SourceRepository sourceRepository) {
+//		this.sourceRepository = sourceRepository;
+//	}
     
     @Override
     public boolean equals(Object o) {

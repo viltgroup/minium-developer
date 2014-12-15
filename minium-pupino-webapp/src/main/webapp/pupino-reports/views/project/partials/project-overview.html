@@ -57,10 +57,6 @@
                                         {{lastFinishedBuild.fullDisplayName}}
                                     </a>
 
-                                     <a ui-sref="global.build-detail({id: 1})">
-                                        Build 1
-                                    </a>
-
                                 </td>
 
 
@@ -98,7 +94,7 @@
                                     <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i>
                                     <br>
                                 </td>
-                                <td><a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">{{build.fullDisplayName}}</a>
+                                <td><a ui-sref="global.build({ id: project.id, buildId: build.id })">{{build.fullDisplayName}}</a>
                                 </td>
                                 <td>
                                     {{build.description}}
@@ -227,7 +223,7 @@
                 </div>
 
                 <div class="chart tab-pane " id="line-chart">
-                    <nvd3-line-chart data="exampleData" id="exampleId" width="550" height="300" showXAxis="true" showYAxis="true" showLegend="true" legendColor="colorFunction()" color="colorFunction()" isArea="true" tooltips="true" interactive="true" noData="No Data For You!">
+                    <nvd3-line-chart data="exampleData" id="exampleId" width="550" height="350" showXAxis="true" showYAxis="true" showLegend="true" legendColor="colorFunction()" color="colorFunction()" isArea="true" tooltips="true" interactive="true" noData="No Data For You!">
                         <svg></svg>
                     </nvd3-line-chart>
                 </div>

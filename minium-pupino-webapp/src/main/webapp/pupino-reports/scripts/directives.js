@@ -172,8 +172,6 @@ angular.module('pupinoReports')
 
 
 
-// module for using css-toggle buttons instead of checkboxes
-// toggles the class named in button-toggle element if value is checked
 .directive('sidebarToggle', function() {
     return {
         restrict: 'A',
@@ -181,16 +179,19 @@ angular.module('pupinoReports')
             var classToToggle = attr.sideBarToggle;
             element.bind('click', function(e) {
                 e.preventDefault();
+
                 //If window is small enough, enable sidebar push menu
-                if ($(window).width() <= 992) {
+                if ($(window).width() <= 800) {
                     $('.row-offcanvas').toggleClass('active');
                     $('.left-side').removeClass("collapse-left");
                     $(".right-side").removeClass("strech");
                     $('.row-offcanvas').toggleClass("relative");
+
                 } else {
                     //Else, enable content streching
                     $('.left-side').toggleClass("collapse-left");
                     $(".right-side").toggleClass("strech");
+                     alert("sd");
                 }
 
             });

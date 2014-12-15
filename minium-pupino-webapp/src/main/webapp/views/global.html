@@ -1,6 +1,6 @@
 <header class="header">
     <a href="#/editor" class="logo navbar-brand">
-        <span class="text">Minium Pupino</span>
+        <span class="text">Minium</span>
 
     </a>
 
@@ -183,7 +183,7 @@
             <!-- search form -->
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="form.searchQuery" ng-change="search()" autofocus/>
+                    <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="form.searchQuery" ng-change="search()"/>
                     <span class="input-group-btn">
                         <button type='button' class="btn btn-flat">
                             <i class="glyphicon glyphicon-search" ></i>
@@ -201,12 +201,12 @@
             <!-- /.search form -->
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
-               <!--  <li ng-class="getClass('#/dashboard')">
+                <li ng-class="getClass('#/dashboard')">
                     <a href="#/dashboard">
                         <i class="glyphicon glyphicon-dashboard"></i>
                         <span>Dashboard</span>
                     </a>
-                </li> -->
+                </li>
 
                 <li ng-class="getClass('#/editor')">
                     <a ui-sref="global.editorarea">

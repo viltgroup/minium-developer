@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -27,12 +26,23 @@ public class Build implements Serializable {
 
     @Column(name = "name")
     private String name;
+    
+    @Column(name = "key")
+    private String key;
+    
+    @Column(name = "result")
+    private String result;
+    
+    @Column(name = "duration")
+    private int duration;
+    
+    @Column(name = "timestamp")
+    private long timestamp;
 
     @Column(name = "artifact")
     private String artifact;
 
     @ManyToOne
-    @JoinColumn(name = "project_id")
     private Project project;
 
     public Long getId() {
@@ -105,4 +115,36 @@ public class Build implements Serializable {
                 ", artifact='" + artifact + "'" +
                 '}';
     }
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 }

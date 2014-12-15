@@ -102,7 +102,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			String result = getStatusForBuild(bd);
 			// only want the report of the lastBuild finished
 //			if (lastBuild && !bd.isBuilding()) {
-				// get the artifact of the build and return the string
+				 //get the artifact of the build and return the string
 				artifact = getArtifactsBuild(bd);
 				lastBuild = false;
 				List<Feature> features = reporter.parseJsonResult(artifact);

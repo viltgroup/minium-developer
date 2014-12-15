@@ -18,6 +18,50 @@
         <!-- Main row -->
 
         <section class="col-md-7 connectedSortable ui-sortable">
+
+             <div class="row">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <h3 class="box-title">Projects</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                         <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="project in projects">
+                                    <td>
+                                        {{project.id}}
+                                    </td>
+                                    <td>
+                                        <a ui-sref="global.project-detail({ id: project.id })">
+                                            {{project.name}}
+                                        </a>
+                                    </td>
+                                    <td>{{project.description}}</td>
+                                    <td style="text-align: center;">
+                                         <a class='btn btn-primary btn-xs'  ui-sref="global.project-detail({ id: project.id })">
+                                           Show
+                                        </a>
+                                           
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+
             <div class="row">
                 <div class="box box-danger">
                     <div class="box-header">
@@ -75,255 +119,59 @@
                 </div>
             </div>
 
-
-
-
-
-            <div class="row">
-                <div class="box box-success">
-                    <div class="box-header">
-                        <i class="glyphicon glyphicon-comments-o"></i>
-                        <h3 class="box-title">Feed</h3>
-                    </div>
-                    <div class="box-body ">
-
-                        <ul class="chat">
-                            <li class="left clearfix">
-                                <span class="chat-img pull-left">
-                                    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-                                        <strong class="primary-font">MPay</strong>
-                                        <small class="pull-right text-muted">
-                                            <i class="fa fa-clock-o fa-fw"></i> 12 mins ago
-                                        </small>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="right clearfix">
-                                <span class="chat-img pull-right">
-                                    <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle">
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-                                        <small class=" text-muted">
-                                            <i class="fa fa-clock-o fa-fw"></i> 13 mins ago</small>
-                                        <strong class="pull-right primary-font">Porto Seguro</strong>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="left clearfix">
-                                <span class="chat-img pull-left">
-                                    <img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle">
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-                                        <strong class="primary-font">Project X</strong>
-                                        <small class="pull-right text-muted">
-                                            <i class="fa fa-clock-o fa-fw"></i> 14 mins ago</small>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                    </p>
-                                </div>
-                            </li>
-                            <li class="right clearfix">
-                                <span class="chat-img pull-right">
-                                    <img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar" class="img-circle">
-                                </span>
-                                <div class="chat-body clearfix">
-                                    <div class="header">
-                                        <small class=" text-muted">
-                                            <i class="fa fa-clock-o fa-fw"></i> 15 mins ago</small>
-                                        <strong class="pull-right primary-font">Project Y</strong>
-                                    </div>
-                                    <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare dolor, quis ullamcorper ligula sodales.
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-
-                    </div>
-                    <!-- /.box-->
-
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="box box-success">
-                    <div class="box-header">
-                        <h3 class="box-title">Projects</h3>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body no-padding">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p>
-                                            <span class="label label-info">Working</span>
-                                        </p>
-                                        <p class="list-item-date"><i class="fa fa-clock-o"></i> 17:43</p>
-                                    </td>
-                                    <td>
-                                        <h4>Mpay</h4>
-                                        <div class="progress xs">
-                                            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"></div>
-                                        </div>
-                                    </td>
-
-                                    <td>
-                                        <span class="badge bg-red">55%</span>
-                                    </td>
-
-
-                                    <td class="text-center">
-                                        <nvd3-pie-chart data="exampleData" id="exampleId" x="xFunction()" y="yFunction()" showLabels="true" pieLabelsOutside="false" showValues="true">
-                                            <svg></svg>
-                                        </nvd3-pie-chart>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.box-body -->
-                </div>
-
-            </div>
+           
         </section>
         <!-- end of section col-md-7 -->
-
-
 
         <section class="col-md-5 connectedSortable ui-sortable">
 
             <div class="box box box-primary">
                 <div class="box-header">
                     <i class="glyphicon glyphicon-comments-o"></i>
-                    <h3 class="box-title">Jobs</h3>
+                    <h3 class="box-title">Builds</h3>
                 </div>
                 <div class="box-body ">
 
-                    <table class="table table-striped">
+                   
+
+
+                     <table class="table table-primary table-list">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Project</th>
                                 <th>Status</th>
-                                <th>Progress</th>
+                                <th>Name</th>
+                                <th>Time</th>
+                                <th>Duration</th>
+                                <th>%</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>MPay CGD</td>
+                            <tr ng-repeat="build in builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
                                 <td>
-                                    <span class="label label-success">Success</span>
+                                    <i ng-if="isSuccess(build.result)" class="success fa fa-check-square "></i>
+                                    <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug "></i>
+                                    <i ng-if="" class="fa fa-cog fa-spin "></i>
+                                    <br>
+                                </td>
+                                <td><a ui-sref="global.build({ id: project.id, buildId: build.id })">{{build.fullDisplayName}}</a>
                                 </td>
                                 <td>
-                                    <div class="progress progress-sm progress-half-rounded ">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                            100%
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>MPay Store</td>
-                                <td>
-                                    <span class="label label-success">Success</span>
+                                    <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
                                 </td>
                                 <td>
-                                    <div class="progress progress-sm progress-half-rounded ">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                                            100%
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>LogView</td>
-                                <td>
-                                    <span class="label label-warning">Warning</span>
+                                    {{build.duration | durationMilliseconds}}
                                 </td>
                                 <td>
-                                    <div class="progress progress-sm progress-half-rounded ">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                                            60%
-                                        </div>
-                                    </div>
+                                    <progress>
+                                        <bar value="calcPerCent(build.summary.passingScenarios,build.summary.totalScenarios)" type="success">
+                                        <span >{{calcPerCent(build.summary.passingScenarios,build.summary.totalScenarios)}}%</span>
+                                        </bar>
+                                        <bar value="calcPerCent(build.summary.faillingScenarios,build.summary.totalScenarios)" type="danger">
+                                         <span >{{calcPerCent(build.summary.faillingScenarios,build.summary.totalScenarios)}}%</span>
+                                        </bar>
+                                    </progress>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Porto Seguro</td>
-                                <td>
-                                    <span class="label label-success">Success</span>
-                                </td>
-                                <td>
-                                    <div class="progress progress-sm progress-half-rounded ">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-                                            90%
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Mies - Intranet</td>
-                                <td>
-                                    <span class="label label-warning">Warning</span>
-                                </td>
-                                <td>
-                                    <div class="progress progress-sm progress-half-rounded ">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 45%;">
-                                            45%
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>6</td>
-                                <td>Mapy</td>
-                                <td>
-                                    <span class="label label-danger">Danger</span>
-                                </td>
-                                <td>
-                                    <div class="progress progress-sm progress-half-rounded ">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">
-                                            40%
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>7</td>
-                                <td>LaCaixa</td>
-                                <td>
-                                    <span class="label label-success">Success</span>
-                                </td>
-                                <td>
-                                    <div class="progress progress-sm progress-half-rounded mt-xs light">
-                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
-                                            95%
-                                        </div>
-                                    </div>
-                                </td>
+                               
                             </tr>
                         </tbody>
                     </table>

@@ -2,16 +2,16 @@
     <h1>List of features
     <div class="col-sm-3 col-md-3">
         <div class="btn-group pull-right" data-toggle="buttons">
-            <label class="btn btn-default" ng-click="status = 'PASSED'">
+            <label class="btn btn-default" ng-click="resultStatus = 'PASSED'">
                 <input type="radio"></input>
                 <i class="fa fa-square text-green"></i> Success
             </label>
-            <label class="btn btn-default" ng-click="status = 'FAILED'">
+            <label class="btn btn-default" ng-click="resultStatus = 'FAILED'">
                 <input type="radio"></input>
                 <i class="fa fa-square text-red"></i> Failling
             </label>
 
-            <label class="btn btn-default" ng-click="status = ''">
+            <label class="btn btn-default" ng-click="resultStatus = ''">
                 <input type="radio"></input>
                 <i class="fa fa-square "></i> All
             </label>
@@ -52,7 +52,7 @@
     </thead>
     <tbody>
 
-        <tr ng-repeat="feature in faillingFeatures | filter:query | filter:{status : status} | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+        <tr ng-repeat="feature in faillingFeatures | filter:query | filter:{status : resultStatus} | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
 
             <td>
                 <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
@@ -134,8 +134,8 @@
                 </thead>
                 <tbody>
 
-                    <tr ng-repeat="feature in passingFeatures | filter:query  | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
-
+                    <tr ng-repeat="feature in passingFeatures | filter:query | filter:{status : resultStatus} | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
+                    
                         <td>
                             <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
                             <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>

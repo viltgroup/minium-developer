@@ -18,6 +18,14 @@
             <column name="number" type="varchar(255)"/>
             <column name="name" type="varchar(255)"/>
             <column name="artifact" type="LONGTEXT"/>
+           	 
+           	 <!-- NEW FIELDS -->
+             <column name="result" type="varchar(255)"/>
+             <column name="duration" type="integer"/>
+             <column name="timestamp" type="BIGINT"/>
+             <column name="key" type="varchar(255)"/>
+             
+             
             <column name="project_id" type="bigint"/>
         </createTable>
         
@@ -34,7 +42,7 @@
                                  referencedColumnNames="id"
                                  referencedTableName="T_PROJECT"/>
        	 
-       	 <loadData encoding="UTF-8"
+        <loadData encoding="UTF-8"
                   file="config/liquibase/builds.csv"
                   separator=","
                   tableName="T_BUILD"/>

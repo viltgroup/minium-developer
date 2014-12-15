@@ -1,14 +1,18 @@
 package minium.pupino.web.rest;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 
 import minium.pupino.domain.Build;
+import minium.pupino.domain.Project;
 import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.repository.BuildRepository;
+import minium.pupino.service.BuildService;
+import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +43,9 @@ public class BuildResource {
     @Autowired
     private ReporterParser reporter;
     
+    @Autowired
+	private BuildService buildService;
+    
     /**
      * POST  /rest/builds -> Create a new build.
      */
@@ -53,14 +60,16 @@ public class BuildResource {
 
     /**
      * GET  /rest/builds -> get all the builds.
+     * @throws URISyntaxException 
+     * @throws IOException 
      */
     @RequestMapping(value = "/rest/builds",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<Build> getAll() {
+    public List<BuildDTO> getAll() throws IOException, URISyntaxException {
         log.debug("REST request to get all Builds");
-        return buildRepository.findAll();
+        return buildService.findAll();
     }
 
     /**
@@ -74,25 +83,31 @@ public class BuildResource {
     public ResponseEntity<Build> get(@PathVariable Long id, HttpServletResponse response) throws IOException {
         log.debug("REST request to get Build : {}", id);
         Build build = buildRepository.findOne(id);
-//        File file = new File("mocks/artifact.json");
-//        build.setArtifact(FileUtils.readFileToString(file));
-//        buildRepository.save(build);
-//       
-//        List<Feature> features = reporter.parseJsonResult(build.getArtifact());
-//        BuildDTO buildDTO;
-//    	buildDTO = new BuildDTO(1, "", null, false, "", 0,"", "as", 0, "", "", features, null);
-//    	for (Feature f : features) {
-//			f.processSteps();
-//		}
         if (build == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(build, HttpStatus.OK);
     }
     
+    
     /**
-     * 
+     * GET  /rest/builds/:id -> get the "id" build.
+     * @throws IOException 
+     * @throws URISyntaxException 
      */
+    @RequestMapping(value = "/rest/builds/project",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<BuildDTO>> getByProject(@RequestBody Project project, HttpServletResponse response) throws IOException, URISyntaxException {
+        log.debug("REST request to get Build : {}", project);
+        List<BuildDTO> builds = buildService.findByProject(project);
+        if (builds.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(builds, HttpStatus.OK);
+    }
+    
     /**
      * DELETE  /rest/builds/:id -> delete the "id" build.
      */

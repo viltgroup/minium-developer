@@ -47,7 +47,7 @@ public class ProjectResource {
 
 	@Autowired
 	private JenkinsService jenkinService;
-
+	
 	/**
 	 * POST /rest/projects -> Create a new project.
 	 * 
@@ -73,17 +73,10 @@ public class ProjectResource {
 	public List<Project> getAll() throws IOException, URISyntaxException {
 		log.debug("REST request to get all Projects");
 		if (i == 0) {
-			Project project = new Project();
-			project.setDescription("Project Example for CP");
-			project.setName("cp-e2e-test");
-//			SourceRepository sr = new SourceRepository();
-//			sr.setType(Type.GIT);
-//			sr.setUrl("url@dsdsd.gti");
-//			project.setSourceRepository(sr);
-			projectRepository.save(project);
+			Project p = projectRepository.findOne((long) 1);
 			i = 1;
 			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
-			buildService.save(builds, project);
+			buildService.save(builds, p);
 		}
 		List<Project> p = projectRepository.findAll();
 		return p;

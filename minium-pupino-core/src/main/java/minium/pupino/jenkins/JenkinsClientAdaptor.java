@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
+import minium.pupino.utils.UrlUtils;
 import minium.pupino.utils.Utils;
 import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
@@ -21,6 +22,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.offbytwo.jenkins.JenkinsServer;
+import com.offbytwo.jenkins.model.Artifact;
 import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
@@ -38,8 +40,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	private static URI uri;
 
 	public JenkinsClientAdaptor() throws URISyntaxException {
-		uri = new URI("http://localhost:8083/");
-//		uri = new URI("http://lw255:8080/jenkins/");
+		uri = new URI("http://lw255:8080/jenkins/");
 		jobConfigurator = new JenkinsJobConfigurator();
 	}
 
@@ -100,7 +101,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			bd = b.details();
 			String result = getStatusForBuild(bd);
 			// only want the report of the lastBuild finished
-			if (lastBuild && !bd.isBuilding()) {
+//			if (lastBuild && !bd.isBuilding()) {
 				// get the artifact of the build and return the string
 				artifact = getArtifactsBuild(bd);
 				lastBuild = false;
@@ -108,11 +109,11 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 				summary = reporter.getSummaryFromFeatures(features);
 				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features, summary);
-			} else {
-				summary = null;
-				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, summary);
-			}
+//			} else {
+//				summary = null;
+//				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+//						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, summary);
+//			}
 			buildsDTO.add(buildDTO);
 		}
 		return buildsDTO;
@@ -187,15 +188,15 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	@Override
 	public String getArtifactsBuild(BuildWithDetails buildDetails) {
 		String artifactContent = "";
-//		if (!buildDetails.getArtifacts().isEmpty()) {
-//		Artifact artifact = buildDetails.getArtifacts().get(0);
-//			// function from the jenkins client was not working properly use this temporary solution
-//			if (artifact.getDisplayPath().equals("result.json")) {
-//				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
-//			}else{
+		if (!buildDetails.getArtifacts().isEmpty()) {
+		Artifact artifact = buildDetails.getArtifacts().get(0);
+			// function from the jenkins client was not working properly use this temporary solution
+			if (artifact.getDisplayPath().equals("result.json")) {
+				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
+			}else{
 				artifactContent = Utils.artifactFromFile("mocks/mock-cgd-store.json");
-//			}
-//		}
+			}
+		}
 		return artifactContent;
 	}
 

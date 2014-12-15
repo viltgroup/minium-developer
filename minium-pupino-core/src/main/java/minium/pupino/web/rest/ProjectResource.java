@@ -10,7 +10,9 @@ import javax.xml.bind.JAXBException;
 
 import minium.pupino.domain.Project;
 import minium.pupino.repository.ProjectRepository;
+import minium.pupino.service.BuildService;
 import minium.pupino.service.JenkinsService;
+import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +41,9 @@ public class ProjectResource {
 
 	@Inject
 	private ProjectRepository projectRepository;
+	
+	@Inject
+	private BuildService buildService;
 
 	@Autowired
 	private JenkinsService jenkinService;
@@ -60,10 +65,12 @@ public class ProjectResource {
 
 	/**
 	 * GET /rest/projects -> get all the projects.
+	 * @throws URISyntaxException 
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/rest/projects", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public List<Project> getAll() {
+	public List<Project> getAll() throws IOException, URISyntaxException {
 		log.debug("REST request to get all Projects");
 		if (i == 0) {
 			Project project = new Project();
@@ -75,6 +82,8 @@ public class ProjectResource {
 //			project.setSourceRepository(sr);
 			projectRepository.save(project);
 			i = 1;
+			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
+			buildService.save(builds, project);
 		}
 		List<Project> p = projectRepository.findAll();
 		return p;

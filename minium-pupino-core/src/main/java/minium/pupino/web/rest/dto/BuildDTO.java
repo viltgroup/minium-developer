@@ -18,6 +18,7 @@ public class BuildDTO {
 	String result;
 	SummaryDTO summary;
 	List<Feature> features;
+	String resultJSON;
 	
 	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName, String id,
 			long timestamp, String result, String resultJSON, List<Feature> features,SummaryDTO summary) {
@@ -34,6 +35,7 @@ public class BuildDTO {
 		this.result = result;
 		this.features = features;
 		this.summary = summary;
+		this.resultJSON = resultJSON;
 	}
 
 
@@ -143,6 +145,16 @@ public class BuildDTO {
 
 	public void setSummary(SummaryDTO summary) {
 		this.summary = summary;
+	}
+
+
+	public String getResultJSON() {
+		return resultJSON;
+	}
+
+
+	public void setResultJSON(String resultJSON) {
+		this.resultJSON = resultJSON;
 	}
 
 

@@ -5,32 +5,32 @@ import java.util.List;
 import net.masterthought.cucumber.json.Feature;
 
 public class BuildDTO {
-
+	
+	long id;
 	int number;
 	String url;
-	List actions;
 	boolean building;
 	String description;
 	int duration;
 	String fullDisplayName;
-	String id;
+	String key;
 	long timestamp;
 	String result;
 	SummaryDTO summary;
 	List<Feature> features;
 	String resultJSON;
 	
-	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName, String id,
+	public BuildDTO(long id,int number, String url, boolean building, String description, int duration, String fullDisplayName, String key,
 			long timestamp, String result, String resultJSON, List<Feature> features,SummaryDTO summary) {
 		super();
 		this.number = number;
 		this.url = url;
-		this.actions = actions;
 		this.building = building;
 		this.description = description;
 		this.duration = duration;
 		this.fullDisplayName = fullDisplayName;
 		this.id = id;
+		this.key = key;
 		this.timestamp = timestamp;
 		this.result = result;
 		this.features = features;
@@ -39,17 +39,17 @@ public class BuildDTO {
 	}
 
 
-	public BuildDTO(int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
-			String id, long timestamp, String result,SummaryDTO summary) {
+	public BuildDTO(long id, int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
+			String key, long timestamp, String result,SummaryDTO summary) {
 		super();
 		this.number = number;
 		this.url = url;
-		this.actions = actions;
 		this.building = building;
 		this.description = description;
 		this.duration = duration;
 		this.fullDisplayName = fullDisplayName;
 		this.id = id;
+		this.key = key;
 		this.timestamp = timestamp;
 		this.result = result;
 		this.summary = summary;
@@ -74,12 +74,7 @@ public class BuildDTO {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public List getActions() {
-		return actions;
-	}
-	public void setActions(List actions) {
-		this.actions = actions;
-	}
+	
 	public boolean isBuilding() {
 		return building;
 	}
@@ -105,10 +100,10 @@ public class BuildDTO {
 	public void setFullDisplayName(String fullDisplayName) {
 		this.fullDisplayName = fullDisplayName;
 	}
-	public String getId() {
+	public long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public long getTimestamp() {
@@ -156,6 +151,16 @@ public class BuildDTO {
 
 	public void setResultJSON(String resultJSON) {
 		this.resultJSON = resultJSON;
+	}
+
+
+	public String getKey() {
+		return key;
+	}
+
+
+	public void setKey(String key) {
+		this.key = key;
 	}
 
 

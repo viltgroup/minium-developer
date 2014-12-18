@@ -107,7 +107,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 				lastBuild = false;
 				List<Feature> features = reporter.parseJsonResult(artifact);
 				summary = reporter.getSummaryFromFeatures(features);
-				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+				buildDTO = new BuildDTO(1,b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features, summary);
 //			} else {
 //				summary = null;
@@ -138,7 +138,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 				for (Feature f : features) {
 					f.processSteps();
 				}
-				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+				buildDTO = new BuildDTO(1,b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features, null);
 			}
 
@@ -174,7 +174,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					Map<String, Feature> features = reporter.parseJsonResultSet(artifact);
 					Feature f = features.get(featureURI);
 					f.processSteps();
-					buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
+					buildDTO = new BuildDTO(1,b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
 							bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, Arrays.asList(f), null);
 				}
 			}

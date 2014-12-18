@@ -1,37 +1,22 @@
 'use strict';
 
 var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, launcherService) {
-    
-    $scope.myModel = {
+
+
+    $scope.browsers = {
         "firefox": true,
         "chrome": false,
         "IE": true,
-        "safari": true
+        "opera": true
 
     };
 
-    $scope.format = function(props) {
+    $scope.browsers_radio = [{ id: 1, name: "firefox" }, { id: 2, name: "chrome" }, { id: 3, name: "IE" },{id:4,name: "opera"}];
+    $scope.selectBrowser = 1;
 
-        var path = props.relativeUri || props;
-
-        FormatService.file(path).success(function(data) {
-          console.debug(data);
-        }).error(function(data) {
-          console.debug("error", data);
-        });
-    }
-
-     $scope.formatDirectory = function(props) {
-
-        var path = props.relativeUri || props;
-
-        FormatService.directory(path).success(function(data) {
-          console.debug(data);
-        }).error(function(data) {
-          console.debug("error", data);
-        });
-    }
-
+    $scope.idProperty = "id";
+    $scope.nameProperty = "name";
+    $scope.bootstrapSuffix = "default";
 
     $scope.ok = function() {
         $scope.$close(true);
@@ -41,6 +26,5 @@ var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $st
         $modalInstance.dismiss('cancel');
         $scope.$dismiss();
     };
-
 
 };

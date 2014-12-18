@@ -73,6 +73,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
                 $scope.editor.scrollToLine($state.params.line, true, true, function() {});
                 $scope.editor.gotoLine($state.params.line, 0, true);
             }
+            
             $timeout(checkModified, 2000);
         });
     };

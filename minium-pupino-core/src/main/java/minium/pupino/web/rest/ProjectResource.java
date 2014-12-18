@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 
 import minium.pupino.domain.Project;
+import minium.pupino.repository.BuildRepository;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.BuildService;
 import minium.pupino.service.JenkinsService;
@@ -44,7 +45,10 @@ public class ProjectResource {
 	
 	@Inject
 	private BuildService buildService;
-
+	
+	@Inject
+	private BuildRepository buildRepository;
+	
 	@Autowired
 	private JenkinsService jenkinService;
 	
@@ -74,9 +78,19 @@ public class ProjectResource {
 		log.debug("REST request to get all Projects");
 		if (i == 0) {
 			Project p = projectRepository.findOne((long) 1);
-			i = 1;
+			
 			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
 			buildService.save(builds, p);
+			
+//			p = projectRepository.findOne((long) 4);
+//			builds = jenkinService.getBuilds("my-cp-test");
+//			buildService.save(builds, p);
+			
+//			Build buildMPay = buildRepository.findOne((long) 3);
+//			buildMPay.setArtifact(Utils.artifactFromFile("mocks/mock-cgd-store.json"));
+//			buildRepository.save(buildMPay);
+			
+			 i = 1;
 		}
 		List<Project> p = projectRepository.findAll();
 		return p;

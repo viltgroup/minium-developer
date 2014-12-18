@@ -43,8 +43,8 @@
 
             <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
                     <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
-                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100"  value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
-                    </progressbar>
+            <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
+            </progressbar>
             </span>
 
 
@@ -78,6 +78,21 @@
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     <li>
+                        <a ui-sref="global.editorarea.configs">
+                            <span class="fa fa-list"></span>
+                            <span class="ladda-label">Launch Browser</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="global.editorarea.registerBackend">
+                            <span class="fa fa-cloud-download"></span>
+                            <span class="ladda-label">Register Backend</span>
+                        </a>
+                    </li>
+
+
+                    <li>
                         <a ng-click="stopLaunch()" ng-hide="testExecuting == false">
                             <span class="fa fa-ban"></span>
                             <span class="ladda-label" translate="editor.stop">Stop</span>
@@ -91,7 +106,8 @@
                     </li>
                 </ul>
             </div>
-            <br><br>
+            <br>
+            <br>
         </div>
 
 
@@ -131,4 +147,3 @@
         <button type="submit" class="btn btn-primary" ng-click="accept()">Accept</button>
     </div>
 </script>
-

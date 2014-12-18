@@ -12,6 +12,7 @@ import minium.pupino.domain.Project;
 import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.repository.BuildRepository;
 import minium.pupino.service.BuildService;
+import minium.pupino.web.method.support.AntPath;
 import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
@@ -80,9 +81,9 @@ public class BuildResource {
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<Build> get(@PathVariable Long id, HttpServletResponse response) throws IOException {
+    public ResponseEntity<BuildDTO> get(@PathVariable Long id, HttpServletResponse response) throws IOException {
         log.debug("REST request to get Build : {}", id);
-        Build build = buildRepository.findOne(id);
+        BuildDTO build = buildService.findOne(id);
         if (build == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -107,6 +108,19 @@ public class BuildResource {
         }
         return new ResponseEntity<>(builds, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/rest/builds/project/{buildId}/**", 
+    				method = RequestMethod.GET,
+    				produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+	public  ResponseEntity<BuildDTO> getBuild(@PathVariable("buildId") String buildId,@AntPath("featureURI") String featureURI) throws URISyntaxException, IOException {
+    	 BuildDTO build = buildService.findByFeature(Integer.valueOf(buildId), featureURI);
+         if (build == null) {
+             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+         }
+         return new ResponseEntity<>(build, HttpStatus.OK);
+	}
+    
     
     /**
      * DELETE  /rest/builds/:id -> delete the "id" build.

@@ -39,7 +39,6 @@
                   <thead>
                      <tr>
                         <th>Step</th>
-                        <th></th>
                         <th class="text-center"></th>
                      </tr>
                   </thead>
@@ -50,10 +49,8 @@
                            </p>
                            <!-- TABLES ROW -->
                            <pre ng-if="!isPassed(step.status)"> {{step.errorMessage}}</pre>
-                        </td>
-                        <td>
-                           {{step.line}}
-                           {{step.match.location}}
+                            {{step.line}}
+                            {{step.match.location}}
                         </td>
                         <td style="">
                            <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" />

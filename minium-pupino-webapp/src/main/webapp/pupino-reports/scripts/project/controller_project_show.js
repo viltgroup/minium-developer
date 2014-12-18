@@ -19,11 +19,11 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
     $state.go('.overview');
 
     var buildSuccess, buildFailling;
-    
+
     var getBuilds = function() {
-         BuildProject.findByProject($scope.project).success(function(data) {
+        BuildProject.findByProject($scope.project).success(function(data) {
             //check if has builds
-            if( isEmptyObject(data)){
+            if (isEmptyObject(data)) {
                 return;
             }
 
@@ -59,53 +59,10 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
             processData();
 
         }).error(function(serverResponse) {
-           console.log(serverResponse);
+            console.log(serverResponse);
         });
-        
+
     }
-
-    // var getBuilds = function() {
-    //     var resource = JenkinsProvider.builds.query({
-    //         "jobName": $scope.project.name
-    //     }).$promise.then(function(data) {
-    //         console.log(data);
-    //         //check if has builds
-    //         if( isEmptyObject(data)){
-    //             return;
-    //         }
-
-    //         var buildsFacade = new BuildsFacade(data);
-    //         $scope.builds = buildsFacade.builds;
-
-    //         $scope.lastFinishedBuild = buildsFacade.lastBuild;
-
-    //         $scope.features = buildsFacade.features;
-
-    //         //get some stats
-    //         buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
-    //         // var summary = buildsFacade.getSummary();
-    //         // buildSuccess = summary.passingScenarios;
-    //         //buildFailling = summary.faillingScenarios;
-    //         console.log(buildsFacade);
-
-
-    //         buildSuccess = [
-    //             [1, 100],
-    //             [2, 200],
-    //             [3, 59],
-    //             [4, 569]
-
-    //         ];
-
-    //         buildFailling = [
-    //             [1, 169],
-    //             [2, 269],
-    //             [3, 609],
-    //             [4, 0]
-    //         ];
-    //         processData();
-    //     });
-    // }
 
     $scope.createBuild = function() {
         JenkinsProvider.createBuild($scope.project).success(function() {
@@ -156,11 +113,11 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
         };
     }
 
-    $scope.yAxisTickFormat = function() {
+    $scope.yAxisFormatFunction = function() {
         return function(d) {
-            return d3.format(',f');
+            return d3.format('%')(d);
         }
-    };
+    }
 
     /*
         Initializations

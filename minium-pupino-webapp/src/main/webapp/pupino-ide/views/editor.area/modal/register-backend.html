@@ -1,0 +1,22 @@
+<div class="modal-body">
+    <form name="newBackendForm" class="form-horizontal" role="form" ng-submit="newBackendForm.$valid && register()" novalidate>
+        <fieldset>
+            <!-- Form Name -->
+            <legend>
+                Register a Backend <small></small>
+            </legend>
+            <!-- Text input-->
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="textinput">Backend </label>
+                <div class="col-sm-10">
+                    <input name="backendPath" type="text" class="form-control" ng-model="backendPath" required>
+                    <span class="help-block" ng-show="newBackendForm.backendPath.$dirty && newBackendForm.backendPath.$error.required">Required field.</span>
+                </div>
+            </div>
+</div>
+<div class="modal-footer">
+
+    <button class="btn btn-primary" ng-click="register()" ng-disabled="newBackendForm.$invalid">Register</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </form>
+</div>

@@ -33,10 +33,15 @@ pupinoIDE
                 controller: "LaunchController"
             })
 
-
         //configuration to execute the file
         modalStateProvider.state('global.editorarea.configs', {
             templateUrl: "pupino-ide/views/editor.area/modal/configs.html",
             controller: "ConfigsController"
+        });
+
+        //register backend
+        modalStateProvider.state('global.editorarea.registerBackend', {
+            templateUrl: "pupino-ide/views/editor.area/modal/register-backend.html",
+            controller: "BackendsController"
         });
     });

@@ -77,11 +77,12 @@ angular.module('pupinoIDE.directives',[])
         link: function($scope, element, attr, ctrl) {
             var classToToggle = attr.buttonToggle;
             element.bind('click', function() {
-
                 var checked = ctrl.$viewValue;
+
                 $scope.$apply(function(scope) {
-                    ctrl.$setViewValue(!checked);
+                    ctrl.$setViewValue(checked);
                 });
+
             });
 
             $scope.$watch(attr.ngModel, function(newValue, oldValue) {
@@ -91,6 +92,40 @@ angular.module('pupinoIDE.directives',[])
     };
 })
 
+
+.directive('radioButtonGroup', function() {
+    return {
+        restrict: 'E',
+        scope: { model: '=', options: '=', id: '=', name: '=', suffix: '=' },
+        controller: function($scope) {
+            $scope.activate = function (option, $event) {
+                $scope.model = option[$scope.id];
+                // stop the click event to avoid that Bootstrap toggles the "active" class
+                if ($event.stopPropagation) {
+                    $event.stopPropagation();
+                }
+                if ($event.preventDefault) {
+                    $event.preventDefault();
+                }
+                $event.cancelBubble = true;
+                $event.returnValue = false;
+            };
+            
+            $scope.isActive = function(option) {
+                return option[$scope.id] == $scope.model;
+            };
+            
+            $scope.getName = function (option) {
+                return option[$scope.name];
+            }
+        },
+        template: "<button type='button' class='btn btn-{{suffix}}' " +
+            "ng-class='{active: isActive(option)}'" +
+            "ng-repeat='option in options' " +
+            "ng-click='activate(option, $event)'><i class='icon-{{getName(option)}}'></i>{{getName(option)}} " +
+            "</button>"
+    };
+})
 
 
 // module for using css-toggle buttons instead of checkboxes

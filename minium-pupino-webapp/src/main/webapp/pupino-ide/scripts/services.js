@@ -171,3 +171,14 @@ pupinoIDE.factory('FeatureFacade', function() {
      */
     return FeatureFacade;
 });
+
+/*
+Factory to register backends
+ */
+pupinoIDE.factory('backendFactory', function($http) {
+    return {
+        register: function(params) {
+            return $http.post("/app/rest/backends/register", params);
+        }
+    };
+})

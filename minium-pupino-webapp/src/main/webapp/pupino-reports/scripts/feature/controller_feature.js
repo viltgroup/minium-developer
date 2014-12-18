@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoReports.controller('FeatureController', function($scope, $stateParams, $sce, $state, resolvedProject, Project, JenkinsProvider, BuildFacade) {
+pupinoReports.controller('FeatureController', function($scope, $stateParams, $sce, $state, resolvedProject, Project, JenkinsProvider, BuildProject, BuildFacade) {
 
     $state.go('global.feature.scenarios');
     $scope.project = resolvedProject;
@@ -13,8 +13,7 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
     $scope.faillingScenarios = [];
 
     var getFeatureDetails = function() {
-        var resource = JenkinsProvider.getFeatureBuild(
-            $scope.project,
+        BuildProject.findByFeature(
             buildId,
             featureURI
         ).success(function(data) {
@@ -45,7 +44,7 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
 
     getFeatureDetails();
 
-     var colorArray = [ 'green','red','yellow','blue'];
+    var colorArray = ['green', 'red', 'yellow', 'blue'];
     $scope.colorFunction = function() {
         return function(d, i) {
             return colorArray[i];

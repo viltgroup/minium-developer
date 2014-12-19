@@ -4,8 +4,10 @@
         <div class="row">
             <div class="box box-danger box-mt">
                 <div class="box-header">
-                    <i class="fa fa-gear"></i>
-                    <h3 class="box-title">Last Builds</h3>
+                    <i class="fa fa-rocket"></i>
+                    <h3 class="box-title">Last test executions
+                    </h3>
+
                     <div class="box-tools btn-group pull-right" data-toggle="buttons">
                         <label class="btn btn-default btn-sm" ng-click="status = 'SUCCESS'" title="Succeeded">
                             <input type="radio"></input>
@@ -21,12 +23,16 @@
                         </label>
                     </div>
                 </div>
-                <strong>&nbsp;&nbsp;&nbsp;Last Build</strong>
+
+                <a id="launchBtn" class="btn btn-primary btn-xs" ng-click="createBuild()" title="Launch an execution to run the tests">
+                    <i class="fa fa-play"></i> Launch Test execution
+                </a>
+
                 <div class="box-body ">
                     <!-- Alert No data -->
                     <div class="alert alert-info" ng-show="!lastFinishedBuild">
                         <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
-                            <i class="fa fa-play"></i> Launch Build
+                            <i class="fa fa-play"></i> Launch Test execution
                         </a>
                         <strong>Info:</strong> Theres no data
                     </div>
@@ -36,7 +42,6 @@
                             <tr>
                                 <th>Status</th>
                                 <th>Name</th>
-                                <th>Description</th>
                                 <th>Time</th>
                                 <th>Duration</th>
                                 <th>%</th>
@@ -58,20 +63,28 @@
                                     </a>
 
                                 </td>
-
-
                                 <td>
-                                    {{lastFinishedBuild.description}}
-                                </td>
-                                <td>
-                                    <i class="fa fa-clock-o"></i> {{lastFinishedBuild.id | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> {{lastFinishedBuild.key | humanizeDate}}
                                 </td>
                                 <td>
                                     {{lastFinishedBuild.duration | durationMilliseconds}}
                                 </td>
+
                                 <td>
-                                    <span class="label label-danger">{{(100*summary.failed/summary.totalScenarios)| number:2}}% failing</span>
+                                    <progress>
+                                        <bar value="calcPerCent(summary.passed,summary.totalScenarios)" type="success">
+                                            <span>{{calcPerCent(summary.passed,summary.totalScenarios)}}%</span>
+                                        </bar>
+                                        <bar value="calcPerCent(summary.failed,summary.totalScenarios)" type="danger">
+                                            <span>{{calcPerCent(summary.failed,summary.totalScenarios)}}%</span>
+                                        </bar>
+                                        <bar value="calcPerCent(summary.failed,summary.totalScenarios)" type="danger">
+                                            <span>{{calcPerCent(summary.failed,summary.totalScenarios)}}%</span>
+                                        </bar>
+                                    </progress>
                                 </td>
+
+
                                 <td>
                                     <a class='btn btn-primary btn-xs' ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">
                                        Show
@@ -83,7 +96,7 @@
                         <!-- other builds -->
                         <thead>
                             <tr>
-                                <th colspan="7"></th>
+                                <th colspan="7">Other Executions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -94,13 +107,11 @@
                                     <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i>
                                     <br>
                                 </td>
-                                <td><a ui-sref="global.build({ id: project.id, buildId: build.id })">{{build.fullDisplayName}}</a>
+                                <td>
+                                    <a ui-sref="global.build({ id: project.id, buildId: build.id })">{{build.fullDisplayName}}</a>
                                 </td>
                                 <td>
-                                    {{build.description}}
-                                </td>
-                                <td>
-                                    <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> {{build.key | humanizeDate}}
                                 </td>
                                 <td>
                                     {{build.duration | durationMilliseconds}}
@@ -123,8 +134,9 @@
                 <div class="box-header">
                     <i class="fa fa-warning"></i>
                     <span class="circle circle-danger circle-lg text-left"></span>
-                    <h3 class="box-title">Identified problems </h3>
+                    <h3 class="box-title">Identified problems
                     <span class="label label-danger">{{faillingFeatures.length}}</span>
+                     </h3>
                 </div>
                 <div class="box-body ">
 
@@ -210,15 +222,15 @@
             <ul class="nav nav-tabs pull-right">
                 <li class="active"><a show-tab href="#pie-chart" data-toggle="tab">Donut</a>
                 </li>
-                <li ><a show-tab href="#line-chart" data-toggle="tab">Evolution</a>
+                <li><a show-tab href="#line-chart" data-toggle="tab">Evolution</a>
                 </li>
 
                 <li class="pull-left header"><i class="fa fa-inbox"></i> Stats</li>
             </ul>
             <div class="tab-content no-padding">
                 <div class="chart tab-pane active" id="pie-chart">
-                    <nvd3-pie-chart data="exampleData1" id="exampleId1" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true" showLegend="true" color="colorFunction()" legendColor="colorFunction()" yAxisTickFormat="yAxisFormatFunction()" labelType="percent" donut="true" donutRatio=".50" noData="No Data For You!" showYAxis="true" >
-                    <svg></svg>
+                    <nvd3-pie-chart data="exampleData1" id="exampleId1" width="500" height="300" x="xFunction()" y="yFunction()" showLabels="true" showLegend="true" color="colorFunction()" legendColor="colorFunction()" labelType="percent" donut="true" donutRatio=".50" noData="No Data For You!" showYAxis="true">
+                        <svg></svg>
                     </nvd3-pie-chart>
                 </div>
 

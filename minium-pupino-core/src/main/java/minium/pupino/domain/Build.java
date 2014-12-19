@@ -22,7 +22,7 @@ public class Build implements Serializable {
     private Long id;
 
     @Column(name = "number")
-    private String number;
+    private int number;
 
     @Column(name = "name")
     private String name;
@@ -53,11 +53,11 @@ public class Build implements Serializable {
         this.id = id;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 

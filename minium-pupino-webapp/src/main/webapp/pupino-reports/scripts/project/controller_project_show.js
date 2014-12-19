@@ -148,4 +148,8 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
             return true;
     }
 
+    $scope.calcPerCent = function(value, total) {
+        return (100 * value / total).toFixed(2);
+    }
+
 });

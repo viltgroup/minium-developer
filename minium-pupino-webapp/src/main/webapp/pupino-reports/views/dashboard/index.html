@@ -259,7 +259,7 @@
                                 <td><a ui-sref="global.build({ id: project.id, buildId: build.id })">{{build.fullDisplayName}}</a>
                                 </td>
                                 <td>
-                                    <i class="fa fa-clock-o"></i> {{build.id | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> {{build.key | humanizeDate}}
                                 </td>
                                 <td>
                                     {{build.duration | durationMilliseconds}}

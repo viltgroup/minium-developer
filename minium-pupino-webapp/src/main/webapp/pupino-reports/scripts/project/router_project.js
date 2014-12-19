@@ -50,4 +50,7 @@ pupinoReports
             .state('global.project-detail.features-list', {
                 templateUrl: 'pupino-reports/views/project/partials/features-list.html'
             })
+            .state('global.project-detail.configuration', {
+                templateUrl: 'pupino-reports/views/project/partials/configuration.html'
+            })
     });

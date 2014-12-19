@@ -18,6 +18,7 @@ import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
@@ -38,7 +39,7 @@ public class BuildService {
 			Build build = new Build();
 			build.setName(buildDTO.getFullDisplayName());
 			build.setArtifact(buildDTO.getResultJSON());
-			build.setNumber(String.valueOf(buildDTO.getNumber()));
+			build.setNumber(buildDTO.getNumber());
 			build.setDuration(buildDTO.getDuration());
 
 			build.setResult(buildDTO.getResult());
@@ -112,6 +113,16 @@ public class BuildService {
 				b.getResult(), "", Arrays.asList(f), null);
 		return buildDTO;
 	}
+	//REFACTOR THIS METHOD
+	public BuildDTO findLastBuild(Project project) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+		Build b = buildRepository.findLastBuild(project,new PageRequest(0,1)).get(0);
+		List<Feature> features = reporter.parseJsonResult(b.getArtifact());
+		SummaryDTO summary = reporter.getSummaryFromFeatures(features);
+		BuildDTO buildDTO = new BuildDTO(b.getId(),Integer.valueOf(b.getNumber()), "", false, "", b.getDuration(), b.getName(), b.getKey(), b.getTimestamp(),
+				b.getResult(), "", features, summary);
+		return buildDTO;
+	}
+	
 	
 	
 }

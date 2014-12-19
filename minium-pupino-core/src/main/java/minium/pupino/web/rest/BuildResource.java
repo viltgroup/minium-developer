@@ -109,6 +109,26 @@ public class BuildResource {
         return new ResponseEntity<>(builds, HttpStatus.OK);
     }
     
+    /**
+     * GET  /rest/builds/lastBuild
+     * @throws IOException 
+     * @throws URISyntaxException 
+     */
+    @RequestMapping(value = "/rest/builds/lastBuild",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<BuildDTO> getLastBuild(@RequestBody Project project, HttpServletResponse response) throws IOException, URISyntaxException {
+        log.debug("REST request to get Build : {}", project);
+        
+        BuildDTO build = buildService.findLastBuild(project);
+        
+        if (build == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(build, HttpStatus.OK);
+    }
+    
     @RequestMapping(value = "/rest/builds/project/{buildId}/**", 
     				method = RequestMethod.GET,
     				produces = MediaType.APPLICATION_JSON_VALUE)

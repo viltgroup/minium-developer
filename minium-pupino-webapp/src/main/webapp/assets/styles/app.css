@@ -463,3 +463,29 @@ div.inline {
     box-shadow: inset 0 13px 15px #285e8e;
     background-color: #367fa9;
 }
+/**
+ * change the breadcrumbs to the left
+ */
+.right-side > .content-header > .breadcrumb {
+    left: 0px;
+    padding: 10px 5px;
+    top: 5px;
+    font-size: 13px;
+}
+.right-side > .content-header > .right-content {
+  float: right;
+  font-size: 20px;
+}
+
+
+/*Remove content full width on xs screens*/
+@media screen and (max-width: 992px) {
+ .right-side > .content-header > .right-content {
+  display: none;
+}
+}
+
+#launchBtn{
+    margin-left: 10;
+}
+

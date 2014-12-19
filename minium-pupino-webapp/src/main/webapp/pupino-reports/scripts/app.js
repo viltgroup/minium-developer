@@ -14,7 +14,8 @@ var pupinoReports = angular.module('pupinoReports', [
     'nvd3ChartDirectives',
     'pasvaz.bindonce',
     'pupinoReports.controllers',
-    'pupinoReports.filters'
+    'pupinoReports.filters',
+    'vilt.components'
 ])
 
 .config(function($httpProvider, $urlRouterProvider, $stateProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {

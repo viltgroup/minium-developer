@@ -64,9 +64,9 @@ public class ProjectResource {
 	public void create(@RequestBody Project project) throws URISyntaxException, IOException, JAXBException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		//jenkinService.createJob(project.getName(),project.getSourceRepository().getType().toString(),project.getSourceRepository().getUrl().toString());
+		jenkinService.createJob(project.getName(),project.getRepository_type(),project.getRepository_url());
 	}
-
+	
 	/**
 	 * GET /rest/projects -> get all the projects.
 	 * @throws URISyntaxException 
@@ -82,9 +82,10 @@ public class ProjectResource {
 			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
 			buildService.save(builds, p);
 			
-//			p = projectRepository.findOne((long) 4);
-//			builds = jenkinService.getBuilds("my-cp-test");
-//			buildService.save(builds, p);
+			
+			p = projectRepository.findOne((long) 3);
+			builds = jenkinService.getBuilds("my-cp-test");
+			buildService.save(builds, p);
 			
 //			Build buildMPay = buildRepository.findOne((long) 3);
 //			buildMPay.setArtifact(Utils.artifactFromFile("mocks/mock-cgd-store.json"));

@@ -560,5 +560,10 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
         $(".navbar-brand").css('color', '#f9f9f9');
     });
 
+    
+    /*
+    MULTITAB
+     */
     $scope.multiTab = false;
+
 };

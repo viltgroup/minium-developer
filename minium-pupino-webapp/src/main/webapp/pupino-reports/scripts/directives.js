@@ -191,11 +191,9 @@ angular.module('pupinoReports')
                     //Else, enable content streching
                     $('.left-side').toggleClass("collapse-left");
                     $(".right-side").toggleClass("strech");
-                     alert("sd");
                 }
 
             });
-
 
         }
     };

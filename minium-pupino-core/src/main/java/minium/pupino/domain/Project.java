@@ -29,6 +29,12 @@ public class Project implements Serializable {
     @Column(name = "description")
     private String description;
     
+    @Column(name = "repository_type")
+    private String repository_type;
+    
+    @Column(name = "repository_url")
+    private String repository_url;
+    
 //    @Column(name = "source_repository")
 //    @Type(type = JsonUserType.TYPE_NAME)
 //    @Basic
@@ -58,7 +64,7 @@ public class Project implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
 //    public SourceRepository getSourceRepository() {
 //		return sourceRepository;
 //	}
@@ -67,6 +73,13 @@ public class Project implements Serializable {
 //		this.sourceRepository = sourceRepository;
 //	}
     
+    public String getRepository_url() {
+		return repository_url;
+	}
+
+	public void setRepository_url(String repository_url) {
+		this.repository_url = repository_url;
+	}
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -96,4 +109,14 @@ public class Project implements Serializable {
                 ", description='" + description + "'" +
                 '}';
     }
+
+	public String getRepository_type() {
+		return repository_type;
+	}
+
+	public void setRepository_type(String repository_type) {
+		this.repository_type = repository_type;
+	}
+
+	
 }

@@ -3,17 +3,17 @@
     <!-- Content Header (Page header) -->
 
     <section class="content-header">
-        <h1>
+
+        &nbsp;
+        <span class="right-content">
             <i class="fa fa-cloud-download"></i>
             {{project.name}}
-            <small></small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
-            </li>
-            <li class=>Projects</li>
-            <li class="active">{{project.name}} X</li>
+        </span>
 
+        <ol class="breadcrumb">
+            <li><a ui-sref="global.project"><i class="glyphicon glyphicon-home"></i> Projects</a>
+            </li>
+            <li class="active">{{project.name}}</li>
         </ol>
     </section>
 
@@ -42,19 +42,26 @@
                     </a>
                 </li>
 
-                <li ui-sref-active="active" class="active">
+               <!--  <li ui-sref-active="active" class="active">
                     <a  ui-sref="global.project-detail.builds">
                         <i class="fa fa-gears"></i>
                         <strong>Last Builds</strong>
                         <span class="label label-danger">{{builds.lenght}}</span>
                     </a>
-                </li>
+                </li> -->
 
 
                 <li ui-sref-active="active" class="active">
                     <a  ui-sref="global.project-detail.features-list">
                         <i class="fa fa-bars"></i>
                         <strong>Features List</strong>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" class="active">
+                    <a  ui-sref="global.project-detail.configuration">
+                        <i class="fa fa-gear"></i>
+                        <strong>Configurations</strong>
                     </a>
                 </li>
 

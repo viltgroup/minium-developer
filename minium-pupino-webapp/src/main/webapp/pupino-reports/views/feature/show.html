@@ -3,23 +3,24 @@
     <!-- Content Header (Page header) -->
 
     <section class="content-header">
-
-        <h2>
-        <i class="fa fa-file"></i> Project 
-              <a ui-sref="global.project-detail({ id: project.id })">
-                                {{project.name}}
-              </a>
-            
+        &nbsp;
+        <span class="right-content">
+            <i class="fa fa-cloud-download"></i>
             Feature
             <small>{{feature.rawName}}</small>
-        </h2>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
-            </li>
-            <li class=>Report X</li>
-            <li class="active">Feature X</li>
+        </span>
 
+        <ol class="breadcrumb">
+            <li><a ui-sref="global.project"><i class="glyphicon glyphicon-home"></i> Projects</a>
+            </li>
+            <li><a ui-sref="global.project-detail({ id: project.id })">{{project.name}}</a>
+            </li>
+
+            <li ><a ui-sref="global.build({ id: project.id, buildId: buildId})">Test execution</a></li>
+
+            <li class="active">Feature <small> {{feature.rawName}}</small></li>
         </ol>
+
     </section>
 
     <section class="content">

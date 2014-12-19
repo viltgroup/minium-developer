@@ -4,7 +4,7 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
 
     $state.go('global.feature.scenarios');
     $scope.project = resolvedProject;
-    var buildId = $stateParams.buildId;
+    $scope.buildId = $stateParams.buildId;
     var featureURI = $stateParams.featureURI;
 
     //init variables
@@ -14,7 +14,7 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
 
     var getFeatureDetails = function() {
         BuildProject.findByFeature(
-            buildId,
+            $scope.buildId,
             featureURI
         ).success(function(data) {
             console.log(data);

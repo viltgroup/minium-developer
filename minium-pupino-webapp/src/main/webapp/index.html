@@ -1,4 +1,5 @@
-<li ng-switch-when="true"><a href="#/build"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;build</a></li>
+<li ng-switch-when="true"><a href="#/build"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;build</a>
+</li>
 <!doctype html>
 <!--[if lt IE 7]>    <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>     <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -26,15 +27,15 @@
     <link rel="stylesheet" href="../bower_components/jqueryui/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="../assets/styles/theme.css" />
     <link rel="stylesheet" href="../assets/styles/fontello/css/fontello.css" />
-    
+
     <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 
-    
+
     <!-- endbuild -->
 </head>
 
-<body class="skin-ide" ng-app="pupinoApp" ng-controller="MainController">
-    
+<body class="skin-blue" ng-app="pupinoApp" ng-controller="MainController">
+
     <div class="full" ui-view></div>
 
     <script src="../bower_components/jquery/dist/jquery.js"></script>
@@ -97,22 +98,26 @@
     <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
     <script src="bower_components/angular-http-auth/src/http-auth-interceptor.js"></script>
 
+
+    <!-- Components -->
+    <script src="components/js/components.js"></script>
+    <script src="components/js/utils.js"></script>
+
     <script src="scripts/controllers/global.js"></script>
     <script src="pupino-reports/scripts/launch/controller_launch.js"></script>
     <script src="pupino-reports/scripts/report/controller_report.js"></script>
-
-     
+    
     <script src="pupino-ide/scripts/app.js"></script>
     <script src="pupino-ide/scripts/services.js"></script>
     <script src="pupino-ide/scripts/filters.js"></script>
     <script src="pupino-ide/scripts/directives.js"></script>
 
-     <!-- File open/new -->
+    <!-- File open/new -->
     <script src="pupino-ide/scripts/file/service_file_system.js"></script>
     <script src="pupino-ide/scripts/file/controller_file.js"></script>
     <script src="pupino-ide/scripts/file/controller_open.file.js"></script>
     <script src="pupino-ide/scripts/file/controller_new_file.js"></script>
-     <!-- Editor Area -->  
+    <!-- Editor Area -->
     <script src="pupino-ide/scripts/editor.area/controller_editor.area.js"></script>
     <script src="pupino-ide/scripts/editor.area/controller_editor.area.multitab.js"></script>
     <script src="pupino-ide/scripts/editor.area/controller_configs.editor.area.js"></script>
@@ -141,6 +146,7 @@
     <script src="pupino-reports/scripts/build/service_build.js"></script>
 
     
+
     <!-- PUPINO-APP -->
     <script src="scripts/app.js"></script>
 

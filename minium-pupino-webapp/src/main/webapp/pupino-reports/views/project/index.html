@@ -3,18 +3,15 @@
     <!-- Content Header (Page header) -->
 
     <section class="content-header">
-        <h1>
-            <i class="glyphicon glyphicon-file"></i>
-            Projects
-            <small></small>
-        </h1>
+        &nbsp;
         <ol class="breadcrumb">
-            <li><a href="#"><i class="glyphicon glyphicon-dashboard"></i> Home</a>
+            <li class="active">
+                <a ui-sref="global.project">
+                    <i class="glyphicon glyphicon-home"></i>Projects</a>
             </li>
-            <li class=>Report X</li>
-            <li class="active">Feature X</li>
-
         </ol>
+
+
     </section>
 
     <!-- Main content -->
@@ -23,10 +20,12 @@
         <div class="col-md-12">
             <div class="panel panel-dark panel-alt">
                 <div class="panel-heading">
+                    <h3><i class="fa fa-cloud"></i> My Projects <span class="label label-primary">{{projects.length}}</span></h3>
                     <!-- panel-btns -->
-                    <button class="btn btn-primary " data-toggle="modal" data-target="#saveProjectModal" ng-click="clear()">
+                    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#saveProjectModal" ng-click="clear()">
                         <span class="glyphicon glyphicon-flash"></span>Create a new Project
                     </button>
+                    
                 </div>
                 <!-- panel-heading -->
                 <div class="panel-body panel-table">
@@ -34,8 +33,10 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Name</th>
+                                    <th>Last Execution Status</th>
+                                    <th>Status</th>
+                                    <th>Last Execution Date</th>
                                     <th>Description</th>
                                     <th></th>
                                 </tr>
@@ -43,12 +44,32 @@
                             <tbody>
                                 <tr ng-repeat="project in projects">
                                     <td>
-                                        {{project.id}}
+                                        <a ui-sref="global.project-detail({ id: project.id })">
+                                            {{project.name}}
+                                        </a>
+                                    </td>
+                                    <td ng-if="builds[project.id] != null">
+                                        <progress>
+                                            <bar value="calcPerCent(builds[project.id].summary.passingScenarios,builds[project.id].summary.totalScenarios)" type="success">
+                                                <span>{{calcPerCent(builds[project.id].summary.passingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
+                                            </bar>
+                                            <bar value="calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)" type="danger">
+                                                <span>{{calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
+                                            </bar>
+                                            <bar value="calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)" type="danger">
+                                                <span>{{calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
+                                            </bar>
+                                        </progress>
+
+                                    </td>
+                                    <td ng-if="builds[project.id] == null">
+                                        No execution yet
                                     </td>
                                     <td>
-                                        <a ui-sref="global.project-detail({ id: project.id })">
-                                {{project.name}}
-                            </a>
+                                        <span class="label" ng-class="{'label-danger' : !isPassed(builds[project.id].result),'label-success' : isPassed(builds[project.id].result)}">Failing</span>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-clock-o"></i> {{builds[project.id].key | humanizeDate}}
                                     </td>
                                     <td>{{project.description}}</td>
                                     <td style="text-align: center;">

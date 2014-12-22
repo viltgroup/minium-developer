@@ -55,8 +55,7 @@
         <tr ng-repeat="feature in faillingFeatures | filter:query | filter:{status : resultStatus} | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
 
             <td>
-                <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
-                <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
+                <icon-item content="feature.status" type="feature"></icon-item>
             </td>
             <td>
                 <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
@@ -137,8 +136,7 @@
                     <tr ng-repeat="feature in passingFeatures | filter:query | filter:{status : resultStatus} | orderBy:predicate:reverse" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
                     
                         <td>
-                            <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
-                            <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
+                            <icon-item content="feature.status" type="feature"></icon-item>
                         </td>
                         <td>
                             <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">

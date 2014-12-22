@@ -240,6 +240,26 @@
                     </a>
                 </li>
             </ul>
+
+
+               <!--
+              [TREE attribute]
+              angular-treeview: the treeview directive
+              tree-id : each tree's unique id.
+              tree-model : the tree model on $scope.
+              node-id : each node's id
+              node-label : each node's label
+              node-children: each node's children
+            -->
+            <div
+              data-angular-treeview="true"
+              data-tree-id="mytree"
+              data-tree-model="roleList"
+              data-node-id="roleId"
+              data-node-label="roleName"
+              data-node-children="children" >
+            </div>
+            
         </section>
         <!-- /.sidebar -->
     </aside>

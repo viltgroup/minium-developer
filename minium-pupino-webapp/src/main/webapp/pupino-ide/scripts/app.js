@@ -13,6 +13,7 @@ var pupinoIDE = angular.module('pupinoIDE', [
     'ui.ace',
     'ui.bootstrap',
     'ui.bootstrap.showErrors',
+    'angularTreeview',
     'pasvaz.bindonce',
     'pupinoIDE.filters',
     'pupinoIDE.directives'

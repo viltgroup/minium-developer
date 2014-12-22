@@ -566,4 +566,6 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
      */
     $scope.multiTab = false;
 
+
+  
 };

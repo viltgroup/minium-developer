@@ -1,16 +1,24 @@
 'use strict';
 
-var LaunchController = function($scope, $modalInstance, $state, $stateParams, launcherService) {
-    
-    launcherService.launch($scope.launchParams)
-        .success(function(data) {
-            var steps = jsonPath.eval(data, "$..steps[@.result.status=='passed']");
-            editor.getSession().setAnnotations(_(steps).map(function(step) {
-                return {
-                    row: step.line,
-                    text: "You have a problem here.",
-                    type: "error"
-                };
-            }));
-        });
+var LaunchController = function($scope, $modalInstance) {
+    $scope.browsers = {
+        "firefox": false,
+        "chrome": true,
+        "IE": false,
+        "opera": false
+
+    };
+
+    $scope.idProperty = "id";
+    $scope.nameProperty = "name";
+    $scope.bootstrapSuffix = "default";
+
+    $scope.ok = function() {
+        $scope.$close(true);
+    };
+
+    $scope.cancel = function() {
+        $modalInstance.dismiss('cancel');
+        $scope.$dismiss();
+    };
 };

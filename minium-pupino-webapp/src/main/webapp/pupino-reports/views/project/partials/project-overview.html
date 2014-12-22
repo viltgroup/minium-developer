@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <a id="launchBtn" class="btn btn-primary btn-xs" ng-click="createBuild()" title="Launch an execution to run the tests">
+                <a id="launchBtn" class="btn btn-primary btn-xs" ui-sref="global.project-detail.overview.launch" title="Launch an execution to run the tests">
                     <i class="fa fa-play"></i> Launch Test execution
                 </a>
 
@@ -51,9 +51,7 @@
                         <tbody>
                             <tr ng-class="{'danger' : (lastFinishedBuild.result != 'SUCCESS') }">
                                 <td>
-                                    <i ng-if="isSuccess(lastFinishedBuild.result)" class="success fa fa-check-square fa-2x"></i>
-                                    <i ng-if="!isSuccess(lastFinishedBuild.result)" class="danger fa fa-bug fa-2x"></i>
-                                    <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i>
+                                    <icon-item content="lastFinishedBuild.result" type="build"></icon-item>
                                     <br>
                                     <span ng-if="$index == 0" class="label label-primary">Last Stable lastFinishedBuild</span>
                                 </td>
@@ -102,9 +100,8 @@
                         <tbody>
                             <tr ng-repeat="build in builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
                                 <td>
-                                    <i ng-if="isSuccess(build.result)" class="success fa fa-check-square fa-2x"></i>
-                                    <i ng-if="!isSuccess(build.result)" class="danger fa fa-bug fa-2x"></i>
-                                    <i ng-if="" class="fa fa-cog fa-spin fa-2x"></i>
+
+                                    <icon-item content="build.result" type="build"></icon-item>
                                     <br>
                                 </td>
                                 <td>
@@ -162,8 +159,7 @@
                             <tr ng-repeat="feature in faillingFeatures" ng-class="{'danger' : !isPassed(feature.status),'success' : isPassed(feature.status)}">
                                 <td>
                                     <span class="hide">{{feature.status}}</span>
-                                    <i ng-if="isPassed(feature.status)" class="success fa fa-check-square fa-2x"></i>
-                                    <i ng-if="!isPassed(feature.status)" class="danger fa fa-bug fa-2x"></i>
+                                    <icon-item content="feature.status" type="feature"></icon-item>
                                 </td>
                                 <td>
                                     <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
@@ -350,3 +346,5 @@
     </section>
 </div>
 </section>
+
+

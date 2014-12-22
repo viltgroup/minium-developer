@@ -2,7 +2,6 @@
 
 var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService) {
     
-   $scope.highlightText = "ola";
 
      $scope.fs = {
         current: {}

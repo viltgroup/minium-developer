@@ -170,7 +170,55 @@ angular.module('pupinoReports')
     };
 })
 
+.directive('iconItem', function($compile) {
 
+    var successTemplate = '<i class="success fa fa-check-square fa-2x"></i>';
+    var errorTemplate = '<i class="danger fa fa-bug fa-2x"></i>';
+
+    var getBuildResult = function(contentType) {
+        var template = '';
+        switch (contentType) {
+            case 'SUCCESS':
+                template = successTemplate;
+                break;
+            default:
+                template = errorTemplate;
+        }
+
+        return template;
+    }
+
+    var getFeatureResult = function(contentType) {
+        var template = '';
+        switch (contentType) {
+            case 'PASSED':
+                template = successTemplate;
+                break;
+            default:
+                template = errorTemplate;
+        }
+
+        return template;
+    }
+
+    var linker = function(scope, element, attrs) {
+        if (attrs.type === "build") {
+            element.html(getBuildResult(scope.content)).show();
+        } else {
+            element.html(getFeatureResult(scope.content)).show();
+        }
+
+        $compile(element.contents())(scope);
+    }
+
+    return {
+        restrict: "E",
+        link: linker,
+        scope: {
+            content: '='
+        }
+    };
+})
 
 .directive('sidebarToggle', function() {
     return {

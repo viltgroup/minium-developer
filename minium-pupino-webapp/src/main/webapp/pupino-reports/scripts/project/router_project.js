@@ -1,7 +1,7 @@
 'use strict';
 
 pupinoReports
-    .config(function($stateProvider, $httpProvider, $translateProvider, USER_ROLES) {
+    .config(function($stateProvider, $httpProvider, $translateProvider,modalStateProvider, USER_ROLES) {
 
         $stateProvider
             .state('global.project', {
@@ -35,6 +35,7 @@ pupinoReports
             .state('global.project-detail.overview', {
                 templateUrl: 'pupino-reports/views/project/partials/project-overview.html'
             })
+           
             .state('global.project-detail.builds', {
                 templateUrl: 'pupino-reports/views/project/partials/build.html',
                 controller: function($scope, $state) {
@@ -53,4 +54,10 @@ pupinoReports
             .state('global.project-detail.configuration', {
                 templateUrl: 'pupino-reports/views/project/partials/configuration.html'
             })
+
+            //configuration of the launch
+            modalStateProvider.state('global.project-detail.overview.launch', {
+                templateUrl: "pupino-reports/views/project/partials/launch.html",
+                controller: "LaunchController"
+            });
     });

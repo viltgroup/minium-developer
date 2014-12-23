@@ -182,3 +182,26 @@ pupinoIDE.factory('backendFactory', function($http) {
         }
     };
 })
+
+
+pupinoIDE.factory('WebDriverFactory', function($http) {
+    return {
+        create: function(varName, type) {
+            return $http.post("/app/rest/webDrivers/" + varName + "/create", {type: type} );
+        },
+        quit: function(varName) {
+            return $http.post("/app/rest/webDrivers/" + varName + "/quit")
+        }
+    };
+});
+
+pupinoIDE.factory('RemoteWebDriverFactory', function($http) {
+    return {
+        create: function(type, url) {
+            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
+                type: type,
+                remoteUrl: url
+            })
+        }
+    };
+});

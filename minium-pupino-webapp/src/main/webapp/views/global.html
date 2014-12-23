@@ -1,7 +1,7 @@
 <header class="header">
     <a href="#/editor" class="logo navbar-brand">
-        <span class="text">Minium</span>
-
+        <span class="col-md-6 first">Minium </span> 
+        <span class="second"><small>Developer</small></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -170,7 +170,7 @@
                 </li>
 
             </ul>
-        </div>
+            </div>
 
 
 
@@ -239,27 +239,32 @@
                         <span>Test Tracker</span>
                     </a>
                 </li>
+
+                <li class="treeview active" ng-show="$state.current.name === 'global.editorarea'">
+
+                    <a>
+                        <i class="fa fa-folder"></i>
+                        <span >File Navigation</span>
+                        <button type="button pull-right" class="btn btn-default btn-xs" ng-click="collapseAll()">
+                            Collapse All
+                        </button>
+                    </a>
+
+                    <!-- <span>{{selectedNode.name}}</span> -->
+
+                    <ul class="treeview-menu" style="display: block;text-transform: initial;">
+                        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
+                            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
+                        </treecontrol>
+
+                    </ul>
+                </li>
             </ul>
 
-
-               <!--
-              [TREE attribute]
-              angular-treeview: the treeview directive
-              tree-id : each tree's unique id.
-              tree-model : the tree model on $scope.
-              node-id : each node's id
-              node-label : each node's label
-              node-children: each node's children
-            -->
-            <div
-              data-angular-treeview="true"
-              data-tree-id="mytree"
-              data-tree-model="roleList"
-              data-node-id="roleId"
-              data-node-label="roleName"
-              data-node-children="children" >
-            </div>
-            
+            <span>
+                <!-- as a Dom element -->
+                
+            </span>
         </section>
         <!-- /.sidebar -->
     </aside>

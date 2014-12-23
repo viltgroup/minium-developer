@@ -58,6 +58,13 @@ pupinoReports
             //configuration of the launch
             modalStateProvider.state('global.project-detail.overview.launch', {
                 templateUrl: "pupino-reports/views/project/partials/launch.html",
-                controller: "LaunchController"
+                controller: "LaunchController",
+                resolve: {
+                    resolvedProject: ['Project', '$stateParams', function(Project, $stateParams) {
+                        return Project.get({
+                            id: $stateParams.id
+                        }).$promise;
+                    }]
+                }
             });
     });

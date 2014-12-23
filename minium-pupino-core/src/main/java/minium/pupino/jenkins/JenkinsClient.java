@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
 
 import com.google.gson.JsonIOException;
@@ -15,36 +16,37 @@ import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
 
-
 public interface JenkinsClient {
 
-	public JobWithDetails uri(String jobName) throws IOException, URISyntaxException;
+	JobWithDetails uri(String jobName) throws IOException, URISyntaxException;
 
 	/*
 	 * JOBS
 	 */
-	public void createJob(String jobName,String scmType,String repository) throws IOException, JAXBException;
+	void createJob(String jobName, String scmType, String repository) throws IOException, JAXBException;
+
+	void updateJobConfiguration(String jobName, BrowsersDTO buildConfig);
 
 	/*
 	 * BUILDS
 	 */
-	public List<Build> buildsForJob(String jobName) throws IOException, URISyntaxException;
+	List<Build> buildsForJob(String jobName) throws IOException, URISyntaxException;
 
-	public Build lastBuild(String jobName) throws IOException;
+	Build lastBuild(String jobName) throws IOException;
 
-	public void createBuild(String jobName) throws IOException, URISyntaxException;
+	void createBuild(String jobName,BrowsersDTO buildConfig) throws IOException, URISyntaxException;
 
-	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException;
-	
-	public BuildDTO getBuildAndFeature(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException;
+	List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException;
 
-	public BuildDTO getBuildById(String jobName, String buildId) throws JsonSyntaxException, JsonIOException, FileNotFoundException, IOException, URISyntaxException;
-	
+	BuildDTO getBuildAndFeature(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException;
+
+	BuildDTO getBuildById(String jobName, String buildId) throws JsonSyntaxException, JsonIOException, FileNotFoundException, IOException, URISyntaxException;
+
 	/*
 	 * ARTIFACTS
 	 */
-	public String getArtifactsBuild(BuildWithDetails buildDetails);
+	String getArtifactsBuild(BuildWithDetails buildDetails);
 
-
+	
 
 }

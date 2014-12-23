@@ -5,7 +5,7 @@ pupinoIDE
         
         $stateProvider
             .state('global.editorarea', {
-                url: "/editor/*path?line",
+                url: "/editor/*path",
                 templateUrl: "pupino-ide/views/editor.area/index.html",
                 controller: "EditorAreaController"
             })

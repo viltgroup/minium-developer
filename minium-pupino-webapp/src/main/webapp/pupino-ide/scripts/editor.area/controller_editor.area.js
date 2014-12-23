@@ -52,8 +52,8 @@ function SelectorGadgetCtrl($rootScope, $scope, $location, $modalInstance, Selec
 };
 
 var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider, FeatureFacade) {
-    var i = 0;
-
+    
+    console.debug("loaded EditorAreaController")
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
     var setAceContent = function() {};
@@ -77,8 +77,6 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
             $timeout(checkModified, 2000);
         });
     };
-
-
 
     var checkModified = function() {
         var selectedItem = $scope.selected.item;

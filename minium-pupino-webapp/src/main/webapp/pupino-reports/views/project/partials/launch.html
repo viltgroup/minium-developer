@@ -19,21 +19,17 @@
                     <i class="icon-opera"></i>Opera
                 </button>
                 <br>
-                <br> You will test in this browsers:
+                <br> You will test in these browsers: &nbsp;
                 <i class="icon-firefox" ng-show="browsers['firefox']"></i>
                 <i class="icon-chrome" ng-show="browsers['chrome']"></i>
                 <i class="icon-ie" ng-show="browsers['IE']"></i>
-                <i class="icon-opera" ng-show="browsers['opera']"></i>
-
-                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers_radio" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
-
-                
+                <i class="icon-opera" ng-show="browsers['opera']"></i>                
 
         </form>
         </div>
     </div>
     <div class="modal-footer">
 
-        <button class="btn btn-primary" ng-click="createWebDriver()">Create new WebDriver</button>
+        <button class="btn btn-primary" ng-click="launchBuild()">Launch Test Execution</button>
         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
     </div>

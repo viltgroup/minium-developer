@@ -230,9 +230,6 @@ pupinoReports.factory('JenkinsProvider', ['$resource', '$http', function($resour
                 isArray: true
             }
         }),
-        createBuild: function(project) {
-            return $http.post('app/rest/jenkins/builds/create/' + project.name, {});
-        },
         getFeatureBuild: function(project, buildId, featureURI) {
             return $http.get('app/rest/jenkins/builds/' + project.name + '/' + buildId + '/' + featureURI, {});
         }
@@ -244,6 +241,10 @@ pupinoReports.factory('JenkinsProvider1', function($resource, $http) {
         getBuild: function(project, buildId, featureURI) {
             return $http.get('app/rest/jenkins/builds/' + project.name + '/' + buildId + '/as', {});
         },
+        createBuild: function(project,config) {
+            console.log(config);
+            return $http.post('app/rest/jenkins/builds/create/' + project.name, config);
+        }
     };
 });
 

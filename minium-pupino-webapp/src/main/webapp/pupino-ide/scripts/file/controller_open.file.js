@@ -1,7 +1,10 @@
 'use strict';
 
-var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService) {
+var OpenFileController = function($scope, $rootScope,$controller, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService) {
     
+     console.debug("loaded FileController")
+      //extends the fileController
+    $controller('FileController', {$scope: $scope}); 
 
      $scope.fs = {
         current: {}
@@ -13,20 +16,6 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
     //focus on search input
     $("search-query").focus();
 
-    var asyncLoad = function(node) {
-        console.debug(node);
-        var params = {
-            path: node.relativeUri || ""
-        };
-        node.children = FS.list(params, function() {
-            _.each(node.children, function(item) {
-                // tree navigation needs a label property
-                item.label = item.name;
-                item.parent = node;
-            });
-        });
-    };
-
     $scope.loadParent = function() {
         var parent = $scope.fs.current.parent;
         if (!parent) return;
@@ -36,11 +25,11 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
 
     $scope.loadChildren = function(item) {
         if (item.childrenLoaded) return;
-        asyncLoad(item);
+        $scope.asyncLoad(item);
         item.childrenLoaded = true;
     };
 
-    asyncLoad($scope.fs.current);
+    $scope.asyncLoad($scope.fs.current);
 
     $scope.search = function() {
         var searchQuery = $scope.form.searchQuery;
@@ -51,7 +40,7 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
 
     $scope.enter = function(item) {
         $scope.fs.current = item;
-        asyncLoad(item);
+        $scope.asyncLoad(item);
     };
 
     $scope.select = function(item) {
@@ -71,25 +60,4 @@ var OpenFileController = function($scope, $rootScope, $modalInstance, $state, $s
         $scope.$dismiss();
     };
 
-
-    $scope.formatFile = function(props) {
-        var path = props.relativeUri || props;
-
-        FormatService.file(path).success(function(data) {
-          console.debug(data);
-        }).error(function(data) {
-          console.debug("error", data);
-        });
-    }
-
-     $scope.formatDirectory = function(props) {
-
-        var path = props.relativeUri || props;
-
-        FormatService.directory(path).success(function(data) {
-          console.debug(data);
-        }).error(function(data) {
-          console.debug("error", data);
-        });
-    }
 };

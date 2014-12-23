@@ -11,6 +11,7 @@ import javax.xml.bind.JAXBException;
 
 import minium.pupino.utils.UrlUtils;
 import minium.pupino.utils.Utils;
+import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
@@ -66,6 +67,22 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		}
 	}
 
+	@Override
+	public void updateJobConfiguration(String jobName,BrowsersDTO buildConfig)  {
+		try {
+			jenkins = new JenkinsServer(uri, "admin", "admin");
+			String jobConfig = jenkins.getJobXml(jobName);
+			System.out.println(jobConfig);
+			//change the xml config
+			String updatedXml = jobConfigurator.updateJobConfig(jobConfig,"goals",buildConfig);
+			//update the job with the new configuration in jenkins
+			jenkins.updateJob(jobName, updatedXml);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/*
 	 * BUILDS
 	 */
@@ -82,9 +99,10 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	}
 
 	@Override
-	public void createBuild(String jobName) throws IOException, URISyntaxException {
+	public void createBuild(String jobName,BrowsersDTO buildConfig) throws IOException, URISyntaxException {
 		jenkins = new JenkinsServer(uri, "admin", "admin");
 		JobWithDetails job = jenkins.getJob(jobName);
+		this.updateJobConfiguration(jobName,buildConfig);
 		job.build();
 	}
 

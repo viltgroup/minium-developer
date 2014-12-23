@@ -40,10 +40,12 @@
                 <accordion-heading>
                     <i ng-if="isPassed(background.status)" class="success fa fa-check-square "></i>
                     <i ng-if="!isPassed(background.status)" class="danger fa fa-bug "></i>
+
                     <strong>{{background.keyword}}</strong>
+
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-                    <a class="pull-right btn btn-primary btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
-                    <a class="pull-right btn btn-warning btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
+
+                    <!-- <a class="pull-right btn btn-primary btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Step file</a> -->
                 </accordion-heading>
                 <table class="table table-primary table-list">
                     <thead>
@@ -59,17 +61,17 @@
                                 <p ng-class="{'danger' : !isPassed(step.status),'success' : isPassed(step.status)}"> {{step.rawName}} {{step.rows.length}}
                                 </p>
                                 <!-- TABLES ROW -->
-                                        <table >
-                                 <tbody>
-                                    <tr ng-repeat="row in step.rows" >
-                                       <td ng-repeat="cell in row.cells track by $index" style="padding: 7px;">
-                                            {{cell}}
-                                       </td>
-                                    </tr>
-                                 </tbody>
+                                <table>
+                                    <tbody>
+                                        <tr ng-repeat="row in step.rows">
+                                            <td ng-repeat="cell in row.cells track by $index" style="padding: 7px;">
+                                                {{cell}}
+                                            </td>
+                                        </tr>
+                                    </tbody>
                                 </table>
 
-                                
+
                             </td>
                             <td>
                                 <a class="btn btn-info btn-xs" ng-href="{{location}}/editor/{{step.match.location }}?line={{step.match.location}}" target="_blank">
@@ -85,19 +87,20 @@
             </accordion-group>
         </accordion>
         <!-- end of background colapse -->
-        
+
 
         <!-- SCENARIOS -->
         <accordion close-others="oneAtATime">
             <accordion-group is-open="status.open" ng-repeat="element in scenarios | filter:query | filter:{status :status}
             ">
                 <accordion-heading>
+
                     <!-- HEADER -->
                     <i ng-if="isPassed(element.status)" class="success fa fa-check-square "></i>
                     <i ng-if="!isPassed(element.status)" class="danger fa fa-bug "></i> {{element.keyword}} <strong>{{element.rawName}}</strong>
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
 
-                    
+
                     <a class="pull-right btn btn-primary btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
                     <a class="pull-right btn btn-warning btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
                     <span class="hide">{{element.status}}</span>
@@ -120,7 +123,10 @@
                                 </p>
                                 <!-- TABLES ROW -->
 
-                                <pre ng-if="!isPassed(step.status)"> {{step.errorMessage}}</pre>
+
+                                <!-- {{step.errorMessage}} -->
+                                <pre ng-if="!isPassed(step.status)" data-dd-collapse-text="50">{{step.errorMessage}}</pre>
+
                             </td>
                             <td>
                                 <a class="btn btn-primary btn-xs" ng-href="{{location}}/editor/{{feature.uri}}?line={{step.line}}" target="_blank">
@@ -398,9 +404,3 @@
     </div>
     <!-- panel-body -->
 </div>
-
-
-
-                        
-
-

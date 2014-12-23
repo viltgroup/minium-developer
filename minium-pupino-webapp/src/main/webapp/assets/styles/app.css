@@ -7,12 +7,6 @@
     padding: 5px 15px 15px 15px !important;
     height: 100%;
 }
-.navbar-brand {
-    background: url(../images/minium_logo.png) no-repeat left center;
-}
-.navbar-brand .text {
-    margin-left: 100px;
-}
 .full {
     /** Setting height is also important, otherwise editor wont showup**/
     
@@ -84,32 +78,27 @@
     
     width: 100%;
 }
-.chat {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+body > div > .header .logo {
+    padding: 0 0px;
+    line-height: 18px;
 }
-.chat li {
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 1px dotted #999;
+.navbar-brand {
+    background: url(../images/minium_logo.png) no-repeat left center;
 }
-.chat li.left .chat-body {
-    margin-left: 60px;
+.navbar-brand .first {
+    margin-left: 100px;
+    margin-top: 10px;
+    font-size: 22px;
 }
-.chat li.right .chat-body {
-    margin-right: 60px;
+.navbar-brand .second {
+    margin-left: 100px;
+    color: #f56954;
+    font-weight: bold;
+    margin-left: 90px;
+    font-size: 20px;
+
 }
-.chat li .chat-body p {
-    margin: 0;
-}
-.panel .slidedown .glyphicon, .chat .glyphicon {
-    margin-right: 5px;
-}
-.chat-panel .panel-body {
-    height: 350px;
-    overflow-y: scroll;
-}
+
 /**
  * SLIDER
  */
@@ -459,6 +448,7 @@ div.inline {
     border-bottom-left-radius: 0 !important;
 }
 /* Check box Buttons */
+
 .btn.checkboxBtn.active {
     box-shadow: inset 0 13px 15px #285e8e;
     background-color: #367fa9;
@@ -466,6 +456,7 @@ div.inline {
 /**
  * change the breadcrumbs to the left
  */
+
 .right-side > .content-header > .breadcrumb {
     left: 0px;
     padding: 10px 5px;
@@ -473,87 +464,62 @@ div.inline {
     font-size: 13px;
 }
 .right-side > .content-header > .right-content {
-  float: right;
-  font-size: 20px;
+    float: right;
+    font-size: 20px;
 }
-
-
 /*Remove content full width on xs screens*/
-@media screen and (max-width: 992px) {
- .right-side > .content-header > .right-content {
-  display: none;
-}
-}
 
-#launchBtn{
+@media screen and (max-width: 992px) {
+    .right-side > .content-header > .right-content {
+        display: none;
+    }
+}
+#launchBtn {
     margin-left: 10;
 }
 /**
  * Angular tree view custom css
  */
-div[data-angular-treeview] {
-  /* prevent user selection */
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 
-  /* default */
-  font-family: Tahoma;
-  font-size:13px;
-  color: #555;
-  text-decoration: none;
+treecontrol.tree-classic li.tree-collapsed i {
+    padding: 1px 10px;
+    background: url("/icons/folder5.png") no-repeat;
 }
+treecontrol.tree-classic li.tree-expanded i {
+    padding: 1px 10px;
+    background: url("/icons/folder99.png") no-repeat;
+}
+treecontrol.tree-classic li.tree-leaf i {
+    padding: 1px 10px;
+    background: url("/icons/file.png") no-repeat;
+}
+treecontrol ul {
+    cursor: pointer;
+    font-family: 'Source Sans Pro', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+treecontrol li {
+    padding: 2px 0px 2px 20px;
+}
+treecontrol.tree-classic li .tree-selected {
+    background-color: #3c8dbc;
+    border-radius: 3px;
+}
+/**
+ * Show More/Less for show&hide very long text
+ */
 
-div[data-tree-model] ul {
-  margin: 0;
-  padding: 0;
-  list-style: none; 
-  border: none;
-  overflow: hidden;
+.collapse-text-toggle {
+    font-size: 0.9em;
+    color: #666666;
+    cursor: pointer;
 }
-
-div[data-tree-model] li {
-  position: relative;
-  padding: 0 0 0 20px;
-  line-height: 20px;
+.collapse-text-toggle:hover {
+    color: #222222;
 }
-
-div[data-tree-model] li .expanded {
-  padding: 1px 10px;
-  background-image: url("/icons/directory_open.png");
-  background-repeat: no-repeat;
+.collapse-text-toggle:before {
+    content: '\00a0(';
 }
-
-div[data-tree-model] li .collapsed {
-  padding: 1px 10px;
-  background-image: url("/icons/directory.png");
-  background-repeat: no-repeat;
-}
-
-div[data-tree-model] li .normal {
-  padding: 1px 10px;
-  background-image: url("/icons/file.png");
-  background-repeat: no-repeat;
-}
-
-/*div[data-tree-model] li .normal:before {
-    font-family: FontAwesome;
-   content: "\f095";
-   display: inline-block;
-   padding-right: 3px;
-   vertical-align: middle;
-}
-*/
-div[data-tree-model] li i, div[data-tree-model] li span {
-  cursor: pointer;
-  font-family: 'Source Sans Pro', sans-serif;
--webkit-font-smoothing: antialiased;
-}
-
-div[data-tree-model] li .selected {
-  background-color: #3c8dbc;
-  font-weight: bold;
-  padding: 1px 5px;
+.collapse-text-toggle:after {
+    content: ')';
 }

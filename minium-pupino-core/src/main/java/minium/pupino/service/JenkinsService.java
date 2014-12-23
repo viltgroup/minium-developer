@@ -7,6 +7,7 @@ import java.util.List;
 import javax.xml.bind.JAXBException;
 
 import minium.pupino.jenkins.JenkinsClient;
+import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class JenkinsService {
 		return jenkinsClient.lastBuild(jobName);
 	}
 	
-	public void createBuild(String jobName) throws IOException, URISyntaxException {
-		jenkinsClient.createBuild(jobName);
+	public void createBuild(String jobName,BrowsersDTO buildConfig) throws IOException, URISyntaxException {
+		jenkinsClient.createBuild(jobName,buildConfig);
 	}
 	
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException {

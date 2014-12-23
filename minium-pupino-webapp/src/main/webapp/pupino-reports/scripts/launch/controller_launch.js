@@ -1,6 +1,7 @@
 'use strict';
 
-var LaunchController = function($scope, $modalInstance) {
+var LaunchController = function($scope, $modalInstance, $stateParams, $injector, JenkinsProvider1, resolvedProject) {
+
     $scope.browsers = {
         "firefox": false,
         "chrome": true,
@@ -9,9 +10,14 @@ var LaunchController = function($scope, $modalInstance) {
 
     };
 
-    $scope.idProperty = "id";
-    $scope.nameProperty = "name";
-    $scope.bootstrapSuffix = "default";
+    $scope.launchBuild = function() {
+        JenkinsProvider1.createBuild(resolvedProject, $scope.browsers).success(function() {
+            toastr.success("Test Execution has been launched");
+            // getBuilds();
+        }).error(function(data) {
+            toastr.error("Error " + data);
+        });
+    }
 
     $scope.ok = function() {
         $scope.$close(true);
@@ -21,4 +27,5 @@ var LaunchController = function($scope, $modalInstance) {
         $modalInstance.dismiss('cancel');
         $scope.$dismiss();
     };
+
 };

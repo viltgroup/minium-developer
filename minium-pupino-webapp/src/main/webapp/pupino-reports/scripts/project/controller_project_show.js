@@ -1,7 +1,6 @@
 'use strict';
 
 pupinoReports.controller('ProjectDetailController', function($scope, $state, resolvedProject, Project, JenkinsProvider, BuildsFacade, BuildProject) {
-
     //init variables
     $scope.project = resolvedProject;
     $scope.features = [];
@@ -64,14 +63,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
 
     }
 
-    $scope.createBuild = function() {
-        JenkinsProvider.createBuild($scope.project).success(function() {
-            toastr.success("Created");
-            getBuilds();
-        }).error(function(data) {
-            toastr.error("Error " + data);
-        });
-    }
+   
 
     var colorArray = ['green', 'red', 'blue'];
     $scope.colorFunction = function() {

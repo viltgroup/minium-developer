@@ -1,6 +1,6 @@
 'use strict';
 
-var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, launcherService) {
+var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, launcherService, WebDriverFactory) {
 
 
     $scope.browsers = {
@@ -11,7 +11,19 @@ var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $st
 
     };
 
-    $scope.browsers_radio = [{ id: 1, name: "firefox" }, { id: 2, name: "chrome" }, { id: 3, name: "IE" },{id:4,name: "opera"}];
+    $scope.browsers_radio = [{
+        id: 1,
+        name: "firefox"
+    }, {
+        id: 2,
+        name: "chrome"
+    }, {
+        id: 3,
+        name: "IE"
+    }, {
+        id: 4,
+        name: "opera"
+    }];
     $scope.selectBrowser = 1;
 
     $scope.idProperty = "id";
@@ -26,5 +38,15 @@ var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $st
         $modalInstance.dismiss('cancel');
         $scope.$dismiss();
     };
+
+    $scope.createWebDriver = function() {
+        WebDriverFactory.create("wd","Chrome").success(function() {
+            toastr.success("Created");
+        }).error(function(data) {
+            alert(JSON.stringify(data));
+            toastr.error('Could not create a new WebDriver!!');
+        });
+    }
+
 
 };

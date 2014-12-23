@@ -1,6 +1,8 @@
 'use strict';
 
-var GlobalController = function($scope, $modal, $http, $log, $location, $timeout, FS, FormatService) {
+var GlobalController = function($scope, $modal, $http, $state, $log, $location, $timeout, FS, FormatService) {
+
+    $scope.$state = $state;
 
     $scope.openFile = function(type) {
         $modal.open({
@@ -16,7 +18,22 @@ var GlobalController = function($scope, $modal, $http, $log, $location, $timeout
         });
     };
 
-    $scope.treeFiles = [];
+    $scope.location = "http://localhost:8080/#";
+
+
+    /*
+    Tree view 
+     */
+    
+    $scope.db = function () {
+        alert("deu")
+    }
+    $scope.dataForTheTree = [];
+
+    $scope.fs = {
+        current: {}
+    };
+    var firstLoad = true;
     var asyncLoad = function(node) {
         console.debug(node);
         var params = {
@@ -26,106 +43,71 @@ var GlobalController = function($scope, $modal, $http, $log, $location, $timeout
             _.each(node.children, function(item) {
                 // tree navigation needs a label property
                 item.label = item.name;
-                item.parent = node;
-                //$scope.resume = recursive_aux($scope.fs.current.children, tree);
+                console.log(item)
+                if (firstLoad) {
+                    $scope.dataForTheTree.push(item);
+                }
             });
-            //console.log(JSON.stringify(tree));
-           
+            firstLoad = false;
         });
-
-       
-
-       // console.log($scope.fs.current.children)
+        // console.log($scope.fs.current.children)
     };
 
-    //test tree model 1
-    $scope.roleList1 = [{
-            "roleName": "User",
-            "roleId": "role1",
-            "children": [{
-                "roleName": "subUser1",
-                "roleId": "role11",
-                "children": []
-            }, {
-                "roleName": "subUser2",
-                "roleId": "role12",
-                "children": [{
-                    "roleName": "subUser2-1",
-                    "roleId": "role121",
-                    "children": [{
-                        "roleName": "subUser2-1-1",
-                        "roleId": "role1211",
-                        "children": []
-                    }, {
-                        "roleName": "subUser2-1-2",
-                        "roleId": "role1212",
-                        "children": []
-                    }]
-                }]
-            }]
-        },
+    var loadChildren = function(item) {
+        // if (item.childrenLoaded) return;
+        asyncLoad(item);
+        // item.childrenLoaded = true;
+    };
 
-        {
-            "roleName": "Admin",
-            "roleId": "role2",
-            "children": []
-        },
+    $scope.showSelected = function(node) {
+        
+        $scope.selectedNode = node;
 
-        {
-            "roleName": "Guest",
-            "roleId": "role3",
-            "children": []
+        if (node.type == "FILE") {
+            $state.go("global.editorarea", {
+                path: node.relativeUri
+            });
+        } else {
+            console.log(node.children)
+            loadChildren(node);
+            //expand the node
+            $scope.expandedNodes.push(node)
         }
-    ];
 
-
-    $scope.fs = {
-        current: {}
     };
-   
 
-    //roleList1 to treeview
-    
+    $scope.showToggle = function(node, expanded) {
+        console.log(node.children)
+        loadChildren(node);
+    };
 
-    //console.log($scope.roleList);
-
-    $scope.location = "http://localhost:8080/#"
-
-
-    // var recursive_aux = function(items, tree) {
-
-    //     for (var i = 0; i < items.length; ++i) {
-    //         var item = items[i];
-    //         console.log(items[i])
-    //         if (item.type === "DIR") {
-                
-    //             tree.push({
-    //                 "roleName": item.name,
-    //                 "roleId": "role2",
-    //                 "children": []
-    //             })
-
-    //              var childrens = loadChildren(item)
-    //             console.log(childrens)
-    //             var res = recursive_aux(childrens, tree[i].children);
-
-    //         } else if (item.type === "FILE") {
-    //             tree.push({
-    //                 "roleName": item.name,
-    //                 "roleId": "role2",
-    //                 "children": []
-    //             })
-    //             return;
-    //         }
-            
-    //     }
-    // }
-   
-   asyncLoad($scope.fs.current);
-    var tree = [];
-   $scope.roleList = $scope.roleList1;
-
-    
+    asyncLoad($scope.fs.current);
 
 
+
+    /**
+     * NAVIGATION FOLDERS Functions
+     */
+    $scope.opts = {
+        isLeaf: function(node) {
+            if (node.type === "DIR")
+                return false;
+            else
+                return true;
+        },
+        dirSelectable: false
+    };
+
+    $scope.getColor = function(node) {
+        if (node.name === "features") {
+            return "red";
+        } else if (node.name === "steps") {
+            return "blue"
+        }
+
+    };
+
+    $scope.collapseAll = function() {
+        $scope.expandedNodes = [];
+    };
 };

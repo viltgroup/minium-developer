@@ -2,6 +2,7 @@ package minium.pupino.web.rest;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.service.LaunchService;
@@ -19,23 +20,23 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/app/rest")
-public class LaunchResource {
-	
+public class CucumberResource {
+
 	@Autowired
 	private LaunchService launchService;
-	
+
     @RequestMapping(value = "/launch", method = RequestMethod.POST)
     @ResponseBody
     public Resource launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo) throws IOException {
         return launchService.launch(baseUri, launchInfo);
     }
 
-    @RequestMapping(value = "/dry-run", params = "dotcucumber=true", method = RequestMethod.GET)
+    @RequestMapping(value = "/stepDefinitions", method = RequestMethod.GET)
     @ResponseBody
-    public Resource dotcucumber() throws IOException {
-        return launchService.dotcucumber();
+    public List<StepDefinitionDTO> getStepDefinitions() throws IOException {
+        return launchService.getStepDefinitions();
     }
-    
+
     @RequestMapping(value = "/stop", method = RequestMethod.POST)
     public ResponseEntity<String>  stop() throws IOException, SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
         launchService.stopLaunch();

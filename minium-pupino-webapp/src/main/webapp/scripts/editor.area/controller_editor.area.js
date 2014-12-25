@@ -148,7 +148,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
     $scope.tests.total = 0;
     $scope.tests.executed = 0;
     var subscribeMessages = function() {
-        
+
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
@@ -169,7 +169,7 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
                         break;
                     case "passed":
                         $scope.tests.executed += 1;
-                        $scope.tests.passed = testMessage.body;  
+                        $scope.tests.passed = testMessage.body;
                         break;
                     default: //do nothing
                 }
@@ -523,27 +523,36 @@ var EditorAreaController = function($scope, $log, $timeout, $modal, $state, $loc
             enableSnippets: true
         });
 
-        var stepSources = StepProvider.all();
-        var snippetManager = ace.require("ace/snippets").snippetManager;
+        StepProvider.all().then(function (response) {
+          var snippetManager = ace.require("ace/snippets").snippetManager;
 
-        snippetManager.register(_.map(stepSources, function(stepSource) {
-            var simpleStep = stepSource
-                .replace(/\([^\)]*\)/, "...");
-            var stepContent = stepSource
-                .replace(/\([^\)]*\)/, "${0:value}");
+          var util = ace.require("ace/autocomplete/util");
+          var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
+          util.retrievePrecedingIdentifier = function(text, pos, regex) {
+            if (!/^\s*(?:Given|When|Then|And|Neither)\s+/.test(text)) {
+              return originalRetrievePrecedingIdentifier(text, pos, regex);
+            }
+            return text.replace(/^\s+/, "");
+          };
+
+          snippetManager.register(_.map(response.data, function(stepDefinition) {
+            var stepSource = /^(?:\/?\^)?(.*?)(?:\$\/?)?$/.exec(stepDefinition.pattern)[1];
+
+            var simpleStep  = stepSource.replace().replace(/\([^\)]*\)/, "...");
+            var stepContent = stepSource.replace(/\([^\)]*\)/, "${0:value}");
 
             var snippet = {
                 name: simpleStep,
-                // start : "there are",
-                // trigger : /(\w+)/.exec(stepSource)[0],
+                trigger: stepSource.replace(/\s+.*?/, ""),
                 content: stepContent
             };
             //console.log(snippet);
             return snippet;
-        }), "gherkin");
+          }), "gherkin");
 
-        var snippets = SnippetsProvider.all();
-        snippetManager.register(snippets, "gherkin");
+          var snippets = SnippetsProvider.all();
+          snippetManager.register(snippets, "gherkin");
+        });
     };
 
     //stop the timeouts

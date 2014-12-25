@@ -56,7 +56,8 @@ public class PupinoReporter implements Formatter, Reporter {
 	public void before(Match match, Result result) {
 	}
 
-	public void result(Result result) {
+	@Override
+    public void result(Result result) {
 		Step step = queue.poll();
 		int line = step.getLine();
 

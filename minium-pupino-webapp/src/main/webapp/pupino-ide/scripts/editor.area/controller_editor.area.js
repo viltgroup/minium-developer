@@ -565,5 +565,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
     $scope.multiTab = false;
 
 
-  
+    var getRandom = function() {
+        return Math.floor((Math.random() * 600) + 1);
+    }
 };

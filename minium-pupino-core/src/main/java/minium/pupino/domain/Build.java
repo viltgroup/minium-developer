@@ -38,7 +38,10 @@ public class Build implements Serializable {
     
     @Column(name = "timestamp")
     private long timestamp;
-
+    
+    @Column(name = " state")
+    private String state;
+   
     @Column(name = "artifact")
     private String artifact;
 
@@ -146,5 +149,13 @@ public class Build implements Serializable {
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
 	}
 }

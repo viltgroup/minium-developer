@@ -20,12 +20,13 @@ pupinoReports.controller('ProjectController', function($scope, resolvedProject, 
     $scope.create = function() {
         console.log($scope.project);
 
-        Project.save($scope.project,
-            function() {
-                $scope.projects = Project.query();
-                $('#saveProjectModal').modal('hide');
-                $scope.clear();
-            });
+        Project.save($scope.project, function() {
+            $scope.projects = Project.query();
+            $('#saveProjectModal').modal('hide');
+            $scope.clear();
+        }, function(error) {
+            toastr.error("It was not possible to create the project!")
+        });
     };
 
     $scope.update = function(id) {

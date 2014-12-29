@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoReports.controller('ProjectDetailController', function($scope, $state, resolvedProject, Project, JenkinsProvider, BuildsFacade, BuildProject) {
+pupinoReports.controller('ProjectDetailController', function($scope, $state, resolvedProject, Project, JenkinsProvider, BuildsFacade, BuildProject, buildsTest) {
     //init variables
     $scope.project = resolvedProject;
     $scope.features = [];
@@ -19,27 +19,29 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
 
     var buildSuccess, buildFailling;
 
+    $scope.buildsFacade;
+
+    $scope.$on('trackLoaded', function(event, track) {
+        $scope.buildsFacade = track;
+        console.log($scope.buildsFacade);
+    });
+
     var getBuilds = function() {
         BuildProject.findByProject($scope.project).success(function(data) {
             //check if has builds
             if (isEmptyObject(data)) {
                 return;
             }
+            $scope.buildsFacade = new BuildsFacade(data);
 
-            var buildsFacade = new BuildsFacade(data);
-            $scope.builds = buildsFacade.builds;
-
-            $scope.lastFinishedBuild = buildsFacade.lastBuild;
-
-            $scope.features = buildsFacade.features;
+            console.log( $scope.buildsFacade);
 
             //get some stats
-            buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
+             $scope.buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
             // var summary = buildsFacade.getSummary();
             // buildSuccess = summary.passingScenarios;
             //buildFailling = summary.faillingScenarios;
-            console.log(buildsFacade);
-
+            
 
             buildSuccess = [
                 [1, 100],
@@ -63,7 +65,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
 
     }
 
-   
+
 
     var colorArray = ['green', 'red', 'blue'];
     $scope.colorFunction = function() {

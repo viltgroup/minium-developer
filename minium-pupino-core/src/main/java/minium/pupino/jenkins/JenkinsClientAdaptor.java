@@ -16,6 +16,8 @@ import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -32,19 +34,24 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 @Qualifier("jenkinsOAkClient")
 public class JenkinsClientAdaptor implements JenkinsClient {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(JenkinsClientAdaptor.class);
+
 	private JenkinsServer jenkins;
-	
+
 	private JenkinsJobConfigurator jobConfigurator;
-	
+
 	private ReporterParser reporter = new ReporterParser();
 
 	private static URI uri;
 
 	public JenkinsClientAdaptor() throws URISyntaxException {
-		uri = new URI("http://lw255:8080/jenkins/");
+		uri = new URI("http://localhost:8083/");
 		jobConfigurator = new JenkinsJobConfigurator();
 	}
 
+	/**
+	 * return the job with details
+	 */
 	@Override
 	public JobWithDetails uri(String jobName) throws IOException, URISyntaxException {
 		jenkins = new JenkinsServer(uri, "admin", "admin");
@@ -55,37 +62,47 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	/*
 	 * JOBS
 	 */
+
 	@Override
-	public void createJob(String jobName,String scmType,String repository) throws IOException, JAXBException {
-		try {
-			jenkins = new JenkinsServer(uri, "admin", "admin");
-			String sourceXml = jobConfigurator.getXMLSource(scmType, repository);
-			jenkins.createJob(jobName, sourceXml);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void createJob(String jobName, String scmType, String repository) throws JAXBException, IOException {
+		jenkins = new JenkinsServer(uri, "admin", "admin");
+		String sourceXml = jobConfigurator.getXMLSource(scmType, repository);
+		jenkins.createJob(jobName, sourceXml);
+		
 	}
 
 	@Override
-	public void updateJobConfiguration(String jobName,BrowsersDTO buildConfig)  {
+	public void updateJobConfiguration(String jobName, BrowsersDTO buildConfig) {
 		try {
 			jenkins = new JenkinsServer(uri, "admin", "admin");
 			String jobConfig = jenkins.getJobXml(jobName);
-			System.out.println(jobConfig);
-			//change the xml config
-			String updatedXml = jobConfigurator.updateJobConfig(jobConfig,"goals",buildConfig);
-			//update the job with the new configuration in jenkins
+			LOGGER.info("Job configuration {} updated" + jobConfig);
+			// change the xml config
+			String updatedXml = jobConfigurator.updateJobConfig(jobConfig, "goals", buildConfig);
+			// update the job with the new configuration in jenkins
 			jenkins.updateJob(jobName, updatedXml);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	/*
 	 * BUILDS
 	 */
+
+	@Override
+	public void createBuild(String jobName, BrowsersDTO buildConfig) throws IOException, URISyntaxException {
+		jobName = "cp-e2e-test";
+		jenkins = new JenkinsServer(uri, "admin", "admin");
+		JobWithDetails job = jenkins.getJob(jobName);
+		this.updateJobConfiguration(jobName, buildConfig);
+		job.build();
+		List<Build> builds = jenkins.getJob("cp-e2e-test").getBuilds();
+		Build z = job.getLastBuild();
+		
+	}
+
 	@Override
 	public List<Build> buildsForJob(String jobName) throws IOException, URISyntaxException {
 		jenkins = new JenkinsServer(uri, "admin", "admin");
@@ -93,19 +110,43 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	}
 
 	@Override
-	public Build lastBuild(String jobName) throws IOException {
+	public Build lastCompletedBuild(String jobName) throws IOException {
 		jenkins = new JenkinsServer(uri, "admin", "admin");
 		return jenkins.getJob(jobName).getLastCompletedBuild();
 	}
 
 	@Override
-	public void createBuild(String jobName,BrowsersDTO buildConfig) throws IOException, URISyntaxException {
+	public Build lastBuild(String jobName) throws IOException {
 		jenkins = new JenkinsServer(uri, "admin", "admin");
-		JobWithDetails job = jenkins.getJob(jobName);
-		this.updateJobConfiguration(jobName,buildConfig);
-		job.build();
+		return jenkins.getJob(jobName).getLastBuild();
 	}
 
+	/*
+	 * ARTIFACTS
+	 */
+	@Override
+	public String getArtifactsBuild(BuildWithDetails buildDetails) {
+		String artifactContent = "";
+		if (!buildDetails.getArtifacts().isEmpty()) {
+			Artifact artifact = buildDetails.getArtifacts().get(0);
+			// function from the jenkins client was not working properly use
+			// this temporary solution
+			if (artifact.getDisplayPath().equals("result.json")) {
+				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
+			} else {
+				artifactContent = Utils.artifactFromFile("mocks/mock-cgd-store.json");
+			}
+		}
+		return artifactContent;
+	}
+
+	private String getStatusForBuild(BuildWithDetails bd) {
+		return (bd.getResult() != null) ? bd.getResult().toString() : "BUILDING";
+	}
+
+	/*
+	 * This methods are not used anymore
+	 */
 	@Override
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException {
 		List<Build> builds = buildsForJob(jobName);
@@ -119,19 +160,22 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			bd = b.details();
 			String result = getStatusForBuild(bd);
 			// only want the report of the lastBuild finished
-//			if (lastBuild && !bd.isBuilding()) {
-				 //get the artifact of the build and return the string
-				artifact = getArtifactsBuild(bd);
-				lastBuild = false;
-				List<Feature> features = reporter.parseJsonResult(artifact);
-				summary = reporter.getSummaryFromFeatures(features);
-				buildDTO = new BuildDTO(1,b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features, summary);
-//			} else {
-//				summary = null;
-//				buildDTO = new BuildDTO(b.getNumber(), b.getUrl(), bd.getActions(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-//						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, summary);
-//			}
+			// if (lastBuild && !bd.isBuilding()) {
+			// get the artifact of the build and return the string
+			artifact = getArtifactsBuild(bd);
+			lastBuild = false;
+			List<Feature> features = reporter.parseJsonResult(artifact);
+			summary = reporter.getSummaryFromFeatures(features);
+			buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(), bd.getId(),
+					bd.getTimestamp(), artifact, features, summary, "");
+			// } else {
+			// summary = null;
+			// buildDTO = new BuildDTO(b.getNumber(), b.getUrl(),
+			// bd.getActions(), bd.isBuilding(), bd.getDescription(),
+			// bd.getDuration(),
+			// bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result,
+			// summary);
+			// }
 			buildsDTO.add(buildDTO);
 		}
 		return buildsDTO;
@@ -156,8 +200,8 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 				for (Feature f : features) {
 					f.processSteps();
 				}
-				buildDTO = new BuildDTO(1,b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-						bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, features, null);
+				buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(),
+						bd.getId(), bd.getTimestamp(), artifact, features, null, "");
 			}
 
 		}
@@ -192,36 +236,12 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					Map<String, Feature> features = reporter.parseJsonResultSet(artifact);
 					Feature f = features.get(featureURI);
 					f.processSteps();
-					buildDTO = new BuildDTO(1,b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(),
-							bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result, artifact, Arrays.asList(f), null);
+					buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(),
+							bd.getId(), bd.getTimestamp(), artifact, Arrays.asList(f), null, "");
 				}
 			}
 		}
 		return buildDTO;
 	}
-
-	/*
-	 * ARTIFACTS
-	 */
-	@Override
-	public String getArtifactsBuild(BuildWithDetails buildDetails) {
-		String artifactContent = "";
-		if (!buildDetails.getArtifacts().isEmpty()) {
-		Artifact artifact = buildDetails.getArtifacts().get(0);
-			// function from the jenkins client was not working properly use this temporary solution
-			if (artifact.getDisplayPath().equals("result.json")) {
-				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() + "artifact/result.json", buildDetails.getId());
-			}else{
-				artifactContent = Utils.artifactFromFile("mocks/mock-cgd-store.json");
-			}
-		}
-		return artifactContent;
-	}
-
-	private String getStatusForBuild(BuildWithDetails bd) {
-		return (bd.getResult() != null) ? bd.getResult().toString() : "BUILDING";
-	}
-
-
 
 }

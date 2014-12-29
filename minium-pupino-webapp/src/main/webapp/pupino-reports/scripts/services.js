@@ -241,36 +241,47 @@ pupinoReports.factory('JenkinsProvider1', function($resource, $http) {
         getBuild: function(project, buildId, featureURI) {
             return $http.get('app/rest/jenkins/builds/' + project.name + '/' + buildId + '/as', {});
         },
-        createBuild: function(project,config) {
+        createBuild: function(project, config) {
             console.log(config);
-            return $http.post('app/rest/jenkins/builds/create/' + project.name, config);
+            return $http.post('app/rest/jenkins/builds/create/' + project.id, config);
         }
     };
 });
 
 
-pupinoReports.factory('BuildsFacade', function() {
+pupinoReports.factory('BuildsFacade', function($rootScope) {
     /**
      * Constructor
      */
     function BuildsFacade(report) {
-        this.builds = report;
         //get the report of the last build finished
         var i = 0;
+        this.builds = [];
+        this.buildingBuilds = [];
 
-        while (i <= (this.builds.length - 1) && this.builds[i].result === "BUILDING") {
-            this.buildingBuild = report[i];
+        var lastBuild = true;
+        while (i <= (report.length - 1)) {
+            if (report[i].state === "BUILDING") {
+                this.buildingBuilds.push(report[i]);
+                // this.builds.splice(i, 1);
+            } else if (lastBuild) {
+                this.lastFinishedBuild = report[i];
+                this.features = eval(report[i].features);
+                // this.builds.splice(i, 1);
+                lastBuild = false;
+            } else{
+                this.builds.push(report[i])
+            }
             i++;
         }
 
-        this.lastBuild = report[i];
-        this.features = eval(report[i].features);
         this.passed = 0;
         this.failed = 0;
         this.totalScenarios = 0;
 
-        //remove the last build
-        this.builds.splice(i, 1);
+        $rootScope.$broadcast('trackLoaded', this);
+        // //remove the last build
+       
     }
 
     /**
@@ -317,10 +328,27 @@ pupinoReports.factory('BuildsFacade', function() {
             faillingScenarios: faillingScenarios
         }
     };
+
     /**
      * Return the constructor function
      */
     return BuildsFacade;
+});
+
+pupinoReports.factory('buildsTest', function() {
+
+    var data = {
+        builds: []
+    };
+
+    return {
+        getBuilds: function() {
+            return data.builds;
+        },
+        setBuilds: function(builds) {
+            data.builds = builds;
+        }
+    };
 });
 
 

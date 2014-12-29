@@ -12,7 +12,6 @@ var pupinoApp = angular.module('pupinoApp', [
     // Now set up the states
     $stateProvider
         .state('global', {
-            url: "",
             templateUrl: "views/global.html",
             controller: "GlobalController"
         });

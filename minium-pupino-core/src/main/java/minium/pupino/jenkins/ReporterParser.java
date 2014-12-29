@@ -20,7 +20,7 @@ import com.google.gson.JsonSyntaxException;
 public class ReporterParser {
 	
 	/**
-	 * Parse the results from the jenkins report
+	 * Parse the results from the generated cucumber report
 	 * @param results
 	 * @return
 	 * @throws JsonSyntaxException

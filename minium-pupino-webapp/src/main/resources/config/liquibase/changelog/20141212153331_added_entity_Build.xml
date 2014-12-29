@@ -24,6 +24,7 @@
              <column name="duration" type="integer"/>
              <column name="timestamp" type="BIGINT"/>
              <column name="key" type="varchar(255)"/>
+             <column name="state" type="varchar(255)"/>
              
              
             <column name="project_id" type="bigint"/>

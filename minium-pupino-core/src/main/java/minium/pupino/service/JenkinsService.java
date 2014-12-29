@@ -3,9 +3,11 @@ package minium.pupino.service;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.xml.bind.JAXBException;
 
+import minium.pupino.domain.Project;
 import minium.pupino.jenkins.JenkinsClient;
 import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
@@ -44,11 +46,11 @@ public class JenkinsService {
 	}
 	
 	public Build lastBuild(String jobName) throws IOException{
-		return jenkinsClient.lastBuild(jobName);
+		return jenkinsClient.lastCompletedBuild(jobName);
 	}
 	
-	public void createBuild(String jobName,BrowsersDTO buildConfig) throws IOException, URISyntaxException {
-		jenkinsClient.createBuild(jobName,buildConfig);
+	public void createBuild(Project project,BrowsersDTO buildConfig) throws IOException, URISyntaxException, InterruptedException, ExecutionException {
+		jenkinsClient.createBuild(project.getName(),buildConfig);
 	}
 	
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException {

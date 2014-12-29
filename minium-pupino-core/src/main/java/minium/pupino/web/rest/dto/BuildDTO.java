@@ -15,13 +15,13 @@ public class BuildDTO {
 	String fullDisplayName;
 	String key;
 	long timestamp;
-	String result;
 	SummaryDTO summary;
 	List<Feature> features;
 	String resultJSON;
+	String state;
 	
 	public BuildDTO(long id,int number, String url, boolean building, String description, int duration, String fullDisplayName, String key,
-			long timestamp, String result, String resultJSON, List<Feature> features,SummaryDTO summary) {
+			long timestamp, String resultJSON, List<Feature> features,SummaryDTO summary,String state) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -32,15 +32,15 @@ public class BuildDTO {
 		this.id = id;
 		this.key = key;
 		this.timestamp = timestamp;
-		this.result = result;
 		this.features = features;
 		this.summary = summary;
 		this.resultJSON = resultJSON;
+		this.state = state;
 	}
 
 
 	public BuildDTO(long id, int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
-			String key, long timestamp, String result,SummaryDTO summary) {
+			String key, long timestamp,SummaryDTO summary,String state) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -51,8 +51,8 @@ public class BuildDTO {
 		this.id = id;
 		this.key = key;
 		this.timestamp = timestamp;
-		this.result = result;
 		this.summary = summary;
+		this.state = state;
 	}
 	
 	
@@ -113,17 +113,6 @@ public class BuildDTO {
 		this.timestamp = timestamp;
 	}
 
-
-	public String getResult() {
-		return result;
-	}
-
-
-	public void setResult(String result) {
-		this.result = result;
-	}
-
-
 	public List<Feature> getFeatures() {
 		return features;
 	}
@@ -161,6 +150,16 @@ public class BuildDTO {
 
 	public void setKey(String key) {
 		this.key = key;
+	}
+
+
+	public String getState() {
+		return state;
+	}
+
+
+	public void setState(String state) {
+		this.state = state;
 	}
 
 

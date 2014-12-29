@@ -13,7 +13,6 @@ import minium.pupino.repository.BuildRepository;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.BuildService;
 import minium.pupino.service.JenkinsService;
-import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
@@ -61,10 +61,18 @@ public class ProjectResource {
 	 */
 	@RequestMapping(value = "/rest/projects", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public void create(@RequestBody Project project) throws URISyntaxException, IOException, JAXBException {
+	public @ResponseBody ResponseEntity<String> create(@RequestBody Project project) throws URISyntaxException, JAXBException {
 		log.debug("REST request to save Project : {}", project);
-		projectRepository.save(project);
-		jenkinService.createJob(project.getName(),project.getRepository_type(),project.getRepository_url());
+		HttpStatus httpStatus = null;
+		try {
+			projectRepository.save(project);
+			jenkinService.createJob(project.getName(),project.getRepository_type(),project.getRepository_url());
+			httpStatus = HttpStatus.CREATED;
+		} catch (IOException e) {
+			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();
+		}
+		return new ResponseEntity<String>("Created", httpStatus);
 	}
 	
 	/**
@@ -79,8 +87,8 @@ public class ProjectResource {
 		if (i == 0) {
 			Project p = projectRepository.findOne((long) 1);
 			
-			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
-			buildService.save(builds, p);
+//			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
+//			buildService.save(builds, p);
 //			
 //			
 //			p = projectRepository.findOne((long) 3);

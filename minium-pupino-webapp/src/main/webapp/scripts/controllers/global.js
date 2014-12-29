@@ -25,9 +25,6 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
     Tree view 
      */
     
-    $scope.db = function () {
-        alert("deu")
-    }
     $scope.dataForTheTree = [];
 
     $scope.fs = {

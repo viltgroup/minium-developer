@@ -45,7 +45,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	private static URI uri;
 
 	public JenkinsClientAdaptor() throws URISyntaxException {
-		uri = new URI("http://localhost:8083/");
+		uri = new URI("http://lw255:8080/jenkins/");
 		jobConfigurator = new JenkinsJobConfigurator();
 	}
 
@@ -68,7 +68,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		jenkins = new JenkinsServer(uri, "admin", "admin");
 		String sourceXml = jobConfigurator.getXMLSource(scmType, repository);
 		jenkins.createJob(jobName, sourceXml);
-		
+
 	}
 
 	@Override
@@ -87,20 +87,30 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		}
 	}
 
+	@Override
+	public JobWithDetails getJob(String name) throws IOException {
+		return jenkins.getJob(name);
+	}
+
 	/*
 	 * BUILDS
 	 */
 
 	@Override
-	public void createBuild(String jobName, BrowsersDTO buildConfig) throws IOException, URISyntaxException {
-		jobName = "cp-e2e-test";
+	public JobWithDetails createBuild(String jobName, BrowsersDTO buildConfig, boolean updatedConfig) throws IOException, URISyntaxException {
+		// jobName = "server";
 		jenkins = new JenkinsServer(uri, "admin", "admin");
 		JobWithDetails job = jenkins.getJob(jobName);
-		this.updateJobConfiguration(jobName, buildConfig);
+		if (updatedConfig)
+			this.updateJobConfiguration(jobName, buildConfig);
 		job.build();
-		List<Build> builds = jenkins.getJob("cp-e2e-test").getBuilds();
-		Build z = job.getLastBuild();
-		
+
+		int c = job.getNextBuildNumber();
+		return job;
+		// List<Build> builds = jenkins.getJob("server").getBuilds();
+		//
+		// Build z = job.getLastBuild();
+
 	}
 
 	@Override

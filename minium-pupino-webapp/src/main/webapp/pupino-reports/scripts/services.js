@@ -269,7 +269,7 @@ pupinoReports.factory('BuildsFacade', function($rootScope) {
                 this.features = eval(report[i].features);
                 // this.builds.splice(i, 1);
                 lastBuild = false;
-            } else{
+            } else {
                 this.builds.push(report[i])
             }
             i++;
@@ -281,7 +281,7 @@ pupinoReports.factory('BuildsFacade', function($rootScope) {
 
         $rootScope.$broadcast('trackLoaded', this);
         // //remove the last build
-       
+
     }
 
     /**
@@ -292,23 +292,34 @@ pupinoReports.factory('BuildsFacade', function($rootScope) {
         var totalScenarios = 0;
         var passed = 0;
         var failed = 0;
-
+        var skipped = 0;
+        var undefined = 0;
+        console.log(this.features)
         angular.forEach(this.features, function(elem) {
 
             passed += elem.numberOfScenariosPassed;
             failed += elem.numberOfScenariosFailed;
+            // skipped += elem.numberOfSkipped;
+            // undefined += elem.numberOfUndefined;
             totalScenarios += elem.numberOfScenarios;
-
-            if (elem.status === "FAILED")
-                faillingFeatures.push(elem);
-            else
-                passingFeatures.push(elem);
+            switch (elem.status) {
+                case "FAILED":
+                    faillingFeatures.push(elem);
+                    break;
+                case "PASSED":
+                    passingFeatures.push(elem);
+                    break;
+                default:
+                    break;
+            }
 
         })
-
         summary.totalScenarios = totalScenarios;
         summary.failed = failed;
         summary.passed = passed;
+        summary.skipped = skipped;
+        summary.undefined = undefined;
+        console.log(summary)
 
     };
 
@@ -333,22 +344,6 @@ pupinoReports.factory('BuildsFacade', function($rootScope) {
      * Return the constructor function
      */
     return BuildsFacade;
-});
-
-pupinoReports.factory('buildsTest', function() {
-
-    var data = {
-        builds: []
-    };
-
-    return {
-        getBuilds: function() {
-            return data.builds;
-        },
-        setBuilds: function(builds) {
-            data.builds = builds;
-        }
-    };
 });
 
 

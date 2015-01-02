@@ -15,7 +15,8 @@ var pupinoReports = angular.module('pupinoReports', [
     'pasvaz.bindonce',
     'pupinoReports.controllers',
     'pupinoReports.filters',
-    'vilt.components'
+    'vilt.components',
+    'timer'
 ])
 
 

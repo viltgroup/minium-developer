@@ -5,6 +5,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import minium.pupino.domain.Build;
 import minium.pupino.domain.Project;
 import minium.pupino.repository.ProjectRepository;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.offbytwo.jenkins.model.JobWithDetails;
 
 @Controller
 @RequestMapping("/app/rest")
@@ -64,23 +68,24 @@ public class JenkinsResource {
 	}
 
 	@RequestMapping(value = "/jenkins/builds/create/{projectId}", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> createBuild(@PathVariable("projectId") String projectId,@RequestBody BrowsersDTO buildConfig) throws URISyntaxException, NumberFormatException, InterruptedException, ExecutionException {
+	public @ResponseBody ResponseEntity<String> createBuild(@PathVariable("projectId") String projectId,@RequestBody BrowsersDTO buildConfig,HttpServletRequest request) throws URISyntaxException, NumberFormatException, InterruptedException, ExecutionException {
 		LOGGER.debug("Create a Build for Job {} with configuration {}",projectId, buildConfig);
 		HttpStatus httpStatus = null;
+		//get sessionID to send message through sockets
+		String sessionID = request.getSession().getId();
 		try {
 			//get the project
 			Project project = projectService.findOne(Long.valueOf(projectId));
 			//create the build in jenkins
-			jenkinService.createBuild(project,buildConfig);
+			JobWithDetails job = jenkinService.createBuild(project,buildConfig,false);
 			//create the build in database
 			Build build = buildService.create(project);
 			//start worker
-			jenkinsWorker.checkBuildState(build);
+			jenkinsWorker.checkBuildState(build,job,job.getNextBuildNumber(),sessionID);
 			httpStatus = HttpStatus.CREATED;
 		} catch (IOException e) {
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();
-			
+			e.printStackTrace();	
 		}
 		
 		return new ResponseEntity<String>("Created", httpStatus);

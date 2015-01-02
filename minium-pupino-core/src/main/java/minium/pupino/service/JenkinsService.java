@@ -22,53 +22,54 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 
 @Service
 public class JenkinsService {
-	
+
 	@Autowired
 	@Qualifier("jenkinsOAkClient")
 	private JenkinsClient jenkinsClient;
-	
+
 	public JobWithDetails uri(String jobName) throws IOException, URISyntaxException {
 		return jenkinsClient.uri(jobName);
 	}
-	
+
 	/*
 	 * JOBS
 	 */
-	public void createJob(String jobName,String scmType,String repository) throws IOException, JAXBException {
-		jenkinsClient.createJob(jobName,scmType,repository);
+	public void createJob(String jobName, String scmType, String repository) throws IOException, JAXBException {
+		jenkinsClient.createJob(jobName, scmType, repository);
 	}
-	
+
 	/*
 	 * BUILDS
 	 */
 	public List<Build> buildsForJob(String jobName) throws IOException, URISyntaxException {
 		return jenkinsClient.buildsForJob(jobName);
 	}
-	
-	public Build lastBuild(String jobName) throws IOException{
+
+	public Build lastBuild(String jobName) throws IOException {
 		return jenkinsClient.lastCompletedBuild(jobName);
 	}
-	
-	public void createBuild(Project project,BrowsersDTO buildConfig) throws IOException, URISyntaxException, InterruptedException, ExecutionException {
-		jenkinsClient.createBuild(project.getName(),buildConfig);
+
+	public JobWithDetails createBuild(Project project, BrowsersDTO buildConfig, boolean updatedConfig) throws IOException, URISyntaxException,
+			InterruptedException, ExecutionException {
+		return jenkinsClient.createBuild(project.getName(), buildConfig, updatedConfig);
 	}
-	
+
 	public List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException {
 		return jenkinsClient.getBuilds(jobName);
 	}
-	
-	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException{
+
+	public BuildDTO getBuild(String jobName, String buildId, String featureURI) throws IOException, URISyntaxException {
 		return jenkinsClient.getBuildAndFeature(jobName, buildId, featureURI);
 	}
-	
-	public BuildDTO getBuildById(String jobName, String buildId) throws IOException, URISyntaxException{
+
+	public BuildDTO getBuildById(String jobName, String buildId) throws IOException, URISyntaxException {
 		return jenkinsClient.getBuildById(jobName, buildId);
 	}
-	
+
 	/*
 	 * ARTIFACTS
 	 */
-	public String getArtifactsBuild(BuildWithDetails buildDetails){
+	public String getArtifactsBuild(BuildWithDetails buildDetails) {
 		return jenkinsClient.getArtifactsBuild(buildDetails);
 	}
 }

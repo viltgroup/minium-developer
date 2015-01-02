@@ -35,6 +35,11 @@
     background: #3c8dbc;
     z-index: 40;
 }
+.undefined_line{
+    position: absolute;
+    background: #f39c12;
+    z-index: 40;
+}
 .ace_gutter-cell.ace_breakpoint {
     border-radius: 20px 0px 0px 20px;
     box-shadow: inset 0px 0px 2px 2px #3498db;

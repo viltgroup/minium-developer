@@ -1,6 +1,6 @@
 'use strict';
 
-var LaunchController = function($scope, $modalInstance, $stateParams, $injector, JenkinsProvider1, resolvedProject, buildsTest,BuildProject,BuildsFacade) {
+var LaunchController = function($scope, $modalInstance, $stateParams, $injector, JenkinsProvider1, resolvedProject,BuildProject,BuildsFacade) {
 
 
     $scope.browsers = {
@@ -38,17 +38,19 @@ var LaunchController = function($scope, $modalInstance, $stateParams, $injector,
         });
 
     }
-
+    $scope.launchingBuild = false;
     $scope.launchBuild = function() {
+        $scope.launchingBuild = true;
         JenkinsProvider1.createBuild(resolvedProject, $scope.browsers).success(function() {
             toastr.success("Test Execution has been launched");
-            $scope.builds;
             getBuilds();
             $scope.$close(true);
-            // getBuilds();
         }).error(function(data) {
             toastr.error("Error " + data);
+            $scope.launchingBuild = false;
         });
+
+        
     }
 
     $scope.cancel = function() {

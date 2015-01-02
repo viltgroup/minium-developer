@@ -45,11 +45,14 @@ public class PupinoReporter implements Formatter, Reporter {
 	private Integer exampleLine;
 
 	private List<Result> results;
-
+	
+	private String sessionID;
+	
 	public PupinoReporter() {
 		ServletContext servletContext = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
 				.getServletContext();
 		webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+		sessionID = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession().getId();
 	}
 
 	@Override
@@ -59,19 +62,19 @@ public class PupinoReporter implements Formatter, Reporter {
 	public void result(Result result) {
 		Step step = queue.poll();
 		int line = step.getLine();
-
+		
 		@SuppressWarnings("unchecked")
 		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
 		// check if step has a dataTable
 		if (step.getRows() != null) {
 			for (DataTableRow dt : step.getRows()) {
 				stepDTO = new StepDTO(step.getName(), dt.getLine(), uri, "executing");
-				messagingTemplate.convertAndSend("/cucumber", stepDTO);
+				messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
 			}
 		}
 		stepDTO = new StepDTO(step.getName(), line, uri, result.getStatus());
 		LOGGER.info("Step {} ({}:{}) got result {}", step.getName(), uri, line, result.getStatus());
-		messagingTemplate.convertAndSend("/cucumber", stepDTO);
+		messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
 
 		// store the results of a scenario outline
 		if (exampleLine != null) {
@@ -135,7 +138,7 @@ public class PupinoReporter implements Formatter, Reporter {
 			LOGGER.info("Scenario {} ({}:{}) got result {}", scenario.getName(), uri, exampleLine, "Executing");
 			@SuppressWarnings("unchecked")
 			MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
-			messagingTemplate.convertAndSend("/cucumber", stepDTO);
+			messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
 			results = new ArrayList<Result>();
 		}
 	}
@@ -157,7 +160,7 @@ public class PupinoReporter implements Formatter, Reporter {
 		stepDTO = new StepDTO(scenario.getDescription(), scenario.getLine(), uri, r);
 		@SuppressWarnings("unchecked")
 		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
-		messagingTemplate.convertAndSend("/cucumber", stepDTO);
+		messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
 		results.clear();
 		// reset the example line
 		exampleLine = null;

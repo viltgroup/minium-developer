@@ -24,20 +24,22 @@
                     </div>
                 </div>
 
+                &nbsp;
                 <a id="launchBtn" class="btn btn-primary btn-xs" ui-sref="global.project-detail.overview.launch" title="Launch an execution to run the tests">
                     <i class="fa fa-play"></i> Launch Test execution
                 </a>
 
                 <div class="box-body ">
+
                     <!-- Alert No data -->
-                    <div class="alert alert-info" ng-show="!buildsFacade.lastFinishedBuild && !buildingBuilds">
+                    <div class="alert alert-info" ng-show="!buildsFacade.lastFinishedBuild && !buildingBuilds && !buildsFacade.buildingBuilds">
                         <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
                             <i class="fa fa-play"></i> Launch Test execution
                         </a>
                         <strong>Info:</strong> Theres no data
                     </div>
 
-                    <table class="table table-primary table-list" ng-show="buildsFacade.lastFinishedBuild || buildingBuilds">
+                    <table class="table table-primary table-list" ng-show="buildsFacade.lastFinishedBuild || buildsFacade.buildingBuilds">
                         <thead>
                             <tr>
                                 <th>Status</th>
@@ -49,39 +51,38 @@
                             </tr>
                         </thead>
 
+                        <tbody>
 
-
-                        <!-- BUILDING -->
-                        <thead>
-                            <tr>
-                                <th colspan="7"></th>
-                            </tr>
-                        </thead>
-                         <tbody>
-                            <tr>
+                            <tr ng-show="buildsFacade.buildingBuilds.length > 0">
                                 <td>
-                                    <i class="fa fa-gear fa-spin"></i>
+                                    <i class="fa fa-2x fa-gear fa-spin"></i>
+                                    <!-- <span ng-repeat="b in buildsFacade.buildingBuilds">
+                                        {{b.id}} 
+                                    </span> -->
                                 </td>
                                 <td>
-                                    <span ng-repeat="b in buildsFacade.buildingBuilds">
-                                        {{b.id}}
-                                    </span>
-                                    {{buildingBuilds}}
-                                </td>
-                                <td>
-                                    {{buildingBuilds[0].state}}
-                                </td>
-                                <td>
-                                    
+                                
                                 </td>
 
-                                <td>
-                                    
+                                <td ng-hide="estimatedTime != 0"> <i class="fa fa-spinner fa-spin"></i> Fetching data </td>
+                                <td ng-hide="estimatedTime == 0">
+                                    Launch at {{time}}
+                                    <br> Estimated Time {{duration | durationInMinutes}} seconds
+                                    <!-- <br> {{estimatedRemainning}} -->
+                                    <!-- Remainning {{estimatedRemainning | humanize}} -->
+                                    <br>
+
+                                </td>
+                                <td ng-hide="estimatedTime == 0">
+                                    {{buildingBuilds[0].state}} Executing
                                 </td>
 
+                                <td ng-hide="estimatedTime == 0">
+                                    <div class="progress progress-striped active sm">
+                                        <div class="progress-bar bar" style="width: {{estimatedTime}}%;">
 
-                                <td>
-                                  
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
@@ -110,6 +111,7 @@
                                 </td>
 
                                 <td>
+
                                     <progress>
                                         <bar value="calcPerCent(summary.passed,summary.totalScenarios)" type="success">
                                             <span>{{calcPerCent(summary.passed,summary.totalScenarios)}}%</span>
@@ -117,8 +119,11 @@
                                         <bar value="calcPerCent(summary.failed,summary.totalScenarios)" type="danger">
                                             <span>{{calcPerCent(summary.failed,summary.totalScenarios)}}%</span>
                                         </bar>
-                                        <bar value="calcPerCent(summary.failed,summary.totalScenarios)" type="danger">
-                                            <span>{{calcPerCent(summary.failed,summary.totalScenarios)}}%</span>
+                                        <bar value="calcPerCent(summary.skipped,summary.totalScenarios)" type="warning">
+                                            <span>{{calcPerCent(summary.skipped,summary.totalScenarios)}}%</span>
+                                        </bar>
+                                        <bar value="calcPerCent(summary.undefined,summary.totalScenarios)" type="info">
+                                            <span>{{calcPerCent(summary.undefined,summary.totalScenarios)}}%</span>
                                         </bar>
                                     </progress>
                                 </td>
@@ -141,7 +146,6 @@
                         <tbody>
                             <tr ng-repeat="build in buildsFacade.builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
                                 <td>
-
                                     <icon-item content="build.result" type="build"></icon-item>
                                     <br>
                                 </td>
@@ -262,7 +266,8 @@
                 <li><a show-tab href="#line-chart" data-toggle="tab">Evolution</a>
                 </li>
 
-                <li class="pull-left header"><i class="fa fa-inbox"></i> Stats</li>
+                <li class="pull-left header"><i class="fa fa-inbox"></i> Stats for scenarios of last executions
+                </li>
             </ul>
             <div class="tab-content no-padding">
                 <div class="chart tab-pane active" id="pie-chart">

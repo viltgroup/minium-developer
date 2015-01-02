@@ -58,7 +58,7 @@ public class LaunchService {
 		testClasses = findTestClasses();
 	}
 
-	public Feature launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
+	public Feature launch(URI baseUri, LaunchInfo launchInfo,String sessionID) throws IOException {
 		URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
 		File tmpFile = File.createTempFile("cucumber", ".json");
@@ -80,7 +80,7 @@ public class LaunchService {
 		Result result = null;
 		try {
 			runner = new JUnitCore();
-			runner.addListener(new PupinoJUnitListener(messagingTemplate));
+			runner.addListener(new PupinoJUnitListener(messagingTemplate,sessionID));
 			result = runner.run(testClasses);
 
 			for (Failure failure : result.getFailures()) {

@@ -9,10 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 
 import minium.pupino.domain.Project;
-import minium.pupino.domain.SourceRepository;
-import minium.pupino.domain.SourceRepository.Type;
+import minium.pupino.repository.BuildRepository;
 import minium.pupino.repository.ProjectRepository;
+import minium.pupino.service.BuildService;
 import minium.pupino.service.JenkinsService;
+import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,10 +42,16 @@ public class ProjectResource {
 
 	@Inject
 	private ProjectRepository projectRepository;
-
+	
+	@Inject
+	private BuildService buildService;
+	
+	@Inject
+	private BuildRepository buildRepository;
+	
 	@Autowired
 	private JenkinsService jenkinService;
-
+	
 	/**
 	 * POST /rest/projects -> Create a new project.
 	 * 
@@ -57,28 +64,37 @@ public class ProjectResource {
 	public void create(@RequestBody Project project) throws URISyntaxException, IOException, JAXBException {
 		log.debug("REST request to save Project : {}", project);
 		projectRepository.save(project);
-		jenkinService.createJob(project.getName(),project.getSourceRepository().getType().toString(),project.getSourceRepository().getUrl().toString());
+		jenkinService.createJob(project.getName(),project.getRepository_type(),project.getRepository_url());
 	}
-
+	
 	/**
 	 * GET /rest/projects -> get all the projects.
+	 * @throws URISyntaxException 
+	 * @throws IOException 
 	 */
 	@RequestMapping(value = "/rest/projects", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	@Timed
-	public List<Project> getAll() {
+	public List<Project> getAll() throws IOException, URISyntaxException {
 		log.debug("REST request to get all Projects");
 		if (i == 0) {
-			Project project = new Project();
-			project.setDescription("sds");
-			project.setName("cp-e2e-test");
-			SourceRepository sr = new SourceRepository();
-			sr.setType(Type.GIT);
-			sr.setUrl("url@dsdsd.gti");
-			project.setSourceRepository(sr);
-			projectRepository.save(project);
-			i = 1;
+			Project p = projectRepository.findOne((long) 1);
+			
+			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
+			buildService.save(builds, p);
+//			
+//			
+//			p = projectRepository.findOne((long) 3);
+//			builds = jenkinService.getBuilds("my-cp-test");
+//			buildService.save(builds, p);
+			
+//			Build buildMPay = buildRepository.findOne((long) 3);
+//			buildMPay.setArtifact(Utils.artifactFromFile("mocks/mock-cgd-store.json"));
+//			buildRepository.save(buildMPay);
+			
+			 i = 1;
 		}
-		return projectRepository.findAll();
+		List<Project> p = projectRepository.findAll();
+		return p;
 	}
 
 	/**

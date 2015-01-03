@@ -1,0 +1,100 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+
+    <section class="content-header">
+        &nbsp;
+        <ol class="breadcrumb">
+            <li class="active">
+                <a ui-sref="global.project">
+                    <i class="glyphicon glyphicon-home"></i>Projects</a>
+            </li>
+        </ol>
+
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="col-md-12">
+            <div class="panel panel-dark panel-alt">
+                <div class="panel-heading">
+                    <h3><i class="fa fa-cloud"></i> My Projects <span class="label label-primary">{{projects.length}}</span></h3>
+                    <!-- panel-btns -->
+                    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#saveProjectModal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-flash"></span>Create a new Project
+                    </button>
+                    
+                </div>
+                <!-- panel-heading -->
+                <div class="panel-body panel-table">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Last Execution Status</th>
+                                    <th>Status</th>
+                                    <th>Last Execution Date</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="project in projects">
+                                    <td>
+                                        <a ui-sref="global.project-detail({ id: project.id })">
+                                            {{project.name}}
+                                        </a>
+                                    </td>
+                                    <td ng-if="builds[project.id] != null">
+                                        <progress>
+                                            <bar value="calcPerCent(builds[project.id].summary.passingScenarios,builds[project.id].summary.totalScenarios)" type="success">
+                                                <span>{{calcPerCent(builds[project.id].summary.passingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
+                                            </bar>
+                                            <bar value="calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)" type="danger">
+                                                <span>{{calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
+                                            </bar>
+                                            <bar value="calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)" type="danger">
+                                                <span>{{calcPerCent(builds[project.id].summary.faillingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
+                                            </bar>
+                                        </progress>
+
+                                    </td>
+                                    <td ng-if="builds[project.id] == null">
+                                        No execution yet
+                                    </td>
+                                    <td>
+                                        <span class="label" ng-class="{'label-danger' : !isPassed(builds[project.id].result),'label-success' : isPassed(builds[project.id].result)}">Failing</span>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-clock-o"></i> {{builds[project.id].key | humanizeDate}}
+                                    </td>
+                                    <td>{{project.description}}</td>
+                                    <td style="text-align: center;">
+                                        <button type="submit" ng-click="update(project.id)" class="btn btn-default">
+                                            <span class="glyphicon glyphicon-pencil"></span>Edit
+                                        </button>
+                                        <button type="submit" ng-click="delete(project.id)" class="btn btn-danger">
+                                            <span class="glyphicon glyphicon-remove-circle"></span>Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- table-responsive -->
+                </div>
+                <!-- panel-body -->
+            </div>
+            <!-- panel -->
+
+        </div>
+
+    </section>
+    <!-- /.content -->
+</aside>
+<!-- /.right-side -->
+
+<div ng-include="'pupino-reports/views/project/partials/modal.html'"></div>

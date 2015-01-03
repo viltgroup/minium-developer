@@ -22,7 +22,7 @@ public class JenkinsClientTest {
 	private JenkinsServer jenkins;
 	
 	private static final String JENKINS_TEST_JOB = "pupino-jenkins-test";
-	private static final String uri = "http://lw255:8080/jenkins/";
+	private static final String uri = "http://lw255:8081/jenkins/";
 
 	@Before
 	public void setUp() throws URISyntaxException {

@@ -1,0 +1,35 @@
+<div class="modal-body">
+    <div class="panel-body">
+        <div class="alert alert-error alert-warning" ng-show="error">{{errorMessage}}</div>
+        <form class="" name="newLogForm">
+
+            <div class="form-group">
+
+                <label class="control-label" for="log_name">Browsers</label>
+
+                <button type="button" button-toggle="btn-primary active" class="btn checkboxBtn" ng-model="browsers['firefox']">
+                    <i class="icon-firefox"></i> Firefox
+                </button>
+                <button type="button" button-toggle="btn-primary active" class="btn checkboxBtn" ng-model="browsers['chrome']">
+                    <i class="icon-chrome"></i> Chrome
+                </button>
+                <button type="button" button-toggle="btn-primary  active" class="btn checkboxBtn" ng-model="browsers['IE']"><i class="icon-ie"></i> IE
+                </button>
+                <button type="button" button-toggle="btn-primary active" class="btn checkboxBtn" ng-model="browsers['opera']">
+                    <i class="icon-opera"></i>Opera
+                </button>
+                <br>
+                <br> You will test in these browsers: &nbsp;
+                <i class="icon-firefox" ng-show="browsers['firefox']"></i>
+                <i class="icon-chrome" ng-show="browsers['chrome']"></i>
+                <i class="icon-ie" ng-show="browsers['IE']"></i>
+                <i class="icon-opera" ng-show="browsers['opera']"></i>                
+
+        </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+
+        <button class="btn btn-primary" ng-click="launchBuild()">Launch Test Execution</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>

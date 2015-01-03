@@ -1,3 +1,5 @@
+<li ng-switch-when="true"><a href="#/build"><span class="glyphicon glyphicon-asterisk"></span>&nbsp;build</a>
+</li>
 <!doctype html>
 <!--[if lt IE 7]>    <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>     <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -24,6 +26,9 @@
     <link rel="stylesheet" href="../bower_components/nvd3/nv.d3.css" />
     <link rel="stylesheet" href="../bower_components/jqueryui/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="../assets/styles/theme.css" />
+    <link rel="stylesheet" href="../assets/styles/fontello/css/fontello.css" />
+
+    <link rel="stylesheet" href="../bower_components/angular-tree-control/css/tree-control.css" />
 
     <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 
@@ -33,9 +38,7 @@
 
 <body class="skin-blue" ng-app="pupinoApp" ng-controller="MainController">
 
-
     <div class="full" ui-view></div>
-
 
     <script src="../bower_components/jquery/dist/jquery.js"></script>
     <script src="../bower_components/lodash/dist/lodash.js"></script>
@@ -51,6 +54,7 @@
     <script src="../bower_components/ladda/js/ladda.js"></script>
     <script src="../bower_components/toastr/toastr.js"></script>
     <script src="../bower_components/jqueryui/jquery-ui.min.js"></script>
+    <script src="../bower_components/angular-tree-control/angular-tree-control.js"></script>
 
     <!-- Bootstrap -->
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
@@ -97,50 +101,70 @@
     <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
     <script src="bower_components/angular-http-auth/src/http-auth-interceptor.js"></script>
 
-    <script src="scripts/controllers/global.js"></script>
-    <script src="scripts/launch/controller_launch.js"></script>
-    <script src="scripts/report/controller_report.js"></script>
 
-    <script src="scripts/truncate.js"></script>
-    <script src="scripts/utils.js"></script>
-    <script src="scripts/app.js"></script>
-    <script src="scripts/constants.js"></script>
-    <script src="scripts/controllers.js"></script>
-    <script src="scripts/services.js"></script>
-    <script src="scripts/directives.js"></script>
-    <script src="scripts/filters.js"></script>
+    <!-- Components -->
+    <script src="components/js/components.js"></script>
+    <script src="components/js/utils.js"></script>
+
+    <script src="scripts/controllers/global.js"></script>
+    <script src="pupino-reports/scripts/launch/controller_launch.js"></script>
+    <script src="pupino-reports/scripts/report/controller_report.js"></script>
+    
+    <script src="pupino-ide/scripts/app.js"></script>
+    <script src="pupino-ide/scripts/services.js"></script>
+    <script src="pupino-ide/scripts/filters.js"></script>
+    <script src="pupino-ide/scripts/directives.js"></script>
+
+    <!-- File open/new -->
+    <script src="pupino-ide/scripts/file/service_file_system.js"></script>
+    <script src="pupino-ide/scripts/file/controller_file.js"></script>
+    <script src="pupino-ide/scripts/file/controller_open.file.js"></script>
+    <script src="pupino-ide/scripts/file/controller_new_file.js"></script>
+    <!-- Editor Area -->
+    <script src="pupino-ide/scripts/editor.area/controller_editor.area.js"></script>
+    <script src="pupino-ide/scripts/editor.area/controller_editor.area.multitab.js"></script>
+    <script src="pupino-ide/scripts/editor.area/controller_configs.editor.area.js"></script>
+    <script src="pupino-ide/scripts/editor.area/controller_editor.area.backends.js"></script>
+    <script src="pupino-ide/scripts/editor.area/router_editor.area.js"></script>
+
+    <script src="pupino-reports/scripts/truncate.js"></script>
+    <script src="pupino-reports/scripts/utils.js"></script>
+    <script src="pupino-reports/scripts/app.js"></script>
+    <script src="pupino-reports/scripts/constants.js"></script>
+    <script src="pupino-reports/scripts/controllers.js"></script>
+    <script src="pupino-reports/scripts/services.js"></script>
+    <script src="pupino-reports/scripts/directives.js"></script>
+    <script src="pupino-reports/scripts/filters.js"></script>
 
     <!-- Project -->
-    <script src="scripts/project/router_project.js"></script>
-    <script src="scripts/project/controller_project.js"></script>
-    <script src="scripts/project/controller_project_show.js"></script>
-    <script src="scripts/project/service_project.js"></script>
+    <script src="pupino-reports/scripts/project/router_project.js"></script>
+    <script src="pupino-reports/scripts/project/controller_project.js"></script>
+    <script src="pupino-reports/scripts/project/controller_project_show.js"></script>
+    <script src="pupino-reports/scripts/project/service_project.js"></script>
 
-    <!-- Editor Area -->
-    <script src="scripts/editor.area/controller_editor.area.js"></script>
-    <script src="scripts/editor.area/controller_editor.area.multitab.js"></script>
-    <script src="scripts/editor.area/controller_configs.editor.area.js"></script>
-    <script src="scripts/editor.area/router_editor.area.js"></script>
+    <!--BUILD-->
+    <script src="pupino-reports/scripts/build/router_build.js"></script>
+    <script src="pupino-reports/scripts/build/controller_build.js"></script>
+    <script src="pupino-reports/scripts/build/controller_build_from_jenkins.js"></script>
+    <script src="pupino-reports/scripts/build/service_build.js"></script>
+
+    
+
+    <!-- PUPINO-APP -->
+    <script src="scripts/app.js"></script>
+
 
     <!-- Dashboard -->
-    <script src="scripts/dashboard/router_dashboard.js"></script>
-    <script src="scripts/dashboard/controller_dashboard.js"></script>
+    <script src="pupino-reports/scripts/dashboard/router_dashboard.js"></script>
+    <script src="pupino-reports/scripts/dashboard/controller_dashboard.js"></script>
 
-    <!-- Build -->
-    <script src="scripts/build/router_build.js"></script>
-    <script src="scripts/build/controller_build.js"></script>
-    <script src="scripts/build/service_build.js"></script>
 
     <!-- Features -->
-    <script src="scripts/feature/router_feature.js"></script>
-    <script src="scripts/feature/controller_feature.js"></script>
-    <script src="scripts/feature/service_feature.js"></script>
+    <script src="pupino-reports/scripts/feature/router_feature.js"></script>
+    <script src="pupino-reports/scripts/feature/controller_feature.js"></script>
+    <script src="pupino-reports/scripts/feature/service_feature.js"></script>
 
-     <!-- File open/new -->
-    <script src="scripts/file/service_file_system.js"></script>
-    <script src="scripts/file/controller_file.js"></script>
-    <script src="scripts/file/controller_open.file.js"></script>
-    <script src="scripts/file/controller_new_file.js"></script>
+    
 
     <!--     <script src="scripts/build/router_build.js"></script>
     <script src="scripts/build/controller_build.js"></script>

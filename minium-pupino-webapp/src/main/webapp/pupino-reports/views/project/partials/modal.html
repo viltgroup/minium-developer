@@ -1,0 +1,53 @@
+<div class="modal fade" id="saveProjectModal" tabindex="-1" role="dialog" aria-labelledby="myProjectLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form name="form" role="form" novalidate class="ng-scope ng-invalid ng-invalid-required ng-dirty ng-valid-minlength" ng-submit="create()">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="clear()">&times;</button>
+                    <h4 class="modal-title" id="myProjectLabel">Create or edit a Project</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input type="text" class="form-control" name="id" ng-model="project.id" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" ng-model="project.name" >
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" class="form-control" ng-model="project.description">
+                    </div>
+                    <div class="form-group">
+                        <label>Repository</label>
+                        <div>
+                            <label>
+                                <input type="radio" name="sourceRepository" ng-model="project.repository_type" value="GIT" checked>Git
+                            </label>
+                        </div>
+                        <div>
+                            <label>
+                                <input type="radio" name="sourceRepository" ng-model="project.repository_type" value="SUBVERSION" checked>Subversion
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Repository URL</label>
+                        <input type="text" class="form-control" ng-model="project.repository_url">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>Cancel
+                    </button>
+                    <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-save"></span>Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

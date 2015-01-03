@@ -17,7 +17,9 @@
             </column>
             <column name="name" type="varchar(255)"/>
             <column name="description" type="varchar(255)"/>
-            <column name="source_repository" type="clob"/>
+            <column name="repository_type" type="varchar(255)"/>
+            <column name="repository_url" type="varchar(255)"/>
+            <!-- <column name="source_repository" type="clob"/> -->
         </createTable>
     </changeSet>
 </databaseChangeLog>

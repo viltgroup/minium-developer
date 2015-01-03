@@ -13,8 +13,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import minium.pupino.domain.LaunchInfo;
+import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.web.rest.StepDefinitionDTO;
+import net.masterthought.cucumber.json.Feature;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.RunWith;
@@ -27,8 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Service;
@@ -57,59 +58,61 @@ import cucumber.runtime.rest.SimpleGlue;
 @ConfigurationProperties(prefix = "launcher", locations = "classpath:pupino.yml", ignoreUnknownFields = false)
 public class LaunchService {
 
-	public static MessageSendingOperations<String> messagingTemplate;
+    public static MessageSendingOperations<String> messagingTemplate;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
 
-	private JUnitCore runner;
+    private JUnitCore runner;
 
-	private String resourcesBaseDir = "src/test/resources";
-	private Class<?> testClass;
+    private String resourcesBaseDir = "src/test/resources";
+    private Class<?> testClass;
 
+    private ReporterParser reporter = new ReporterParser();
 
+    @Autowired
+    public LaunchService(final MessageSendingOperations<String> messagingTemplate) {
+        LaunchService.messagingTemplate = messagingTemplate;
+        testClass = findTestClass();
+    }
 
-	@Autowired
-	public LaunchService(final MessageSendingOperations<String> messagingTemplate) {
-		LaunchService.messagingTemplate = messagingTemplate;
-		testClass = findTestClass();
-	}
+    public Feature launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
+        URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
-	public Resource launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
+        File tmpFile = File.createTempFile("cucumber", ".json");
 
-		File tmpFile = File.createTempFile("cucumber", ".json");
+        String path;
+        if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
+            path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
+        } else {
+            String lines = Joiner.on(":").join(launchInfo.getLine());
+            path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
+        }
 
-		URI resourceDir = launchInfo.getFileProps().getRelativeUri();
-		String path;
-		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
-			path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
-		} else {
-			String lines = Joiner.on(":").join(launchInfo.getLine());
-			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
-		}
+        String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
+        LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
-		String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
-		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
+        System.setProperty("cucumber.options", cucumberOptions);
+        System.setProperty("spring.profiles.active", "pupino");
 
-		System.setProperty("cucumber.options", cucumberOptions);
-		System.setProperty("spring.profiles.active", "pupino");
+        Result result = null;
+        try {
+            runner = new JUnitCore();
+            runner.addListener(new PupinoJUnitListener(messagingTemplate));
+            result = runner.run(testClass);
 
-		Result result = null;
-		try {
-			runner = new JUnitCore();
-			runner.addListener(new PupinoJUnitListener(messagingTemplate));
-			result = runner.run(testClass);
+            for (Failure failure : result.getFailures()) {
+                LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
+            }
+        } catch (StoppedByUserException e) {
+            LOGGER.debug("Stopped by user ", e);
+        }
+        String content = FileUtils.readFileToString(tmpFile);
+        List<Feature> features = reporter.parseJsonResult(content);
+        features.get(0).processSteps();
+        return features.get(0);
+    }
 
-			for (Failure failure : result.getFailures()) {
-				LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
-			}
-		} catch (StoppedByUserException e) {
-			LOGGER.debug("Stopped by user ", e);
-		}
-
-		return new FileSystemResource(tmpFile);
-	}
-
-	public List<StepDefinitionDTO> getStepDefinitions() throws IOException {
+    public List<StepDefinitionDTO> getStepDefinitions() throws IOException {
         MiniumRhinoTestContextManager testContextManager = new MiniumRhinoTestContextManager(testClass);
         ResourceLoader resourceLoader = new MultiLoader(testClass.getClassLoader());
         List<Backend> backends = getBackends(testContextManager, testClass.getClassLoader(), resourceLoader);
@@ -124,9 +127,9 @@ public class LaunchService {
             results.add(new StepDefinitionDTO(stepDefinition));
         }
         return results;
-	}
+    }
 
-	private List<Backend> getBackends(MiniumRhinoTestContextManager testContextManager, ClassLoader classLoader, ResourceLoader resourceLoader) throws IOException {
+    private List<Backend> getBackends(MiniumRhinoTestContextManager testContextManager, ClassLoader classLoader, ResourceLoader resourceLoader) throws IOException {
         BackendRegistry backendRegistry = new BackendRegistry();
         Collection<BackendConfigurer> backendConfigurers = testContextManager.getBeanFactory().getBeansOfType(BackendConfigurer.class).values();
 
@@ -146,11 +149,11 @@ public class LaunchService {
     }
 
     public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		Field field = JUnitCore.class.getDeclaredField("fNotifier");
-		field.setAccessible(true);
-		RunNotifier runNotifier = (RunNotifier) field.get(runner);
-		runNotifier.pleaseStop();
-	}
+        Field field = JUnitCore.class.getDeclaredField("fNotifier");
+        field.setAccessible(true);
+        RunNotifier runNotifier = (RunNotifier) field.get(runner);
+        runNotifier.pleaseStop();
+    }
 
     protected Class<?> findTestClass() {
         ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);

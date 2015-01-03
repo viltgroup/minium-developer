@@ -1,0 +1,151 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        &nbsp;
+        <span class="right-content">
+           <span translate="editor.editor">Editor</span>
+        </span>
+
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">
+                    <i class="glyphicon glyphicon-home"></i>
+                    <span translate="global.home">Home</span>
+                </a>
+            </li>
+            <li class="active " id="miniumOnDrugs">
+                <span translate="editor.editor">Editor</span>
+            </li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content container container-editor full ">
+
+        <div class="btn-toolbar" role="toolbar">
+            <br>
+            <i class="fa fa-info-circle"></i>
+            <span translate="editor.status">Status</span>:
+            <span class="label label-default" id="status">
+                    Not Run
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+            <button id="runningTest" class="btn btn-warning ladda-button disabled " data-style="expand-right">
+                <span class="fa fa-gears"></span>
+                <span class="ladda-label" translate="editor.running">Running</span>
+            </button>
+
+            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#launchModal" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
+                <span class="fa  fa-bar-chart"></span>
+                <span translate="editor.summary">Summary Report</span>
+            </button>
+
+            <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
+                    <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
+            <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
+            </progressbar>
+            </span>
+
+
+            <button data-toggle="dropdown" class="btn btn-primary" type="button" ng-click="launchAll()">
+                <i class="fa  fa-rocket"></i>
+                <span translate="editor.runAll">Run All</span>
+            </button>
+
+
+            <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
+                <i class="fa fa-arrow-circle-o-down"></i>
+                <span translate="editor.seeExecution">See Execution</span>
+            </button>
+
+            <span class="btn-group pull-right" role="group" aria-label="...">
+                     <a ui-sref="global.editorarea.open" class="btn btn-primary " type="button">
+                        <i class="fa fa-arrow-circle-o-down"></i>
+                        <span translate="editor.openFile">Open File</span>
+            </a>
+            <button type="button" class="btn btn-primary" ui-sref="global.editorarea.newFile">
+                <i class="fa fa-plus"></i>
+                <span translate="editor.newFile">New File</span>
+            </button>
+
+            </span>
+
+            <!-- Single button -->
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    Actions <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                    <li>
+                        <a ui-sref="global.editorarea.configs">
+                            <span class="fa fa-list"></span>
+                            <span class="ladda-label">Launch Browser</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a ui-sref="global.editorarea.registerBackend">
+                            <span class="fa fa-cloud-download"></span>
+                            <span class="ladda-label">Register Backend</span>
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a ng-click="stopLaunch()" ng-hide="testExecuting == false">
+                            <span class="fa fa-ban"></span>
+                            <span class="ladda-label" translate="editor.stop">Stop</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a ng-hide="markerIds | isEmpty" ng-click="clearMarkers()">
+                            <i class="fa fa-arrow-circle-o-down"></i>
+                            <span translate="editor.clearMarkers">Clear Markers</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
+        </div>
+
+
+
+        <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
+
+        <button ng-show="multiTab" class="btn" id="addTab">Add an editor</button>
+        <div id="tabs">
+            <ul>
+            </ul>
+        </div>
+
+
+
+
+        </section>
+        <!-- /.content -->
+
+    <div ui-view></div>
+
+
+</aside>
+
+
+<div ng-include="'pupino-ide/views/editor.area/modal/execution.html'"></div>
+
+<div ng-include="'pupino-ide/views/editor.area/modal/launch.html'"></div>
+
+<script type="text/ng-template" id="selectorGadgetModal.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Pick elements with Selector Gadget</h4>
+    </div>
+    <div class="modal-body">
+        <p>Pick elements with Selector Gadget to generate a CSS selector expression.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
+        <button type="submit" class="btn btn-primary" ng-click="accept()">Accept</button>
+    </div>
+</script>

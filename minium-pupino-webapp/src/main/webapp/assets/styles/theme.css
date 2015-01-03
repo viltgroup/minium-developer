@@ -578,12 +578,12 @@ body > div > .header .logo .icon {
 }
 @media screen and (max-width: 767px) {
   .right-side > .content-header > .breadcrumb {
-    position: relative;
+   /* position: relative;
     margin-top: 5px;
     top: 0;
     right: 0;
     float: none;
-    background: #efefef;
+    background: #efefef;*/
   }
 }
 @media (max-width: 767px) {

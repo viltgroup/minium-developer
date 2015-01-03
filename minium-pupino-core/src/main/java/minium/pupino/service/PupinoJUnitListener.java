@@ -12,19 +12,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.MessageSendingOperations;
 
 public class PupinoJUnitListener extends RunListener {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(PupinoJUnitListener.class);
-	
+
 	private final MessageSendingOperations<String> messagingTemplate;
 	private TestExecutionDTO testExecution;
 	private int passed;
-    
+	private int failing;
+
 	@Autowired
-	public PupinoJUnitListener(final MessageSendingOperations<String> messagingTemplate){
+	public PupinoJUnitListener(final MessageSendingOperations<String> messagingTemplate) {
 		this.messagingTemplate = messagingTemplate;
 		passed = 0;
+		failing = 0;
 	}
-	
+
 	/**
 	 * Called before any tests have been run.
 	 * */
@@ -53,17 +55,19 @@ public class PupinoJUnitListener extends RunListener {
 	 * fails.
 	 * */
 	public void testFinished(Description description) throws java.lang.Exception {
-		passed++;
-		testExecution = new TestExecutionDTO(Integer.toString(passed), "passed", description.getMethodName());
-		messagingTemplate.convertAndSend("/tests", testExecution);
-		LOGGER.info("Finished execution of test case : " + description.getMethodName());
+		if (description.getMethodName() != null) {
+			passed++;
+			testExecution = new TestExecutionDTO(Integer.toString(passed), "passed", description.getMethodName());
+			messagingTemplate.convertAndSend("/tests", testExecution);
+			LOGGER.info("Finished execution of test case : " + description.getMethodName());
+		}
 	}
-	
-	
+
 	/**
 	 * Called when an atomic test fails.
 	 * */
 	public void testFailure(Failure failure) throws java.lang.Exception {
+		failing++;
 		testExecution = new TestExecutionDTO(failure.getMessage(), "failing", failure.getDescription().getMethodName());
 		messagingTemplate.convertAndSend("/tests", testExecution);
 		LOGGER.info("Execution of test case failed : " + failure.getMessage());

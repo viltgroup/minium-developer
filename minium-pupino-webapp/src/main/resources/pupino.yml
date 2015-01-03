@@ -1,0 +1,6 @@
+# cucumby.yml
+webElementsDriverFactory:
+    #url:     http://silenus.vilt-group.com:4444/wd/hub
+    #browser: chrome
+    #width:   1920
+    #height:  1080

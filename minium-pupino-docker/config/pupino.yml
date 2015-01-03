@@ -1,11 +1,11 @@
 # cucumby.yml
 
-fs:
-    baseDir: /home/raphael/workspace/cp-e2e-tests/src/test/resources
+#fs:
+    #baseDir: /home/raphael/workspace/cp-e2e-tests/src/test/resources
 
-launcher:
-    classNames:
-        - cp.CpTest
+#launcher:
+    #classNames:
+        #- cp.CpTest
 
 webElementsDriverFactory:
     url:     http://silenus.vilt-group.com:4444/wd/hub

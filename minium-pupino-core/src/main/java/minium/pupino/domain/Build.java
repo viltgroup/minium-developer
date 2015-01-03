@@ -10,14 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDateTime;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.joda.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
-
 /**
  * A Build.
  */
@@ -25,17 +17,30 @@ import com.fasterxml.jackson.datatype.joda.ser.LocalDateTimeSerializer;
 @Table(name = "T_BUILD")
 public class Build implements Serializable {
 
-	private static final long serialVersionUID = 6476717872080280260L;
-
-	@Id
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    @Column(name = "number")
+    private int number;
+
+    @Column(name = "name")
+    private String name;
+    
+    @Column(name = "key")
+    private String key;
+    
+    @Column(name = "result")
+    private String result;
+    
+    @Column(name = "duration")
+    private int duration;
+    
+    @Column(name = "timestamp")
+    private long timestamp;
+
+    @Column(name = "artifact")
+    private String artifact;
 
     @ManyToOne
     private Project project;
@@ -48,12 +53,28 @@ public class Build implements Serializable {
         this.id = id;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public int getNumber() {
+        return number;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getArtifact() {
+        return artifact;
+    }
+
+    public void setArtifact(String artifact) {
+        this.artifact = artifact;
     }
 
     public Project getProject() {
@@ -89,7 +110,41 @@ public class Build implements Serializable {
     public String toString() {
         return "Build{" +
                 "id=" + id +
-                ", startTime='" + startTime + "'" +
+                ", number='" + number + "'" +
+                ", name='" + name + "'" +
+                ", artifact='" + artifact + "'" +
                 '}';
     }
+
+	public String getKey() {
+		return key;
+	}
+
+	public void setKey(String key) {
+		this.key = key;
+	}
+
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(long timestamp) {
+		this.timestamp = timestamp;
+	}
 }

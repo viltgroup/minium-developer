@@ -37,7 +37,7 @@ public class JenkinsJobConfigurationTest {
 
 	private static final String JENKINS_TEST_JOB = "cp-e2e-test";
 	private static final String uri = "https://hestia.vilt-group.com/";
-	private static final String uri2 = "http://lw255:8080/jenkins/";
+	private static final String uri2 = "http://lw255:8081/jenkins/";
 
 	// @Test
 	public void shoulGetJobByName() throws Exception {

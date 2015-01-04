@@ -24,10 +24,7 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
     /*
     Tree view 
      */
-    
-    $scope.db = function () {
-        alert("deu")
-    }
+
     $scope.dataForTheTree = [];
 
     $scope.fs = {
@@ -60,7 +57,7 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
     };
 
     $scope.showSelected = function(node) {
-        
+
         $scope.selectedNode = node;
 
         if (node.type == "FILE") {
@@ -89,7 +86,24 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
      * NAVIGATION FOLDERS Functions
      */
     $scope.opts = {
+        injectClasses: {
+            ul: "a1",
+            li: "a2",
+            liSelected: "a7",
+            iExpanded: "a3",
+            iCollapsed: "a4",
+            iLeaf: "a5",
+            isFeature:"a2",
+            label: "a6",
+            labelSelected: "a8"
+        },
         isLeaf: function(node) {
+            if (node.type === "DIR")
+                return false;
+            else
+                return true;
+        },
+        isFeature: function(node) {
             if (node.type === "DIR")
                 return false;
             else
@@ -99,15 +113,37 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
     };
 
     $scope.getColor = function(node) {
-        if (node.name === "features") {
-            return "red";
-        } else if (node.name === "steps") {
-            return "blue"
-        }
+        // if (node.name === "features") {
+        //     return "red";
+        // } else if (node.name === "steps") {
+        //     return "blue"
+        // }
 
     };
 
     $scope.collapseAll = function() {
         $scope.expandedNodes = [];
     };
+
+
+    //functions used in the 2 modules
+    $scope.isEmptyObject = function(obj) {
+
+        if (obj.length && obj.length > 0)
+            return false;
+
+        if (obj.length === 0)
+            return true;
+    }
+
+    $scope.readCookie = function(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
 };

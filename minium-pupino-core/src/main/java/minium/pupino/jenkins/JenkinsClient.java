@@ -23,18 +23,23 @@ public interface JenkinsClient {
 	/*
 	 * JOBS
 	 */
-	void createJob(String jobName, String scmType, String repository) throws IOException, JAXBException;
+
+	void createJob(String jobName, String scmType, String repository) throws JAXBException, IOException;
 
 	void updateJobConfiguration(String jobName, BrowsersDTO buildConfig);
+
+	JobWithDetails getJob(String name) throws IOException;
 
 	/*
 	 * BUILDS
 	 */
 	List<Build> buildsForJob(String jobName) throws IOException, URISyntaxException;
 
+	Build lastCompletedBuild(String jobName) throws IOException;
+
 	Build lastBuild(String jobName) throws IOException;
 
-	void createBuild(String jobName,BrowsersDTO buildConfig) throws IOException, URISyntaxException;
+	JobWithDetails createBuild(String jobName, BrowsersDTO buildConfig, boolean updatedConfig) throws IOException, URISyntaxException;
 
 	List<BuildDTO> getBuilds(String jobName) throws IOException, URISyntaxException;
 
@@ -46,7 +51,5 @@ public interface JenkinsClient {
 	 * ARTIFACTS
 	 */
 	String getArtifactsBuild(BuildWithDetails buildDetails);
-
-	
 
 }

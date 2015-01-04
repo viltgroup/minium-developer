@@ -3,12 +3,20 @@ package minium.pupino.web.rest;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+import javax.servlet.http.HttpServletRequest;
+
+import minium.pupino.domain.Build;
+import minium.pupino.domain.Project;
+import minium.pupino.repository.ProjectRepository;
+import minium.pupino.service.BuildService;
 import minium.pupino.service.FormatService;
 import minium.pupino.service.JenkinsService;
 import minium.pupino.web.method.support.AntPath;
 import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
+import minium.pupino.worker.JenkinsWorker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.offbytwo.jenkins.model.JobWithDetails;
+
 @Controller
 @RequestMapping("/app/rest")
 public class JenkinsResource {
@@ -30,7 +40,15 @@ public class JenkinsResource {
 
 	@Autowired
 	private JenkinsService jenkinService;
-
+	
+	@Autowired
+	private JenkinsWorker jenkinsWorker;
+	
+	@Autowired
+	private BuildService buildService;
+	
+	@Autowired
+	private ProjectRepository projectService;
 	/**
 	 * GET /builds -> get all the build in jenkins.
 	 * 
@@ -49,11 +67,28 @@ public class JenkinsResource {
 		return jenkinService.getBuildById(jobName,buildID);
 	}
 
-	@RequestMapping(value = "/jenkins/builds/create/{jobName}", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<String> createBuild(@PathVariable("jobName") String jobName,@RequestBody BrowsersDTO buildConfig) throws URISyntaxException, IOException {
-		LOGGER.debug("Create a Build for Job {} with configuration {}",jobName, buildConfig);
-		jenkinService.createBuild(jobName,buildConfig);
-		return new ResponseEntity<String>("Created", HttpStatus.OK);
+	@RequestMapping(value = "/jenkins/builds/create/{projectId}", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<String> createBuild(@PathVariable("projectId") String projectId,@RequestBody BrowsersDTO buildConfig,HttpServletRequest request) throws URISyntaxException, NumberFormatException, InterruptedException, ExecutionException {
+		LOGGER.debug("Create a Build for Job {} with configuration {}",projectId, buildConfig);
+		HttpStatus httpStatus = null;
+		//get sessionID to send message through sockets
+		String sessionID = request.getSession().getId();
+		try {
+			//get the project
+			Project project = projectService.findOne(Long.valueOf(projectId));
+			//create the build in jenkins
+			JobWithDetails job = jenkinService.createBuild(project,buildConfig,false);
+			//create the build in database
+			Build build = buildService.create(project);
+			//start worker
+			jenkinsWorker.checkBuildState(build,job,job.getNextBuildNumber(),sessionID);
+			httpStatus = HttpStatus.CREATED;
+		} catch (IOException e) {
+			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+			e.printStackTrace();	
+		}
+		
+		return new ResponseEntity<String>("Created", httpStatus);
 	}
 	
 	@RequestMapping(value = "/jenkins/builds/{jobName}/{buildId}/**", method = RequestMethod.GET)

@@ -23,13 +23,14 @@
                 <i class="icon-firefox" ng-show="browsers['firefox']"></i>
                 <i class="icon-chrome" ng-show="browsers['chrome']"></i>
                 <i class="icon-ie" ng-show="browsers['IE']"></i>
-                <i class="icon-opera" ng-show="browsers['opera']"></i>                
-
+                <i class="icon-opera" ng-show="browsers['opera']"></i>
         </form>
         </div>
     </div>
     <div class="modal-footer">
 
-        <button class="btn btn-primary" ng-click="launchBuild()">Launch Test Execution</button>
+        <button class="btn btn-primary" ng-click="launchBuild()" ng-disabled="launchingBuild == true">
+            Launch Test Execution
+        </button>
         <button class="btn btn-default" ng-click="cancel()">Cancel</button>
     </div>

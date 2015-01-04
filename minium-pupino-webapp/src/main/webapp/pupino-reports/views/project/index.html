@@ -7,7 +7,7 @@
         <ol class="breadcrumb">
             <li class="active">
                 <a ui-sref="global.project">
-                    <i class="glyphicon glyphicon-home"></i>Projects</a>
+                    <i class="glyphicon glyphicon-home"></i>Projects </a>
             </li>
         </ol>
 
@@ -23,9 +23,9 @@
                     <h3><i class="fa fa-cloud"></i> My Projects <span class="label label-primary">{{projects.length}}</span></h3>
                     <!-- panel-btns -->
                     <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#saveProjectModal" ng-click="clear()">
-                        <span class="glyphicon glyphicon-flash"></span>Create a new Project
+                        <span class="glyphicon glyphicon-plus"></span> Create a new Project
                     </button>
-                    
+
                 </div>
                 <!-- panel-heading -->
                 <div class="panel-body panel-table">
@@ -48,7 +48,7 @@
                                             {{project.name}}
                                         </a>
                                     </td>
-                                    <td ng-if="builds[project.id] != null">
+                                    <td ng-if="builds[project.id] != null && builds[project.id].summary != null ">
                                         <progress>
                                             <bar value="calcPerCent(builds[project.id].summary.passingScenarios,builds[project.id].summary.totalScenarios)" type="success">
                                                 <span>{{calcPerCent(builds[project.id].summary.passingScenarios,builds[project.id].summary.totalScenarios)}}%</span>
@@ -62,8 +62,12 @@
                                         </progress>
 
                                     </td>
-                                    <td ng-if="builds[project.id] == null">
-                                        No execution yet
+                                    <td ng-if="builds[project.id] == null ">
+                                        No execution yet 
+                                    </td>
+
+                                     <td ng-if="builds[project.id] != null && builds[project.id].summary == null">
+                                        No results found
                                     </td>
                                     <td>
                                         <span class="label" ng-class="{'label-danger' : !isPassed(builds[project.id].result),'label-success' : isPassed(builds[project.id].result)}">Failing</span>

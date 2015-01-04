@@ -79,7 +79,7 @@ public class LaunchService {
         this.applicationContext = applicationContext;
     }
 
-    public Feature launch(URI baseUri, LaunchInfo launchInfo) throws IOException {
+	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
         URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
         File tmpFile = File.createTempFile("cucumber", ".json");
@@ -101,7 +101,7 @@ public class LaunchService {
         try {
             notifier = new RunNotifier();
 
-            Result result = run();
+            Result result = run(sessionID);
 
             for (Failure failure : result.getFailures()) {
                 LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
@@ -115,11 +115,11 @@ public class LaunchService {
         return features.get(0);
     }
 
-    private Result run() {
+    private Result run(String sessionID) {
         try {
             Result result = new Result();
             RunListener resultListener = result.createListener();
-            RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate);
+            RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate, sessionID);
             notifier.addFirstListener(resultListener);
             notifier.addListener(pupinoListener);
             Runner runner = new MiniumCucumber(getTestClass(), applicationContext.getAutowireCapableBeanFactory());

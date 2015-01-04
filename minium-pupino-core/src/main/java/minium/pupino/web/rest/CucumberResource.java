@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.service.LaunchService;
 import minium.pupino.web.method.support.BaseURL;
@@ -28,8 +30,8 @@ public class CucumberResource {
 
     @RequestMapping(value = "/launch", method = RequestMethod.POST)
     @ResponseBody
-    public Feature launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo) throws IOException {
-        return launchService.launch(baseUri, launchInfo);
+    public Feature launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo,HttpServletRequest request) throws IOException {
+        return launchService.launch(baseUri, launchInfo,request.getSession().getId());
     }
 
     @RequestMapping(value = "/stepDefinitions", method = RequestMethod.GET)

@@ -35,7 +35,8 @@
     "stomp-websocket": "~2.3.3",
     "jqueryui": "~1.11.2",
     "angular-bindonce": "~0.3.2",
-    "angular-tree-control": "~0.2.7"
+    "angular-tree-control": "~0.2.7",
+    "angular-timer": "~1.2.0"
   },
   "devDependencies": {
     "d3": "~3.4.1",

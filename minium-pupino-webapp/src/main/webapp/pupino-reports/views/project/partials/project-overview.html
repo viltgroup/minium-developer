@@ -24,20 +24,22 @@
                     </div>
                 </div>
 
+                &nbsp;
                 <a id="launchBtn" class="btn btn-primary btn-xs" ui-sref="global.project-detail.overview.launch" title="Launch an execution to run the tests">
                     <i class="fa fa-play"></i> Launch Test execution
                 </a>
 
                 <div class="box-body ">
+
                     <!-- Alert No data -->
-                    <div class="alert alert-info" ng-show="!lastFinishedBuild">
+                    <div class="alert alert-info" ng-show="!buildsFacade.lastFinishedBuild && !buildingBuilds && !buildsFacade.buildingBuilds">
                         <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
                             <i class="fa fa-play"></i> Launch Test execution
                         </a>
                         <strong>Info:</strong> Theres no data
                     </div>
 
-                    <table class="table table-primary table-list" ng-show="lastFinishedBuild">
+                    <table class="table table-primary table-list" ng-show="buildsFacade.lastFinishedBuild || buildsFacade.buildingBuilds">
                         <thead>
                             <tr>
                                 <th>Status</th>
@@ -48,27 +50,68 @@
                                 <th></th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <tr ng-class="{'danger' : (lastFinishedBuild.result != 'SUCCESS') }">
+
+                            <tr ng-show="buildsFacade.buildingBuilds.length > 0">
                                 <td>
-                                    <icon-item content="lastFinishedBuild.result" type="build"></icon-item>
-                                    <br>
-                                    <span ng-if="$index == 0" class="label label-primary">Last Stable lastFinishedBuild</span>
+                                    <i class="fa fa-2x fa-gear fa-spin"></i>
+                                    <!-- <span ng-repeat="b in buildsFacade.buildingBuilds">
+                                        {{b.id}} 
+                                    </span> -->
                                 </td>
                                 <td>
-                                    <a ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">
-                                        {{lastFinishedBuild.fullDisplayName}}
+                                
+                                </td>
+
+                                <td ng-hide="estimatedTime != 0"> <i class="fa fa-spinner fa-spin"></i> Fetching data </td>
+                                <td ng-hide="estimatedTime == 0">
+                                    Launch at {{time}}
+                                    <br> Estimated Time {{duration | durationInMinutes}} seconds
+                                    <!-- <br> {{estimatedRemainning}} -->
+                                    <!-- Remainning {{estimatedRemainning | humanize}} -->
+                                    <br>
+
+                                </td>
+                                <td ng-hide="estimatedTime == 0">
+                                    {{buildingBuilds[0].state}} Executing
+                                </td>
+
+                                <td ng-hide="estimatedTime == 0">
+                                    <div class="progress progress-striped active sm">
+                                        <div class="progress-bar bar" style="width: {{estimatedTime}}%;">
+
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+
+
+                        <!-- LAST BUILD -->
+                        <tbody ng-show="buildsFacade.lastFinishedBuild">
+                            <tr ng-class="{'danger' : (buildsFacade.lastFinishedBuild.result != 'SUCCESS') }">
+                                <td>
+                                    <icon-item content="buildsFacade.lastFinishedBuild.result" type="build"></icon-item>
+                                    <br>
+                                    <span ng-if="$index == 0" class="label label-primary">Last Stable buildsFacade.lastFinishedBuild</span>
+                                </td>
+                                <td>
+                                    <a ui-sref="global.build({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id })">
+                                        {{buildsFacade.lastFinishedBuild.fullDisplayName}}
                                     </a>
 
                                 </td>
                                 <td>
-                                    <i class="fa fa-clock-o"></i> {{lastFinishedBuild.key | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> {{buildsFacade.lastFinishedBuild.key | humanizeDate}}
                                 </td>
                                 <td>
-                                    {{lastFinishedBuild.duration | durationMilliseconds}}
+                                    {{buildsFacade.lastFinishedBuild.duration | durationMilliseconds}}
                                 </td>
 
                                 <td>
+
                                     <progress>
                                         <bar value="calcPerCent(summary.passed,summary.totalScenarios)" type="success">
                                             <span>{{calcPerCent(summary.passed,summary.totalScenarios)}}%</span>
@@ -76,15 +119,18 @@
                                         <bar value="calcPerCent(summary.failed,summary.totalScenarios)" type="danger">
                                             <span>{{calcPerCent(summary.failed,summary.totalScenarios)}}%</span>
                                         </bar>
-                                        <bar value="calcPerCent(summary.failed,summary.totalScenarios)" type="danger">
-                                            <span>{{calcPerCent(summary.failed,summary.totalScenarios)}}%</span>
+                                        <bar value="calcPerCent(summary.skipped,summary.totalScenarios)" type="warning">
+                                            <span>{{calcPerCent(summary.skipped,summary.totalScenarios)}}%</span>
+                                        </bar>
+                                        <bar value="calcPerCent(summary.undefined,summary.totalScenarios)" type="info">
+                                            <span>{{calcPerCent(summary.undefined,summary.totalScenarios)}}%</span>
                                         </bar>
                                     </progress>
                                 </td>
 
 
                                 <td>
-                                    <a class='btn btn-primary btn-xs' ui-sref="global.build({ id: project.id, buildId: lastFinishedBuild.id })">
+                                    <a class='btn btn-primary btn-xs' ui-sref="global.build({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id })">
                                        Show
                                        </a>
                                 </td>
@@ -98,9 +144,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="build in builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
+                            <tr ng-repeat="build in buildsFacade.builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
                                 <td>
-
                                     <icon-item content="build.result" type="build"></icon-item>
                                     <br>
                                 </td>
@@ -162,7 +207,7 @@
                                     <icon-item content="feature.status" type="feature"></icon-item>
                                 </td>
                                 <td>
-                                    <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
+                                    <a ui-sref="global.feature({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
                                     {{feature.rawName}}
                                     </a>
                                 </td>
@@ -221,7 +266,8 @@
                 <li><a show-tab href="#line-chart" data-toggle="tab">Evolution</a>
                 </li>
 
-                <li class="pull-left header"><i class="fa fa-inbox"></i> Stats</li>
+                <li class="pull-left header"><i class="fa fa-inbox"></i> Stats for scenarios of last executions
+                </li>
             </ul>
             <div class="tab-content no-padding">
                 <div class="chart tab-pane active" id="pie-chart">

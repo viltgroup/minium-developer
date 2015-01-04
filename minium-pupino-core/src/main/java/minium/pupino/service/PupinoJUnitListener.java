@@ -19,12 +19,14 @@ public class PupinoJUnitListener extends RunListener {
 	private TestExecutionDTO testExecution;
 	private int passed;
 	private int failing;
-
+	private String sessionID;
+	
 	@Autowired
-	public PupinoJUnitListener(final MessageSendingOperations<String> messagingTemplate) {
+	public PupinoJUnitListener(final MessageSendingOperations<String> messagingTemplate,String sessionID) {
 		this.messagingTemplate = messagingTemplate;
 		passed = 0;
 		failing = 0;
+		this.sessionID = sessionID;
 	}
 
 	/**
@@ -32,7 +34,7 @@ public class PupinoJUnitListener extends RunListener {
 	 * */
 	public void testRunStarted(Description description) throws java.lang.Exception {
 		testExecution = new TestExecutionDTO(Integer.toString(description.testCount()), "total", description.getMethodName());
-		messagingTemplate.convertAndSend("/tests", testExecution);
+		messagingTemplate.convertAndSend("/tests/"+ sessionID, testExecution);
 		LOGGER.info("Number of testcases to execute : " + description.testCount());
 	}
 
@@ -58,7 +60,7 @@ public class PupinoJUnitListener extends RunListener {
 		if (description.getMethodName() != null) {
 			passed++;
 			testExecution = new TestExecutionDTO(Integer.toString(passed), "passed", description.getMethodName());
-			messagingTemplate.convertAndSend("/tests", testExecution);
+			messagingTemplate.convertAndSend("/tests/"+ sessionID, testExecution);
 			LOGGER.info("Finished execution of test case : " + description.getMethodName());
 		}
 	}
@@ -69,7 +71,7 @@ public class PupinoJUnitListener extends RunListener {
 	public void testFailure(Failure failure) throws java.lang.Exception {
 		failing++;
 		testExecution = new TestExecutionDTO(failure.getMessage(), "failing", failure.getDescription().getMethodName());
-		messagingTemplate.convertAndSend("/tests", testExecution);
+		messagingTemplate.convertAndSend("/tests/"+ sessionID, testExecution);
 		LOGGER.info("Execution of test case failed : " + failure.getMessage());
 	}
 

@@ -52,7 +52,7 @@ function SelectorGadgetCtrl($rootScope, $scope, $location, $modalInstance, Selec
 };
 
 var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, EvalService, FS, launcherService, FormatService, StepProvider, SnippetsProvider, FeatureFacade) {
-    
+
     console.debug("loaded EditorAreaController")
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -73,7 +73,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
                 $scope.editor.scrollToLine($state.params.line, true, true, function() {});
                 $scope.editor.gotoLine($state.params.line, 0, true);
             }
-            
+
             $timeout(checkModified, 2000);
         });
     };
@@ -146,12 +146,13 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
     $scope.cenas = 0;
     var subscribeMessages = function() {
 
+        var session_id = $scope.readCookie("JSESSIONID");
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
 
             console.log('Connected: ' + frame);
-            stompClient.subscribe("/tests", function(message) {
+            stompClient.subscribe("/tests/"+ session_id, function(message) {
                 var body = message.body;
                 console.log(eval('(' + body + ')'));
                 var testMessage = eval('(' + body + ')');
@@ -178,7 +179,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
 
             var range = ace.require('ace/range').Range;
 
-            stompClient.subscribe("/cucumber", function(message) {
+            stompClient.subscribe("/cucumber/"+ session_id, function(message) {
                 console.log(message.body);
                 var step = JSON.parse(message.body);
                 var markerId;
@@ -192,6 +193,9 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
                     case "executing":
                         markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
                         breakpoint(step.line - 1);
+                        break;
+                    case "undefined":
+                        markerId = $scope.editor.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
                         break;
                     default: //do nothing
                 }
@@ -241,8 +245,8 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
 
         //reset the variable
         executionWasStopped = false;
-        var x ;
-        
+        var x;
+
         launcherService.launch(launchParams).success(function(data) {
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
@@ -255,7 +259,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
             $scope.resultsSummary.skipped = feature.skippedSteps.length;
 
             $scope.resultsSummary.runCount = feature.passedSteps.length + feature.notPassingsteps.length;
-            
+
             // //convert in millisecond
             $scope.resultsSummary.runTime = feature.totalDuration / 1000000.0;
 
@@ -265,7 +269,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
                 var result = step.status;
                 var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
                 var lines = msg;
-                console.debug(step + "\n"+ lines.slice(0, 10));
+                console.debug(step + "\n" + lines.slice(0, 10));
                 // if (lines.length > 10) {
                 //     msg = lines.slice(0, 10).join("\n");
                 // }
@@ -558,12 +562,12 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
         $(".navbar-brand").css('color', '#f9f9f9');
     });
 
-    
+
     /*
     MULTITAB
      */
     $scope.multiTab = false;
 
 
-  
+
 };

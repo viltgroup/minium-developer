@@ -15,9 +15,8 @@ import org.springframework.data.repository.query.Param;
  */
 public interface BuildRepository extends JpaRepository<Build, Long>	 {
 	
-    public List<Build> findByProject(@Param("project") Project project);
+    public List<Build> findByProjectOrderByNumberDesc(@Param("project") Project project);
     
-    //@Query("SELECT b FROM Build b where b.id = (SELECT MAX(number) from Build where project= :project_val ) ")
     @Query("SELECT b FROM Build b where b.project= :project_val ORDER BY b.number DESC ")
     public List<Build> findLastBuild(@Param("project_val") Project project,Pageable page);
 }

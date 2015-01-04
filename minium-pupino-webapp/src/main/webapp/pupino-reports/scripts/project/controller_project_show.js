@@ -1,13 +1,9 @@
 'use strict';
 
-pupinoReports.controller('ProjectDetailController', function($scope, $state, resolvedProject, Project, JenkinsProvider, BuildsFacade, BuildProject) {
+pupinoReports.controller('ProjectDetailController', function($scope, $state, $interval, resolvedProject, Project, JenkinsProvider, BuildsFacade, BuildProject, EstimationTime, UtilsService) {
     //init variables
     $scope.project = resolvedProject;
-    $scope.features = [];
-    $scope.buildId;
 
-    $scope.faillingFeatures = [];
-    $scope.passingFeatures = [];
 
     $scope.summary = {
         totalScenarios: 0,
@@ -15,46 +11,31 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
         failed: 0
     }
 
-    $state.go('.overview');
-
+    $scope.buildsFacade;
     var buildSuccess, buildFailling;
 
+    $state.go('.overview');
+
+
     var getBuilds = function() {
+        $scope.faillingFeatures = [];
+        $scope.passingFeatures = [];
+
         BuildProject.findByProject($scope.project).success(function(data) {
             //check if has builds
             if (isEmptyObject(data)) {
                 return;
             }
+            $scope.buildsFacade = new BuildsFacade(data);
 
-            var buildsFacade = new BuildsFacade(data);
-            $scope.builds = buildsFacade.builds;
-
-            $scope.lastFinishedBuild = buildsFacade.lastBuild;
-
-            $scope.features = buildsFacade.features;
+            console.log($scope.buildsFacade);
 
             //get some stats
-            buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
+            $scope.buildsFacade.processReport($scope.summary, $scope.faillingFeatures, $scope.passingFeatures);
             // var summary = buildsFacade.getSummary();
             // buildSuccess = summary.passingScenarios;
             //buildFailling = summary.faillingScenarios;
-            console.log(buildsFacade);
 
-
-            buildSuccess = [
-                [1, 100],
-                [2, 200],
-                [3, 59],
-                [4, 569]
-
-            ];
-
-            buildFailling = [
-                [1, 169],
-                [2, 269],
-                [3, 609],
-                [4, 0]
-            ];
             processData();
 
         }).error(function(serverResponse) {
@@ -63,9 +44,9 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
 
     }
 
-   
 
-    var colorArray = ['green', 'red', 'blue'];
+    //REFACTOR
+    var colorArray = ['green', 'red', '#f39c12'];
     $scope.colorFunction = function() {
         return function(d, i) {
             return colorArray[i];
@@ -89,7 +70,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
             y: ($scope.summary.failed / 100)
         }, {
             key: "Skipped",
-            y: 0
+            y: ($scope.summary.skipped / 100)
         }];
     }
 
@@ -111,24 +92,79 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
         }
     }
 
+
+    $scope.estimatedTime = 0;
+    /** WEBSOCKETS */
+    var subscribeBuilding = function() {
+        var session_id = $scope.readCookie("JSESSIONID");
+        var socket = new SockJS("/app/ws");
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({}, function(frame) {
+            stompClient.subscribe("/building/" + session_id, function(data) {
+                console.debug(data);
+                //data arrive like duration-timestamp ("2222-14000000")
+                var res = data.body.split("-");
+                //return data 
+                estimationTime(parseInt(res[1]), parseInt(res[0]));
+                $scope.duration = parseInt(res[0]);
+                $scope.time = moment(parseInt(res[1])).format('YYYY-MM-DD HH:mm');
+
+            });
+        });
+    };
+    $scope.duration = 0;
+    $scope.time = 0;
+    $scope.time2 = 1420070400000;
+    var stop;
+    var estimationTime = function(timestamp, duration) {
+        //create an object to calculate the estimation for the build progress
+        var estimation = new EstimationTime(timestamp, duration);
+
+        if (angular.isDefined(stop)) return;
+
+        stop = $interval(function() {
+            //return the progress of the build
+            $scope.estimatedTime = estimation.currentTime();
+            $scope.estimatedRemainning = estimation.duration();
+            if ($scope.estimatedTime >= 150) {
+                console.log("Stopeedes")
+                $scope.stop();
+                //update the builds
+                getBuilds();
+            }
+        }, 1000);
+
+        $scope.stop = function() {
+            if (angular.isDefined(stop)) {
+                $interval.cancel(stop);
+                stop = undefined;
+            }
+        }
+    }
+
+
+    $scope.$on('$destroy', function() {
+        // Make sure that the interval is destroyed too
+        $scope.stop();
+    });
+
+    $scope.calcPerCent = function(value, total) {
+        return UtilsService.calcPerCent(value, total);
+    }
+
     /*
-        Initializations
-     */
+       Initializations
+    */
 
     //get all the builds
     getBuilds();
 
+    subscribeBuilding();
 
-    /**
-     * AUX functions
-     */
-    $scope.isSuccess = function(value) {
-        return value === "SUCCESS";
-    }
-
-    $scope.isPassed = function(value) {
-        return value === "PASSED";
-    }
+    $scope.$on('trackLoaded', function(event, track) {
+        $scope.buildsFacade = track;
+        console.log($scope.buildsFacade);
+    });
 
 
     var isEmptyObject = function(obj) {
@@ -140,8 +176,5 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, res
             return true;
     }
 
-    $scope.calcPerCent = function(value, total) {
-        return (100 * value / total).toFixed(2);
-    }
 
 });

@@ -20,6 +20,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 import minium.pupino.webdrivers.WebDriverInfo.Type;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,8 +37,9 @@ import com.vilt.minium.DefaultWebElementsDriver;
 public class WebDriversResource {
 
 	@Autowired
+	@Lazy
     private DefaultWebElementsDriver wd;
-	
+
     @RequestMapping(value = "/{var}/create",method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(CREATED)
@@ -46,5 +48,5 @@ public class WebDriversResource {
     	int x = 1;
     	x = 2;
     }
-    
+
 }

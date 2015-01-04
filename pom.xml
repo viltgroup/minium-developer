@@ -335,7 +335,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -365,25 +364,24 @@
         </dependency>
 		<dependency>
             <groupId>info.cukes</groupId>
-            <artifactId>cucumber-core</artifactId>
+            <artifactId>cucumber-junit</artifactId>
             <version>${cucumber.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-rhino</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.vilt-group.minium</groupId>
+            <artifactId>minium-script</artifactId>
+            <version>${minium.version}</version>
         </dependency>
 		<dependency>
             <groupId>com.vilt-group.minium</groupId>
             <artifactId>cucumber-rest</artifactId>
             <version>${cucumber.rest.version}</version>
         </dependency>
-		<dependency>
-			<groupId>com.vilt-group.minium</groupId>
-			<artifactId>minium-script-cucumber</artifactId>
-			<version>${minium.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>closure-compiler</artifactId>
-					<groupId>com.google.javascript</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

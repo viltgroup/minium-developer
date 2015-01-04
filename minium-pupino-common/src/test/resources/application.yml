@@ -1,0 +1,29 @@
+cucumber.remoteBackends:
+
+  - backendId: b1
+    url: http://minium/b1
+
+  - backendId: b2
+    url: http://minium/b2
+    credentials:
+      username: admin
+      password: secret
+
+minium.webdriver:
+  url: http://localhost:4444/wd/hub
+  
+  elementInterfaces:
+    - minium.pupino.webdriver.SelectorGadgetWebElements
+  
+  desiredCapabilities:
+    browserName: chrome
+    version:     39.0
+    platform:    LINUX
+  
+  requiredCapabilities:
+    platform: LINUX
+    
+  window:
+    size:
+      width:  1280 
+      height: 1024

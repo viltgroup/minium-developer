@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-starter-parent</artifactId>
         <groupId>org.springframework.boot</groupId>
-        <version>1.2.0.RC2</version>
+        <version>1.2.0.RELEASE</version>
         <relativePath/>
     </parent>
 
@@ -43,6 +43,8 @@
         <spring-cloud.version>1.1.0.RELEASE</spring-cloud.version>
         <swagger-springmvc.version>0.8.8</swagger-springmvc.version>
         <usertype-core.version>3.2.0.GA</usertype-core.version>
+		<!-- cucumber 1.20 doesn't seem to support 4.12 yet -->
+        <junit.version>4.11</junit.version>
         
         <!-- Other libraries -->
         <guava.version>18.0</guava.version>
@@ -515,14 +517,6 @@
 		</repository>
 
 		<repository>
-	        <id>spring-milestones</id>
-	        <name>Spring Milestones</name>
-	        <url>http://repo.spring.io/milestone</url>
-	        <snapshots>
-	            <enabled>false</enabled>
-	        </snapshots>
-        </repository>
-		<repository>
 			<id>repo.jenkins-ci.org</id>
 			<url>http://repo.jenkins-ci.org/public/</url>
 		</repository>
@@ -531,13 +525,5 @@
 			<url>http://repo.bodar.com</url>
 		</repository>
     </repositories>
-    
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-plugin-milestone</id>
-            <name>Spring Framework Maven Milestone Repository</name>
-            <url>http://repo.spring.io/milestone/</url>
-        </pluginRepository>
-    </pluginRepositories>
     
 </project>

@@ -3,14 +3,15 @@
 #set( $symbol_escape = '\' )
 package ${package};
 
+import minium.pupino.cucumber.JsVariable;
+import minium.pupino.cucumber.MiniumCucumber;
+
 import org.junit.runner.RunWith;
 import org.mozilla.javascript.Scriptable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.vilt.minium.DefaultWebElementsDriver;
-import com.vilt.minium.script.test.JsVariable;
-import com.vilt.minium.script.cucumber.MiniumCucumber;
 
 import cucumber.api.CucumberOptions;
 

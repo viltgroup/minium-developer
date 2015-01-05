@@ -44,7 +44,6 @@ public class CucumberConfigurationTest {
 
     private RemoteBackendProperties create(String url, String backendId) {
         RemoteBackendProperties remoteBackendProperties = new RemoteBackendProperties();
-        remoteBackendProperties.setBackendId(backendId);
         remoteBackendProperties.setUrl(url);
         return remoteBackendProperties;
     }

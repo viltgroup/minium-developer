@@ -61,7 +61,6 @@ public class CucumberProperties {
 
         private CredentialsProperties credentials;
         private String url;
-        private String backendId;
 
         public CredentialsProperties getCredentials() {
             return credentials;
@@ -79,14 +78,6 @@ public class CucumberProperties {
             this.url = url;
         }
 
-        public String getBackendId() {
-            return backendId;
-        }
-
-        public void setBackendId(String backendId) {
-            this.backendId = backendId;
-        }
-
         public RemoteBackend createRemoteBackend() {
             CloseableHttpClient httpClient;
             if (credentials != null) {
@@ -99,15 +90,14 @@ public class CucumberProperties {
 
             HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
             RestTemplate restTemplate = new RestTemplate(factory);
-            return new RemoteBackend(url, backendId, restTemplate);
+            return new RemoteBackend(url, restTemplate);
         }
 
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof RemoteBackendProperties) {
                 RemoteBackendProperties other = (RemoteBackendProperties) obj;
-                return Objects.equal(this.backendId, other.backendId) &&
-                        Objects.equal(this.url, other.url) &&
+                return Objects.equal(this.url, other.url) &&
                         Objects.equal(this.credentials, other.credentials);
             }
             return false;
@@ -115,7 +105,7 @@ public class CucumberProperties {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(backendId, url, credentials);
+            return Objects.hashCode(url, credentials);
         }
     }
 
@@ -123,5 +113,9 @@ public class CucumberProperties {
 
     public List<RemoteBackendProperties> getRemoteBackends() {
         return remoteBackends;
+    }
+
+    public void setRemoteBackends(List<RemoteBackendProperties> remoteBackends) {
+        this.remoteBackends = remoteBackends;
     }
 }

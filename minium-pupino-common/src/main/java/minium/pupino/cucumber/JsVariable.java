@@ -24,6 +24,4 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface JsVariable {
     public String value();
-    public abstract String resource() default "";
-    public abstract String resourceBean() default "";
 }

@@ -21,6 +21,7 @@ import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,7 +105,9 @@ public class WebElementsDriversConfiguration {
         DesiredCapabilities requiredCapabilities = new DesiredCapabilities(webElementsDriversProperties.getRequiredCapabilities());
         WebDriver webDriver = null;
         if (webElementsDriversProperties.getUrl() != null) {
-            webDriver = new RemoteWebDriver(webElementsDriversProperties.getUrl(), desiredCapabilities, requiredCapabilities);
+            RemoteWebDriver remoteDriver = new RemoteWebDriver(webElementsDriversProperties.getUrl(), desiredCapabilities, requiredCapabilities);
+            remoteDriver.setFileDetector(new LocalFileDetector());
+            webDriver = remoteDriver;
         } else {
             String browserName = desiredCapabilities == null ? null : desiredCapabilities.getBrowserName();
             if (StringUtils.isEmpty(browserName)) browserName = BrowserType.CHROME;

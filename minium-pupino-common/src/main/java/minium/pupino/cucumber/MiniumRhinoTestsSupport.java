@@ -16,44 +16,141 @@
 package minium.pupino.cucumber;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.base.Throwables.propagate;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.json.JsonParser;
-import org.mozilla.javascript.json.JsonParser.ParseException;
+import org.mozilla.javascript.Wrapper;
 import org.mozilla.javascript.tools.shell.Global;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.ReflectionUtils.FieldCallback;
 
-import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.vilt.minium.script.MiniumContextLoader;
 
 public class MiniumRhinoTestsSupport {
 
+    public static class ConfigPropertiesJavaNativeObject implements Scriptable, Wrapper, Serializable {
+
+        private static final long serialVersionUID = 898497710434802973L;
+
+        private Scriptable parent;
+        private Scriptable prototype;
+        private Map<String, Object> javaObject;
+
+        public ConfigPropertiesJavaNativeObject(Scriptable scope, Map<String, Object> obj) {
+            parent = scope;
+            this.javaObject = obj;
+        }
+
+        @Override
+        public String getClassName() {
+            return ConfigProperties.class.getSimpleName();
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public Object get(String name, Scriptable start) {
+            if ("length".equals(name)) return javaObject.size();
+            Object props = javaObject.get(name);
+            if (props == null) return null;
+            if (props instanceof Map) return new ConfigPropertiesJavaNativeObject(this, (Map<String, Object>) props);
+            Context cx  = Context.getCurrentContext();
+            return cx.getWrapFactory().wrap(cx, this, props, props.getClass());
+        }
+
+        @Override
+        public Object get(int index, Scriptable start) {
+            return get(Integer.toString(index), start);
+        }
+
+        @Override
+        public boolean has(String name, Scriptable start) {
+            return javaObject.containsKey(name);
+        }
+
+        @Override
+        public boolean has(int index, Scriptable start) {
+            return javaObject.containsKey(Integer.toString(index));
+        }
+
+        @Override
+        public void put(String name, Scriptable start, Object value) {
+            // read only
+        }
+
+        @Override
+        public void put(int index, Scriptable start, Object value) {
+            // read only
+        }
+
+        @Override
+        public void delete(String name) {
+            // permanent
+        }
+
+        @Override
+        public void delete(int index) {
+            // permanent
+        }
+
+        @Override
+        public Scriptable getPrototype() {
+            return prototype;
+        }
+
+        @Override
+        public void setPrototype(Scriptable prototype) {
+            this.prototype = prototype;
+        }
+
+        @Override
+        public Scriptable getParentScope() {
+            return parent;
+        }
+
+        @Override
+        public void setParentScope(Scriptable parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public Object[] getIds() {
+            return javaObject.keySet().toArray();
+        }
+
+        @Override
+        public Object getDefaultValue(Class<?> hint) {
+            return new ConfigProperties();
+        }
+
+        @Override
+        public boolean hasInstance(Scriptable instance) {
+            // This is an instance of a Java class, so always return false
+            return false;
+        }
+
+        @Override
+        public Object unwrap() {
+            return javaObject;
+        }
+    }
+
     private ClassLoader classLoader;
     private Object testInstance;
-    private BeanFactory beanFactory;
     private Context cx;
     private Scriptable scope;
 
-    public MiniumRhinoTestsSupport(ClassLoader classLoader, Object testInstance, BeanFactory beanFactory, Context cx, Scriptable scope) {
+    public MiniumRhinoTestsSupport(ClassLoader classLoader, Object testInstance, Context cx, Scriptable scope) {
         this.classLoader = classLoader;
         this.testInstance = testInstance;
-        this.beanFactory = beanFactory;
         this.cx = cx;
         this.scope = scope;
     }
@@ -80,12 +177,12 @@ public class MiniumRhinoTestsSupport {
                     String varName = jsVariable.value();
                     checkNotNull(varName, "@JsVariable.value() should not be null");
                     Object fieldVal = f.get(testInstance);
-                    Object val = getVal(jsVariable, f.getType(), fieldVal);
-                    put(scope, varName, val);
+                    f.set(testInstance, fieldVal);
 
-                    if (fieldVal == null && val != null) {
-                        f.set(testInstance, val);
+                    if (fieldVal != null) {
+                        fieldVal = getVal(jsVariable, f.getType(), fieldVal);
                     }
+                    put(scope, varName, fieldVal);
                 }
             });
 
@@ -98,44 +195,7 @@ public class MiniumRhinoTestsSupport {
     }
 
     protected Object getVal(JsVariable jsVariable, Class<?> clazz, Object object) {
-        try {
-            Resource resource = getResource(jsVariable);
-
-            if (resource != null) {
-                if (clazz == String.class) {
-                    InputStream is = resource.getInputStream();
-                    try {
-                        return IOUtils.toString(is, Charsets.UTF_8.name());
-                    } finally {
-                        IOUtils.closeQuietly(is);
-                    }
-                } else {
-                    Object val = parseJson(cx, scope, resource);
-                    checkState(clazz.isAssignableFrom(val.getClass()));
-                    return val;
-                }
-            } else {
-                return object;
-            }
-        } catch (IOException e) {
-            throw propagate(e);
-        } catch (ParseException e) {
-            throw propagate(e);
-        }
-    }
-
-    protected Resource getResource(JsVariable jsVariable) {
-        String resourcePath = jsVariable.resource();
-        Resource resource = null;
-        if (StringUtils.isNotEmpty(resourcePath)) {
-            resource = new DefaultResourceLoader(classLoader).getResource(resourcePath);
-        } else if (StringUtils.isNotEmpty(jsVariable.resourceBean())) {
-            resource = beanFactory.getBean(jsVariable.resourceBean(), Resource.class);
-        }
-        if (resource == null) return null;
-
-        checkState(resource.exists() && resource.isReadable());
-        return resource;
+        return clazz == ConfigProperties.class ? new ConfigPropertiesJavaNativeObject(scope, (ConfigProperties) object) : object;
     }
 
     protected void put(Scriptable scope, String name, Object value) {
@@ -144,15 +204,6 @@ public class MiniumRhinoTestsSupport {
 
     protected void delete(Scriptable scope, String name) {
         scope.delete(name);
-    }
-
-    protected Object parseJson(Context cx, Scriptable scope, Resource resource) throws ParseException, IOException {
-        String json = IOUtils.toString(resource.getInputStream());
-        return parseJson(cx, scope, json);
-    }
-
-    protected Object parseJson(Context cx, Scriptable scope, String json) throws ParseException {
-        return new JsonParser(cx, scope).parseValue(json);
     }
 
     protected List<String> getModulesUrls() throws IOException {

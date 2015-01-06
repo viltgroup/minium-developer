@@ -182,7 +182,7 @@ public class LaunchService {
 
         Context cx = Context.enter();
         Global scope = new Global(cx);
-        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, testInstance, applicationContext, cx, scope);
+        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, testInstance, cx, scope);
         support.initialize();
 
         MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);

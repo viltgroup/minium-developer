@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minium.pupino.cucumber.config;
+package minium.pupino.config.cucumber;
 
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;

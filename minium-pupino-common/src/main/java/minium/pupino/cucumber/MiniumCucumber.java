@@ -100,7 +100,7 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
 
         Context cx = Context.enter();
         Global scope = new Global(cx);
-        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, testInstance, beanFactory, cx, scope);
+        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, testInstance, cx, scope);
         support.initialize();
 
         MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);

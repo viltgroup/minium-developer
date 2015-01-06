@@ -3,13 +3,13 @@
 #set( $symbol_escape = '\' )
 package ${package};
 
+import minium.pupino.cucumber.ConfigProperties;
 import minium.pupino.cucumber.JsVariable;
 import minium.pupino.cucumber.MiniumCucumber;
 
 import org.junit.runner.RunWith;
-import org.mozilla.javascript.Scriptable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 
 import com.vilt.minium.DefaultWebElementsDriver;
 
@@ -21,13 +21,14 @@ import cucumber.api.CucumberOptions;
         glue     = { "classpath:cucumber/runtime/minium", "src/test/resources/steps" },
         features = { "src/test/resources/features" }
 )
-@ContextConfiguration(classes = TestConfig.class)
+@SpringApplicationConfiguration(classes = TestConfig.class)
 public class ${testClassname} {
 
     @Autowired
     @JsVariable("wd")
     private DefaultWebElementsDriver wd;
 
-    @JsVariable(value = "config", resourceBean = "configFile")
-    private Scriptable config;
+    @Autowired
+    @JsVariable("config")
+    private ConfigProperties config;
 }

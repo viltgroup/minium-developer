@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import minium.pupino.cucumber.JsVariablePostProcessor;
 import minium.pupino.cucumber.MiniumBackend;
 import minium.pupino.cucumber.MiniumCucumber;
 import minium.pupino.cucumber.MiniumRhinoTestContextManager;
@@ -72,11 +73,13 @@ public class LaunchService {
     private RunNotifier notifier;
 
     private ConfigurableApplicationContext applicationContext;
+    private JsVariablePostProcessor variablePostProcessor;
 
     @Autowired
-    public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext) {
+    public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext, JsVariablePostProcessor variablePostProcessor) {
         LaunchService.messagingTemplate = messagingTemplate;
         this.applicationContext = applicationContext;
+        this.variablePostProcessor = variablePostProcessor;
     }
 
 	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
@@ -122,7 +125,9 @@ public class LaunchService {
             RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate, sessionID);
             notifier.addFirstListener(resultListener);
             notifier.addListener(pupinoListener);
-            Runner runner = new MiniumCucumber(getTestClass(), applicationContext.getAutowireCapableBeanFactory());
+
+            Class<?> testClass = getTestClass();
+            Runner runner = new MiniumCucumber(testClass, applicationContext.getAutowireCapableBeanFactory());
             try {
                 notifier.fireTestRunStarted(runner.getDescription());
                 runner.run(notifier);
@@ -182,7 +187,7 @@ public class LaunchService {
 
         Context cx = Context.enter();
         Global scope = new Global(cx);
-        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, testInstance, cx, scope);
+        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, cx, scope, applicationContext.getAutowireCapableBeanFactory(), variablePostProcessor);
         support.initialize();
 
         MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);

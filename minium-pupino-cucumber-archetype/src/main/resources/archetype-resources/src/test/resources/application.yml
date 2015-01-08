@@ -6,7 +6,7 @@ minium.webdriver:
     maximized: true
 
 # Configuration that can be injected in your tests
-config:
+minium.config:
   searches:
     Minium Github:
       - https://github.com/viltgroup/minium

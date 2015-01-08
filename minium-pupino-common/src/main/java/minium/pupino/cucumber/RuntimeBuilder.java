@@ -16,6 +16,7 @@
 package minium.pupino.cucumber;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
@@ -77,7 +78,11 @@ public class RuntimeBuilder {
     }
 
     public RuntimeBuilder withArgs(String ... args) {
-        this.args.addAll(Arrays.asList(args));
+        return withArgs(Arrays.asList(args));
+    }
+
+    public RuntimeBuilder withArgs(Collection<String> args) {
+        this.args.addAll(args);
         return this;
     }
 
@@ -86,7 +91,7 @@ public class RuntimeBuilder {
         if (resourceLoader == null) resourceLoader = new MultiLoader(classLoader);
         if (pluginFactory == null) pluginFactory = new PluginFactory();
         if (runtimeOptions == null) {
-            Preconditions.checkArgument(args.isEmpty() || testClass != null, "RuntimeOptions not provided, need args or testClass");
+            Preconditions.checkArgument(!args.isEmpty() || testClass != null, "RuntimeOptions not provided, need args or testClass");
             runtimeOptions = args.isEmpty() ? new RuntimeOptionsFactory(testClass).create() : new RuntimeOptions(pluginFactory, args);
         }
         return new Runtime(resourceLoader, classLoader, backends, runtimeOptions);

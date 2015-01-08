@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import minium.pupino.config.cucumber.CucumberProperties;
+
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
@@ -28,6 +30,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 
 import com.google.common.base.Throwables;
@@ -60,17 +63,22 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniumCucumber.class);
 
-    private final JUnitReporter jUnitReporter;
-    private final List<FeatureRunner> children = new ArrayList<FeatureRunner>();
-    private final Runtime runtime;
+    private JUnitReporter jUnitReporter;
+    private List<FeatureRunner> children = new ArrayList<FeatureRunner>();
+    private Runtime runtime;
+    private ClassLoader classLoader;
+
+    @Autowired
+    private JsVariablePostProcessor variablePostProcessor;
 
     public MiniumCucumber(Class<?> clazz) throws InitializationError, IOException {
         this(clazz, null);
     }
 
+    @SuppressWarnings("unchecked")
     public MiniumCucumber(Class<?> clazz, AutowireCapableBeanFactory beanFactory) throws InitializationError, IOException {
         super(clazz);
-        ClassLoader classLoader = clazz.getClassLoader();
+        classLoader = clazz.getClassLoader();
         Assertions.assertNoCucumberAnnotatedMethods(clazz);
 
         Object testInstance = null;
@@ -80,27 +88,29 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
             beanFactory = contextManager.getBeanFactory();
             testInstance = contextManager.newInstance();
         } else {
-            try {
-                testInstance = clazz.newInstance();
-                beanFactory.autowireBeanProperties(testInstance, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
-                beanFactory.initializeBean(testInstance, clazz.getName());
-            } catch (Exception e) {
-                throw Throwables.propagate(e);
-            }
+            testInstance = newInstance(clazz);
+            initializeInstance(clazz, beanFactory, testInstance);
         }
 
+        initializeInstance(MiniumCucumber.class, beanFactory, this);
         ResourceLoader resourceLoader = new MultiLoader(classLoader);
 
-        @SuppressWarnings("unchecked")
-        List<RemoteBackend> remoteBackends = beanFactory.containsBean("remoteBackends") ?
-                (List<RemoteBackend>) beanFactory.getBean("remoteBackends") :
-                Collections.<RemoteBackend>emptyList();
+        CucumberProperties properties = beanFactory.getBean(CucumberProperties.class);
+        List<String> args = properties.getOptions().toArgs();
 
+        List<RemoteBackend> remoteBackends;
+        if (beanFactory.containsBean("remoteBackends")) {
+            remoteBackends = (List<RemoteBackend>) beanFactory.getBean("remoteBackends");
+        } else {
+            remoteBackends = Collections.emptyList();
+        }
+
+        LOGGER.debug("Found cucumber options {}", args);
         LOGGER.debug("Found {} remote backends", remoteBackends.size());
 
         Context cx = Context.enter();
         Global scope = new Global(cx);
-        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, testInstance, cx, scope);
+        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, cx, scope, beanFactory, variablePostProcessor);
         support.initialize();
 
         MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);
@@ -108,15 +118,34 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
 
         RuntimeBuilder runtimeBuilder = new RuntimeBuilder();
         runtime = runtimeBuilder
-            .withTestClass(clazz)
-            .withClassLoader(classLoader)
-            .withResourceLoader(resourceLoader)
-            .withBackends(allBackends)
-            .build();
+                .withArgs(args)
+                .withClassLoader(classLoader)
+                .withResourceLoader(resourceLoader)
+                .withBackends(allBackends)
+                .build();
 
         RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
         jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict());
         addChildren(runtimeOptions.cucumberFeatures(resourceLoader));
+    }
+
+    private Object newInstance(Class<?> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (InstantiationException e) {
+            throw Throwables.propagate(e);
+        } catch (IllegalAccessException e) {
+            throw Throwables.propagate(e);
+        }
+    }
+
+    private void initializeInstance(Class<?> clazz, AutowireCapableBeanFactory beanFactory, Object testInstance) {
+        try {
+            beanFactory.autowireBeanProperties(testInstance, AutowireCapableBeanFactory.AUTOWIRE_NO, false);
+            beanFactory.initializeBean(testInstance, clazz.getName());
+        } catch (Exception e) {
+            throw Throwables.propagate(e);
+        }
     }
 
     @Override

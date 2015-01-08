@@ -1,4 +1,4 @@
-cucumber.remoteBackends:
+minium.cucumber.remoteBackends:
 
   - url: http://minium/b1
 

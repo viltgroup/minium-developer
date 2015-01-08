@@ -33,16 +33,13 @@ import cucumber.runtime.rest.RemoteBackend;
 @EnableConfigurationProperties(CucumberProperties.class)
 public class CucumberConfiguration {
 
-    @Autowired
-    private CucumberProperties cucumberProperties;
-
     @Bean
-    public List<RemoteBackend> remoteBackends() {
+    @Autowired
+    public List<RemoteBackend> remoteBackends(CucumberProperties cucumberProperties) {
         ArrayList<RemoteBackend> backends = Lists.newArrayList();
         for (RemoteBackendProperties remoteBackendProperties : cucumberProperties.getRemoteBackends()) {
             backends.add(remoteBackendProperties.createRemoteBackend());
         }
         return backends;
     }
-
 }

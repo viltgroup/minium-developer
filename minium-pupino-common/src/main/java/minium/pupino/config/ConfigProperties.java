@@ -1,4 +1,4 @@
-package minium.pupino.cucumber;
+package minium.pupino.config;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

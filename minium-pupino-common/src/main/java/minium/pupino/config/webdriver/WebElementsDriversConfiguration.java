@@ -8,6 +8,8 @@ import minium.pupino.config.PupinoConfiguration;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.DimensionProperties;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.PointProperties;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.WindowProperties;
+import minium.pupino.cucumber.JsVariable;
+import minium.pupino.cucumber.JsVariablePostProcessor;
 import minium.pupino.webdriver.SelectorGadgetWebElements;
 
 import org.apache.commons.lang3.StringUtils;
@@ -92,15 +94,16 @@ public class WebElementsDriversConfiguration {
         }
     }
 
-    @Autowired
-    private Environment env;
+    @Bean
+    public JsVariablePostProcessor jsVariablePostProcessor() {
+        return new JsVariablePostProcessor();
+    }
 
     @Autowired
-    private WebElementsDriversProperties webElementsDriversProperties;
-
     @Bean(destroyMethod = "quit")
     @Lazy
-    public DefaultWebElementsDriver wd() {
+    @JsVariable("wd")
+    public DefaultWebElementsDriver wd(WebElementsDriversProperties webElementsDriversProperties, Environment env) {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webElementsDriversProperties.getDesiredCapabilities());
         DesiredCapabilities requiredCapabilities = new DesiredCapabilities(webElementsDriversProperties.getRequiredCapabilities());
         WebDriver webDriver = null;
@@ -124,10 +127,10 @@ public class WebElementsDriversConfiguration {
             }
         }
         webDriver = new Augmenter().augment(webDriver);
-        return new DefaultWebElementsDriver(webDriver, elementInterfaces());
+        return new DefaultWebElementsDriver(webDriver, elementInterfaces(webElementsDriversProperties, env));
     }
 
-    private Class<?>[] elementInterfaces() {
+    private Class<?>[] elementInterfaces(WebElementsDriversProperties webElementsDriversProperties, Environment env) {
         Set<Class<?>> elementInterfaces = ImmutableSet.<Class<?>>builder()
                 .addAll(webElementsDriversProperties.getElementInterfaces())
                 .add(env.acceptsProfiles(PupinoConfiguration.PUPINO_PROFILE) ?

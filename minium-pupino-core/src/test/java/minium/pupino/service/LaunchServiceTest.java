@@ -9,7 +9,7 @@ public class LaunchServiceTest {
 
     @Test
     public void testFindTestClass() {
-        LaunchService service = new LaunchService(null, null);
+        LaunchService service = new LaunchService(null, null, null);
         Class<?> testClass = service.getTestClass();
         assertThat(testClass, Matchers.<Class<?>>equalTo(SampleIT.class));
     }

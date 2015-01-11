@@ -23,11 +23,14 @@ import minium.pupino.config.ConfigProperties;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.json.JsonParser;
+import org.mozilla.javascript.json.JsonParser.ParseException;
 import org.mozilla.javascript.tools.shell.Global;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.vilt.minium.script.MiniumContextLoader;
 
@@ -67,7 +70,7 @@ public class MiniumRhinoTestsSupport {
     protected Object getVal(String beanName) {
         Object bean = beanFactory.getBean(beanName);
         if (bean == null) return null;
-        return bean instanceof ConfigProperties ? new ConfigPropertiesJavaNativeObject(scope, (ConfigProperties) bean) : bean;
+        return bean instanceof ConfigProperties ? parseJson(cx, scope, ((ConfigProperties) bean).toJson()) : bean;
     }
 
     protected void put(Scriptable scope, String name, Object value) {
@@ -76,6 +79,14 @@ public class MiniumRhinoTestsSupport {
 
     protected void delete(Scriptable scope, String name) {
         scope.delete(name);
+    }
+
+    protected Object parseJson(Context cx, Scriptable scope, String json) {
+        try {
+            return new JsonParser(cx, scope).parseValue(json);
+        } catch (ParseException e) {
+            throw Throwables.propagate(e);
+        }
     }
 
     protected List<String> getModulesUrls() throws IOException {

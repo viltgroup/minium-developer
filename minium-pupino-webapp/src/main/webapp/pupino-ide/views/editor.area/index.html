@@ -116,16 +116,28 @@
         <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
 
         <button ng-show="multiTab" class="btn" id="addTab">Add an editor</button>
+
+        <button ng-show="multiTab" class="btn" ng-click="getSession()">Get Session</button>
+
+
         <div id="tabs">
-            <ul>
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
             </ul>
         </div>
 
 
+    </section>
+    <!-- /.content -->
+   
+    <div id="tree-bar">
+        <ul class="treeview-menu" style="display: block;text-transform: initial;">
+            <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
+                <span style="color: {{getColor(node)}}"> {{node.name}}</span>
+            </treecontrol>
 
+        </ul>
+    </div>
 
-        </section>
-        <!-- /.content -->
 
     <div ui-view></div>
 

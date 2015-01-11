@@ -1,135 +1,14 @@
 'use strict';
 
-
-pupinoIDE.factory('LaunchTest', function(launcherService, FeatureFacade) {
-
-    function LaunchTest(scope) {
-        this.scope = scope;
-        console.log(this.scope);
-    }
-
-    LaunchTest.prototype.getScope = function() {
-        return this.scope
-    }
-
-    LaunchTest.prototype.launch = function(launchParams) {
-        console.debug(launchParams)
-
-        //check if the test already executing
-        if (this.scope.testExecuting == true) {
-            toastr.error("A test is already running!!");
-            return;
-        }
-
-        //put a lock in test execution
-        this.scope.testExecuting = true;
-
-        toastr.success("Test Started...");
-        //runningTest.start();
-
-        //reset Values
-        this.scope.resetTotal();
-
-        //start to take screenshots
-        this.scope.takeScreenShot();
-
-        // clear markers
-        this.scope.clearMarkers();
-
-        //reset the variable
-        this.scope.executionWasStopped = false;
-        var x;
-
-        var _this = this;
-        var annotations = [];
-        launcherService.launch(launchParams).success(function(data) {
-            //if execution was stopped there's no need to execute the block
-            if (_this.scope.executionWasStopped == true) return;
-            var feature = new FeatureFacade(data);
-            console.debug(feature);
-            _this.scope.faillingSteps = feature.notPassingsteps;
-
-            _this.scope.resultsSummary.passed = feature.passedSteps.length;
-            _this.scope.resultsSummary.failures = feature.failingSteps.length;
-            _this.scope.resultsSummary.skipped = feature.skippedSteps.length;
-
-            _this.scope.resultsSummary.runCount = feature.passedSteps.length + feature.notPassingsteps.length;
-
-            // //convert in millisecond
-            _this.scope.resultsSummary.runTime = feature.totalDuration / 1000000.0;
-
-            console.log(_this.scope.resultsSummary);
-
-            annotations = _.map(feature.notPassingsteps, function(step) {
-                var result = step.status;
-                var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
-                var lines = msg;
-                console.debug(step + "\n" + lines.slice(0, 10));
-                // if (lines.length > 10) {
-                //     msg = lines.slice(0, 10).join("\n");
-                // }
-                return {
-                    row: step.line - 1,
-                    text: msg,
-                    type: (result === 'FAILED' ? 'error' : 'warning')
-                };
-            });
-
-            if (annotations.length > 0) {
-                toastr.warning("Test didn't pass!!");
-                $("#status").removeClass().addClass("label label-danger").html("Failing");
-            } else {
-                if (_this.scope.resultsSummary.runCount == 0) {
-                    //no test were run
-                    $("#status").removeClass().addClass("label label-warning").html("0 tests executed");
-                    toastr.warning("0 test executed");
-                } else {
-                    $("#status").removeClass().addClass("label label-success").html("Passing");
-                    toastr.success("Test Pass with Sucess");
-                }
-
-                annotations.push({
-                    row: launchParams.line,
-                    text: 'Test Executed and Pass',
-                    type: 'info'
-                });
-            }
-
-            _this.scope.onFinishTestExecution(annotations);
-
-
-        });
-
-    }
-
-    LaunchTest.prototype.launchAll = function(launchParams) {
-        //if no file is selected
-        if (this.scope.selected.item === undefined)
-            return;
-
-        var launchParams = {
-            fileProps: this.scope.selected.item.fileProps
-        };
-
-        this.launch(launchParams);
-    }
-
-     LaunchTest.prototype.subscribeMessages = function() {
-       this.scope.subscribeMessages();
-    }
-
-    return LaunchTest;
-});
-
 pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService) {
     /**
      * Constructor, with class name
      */
-    function MiniumEditor(launchExecutor) {
+    function MiniumEditor(scope) {
         // Public properties, assigned to the instance ('this')
         this.editors = [];
         this.activeInstance = null;
-        this.launchExecutor = launchExecutor;
+        this.scope = scope;
         console.debug(this.launchTest);
     }
 
@@ -149,8 +28,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         // the panel id is a timestamp plus a random number from 0 to 10000
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
-
-        addDOM(tabUniqueId);
+        var fileProps = fileContent.fileProps || "";
+        addDOM(tabUniqueId,fileProps);
 
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
@@ -193,13 +72,13 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                     mac: "Ctrl+Enter"
                 },
                 exec: function(env) {
-                    console.log(_this.launchExecutor);
-                    launchCucumber(env, _this.launchExecutor);
+                    console.log(_this.scope);
+                    launchCucumber(env, _this.scope);
                 },
                 readOnly: false // should not apply in readOnly mode
             });
 
-           this.launchExecutor.subscribeMessages();
+            this.scope.subscribeMessages();
         }
 
         var cursor = editor.getCursorPosition();
@@ -218,8 +97,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             instance: editor,
             relativeUri: fileProps.relativeUri
         });
-
-        createEventsListeners(editor);
+        //create event listeners (bind keys events)
+        bindKeys(editor);
         //init other configurations like autocompletion
         otherConfigurations(editor);
 
@@ -233,11 +112,19 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         return this.editors;
     }
 
+
+    //////////////////////////////////////////////////////////////////
+    //
+    // Check is file with {relativeURi} is already open in a tab
+    //
+    // Parameters:
+    //   relativeUri - uri of the file we want to open
+    //
+    //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isOpen = function(relativeUri) {
         var isOpen = false;
         var id = null;
         $.each(this.editors, function(i, obj) {
-            console.log(obj.relativeUri + " cenas " + relativeUri)
             if (obj.relativeUri === relativeUri) {
                 id = obj.id;
                 isOpen = true;
@@ -249,29 +136,46 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         }
     }
 
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get the Editor session by ID 
+    //
+    // Return from the ID the instance of the editor
+    /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.getSession = function(id) {
         var editor = null;
         $.each(this.editors, function(i, obj) {
-            console.log(obj.id + " cenas " + id)
             if (obj.id == id) {
                 editor = obj;
                 return false; //this stops de loop (works like a break)
             }
         });
-        return editor;
+        return (editor != null ? editor.instance : null);
     }
 
 
-    /**
-     * Private function
-     */
+    ////////////////////////////////////////////////////////////////
+    //
+    // PRIVATE FUCNTIONS
+    //
+    /////////////////////////////////////////////////////////////////
+    
 
-    function addDOM(tabUniqueId, file_name) {
+    ////////////////////////////////////////////////////////////////
+    //
+    // Create new tab
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    function addDOM(tabUniqueId, fileProps) {
+
+    	var fileName = fileProps.name || "untitled";
+
         var tabsElement = $('#tabs');
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" >' + tabUniqueId + '</a></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" >' + fileName + '</a></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);
@@ -301,7 +205,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         // newTabPanelElement.height('600');
 
         // // set the size of the editor
-         // newEditorElement.width('1180');
+        // newEditorElement.width('1180');
         newEditorElement.height('500');
 
     }
@@ -349,7 +253,16 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         snippetManager.register(snippets, "gherkin");
     }
 
-    function createEventsListeners(editor) {
+
+    //////////////////////////////////////////////////////////////////
+    //
+    // Setup Key bindings
+    //
+    // Parameters:
+    //   editor - instance of the editor
+    //
+    //////////////////////////////////////////////////////////////////
+    function bindKeys(editor) {
         editor.commands.addCommand({
             name: "saveFile",
             bindKey: {
@@ -438,9 +351,9 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
 
 
-    function launchCucumber(editor, launchExecutor) {
+    function launchCucumber(editor, scope) {
 
-        var scope = launchExecutor.getScope();
+        var scope = scope;
 
         var selectedItem = scope.selected.item;
         if (!selectedItem) return;

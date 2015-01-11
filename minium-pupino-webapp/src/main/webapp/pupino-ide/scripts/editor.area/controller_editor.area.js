@@ -218,7 +218,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
     }
     var annotations = [];
     var launch = function(launchParams) {
-
+        console.debug(launchParams)
         //check if the test already executing
         if ($scope.testExecuting == true) {
             toastr.error("A test is already running!!");
@@ -352,7 +352,6 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
         var range = ace.require('ace/range').Range;
 
         var launchCucumber = function() {
-
 
             var selectedItem = $scope.selected.item;
             if (!selectedItem) return;

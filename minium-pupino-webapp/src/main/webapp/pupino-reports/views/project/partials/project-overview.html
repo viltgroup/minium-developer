@@ -50,19 +50,18 @@
                                 <th></th>
                             </tr>
                         </thead>
-
+                        <!-- BUILDING BUILDS -->
                         <tbody>
 
                             <tr ng-show="buildsFacade.buildingBuilds.length > 0">
-                                <td>
+                                <td ng-hide="estimatedTime == 0">
                                     <i class="fa fa-2x fa-gear fa-spin"></i>
                                     <!-- <span ng-repeat="b in buildsFacade.buildingBuilds">
                                         {{b.id}} 
                                     </span> -->
                                 </td>
-                                <td>
-                                
-                                </td>
+
+                                <td></td>
 
                                 <td ng-hide="estimatedTime != 0"> <i class="fa fa-spinner fa-spin"></i> Fetching data </td>
                                 <td ng-hide="estimatedTime == 0">
@@ -86,16 +85,18 @@
                                 </td>
                             </tr>
                         </tbody>
-
-
+                        
 
                         <!-- LAST BUILD -->
                         <tbody ng-show="buildsFacade.lastFinishedBuild">
                             <tr ng-class="{'danger' : (buildsFacade.lastFinishedBuild.result != 'SUCCESS') }">
                                 <td>
-                                    <icon-item content="buildsFacade.lastFinishedBuild.result" type="build"></icon-item>
+                                    <icon-item content="buildsFacade.lastFinishedBuild.result" type="build">
+                                    </icon-item>
                                     <br>
-                                    <span ng-if="$index == 0" class="label label-primary">Last Stable buildsFacade.lastFinishedBuild</span>
+                                    <span ng-if="$index == 0" class="label label-primary">
+                                        Last Stable buildsFacade.lastFinishedBuild
+                                    </span>
                                 </td>
                                 <td>
                                     <a ui-sref="global.build({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id })">
@@ -132,7 +133,7 @@
                                 <td>
                                     <a class='btn btn-primary btn-xs' ui-sref="global.build({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id })">
                                        Show
-                                       </a>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -277,9 +278,9 @@
                 </div>
 
                 <div class="chart tab-pane " id="line-chart">
-                    <nvd3-line-chart data="exampleData" id="exampleId" width="550" height="350" showXAxis="true" showYAxis="true" showLegend="true" legendColor="colorFunction()" color="colorFunction()" isArea="true" tooltips="true" interactive="true" noData="No Data For You!">
+                    <!-- <nvd3-line-chart data="exampleData" id="exampleId" width="550" height="350" showXAxis="true" showYAxis="true" showLegend="true" legendColor="colorFunction()" color="colorFunction()" isArea="true" tooltips="true" interactive="true" noData="No Data For You!">
                         <svg></svg>
-                    </nvd3-line-chart>
+                    </nvd3-line-chart> -->
                 </div>
 
             </div>

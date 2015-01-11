@@ -10,7 +10,7 @@ pupinoIDE
                 controller: "EditorAreaController"
             })
             .state('global.multi', {
-                url: "/editor-multi",
+                url: "/editor-multi/*path",
                 templateUrl: "pupino-ide/views/editor.area/index.html",
                 controller: "EditorAreaMultiTabController"
             })

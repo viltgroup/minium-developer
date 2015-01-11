@@ -1,9 +1,11 @@
 'use strict';
 
-var NewFileController = function($scope, $modalInstance, $state,$controller, $stateParams, $log, $location, FS, FileFactory, FormatService, launcherService) {
+var NewFileController = function($scope, $modalInstance, $state, $controller, $stateParams, $log, $location, FS, FileFactory, FormatService, launcherService) {
 
     //extends the fileController
-    $controller('FileController', {$scope: $scope});
+    $controller('FileController', {
+        $scope: $scope
+    });
     $scope.fileName = "";
 
     $scope.createFile = function(fileName, path) {
@@ -26,7 +28,6 @@ var NewFileController = function($scope, $modalInstance, $state,$controller, $st
         $modalInstance.dismiss('cancel');
         $scope.$dismiss();
     };
-
 
 
 };

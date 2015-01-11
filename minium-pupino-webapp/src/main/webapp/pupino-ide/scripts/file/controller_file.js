@@ -2,8 +2,7 @@
 
 var FileController = function($scope, $rootScope, $state, $stateParams, $log, $location, FS, FormatService, launcherService) {
 
-    
-     $scope.fs = {
+    $scope.fs = {
         current: {}
     };
     $scope.form = {};
@@ -26,6 +25,27 @@ var FileController = function($scope, $rootScope, $state, $stateParams, $log, $l
             });
         });
     };
+
+    $scope.loadParent = function() {
+        var parent = $scope.fs.current.parent;
+        if (!parent) return;
+        $scope.fs.current = parent;
+        $scope.loadChildren(parent);
+    }
+
+    $scope.loadChildren = function(item) {
+        if (item.childrenLoaded) return;
+        $scope.asyncLoad(item);
+        item.childrenLoaded = true;
+    };
+
+
+    $scope.enter = function(item) {
+        $scope.fs.current = item;
+        $scope.asyncLoad(item);
+    };
+
+    $scope.asyncLoad($scope.fs.current);
 
 
 };

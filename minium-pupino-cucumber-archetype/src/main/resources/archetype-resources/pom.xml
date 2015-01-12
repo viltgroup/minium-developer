@@ -93,6 +93,7 @@
 			</activation>
 			<properties>
 				<failsafe.skip.tests>true</failsafe.skip.tests>
+				<spring.boot.jvm.arguments></spring.boot.jvm.arguments>
 			</properties>
 			<dependencies>
 				<dependency>
@@ -102,35 +103,54 @@
 				</dependency>
 			</dependencies>
 			<build>
+				<!-- 
+				We need to include test resources to classpath, because spring boot plugin doesn't load
+				them by default
+				-->
+				<resources>
+			        <resource>
+			            <directory>src/test/resources</directory>
+			            <includes>
+			            	<include>**/*</include>
+			            </includes>
+			        </resource>
+			    </resources>
 				<plugins>
 					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
+		                <groupId>org.springframework.boot</groupId>
+                		<artifactId>spring-boot-maven-plugin</artifactId>
 						<executions>
 							<execution>
 								<phase>integration-test</phase>
 								<goals>
-									<goal>exec</goal>
+									<goal>run</goal>
 								</goals>
 							</execution>
 						</executions>
 						<configuration>
-							<executable>java</executable>
-							<classpathScope>test</classpathScope>
+							<addResources>false</addResources>
+							<jvmArguments>${spring.boot.jvm.arguments}</jvmArguments>
 							<arguments>
-								<argument>-classpath</argument>
-								<classpath />
-								<argument>-Xmx${minium.pupino.heap}</argument>
-								<argument>-XX:MaxPermSize=${minium.pupino.permgen}</argument>
-								<argument>-Xdebug</argument>
-								<argument>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</argument>
-								<argument>-Dspring.profiles.active=dev,local</argument>
-								<argument>minium.pupino.Application</argument>
+								<argument>--spring.profiles.active=dev,local</argument>
 							</arguments>
+		                    <mainClass>minium.pupino.Application</mainClass>
 						</configuration>
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+		<profile>
+			<id>pupino-debug</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>debug</name>
+				</property>
+			</activation>
+			<properties>
+				<failsafe.skip.tests>true</failsafe.skip.tests>
+				<spring.boot.jvm.arguments>-Xmx${minium.pupino.heap} -XX:MaxPermSize=${minium.pupino.permgen} -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</spring.boot.jvm.arguments>
+			</properties>
 		</profile>
 	</profiles>
 

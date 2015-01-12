@@ -9,8 +9,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
+import minium.pupino.config.MiniumConfiguration;
 import minium.pupino.cucumber.JsVariablePostProcessor;
 import minium.pupino.cucumber.MiniumBackend;
 import minium.pupino.cucumber.MiniumCucumber;
@@ -35,20 +35,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
-import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import cucumber.runtime.Backend;
 import cucumber.runtime.RuntimeOptions;
@@ -63,12 +58,16 @@ import cucumber.runtime.rest.SimpleGlue;
 @Service
 public class LaunchService {
 
-    public static MessageSendingOperations<String> messagingTemplate;
+    @RunWith(MiniumCucumber.class)
+    @SpringApplicationConfiguration(classes = MiniumConfiguration.class)
+    public static class GenericTest {
+    }
+
+    public MessageSendingOperations<String> messagingTemplate;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
 
     private String resourcesBaseDir = "src/test/resources";
-    private Class<?> cachedTestClass;
     private ReporterParser reporter = new ReporterParser();
     private RunNotifier notifier;
 
@@ -77,7 +76,7 @@ public class LaunchService {
 
     @Autowired
     public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext, JsVariablePostProcessor variablePostProcessor) {
-        LaunchService.messagingTemplate = messagingTemplate;
+        this.messagingTemplate = messagingTemplate;
         this.applicationContext = applicationContext;
         this.variablePostProcessor = variablePostProcessor;
     }
@@ -126,8 +125,7 @@ public class LaunchService {
             notifier.addFirstListener(resultListener);
             notifier.addListener(pupinoListener);
 
-            Class<?> testClass = getTestClass();
-            Runner runner = new MiniumCucumber(testClass, applicationContext.getAutowireCapableBeanFactory());
+            Runner runner = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
             try {
                 notifier.fireTestRunStarted(runner.getDescription());
                 runner.run(notifier);
@@ -143,11 +141,11 @@ public class LaunchService {
     }
 
     public List<StepDefinitionDTO> getStepDefinitions() throws IOException {
-        Class<?> testClass = getTestClass();
-        MiniumRhinoTestContextManager testContextManager = new MiniumRhinoTestContextManager(testClass);
-        ResourceLoader resourceLoader = new MultiLoader(testClass.getClassLoader());
-        List<Backend> backends = getBackends(testContextManager, testClass.getClassLoader(), resourceLoader);
-        RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(testClass).create();
+        ClassLoader classloader = GenericTest.class.getClassLoader();
+        MiniumRhinoTestContextManager testContextManager = new MiniumRhinoTestContextManager(GenericTest.class);
+        ResourceLoader resourceLoader = new MultiLoader(classloader);
+        List<Backend> backends = getBackends(testContextManager, classloader, resourceLoader);
+        RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(GenericTest.class).create();
         SimpleGlue glue = new SimpleGlue();
         for (Backend backend : backends) {
             backend.loadGlue(glue, runtimeOptions.getGlue());
@@ -177,7 +175,7 @@ public class LaunchService {
         Object testInstance = null;
 
         try {
-            testInstance = getTestClass().newInstance();
+            testInstance = new GenericTest();
             if (applicationContext instanceof ConfigurableApplicationContext) {
                 ((AutowireCapableBeanFactory) applicationContext).autowireBean(testInstance);
             }
@@ -196,34 +194,6 @@ public class LaunchService {
 
     public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         if (notifier != null) notifier.pleaseStop();
-    }
-
-    protected Class<?> getTestClass() {
-        if (cachedTestClass == null) {
-            ClassPathScanningCandidateComponentProvider scanner = new ClassPathScanningCandidateComponentProvider(false);
-            scanner.setResourcePattern("**/*IT.class");
-            scanner.addIncludeFilter(new AnnotationTypeFilter(RunWith.class));
-            Set<BeanDefinition> components = scanner.findCandidateComponents("");
-            Set<Class<?>> results = Sets.newHashSet();
-            for (BeanDefinition component : components) {
-                if (!component.isAbstract()) {
-                    try {
-                        Class<?> testClass = Thread.currentThread().getContextClassLoader().loadClass(component.getBeanClassName());
-                        RunWith runWithAnnotation = testClass.getAnnotation(RunWith.class);
-                        if (runWithAnnotation.value() == MiniumCucumber.class) {
-                            LOGGER.debug("Found Minium Cucumber test class {}", component.getBeanClassName());
-                            results.add(testClass);
-                        }
-                    } catch (ClassNotFoundException e) {
-                        LOGGER.debug("Class {} not found, skipping", component.getBeanClassName());
-                    }
-                }
-            }
-            Preconditions.checkState(!results.isEmpty(), "No Minium Cucumber test class found");
-            Preconditions.checkState(results.size() == 1, "More than one Minium Cucumber test class found: %s", Joiner.on(", ").join(results));
-            cachedTestClass = Iterables.getFirst(results, null);
-        }
-        return cachedTestClass;
     }
 
 }

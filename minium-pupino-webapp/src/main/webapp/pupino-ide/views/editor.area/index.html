@@ -8,15 +8,9 @@
         </span>
 
         <ol class="breadcrumb">
-            <li>
-                <a href="#">
-                    <i class="glyphicon glyphicon-home"></i>
-                    <span translate="global.home">Home</span>
-                </a>
-            </li>
             <li class="active " id="miniumOnDrugs">
+                 <i class="glyphicon glyphicon-home"></i> 
                 <span translate="editor.editor">Editor</span>
-
             </li>
         </ol>
     </section>
@@ -26,15 +20,44 @@
 
         <div class="btn-toolbar" role="toolbar">
             <br>
+
+            <!-- BUTTOn -->
+            <!--  <div id="inbox">
+                <div class="fab btn-group show-on-hover dropup">
+                    <div data-toggle="tooltip" data-placement="left" title="Compose" >
+                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" >
+                            <span class="fa-stack">
+                                        <i class="fa fa-circle fab-backdrop"></i>
+                                        <i class="fa fa-plus fa-stack-1x fa-inverse fab-primary"></i>
+                                        <i class="fa fa-pencil fa-stack-1x fa-inverse fab-secondary"></i>
+                                    </span>
+                        </button>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu" >
+                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Coffee"><i class="fa fa-coffee"></i></a>
+                        </li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="LiveChat"><i class="fa fa-comments-o"></i></a>
+                        </li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Reminders"><i class="fa fa-hand-o-up"></i></a>
+                        </li>
+                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Invites"><i class="fa fa-ticket"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+ -->
+
             <i class="fa fa-info-circle"></i>
             <span translate="editor.status">Status</span>:
-            <span class="label label-default" id="status">
+            <!-- <span class="label label-default" id="status">
                     Not Run
-                </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
 
-            <button id="runningTest" class="btn btn-warning ladda-button disabled " data-style="expand-right">
+            <button id="runningTest" class="btn btn-xs btn-warning ladda-button disabled " data-style="expand-right">
                 <span class="fa fa-gears"></span>
-                <span class="ladda-label" translate="editor.running">Running</span>
+                <span id="status">
+                    Not Running
+                 </span>
             </button>
 
             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#launchModal" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
@@ -61,20 +84,27 @@
             </button>
 
             <span class="btn-group pull-right" role="group" aria-label="...">
-                     <a ui-sref="global.editorarea.open" class="btn btn-primary " type="button">
+                     <!-- <a ui-sref="global.editorarea.open" class="btn btn-primary " type="button">
                         <i class="fa fa-arrow-circle-o-down"></i>
                         <span translate="editor.openFile">Open File</span>
-            </a>
-            <button type="button" class="btn btn-primary" ui-sref="global.editorarea.newFile">
+            </a> -->
+            <button ng-show="multiTab" class="btn btn-primary btn-sm" id="addTab">
                 <i class="fa fa-plus"></i>
-                <span translate="editor.newFile">New File</span>
+                <span>Add Editor</span>
+            </button>
+
+            <button type="button" class="btn btn-primary btn-sm" ui-sref="global.multi.newFile">
+                <i class="fa fa-plus"></i>
+                <span>Create File</span>
             </button>
 
             </span>
 
+
+
             <!-- Single button -->
             <div class="btn-group pull-right">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                     Actions <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
@@ -111,24 +141,16 @@
             <br>
         </div>
 
-
-
         <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
-
-        <button ng-show="multiTab" class="btn" id="addTab">Add an editor</button>
-
-        <button ng-show="multiTab" class="btn" ng-click="getSession()">Get Session</button>
-
 
         <div id="tabs">
             <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
             </ul>
         </div>
 
-
     </section>
     <!-- /.content -->
-   
+
     <div id="tree-bar">
         <ul class="treeview-menu" style="display: block;text-transform: initial;">
             <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">

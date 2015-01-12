@@ -1,5 +1,12 @@
 'use strict';
-var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, MiniumEditor, FS,launcherService,FeatureFacade) {
+var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, MiniumEditor, FS, launcherService, FeatureFacade) {
+
+    $('.fab').hover(function() {
+        $(this).toggleClass('active');
+    });
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 
 
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
@@ -26,7 +33,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         activeSession.getSession().clearBreakpoints();
     }
 
-    
+
     var editors = new MiniumEditor($scope);
 
     //to know when the execution was stopped
@@ -102,6 +109,8 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     if ($stateParams.path) {
         loadFile($stateParams.path);
+    } else {
+        loadFile("");
     }
 
     // initialize button listener
@@ -110,9 +119,10 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         editors.getEditors();
     });
 
+    
     //CLOSE TAB
-    $('#tabs').on('click', '.close', function() {
-
+    $('.ui-icon-close').on('click', function() {
+        alert("sdd")
         console.log('close a tab and destroy the ace editor instance');
 
         console.log($(this).parent());
@@ -134,14 +144,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         $('#tabs').find('#panel_nav_' + tabUniqueId).remove();
         $('#tabs').find('#panel_' + tabUniqueId).remove();
 
-    });
-
-    //stop the timeouts
-    $scope.$on('$destroy', function() {
-        $timeout.cancel(stopwatch);
-    });
-    $scope.$on('$locationChangeStart', function() {
-        $timeout.cancel(stopwatch);
     });
 
     $('#miniumOnDrugs').click(function() {
@@ -347,7 +349,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     }
     var annotations = [];
     var executionWasStopped;
-     $scope.launch = function(launchParams) {
+    $scope.launch = function(launchParams) {
         //check if the test already executing
         if ($scope.testExecuting == true) {
             toastr.error("A test is already running!!");
@@ -374,9 +376,11 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
         //reset the variable
         executionWasStopped = false;
-        var x;
+
+        $("#status").removeClass().addClass("").html("Running");
 
         launcherService.launch(launchParams).success(function(data) {
+
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
             var feature = new FeatureFacade(data);
@@ -411,14 +415,17 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
             if (annotations.length > 0) {
                 toastr.warning("Test didn't pass!!");
-                $("#status").removeClass().addClass("label label-danger").html("Failing");
+                $("#runningTest").removeClass("btn-warning").addClass("btn-danger");
+                $("#status").removeClass().addClass("").html("Failing");
             } else {
                 if ($scope.resultsSummary.runCount == 0) {
                     //no test were run
-                    $("#status").removeClass().addClass("label label-danger").html("No tests executed");
+                    $("#status").removeClass().addClass("").html("No tests executed");
                     toastr.error("No test executed");
                 } else {
-                    $("#status").removeClass().addClass("label label-success").html("Passing");
+                    $("#runningTest").removeClass("btn-warning").addClass("btn-success");
+
+                    $("#status").removeClass().addClass("").html("Passed");
                     toastr.success("Test Pass with Sucess");
                 }
 
@@ -432,7 +439,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             $scope.onFinishTestExecution();
 
 
-        }).error(function(){
+        }).error(function() {
             alert("error")
         });
     }

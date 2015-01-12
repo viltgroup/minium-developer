@@ -36,7 +36,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         //change the settings of editor (themes, size, etc)
         setSettings(editor);
 
-        var fileName = fileContent.fileProps.name;
+        var fileName = fileProps.name || "";
         if (/\.js$/.test(fileName)) {
             editor.getSession().setMode("ace/mode/javascript");
 
@@ -175,7 +175,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" >' + fileName + '</a></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" >' + fileName + '</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);
@@ -206,7 +206,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
         // // set the size of the editor
         // newEditorElement.width('1180');
-        newEditorElement.height('500');
+        newEditorElement.height('600');
 
     }
 

@@ -14,7 +14,7 @@ var NewFileController = function($scope, $modalInstance, $state, $controller, $s
             $scope.asyncLoad($scope.fs.current);
             toastr.success("Created file " + $scope.fileName);
             $scope.fileName = "";
-
+            $scope.$close(true);
         }).error(function(data) {
             toastr.error("Error " + data);
         });
@@ -28,6 +28,5 @@ var NewFileController = function($scope, $modalInstance, $state, $controller, $s
         $modalInstance.dismiss('cancel');
         $scope.$dismiss();
     };
-
 
 };

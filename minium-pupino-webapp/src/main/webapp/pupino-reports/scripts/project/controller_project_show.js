@@ -177,4 +177,9 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
     }
 
 
+    $scope.isPassed = function(value){
+        return (value === "PASSED") ? true : false;
+    }
+
+
 });

@@ -29,7 +29,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
         var fileProps = fileContent.fileProps || "";
-        addDOM(tabUniqueId,fileProps);
+        addDOM(tabUniqueId, fileProps);
 
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
@@ -98,7 +98,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             relativeUri: fileProps.relativeUri
         });
         //create event listeners (bind keys events)
-        bindKeys(editor);
+        bindKeys(editor,this.scope);
         //init other configurations like autocompletion
         otherConfigurations(editor);
 
@@ -150,7 +150,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 return false; //this stops de loop (works like a break)
             }
         });
-        return (editor != null ? editor.instance : null);
+        return (editor != null ? editor : null);
     }
 
 
@@ -159,7 +159,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     // PRIVATE FUCNTIONS
     //
     /////////////////////////////////////////////////////////////////
-    
+
 
     ////////////////////////////////////////////////////////////////
     //
@@ -169,7 +169,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     /////////////////////////////////////////////////////////////////
     function addDOM(tabUniqueId, fileProps) {
 
-    	var fileName = fileProps.name || "untitled";
+        var fileName = fileProps.name || "untitled";
 
         var tabsElement = $('#tabs');
         var tabsUlElement = tabsElement.find('ul');
@@ -262,7 +262,9 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //   editor - instance of the editor
     //
     //////////////////////////////////////////////////////////////////
-    function bindKeys(editor) {
+    function bindKeys(editor,scope) {
+        var scope = scope;
+        
         editor.commands.addCommand({
             name: "saveFile",
             bindKey: {
@@ -270,7 +272,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 mac: "Command-S",
                 sender: "editor|cli"
             },
-            exec: saveFile,
+            exec: function(env) {
+                console.log(scope);
+                saveFile(env, scope);
+            },
             readOnly: false // should not apply in readOnly mode
         });
         editor.commands.addCommand({
@@ -280,18 +285,22 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 mac: "Command-Shift-R",
                 sender: "editor|cli"
             },
-            exec: openFile,
+            exec: function(env) {
+                alert("sds")
+            },
             readOnly: false // should not apply in readOnly mode
         });
     }
 
 
 
-    function saveFile() {
-        var item = this.scope.selected.item;
+    function saveFile(editor, scope) {
+        console.log(scope)
+        var scope = scope;
+        var item = scope.selected.item;
         item.content = editor.getSession().getValue();
         item.$save(function() {
-            setAceContent(item);
+            //setAceContent(item);
         });
     };
 

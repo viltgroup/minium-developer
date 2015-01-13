@@ -1,7 +1,6 @@
 package minium.pupino.jenkins;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,7 @@ import com.google.gson.JsonSyntaxException;
 
 @Component
 public class ReporterParser {
-	
+
 	/**
 	 * Parse the results from the generated cucumber report
 	 * @param results
@@ -28,19 +27,17 @@ public class ReporterParser {
 	 * @throws FileNotFoundException
 	 */
 	public List<Feature> parseJsonResult(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		List<Feature> features = new ArrayList<Feature>();
-		Feature[] features1 = new Gson().fromJson(results, Feature[].class);
-		features.addAll(Arrays.asList(features1));
-		return features;
+		Feature[] features = new Gson().fromJson(results, Feature[].class);
+		return Arrays.asList(features);
 	}
-	
+
 	public Map<String, Feature> parseJsonResultSet(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		Map<String, Feature> features = new HashMap<String, Feature>();
-		Feature[] features1 = new Gson().fromJson(results, Feature[].class);
-		for (Feature f : features1) {
-			features.put(f.getUri(), f);
+		Map<String, Feature> featuresMap = new HashMap<String, Feature>();
+		Feature[] features = new Gson().fromJson(results, Feature[].class);
+		for (Feature f : features) {
+		    featuresMap.put(f.getUri(), f);
 		}
-		return features;
+		return featuresMap;
 	}
 
 	public SummaryDTO getSummaryFromResult(String results) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
@@ -56,7 +53,7 @@ public class ReporterParser {
 		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios);
 		return summary;
 	}
-	
+
 	public SummaryDTO getSummaryFromFeatures(List<Feature> features) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		SummaryDTO summary;
 		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;

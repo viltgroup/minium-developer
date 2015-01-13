@@ -23,7 +23,7 @@ public class BrowserLauncher {
         if (contextPath == null) contextPath = "";
 
         if (port != null && Desktop.isDesktopSupported()) {
-            String url = String.format("http://localhost:%d%s", port, contextPath);
+            String url = String.format("http://localhost:%d%s#/editor-multi/", port, contextPath);
             try {
                 Desktop.getDesktop().browse(URI.create(url));
             } catch (IOException e) {

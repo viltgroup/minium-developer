@@ -4,7 +4,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
@@ -21,8 +20,7 @@ import net.masterthought.cucumber.json.Feature;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
@@ -35,23 +33,18 @@ import com.offbytwo.jenkins.model.Build;
 import com.offbytwo.jenkins.model.BuildWithDetails;
 import com.offbytwo.jenkins.model.JobWithDetails;
 
-@Component
-@Qualifier("jenkinsOAkClient")
 public class JenkinsClientAdaptor implements JenkinsClient {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(JenkinsClientAdaptor.class);
 
+	@Autowired
 	private JenkinsServer jenkins;
-
 	private JenkinsJobConfigurator jobConfigurator;
-
 	private ReporterParser reporter = new ReporterParser();
 
-	private static URI uri;
 
 	public JenkinsClientAdaptor() throws URISyntaxException {
-		uri = new URI("http://lw255:8080/jenkins/");
-		jobConfigurator = new JenkinsJobConfigurator();
+        jobConfigurator = new JenkinsJobConfigurator();
 	}
 
 	/**
@@ -59,7 +52,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	 */
 	@Override
 	public JobWithDetails uri(String jobName) throws IOException, URISyntaxException {
-		jenkins = new JenkinsServer(uri, "admin", "admin");
 		JobWithDetails job = jenkins.getJob(jobName);
 		return job;
 	}
@@ -70,7 +62,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 
 	@Override
 	public void createJob(String jobName, String scmType, String repository) throws JAXBException, IOException {
-		jenkins = new JenkinsServer(uri, "admin", "admin");
 		String sourceXml = jobConfigurator.getXMLSource(scmType, repository);
 		jenkins.createJob(jobName, sourceXml);
 
@@ -79,7 +70,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	@Override
 	public void updateJobConfiguration(String jobName, BrowsersDTO buildConfig) {
 		try {
-			jenkins = new JenkinsServer(uri, "admin", "admin");
 			String jobConfig = jenkins.getJobXml(jobName);
 			LOGGER.info("Job configuration {} updated" + jobConfig);
 			// change the xml config
@@ -104,7 +94,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	@Override
 	public JobWithDetails createBuild(String jobName, BrowsersDTO buildConfig, boolean updatedConfig) throws IOException, URISyntaxException {
 		// jobName = "server";
-		jenkins = new JenkinsServer(uri, "admin", "admin");
 		JobWithDetails job = jenkins.getJob(jobName);
 		if (updatedConfig)
 			this.updateJobConfiguration(jobName, buildConfig);
@@ -120,19 +109,16 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 
 	@Override
 	public List<Build> buildsForJob(String jobName) throws IOException, URISyntaxException {
-		jenkins = new JenkinsServer(uri, "admin", "admin");
 		return jenkins.getJob(jobName).getBuilds();
 	}
 
 	@Override
 	public Build lastCompletedBuild(String jobName) throws IOException {
-		jenkins = new JenkinsServer(uri, "admin", "admin");
 		return jenkins.getJob(jobName).getLastCompletedBuild();
 	}
 
 	@Override
 	public Build lastBuild(String jobName) throws IOException {
-		jenkins = new JenkinsServer(uri, "admin", "admin");
 		return jenkins.getJob(jobName).getLastBuild();
 	}
 
@@ -141,20 +127,24 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	 */
 	@Override
 	public String getArtifactsBuild(BuildWithDetails buildDetails) {
-        Reader in = null;
-        try {
-            if (!buildDetails.getArtifacts().isEmpty()) {
-                Artifact artifact = buildDetails.getArtifacts().get(0);
-                // function from the jenkins client was not working properly use this temporary solution
-                if (artifact.getDisplayPath().equals("result.json")) {
-                    in = new InputStreamReader(new URL(buildDetails.getUrl() + "artifact/result.json").openStream(), Charsets.UTF_8);
-                } else {
-                    in = new FileReader("mocks/mock-cgd-store.json");
-                }
-            }
-            return IOUtils.toString(in);
-        } catch (IOException e) {
+	    Reader in = null;
+	    try {
+    		if (!buildDetails.getArtifacts().isEmpty()) {
+    			Artifact artifact = buildDetails.getArtifacts().get(0);
+    			// function from the jenkins client was not working properly use
+    			// this temporary solution
+    			if (artifact.getDisplayPath().equals("result.json")) {
+    			    String artifactPath = buildDetails.getUrl() +"artifact/"+  artifact.getRelativePath();
+                    in = new InputStreamReader(new URL(artifactPath).openStream(), Charsets.UTF_8);
+    			} else {
+    			    in = new FileReader("mocks/mock-cgd-store.json");
+    			}
+    		}
+    		return IOUtils.toString(in);
+	    } catch (IOException e) {
             throw Throwables.propagate(e);
+        } finally {
+            IOUtils.closeQuietly(in);
         }
 	}
 

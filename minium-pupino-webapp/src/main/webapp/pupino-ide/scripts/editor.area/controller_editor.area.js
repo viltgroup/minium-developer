@@ -152,7 +152,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
         stompClient.connect({}, function(frame) {
 
             console.log('Connected: ' + frame);
-            stompClient.subscribe("/tests/"+ session_id, function(message) {
+            stompClient.subscribe("/tests/" + session_id, function(message) {
                 var body = message.body;
                 console.log(eval('(' + body + ')'));
                 var testMessage = eval('(' + body + ')');
@@ -179,7 +179,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
 
             var range = ace.require('ace/range').Range;
 
-            stompClient.subscribe("/cucumber/"+ session_id, function(message) {
+            stompClient.subscribe("/cucumber/" + session_id, function(message) {
                 console.log(message.body);
                 var step = JSON.parse(message.body);
                 var markerId;
@@ -219,7 +219,7 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
     var annotations = [];
     var launch = function(launchParams) {
         console.debug(launchParams)
-        //check if the test already executing
+            //check if the test already executing
         if ($scope.testExecuting == true) {
             toastr.error("A test is already running!!");
             return;
@@ -282,14 +282,17 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
 
             if (annotations.length > 0) {
                 toastr.warning("Test didn't pass!!");
-                $("#status").removeClass().addClass("label label-danger").html("Failing");
+                $("#runningTest").removeClass("btn-warning").addClass("btn-danger");
+                $("#status").removeClass().addClass("").html("Failing");
             } else {
                 if ($scope.resultsSummary.runCount == 0) {
                     //no test were run
-                    $("#status").removeClass().addClass("label label-warning").html("0 tests executed");
-                    toastr.warning("0 test executed");
+                    $("#status").removeClass().addClass("").html("No tests executed");
+                    toastr.error("No test executed");
                 } else {
-                    $("#status").removeClass().addClass("label label-success").html("Passing");
+                    $("#runningTest").removeClass("btn-warning btn-danger").addClass("btn-success");
+
+                    $("#status").removeClass().addClass("").html("Passed");
                     toastr.success("Test Pass with Sucess");
                 }
 
@@ -568,5 +571,115 @@ var EditorAreaController = function($rootScope, $scope, $log, $timeout, $modal, 
     $scope.multiTab = false;
 
 
+    /**
+     *   Tree view  controller
+     */
+
+    $scope.dataForTheTree = [];
+
+    $scope.fs = {
+        current: {}
+    };
+    var firstLoad = true;
+    var asyncLoad = function(node) {
+
+        var params = {
+            path: node.relativeUri || ""
+        };
+        node.children = FS.list(params, function() {
+            _.each(node.children, function(item) {
+                // tree navigation needs a label property
+                item.label = item.name;
+                if (firstLoad) {
+                    $scope.dataForTheTree.push(item);
+                }
+            });
+            firstLoad = false;
+        });
+        // console.log($scope.fs.current.children)
+    };
+
+    var loadChildren = function(item) {
+        // if (item.childrenLoaded) return;
+        asyncLoad(item);
+        // item.childrenLoaded = true;
+    };
+
+    $scope.showSelected = function(node) {
+
+        $scope.selectedNode = node;
+        console.log($scope.selectedNode)
+        if (node.type == "FILE") {
+            loadFile($scope.selectedNode.relativeUri);
+            $state.go("global.editorarea", {
+                path: $scope.selectedNode.relativeUri
+            }, {
+                location: 'replace', //  update url and replace
+                inherit: false,
+                notify: false
+            });
+        } else {
+            console.log(node.children)
+            loadChildren(node);
+            //expand the node
+            $scope.expandedNodes.push(node)
+        }
+
+    };
+
+    $scope.showToggle = function(node, expanded) {
+        console.log(node.children)
+        loadChildren(node);
+    };
+
+    console.debug($scope.fs.current)
+    asyncLoad($scope.fs.current);
+
+
+
+    /**
+     * NAVIGATION FOLDERS Functions
+     */
+    $scope.opts = {
+        injectClasses: {
+            ul: "a1",
+            li: "a2",
+            liSelected: "a7",
+            iExpanded: "a3",
+            iCollapsed: "a4",
+            iLeaf: "a5",
+            isFeature: "a2",
+            label: "a6",
+            labelSelected: "a8"
+        },
+        isLeaf: function(node) {
+            if (node.type === "DIR")
+                return false;
+            else
+                return true;
+        },
+        isFeature: function(node) {
+            if (node.type === "DIR")
+                return false;
+            else
+                return true;
+        },
+        dirSelectable: false
+    };
+
+    $scope.getColor = function(node) {
+        if (node.name === "features") {
+            return "red";
+        }
+        // } else if (node.name === "steps") {
+        //     return "blue"
+        // }
+
+    };
+
+    $scope.collapseAll = function() {
+        alert("sds")
+        $scope.expandedNodes = [];
+    };
 
 };

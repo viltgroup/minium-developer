@@ -9,7 +9,7 @@ import java.net.URLConnection;
 
 public class UrlUtils {
 
-	public static String extractContentAsString(String urlPath,String id){
+	public static String extractContentAsString(String urlPath){
 		StringBuilder sb = new StringBuilder();
 		URL url;
 		try {

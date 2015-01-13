@@ -140,7 +140,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		if (!buildDetails.getArtifacts().isEmpty()) {
 			Artifact artifact = buildDetails.getArtifacts().get(0);
 			if (artifact.getDisplayPath().equals("result.json")) {
-				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() +"artifact/"+  artifact.getRelativePath(), buildDetails.getId());
+				artifactContent = UrlUtils.extractContentAsString(buildDetails.getUrl() +"artifact/"+  artifact.getRelativePath());
 			} else {
 				artifactContent = Utils.artifactFromFile("mocks/mock-cgd-store.json");
 			}

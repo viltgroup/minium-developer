@@ -540,11 +540,17 @@ treecontrol.tree-classic li .tree-selected {
 /**
  * TREE VIEW
  */
-
-#tree-bar {
+#tree-bar{
     position: absolute;
-    margin-left: -260px;
-    margin-top: -550px;
+    margin-left: -250px;
+}
+
+.editor{
+    margin-top: -680px;
+}
+
+.multi-editor{
+    margin-top: -540px;
 }
 /**
  * EDITORS TABS

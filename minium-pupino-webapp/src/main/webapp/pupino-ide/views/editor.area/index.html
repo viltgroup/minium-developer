@@ -21,32 +21,6 @@
         <div class="btn-toolbar" role="toolbar">
             <br>
 
-            <!-- BUTTOn -->
-            <!--  <div id="inbox">
-                <div class="fab btn-group show-on-hover dropup">
-                    <div data-toggle="tooltip" data-placement="left" title="Compose" >
-                        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" >
-                            <span class="fa-stack">
-                                        <i class="fa fa-circle fab-backdrop"></i>
-                                        <i class="fa fa-plus fa-stack-1x fa-inverse fab-primary"></i>
-                                        <i class="fa fa-pencil fa-stack-1x fa-inverse fab-secondary"></i>
-                                    </span>
-                        </button>
-                    </div>
-                    <ul class="dropdown-menu dropdown-menu-right" role="menu" >
-                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Coffee"><i class="fa fa-coffee"></i></a>
-                        </li>
-                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="LiveChat"><i class="fa fa-comments-o"></i></a>
-                        </li>
-                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Reminders"><i class="fa fa-hand-o-up"></i></a>
-                        </li>
-                        <li><a href="#" data-toggle="tooltip" data-placement="left" title="Invites"><i class="fa fa-ticket"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
- -->
-
             <i class="fa fa-info-circle"></i>
             <span translate="editor.status">Status</span>:
             <!-- <span class="label label-default" id="status">
@@ -151,8 +125,8 @@
     </section>
     <!-- /.content -->
 
-    <div id="tree-bar">
-        <ul class="treeview-menu" style="display: block;text-transform: initial;">
+    <div id="tree-bar" ng-class="{'editor': !multiTab, 'multi-editor': multiTab}">
+        <ul class="treeview-menu" style="display: block;text-transform: initial;" >
             <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
                 <span style="color: {{getColor(node)}}"> {{node.name}}</span>
             </treecontrol>

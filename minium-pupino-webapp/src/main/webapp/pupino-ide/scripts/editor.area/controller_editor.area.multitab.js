@@ -27,7 +27,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     $scope.markerIds = [];
     $scope.clearMarkers = function() {
         $scope.markerIds.forEach(function(markerId) {
-            console.debug(activeSession);
             activeSession.session.removeMarker(markerId);
         });
         $scope.markerIds = [];
@@ -73,7 +72,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             var editor  = editors.getSession(tabId);
             if (editor !== null) {
                 activeSession = editor.instance;
-                   
+
                 $state.go("global.multi", {
                     path: editor.relativeUri
                 }, {
@@ -200,7 +199,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                     default: //do nothing
                 }
                 $scope.$apply();
-                console.log($scope.tests.total)
             });
 
 
@@ -219,7 +217,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                         break;
                     case "executing":
                         markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
-                        breakpoint(step.line - 1);
+                        //breakpoint(step.line - 1);
                         break;
                     case "undefined":
                         markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");

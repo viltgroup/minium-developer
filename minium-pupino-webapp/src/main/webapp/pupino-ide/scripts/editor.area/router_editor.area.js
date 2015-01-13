@@ -10,13 +10,19 @@ pupinoIDE
                 controller: "EditorAreaController"
             })
             .state('global.multi', {
-                url: "/editor-multi",
+                url: "/editor-multi/*path",
                 templateUrl: "pupino-ide/views/editor.area/index.html",
                 controller: "EditorAreaMultiTabController"
             })
 
         modalStateProvider
             .state('global.editorarea.newFile', {
+                templateUrl: "pupino-ide/views/editor.area/modal/new-file.html",
+                controller: "NewFileController"
+            });
+
+        modalStateProvider
+            .state('global.multi.newFile', {
                 templateUrl: "pupino-ide/views/editor.area/modal/new-file.html",
                 controller: "NewFileController"
             });

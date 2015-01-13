@@ -72,7 +72,10 @@
                                     <td>
                                         <span class="label" ng-class="{'label-danger' : !isPassed(builds[project.id].result),'label-success' : isPassed(builds[project.id].result)}">Failing</span>
                                     </td>
-                                    <td>
+                                    <td ng-if="builds[project.id] == null ">
+                                        No execution yet 
+                                    </td>
+                                    <td  ng-if="builds[project.id] != null ">
                                         <i class="fa fa-clock-o"></i> {{builds[project.id].key | humanizeDate}}
                                     </td>
                                     <td>{{project.description}}</td>

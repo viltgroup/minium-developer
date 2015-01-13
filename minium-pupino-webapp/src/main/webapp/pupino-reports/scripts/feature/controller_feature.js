@@ -101,8 +101,13 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
     /*
     Used as helper in view
      */
+
     $scope.isPassed = function(value) {
-        return value === "PASSED";
+        return (value === "PASSED") ;
+    }
+
+    $scope.isFailOrSkipped = function(value){
+        return (value === "FAILED" || value === "SKIPPED");
     }
 
     /*
@@ -111,5 +116,28 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
     $scope.renderHtml = function(html_code) {
         return $sce.trustAsHtml(html_code);
     };
+
+
+    $scope.status = function(status,prefix) {
+        var result = prefix;
+        result.concat("sdsd")
+        switch (status) {
+            case "PASSED":
+                result += 'success';
+                break;
+            case "FAILED":
+                result += 'danger';
+                break;
+            case "SKIPPED":
+                result += 'warning';
+                break;
+            default: //do nothing
+                result += 'info';
+        }
+         console.log(result)
+        return result;
+    }
+
+
 
 });

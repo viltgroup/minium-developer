@@ -17,8 +17,6 @@ package minium.pupino.config.cucumber;
 
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
-import minium.pupino.config.cucumber.CucumberConfiguration;
-import minium.pupino.config.cucumber.CucumberProperties;
 import minium.pupino.config.cucumber.CucumberProperties.CredentialsProperties;
 import minium.pupino.config.cucumber.CucumberProperties.RemoteBackendProperties;
 
@@ -26,10 +24,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = CucumberConfiguration.class)
+@ActiveProfiles("test")
 public class CucumberConfigurationTest {
 
     @Autowired

@@ -80,7 +80,7 @@
                         </a>
                      </td>
                      <td>
-                         <span class="label" ng-class="status(step.status,'label-')">
+                         <span class="label" ng-class="checkStatus(step.status,'label-')">
                            {{step.status}}
                         </span>
                      </td>
@@ -99,8 +99,6 @@
                <i ng-if="isPassed(element.status)" class="success fa fa-check-square "></i>
                <i ng-if="!isPassed(element.status)" class="danger fa fa-bug "></i> {{element.keyword}} <strong>{{element.rawName}}</strong>
                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
-               <a class="pull-right btn btn-primary btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Step file</a>
-               <a class="pull-right btn btn-warning btn-xs" ng-href="{{location}}/editor/{{step.match.location}}?line=1" target="_blank">Go to</a>
                <span class="hide">{{element.status}}</span>
             </accordion-heading>
             <!-- CONTENT -->
@@ -116,7 +114,7 @@
                <tbody>
                   <tr ng-repeat="step in element.steps">
                      <td style="width: 750px">
-                        <p ng-class="status(step.status,'')"> 
+                        <p ng-class="checkStatus(step.status,'')"> 
                            {{step.rawName}}
                         </p>
                         <!-- TABLES ROW -->
@@ -140,14 +138,15 @@
                      <td style="max-width: 400px;">
 
 
-                        <span class="label" ng-class="status(step.status,'label-')">
+                        <span class="label" ng-class="checkStatus(step.status,'label-')">
                         {{step.status}}
                         </span>
 
                         <!-- SCREENSHOT -->
                         <span ng-if="isFailOrSkipped(step.status)">
                            <br> <br>
-                           <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" />
+                           <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="step.embeddings !== null"/>
+
                            <!-- <p ng-bind-html="renderHtml(step.name)"></p>  -->
                         </span>
 
@@ -157,6 +156,9 @@
             </table>
          </accordion-group>
       </accordion>
+
+
+
       <!-- Modal -->
       <div id="summary" class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
          <div class="modal-dialog">

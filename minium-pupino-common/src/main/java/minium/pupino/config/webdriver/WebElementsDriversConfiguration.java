@@ -115,7 +115,7 @@ public class WebElementsDriversConfiguration {
             String browserName = desiredCapabilities == null ? null : desiredCapabilities.getBrowserName();
             if (StringUtils.isEmpty(browserName)) browserName = BrowserType.CHROME;
             webDriver = WebDriverType.typeFor(desiredCapabilities.getBrowserName()).create(desiredCapabilities, requiredCapabilities);
-        }
+        } 
         WindowProperties window = webElementsDriversProperties.getWindow();
         if (window != null) {
             DimensionProperties size = window.getSize();

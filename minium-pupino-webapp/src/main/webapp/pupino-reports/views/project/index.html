@@ -35,7 +35,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Last Execution Status</th>
-                                    <th>Status</th>
+                                    <!-- <th>Status</th> -->
                                     <th>Last Execution Date</th>
                                     <th>Description</th>
                                     <th></th>
@@ -69,9 +69,9 @@
                                      <td ng-if="builds[project.id] != null && builds[project.id].summary == null">
                                         No results found
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <span class="label" ng-class="{'label-danger' : !isPassed(builds[project.id].result),'label-success' : isPassed(builds[project.id].result)}">Failing</span>
-                                    </td>
+                                    </td> -->
                                     <td ng-if="builds[project.id] == null ">
                                         No execution yet 
                                     </td>

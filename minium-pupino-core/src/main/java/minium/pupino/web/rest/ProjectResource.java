@@ -90,6 +90,11 @@ public class ProjectResource {
 //			List<BuildDTO> builds = jenkinService.getBuilds(p.getName());
 //			buildService.save(builds, p);
 //			
+//			 p = projectRepository.findOne((long) 100);
+//				
+//			builds = jenkinService.getBuilds(p.getName());
+//			buildService.save(builds, p);
+//			
 //			
 //			p = projectRepository.findOne((long) 3);
 //			builds = jenkinService.getBuilds("my-cp-test");

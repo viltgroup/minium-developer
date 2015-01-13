@@ -3,16 +3,12 @@ package minium.pupino.config;
 import java.io.IOException;
 import java.util.List;
 
-import minium.pupino.webdriver.PupinoWebElementsDriverFactory;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.annotation.Autowire;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -22,49 +18,23 @@ import com.vilt.minium.script.MiniumScriptEngine;
 import com.vilt.minium.script.RhinoPreferences;
 
 @Configuration
-@Lazy
-public class PupinoConfiguration implements DisposableBean {
+public class PupinoConfiguration {
+
+    public static final String PUPINO_PROFILE = "pupino";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PupinoConfiguration.class);
 
-    private static DefaultWebElementsDriver wd;
-
-    @Profile("pupino")
-    @Bean(autowire = Autowire.NO)
-    public DefaultWebElementsDriver wd() {
-        return createIfNeeded();
-    }
+    @Autowired
+    @Lazy
+    private DefaultWebElementsDriver wd;
 
     @Bean
     public MiniumScriptEngine miniumScriptEngine() throws IOException {
         RhinoPreferences preferences = new RhinoPreferences();
         preferences.setModulePath(getModulesUrls());
         MiniumScriptEngine miniumScriptEngine = new MiniumScriptEngine(preferences);
-        miniumScriptEngine.put("wd", wd());
+        miniumScriptEngine.put("wd", wd);
         return miniumScriptEngine;
-    }
-
-    @Bean
-    public PupinoWebElementsDriverFactory webElementsDriverFactory() {
-        return new PupinoWebElementsDriverFactory();
-    }
-
-    @Override
-    public synchronized void destroy() throws Exception {
-        if (wd != null) {
-            try {
-                wd.close();
-            } finally {
-                wd = null;
-            }
-        }
-    }
-
-    protected synchronized DefaultWebElementsDriver createIfNeeded() {
-        if (wd == null) {
-            wd = webElementsDriverFactory().create();
-        }
-        return wd;
     }
 
     protected List<String> getModulesUrls() throws IOException {

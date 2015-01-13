@@ -24,6 +24,7 @@ import minium.pupino.webdriver.SelectorGadgetWebElements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -38,6 +39,7 @@ public class SelectorGadgetResource {
 	private static final Logger log = LoggerFactory.getLogger(SelectorGadgetResource.class);
 
 	@Autowired
+	@Lazy
 	private DefaultWebElementsDriver wd;
 
 	private boolean activated = false;

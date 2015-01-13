@@ -6,7 +6,7 @@ spring:
     
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:pupino
+        url: jdbc:h2:file:~/testdb
         databaseName: 
         serverName: 
         username: 
@@ -16,7 +16,7 @@ spring:
         database-platform: org.hibernate.dialect.H2Dialect
         database: H2
         openInView: true
-        show_sql: true
+        show_sql: false
         generate-ddl: false
         hibernate:
             ddl-auto: none

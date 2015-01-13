@@ -5,10 +5,17 @@
 	<parent>
 		<groupId>com.vilt-group.minium</groupId>
 		<artifactId>minium-pupino</artifactId>
-		<version>0.9.6-SNAPSHOT</version>
+		<version>0.9.7-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>minium-pupino-common</artifactId>
 	<name>Minium Pupino - Common</name>
 	
+	<dependencies>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
+			<version>2.1.5</version>
+		</dependency>
+	</dependencies>
 </project>

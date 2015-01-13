@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.vilt-group.minium</groupId>
 		<artifactId>minium-pupino</artifactId>
-		<version>0.9.6-SNAPSHOT</version>
+		<version>0.9.7-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>minium-pupino-core</artifactId>
@@ -17,6 +17,22 @@
 			<artifactId>minium-pupino-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-integration</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-integration-core</artifactId>
+					<groupId>org.springframework.integration</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-integration</artifactId>
+		</dependency>
+		 -->
 	</dependencies>
 
 	<build>

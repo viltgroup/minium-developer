@@ -6,6 +6,7 @@ import static org.springframework.util.MimeTypeUtils.IMAGE_PNG_VALUE;
 import java.io.OutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +19,7 @@ import com.vilt.minium.actions.DebugInteractions;
 public class ScreenshotResource {
 
     @Autowired
+    @Lazy
     private DefaultWebElementsDriver wd;
 
 	@RequestMapping(value = "/screenshot", method = RequestMethod.GET, produces = IMAGE_PNG_VALUE)

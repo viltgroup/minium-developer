@@ -55,8 +55,10 @@ public class Application implements EmbeddedServletContainerCustomizer {
 	 * Main method, used to run the application.
 	 */
 	public static void main(String[] args) {
-		SpringApplicationBuilder appBuilder = new SpringApplicationBuilder(Application.class).showBanner(true)
-				.headless(Boolean.getBoolean("java.awt.headless")).profiles("pupino");
+		SpringApplicationBuilder appBuilder = new SpringApplicationBuilder(Application.class)
+		        .showBanner(true)
+				.headless(Boolean.getBoolean("java.awt.headless"))
+				.profiles("pupino");
 
 		SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
 
@@ -85,9 +87,10 @@ public class Application implements EmbeddedServletContainerCustomizer {
 			// not a big deal
 		}
 	}
-	//to set the value of httpOnly = false
-	//to allow to access jsessionID in javascript
-	//http://stackoverflow.com/questions/22428233/turn-off-httponly-spring-boot
+
+    // to set the value of httpOnly = false
+    // to allow to access jsessionID in javascript
+    // http://stackoverflow.com/questions/22428233/turn-off-httponly-spring-boot
 	@Override
 	public void customize(final ConfigurableEmbeddedServletContainer container) {
 		((TomcatEmbeddedServletContainerFactory) container).addContextCustomizers(new TomcatContextCustomizer() {

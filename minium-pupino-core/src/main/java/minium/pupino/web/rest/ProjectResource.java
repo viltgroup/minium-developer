@@ -13,6 +13,7 @@ import minium.pupino.repository.BuildRepository;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.BuildService;
 import minium.pupino.service.JenkinsService;
+import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,10 +86,10 @@ public class ProjectResource {
 	public List<Project> getAll() throws IOException, URISyntaxException {
 		log.debug("REST request to get all Projects");
 		if (i == 0) {
-			Project p = projectRepository.findOne((long) 1);
+			Project p = projectRepository.findOne((long) 105);
 			
-//			List<BuildDTO> builds = jenkinService.getBuilds("cp-e2e-test");
-//			buildService.save(builds, p);
+			List<BuildDTO> builds = jenkinService.getBuilds(p.getName());
+			buildService.save(builds, p);
 //			
 //			
 //			p = projectRepository.findOne((long) 3);

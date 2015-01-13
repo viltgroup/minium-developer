@@ -1,6 +1,7 @@
 'use strict';
 var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, MiniumEditor, FS, launcherService, FeatureFacade) {
 
+
     $('.fab').hover(function() {
         $(this).toggleClass('active');
     });
@@ -69,7 +70,19 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     var tabs = $('#tabs').tabs({
         beforeActivate: function(event, ui) {
             var tabId = ui.newPanel.attr('data-tab-id');
-            activeSession = editors.getSession(tabId);
+            var editor  = editors.getSession(tabId);
+            if (editor !== null) {
+                activeSession = editor.instance;
+                   
+                $state.go("global.multi", {
+                    path: editor.relativeUri
+                }, {
+                    location: 'replace', //  update url and replace
+                    inherit: false,
+                    notify: false
+                });
+            }
+
         }
     });
 
@@ -119,26 +132,19 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         editors.getEditors();
     });
 
-    
+
     //CLOSE TAB
     $('.ui-icon-close').on('click', function() {
         alert("sdd")
         console.log('close a tab and destroy the ace editor instance');
 
+
         console.log($(this).parent());
 
         var tabUniqueId = $(this).parent().attr('data-tab-id');
 
-        console.log(tabUniqueId);
-
-        var resultArray = $.grep(editors, function(n, i) {
-            return n.id === tabUniqueId;
-        }, true);
-
-        var editor = resultArray[0].instance;
-
         // destroy the editor instance
-        editor.destroy();
+        // activeSession.destroy();
 
         // remove the panel and panel nav dom
         $('#tabs').find('#panel_nav_' + tabUniqueId).remove();
@@ -273,6 +279,13 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         console.log($scope.selectedNode)
         if (node.type == "FILE") {
             loadFile($scope.selectedNode.relativeUri);
+            $state.go("global.multi", {
+                path: $scope.selectedNode.relativeUri
+            }, {
+                location: 'replace', //  update url and replace
+                inherit: false,
+                notify: false
+            });
         } else {
             console.log(node.children)
             loadChildren(node);
@@ -347,6 +360,19 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         if (obj.length === 0)
             return true;
     }
+
+    $scope.launchAll = function() {
+        //if no file is selected
+        if ($scope.selected.item === undefined)
+            return;
+
+        var launchParams = {
+            fileProps: $scope.selected.item.fileProps
+        };
+
+        $scope.launch(launchParams);
+    }
+
     var annotations = [];
     var executionWasStopped;
     $scope.launch = function(launchParams) {

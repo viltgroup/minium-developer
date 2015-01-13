@@ -114,7 +114,7 @@ public class WebElementsDriversConfiguration {
         } else {
             String browserName = desiredCapabilities == null ? null : desiredCapabilities.getBrowserName();
             if (StringUtils.isEmpty(browserName)) browserName = BrowserType.CHROME;
-            webDriver = WebDriverType.typeFor(desiredCapabilities.getBrowserName()).create(desiredCapabilities, requiredCapabilities);
+            webDriver = WebDriverType.typeFor(browserName).create(desiredCapabilities, requiredCapabilities);
         }
         WindowProperties window = webElementsDriversProperties.getWindow();
         if (window != null) {

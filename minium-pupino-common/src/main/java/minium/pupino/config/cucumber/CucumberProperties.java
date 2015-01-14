@@ -15,6 +15,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.common.base.Objects;
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
@@ -258,6 +259,17 @@ public class CucumberProperties {
         }
 
         public String getContent() {
+            if (content == null) {
+                List<String> parts = Splitter.on("...").splitToList(name);
+                StringBuilder buf = new StringBuilder();
+                for (int i = 0; i < parts.size(); i++) {
+                    buf.append(parts.get(i));
+                    if (i != parts.size() - 1) {
+                        buf.append("${" + (i + 1) + ":value}");
+                    }
+                }
+                return buf.toString();
+            }
             return content;
         }
 

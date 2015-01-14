@@ -33,7 +33,7 @@
 
                     <!-- Alert No data -->
                     <div class="alert alert-info" ng-show="!buildsFacade.lastFinishedBuild && !buildingBuilds && !buildsFacade.buildingBuilds">
-                        <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
+                        <a class="btn btn-xs btn-primary pull-right" ui-sref="global.project-detail.overview.launch">
                             <i class="fa fa-play"></i> Launch Test execution
                         </a>
                         <strong>Info:</strong> Theres no data
@@ -50,9 +50,8 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <!-- BUILDING BUILDS -->
+                        <!--  BUILDING BUILDS -->
                         <tbody>
-
                             <tr ng-show="buildsFacade.buildingBuilds.length > 0">
                                 <td ng-hide="estimatedTime == 0">
                                     <i class="fa fa-2x fa-gear fa-spin"></i>
@@ -86,9 +85,9 @@
                             </tr>
                         </tbody>
                         
-
                         <!-- LAST BUILD -->
                         <tbody ng-show="buildsFacade.lastFinishedBuild">
+                        <!-- {{buildsFacade.lastFinishedBuild}} -->
                             <tr ng-class="{'danger' : (buildsFacade.lastFinishedBuild.result != 'SUCCESS') }">
                                 <td>
                                     <icon-item content="buildsFacade.lastFinishedBuild.result" type="build">
@@ -105,7 +104,8 @@
 
                                 </td>
                                 <td>
-                                    <i class="fa fa-clock-o"></i> {{buildsFacade.lastFinishedBuild.key | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> 
+                                    {{buildsFacade.lastFinishedBuild.key | humanizeDate}}
                                 </td>
                                 <td>
                                     {{buildsFacade.lastFinishedBuild.duration | durationMilliseconds}}
@@ -145,7 +145,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="build in buildsFacade.builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
+                            <tr ng-repeat="build in buildsFacade.builds " ng-class="{'danger' : (build.result != 'SUCCESS') }">
+
                                 <td>
                                     <icon-item content="build.result" type="build"></icon-item>
                                     <br>

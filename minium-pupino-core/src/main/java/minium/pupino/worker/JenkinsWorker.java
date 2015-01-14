@@ -48,7 +48,7 @@ public class JenkinsWorker {
 	public void checkBuildState(final minium.pupino.domain.Build build, final JobWithDetails job,final int buildNumber, String sessionID) throws InterruptedException, ExecutionException {
 		ScheduledFuture<?> scheduleFuture;
 		
-		scheduleFuture = exec.scheduleAtFixedRate(new BuildStatusTask(build,job,buildNumber,messagingTemplate, buildService, jenkinsClient,num,scheduledRunnable,sessionID), 0, 5, TimeUnit.SECONDS);
+		scheduleFuture = exec.scheduleAtFixedRate(new BuildStatusTask(build,job,buildNumber,messagingTemplate, buildService, jenkinsClient,num,scheduledRunnable,sessionID), 0, 2, TimeUnit.SECONDS);
 		log.debug("Executing ...");
 		scheduledRunnable.put(num++, scheduleFuture);
 

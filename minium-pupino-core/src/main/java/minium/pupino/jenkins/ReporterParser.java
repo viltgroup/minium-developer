@@ -1,12 +1,14 @@
 package minium.pupino.jenkins;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import minium.pupino.web.rest.dto.SummaryDTO;
+import net.masterthought.cucumber.json.Element;
 import net.masterthought.cucumber.json.Feature;
 
 import org.springframework.stereotype.Component;
@@ -44,26 +46,39 @@ public class ReporterParser {
 		SummaryDTO summary;
 		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;
 		List<Feature> features = parseJsonResult(results);
+		List<Element> elem  = new ArrayList<Element>();
 		for (Feature f : features) {
 			f.processSteps();
+//			for(Element e : f.getElements()){
+//				if(e.getStatus().equals("FAILING")){
+//					elem.add(e);
+//				}
+//			}
 			totalScenarios   += f.getNumberOfScenarios();
 			passingScenarios += f.getNumberOfScenariosPassed();
 			failingScenarios += f.getNumberOfScenariosFailed();
 		}
-		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios);
+		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios,elem);
 		return summary;
 	}
 
 	public SummaryDTO getSummaryFromFeatures(List<Feature> features) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
 		SummaryDTO summary;
 		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;
+		List<Element> elem  = new ArrayList<Element>();
 		for (Feature f : features) {
 			f.processSteps();
+//			for(Element e : f.getElements()){
+//				System.out.println(e.getStatus());
+//				if(e.getStatus() == Util.Status.FAILED){
+//					elem.add(e);
+//				}
+//			}
 			totalScenarios   += f.getNumberOfScenarios();
 			passingScenarios += f.getNumberOfScenariosPassed();
 			failingScenarios += f.getNumberOfScenariosFailed();
 		}
-		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios);
+		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios,elem);
 		return summary;
 	}
 

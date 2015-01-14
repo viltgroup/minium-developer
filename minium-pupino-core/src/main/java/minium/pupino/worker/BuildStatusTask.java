@@ -40,7 +40,7 @@ public class BuildStatusTask implements Runnable {
 	private String sessionID;
 	
 	public BuildStatusTask(minium.pupino.domain.Build build, JobWithDetails job, int buildNumber, MessageSendingOperations<String> messagingTemplate,
-			BuildService buildService, JenkinsClient jenkinsClient, int num, Map<Integer, ScheduledFuture> scheduledRunnable, String sessionID) {
+		BuildService buildService, JenkinsClient jenkinsClient, int num, Map<Integer, ScheduledFuture> scheduledRunnable, String sessionID) {
 
 		this.index = num;
 		this.build = build;
@@ -90,8 +90,8 @@ public class BuildStatusTask implements Runnable {
 			} else {
 				if (buildDetails != null) {
 					String msg = buildDetails.getEstimatedDuration() + "-" + buildDetails.getTimestamp();
-					messagingTemplate.convertAndSend("/building/" + sessionID, msg);
-					log.debug("Send message for /building {}", msg);
+					messagingTemplate.convertAndSend("/building/" + sessionID + "/project/" + build.getProject().getId() , msg);
+					log.info("Send message for  /building/{}/project/{}",sessionID,build.getProject().getId() );
 				}
 			}
 

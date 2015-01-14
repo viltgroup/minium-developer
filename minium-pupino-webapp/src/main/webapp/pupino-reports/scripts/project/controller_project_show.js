@@ -18,6 +18,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
 
 
     var getBuilds = function() {
+        $scope.estimatedTime = 0;
         $scope.faillingFeatures = [];
         $scope.passingFeatures = [];
 
@@ -100,7 +101,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
-            stompClient.subscribe("/building/" + session_id, function(data) {
+            stompClient.subscribe("/building/" + session_id + "/project/" + $scope.project.id , function(data) {
                 console.debug(data);
                 //data arrive like duration-timestamp ("2222-14000000")
                 var res = data.body.split("-");
@@ -126,7 +127,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
             //return the progress of the build
             $scope.estimatedTime = estimation.currentTime();
             $scope.estimatedRemainning = estimation.duration();
-            if ($scope.estimatedTime >= 150) {
+            if ($scope.estimatedTime >= 110) {
                 console.log("Stopeedes")
                 $scope.stop();
                 //update the builds

@@ -89,9 +89,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         console.log(activeSession);
     }
 
-    $("li[id*=panel_nav_]").on("click", function() {
-        alert("Tab Clicked!");
-    });
 
     $scope.selected = {};
     var loadFile = function(props) {
@@ -134,7 +131,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     //CLOSE TAB
     $('.ui-icon-close').on('click', function() {
-        alert("sdd")
         console.log('close a tab and destroy the ace editor instance');
 
 
@@ -334,9 +330,9 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     };
 
     $scope.getColor = function(node) {
-        if (node.name === "features") {
-            return "red";
-        }
+        // if (node.name === "features") {
+        //     return "red";
+        // }
         // } else if (node.name === "steps") {
         //     return "blue"
         // }
@@ -344,7 +340,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     };
 
     $scope.collapseAll = function() {
-        alert("sds")
         $scope.expandedNodes = [];
     };
 
@@ -464,7 +459,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
 
         }).error(function() {
-            alert("error")
+            
         });
     }
 };

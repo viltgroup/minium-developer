@@ -1,16 +1,22 @@
 package minium.pupino.web.rest.dto;
 
+import java.util.List;
+
+import net.masterthought.cucumber.json.Element;
+
 public class SummaryDTO {
 
 	int totalScenarios;
 	int passingScenarios;
 	int faillingScenarios;
+	List<Element> failingScenariosList;
 	
-	public SummaryDTO(int totalScenarios, int passingScenarios, int faillingScenarios) {
+	public SummaryDTO(int totalScenarios, int passingScenarios, int faillingScenarios,List<Element> failingScenariosList) {
 		super();
 		this.totalScenarios = totalScenarios;
 		this.passingScenarios = passingScenarios;
 		this.faillingScenarios = faillingScenarios;
+		this.failingScenariosList =  failingScenariosList;
 	}
 	
 	public SummaryDTO() {
@@ -37,6 +43,14 @@ public class SummaryDTO {
 	}
 	public void setFaillingScenarios(int faillingScenarios) {
 		this.faillingScenarios = faillingScenarios;
+	}
+
+	public List<Element> getFailingScenariosList() {
+		return failingScenariosList;
+	}
+
+	public void setFailingScenariosList(List<Element> failingScenariosList) {
+		this.failingScenariosList = failingScenariosList;
 	}
 	
 	

@@ -12,7 +12,10 @@
         <div class="panel panel-default panel-border-left">
             <div class="panel-body box-mt">
                 <div class="post-img-content">
-                    <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" style="width: 590px; height: 215px;">
+                    <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" style="width: 590px; height: 215px;" ng-if="step.embeddings !== null">
+
+                    <img src="data:{{scenario.steps[scenario.steps.length-1].embeddings[0].mime_type}};base64,{{scenario.steps[scenario.steps.length-1].embeddings[0].data}}" alt=""  ng-if="step.embeddings === null" />
+
                 </div>
                 <div class="alert alert-info" ng-show="faillingScenarios.length == 0">
                     No fails

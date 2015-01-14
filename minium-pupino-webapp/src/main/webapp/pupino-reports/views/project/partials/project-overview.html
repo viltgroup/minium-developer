@@ -89,6 +89,7 @@
 
                         <!-- LAST BUILD -->
                         <tbody ng-show="buildsFacade.lastFinishedBuild">
+                        <!-- {{buildsFacade.lastFinishedBuild}} -->
                             <tr ng-class="{'danger' : (buildsFacade.lastFinishedBuild.result != 'SUCCESS') }">
                                 <td>
                                     <icon-item content="buildsFacade.lastFinishedBuild.result" type="build">
@@ -105,7 +106,8 @@
 
                                 </td>
                                 <td>
-                                    <i class="fa fa-clock-o"></i> {{buildsFacade.lastFinishedBuild.key | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> 
+                                    {{buildsFacade.lastFinishedBuild.key | humanizeDate}}
                                 </td>
                                 <td>
                                     {{buildsFacade.lastFinishedBuild.duration | durationMilliseconds}}

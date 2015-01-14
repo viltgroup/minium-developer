@@ -81,10 +81,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             this.scope.subscribeMessages();
         }
 
-        var cursor = editor.getCursorPosition();
-        editor.getSession().getDocument().setValue(fileContent.content);
-        editor.moveCursorToPosition(cursor);
-        editor.clearSelection();
+
+        setAceContent(fileContent, editor);
 
 
         // resize the editor
@@ -98,7 +96,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             relativeUri: fileProps.relativeUri
         });
         //create event listeners (bind keys events)
-        bindKeys(editor,this.scope);
+        bindKeys(editor, this.scope);
         //init other configurations like autocompletion
         otherConfigurations(editor);
 
@@ -151,8 +149,17 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             }
         });
         return (editor != null ? editor : null);
-    }
+    };
 
+    ////////////////////////////////////////////////////////////////
+    //
+    // hightlight Line in editor
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.hightlightLine = function(row, editor, type) {
+        editor.getSession().setBreakpoint(row, type);
+    };
 
     ////////////////////////////////////////////////////////////////
     //
@@ -170,12 +177,12 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     function addDOM(tabUniqueId, fileProps) {
 
         var fileName = fileProps.name || "untitled";
-        
+
         var tabsElement = $('#tabs');
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" title="'+fileProps.relativeUri+'">' + fileName + '</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + '</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);
@@ -210,6 +217,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     }
 
+
+
     function setSettings(editor) {
         editor.setTheme("ace/theme/monokai");
         editor.getSession().setMode("ace/mode/gherkin");
@@ -230,19 +239,19 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             enableSnippets: true
         });
 
-        StepProvider.all().then(function (response) {
-          var snippetManager = ace.require("ace/snippets").snippetManager;
+        StepProvider.all().then(function(response) {
+            var snippetManager = ace.require("ace/snippets").snippetManager;
 
-          var util = ace.require("ace/autocomplete/util");
-          var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
-          util.retrievePrecedingIdentifier = function(text, pos, regex) {
-            if (!/^\s*(?:Given|When|Then|And|Neither)\s+/.test(text)) {
-              return originalRetrievePrecedingIdentifier(text, pos, regex);
-            }
-            return text.replace(/^\s+/, "");
-          };
+            var util = ace.require("ace/autocomplete/util");
+            var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
+            util.retrievePrecedingIdentifier = function(text, pos, regex) {
+                if (!/^\s*(?:Given|When|Then|And|Neither)\s+/.test(text)) {
+                    return originalRetrievePrecedingIdentifier(text, pos, regex);
+                }
+                return text.replace(/^\s+/, "");
+            };
 
-          snippetManager.register(response.data, "gherkin");
+            snippetManager.register(response.data, "gherkin");
         });
     }
 
@@ -255,7 +264,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //   editor - instance of the editor
     //
     //////////////////////////////////////////////////////////////////
-    function bindKeys(editor,scope) {
+    function bindKeys(editor, scope) {
         var scope = scope;
 
         editor.commands.addCommand({
@@ -285,18 +294,21 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         });
     }
 
-
-
     function saveFile(editor, scope) {
-        console.log(scope)
         var scope = scope;
         var item = scope.selected.item;
         item.content = editor.getSession().getValue();
         item.$save(function() {
-            //setAceContent(item);
+            setAceContent(item, editor);
         });
     };
 
+    function setAceContent(item, editor) {
+        var cursor = editor.getCursorPosition();
+        editor.getSession().getDocument().setValue(item.content);
+        editor.moveCursorToPosition(cursor);
+        editor.clearSelection();
+    }
 
     function openFile() {
         this.scope.$apply(function() {

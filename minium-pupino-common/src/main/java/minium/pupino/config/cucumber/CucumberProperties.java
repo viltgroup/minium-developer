@@ -244,8 +244,42 @@ public class CucumberProperties {
         }
     }
 
+    public static class SnippetProperties {
+        private String name;
+        private String content;
+        private String trigger;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public String getTrigger() {
+            if (trigger == null) {
+                return name.replaceAll("\\s+.*", "");
+            }
+            return trigger;
+        }
+
+        public void setTrigger(String trigger) {
+            this.trigger = trigger;
+        }
+    }
+
     private OptionsProperties options = new OptionsProperties();
     private List<RemoteBackendProperties> remoteBackends = Lists.newArrayList();
+    private List<SnippetProperties> snippets = Lists.newArrayList();
 
     public OptionsProperties getOptions() {
         return options;
@@ -261,5 +295,13 @@ public class CucumberProperties {
 
     public void setRemoteBackends(Collection<RemoteBackendProperties> remoteBackends) {
         this.remoteBackends = Lists.newArrayList(remoteBackends);
+    }
+
+    public List<SnippetProperties> getSnippets() {
+        return snippets;
+    }
+
+    public void setSnippets(List<SnippetProperties> snippets) {
+        this.snippets = snippets;
     }
 }

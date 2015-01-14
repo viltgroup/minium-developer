@@ -5,17 +5,11 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import minium.pupino.config.MiniumConfiguration;
 import minium.pupino.cucumber.JsVariablePostProcessor;
-import minium.pupino.cucumber.MiniumBackend;
 import minium.pupino.cucumber.MiniumCucumber;
-import minium.pupino.cucumber.MiniumRhinoTestContextManager;
-import minium.pupino.cucumber.MiniumRhinoTestsSupport;
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.web.rest.StepDefinitionDTO;
@@ -29,12 +23,9 @@ import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runner.notification.StoppedByUserException;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.messaging.core.MessageSendingOperations;
@@ -42,17 +33,12 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Throwables;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import cucumber.runtime.Backend;
 import cucumber.runtime.RuntimeOptions;
 import cucumber.runtime.RuntimeOptionsFactory;
 import cucumber.runtime.StepDefinition;
-import cucumber.runtime.io.MultiLoader;
-import cucumber.runtime.io.ResourceLoader;
-import cucumber.runtime.rest.BackendConfigurer;
-import cucumber.runtime.rest.BackendRegistry;
 import cucumber.runtime.rest.SimpleGlue;
 
 @Service
@@ -140,56 +126,24 @@ public class LaunchService {
         }
     }
 
-    public List<StepDefinitionDTO> getStepDefinitions() throws IOException {
-        ClassLoader classloader = GenericTest.class.getClassLoader();
-        MiniumRhinoTestContextManager testContextManager = new MiniumRhinoTestContextManager(GenericTest.class);
-        ResourceLoader resourceLoader = new MultiLoader(classloader);
-        List<Backend> backends = getBackends(testContextManager, classloader, resourceLoader);
-        RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(GenericTest.class).create();
-        SimpleGlue glue = new SimpleGlue();
-        for (Backend backend : backends) {
-            backend.loadGlue(glue, runtimeOptions.getGlue());
-        }
-
-        List<StepDefinitionDTO> results = Lists.newArrayList();
-        for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
-            results.add(new StepDefinitionDTO(stepDefinition));
-        }
-        return results;
-    }
-
-    private List<Backend> getBackends(MiniumRhinoTestContextManager testContextManager, ClassLoader classLoader, ResourceLoader resourceLoader) throws IOException {
-        BackendRegistry backendRegistry = new BackendRegistry();
-        Collection<BackendConfigurer> backendConfigurers = testContextManager.getBeanFactory().getBeansOfType(BackendConfigurer.class).values();
-
-        for (BackendConfigurer backendConfigurer : backendConfigurers) {
-            backendConfigurer.addBackends(backendRegistry);
-        }
-
-        Map<String, Backend> backends = backendRegistry.getAll();
-        if (LOGGER.isDebugEnabled()) {
-            for (Entry<String, Backend> entry : backends.entrySet()) {
-                LOGGER.debug("Found backend {}", entry.getKey());
-            }
-        }
-        Object testInstance = null;
-
+    public List<StepDefinitionDTO> getStepDefinitions() {
         try {
-            testInstance = new GenericTest();
-            if (applicationContext instanceof ConfigurableApplicationContext) {
-                ((AutowireCapableBeanFactory) applicationContext).autowireBean(testInstance);
+            MiniumCucumber miniumCucumber = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
+            List<Backend> backends = miniumCucumber.getAllBackends();
+            RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(GenericTest.class).create();
+            SimpleGlue glue = new SimpleGlue();
+            for (Backend backend : backends) {
+                backend.loadGlue(glue, runtimeOptions.getGlue());
             }
+
+            List<StepDefinitionDTO> results = Lists.newArrayList();
+            for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
+                results.add(new StepDefinitionDTO(stepDefinition));
+            }
+            return results;
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }
-
-        Context cx = Context.enter();
-        Global scope = new Global(cx);
-        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, cx, scope, applicationContext.getAutowireCapableBeanFactory(), variablePostProcessor);
-        support.initialize();
-
-        MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);
-        return ImmutableList.<Backend>builder().add(backend).addAll(backends.values()).build();
     }
 
     public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {

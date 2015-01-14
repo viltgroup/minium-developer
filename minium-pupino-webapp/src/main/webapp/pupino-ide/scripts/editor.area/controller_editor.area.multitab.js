@@ -10,6 +10,11 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     })
 
 
+    //creates breakpoint in ace editor
+    var breakpoint = function(row) {
+        activeSession.getSession().setBreakpoint(row, "breakpoint");
+    };
+
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
     $scope.image = {};
@@ -43,7 +48,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     $scope.stopLaunch = function() {
         launcherService.stop().success(function() {
             toastr.warning("Test Stopped with success!!")
-            onFinishTestExecution();
+            $scope.onFinishTestExecution();
             $scope.executionWasStopped = true;
         });
     };
@@ -69,7 +74,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     var tabs = $('#tabs').tabs({
         beforeActivate: function(event, ui) {
             var tabId = ui.newPanel.attr('data-tab-id');
-            var editor  = editors.getSession(tabId);
+            var editor = editors.getSession(tabId);
             if (editor !== null) {
                 activeSession = editor.instance;
 
@@ -80,14 +85,18 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                     inherit: false,
                     notify: false
                 });
-            }
+                editors.hightlightLine(10, activeSession, "failed");
 
+            }
         }
+
+
     });
 
     $scope.getSession = function() {
         console.log(activeSession);
     }
+
 
 
     $scope.selected = {};
@@ -114,6 +123,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 activeSession = editors.addInstance(fileContent);
             });
         }
+
     };
 
     if ($stateParams.path) {
@@ -126,6 +136,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     $('#addTab').on('click', function() {
         loadFile("");
         editors.getEditors();
+
     });
 
 
@@ -176,7 +187,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             console.log('Connected: ' + frame);
             stompClient.subscribe("/tests/" + session_id, function(message) {
                 var body = message.body;
-                console.log(eval('(' + body + ')'));
                 var testMessage = eval('(' + body + ')');
 
                 switch (testMessage.type) {
@@ -206,16 +216,20 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 var markerId;
                 switch (step.status) {
                     case "failed":
-                        markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
+                        editors.hightlightLine((step.line - 1), activeSession, "breakpoint");
+                        // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
                         break;
                     case "passed":
-                        markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
+                        editors.hightlightLine((step.line - 1), activeSession, "passed");
+                        //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
                         break;
                     case "executing":
-                        markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
+                        editors.hightlightLine((step.line - 1), activeSession, "breakpoint");
+                        // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
                         //breakpoint(step.line - 1);
                         break;
                     case "undefined":
+                        editors.hightlightLine((step.line - 1), activeSession, "undefined");
                         markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
                         break;
                     default: //do nothing
@@ -226,10 +240,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         });
     };
 
-    //creates breakpoint in ace editor
-    var breakpoint = function(row) {
-        activeSession.getSession().setBreakpoint(row, "breakpoint");
-    };
+
 
 
 
@@ -459,7 +470,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
 
         }).error(function() {
-            
+
         });
     }
 };

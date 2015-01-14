@@ -55,6 +55,21 @@
     box-shadow: inset 0px 0px 2px 2px #3c8dbc;
     color: white;
 }
+.passed {
+    border-radius: 20px 0px 0px 20px;
+    box-shadow: inset 0px 0px 2px 2px green;
+    color: white;
+}
+.failed {
+    border-radius: 20px 0px 0px 20px;
+    box-shadow: inset 0px 0px 2px 2px red;
+    color: white;
+}
+.undefined {
+    border-radius: 20px 0px 0px 20px;
+    box-shadow: inset 0px 0px 2px 2px ;
+    color: white;
+}
 .ace-monokai .ace_marker-layer .ace_active-line {
     background: #555;
 }

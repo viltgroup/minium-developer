@@ -6,7 +6,7 @@ spring:
 
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:pupino
+        url: jdbc:h2:file:~/minium-manager-db/minium-manager-db
         databaseName: 
         serverName: 
         username: 

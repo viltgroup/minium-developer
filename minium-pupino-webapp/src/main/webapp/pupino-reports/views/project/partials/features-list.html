@@ -58,7 +58,7 @@
                 <icon-item content="feature.status" type="feature"></icon-item>
             </td>
             <td>
-                <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
+                <a ui-sref="global.feature({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
                    {{feature.rawName}}
                 </a>
             </td>
@@ -139,7 +139,7 @@
                             <icon-item content="feature.status" type="feature"></icon-item>
                         </td>
                         <td>
-                            <a ui-sref="global.feature({ id: project.id, buildId: lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
+                            <a ui-sref="global.feature({ id: project.id, buildId: buildsFacade.lastFinishedBuild.id, featureURI: (feature.uri | escape) })">
                                {{feature.rawName}}
                             </a>
                         </td>

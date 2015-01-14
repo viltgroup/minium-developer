@@ -17,7 +17,7 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
             $scope.buildId,
             featureURI
         ).success(function(data) {
-            console.log(data);
+           // console.log(data);
             //refactor
             //better get only one object in buildFacade
             //and in the view get the field that we want
@@ -31,11 +31,11 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
 
             $scope.faillingScenarios = buildFacade.faillingScenarios
 
-            console.log($scope.faillingScenarios);
+            //console.log($scope.faillingScenarios);
             processData();
             toastr.success("Created");
 
-            console.log()
+            console.log(buildFacade)
 
         }).error(function(data) {
             toastr.error("Error " + data);
@@ -103,10 +103,10 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
      */
 
     $scope.isPassed = function(value) {
-        return (value === "PASSED") ;
+        return (value === "PASSED");
     }
 
-    $scope.isFailOrSkipped = function(value){
+    $scope.isFailOrSkipped = function(value) {
         return (value === "FAILED" || value === "SKIPPED");
     }
 
@@ -118,7 +118,7 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
     };
 
 
-    $scope.status = function(status,prefix) {
+    $scope.checkStatus = function(status, prefix) {
         var result = prefix;
         result.concat("sdsd")
         switch (status) {
@@ -134,10 +134,9 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
             default: //do nothing
                 result += 'info';
         }
-         console.log(result)
+    
         return result;
     }
-
 
 
 });

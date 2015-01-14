@@ -22,12 +22,9 @@
     margin-top: -13px;
     margin-left: -18px;
 }
-
 .ace_editor_multi {
     height: 800px;
-
 }
-
 .error_line {
     position: absolute;
     background: rgb(217, 83, 79);
@@ -60,6 +57,9 @@
 }
 .ace-monokai .ace_marker-layer .ace_active-line {
     background: #555;
+}
+.ace_editor.ace_autocomplete {
+    margin-top: 2px;
 }
 /** THEME CHANGES **/
 
@@ -540,16 +540,15 @@ treecontrol.tree-classic li .tree-selected {
 /**
  * TREE VIEW
  */
-#tree-bar{
+
+#tree-bar {
     position: absolute;
     margin-left: -250px;
 }
-
-.editor{
+.editor {
     margin-top: -680px;
 }
-
-.multi-editor{
+.multi-editor {
     margin-top: -540px;
 }
 /**
@@ -609,10 +608,10 @@ treecontrol.tree-classic li .tree-selected {
     font-weight: normal;
     color: #212121;
 }
-
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
-border: 1px solid #d3d3d3;
-/*background: #e6e6e6 url("images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;*/
-font-weight: normal;
-color: #555555;
+    border: 1px solid #d3d3d3;
+    /*background: #e6e6e6 url("images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;*/
+    
+    font-weight: normal;
+    color: #555555;
 }

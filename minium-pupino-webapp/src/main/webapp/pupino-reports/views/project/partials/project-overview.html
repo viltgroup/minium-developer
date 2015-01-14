@@ -33,7 +33,7 @@
 
                     <!-- Alert No data -->
                     <div class="alert alert-info" ng-show="!buildsFacade.lastFinishedBuild && !buildingBuilds && !buildsFacade.buildingBuilds">
-                        <a class="btn btn-xs btn-primary pull-right" ng-click="createBuild()">
+                        <a class="btn btn-xs btn-primary pull-right" ui-sref="global.project-detail.overview.launch">
                             <i class="fa fa-play"></i> Launch Test execution
                         </a>
                         <strong>Info:</strong> Theres no data

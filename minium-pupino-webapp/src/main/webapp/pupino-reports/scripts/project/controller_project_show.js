@@ -18,6 +18,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
 
 
     var getBuilds = function() {
+        $scope.estimatedTime = 0;
         $scope.faillingFeatures = [];
         $scope.passingFeatures = [];
 

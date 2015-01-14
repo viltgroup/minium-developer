@@ -50,9 +50,8 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <!-- BUILDING BUILDS -->
+                        <!--  BUILDING BUILDS -->
                         <tbody>
-
                             <tr ng-show="buildsFacade.buildingBuilds.length > 0">
                                 <td ng-hide="estimatedTime == 0">
                                     <i class="fa fa-2x fa-gear fa-spin"></i>
@@ -86,7 +85,6 @@
                             </tr>
                         </tbody>
                         
-
                         <!-- LAST BUILD -->
                         <tbody ng-show="buildsFacade.lastFinishedBuild">
                         <!-- {{buildsFacade.lastFinishedBuild}} -->
@@ -147,7 +145,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="build in buildsFacade.builds | filter:{result :status}" ng-class="{'danger' : (build.result != 'SUCCESS') }">
+                            <tr ng-repeat="build in buildsFacade.builds " ng-class="{'danger' : (build.result != 'SUCCESS') }">
+
                                 <td>
                                     <icon-item content="build.result" type="build"></icon-item>
                                     <br>

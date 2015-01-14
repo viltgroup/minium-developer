@@ -13,7 +13,6 @@ import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.offbytwo.jenkins.model.Build;
@@ -24,7 +23,6 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 public class JenkinsService {
 
 	@Autowired
-	@Qualifier("jenkinsOAkClient")
 	private JenkinsClient jenkinsClient;
 
 	public JobWithDetails uri(String jobName) throws IOException, URISyntaxException {

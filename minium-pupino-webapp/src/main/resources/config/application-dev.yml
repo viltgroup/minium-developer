@@ -3,7 +3,7 @@ server:
 
 spring:
     profiles: dev
-    
+
     datasource:
         dataSourceClassName: org.h2.jdbcx.JdbcDataSource
         url: jdbc:h2:file:~/minium-manager-db/minium-manager-db
@@ -11,7 +11,7 @@ spring:
         serverName: 
         username: 
         password: 
-
+        
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect
         database: H2

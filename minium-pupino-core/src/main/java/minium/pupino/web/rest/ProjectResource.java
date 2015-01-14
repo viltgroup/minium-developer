@@ -13,6 +13,7 @@ import minium.pupino.repository.BuildRepository;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.BuildService;
 import minium.pupino.service.JenkinsService;
+import minium.pupino.web.rest.dto.BuildDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,32 +85,34 @@ public class ProjectResource {
 	@Timed
 	public List<Project> getAll() throws IOException, URISyntaxException {
 		log.debug("REST request to get all Projects");
-		if (i == 0) {
-//			Project p = projectRepository.findOne((long) 105);
-//			
-//			List<BuildDTO> builds = jenkinService.getBuilds(p.getName());
-//			buildService.save(builds, p);
-//			
-//			 p = projectRepository.findOne((long) 100);
-//				
-//			builds = jenkinService.getBuilds(p.getName());
-//			buildService.save(builds, p);
-//			
-//			
-//			p = projectRepository.findOne((long) 3);
-//			builds = jenkinService.getBuilds("my-cp-test");
-//			buildService.save(builds, p);
-			
-//			Build buildMPay = buildRepository.findOne((long) 3);
-//			buildMPay.setArtifact(Utils.artifactFromFile("mocks/mock-cgd-store.json"));
-//			buildRepository.save(buildMPay);
-			
-			 i = 1;
-		}
 		List<Project> p = projectRepository.findAll();
 		return p;
 	}
-
+	
+	/**
+	 * GET /rest/projects/loadData
+	 * @throws URISyntaxException 
+	 * @throws IOException 
+	 */
+	@RequestMapping(value = "/rest/projects/loadData", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Timed
+	public String loadDataProjects() throws IOException, URISyntaxException{
+		log.debug("Loading data for the projects");
+		if (i == 0) {
+			Project p = projectRepository.findOne((long) 105);
+			
+			List<BuildDTO> builds = jenkinService.getBuilds(p.getName());
+			buildService.save(builds, p);
+			
+			 p = projectRepository.findOne((long) 100);
+				
+			builds = jenkinService.getBuilds(p.getName());
+			buildService.save(builds, p);
+			
+			 i = 1;
+		}
+		return "Done";
+	}
 	/**
 	 * GET /rest/projects/:id -> get the "id" project.
 	 */
@@ -133,4 +136,7 @@ public class ProjectResource {
 		log.debug("REST request to delete Project : {}", id);
 		projectRepository.delete(id);
 	}
+	
+	
+	
 }

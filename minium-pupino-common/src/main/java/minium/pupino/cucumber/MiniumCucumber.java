@@ -71,6 +71,8 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
     @Autowired
     private JsVariablePostProcessor variablePostProcessor;
 
+    private List<Backend> allBackends;
+
     public MiniumCucumber(Class<?> clazz) throws InitializationError, IOException {
         this(clazz, null);
     }
@@ -114,7 +116,7 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
         support.initialize();
 
         MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);
-        List<Backend> allBackends  = ImmutableList.<Backend>builder().add(backend).addAll(remoteBackends).build();
+        allBackends = ImmutableList.<Backend>builder().add(backend).addAll(remoteBackends).build();
 
         RuntimeBuilder runtimeBuilder = new RuntimeBuilder();
         runtime = runtimeBuilder
@@ -127,6 +129,10 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
         RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
         jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict());
         addChildren(runtimeOptions.cucumberFeatures(resourceLoader));
+    }
+
+    public List<Backend> getAllBackends() {
+        return allBackends;
     }
 
     private Object newInstance(Class<?> clazz) {

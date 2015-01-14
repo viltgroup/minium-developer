@@ -35,47 +35,14 @@ pupinoIDE.factory('FormatService', function($http) {
     };
 })
 
-pupinoIDE.factory('StepProvider', function() {
+pupinoIDE.factory('StepProvider', function($http) {
     return {
         all: function() {
-            return [
-                'I am at section "(.*?)"',
-                'I click "(.*?)"',
-                'I click on navigation "(.*?)"',
-                'I click on operation "(.*?)"',
-                'I click on row with "(.*?)" as "(.*?)"',
-                'I fill "(.*?)" with "(.*?)"',
-                'I fill:',
-                'I filter "(.*?)" with "(.*?)"',
-                'I filter:',
-                'I go to page (\d+)',
-                'I navigate to "(.*?)"',
-                'I see in fields:',
-                'I should see "(.*?)" in the table under column "(.*?)"',
-                'I should see "(.*?)" on the first table row under column "(.*?)"',
-                'I should see (\d+) rows in the table',
-                'I should see a table row with values:',
-                'I should see an error message in "(.*?)"',
-                'I should see values:',
-                'I\'m logged in as (\w+)',
-                'the following companies exist:',
-                'the following customers exist:',
-                'the following machines exist:',
-                'the following operators exist:',
-                'the following stores exist:',
-                'the following terminals exist:',
-                'the following transactions exist:',
-                'there are (\d+) random companies',
-                'there are (\d+) random customers',
-                'there are (\d+) random machines',
-                'there are (\d+) random operators',
-                'there are (\d+) random stores',
-                'there are (\d+) random terminals',
-                'there are (\d+) random transactions'
-            ];
+            return $http.get("/app/rest/snippets");
         }
     };
-})
+});
+
 pupinoIDE.factory('SnippetsProvider', function() {
     return {
         all: function() {

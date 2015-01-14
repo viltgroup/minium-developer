@@ -6,13 +6,14 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import minium.pupino.config.cucumber.CucumberProperties;
+import minium.pupino.config.cucumber.CucumberProperties.SnippetProperties;
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.service.LaunchService;
 import minium.pupino.web.method.support.BaseURL;
 import net.masterthought.cucumber.json.Feature;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -28,10 +29,19 @@ public class CucumberResource {
 	@Autowired
 	private LaunchService launchService;
 
+	@Autowired
+	private CucumberProperties cucumberProperties;
+
     @RequestMapping(value = "/launch", method = RequestMethod.POST)
     @ResponseBody
     public Feature launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo,HttpServletRequest request) throws IOException {
         return launchService.launch(baseUri, launchInfo,request.getSession().getId());
+    }
+
+    @RequestMapping(value = "/snippets", method = RequestMethod.GET)
+    @ResponseBody
+    public List<SnippetProperties> getSnippets() throws IOException {
+        return cucumberProperties.getSnippets();
     }
 
     @RequestMapping(value = "/stepDefinitions", method = RequestMethod.GET)

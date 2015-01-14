@@ -90,7 +90,7 @@ public class BuildStatusTask implements Runnable {
 			} else {
 				if (buildDetails != null) {
 					String msg = buildDetails.getEstimatedDuration() + "-" + buildDetails.getTimestamp();
-					messagingTemplate.convertAndSend("/building/" + sessionID, msg);
+					messagingTemplate.convertAndSend("/building/" + sessionID + "/project/" + build.getProject().getId() , msg);
 					log.debug("Send message for /building {}", msg);
 				}
 			}

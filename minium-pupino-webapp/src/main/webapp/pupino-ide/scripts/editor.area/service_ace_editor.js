@@ -138,7 +138,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     /////////////////////////////////////////////////////////////////
     //
-    // Get the Editor session by ID 
+    // Get the Editor session by ID
     //
     // Return from the ID the instance of the editor
     /////////////////////////////////////////////////////////////////
@@ -170,12 +170,12 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     function addDOM(tabUniqueId, fileProps) {
 
         var fileName = fileProps.name || "untitled";
-
+        
         var tabsElement = $('#tabs');
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" >' + fileName + '</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" title="'+fileProps.relativeUri+'">' + fileName + '</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);
@@ -230,27 +230,20 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             enableSnippets: true
         });
 
-        var stepSources = StepProvider.all();
-        var snippetManager = ace.require("ace/snippets").snippetManager;
+        StepProvider.all().then(function (response) {
+          var snippetManager = ace.require("ace/snippets").snippetManager;
 
-        snippetManager.register(_.map(stepSources, function(stepSource) {
-            var simpleStep = stepSource
-                .replace(/\([^\)]*\)/, "...");
-            var stepContent = stepSource
-                .replace(/\([^\)]*\)/, "${0:value}");
+          var util = ace.require("ace/autocomplete/util");
+          var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
+          util.retrievePrecedingIdentifier = function(text, pos, regex) {
+            if (!/^\s*(?:Given|When|Then|And|Neither)\s+/.test(text)) {
+              return originalRetrievePrecedingIdentifier(text, pos, regex);
+            }
+            return text.replace(/^\s+/, "");
+          };
 
-            var snippet = {
-                name: simpleStep,
-                // start : "there are",
-                // trigger : /(\w+)/.exec(stepSource)[0],
-                content: stepContent
-            };
-            //console.log(snippet);
-            return snippet;
-        }), "gherkin");
-
-        var snippets = SnippetsProvider.all();
-        snippetManager.register(snippets, "gherkin");
+          snippetManager.register(response.data, "gherkin");
+        });
     }
 
 
@@ -264,7 +257,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //////////////////////////////////////////////////////////////////
     function bindKeys(editor,scope) {
         var scope = scope;
-        
+
         editor.commands.addCommand({
             name: "saveFile",
             bindKey: {

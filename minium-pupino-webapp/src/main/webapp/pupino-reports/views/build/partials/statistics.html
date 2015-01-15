@@ -1,0 +1,353 @@
+<div class="row">
+
+    <div class="col-md-12">
+        <div class="row">
+
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-default panel-stat">
+                    <div class="panel-heading">
+
+                        <div class="stat">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="stat-label"> <i class="fa fa-bug"></i> Features ({{features.length}})</h3>
+                                </div>
+
+                            </div>
+                            <!-- row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">Success</span>
+                                        <small class="pull-right">
+                                        {{calcPerCent(passingFeatures.length,features.length)}}%
+                                        </small>
+                                    </div>
+
+                                    <div class="progress xs">
+                                        <div style="width: {{calcPerCent(passingFeatures.length,features.length)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                            <span class="sr-only">{{calcPerCent(passingFeatures.length,features.length)}}% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-6">
+                                    <div class="clearfix">
+                                        <span class="pull-left">Failures</span>
+                                        <small class="pull-right">
+                                        {{calcPerCent(faillingFeatures.length,features.length)}}%
+                                       </small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div style="width: {{calcPerCent(faillingFeatures.length,features.length)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                            <span class="sr-only">{{calcPerCent(faillingFeatures.length,features.length)}}% Complete</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- row -->
+                        </div>
+                        <!-- stat -->
+
+                    </div>
+                    <!-- panel-heading -->
+                </div>
+                <!-- panel -->
+            </div>
+            <!-- col-sm-6 -->
+
+
+            <!-- SCENARIOS -->
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-default panel-stat">
+                    <div class="panel-heading">
+
+                        <div class="stat">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="stat-label"> <i class="fa fa-bug"></i> Scenarios ({{scenarios.total}})</h3>
+                                </div>
+
+                            </div>
+                            <!-- row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">Success</span>
+                                        <small class="pull-right">
+                                        {{calcPerCent(scenarios.passed,scenarios.total)}}%
+                                        </small>
+                                    </div>
+
+                                    <div class="progress xs">
+                                        <div style="width: {{calcPerCent(scenarios.passed,scenarios.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                            <span class="sr-only">{{calcPerCent(scenarios.passed,scenarios.total)}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-6">
+                                    <div class="clearfix">
+                                        <span class="pull-left">Failures</span>
+                                        <small class="pull-right">
+                                            {{calcPerCent(scenarios.failed,scenarios.total)}}%
+                                       </small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div style="width:  {{calcPerCent(scenarios.failed,scenarios.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                            <span class="sr-only"> {{calcPerCent(scenarios.failed,scenarios.total)}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- row -->
+                        </div>
+                        <!-- stat -->
+
+                    </div>
+                    <!-- panel-heading -->
+                </div>
+                <!-- panel -->
+            </div>
+            <!-- col-sm-6 -->
+            <!-- END OF SCENARIOS -->
+
+            <!-- STEPS -->
+            <div class="col-sm-6 col-md-4">
+                <div class="panel panel-default panel-stat">
+                    <div class="panel-heading">
+
+                        <div class="stat">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="stat-label"> 
+                                        <i class="fa fa-bug"></i> Steps ({{steps.total}})
+                                     </h3>
+                                </div>
+
+                            </div>
+                            <!-- row -->
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">Success ({{steps.passed}}) </span>
+                                        <small class="pull-right">
+                                             {{calcPerCent(steps.passed,steps.total)}}%
+                                             </small>
+                                    </div>
+
+                                    <div class="progress xs">
+                                        <div style="width:  {{calcPerCent(steps.passed,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                            <span class="sr-only"> {{calcPerCent(steps.passed,steps.total)}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-sm-6">
+                                    <div class="clearfix">
+                                        <span class="pull-left">Failures ({{steps.failed}})</span>
+                                        <small class="pull-right">
+                                             {{calcPerCent(steps.failed,steps.total)}}%
+                                         </small>
+                                    </div>
+                                    <div class="progress xs">
+                                        <div style="width: {{calcPerCent(steps.failed,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                            <span class="sr-only">{{calcPerCent(steps.failed,steps.total)}}%</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="col-sm-6">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">Skipped ({{steps.skipped}}) </span>
+                                        <small class="pull-right">
+                                             {{calcPerCent(steps.skipped,steps.total)}}%
+                                             </small>
+                                    </div>
+
+                                    <div class="progress xs">
+                                        <div style="width:  {{calcPerCent(steps.skipped,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-warning">
+                                            <span class="sr-only"> {{calcPerCent(steps.skipped,steps.total)}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                 <div class="col-sm-6">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">Undefined ({{steps.undefined}}) </span>
+                                        <small class="pull-right">
+                                             {{calcPerCent(steps.undefined,steps.total)}}%
+                                             </small>
+                                    </div>
+
+                                    <div class="progress xs">
+                                        <div style="width:  {{calcPerCent(steps.undefined,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-info">
+                                            <span class="sr-only"> {{calcPerCent(steps.undefined,steps.total)}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- row -->
+                        </div>
+                        <!-- stat -->
+
+                    </div>
+                    <!-- panel-heading -->
+                </div>
+                <!-- panel -->
+            </div>
+            <!-- col-sm-6 -->
+            <!-- END STEPS -->
+
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Line chart -->
+        <div class="nav-tabs-custom" style="cursor: move;">
+            <!-- Tabs within a box -->
+            <ul class="nav nav-tabs pull-left">
+                <li class="active"><a show-tab href="#features-chart" data-toggle="tab">Features</a>
+                </li>
+                <li>
+                    <a show-tab href="#scenarios-chart" data-toggle="tab">Scenarios</a>
+                </li>
+                <li>
+                    <a show-tab href="#steps-chart" data-toggle="tab">Steps</a>
+                </li>
+            </ul>
+
+            <div class="tab-content no-padding">
+                <div class="chart tab-pane active" id="features-chart">
+                    <nvd3-pie-chart data="pieChart" id="exampleId" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true" showLegend="true" color="colorFunction()" legendColor="colorFunction()" labelType="percent" donut="true" donutRatio=".50" noData="No Data For You!">
+                        <svg></svg>
+                    </nvd3-pie-chart>
+                </div>
+
+                <div class="chart tab-pane " id="scenarios-chart">
+
+                    <nvd3-pie-chart data="scenariosChart" id="exampleId12" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true" showLegend="true" color="colorFunction()" legendColor="colorFunction()" labelType="percent" donut="true" donutRatio=".50" noData="No Data For You!">
+                        <svg></svg>
+                    </nvd3-pie-chart>
+
+
+                </div>
+
+                <div class="chart tab-pane " id="steps-chart">
+                    <nvd3-pie-chart data="stepsChart" id="exampleId3" width="550" height="350" x="xFunction()" y="yFunction()" showLabels="true" showLegend="true" color="colorFunction()" legendColor="colorFunction()" labelType="percent" donut="true" donutRatio=".50" noData="No Data For You!">
+                        <svg></svg>
+                    </nvd3-pie-chart>
+
+                </div>
+
+                <div class="panel-footer hidden-xs">
+
+                </div>
+            </div>
+        </div>
+        <!-- /.box -->
+
+      
+
+
+    </div>
+    <!-- /.col -->
+
+    <div class="col-md-6">
+        <div class="box box-warning">
+            <div class="box-header">
+                <!-- panel-btns -->
+                <h5 class="box-title">Stats</h5>
+            </div>
+            <!-- panel-heading -->
+            <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr class="table-head-alt">
+                                <th>Status</th>
+                                <th>Issues</th>
+                                <th>Percentage</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="">Passed</a>
+                                </td>
+                                <td>{{feature.numberOfPasses}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{calcPerCent(steps.passed,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="2" role="progressbar" class="progress-bar progress-bar-success">
+                                            <span class="sr-only">{{calcPerCent(steps.passed,steps.total)}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{(100*feature.numberOfPasses/feature.numberOfSteps)| number:0}}%</td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Failures</a>
+                                </td>
+                                <td>{{feature.numberOfFailures}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{calcPerCent(steps.failed,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="15" role="progressbar" class="progress-bar progress-bar-danger">
+                                            <span class="sr-only">{{(100*feature.numberOfFailures/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{(100*feature.numberOfFailures/feature.numberOfSteps)| number:0}}%</td>
+                            </tr>
+                            <tr>
+                                <td><a href="">Skipped</a>
+                                </td>
+                                <td>{{feature.numberOfSkipped}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{calcPerCent(steps.skipped,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="52" role="progressbar" class="progress-bar progress-bar-warning">
+                                            <span class="sr-only">{{(100*feature.numberOfSkipped/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{{(100*feature.numberOfSkipped/feature.numberOfSteps)| number:0}}%</td>
+                            </tr>
+
+                            <tr>
+                                <td><a href="">Undifined</a>
+                                </td>
+                                <td>{{feature.numberOfUndefined}}</td>
+                                <td>
+                                    <div class="progress">
+                                        <div style="width: {{calcPerCent(steps.undefined,steps.total)}}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="52" role="progressbar" class="progress-bar progress-bar-primary">
+                                            <span class="sr-only">{{(100*feature.numberOfUndefined/feature.numberOfSteps)| number:0}}% Complete (success)</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{(100*feature.numberOfUndefined/feature.numberOfSteps)| number:0}}%
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <!-- table-responsive -->
+            </div>
+            <!-- panel-body -->
+        </div>
+
+
+
+
+
+    </div>
+    <!-- /.col -->
+</div>

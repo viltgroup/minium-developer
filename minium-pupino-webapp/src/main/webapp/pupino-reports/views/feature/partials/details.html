@@ -102,7 +102,7 @@
                <span class="hide">{{element.status}}</span>
             </accordion-heading>
             <!-- CONTENT -->
-            <table class="table table-primary table-list table-striped table-condensed">
+            <table id="scenario" class="table table-primary table-list table-striped table-condensed">
                <thead>
                   <tr>
                      <th>Step</th>
@@ -113,7 +113,7 @@
                </thead>
                <tbody>
                   <tr ng-repeat="step in element.steps">
-                     <td style="width: 750px">
+                     <td>
                         <p ng-class="checkStatus(step.status,'')">
                            {{step.rawName}}
                         </p>
@@ -122,7 +122,7 @@
                         <pre ng-if="step.status === 'FAILED'" data-dd-collapse-text="50">{{step.errorMessage}}</pre>
 
                      </td>
-                     <td>
+                     <td width="200px">
                         <a class="btn btn-primary btn-xs" ng-href="{{location}}/editor-multi/{{feature.uri}}?line={{step.line}}" target="_blank">
                         Go Feature File
                         </a>
@@ -135,7 +135,7 @@
                         {{(step.duration/1000000) | durationMilliseconds}}
                      </td>
 
-                     <td style="max-width: 400px;">
+                     <td width="500px">
 
 
                         <span class="label" ng-class="checkStatus(step.status,'label-')">
@@ -145,7 +145,7 @@
                         <!-- SCREENSHOT -->
                         <span ng-if="isFailOrSkipped(step.status)">
                            <br> <br>
-                           <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="step.embeddings !== null"/>
+                           <img class="img-responsive" src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="step.embeddings !== null"/>
 
                            <!-- <p ng-bind-html="renderHtml(step.name)"></p>  -->
                         </span>

@@ -8,6 +8,11 @@
     min-height: initial;
 }
 
+#scenario .info {
+   margin-left: 0;
+   white-space: nowrap;
+}
+
 .container {
     width: auto !important;
 }
@@ -65,7 +70,7 @@
     background-color: rgb(0, 88, 0);
 }
 .failed {
-    background-color: rgb(88, 0, 0);
+    background-color: rgb(186, 0, 0);
 }
 .undefined {
     border-radius: 20px 0px 0px 20px;

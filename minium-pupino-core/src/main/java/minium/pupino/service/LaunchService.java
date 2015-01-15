@@ -37,7 +37,6 @@ import com.google.common.collect.Lists;
 
 import cucumber.runtime.Backend;
 import cucumber.runtime.RuntimeOptions;
-import cucumber.runtime.RuntimeOptionsFactory;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.rest.SimpleGlue;
 
@@ -130,7 +129,8 @@ public class LaunchService {
         try {
             MiniumCucumber miniumCucumber = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
             List<Backend> backends = miniumCucumber.getAllBackends();
-            RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(GenericTest.class).create();
+            RuntimeOptions runtimeOptions = miniumCucumber.getRuntimeOptions();
+
             SimpleGlue glue = new SimpleGlue();
             for (Backend backend : backends) {
                 backend.loadGlue(glue, runtimeOptions.getGlue());

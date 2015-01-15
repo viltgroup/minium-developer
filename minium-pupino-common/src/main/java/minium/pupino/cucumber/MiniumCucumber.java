@@ -73,6 +73,8 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
 
     private List<Backend> allBackends;
 
+    private RuntimeOptions runtimeOptions;
+
     public MiniumCucumber(Class<?> clazz) throws InitializationError, IOException {
         this(clazz, null);
     }
@@ -126,13 +128,17 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
                 .withBackends(allBackends)
                 .build();
 
-        RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
+        runtimeOptions = runtimeBuilder.getRuntimeOptions();
         jUnitReporter = new JUnitReporter(runtimeOptions.reporter(classLoader), runtimeOptions.formatter(classLoader), runtimeOptions.isStrict());
         addChildren(runtimeOptions.cucumberFeatures(resourceLoader));
     }
 
     public List<Backend> getAllBackends() {
         return allBackends;
+    }
+
+    public RuntimeOptions getRuntimeOptions() {
+        return runtimeOptions;
     }
 
     private Object newInstance(Class<?> clazz) {

@@ -216,7 +216,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 var markerId;
                 switch (step.status) {
                     case "failed":
-                        editors.hightlightLine((step.line - 1), activeSession, "breakpoint");
+                        editors.hightlightLine((step.line - 1), activeSession, "failed");
                         // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
                         break;
                     case "passed":

@@ -14,6 +14,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
@@ -249,6 +250,7 @@ public class CucumberProperties {
         private String name;
         private String content;
         private String trigger;
+        private List<String> table = Lists.newArrayList();
 
         public String getName() {
             return name;
@@ -262,12 +264,24 @@ public class CucumberProperties {
             if (content == null) {
                 List<String> parts = Splitter.on("...").splitToList(name);
                 StringBuilder buf = new StringBuilder();
+                int curr = 1;
                 for (int i = 0; i < parts.size(); i++) {
                     buf.append(parts.get(i));
                     if (i != parts.size() - 1) {
-                        buf.append("${" + (i + 1) + ":value}");
+                        buf.append("${" + (curr++) + ":value}");
                     }
                 }
+
+                if (!table.isEmpty()) {
+                    buf.append("\n");
+                    buf.append("  | " + Joiner.on(" | ").join(table) + " |\n");
+                    buf.append("  |");
+                    for (String col : table) {
+                        buf.append(" ${" + (curr++) + ":" + col + "} ");
+                        buf.append("|");
+                    }
+                }
+
                 return buf.toString();
             }
             return content;
@@ -286,6 +300,14 @@ public class CucumberProperties {
 
         public void setTrigger(String trigger) {
             this.trigger = trigger;
+        }
+
+        public List<String> getTable() {
+            return table;
+        }
+
+        public void setTable(List<String> table) {
+            this.table = table;
         }
     }
 

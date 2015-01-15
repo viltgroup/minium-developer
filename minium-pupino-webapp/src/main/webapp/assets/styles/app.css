@@ -20,7 +20,7 @@
 .ace_editor {
     height: 800px;
     margin-top: -13px;
-    margin-left: -18px;
+    margin-left: -17px;
 }
 .ace_editor_multi {
     height: 800px;
@@ -67,7 +67,7 @@
 }
 .undefined {
     border-radius: 20px 0px 0px 20px;
-    box-shadow: inset 0px 0px 2px 2px ;
+    box-shadow: inset 0px 0px 2px 2px;
     color: white;
 }
 .ace-monokai .ace_marker-layer .ace_active-line {
@@ -232,6 +232,15 @@ body > div > .header .logo {
 .warning {
     color: #f0ad4e;
 }
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    background-color: #272822;
+    color: white;
+}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    color: white;
+    text-decoration: none;
+}
+
 /**
  * BLOCK LIST
  */
@@ -558,7 +567,7 @@ treecontrol.tree-classic li .tree-selected {
 
 #tree-bar {
     position: absolute;
-    margin-left: -250px;
+    margin-left: -270px;
 }
 .editor {
     margin-top: -680px;
@@ -618,15 +627,29 @@ treecontrol.tree-classic li .tree-selected {
  */
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-    border: 1px solid #aaaaaa;
+    /*border: 1px solid #aaaaaa;*/
     background: #ccc;
     font-weight: normal;
     color: #212121;
 }
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
     border: 1px solid #d3d3d3;
-    /*background: #e6e6e6 url("images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;*/
-    
+    background: #e6e6e6;
     font-weight: normal;
     color: #555555;
+}
+
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    /*border: 1px solid transparent;*/
+    background: #dadada;
+    font-weight: normal;
+    color: #212121;
 }

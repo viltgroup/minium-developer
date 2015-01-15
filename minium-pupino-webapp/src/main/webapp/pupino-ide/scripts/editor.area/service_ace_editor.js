@@ -104,12 +104,26 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     }
 
 
-
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get all the instances
+    //
+    // Return from the all the instances of the editor
+    /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.getEditors = function() {
         console.log(this.editors)
         return this.editors;
     }
 
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get number of edirtors
+    //
+    // Return from the all the instances of the editor
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.size = function() {
+        return this.editors.length;
+    }
 
     //////////////////////////////////////////////////////////////////
     //
@@ -151,6 +165,20 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         return (editor != null ? editor : null);
     };
 
+    /////////////////////////////////////////////////////////////////
+    //
+    // Remove the session from ID
+    //
+    // 
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.deleteSession = function(id) {
+        for (var i = this.editors.length - 1; i >= 0; i--) {
+            if (this.editors[i].id == id) {
+                this.editors.splice(i, 1);
+            }
+        }
+    };
+
     ////////////////////////////////////////////////////////////////
     //
     // hightlight Line in editor
@@ -182,7 +210,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" ><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + '</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + '</a> <span class="ui-icon ui-icon-close" ></span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);

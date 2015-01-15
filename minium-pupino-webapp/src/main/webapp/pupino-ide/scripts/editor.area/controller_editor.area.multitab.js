@@ -77,7 +77,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             var editor = editors.getSession(tabId);
             if (editor !== null) {
                 activeSession = editor.instance;
-
                 $state.go("global.multi", {
                     path: editor.relativeUri
                 }, {
@@ -85,19 +84,31 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                     inherit: false,
                     notify: false
                 });
-                editors.hightlightLine(10, activeSession, "failed");
-
             }
         }
+    });
 
+    // close icon: removing the tab on click
+    tabs.delegate("span.ui-icon-close", "click", function() {
+        
+        console.log($(this).parent());
 
+        var tabUniqueId = $(this).parent().attr('data-id');
+        editors.getSession(tabUniqueId);
+        var panelId = $(this).closest("li").remove().attr("aria-controls");
+        $("#" + panelId).remove();
+        tabs.tabs("refresh");
+        //remove the instance of tabs that we closed
+        editors.deleteSession(tabUniqueId);
+
+        if( editors.size() == 0){
+           $scope.addEmptyTab();
+        }
     });
 
     $scope.getSession = function() {
         console.log(activeSession);
     }
-
-
 
     $scope.selected = {};
     var loadFile = function(props) {
@@ -132,31 +143,10 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         loadFile("");
     }
 
-    // initialize button listener
-    $('#addTab').on('click', function() {
+    $scope.addEmptyTab = function(){
         loadFile("");
         editors.getEditors();
-
-    });
-
-
-    //CLOSE TAB
-    $('.ui-icon-close').on('click', function() {
-        console.log('close a tab and destroy the ace editor instance');
-
-
-        console.log($(this).parent());
-
-        var tabUniqueId = $(this).parent().attr('data-tab-id');
-
-        // destroy the editor instance
-        // activeSession.destroy();
-
-        // remove the panel and panel nav dom
-        $('#tabs').find('#panel_nav_' + tabUniqueId).remove();
-        $('#tabs').find('#panel_' + tabUniqueId).remove();
-
-    });
+    }
 
     $('#miniumOnDrugs').click(function() {
         $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');

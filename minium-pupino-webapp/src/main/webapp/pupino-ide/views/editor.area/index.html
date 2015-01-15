@@ -9,7 +9,7 @@
 
         <ol class="breadcrumb">
             <li class="active " id="miniumOnDrugs">
-                 <i class="glyphicon glyphicon-home"></i> 
+                <i class="glyphicon glyphicon-home"></i>
                 <span translate="editor.editor">Editor</span>
             </li>
         </ol>
@@ -62,7 +62,7 @@
                         <i class="fa fa-arrow-circle-o-down"></i>
                         <span translate="editor.openFile">Open File</span>
             </a> -->
-            <button ng-show="multiTab" class="btn btn-primary btn-sm" id="addTab">
+            <button ng-show="multiTab" class="btn btn-primary btn-sm" id="addTab" ng-click="addEmptyTab()">
                 <i class="fa fa-plus"></i>
                 <span>Add Editor</span>
             </button>
@@ -115,18 +115,22 @@
             <br>
         </div>
 
-        <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
+         <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
 
         <div id="tabs">
             <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
             </ul>
         </div>
 
+
+
+
+
     </section>
     <!-- /.content -->
 
     <div id="tree-bar" ng-class="{'editor': !multiTab, 'multi-editor': multiTab}">
-        <ul class="treeview-menu" style="display: block;text-transform: initial;" >
+        <ul class="treeview-menu" style="display: block;text-transform: initial;">
             <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
                 <span style="color: {{getColor(node)}}"> {{node.name}}</span>
             </treecontrol>

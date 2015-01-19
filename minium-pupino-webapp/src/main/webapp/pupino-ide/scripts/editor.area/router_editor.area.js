@@ -1,8 +1,8 @@
 'use strict';
 
 pupinoIDE
-    .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider,$urlRouterProvider) {
-        
+    .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, $urlRouterProvider) {
+
         $stateProvider
             .state('global.editorarea', {
                 url: "/editor/*path",
@@ -49,5 +49,10 @@ pupinoIDE
         modalStateProvider.state('global.editorarea.registerBackend', {
             templateUrl: "pupino-ide/views/editor.area/modal/register-backend.html",
             controller: "BackendsController"
+        });
+
+        //register backend
+        modalStateProvider.state('global.multi.help', {
+            templateUrl: "pupino-ide/views/editor.area/modal/help.html"
         });
     });

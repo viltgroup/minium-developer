@@ -28,6 +28,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,14 +66,19 @@ public class FileSystemAccessResource {
 
         return extractFileProps(baseUrl, file);
     }
-
+    
+    @SendToUser("/queue/errors")
+    public String handleException(Throwable exception) {
+    	return exception.getMessage();
+    }
+    
     @RequestMapping(value = "/**", params = "action=list", method = RequestMethod.GET)
     @ResponseBody
     public Set<FileProps> list(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException {
         File file = getFile(path);
         if (!file.exists()) throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
         if (!file.isDirectory()) new IllegalOperationException();
-
+       
         File[] childFiles = file.listFiles();
 
         Set<FileProps> fileProps = Sets.newHashSet();

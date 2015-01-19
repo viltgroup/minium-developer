@@ -1,19 +1,10 @@
 'use strict';
-var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $location, $window, $stateParams, MiniumEditor, FS, launcherService, FeatureFacade) {
+var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory) {
 
 
-    $('.fab').hover(function() {
-        $(this).toggleClass('active');
-    });
-    $(function() {
-        $('[data-toggle="tooltip"]').tooltip()
-    })
 
 
-    //creates breakpoint in ace editor
-    var breakpoint = function(row) {
-        activeSession.getSession().setBreakpoint(row, "breakpoint");
-    };
+
 
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -38,12 +29,14 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         activeSession.getSession().clearBreakpoints();
     }
 
-
+    //initialize the service to manage the instances
     var editors = new MiniumEditor($scope);
+
 
     //to know when the execution was stopped
     //inicialize a false
     $scope.executionWasStopped = false;
+
     //stops a launch execution
     $scope.stopLaunch = function() {
         launcherService.stop().success(function() {
@@ -53,6 +46,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         });
     };
 
+    //
     $scope.onFinishTestExecution = function(annotations) {
         //stop button NEED TO INSERT
         runningTest.stop();
@@ -68,15 +62,33 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     //init variables
     $scope.testExecuting = false;
+    //mode of the open file
+    $scope.mode = "";
 
+    //store the active instance of the editor
     var activeSession = null;
-    // initialize tabs
+    //store the editor where the test are launched 
+    var launchTestSession = null;
+
+    var activeID = null;
+    /**
+     * Initialize tabs
+     */
     var tabs = $('#tabs').tabs({
         beforeActivate: function(event, ui) {
             var tabId = ui.newPanel.attr('data-tab-id');
             var editor = editors.getSession(tabId);
+
             if (editor !== null) {
+                console.log(editor)
                 activeSession = editor.instance;
+                $scope.selected.item = editor.selected;
+                activeID = editor.id;
+                activeSession.focus();
+
+                console.log($scope.selected.item)
+                    //set the mode
+                $scope.mode = editor.mode;
                 $state.go("global.multi", {
                     path: editor.relativeUri
                 }, {
@@ -90,7 +102,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     // close icon: removing the tab on click
     tabs.delegate("span.ui-icon-close", "click", function() {
-        
+
         console.log($(this).parent());
 
         var tabUniqueId = $(this).parent().attr('data-id');
@@ -101,23 +113,23 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         //remove the instance of tabs that we closed
         editors.deleteSession(tabUniqueId);
 
-        if( editors.size() == 0){
-           $scope.addEmptyTab();
+        if (editors.size() == 0) {
+            $scope.addEmptyTab();
         }
     });
 
-    $scope.getSession = function() {
-        console.log(activeSession);
-    }
-
     $scope.selected = {};
+
+    //load the file and create a new editor instance with the file loaded
     var loadFile = function(props) {
-        //alert(props)
+        var newEditor;
         var result = editors.isOpen(props);
 
         if (props === "") {
             //create an empty editor
-            activeSession = editors.addInstance("", 1);
+            newEditor = editors.addInstance("", 1);
+            activeSession = newEditor.instance;
+            $scope.selected.item = newEditor.selected;
         } else if (result.isOpen) {
             var id = result.id;
             //tab is already open
@@ -130,8 +142,14 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             FS.get({
                 path: path
             }, function(fileContent) {
-                $scope.selected.item = fileContent;
-                activeSession = editors.addInstance(fileContent);
+                console.log(fileContent)
+
+                newEditor = editors.addInstance(fileContent);
+                activeSession = newEditor.instance;
+                $scope.selected.item = newEditor.selected;
+                activeID = newEditor.id;
+                //set the mode
+                $scope.mode = newEditor.mode;
             });
         }
 
@@ -143,21 +161,20 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         loadFile("");
     }
 
-    $scope.addEmptyTab = function(){
+    //create an empty editor
+    $scope.addEmptyTab = function() {
         loadFile("");
         editors.getEditors();
     }
 
-    $('#miniumOnDrugs').click(function() {
-        $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');
-        $(".navbar-brand").css('background-color', '#367fa9');
-        $(".navbar-brand").css('color', '#f9f9f9');
-    });
     $scope.multiTab = true;
 
-    /**
-     * WEBSOCKETS
-     */
+    $scope.setTheme = function(themeName) {
+            editors.setTheme(activeSession, themeName);
+        }
+        /**
+         * WEBSOCKETS
+         */
     $scope.tests = {};
     $scope.cenas = 0;
     $scope.resetTotal = function() {
@@ -167,14 +184,22 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         $scope.isFailing = false;
     }
 
+    //to check if we already made a subscription to the sockets
+    //we only need a subscription once
+    var isAlreadySubscribed = false;
     $scope.subscribeMessages = function() {
+
+        if (isAlreadySubscribed)
+            return;
+
+        isAlreadySubscribed = true;
 
         var session_id = $scope.readCookie("JSESSIONID");
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
 
-            console.log('Connected: ' + frame);
+            console.log(frame);
             stompClient.subscribe("/tests/" + session_id, function(message) {
                 var body = message.body;
                 var testMessage = eval('(' + body + ')');
@@ -200,26 +225,31 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
             var range = ace.require('ace/range').Range;
 
+            stompClient.subscribe('/user/messages', function(msg) {
+                alert(msg.body);
+            });
+
+
             stompClient.subscribe("/cucumber/" + session_id, function(message) {
                 console.log(message.body);
                 var step = JSON.parse(message.body);
                 var markerId;
                 switch (step.status) {
                     case "failed":
-                        editors.hightlightLine((step.line - 1), activeSession, "breakpoint");
+                        editors.hightlightLine((step.line - 1), launchTestSession, "breakpoint");
                         // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
                         break;
                     case "passed":
-                        editors.hightlightLine((step.line - 1), activeSession, "passed");
+                        editors.hightlightLine((step.line - 1), launchTestSession, "passed");
                         //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
                         break;
                     case "executing":
-                        editors.hightlightLine((step.line - 1), activeSession, "breakpoint");
+                        editors.hightlightLine((step.line - 1), launchTestSession, "breakpoint");
                         // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
                         //breakpoint(step.line - 1);
                         break;
                     case "undefined":
-                        editors.hightlightLine((step.line - 1), activeSession, "undefined");
+                        editors.hightlightLine((step.line - 1), launchTestSession, "undefined");
                         markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
                         break;
                     default: //do nothing
@@ -230,7 +260,41 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         });
     };
 
+    /**
+     * Save the file of active session
+     *
+     */
+    $scope.saveFile = function() {
+        // console.log(activeSession)
+        // return;
+        editors.saveFile(activeSession);
+    }
 
+    /**
+     * Open Selector Gadget
+     *
+     */
+    $scope.activateSelectorGadget = function() {
+        if ($scope.mode == editors.modeEnum.JS) {
+            editors.activateSelectorGadget(activeSession);
+        }
+    }
+
+    /**
+     * Evaluate Expression
+     */
+    $scope.evaluate = function() {
+        if ($scope.mode == editors.modeEnum.JS) {
+            editors.evaluate(activeSession);
+        }
+    }
+
+    /**
+     * LAUnch test
+     */
+    $scope.launchCucumber = function() {
+        editors.launchCucumber(activeSession);
+    }
 
 
 
@@ -268,6 +332,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         // item.childrenLoaded = true;
     };
 
+    $scope.expandedNodes = []
     $scope.showSelected = function(node) {
 
         $scope.selectedNode = node;
@@ -282,7 +347,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 notify: false
             });
         } else {
-            console.log(node.children)
             loadChildren(node);
             //expand the node
             $scope.expandedNodes.push(node)
@@ -298,6 +362,41 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     console.debug($scope.fs.current)
     asyncLoad($scope.fs.current);
 
+    /**
+     * REFACTOR THIS URGENT
+     * NEED TO PUT IT in another controller and have parallel states
+     */
+
+
+    // //extends the fileController
+    // $controller('FileController', {
+    //     $scope: $scope
+    // });
+
+    // $scope.fileName = "";
+
+    // $scope.createFile = function(fileName, path) {   
+    //     var fs = path || "";
+    //     FileFactory.create(fs + fileName).success(function() {
+    //         $scope.asyncLoad($scope.fs.current);
+    //         toastr.success("Created file " + $scope.fileName);
+
+    //         loadFile(fs + fileName);
+    //         $state.go("global.multi", {
+    //             path: (fs + fileName)
+    //         }, {
+    //             location: 'replace', //  update url and replace
+    //             inherit: false,
+    //             notify: false
+    //         });
+
+    //         editors.setSession(activeID,(fs + fileName))
+    //         $scope.fileName = "";
+    //         $('#NewFileModal').modal('hide');
+    //     }).error(function(data) {
+    //         toastr.error("Error " + data);
+    //     });
+    // }
 
 
     /**
@@ -330,16 +429,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         dirSelectable: false
     };
 
-    $scope.getColor = function(node) {
-        // if (node.name === "features") {
-        //     return "red";
-        // }
-        // } else if (node.name === "steps") {
-        //     return "blue"
-        // }
-
-    };
-
     $scope.collapseAll = function() {
         $scope.expandedNodes = [];
     };
@@ -370,6 +459,8 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     var annotations = [];
     var executionWasStopped;
     $scope.launch = function(launchParams) {
+
+        launchTestSession = activeSession;
         //check if the test already executing
         if ($scope.testExecuting == true) {
             toastr.error("A test is already running!!");
@@ -463,4 +554,10 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
         });
     }
+
+    $('#miniumOnDrugs').click(function() {
+        $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');
+        $(".navbar-brand").css('background-color', '#367fa9');
+        $(".navbar-brand").css('color', '#f9f9f9');
+    });
 };

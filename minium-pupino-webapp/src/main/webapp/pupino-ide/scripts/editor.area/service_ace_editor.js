@@ -9,7 +9,26 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         this.editors = [];
         this.activeInstance = null;
         this.scope = scope;
-        console.debug(this.launchTest);
+
+        //init the possible modes
+        this.modeEnum = {
+            JS: "JS", // optionally you can give the object properties and methods
+            FEATURE: "FEATURE"
+        };
+
+        this.mode = "";
+
+        this.settings = {
+            theme: 'ace/theme/monokai',
+            fontSize: 14,
+            printMargin: false,
+            highlightLine: true,
+            wrapMode: false,
+            softTabs: true,
+            HighlightActiveLine: true,
+            tabSize: 2,
+            resize: true
+        };
     }
 
     //////////////////////////////////////////////////////////////////
@@ -23,6 +42,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     MiniumEditor.prototype.addInstance = function(fileContent, num) {
         var range = ace.require('ace/range').Range;
 
+
         console.log('add a tab with an ace editor instance' + JSON.stringify(fileContent));
 
         // the panel id is a timestamp plus a random number from 0 to 10000
@@ -33,76 +53,50 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
+
         //change the settings of editor (themes, size, etc)
-        setSettings(editor);
+        setSettings(editor, this.settings);
 
         var fileName = fileProps.name || "";
-        if (/\.js$/.test(fileName)) {
-            editor.getSession().setMode("ace/mode/javascript");
-
-            editor.commands.addCommand({
-                name: "evaluate",
-                bindKey: {
-                    win: "Ctrl-Enter",
-                    mac: "Command-Enter"
-                },
-                exec: evalutate,
-                readOnly: false // should not apply in readOnly mode
-            });
-            editor.commands.addCommand({
-                name: "activateSelectorGadget",
-                bindKey: {
-                    win: "Ctrl-Shift-C",
-                    mac: "Command-Shift-C"
-                },
-                exec: activateSelectorGadget,
-                readOnly: false // should not apply in readOnly mode
-            });
-        }
-        if (/\.feature$/.test(fileName)) {
-
-            var _this = this;
-
-            editor.getSession().setMode("ace/mode/gherkin");
-
-            editor.commands.addCommand({
-                name: "launchCucumber",
-                bindKey: {
-                    win: "Ctrl+Enter",
-                    mac: "Ctrl+Enter"
-                },
-                exec: function(env) {
-                    console.log(_this.scope);
-                    launchCucumber(env, _this.scope);
-                },
-                readOnly: false // should not apply in readOnly mode
-            });
-
-            this.scope.subscribeMessages();
-        }
-
-
         setAceContent(fileContent, editor);
+        this.setTypeFile(fileName, editor);
+
 
 
         // resize the editor
         editor.resize();
+
+
+        // //add listener to input
+        listenChanged(editor)
+
+        //create event listeners (bind keys events)
+        bindKeys(editor, this.scope);
+
+        //init other configurations like autocompletion
+        otherConfigurations(editor);
 
         //check if fileContent has fileProps
         var fileProps = fileContent.fileProps || "";
         this.editors.push({
             id: tabUniqueId,
             instance: editor,
-            relativeUri: fileProps.relativeUri
+            relativeUri: fileProps.relativeUri,
+            mode: this.mode,
+            selected: fileContent
         });
-        //create event listeners (bind keys events)
-        bindKeys(editor, this.scope);
-        //init other configurations like autocompletion
-        otherConfigurations(editor);
 
-        return editor;
+
+        console.log(fileContent);
+        return {
+            id: tabUniqueId,
+            instance: editor,
+            relativeUri: fileProps.relativeUri,
+            mode: this.mode,
+            selected: fileContent
+        }
+
     }
-
 
     /////////////////////////////////////////////////////////////////
     //
@@ -117,12 +111,33 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     /////////////////////////////////////////////////////////////////
     //
+    // Get possible modes
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.modes = function() {
+        return this.modeEnum;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //
     // Get number of edirtors
     //
     // Return from the all the instances of the editor
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.size = function() {
         return this.editors.length;
+    }
+
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Set theme
+    //
+    // Return from the all the instances of the editor
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.setTheme = function(editor, themeName) {
+        var name = "ace/theme/" + themeName;
+        editor.setTheme(name);
     }
 
     //////////////////////////////////////////////////////////////////
@@ -191,6 +206,114 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     ////////////////////////////////////////////////////////////////
     //
+    // Save the file
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.saveFile = function(editor) {
+        saveFile(editor, this.scope);
+    };
+
+    ////////////////////////////////////////////////////////////////
+    //
+    //Activate selector gadget
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.activateSelectorGadget = function(editor) {
+        activateSelectorGadget(editor);
+    };
+
+    ////////////////////////////////////////////////////////////////
+    //
+    //Evaluate Expression
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.evaluate = function(editor) {
+        evaluate(editor);
+    };
+
+
+    ////////////////////////////////////////////////////////////////
+    //
+    // Save the file
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.setSession = function(id, filePath) {
+        for (var i = this.editors.length - 1; i >= 0; i--) {
+            if (this.editors[i].id == id) {
+                break;
+            }
+        }
+        this.editors[i].fileProps.relativeUri = filePath;
+    };
+
+    ////////////////////////////////////////////////////////////////
+    //
+    // Launch test
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.launchCucumber = function(editor) {
+        launchCucumber(editor, this.scope);
+    };
+
+
+
+
+    MiniumEditor.prototype.setTypeFile = function(fileName, editor) {
+        if (/\.js$/.test(fileName)) {
+
+            var _this = this;
+
+            editor.getSession().setMode("ace/mode/javascript");
+
+            editor.commands.addCommand({
+                name: "evaluate",
+                bindKey: {
+                    win: "Ctrl-Enter",
+                    mac: "Command-Enter"
+                },
+                exec: evaluate,
+                readOnly: false // should not apply in readOnly mode
+            });
+            editor.commands.addCommand({
+                name: "activateSelectorGadget",
+                bindKey: {
+                    win: "Ctrl-Shift-C",
+                    mac: "Command-Shift-C"
+                },
+                exec: activateSelectorGadget,
+                readOnly: false // should not apply in readOnly mode
+            });
+
+            this.mode = this.modeEnum.JS;
+        }
+        if (/\.feature$/.test(fileName)) {
+
+            var _this = this;
+
+            editor.getSession().setMode("ace/mode/gherkin");
+
+            editor.commands.addCommand({
+                name: "launchCucumber",
+                bindKey: {
+                    win: "Ctrl+Enter",
+                    mac: "Ctrl+Enter"
+                },
+                exec: function(env) {
+                    console.log(_this.scope);
+                    launchCucumber(env, _this.scope);
+                },
+                readOnly: false // should not apply in readOnly mode
+            });
+
+            this.scope.subscribeMessages();
+            //set the mode
+            this.mode = this.modeEnum.FEATURE;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////
+    //
     // PRIVATE FUCNTIONS
     //
     /////////////////////////////////////////////////////////////////
@@ -210,7 +333,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + '</a> <span class="ui-icon ui-icon-close" ></span></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + ' <span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close" ></span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);
@@ -231,7 +354,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         tabsElement.tabs('option', 'active', tabIndex);
 
         // create the editor dom
-        var newEditorElement = $('<div id="editor_' + tabUniqueId + '">// some code here</div>');
+        var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
 
         newTabPanelElement.append(newEditorElement);
 
@@ -246,17 +369,16 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     }
 
 
+    function setSettings(editor, settings) {
+        editor.setTheme(settings.theme);
 
-    function setSettings(editor) {
-        editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/gherkin");
-        editor.setShowPrintMargin(false);
-        editor.setFontSize(14);
-        editor.getSession().setTabSize(2);
-        editor.getSession().setUseSoftTabs(true);
-        editor.setHighlightActiveLine(true);
+        editor.setShowPrintMargin(settings.printMargin);
+        editor.setFontSize(settings.fontSize);
+        editor.getSession().setTabSize(settings.tabSize);
+        editor.getSession().setUseSoftTabs(settings.softTabs);
+        editor.setHighlightActiveLine(settings.HighlightActiveLine);
         //to sroll
-        editor.resize(true);
+        editor.resize(settings.resize);
     }
 
     function otherConfigurations(editor) {
@@ -283,6 +405,39 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         });
     }
 
+
+    //////////////////////////////////////////////////////////////////
+    //
+    // Create a listener to
+    //
+    // Parameters:
+    //   editor - instance of the editor
+    //
+    //////////////////////////////////////////////////////////////////
+    function listenChanged(editor) {
+
+        editor.on('input', function() {
+            //  console.log( editor.session.getUndoManager().isClean() )
+            var tabUniqueId = getEditorID(editor);
+            // if (editor.session.getUndoManager().isClean()) {
+            //     markAsDirty(tabUniqueId, false)
+            // } else {
+            markAsDirty(tabUniqueId, true)
+                // }
+        });
+    }
+
+    //////////////////////////////////////////////////////////////////
+    // Put or remove the marker
+    // Is isDirty is true put "*" in the tab
+    //////////////////////////////////////////////////////////////////
+    function markAsDirty(tabUniqueId, isDirty) {
+        if (isDirty === true) {
+            $('#save_' + tabUniqueId).removeClass("hide");
+        } else {
+            $('#save_' + tabUniqueId).addClass("hide");
+        }
+    }
 
     //////////////////////////////////////////////////////////////////
     //
@@ -316,27 +471,78 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 sender: "editor|cli"
             },
             exec: function(env) {
-                alert("sds")
+                console.log("open file")
             },
             readOnly: false // should not apply in readOnly mode
         });
     }
 
     function saveFile(editor, scope) {
+
         var scope = scope;
         var item = scope.selected.item;
         item.content = editor.getSession().getValue();
+        console.log(editor);
+        console.log(scope.selected.item);
         item.$save(function() {
-            setAceContent(item, editor);
+            //setCenas(editor.getSession(),item)
+            //setAceContent(item, editor);
+            toastr.success("File saved")
+            var tabUniqueId = getEditorID(editor);
+            markAsDirty(tabUniqueId, false)
+        }, function(response) {
+            var data = response.data;
+
+            console.log(response)
+
+            toastr.error(data.message, "The file contains " + data.exception)
         });
+
     };
 
     function setAceContent(item, editor) {
+
+        var content = item.content || "";
         var cursor = editor.getCursorPosition();
-        editor.getSession().getDocument().setValue(item.content);
+        var EditSession = ace.require('ace/edit_session').EditSession;
+        var UndoManager = ace.require('ace/undomanager').UndoManager;
+        //editor.getSession().getDocument().setValue(item.content);
+        var session = editor.getSession();
+        session = new EditSession(content);
+
+        session.setUndoManager(new UndoManager());
+
+        editor.setSession(session);
+        console.log(session)
+            // editor.setSession(ace.createEditSession(item.content))
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
     }
+
+    function setCenas(session, content) {
+        var EditSession = ace.require('ace/edit_session').EditSession;
+        var UndoManager = ace.require('ace/undomanager').UndoManager;
+        var oldManager = session.getUndoManager();
+        session = new EditSession("asasas");
+
+        session.setUndoManager(oldManager);
+    }
+
+    ////////////////////////////////////////////////////////////////
+    //
+    // Get Unique id for the editor
+    //
+    // editor.container always get a result like this editor_1444444
+    // we want the id
+    /////////////////////////////////////////////////////////////////
+    function getEditorID(editor) {
+        var container = editor.container.id;
+        var res = container.split("_");
+        var tabUniqueId = res[1];
+        return tabUniqueId;
+    };
+
+
 
     function openFile() {
         this.scope.$apply(function() {
@@ -344,9 +550,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         });
     };
 
-
     // from minium app
-    function evalutate(editor) {
+    function evaluate(editor) {
         var range = editor.getSelectionRange();
         var session = editor.getSession();
 
@@ -413,7 +618,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             line: lines.reverse(),
             fileProps: selectedItem.fileProps
         };
-        //launch the execution
+        console.log(launchParams)
+            //launch the execution
         scope.launch(launchParams);
     };
 

@@ -128,34 +128,6 @@ angular.module('pupinoIDE.directives',[])
 })
 
 
-// module for using css-toggle buttons instead of checkboxes
-// toggles the class named in button-toggle element if value is checked
-.directive('sidebarToggle', function() {
-    return {
-        restrict: 'A',
-        link: function($scope, element, attr, ctrl) {
-            var classToToggle = attr.sideBarToggle;
-            element.bind('click', function(e) {
-                e.preventDefault();
-                //If window is small enough, enable sidebar push menu
-                if ($(window).width() <= 992) {
-                    $('.row-offcanvas').toggleClass('active');
-                    $('.left-side').removeClass("collapse-left");
-                    $(".right-side").removeClass("strech");
-                    $('.row-offcanvas').toggleClass("relative");
-                } else {
-                    //Else, enable content streching
-                    $('.left-side').toggleClass("collapse-left");
-                    $(".right-side").toggleClass("strech");
-                }
-
-            });
-
-
-        }
-    };
-})
-
 .directive('showTab', function() {
     return {
         link: function(scope, element, attrs) {
@@ -184,5 +156,34 @@ angular.module('pupinoIDE.directives',[])
             "ng-repeat='option in options' " +
             "ng-click='activate(option)'>{{option}} " +
             "</button>"
+    };
+})
+
+/**
+ * Disable the ng-click in the tag <a> 
+ */
+.directive('aDisabled', function() {
+    return {
+        compile: function(tElement, tAttrs, transclude) {
+
+            //Disable ngClick
+            tAttrs["ngClick"] = ("ng-click", "!("+tAttrs["aDisabled"]+") && ("+tAttrs["ngClick"]+")");
+
+            //Toggle "disabled" to class when aDisabled becomes true
+            return function (scope, iElement, iAttrs) {
+                scope.$watch(iAttrs["aDisabled"], function(newValue) {
+                    if (newValue !== undefined) {
+                        iElement.toggleClass("disabled", newValue);
+                    }
+                });
+
+                //Disable href on click
+                iElement.on("click", function(e) {
+                    if (scope.$eval(iAttrs["aDisabled"])) {
+                        e.preventDefault();
+                    }
+                });
+            };
+        }
     };
 });

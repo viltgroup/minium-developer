@@ -68,7 +68,7 @@ public class LaunchService {
 
 	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
         URI resourceDir = launchInfo.getFileProps().getRelativeUri();
-
+      
         File tmpFile = File.createTempFile("cucumber", ".json");
 
         String path;

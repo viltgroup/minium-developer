@@ -221,21 +221,20 @@ angular.module('pupinoReports')
     };
 })
 
+
+
 .directive('sidebarToggle', function() {
     return {
         restrict: 'A',
-        link: function($scope, element, attr, ctrl) {
+        link: function(scope, element, attr, ctrl) {
             var classToToggle = attr.sideBarToggle;
             element.bind('click', function(e) {
                 e.preventDefault();
-
-                //If window is small enough, enable sidebar push menu
                 if ($(window).width() <= 800) {
                     $('.row-offcanvas').toggleClass('active');
                     $('.left-side').removeClass("collapse-left");
                     $(".right-side").removeClass("strech");
                     $('.row-offcanvas').toggleClass("relative");
-
                 } else {
                     //Else, enable content streching
                     $('.left-side').toggleClass("collapse-left");

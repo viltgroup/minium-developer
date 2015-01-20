@@ -33,7 +33,7 @@
 .ace_editor {
     height: 800px;
     margin-top: -13px;
-    margin-left: -18px;
+    margin-left: -17px;
 }
 .ace_editor_multi {
     height: 800px;
@@ -239,6 +239,23 @@ body > div > .header .logo {
 .warning {
     color: #f0ad4e;
 }
+.ui-tabs .ui-tabs-nav li.ui-tabs-active {
+    background-color: #272822;
+    color: white;
+}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+    color: white;
+    text-decoration: none;
+}
+.ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
+    /*border-radius: 3px;*/
+}
+/*#tabs .scroller { 
+    overflow: auto; 
+} 
+#tabs ul { 
+    width: 1660px; 
+}*/
 /**
  * BLOCK LIST
  */
@@ -383,10 +400,10 @@ div.inline {
 }
 /* skin-ide user panel */
 
-.skin-ide .user-panel > .image > img {
+.skin-ide .tree-panel > .image > img {
     border: 1px solid #dfdfdf;
 }
-.skin-ide .user-panel > .info, .skin-ide .user-panel > .info > a {
+.skin-ide .tree-panel > .info, .skin-ide .tree-panel > .info > a {
     color: #555555;
 }
 /* skin-ide sidebar */
@@ -538,7 +555,7 @@ treecontrol li {
     padding: 2px 0px 2px 20px;
 }
 treecontrol.tree-classic li .tree-selected {
-    background-color: #3c8dbc;
+    background-color: #ccc;
     border-radius: 3px;
 }
 /**
@@ -558,20 +575,6 @@ treecontrol.tree-classic li .tree-selected {
 }
 .collapse-text-toggle:after {
     content: ')';
-}
-/**
- * TREE VIEW
- */
-
-#tree-bar {
-    position: absolute;
-    margin-left: -250px;
-}
-.editor {
-    margin-top: -680px;
-}
-.multi-editor {
-    margin-top: -540px;
 }
 /**
  * EDITORS TABS
@@ -625,15 +628,75 @@ treecontrol.tree-classic li .tree-selected {
  */
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
-    border: 1px solid #aaaaaa;
+    /*border: 1px solid #aaaaaa;*/
+    
     background: #ccc;
     font-weight: normal;
     color: #212121;
 }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     border: 1px solid #d3d3d3;
-    /*background: #e6e6e6 url("images/ui-bg_glass_75_e6e6e6_1x400.png") 50% 50% repeat-x;*/
-
+    background: #e6e6e6;
     font-weight: normal;
     color: #555555;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+    /*border: 1px solid transparent;*/
+    
+    background: #dadada;
+    font-weight: normal;
+    color: #212121;
+}
+/**
+ * TREE VIEW
+ */
+
+#tree-bar {
+    position: absolute;
+    margin-left: -270px;
+    height: 60%;
+    width: 270px;
+    overflow: auto;
+    overflow-x: scroll;
+}
+.editor {
+    margin-top: -680px;
+}
+.multi-editor {
+    margin-top: -550px;
+}
+.tree-panel {
+    display: block;
+    background: #ccc;
+    height: 36px;
+    margin: 0;
+    padding: 1px;
+    z-index: 1;
+    width: 220px;
+    position: absolute;
+    margin-left: -260px;
+    margin-top: -600px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.tree-panel ul>li a i {
+    color: #555;
+    font-size: 16px;
+}
+.tree-panel ul li {
+    margin-left: 15px;
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.tree-panel ul > li > a > i:hover {
+    color: white;
+}
+.tree-panel:before, .tree-panel:after {
+    display: table;
+    content: " ";
+}
+.tree-panel:after {
+    clear: both;
 }

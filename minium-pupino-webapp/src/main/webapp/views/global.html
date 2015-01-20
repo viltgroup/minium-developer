@@ -1,6 +1,6 @@
 <header class="header">
     <a href="#/editor" class="logo navbar-brand">
-        <span class="col-md-6 first">Minium </span> 
+        <span class="col-md-6 first">Minium </span>
         <span class="second" ng-show="$state.current.name === 'global.editorarea'"><small>Developer</small></span>
 
         <span class="second" ng-show="$state.current.name !== 'global.editorarea'"><small>Manager</small></span>
@@ -151,7 +151,7 @@
                 </li>
 
             </ul>
-            </div>
+        </div>
 
 
 
@@ -164,7 +164,6 @@
     <aside class="left-side sidebar-offcanvas">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-
             <!-- search form -->
             <form action="#" method="get" class="sidebar-form">
                 <div class="input-group">
@@ -200,9 +199,9 @@
                     </a>
                 </li>
 
-                 <li ng-class="getClass('#/editor')">
+                <li ng-class="getClass('#/editor')">
                     <a ui-sref="global.multi">
-                        <i class="glyphicon glyphicon-pencil"></i> 
+                        <i class="glyphicon glyphicon-pencil"></i>
                         <span>Multi Editor</span>
                     </a>
                 </li>
@@ -214,32 +213,9 @@
                     </a>
                 </li>
 
-              <!--   <li ng-class="getClass('#/bugtracker')">
-                    <a href="#/bugtracker">
-                        <i class="fa fa-bug"></i>
-                        <span>Test Tracker</span>
-                    </a>
-                </li> -->
 
-                <li class="treeview active" ng-show="$state.current.name === 'global.editorarea' || $state.current.name === 'global.multi'">
 
-                    <a>
-                        <i class="fa fa-folder"></i>
-                        <span >File Navigation</span>
-                        <button type="button pull-right" class="btn btn-default btn-xs" ng-click="collapseAll()">
-                           <i class="fa fa-minus-square-o"></i>
-                        </button>
-                    </a>
 
-                    <!-- <span>{{selectedNode.name}}</span> -->
-
-                    <ul class="treeview-menu" style="display: block;text-transform: initial;">
-                        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
-                            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
-                        </treecontrol>
-
-                    </ul>
-                </li>
             </ul>
 
             <span>
@@ -251,7 +227,8 @@
     </aside>
 
     <!--content-->
-    <div class="full" ui-view></div>
-
+  <div ui-view></div>
+    
+  
 </div>
 <!-- ./wrapper -->

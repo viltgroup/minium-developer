@@ -44,110 +44,120 @@ import cucumber.runtime.rest.SimpleGlue;
 @Service
 public class LaunchService {
 
-    @RunWith(MiniumCucumber.class)
-    @SpringApplicationConfiguration(classes = MiniumConfiguration.class)
-    public static class GenericTest {
-    }
+	@RunWith(MiniumCucumber.class)
+	@SpringApplicationConfiguration(classes = MiniumConfiguration.class)
+	public static class GenericTest {
+	}
 
-    public MessageSendingOperations<String> messagingTemplate;
+	public MessageSendingOperations<String> messagingTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
 
-    private String resourcesBaseDir = "src/test/resources";
-    private ReporterParser reporter = new ReporterParser();
-    private RunNotifier notifier;
+	private String resourcesBaseDir = "src/test/resources";
+	private ReporterParser reporter = new ReporterParser();
+	private RunNotifier notifier;
 
-    private ConfigurableApplicationContext applicationContext;
-    private JsVariablePostProcessor variablePostProcessor;
+	private ConfigurableApplicationContext applicationContext;
+	private JsVariablePostProcessor variablePostProcessor;
 
-    @Autowired
-    public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext, JsVariablePostProcessor variablePostProcessor) {
-        this.messagingTemplate = messagingTemplate;
-        this.applicationContext = applicationContext;
-        this.variablePostProcessor = variablePostProcessor;
-    }
+	@Autowired
+	public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext,
+			JsVariablePostProcessor variablePostProcessor) {
+		this.messagingTemplate = messagingTemplate;
+		this.applicationContext = applicationContext;
+		this.variablePostProcessor = variablePostProcessor;
+	}
 
 	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
-        URI resourceDir = launchInfo.getFileProps().getRelativeUri();
-      
-        File tmpFile = File.createTempFile("cucumber", ".json");
+		URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
-        String path;
-        if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
-            path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
-        } else {
-            String lines = Joiner.on(":").join(launchInfo.getLine());
-            path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
-        }
+		File tmpFile = File.createTempFile("cucumber", ".json");
 
-        String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
-        LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
+		String path;
+		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
+			path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
+		} else {
+			String lines = Joiner.on(":").join(launchInfo.getLine());
+			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
+		}
 
-        System.setProperty("cucumber.options", cucumberOptions);
-        System.setProperty("spring.profiles.active", "pupino");
+		String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
+		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
-        try {
-            notifier = new RunNotifier();
+		System.setProperty("cucumber.options", cucumberOptions);
+		System.setProperty("spring.profiles.active", "pupino");
 
-            Result result = run(sessionID);
+		try {
+			notifier = new RunNotifier();
 
-            for (Failure failure : result.getFailures()) {
-                LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
-            }
-        } catch (StoppedByUserException e) {
-            LOGGER.debug("Stopped by user ", e);
-        }
-        String content = FileUtils.readFileToString(tmpFile);
-        List<Feature> features = reporter.parseJsonResult(content);
-        features.get(0).processSteps();
-        return features.get(0);
-    }
+			Result result = run(sessionID);
 
-    private Result run(String sessionID) {
-        try {
-            Result result = new Result();
-            RunListener resultListener = result.createListener();
-            RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate, sessionID);
-            notifier.addFirstListener(resultListener);
-            notifier.addListener(pupinoListener);
+			for (Failure failure : result.getFailures()) {
+				LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
+			}
+		} catch (StoppedByUserException e) {
+			LOGGER.debug("Stopped by user ", e);
+		}
+		String content = FileUtils.readFileToString(tmpFile);
+		Feature feature = null;
+		//check if the execution as results
+		//to present the result in the interface
+		if (!content.equals("")) {
+			List<Feature> features = reporter.parseJsonResult(content);
+			feature = features.get(0);
+			if (feature != null)
+				feature.processSteps();
+		}
 
-            Runner runner = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
-            try {
-                notifier.fireTestRunStarted(runner.getDescription());
-                runner.run(notifier);
-                notifier.fireTestRunFinished(result);
-            } finally {
-                notifier.removeListener(resultListener);
-                notifier.removeListener(pupinoListener);
-            }
-            return result;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
-    }
+		return feature;
+	}
 
-    public List<StepDefinitionDTO> getStepDefinitions() {
-        try {
-            MiniumCucumber miniumCucumber = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
-            List<Backend> backends = miniumCucumber.getAllBackends();
-            RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(GenericTest.class).create();
-            SimpleGlue glue = new SimpleGlue();
-            for (Backend backend : backends) {
-                backend.loadGlue(glue, runtimeOptions.getGlue());
-            }
+	private Result run(String sessionID) {
+		try {
+			Result result = new Result();
+			RunListener resultListener = result.createListener();
+			RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate, sessionID);
+			notifier.addFirstListener(resultListener);
+			notifier.addListener(pupinoListener);
 
-            List<StepDefinitionDTO> results = Lists.newArrayList();
-            for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
-                results.add(new StepDefinitionDTO(stepDefinition));
-            }
-            return results;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
-    }
+			Runner runner = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
+			try {
+				notifier.fireTestRunStarted(runner.getDescription());
+				runner.run(notifier);
+				notifier.fireTestRunFinished(result);
+			} finally {
+				notifier.removeListener(resultListener);
+				notifier.removeListener(pupinoListener);
+			}
+			return result;
+		} catch (Exception e) {
+			throw Throwables.propagate(e);
+		}
+	}
 
-    public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        if (notifier != null) notifier.pleaseStop();
-    }
+	public List<StepDefinitionDTO> getStepDefinitions() {
+		try {
+			MiniumCucumber miniumCucumber = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
+			List<Backend> backends = miniumCucumber.getAllBackends();
+			RuntimeOptions runtimeOptions = new RuntimeOptionsFactory(GenericTest.class).create();
+			SimpleGlue glue = new SimpleGlue();
+			for (Backend backend : backends) {
+				backend.loadGlue(glue, runtimeOptions.getGlue());
+			}
+
+			List<StepDefinitionDTO> results = Lists.newArrayList();
+			for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
+				results.add(new StepDefinitionDTO(stepDefinition));
+			}
+			return results;
+		} catch (Exception e) {
+			throw Throwables.propagate(e);
+		}
+	}
+
+	public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		if (notifier != null)
+			notifier.pleaseStop();
+	}
 
 }

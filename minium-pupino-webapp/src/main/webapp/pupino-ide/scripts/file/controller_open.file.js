@@ -1,13 +1,21 @@
 'use strict';
 
-var OpenFileController = function($scope, $rootScope, $controller, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService) {
+var OpenFileController = function($scope, $rootScope, $controller, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, FileLoader, MiniumEditor) {
 
     console.debug("loaded FileController")
         //extends the fileController
     $controller('FileController', {
         $scope: $scope
     });
-    
+    //access the scope of the parent state
+    //had to do this because we dont have access
+    //to the parent scope with modalProvider
+    var parentScope = MiniumEditor.getScope();
+
+    //focus on search
+    $('input[autofocus]:visible:first').focus();
+
+    console.log(parentScope)
     $scope.form = {};
 
     $scope.type = $stateParams.type | '';
@@ -21,11 +29,8 @@ var OpenFileController = function($scope, $rootScope, $controller, $modalInstanc
     };
 
     $scope.select = function(item) {
-
-        $state.go("global.editorarea", {
-            path: item.relativeUri
-        });
-        //$scope.$close(true);
+        parentScope.loadFile(item.relativeUri);
+        $scope.$close(true);
     };
 
     $scope.ok = function() {

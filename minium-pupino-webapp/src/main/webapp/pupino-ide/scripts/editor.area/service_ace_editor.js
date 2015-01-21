@@ -4,7 +4,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     /**
      * Constructor, with class name
      */
-    function MiniumEditor(scope) {
+    var MiniumEditor = function() {}
+
+
+    MiniumEditor.prototype.init = function(scope) {
         // Public properties, assigned to the instance ('this')
         this.editors = [];
         this.activeInstance = null;
@@ -13,7 +16,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         //init the possible modes
         this.modeEnum = {
             JS: "JS", // optionally you can give the object properties and methods
-            FEATURE: "FEATURE"
+            FEATURE: "FEATURE",
+            YAML: "YAML"
         };
 
         this.mode = "";
@@ -111,6 +115,16 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     /////////////////////////////////////////////////////////////////
     //
+    // Get all the instances
+    //
+    // Return from the all the instances of the editor
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.getScope = function() {
+        return this.scope;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //
     // Get possible modes
     //
     /////////////////////////////////////////////////////////////////
@@ -150,8 +164,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isOpen = function(relativeUri) {
         var isOpen = false;
+
         var id = null;
         $.each(this.editors, function(i, obj) {
+            console.log(obj.relativeUri + " cenas " + relativeUri)
             if (obj.relativeUri === relativeUri) {
                 id = obj.id;
                 isOpen = true;
@@ -256,6 +272,38 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         launchCucumber(editor, this.scope);
     };
 
+    ////////////////////////////////////////////////////////////////
+    //
+    // Check if the tab is dirty
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.isDirty = function(id) {
+        var editor = this.getSession(id);
+        var elem = $("#save_" + id);
+        console.log(elem.attr('class'))
+            //check if the element is dirty
+        if (elem.hasClass("hide")) {
+            return false; //the element is not dirty
+        } else {
+            return true; //the element is dirty
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////
+    //
+    // remove tab session
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.closeTab = function(id, tabs, element) {
+        //get the element 
+        var panelId = element.closest("li").remove().attr("aria-controls");
+        $("#" + panelId).remove();
+        tabs.tabs("refresh");
+        //remove the instance of tabs that we closed
+        this.deleteSession(id);
+    };
+
 
 
 
@@ -310,6 +358,15 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             //set the mode
             this.mode = this.modeEnum.FEATURE;
         }
+
+        if (/\.yml$/.test(fileName)) {
+            editor.getSession().setMode("ace/mode/yaml");
+
+            //set the mode
+            this.mode = this.modeEnum.YAML;
+        }
+
+
     }
 
     ////////////////////////////////////////////////////////////////
@@ -485,7 +542,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         console.log(editor);
         console.log(scope.selected.item);
         item.$save(function() {
-            //setCenas(editor.getSession(),item)
+            //updateContent(editor,item)
             //setAceContent(item, editor);
             toastr.success("File saved")
             var tabUniqueId = getEditorID(editor);
@@ -519,14 +576,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         editor.clearSelection();
     }
 
-    function setCenas(session, content) {
-        var EditSession = ace.require('ace/edit_session').EditSession;
-        var UndoManager = ace.require('ace/undomanager').UndoManager;
-        var oldManager = session.getUndoManager();
-        session = new EditSession("asasas");
-
-        session.setUndoManager(oldManager);
-    }
 
     ////////////////////////////////////////////////////////////////
     //
@@ -624,7 +673,48 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     };
 
 
-    return MiniumEditor;
+    return new MiniumEditor;
 
+
+});
+
+
+'use strict';
+
+pupinoIDE.service('FileLoader', function($q, FS) {
+
+    var all = [];
+
+    this.loadFile = function(props, editors) {
+        console.debug(props)
+            //load the file and create a new editor instance with the file loaded
+        var newEditor;
+        var result = editors.isOpen(props);
+
+        var deferred = $q.defer();
+
+        if (props === "") {
+            //create an empty editor
+            newEditor = editors.addInstance("", 1);
+        } else if (result.isOpen) {
+            var id = result.id;
+            //tab is already open
+            var tab = "#panel_" + id;
+            var index = $('#tabs a[href="' + tab + '"]').parent().index();
+            $("#tabs").tabs("option", "active", index);
+        } else {
+            var path = props.relativeUri || props;
+            console.debug(path);
+            FS.get({
+                path: path
+            }, function(fileContent) {
+                newEditor = editors.addInstance(fileContent);
+                deferred.resolve(newEditor);
+            });
+        }
+
+        return deferred.promise;
+
+    }
 
 });

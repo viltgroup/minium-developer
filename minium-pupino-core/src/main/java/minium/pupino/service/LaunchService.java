@@ -104,8 +104,9 @@ public class LaunchService {
 		//to present the result in the interface
 		if (!content.equals("")) {
 			List<Feature> features = reporter.parseJsonResult(content);
-			feature = features.get(0);
-			if (feature != null)
+			
+			if (features != null)
+				feature = features.get(0);
 				feature.processSteps();
 		}
 

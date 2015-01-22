@@ -23,7 +23,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         // });
         // $scope.markerIds = [];
         activeSession.getSession().clearBreakpoints();
-        //activeSession.getSession().setAnnotations([]);
+        activeSession.getSession().setAnnotations([]);
     }
 
     //initialize the service to manage the instances
@@ -50,7 +50,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         //$('#screenShotsModal').modal('hide');
         //$('#launchModal').modal('show');
         console.log(annotations)
-        activeSession.getSession().setAnnotations(annotations);
+        launchTestSession.getSession().setAnnotations(annotations);
         //remove the lock in test execution
         $scope.testExecuting = false;
     }

@@ -61,10 +61,10 @@
                 </a>
             </div>
             <div class="btn-group">
-                <a class="btn btn-primary " title="Run test from cursor" ng-show="multiTab && (mode !== 'JS')" ng-click="launchCucumber()">
+                <a class="btn btn-primary " title="Run test from cursor" ng-show="multiTab && (mode !== 'JS')" ng-click="launchCucumber()" ng-disabled="testExecuting">
                     <span class="fa  fa-play"></span> Run Test
                 </a>
-                <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="mode !== 'JS'">
+                <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="mode !== 'JS'" ng-disabled="testExecuting">
                     <span class="fa  fa-list"></span> Run All
                 </a>
                 <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (mode !== 'JS')">

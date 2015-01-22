@@ -58,18 +58,15 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
 
-        //change the settings of editor (themes, size, etc)
-        setSettings(editor, this.settings);
-
         var fileName = fileProps.name || "";
         setAceContent(fileContent, editor);
         this.setTypeFile(fileName, editor);
 
-
+        //change the settings of editor (themes, size, etc)
+        setSettings(editor);
 
         // resize the editor
         editor.resize();
-
 
         // //add listener to input
         listenChanged(editor)
@@ -89,7 +86,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             mode: this.mode,
             selected: fileContent
         });
-
 
         console.log(fileContent);
         return {
@@ -249,7 +245,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     ////////////////////////////////////////////////////////////////
     //
-    // Save the file
+    // Set Session the file
     //
     //
     /////////////////////////////////////////////////////////////////
@@ -308,6 +304,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
 
     MiniumEditor.prototype.setTypeFile = function(fileName, editor) {
+
         if (/\.js$/.test(fileName)) {
 
             var _this = this;
@@ -421,12 +418,26 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
         // // set the size of the editor
         // newEditorElement.width('1180');
-        newEditorElement.height('600');
+        newEditorElement.height('700');
 
     }
 
 
-    function setSettings(editor, settings) {
+    function setSettings(editor) {
+
+         var settings = {
+            theme: 'ace/theme/monokai',
+            fontSize: 14,
+            printMargin: false,
+            highlightLine: true,
+            wrapMode: false,
+            softTabs: true,
+            HighlightActiveLine: true,
+            tabSize: 2,
+            resize: true
+        };
+
+
         editor.setTheme(settings.theme);
 
         editor.setShowPrintMargin(settings.printMargin);
@@ -542,7 +553,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         console.log(editor);
         console.log(scope.selected.item);
         item.$save(function() {
-            //updateContent(editor,item)
+            updateContent(item,editor)
             //setAceContent(item, editor);
             toastr.success("File saved")
             var tabUniqueId = getEditorID(editor);
@@ -556,6 +567,77 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         });
 
     };
+
+    
+    function updateContent(item,editor) {
+        console.log(item)
+        var fileName = item.fileProps.name || "";
+        
+        setAceContent(item, editor);        
+        
+
+        if (/\.js$/.test(fileName)) {
+
+            var _this = this;
+
+            editor.getSession().setMode("ace/mode/javascript");
+
+            // editor.commands.addCommand({
+            //     name: "evaluate",
+            //     bindKey: {
+            //         win: "Ctrl-Enter",
+            //         mac: "Command-Enter"
+            //     },
+            //     exec: evaluate,
+            //     readOnly: false // should not apply in readOnly mode
+            // });
+            // editor.commands.addCommand({
+            //     name: "activateSelectorGadget",
+            //     bindKey: {
+            //         win: "Ctrl-Shift-C",
+            //         mac: "Command-Shift-C"
+            //     },
+            //     exec: activateSelectorGadget,
+            //     readOnly: false // should not apply in readOnly mode
+            // });
+
+            //this.mode = this.modeEnum.JS;
+        }
+        if (/\.feature$/.test(fileName)) {
+
+            var _this = this;
+
+            editor.getSession().setMode("ace/mode/gherkin");
+
+            // editor.commands.addCommand({
+            //     name: "launchCucumber",
+            //     bindKey: {
+            //         win: "Ctrl+Enter",
+            //         mac: "Ctrl+Enter"
+            //     },
+            //     exec: function(env) {
+            //         //console.log(_this.scope);
+            //         launchCucumber(env, _this.scope);
+            //     },
+            //     readOnly: false // should not apply in readOnly mode
+            // });
+
+            //set the mode
+           // this.mode = this.modeEnum.FEATURE;
+        }
+
+        if (/\.yml$/.test(fileName)) {
+            editor.getSession().setMode("ace/mode/yaml");
+
+            //set the mode
+            //this.mode = this.modeEnum.YAML;
+        }
+
+        //change the settings of editor (themes, size, etc)
+        setSettings(editor);
+
+
+    }
 
     function setAceContent(item, editor) {
 
@@ -574,6 +656,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             // editor.setSession(ace.createEditSession(item.content))
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
+
     }
 
 
@@ -678,8 +761,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
 });
 
-
-'use strict';
 
 pupinoIDE.service('FileLoader', function($q, FS) {
 

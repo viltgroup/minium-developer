@@ -1,7 +1,18 @@
 Minium Pupino - Cucumber Archetype
 ==================================
 
-**Note:** Ensure [chromedriver](https://code.google.com/p/selenium/wiki/ChromeDriver) is installed and configured.
+Preconditions
+--------------
+
+* Ensure [chromedriver](https://code.google.com/p/selenium/wiki/ChromeDriver) is installed and configured.
+* Ensure maven is installed and `MAVEN_OPTS` environment variable is set to the following values (or higher):
+
+```
+-Xmx768m -XX:MaxPermSize=256m
+```
+
+Instructions
+------------
 
 Minium cucumber backend is very similar to [Cucumber Rhino](https://github.com/cucumber/cucumber-jvm/tree/master/rhino). Actually, it was adapted from there and even uses the same Javascript API.
 
@@ -58,5 +69,3 @@ Open the browser on this location <http://localhost:8080/>
 
 ## 4. Execution
 In the webdriver opened by pupino you can see the execution of the test. While the tests are being executed the steps of your feature file will be colored giving the result of each step.
-
-

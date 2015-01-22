@@ -45,7 +45,7 @@ public class JenkinsJobConfigurator {
 	public String getXMl(MavenJobConfiguration mavenConfiguration) throws JAXBException, UnsupportedEncodingException {
 		return this.generateXml(mavenConfiguration);
 	}
-
+	//REFACTOR TO A CONFIG CLASS
 	private void generateConfiguration(String scmType, String repository) {
 		config.setDescription("Descricao");
 		config.setGoals("clean install -U -Dremote.web.driver.url=http://silenus.vilt-group.com:4444/wd/hub -Dcucumber.options='--format json:result.json'");

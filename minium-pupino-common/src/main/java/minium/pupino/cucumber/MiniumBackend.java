@@ -24,6 +24,7 @@ import java.util.List;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeFunction;
+import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.regexp.NativeRegExp;
 import org.mozilla.javascript.tools.shell.Global;
@@ -45,13 +46,15 @@ import cucumber.runtime.snippets.SnippetGenerator;
 
 public class MiniumBackend implements Backend {
 
-    private static final String JS_DSL = "/cucumber/runtime/rhino/dsl.js";
-    private final SnippetGenerator snippetGenerator = new SnippetGenerator(new JavaScriptSnippet());
-    private final ResourceLoader resourceLoader;
-    private Glue glue;
-    private Context cx;
-    private ScriptableObject scope;
-
+	private static final String JS_DSL = "/cucumber/runtime/rhino/dsl.js";
+	private final SnippetGenerator snippetGenerator = new SnippetGenerator(new JavaScriptSnippet());
+	private final ResourceLoader resourceLoader;
+	private final Context cx;
+	private final Scriptable scope;
+	private Glue glue;
+	private Function buildWorldFn;
+	private Function disposeWorldFn;
+	
     public MiniumBackend(ResourceLoader resourceLoader, Context cx, ScriptableObject scope) throws IOException {
         try {
             this.resourceLoader = resourceLoader;
@@ -70,12 +73,16 @@ public class MiniumBackend implements Backend {
         this.glue = glue;
         for (String gluePath : gluePaths) {
             for (Resource resource : resourceLoader.resources(gluePath, ".js")) {
-                try {
-                    cx.evaluateReader(scope, new InputStreamReader(resource.getInputStream(), "UTF-8"), resource.getPath(), 1, null);
-                } catch (IOException e) {
-                    throw new CucumberException("Failed to evaluate Javascript in " + resource.getPath(), e);
-                }
+                runScript(resource);
             }
+        }
+    }
+
+    private void runScript(Resource resource) {
+        try {
+            cx.evaluateReader(scope, new InputStreamReader(resource.getInputStream(), "UTF-8"), resource.getAbsolutePath(), 1, null);
+        } catch (IOException e) {
+            throw new CucumberException("Failed to evaluate JavaScript in " + resource.getAbsolutePath(), e);
         }
     }
 
@@ -86,12 +93,27 @@ public class MiniumBackend implements Backend {
 
     @Override
     public void buildWorld() {
+        if (buildWorldFn != null) buildWorldFn.call(cx, scope, scope, new Object[0]);
     }
 
     @Override
     public void disposeWorld() {
+        try {
+            if (disposeWorldFn != null) disposeWorldFn.call(cx, scope, scope, new Object[0]);
+        } finally {
+            buildWorldFn = null;
+            disposeWorldFn = null;
+        }
     }
 
+    public void registerWorld(Function buildWorldFn, Function disposeWorldFn) {
+        if (this.buildWorldFn != null) throw new CucumberException("World is already set");
+        if (buildWorldFn == null) throw new CucumberException("World requires at least a build function");
+
+        this.buildWorldFn = buildWorldFn;
+        this.disposeWorldFn = disposeWorldFn;
+    }
+    
     @Override
     public String getSnippet(Step step, FunctionNameGenerator functionNameGenerator) {
         return snippetGenerator.getSnippet(step, functionNameGenerator);

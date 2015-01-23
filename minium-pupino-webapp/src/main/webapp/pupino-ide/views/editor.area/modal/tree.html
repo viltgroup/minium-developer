@@ -16,7 +16,7 @@
                 <li class="tree-panel">
                     <ul class="list-inline">
                         <li class="dropdown">
-                            <a href data-toggle="collapse" title="Save">
+                            <a href data-toggle="collapse" title="Save" ng-click="saveFile()">
                                 <i class="fa fa-save"></i>
                             </a>
                         </li>
@@ -27,31 +27,22 @@
                         </li>
 
                         <li class="dropdown">
-                            <a href data-toggle="collapse" title="Set Theme" ng-click="setTheme('monokai')">
-                                <i class="fa  fa-circle"></i>
+                            <a href data-toggle="collapse" title="Search File" ui-sref="global.multi.open">
+                                  <i class="fa fa-search"></i>
                             </a>
                         </li>
 
-                        <li class="dropdown">
-                            <a href data-toggle="collapse" title="" ng-click="setTheme('chrome')">
-                                <i class="fa  fa-circle-o"></i>
-                            </a>
-                        </li>
 
                         <li class="pull-right">
-                            <a href data-toggle="collapse" title="New file">
+                            <a href data-toggle="collapse" title="New file" ui-sref="global.multi.newFile">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </li>
+
                     </ul>
                 </li>
 
-                <!--   <li ng-class="getClass('#/bugtracker')">
-                    <a href="#/bugtracker">
-                        <i class="fa fa-bug"></i>
-                        <span>Test Tracker</span>
-                    </a>
-                </li> -->
+
 
 
             </ul>

@@ -26,7 +26,7 @@
                 </li>
             </ul>
         </li>
-        
+
         <!-- RUN options -->
         <li class="dropdown" on-toggle="toggled(open)">
             <a href="#" class="dropdown-toggle">Run <span class="caret"></span></a>
@@ -47,7 +47,7 @@
                     </a>
                 </li>
 
-                 <li ng-class="{'disabled':((testExecuting == false) && (mode !== 'JS') )}">
+                <li ng-class="{'disabled':((testExecuting == false) && (mode !== 'JS') )}">
                     <a href a-disabled="((testExecuting == false) && (mode !== 'JS') )" ng-click="stopLaunch()" title="Run all tests">
                         <span class="fa  fa-ban danger"></span>
                         <span class="ladda-label">Stop</span>
@@ -64,7 +64,7 @@
                 </li>
 
                 <li ng-class="{'disabled': (mode !== 'JS')}">
-                    <a href title="Evaluator" a-disabled="(mode !== 'JS')"  ng-click="evaluate()">
+                    <a href title="Evaluator" a-disabled="(mode !== 'JS')" ng-click="evaluate()">
                         <span class="fa  fa-binoculars"></span>
                         <span class="ladda-label">Evaluate</span>
                     </a>
@@ -98,10 +98,33 @@
                     </a>
                 </li>
                 <li>
-                    <a ng-hide="markerIds | isEmpty" ng-click="clearMarkers()">
+                    <a  ng-show="hasBreakPoints" ng-click="clearMarkers()">
                         <i class="fa fa-arrow-circle-o-down"></i>
-                        <span translate="editor.clearMarkers">Clear Markers</span>
+                        <span class="ladda-label">Clear Markers</span>
                     </a>
+                </li>
+            </ul>
+        </li>
+
+
+        <!-- OTHER ACTIONS -->
+        <li class="dropdown" on-toggle="toggled(open)">
+            <a href="#" class="dropdown-toggle">Preferences <span class="caret"></span></a>
+            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                <li class="dropdown-submenu">
+                    <a tabindex="-1" href="#">Theme</a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href title="Set Theme" ng-click="setTheme('monokai')">
+                                <i class="fa  fa-circle"></i>Dark theme
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="setTheme('chrome')">
+                                <i class="fa  fa-circle-o"></i> Bright theme
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </li>

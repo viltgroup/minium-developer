@@ -97,10 +97,19 @@ public class LaunchService {
             LOGGER.debug("Stopped by user ", e);
         }
         String content = FileUtils.readFileToString(tmpFile);
-        List<Feature> features = reporter.parseJsonResult(content);
-        features.get(0).processSteps();
-        return features.get(0);
-    }
+		Feature feature = null;
+		//check if the execution as results
+		//to present the result in the interface
+		if (!content.equals("")) {
+			List<Feature> features = reporter.parseJsonResult(content);
+			
+			if (features != null)
+				feature = features.get(0);
+				feature.processSteps();
+		}
+
+		return feature;
+	}
 
     private Result run(String sessionID) {
         try {

@@ -55,5 +55,12 @@ public class CucumberResource {
         launchService.stopLaunch();
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
-
+    
+    @RequestMapping(value = "/sessionId", method = RequestMethod.GET)
+	public @ResponseBody String checkSessionId(HttpServletRequest request) {
+    	String sessionId = request.getSession().getId();
+		return  sessionId;
+	}
+    
+    
 }

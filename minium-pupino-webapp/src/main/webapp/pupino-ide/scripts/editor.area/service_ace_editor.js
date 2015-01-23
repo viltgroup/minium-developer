@@ -33,6 +33,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             tabSize: 2,
             resize: true
         };
+
+        console.log(this)
     }
 
     //////////////////////////////////////////////////////////////////
@@ -72,7 +74,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         listenChanged(editor)
 
         //create event listeners (bind keys events)
-        bindKeys(editor, this.scope);
+        bindKeys(editor, this);
 
         //init other configurations like autocompletion
         otherConfigurations(editor);
@@ -223,7 +225,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.saveFile = function(editor) {
-        saveFile(editor, this.scope);
+        saveFile(editor, this.scope,this);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -515,9 +517,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //   editor - instance of the editor
     //
     //////////////////////////////////////////////////////////////////
-    function bindKeys(editor, scope) {
-        var scope = scope;
-
+    function bindKeys(editor,that) {
+        var _this = that;
         editor.commands.addCommand({
             name: "saveFile",
             bindKey: {
@@ -526,8 +527,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 sender: "editor|cli"
             },
             exec: function(env) {
-                console.log(scope);
-                saveFile(env, scope);
+                saveFile(env,_this);
             },
             readOnly: false // should not apply in readOnly mode
         });
@@ -545,15 +545,14 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         });
     }
 
-    function saveFile(editor, scope) {
-
-        var scope = scope;
-        var item = scope.selected.item;
+    function saveFile(editor,that) {
+        var _this = that;
+        var item = _this.scope.selected.item;
         item.content = editor.getSession().getValue();
         console.log(editor);
-        console.log(scope.selected.item);
+        console.log(_this.scope.selected.item);
         item.$save(function() {
-            updateContent(item,editor)
+            updateContent(item,editor,_this)
             //setAceContent(item, editor);
             toastr.success("File saved")
             var tabUniqueId = getEditorID(editor);
@@ -569,16 +568,16 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     };
 
     
-    function updateContent(item,editor) {
+    function updateContent(item,editor,that) {
         console.log(item)
         var fileName = item.fileProps.name || "";
         
         setAceContent(item, editor);        
-        
+        var _this = that;
 
         if (/\.js$/.test(fileName)) {
 
-            var _this = this;
+            //var _this = this;
 
             editor.getSession().setMode("ace/mode/javascript");
 
@@ -600,12 +599,12 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             //     exec: activateSelectorGadget,
             //     readOnly: false // should not apply in readOnly mode
             // });
-
-            //this.mode = this.modeEnum.JS;
+            
+            _this.mode = _this.modeEnum.JS;
         }
         if (/\.feature$/.test(fileName)) {
 
-            var _this = this;
+            //var _this = this;
 
             editor.getSession().setMode("ace/mode/gherkin");
 
@@ -621,9 +620,11 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             //     },
             //     readOnly: false // should not apply in readOnly mode
             // });
-
+            
             //set the mode
-           // this.mode = this.modeEnum.FEATURE;
+            console.log(_this)
+            _this.scope.subscribeMessages();
+           _this.mode = _this.modeEnum.FEATURE;
         }
 
         if (/\.yml$/.test(fileName)) {
@@ -798,4 +799,21 @@ pupinoIDE.service('FileLoader', function($q, FS) {
 
     }
 
+});
+
+
+pupinoIDE.factory('SessionID', function($http, $q) {
+    return {
+        sessionId: function() {
+            // the $http API is based on the deferred/promise APIs exposed by the $q service
+            // so it returns a promise for us by default
+            return $http.get('app/rest/sessionId')
+                .then(function(response) {
+                    return response.data;
+                }, function(response) {
+                    // something went wrong
+                    return $q.reject(response.data);
+                });
+        }
+    };
 });

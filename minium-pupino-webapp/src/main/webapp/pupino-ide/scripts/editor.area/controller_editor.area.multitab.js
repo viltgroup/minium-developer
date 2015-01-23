@@ -1,6 +1,7 @@
 'use strict';
-var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader) {
+var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID) {
 
+    //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
     //open modal to see the execution state
@@ -189,66 +190,73 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         var session_id = $scope.readCookie("JSESSIONID");
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
-        stompClient.connect({}, function(frame) {
+        //get the sessionID in the server 
+        //to use it for private sockets
+        //workflow : 
+        //1- get the sessionID in the server
+        //2- wait for the response 
+        //3- subscribe to a websocket with the sessionID fetched
+        // TODO: Need a better solution
+        SessionID.sessionId().then(function(data) {
+            session_id = data;
+            
+            stompClient.connect({}, function(frame) {
 
-            //console.log(frame);
-            stompClient.subscribe("/tests/" + session_id, function(message) {
-                var body = message.body;
-                var testMessage = eval('(' + body + ')');
+                console.log(JSON.stringify(frame))
+                stompClient.subscribe("/tests/" + session_id, function(message) {
+                    var body = message.body;
+                    var testMessage = eval('(' + body + ')');
 
-                switch (testMessage.type) {
-                    case "total":
-                        $scope.cenas = testMessage.body;
-                        break;
-                    case "failing":
-                        $scope.tests.failing = $scope.tests.failing + "\n\n\n" + testMessage.body;
-                        $scope.isFailing = true;
-                        break;
-                    case "passed":
-                        $scope.testsExecuted = $scope.testsExecuted + 1;
-                        $scope.tests.passed = testMessage.body;
-                        //alert("tests.executed " + ($scope.testsExecuted ))
-                        break;
-                    default: //do nothing
-                }
-                $scope.$apply();
+                    switch (testMessage.type) {
+                        case "total":
+                            $scope.cenas = testMessage.body;
+                            break;
+                        case "failing":
+                            $scope.tests.failing = $scope.tests.failing + "\n\n\n" + testMessage.body;
+                            $scope.isFailing = true;
+                            break;
+                        case "passed":
+                            $scope.testsExecuted = $scope.testsExecuted + 1;
+                            $scope.tests.passed = testMessage.body;
+                            //alert("tests.executed " + ($scope.testsExecuted ))
+                            break;
+                        default: //do nothing
+                    }
+                    $scope.$apply();
+                });
+
+                var range = ace.require('ace/range').Range;
+                
+                stompClient.subscribe("/cucumber/" + session_id, function(message) {
+                    //console.log(message.body);
+                    var step = JSON.parse(message.body);
+                    var markerId;
+                    switch (step.status) {
+                        case "failed":
+                            editors.hightlightLine((step.line - 1), launchTestSession, "failed");
+                            // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
+                            break;
+                        case "passed":
+                            editors.hightlightLine((step.line - 1), launchTestSession, "passed");
+                            //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
+                            break;
+                        case "executing":
+                            editors.hightlightLine((step.line - 1), launchTestSession, "breakpoint");
+                            // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
+                            //breakpoint(step.line - 1);
+                            break;
+                        case "undefined":
+                            editors.hightlightLine((step.line - 1), launchTestSession, "undefined");
+                            //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
+                            break;
+                        default: //do nothing
+                    }
+                    $scope.hasBreakPoints = true;
+                    // if (markerId) $scope.markerIds.push(markerId);
+                });
             });
 
 
-            var range = ace.require('ace/range').Range;
-
-            stompClient.subscribe('/user/messages', function(msg) {
-                alert(msg.body);
-            });
-
-
-            stompClient.subscribe("/cucumber/" + session_id, function(message) {
-                //console.log(message.body);
-                var step = JSON.parse(message.body);
-                var markerId;
-                switch (step.status) {
-                    case "failed":
-                        editors.hightlightLine((step.line - 1), launchTestSession, "failed");
-                        // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
-                        break;
-                    case "passed":
-                        editors.hightlightLine((step.line - 1), launchTestSession, "passed");
-                        //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
-                        break;
-                    case "executing":
-                        editors.hightlightLine((step.line - 1), launchTestSession, "breakpoint");
-                        // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
-                        //breakpoint(step.line - 1);
-                        break;
-                    case "undefined":
-                        editors.hightlightLine((step.line - 1), launchTestSession, "undefined");
-                        //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
-                        break;
-                    default: //do nothing
-                }
-                $scope.hasBreakPoints = true;
-                // if (markerId) $scope.markerIds.push(markerId);
-            });
 
         });
     };
@@ -288,8 +296,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     $scope.launchCucumber = function() {
         editors.launchCucumber(activeSession);
     }
-
-
 
     /**
      *   Tree view  controller

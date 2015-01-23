@@ -74,9 +74,11 @@
     box-shadow: inset 0px 0px 2px 2px;
     color: white;
 }
+/**  Active line ace editor**/
 .ace-monokai .ace_marker-layer .ace_active-line {
-    background: #555;
+    background: #444;
 }
+/**  Autocomplete **/
 .ace_editor.ace_autocomplete {
     margin-top: 2px;
 }

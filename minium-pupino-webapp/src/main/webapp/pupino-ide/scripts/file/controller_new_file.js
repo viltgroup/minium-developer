@@ -14,7 +14,7 @@ var NewFileController = function($scope, $modalInstance, $state, $controller, $s
 
 
     if (parentScope.selectedNode.type !== "FILE") {
-        // $scope.fs.current = parentScope.selectedNode;
+         $scope.fs.current = parentScope.selectedNode;
         // $scope.loadChildren(parentScope.selectedNode);
     }
 

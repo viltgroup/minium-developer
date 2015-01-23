@@ -1,6 +1,7 @@
 'use strict';
 var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID) {
 
+
     //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -50,8 +51,9 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         runningTest.stop();
         //$('#screenShotsModal').modal('hide');
         //$('#launchModal').modal('show');
-        console.log(annotations)
-        launchTestSession.getSession().setAnnotations(annotations);
+        
+        if( annotations)
+            launchTestSession.getSession().setAnnotations(annotations);
         //remove the lock in test execution
         $scope.testExecuting = false;
     }
@@ -140,9 +142,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         });
 
     };
-
-
-
+    
     if ($stateParams.path) {
         $scope.loadFile($stateParams.path);
     } else {
@@ -201,7 +201,9 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             session_id = data;
             
             stompClient.connect({}, function(frame) {
+                var suffix = frame.headers;
 
+                console.log(suffix)
                 console.log(JSON.stringify(frame))
                 stompClient.subscribe("/tests/" + session_id, function(message) {
                     var body = message.body;
@@ -363,42 +365,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     console.debug($scope.fs.current)
     asyncLoad($scope.fs.current);
 
-    /**
-     * REFACTOR THIS URGENT
-     * NEED TO PUT IT in another controller and have parallel states
-     */
-
-
-    // //extends the fileController
-    // $controller('FileController', {
-    //     $scope: $scope
-    // });
-
-    // $scope.fileName = "";
-
-    // $scope.createFile = function(fileName, path) {   
-    //     var fs = path || "";
-    //     FileFactory.create(fs + fileName).success(function() {
-    //         $scope.asyncLoad($scope.fs.current);
-    //         toastr.success("Created file " + $scope.fileName);
-
-    //         $scope.loadFile(fs + fileName);
-    //         $state.go("global.multi", {
-    //             path: (fs + fileName)
-    //         }, {
-    //             location: 'replace', //  update url and replace
-    //             inherit: false,
-    //             notify: false
-    //         });
-
-    //         editors.setSession(activeID,(fs + fileName))
-    //         $scope.fileName = "";
-    //         $('#NewFileModal').modal('hide');
-    //     }).error(function(data) {
-    //         toastr.error("Error " + data);
-    //     });
-    // }
-
 
     /**
      * NAVIGATION FOLDERS Functions
@@ -495,6 +461,15 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
+
+            console.log(data)
+            //check if the data is valid
+            if( data === undefined || data === ""){
+                $scope.stopLaunch();
+                toastr.error("Oops, something went wrong.");
+                return;
+            }
+
             var feature = new FeatureFacade(data);
             console.debug(feature);
             $scope.faillingSteps = feature.notPassingsteps;
@@ -569,7 +544,8 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         if (e.keyCode == 80 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
             e.preventDefault();
             //your implementation or function calls
-            $state.go("global.multi.open");
+            // $state.transition();
+            $state.go(".open");
         }
     }, false);
 

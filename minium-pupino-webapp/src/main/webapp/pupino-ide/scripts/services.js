@@ -123,7 +123,7 @@ pupinoIDE.factory('FeatureFacade', function() {
         this.skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
         this.passedSteps = jsonPath.eval(data, "$..steps[?(@.status=='PASSED')]");
         var durations = jsonPath.eval(data, "$..duration");
-
+        
         var totalDuration = 0;
         $.each(durations, function() {
             totalDuration += this;

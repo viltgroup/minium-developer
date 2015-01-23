@@ -45,7 +45,7 @@ var FileController = function($scope, $rootScope, $state, $stateParams, $log, $l
         $scope.asyncLoad(item);
     };
 
-    $scope.asyncLoad($scope.fs.current);
+    //$scope.asyncLoad($scope.fs.current);
 
 
 };

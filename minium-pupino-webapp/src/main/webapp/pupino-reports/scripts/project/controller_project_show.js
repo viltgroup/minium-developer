@@ -103,6 +103,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
         stompClient.connect({}, function(frame) {
             stompClient.subscribe("/building/" + session_id + "/project/" + $scope.project.id , function(data) {
                 console.debug(data);
+                alert("ola")
                 //data arrive like duration-timestamp ("2222-14000000")
                 var res = data.body.split("-");
                 //return data 

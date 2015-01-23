@@ -65,7 +65,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         this.setTypeFile(fileName, editor);
 
         //change the settings of editor (themes, size, etc)
-        setSettings(editor);
+        setSettings(editor,this.settings);
 
         // resize the editor
         editor.resize();
@@ -425,19 +425,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     }
 
 
-    function setSettings(editor) {
-
-         var settings = {
-            theme: 'ace/theme/monokai',
-            fontSize: 14,
-            printMargin: false,
-            highlightLine: true,
-            wrapMode: false,
-            softTabs: true,
-            HighlightActiveLine: true,
-            tabSize: 2,
-            resize: true
-        };
+    function setSettings(editor, settings) {
 
 
         editor.setTheme(settings.theme);
@@ -635,7 +623,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         }
 
         //change the settings of editor (themes, size, etc)
-        setSettings(editor);
+        setSettings(editor,_this.settings);
 
 
     }

@@ -1,23 +1,29 @@
 package minium.pupino.jenkins;
 
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
-import minium.pupino.domain.util.UrlUtils;
 import minium.pupino.web.rest.dto.BrowsersDTO;
 import minium.pupino.web.rest.dto.BuildDTO;
 import minium.pupino.web.rest.dto.SummaryDTO;
 import net.masterthought.cucumber.json.Feature;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Charsets;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -92,13 +98,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		if (updatedConfig)
 			this.updateJobConfiguration(jobName, buildConfig);
 		job.build();
-
-		int c = job.getNextBuildNumber();
 		return job;
-		// List<Build> builds = jenkins.getJob("server").getBuilds();
-		//
-		// Build z = job.getLastBuild();
-
 	}
 
 	@Override
@@ -120,20 +120,27 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	 * ARTIFACTS
 	 */
 	@Override
-	
 	public String getArtifactsBuild(BuildWithDetails buildDetails) {
-		String artifactContent = "";
+	    Reader in = null;
+	    String result = "";
+	    try {
     		if (!buildDetails.getArtifacts().isEmpty()) {
     			Artifact artifact = buildDetails.getArtifacts().get(0);
     			// function from the jenkins client was not working properly use
-    			// this temporary solution
     			if (artifact.getDisplayPath().equals("result.json")) {
     			    String artifactPath = buildDetails.getUrl() +"artifact/"+  artifact.getRelativePath();
-    				artifactContent = UrlUtils.extractContentAsString(artifactPath, buildDetails.getId());
+                    in = new InputStreamReader(new URL(artifactPath).openStream(), Charsets.UTF_8);
+    			} else {
+    			    in = new FileReader("mocks/mock-cgd-store.json");
     			}
     		}
-    		return artifactContent;
-	    
+    		result =  IOUtils.toString(in);
+	    } catch (IOException e) {
+            throw Throwables.propagate(e);
+        } finally {
+            IOUtils.closeQuietly(in);
+        }
+	    return result;
 	}
 
 	private String getStatusForBuild(BuildWithDetails bd) {

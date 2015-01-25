@@ -755,3 +755,14 @@ treecontrol.tree-classic li .tree-selected {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+/**
+ * MODAL CLASSES
+ */
+.modal-with-bg-color .modal-dialog{
+  width: 1200px;  
+}
+
+.modal-with-bg-color .modal-body{
+    padding: 0px;
+}

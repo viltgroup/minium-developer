@@ -175,6 +175,9 @@ angular.module('pupinoReports')
     var successTemplate = '<i class="success fa fa-check-square fa-2x"></i>';
     var errorTemplate = '<i class="danger fa fa-bug fa-2x"></i>';
 
+    var successTemplateForScenario = '<i class="success fa fa-check-square "></i>';
+    var errorTemplateForScenario = '<i class="danger fa fa-bug "></i> ';
+
     var getBuildResult = function(contentType) {
         var template = '';
         switch (contentType) {
@@ -202,9 +205,25 @@ angular.module('pupinoReports')
         return template;
     }
 
+    var getScenarioResult = function(contentType) {
+        var template = '';
+
+        switch (contentType) {
+            case 'PASSED':
+                template = successTemplateForScenario;
+                break;
+            default:
+                template = errorTemplateForScenario;
+        }
+
+        return template;
+    }
+
     var linker = function(scope, element, attrs) {
         if (attrs.type === "build") {
             element.html(getBuildResult(scope.content)).show();
+        } else if (attrs.type === "scenario") {
+            element.html(getScenarioResult(scope.content)).show();
         } else {
             element.html(getFeatureResult(scope.content)).show();
         }
@@ -221,6 +240,50 @@ angular.module('pupinoReports')
     };
 })
 
+.directive('iconItemScenario', function($compile) {
+
+    var successTemplateForScenario = '<i class="success fa fa-check-square "></i>';
+    var errorTemplateForScenario = '<i class="danger fa fa-bug "></i> ';
+
+    var statuses = {
+        passed: 'PASSED',
+        failed: 'FAILED'
+    };
+
+    var getScenarioResult = function(scenarioStatus, backgroundStatus) {
+        var template = '';
+
+        if (passed(scenarioStatus) && passed(backgroundStatus)) {
+            template = successTemplateForScenario;
+        } else if(passed(scenarioStatus) && (backgroundStatus === undefined) ){
+            template = successTemplateForScenario;
+        } else{
+            template = errorTemplateForScenario;
+        }
+
+        return template;
+    }
+
+    var passed = function(status) {
+        return status === statuses.passed;
+    }
+
+    var linker = function(scope, element, attrs) {
+
+        element.html(getScenarioResult(scope.scenarioStatus, scope.backgroundStatus)).show();
+
+        $compile(element.contents())(scope);
+    }
+
+    return {
+        restrict: "E",
+        link: linker,
+        scope: {
+            scenarioStatus: '=',
+            backgroundStatus: '='
+        }
+    };
+})
 
 
 .directive('sidebarToggle', function() {

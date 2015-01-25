@@ -156,8 +156,12 @@ public class BuildService {
 
 	// REFACTOR THIS METHOD
 	public BuildDTO findLastBuild(Project project) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
-		Build b = buildRepository.findLastBuild(project, new PageRequest(0, 1)).get(0);
-		return getBuildDTO(b);
+		List<Build> builds = buildRepository.findLastBuild(project, new PageRequest(0, 1));
+		BuildDTO buildDTO = null;
+		if( !builds.isEmpty() ){
+			buildDTO =  getBuildDTO(builds.get(0));
+		}
+		return buildDTO;
 	}
 
 	private BuildDTO getBuildDTO(Build b) throws JsonSyntaxException, JsonIOException, FileNotFoundException {

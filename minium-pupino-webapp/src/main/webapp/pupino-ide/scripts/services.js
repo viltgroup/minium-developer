@@ -172,3 +172,110 @@ pupinoIDE.factory('RemoteWebDriverFactory', function($http) {
         }
     };
 });
+
+
+pupinoIDE.service('FileLoader', function($q, FS) {
+
+    var all = [];
+
+    this.loadFile = function(props, editors) {
+        console.debug(props)
+            //load the file and create a new editor instance with the file loaded
+        var newEditor;
+        var result = editors.isOpen(props);
+
+        var deferred = $q.defer();
+
+        if (props === "") {
+            //create an empty editor
+            newEditor = editors.addInstance("", 1);
+        } else if (result.isOpen) {
+            var id = result.id;
+            //tab is already open
+            var tab = "#panel_" + id;
+            var index = $('#tabs a[href="' + tab + '"]').parent().index();
+            $("#tabs").tabs("option", "active", index);
+        } else {
+            var path = props.relativeUri || props;
+            console.debug(path);
+            FS.get({
+                path: path
+            }, function(fileContent) {
+                newEditor = editors.addInstance(fileContent);
+                deferred.resolve(newEditor);
+            });
+        }
+
+        return deferred.promise;
+
+    }
+
+});
+
+
+pupinoIDE.factory('SessionID', function($http, $q) {
+    return {
+        sessionId: function() {
+            // the $http API is based on the deferred/promise APIs exposed by the $q service
+            // so it returns a promise for us by default
+            return $http.get('app/rest/sessionId')
+                .then(function(response) {
+                    return response.data;
+                }, function(response) {
+                    // something went wrong
+                    return $q.reject(response.data);
+                });
+        }
+    };
+});
+
+// This module creates and append the new elements create for new tabs
+pupinoIDE.factory('TabFactory', function($http, $q) {
+    var tabFactory = {
+            height : '700',
+    };
+
+    tabFactory.createTab = function(tabUniqueId, fileProps) {
+        var fileName = fileProps.name || "untitled";
+
+        var tabsElement = $('#tabs');
+        var tabsUlElement = tabsElement.find('ul');
+
+        // create a navigation bar item for the new panel
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + ' <span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close" ></span></li>');
+
+        // add the new nav item to the DOM
+        tabsUlElement.append(newTabNavElement);
+
+        // create a new panel DOM
+        var newTabPanelElement = $('<div id="panel_' + tabUniqueId + '" data-tab-id="' + tabUniqueId + '"></div>');
+
+        tabsElement.append(newTabPanelElement);
+
+        // refresh the tabs widget
+        tabsElement.tabs('refresh');
+
+        var tabIndex = $('#tabs ul li').index($('#panel_nav_' + tabUniqueId));
+
+        console.log('tabIndex: ' + tabIndex);
+
+        // activate the new panel
+        tabsElement.tabs('option', 'active', tabIndex);
+
+        // create the editor dom
+        var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
+
+        newTabPanelElement.append(newEditorElement);
+
+        // set the size of the panel
+        // newTabPanelElement.width('600');
+        // newTabPanelElement.height('600');
+
+        // // set the size of the editor
+        // newEditorElement.width('1180');
+        newEditorElement.height(this.height);
+    };
+
+    return tabFactory;
+
+});

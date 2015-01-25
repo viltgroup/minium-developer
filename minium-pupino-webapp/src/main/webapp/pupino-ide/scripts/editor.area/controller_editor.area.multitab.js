@@ -1,6 +1,11 @@
 'use strict';
 var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID) {
 
+    //initialize the service to manage the instances
+    var editors = MiniumEditor;
+
+    editors.init($scope);
+
 
     //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
@@ -28,11 +33,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         activeSession.getSession().setAnnotations([]);
     }
 
-    //initialize the service to manage the instances
-    var editors = MiniumEditor;
-
-    editors.init($scope);
-
     //to know when the execution was stopped
     //inicialize a false
     $scope.executionWasStopped = false;
@@ -59,7 +59,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
     }
 
     $scope.resultsSummary = {};
-
 
     //init variables
     $scope.testExecuting = false;
@@ -120,7 +119,9 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             $scope.addEmptyTab();
         }
     });
-
+    //is the actual file selected
+    //every time we move to other tab 
+    //this value is being update
     $scope.selected = {};
 
     //load the file and create a new editor instance with the file loaded
@@ -159,10 +160,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     $scope.setTheme = function(themeName) {
         editors.setTheme(activeSession, themeName);
-    }
-
-    $scope.getSelected = function() {
-        //console.log(activeSession);
     }
 
     /**
@@ -268,8 +265,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
      *
      */
     $scope.saveFile = function() {
-        // //console.log(activeSession)
-        // return;
         editors.saveFile(activeSession);
     }
 

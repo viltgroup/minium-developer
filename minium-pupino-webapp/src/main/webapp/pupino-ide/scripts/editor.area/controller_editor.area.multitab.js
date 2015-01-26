@@ -51,8 +51,8 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         runningTest.stop();
         //$('#screenShotsModal').modal('hide');
         //$('#launchModal').modal('show');
-        
-        if( annotations)
+
+        if (annotations)
             launchTestSession.getSession().setAnnotations(annotations);
         //remove the lock in test execution
         $scope.testExecuting = false;
@@ -143,7 +143,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         });
 
     };
-    
+
     if ($stateParams.path) {
         $scope.loadFile($stateParams.path);
     } else {
@@ -196,7 +196,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         // TODO: Need a better solution
         SessionID.sessionId().then(function(data) {
             session_id = data;
-            
+
             stompClient.connect({}, function(frame) {
                 var suffix = frame.headers;
 
@@ -225,7 +225,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 });
 
                 var range = ace.require('ace/range').Range;
-                
+
                 stompClient.subscribe("/cucumber/" + session_id, function(message) {
                     //console.log(message.body);
                     var step = JSON.parse(message.body);
@@ -265,6 +265,8 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
      *
      */
     $scope.saveFile = function() {
+        $state.go("global.multi.newFile");
+        return;
         editors.saveFile(activeSession);
     }
 
@@ -313,16 +315,16 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             _.each(node.children, function(item) {
                 // tree navigation needs a label property
                 item.label = item.name;
+
                 if (firstLoad) {
                     $scope.dataForTheTree.push(item);
                 }
             });
             firstLoad = false;
         });
-        // //console.log($scope.fs.current.children)
     };
 
-    var loadChildren = function(item) {
+    $scope.loadChildren = function(item) {
         // if (item.childrenLoaded) return;
         asyncLoad(item);
         // item.childrenLoaded = true;
@@ -337,24 +339,25 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         //console.log($scope.selectedNode)
         if (node.type == "FILE") {
             $scope.loadFile($scope.selectedNode.relativeUri);
-            $state.go("global.multi", {
-                path: $scope.selectedNode.relativeUri
-            }, {
-                location: 'replace', //  update url and replace
-                inherit: false,
-                notify: false
-            });
+            //need to remove this because of the search and new file
+            // $state.go("global.multi", {
+            //     path: $scope.selectedNode.relativeUri
+            // }, {
+            //     location: 'false', //  update url and replace
+            //     inherit: false,
+            //     notify: false
+            // });
         } else {
-            loadChildren(node);
+            $scope.loadChildren(node);
             //expand the node
             $scope.expandedNodes.push(node)
         }
 
-    };
+    };   
 
     $scope.showToggle = function(node, expanded) {
         //console.log(node.children)
-        loadChildren(node);
+        $scope.loadChildren(node);
     };
 
     console.debug($scope.fs.current)
@@ -458,8 +461,8 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             if (executionWasStopped == true) return;
 
             console.log(data)
-            //check if the data is valid
-            if( data === undefined || data === ""){
+                //check if the data is valid
+            if (data === undefined || data === "") {
                 $scope.stopLaunch();
                 toastr.error("Oops, something went wrong.");
                 return;

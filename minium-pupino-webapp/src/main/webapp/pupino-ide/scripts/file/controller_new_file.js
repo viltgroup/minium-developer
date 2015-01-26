@@ -10,20 +10,24 @@ var NewFileController = function($scope, $modalInstance, $state, $controller, $s
 
     var parentScope = MiniumEditor.getScope();
 
-    console.log(parentScope.selectedNode)
+    console.log(parentScope)
 
-
-    if (parentScope.selectedNode.type !== "FILE") {
-         $scope.fs.current = parentScope.selectedNode;
+    
+    if (parentScope.selectedNode !== "" && parentScope.selectedNode.type !== "FILE") {
+        $scope.fs.current = parentScope.selectedNode;
         // $scope.loadChildren(parentScope.selectedNode);
+    }else{
+        $scope.asyncLoad($scope.fs.current);
     }
-
+    
     $scope.createFile = function(fileName, path) {
-        var fs = parentScope.selectedNode.relativeUri || "";
+        var fs = $scope.fs.current.relativeUri || "";
         FileFactory.create(fs + fileName).success(function() {
-            $scope.asyncLoad($scope.fs.current);
+            //$scope.asyncLoad($scope.fs.current);
             toastr.success("Created file " + $scope.fileName);
             $scope.fileName = "";
+            //reload the children where the file was created
+            parentScope.loadChildren($scope.fs.current);
             $scope.$close(true);
         }).error(function(data) {
             toastr.error("Error " + data);

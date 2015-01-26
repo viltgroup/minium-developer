@@ -42,8 +42,8 @@
 
         <!-- SCENARIOS -->
         <accordion close-others="oneAtATime">
-            <accordion-group is-open="status.open" ng-repeat="element in scenarios  track by $index| filter:query | filter:{status :cucumberStatus}
-            ">
+            <accordion-group is-open="status.open" ng-repeat="element in scenarios  | filter:query | scenarioStatusFilter:cucumberStatus">
+
                 <accordion-heading>
                     <icon-item-scenario scenario-status="element.scenario.status" background-status="element.background.status"></icon-item-scenario>
                     {{element.scenario.keyword}}
@@ -52,6 +52,7 @@
                     <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}">
                         </i>
                     <span class="hide">{{element.scenario.status}}</span>
+                     <span class="hide">{{element.backgorung.status}}</span>
                 </accordion-heading>
 
                 

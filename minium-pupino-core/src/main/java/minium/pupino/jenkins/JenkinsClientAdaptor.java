@@ -133,8 +133,9 @@ public class JenkinsClientAdaptor implements JenkinsClient {
     			} else {
     			    in = new FileReader("mocks/mock-cgd-store.json");
     			}
+    			result =  IOUtils.toString(in);
     		}
-    		result =  IOUtils.toString(in);
+    		
 	    } catch (IOException e) {
             throw Throwables.propagate(e);
         } finally {

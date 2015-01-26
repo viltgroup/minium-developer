@@ -252,7 +252,7 @@ angular.module('pupinoReports')
 
     var getScenarioResult = function(scenarioStatus, backgroundStatus) {
         var template = '';
-
+        
         if (passed(scenarioStatus) && passed(backgroundStatus)) {
             template = successTemplateForScenario;
         } else if(passed(scenarioStatus) && (backgroundStatus === undefined) ){

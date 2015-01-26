@@ -123,7 +123,7 @@ pupinoIDE.factory('FeatureFacade', function() {
         this.skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
         this.passedSteps = jsonPath.eval(data, "$..steps[?(@.status=='PASSED')]");
         var durations = jsonPath.eval(data, "$..duration");
-        
+
         var totalDuration = 0;
         $.each(durations, function() {
             totalDuration += this;
@@ -154,7 +154,9 @@ pupinoIDE.factory('backendFactory', function($http) {
 pupinoIDE.factory('WebDriverFactory', function($http) {
     return {
         create: function(varName, type) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {type: type} );
+            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
+                type: type
+            });
         },
         quit: function(varName) {
             return $http.post("/app/rest/webDrivers/" + varName + "/quit")
@@ -189,6 +191,7 @@ pupinoIDE.service('FileLoader', function($q, FS) {
         if (props === "") {
             //create an empty editor
             newEditor = editors.addInstance("", 1);
+            deferred.resolve(newEditor);
         } else if (result.isOpen) {
             var id = result.id;
             //tab is already open
@@ -232,7 +235,7 @@ pupinoIDE.factory('SessionID', function($http, $q) {
 // This module creates and append the new elements create for new tabs
 pupinoIDE.factory('TabFactory', function($http, $q) {
     var tabFactory = {
-            height : '700',
+        height: '700',
     };
 
     tabFactory.createTab = function(tabUniqueId, fileProps) {

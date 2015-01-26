@@ -89,13 +89,13 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 //console.log($scope.selected.item)
                 //set the mode
                 $scope.mode = editor.mode;
-                $state.go("global.multi", {
-                    path: editor.relativeUri
-                }, {
-                    location: 'replace', //  update url and replace
-                    inherit: false,
-                    notify: false
-                });
+                // $state.go("global.multi", {
+                //     path: editor.relativeUri
+                // }, {
+                //     location: 'replace', //  update url and replace
+                //     inherit: false,
+                //     notify: false
+                // });
             }
         }
     });
@@ -126,13 +126,13 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     //load the file and create a new editor instance with the file loaded
     $scope.loadFile = function(props) {
-
+        //create an empty file
         var promise = FileLoader.loadFile(props, editors);
-
+        console.log(promise)
         promise.then(function(result) {
-
+            
             var newEditor = result;
-            //console.log(newEditor)
+            console.log(newEditor)
             activeSession = newEditor.instance;
             activeSession.focus();
             $scope.selected.item = newEditor.selected;
@@ -144,6 +144,10 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     };
 
+    $scope.getSession  = function(){
+        console.log($scope.selected.item)
+    }
+    
     if ($stateParams.path) {
         $scope.loadFile($stateParams.path);
     } else {

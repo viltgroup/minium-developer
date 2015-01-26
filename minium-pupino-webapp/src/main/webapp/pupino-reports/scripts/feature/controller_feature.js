@@ -32,7 +32,6 @@ pupinoReports.controller('FeatureController', function($scope, $stateParams, $sc
 
             //console.log($scope.faillingScenarios);
             processData();
-            toastr.success("Created");
 
             console.log(buildFacade)
 

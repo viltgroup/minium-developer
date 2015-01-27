@@ -9,7 +9,7 @@ endpoints.jolokia.enabled: false
 jhipster.security.rememberme.key: pupino
 
 server:
-  port: 8090
+  port: 8080
 
 async:
     corePoolSize: 2

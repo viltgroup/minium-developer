@@ -28,6 +28,8 @@ import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.regexp.NativeRegExp;
 import org.mozilla.javascript.tools.shell.Global;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Throwables;
@@ -46,6 +48,8 @@ import cucumber.runtime.snippets.SnippetGenerator;
 
 public class MiniumBackend implements Backend {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MiniumBackend.class);
+
 	private static final String JS_DSL = "/cucumber/runtime/rhino/dsl.js";
 	private final SnippetGenerator snippetGenerator = new SnippetGenerator(new JavaScriptSnippet());
 	private final ResourceLoader resourceLoader;
@@ -54,7 +58,7 @@ public class MiniumBackend implements Backend {
 	private Glue glue;
 	private Function buildWorldFn;
 	private Function disposeWorldFn;
-	
+
     public MiniumBackend(ResourceLoader resourceLoader, Context cx, ScriptableObject scope) throws IOException {
         try {
             this.resourceLoader = resourceLoader;
@@ -72,8 +76,16 @@ public class MiniumBackend implements Backend {
     public void loadGlue(Glue glue, List<String> gluePaths) {
         this.glue = glue;
         for (String gluePath : gluePaths) {
-            for (Resource resource : resourceLoader.resources(gluePath, ".js")) {
-                runScript(resource);
+            // JavaBackend doesn't fail with unexisting java packages (their glues), but
+            // RhinoBackend fails if folders don't exist...
+            // TODO open issue in cucumber
+            try {
+                Iterable<Resource> resources = resourceLoader.resources(gluePath, ".js");
+                for (Resource resource : resources) {
+                    runScript(resource);
+                }
+            } catch (Exception e) {
+                LOGGER.warn("Could not load glue {}", gluePath);
             }
         }
     }
@@ -113,7 +125,7 @@ public class MiniumBackend implements Backend {
         this.buildWorldFn = buildWorldFn;
         this.disposeWorldFn = disposeWorldFn;
     }
-    
+
     @Override
     public String getSnippet(Step step, FunctionNameGenerator functionNameGenerator) {
         return snippetGenerator.getSnippet(step, functionNameGenerator);

@@ -8,7 +8,7 @@
 
 <div class="row" ng-repeat="scenario in faillingScenarios">
     <h3>{{scenario.keyword}}: {{scenario.rawName}}</h3>
-    <div class="col-sm-4 col-md-4" ng-repeat="step in scenario.steps" ng-if="step.status === 'FAILED'">
+    <div class="col-sm-12 col-md-12" ng-repeat="step in scenario.steps" ng-if="step.status === 'FAILED'">
         <div class="panel panel-default panel-border-left">
             <div class="panel-body box-mt">
                 <div class="post-img-content">

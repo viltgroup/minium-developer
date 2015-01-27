@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService,TabFactory) {
+pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService, TabFactory,SnippetsProviderBWC) {
     var MiniumEditor = function() {}
 
 
@@ -406,8 +406,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             enableSnippets: true
         });
 
+        var snippetManager = ace.require("ace/snippets").snippetManager;
+
         StepProvider.all().then(function(response) {
-            var snippetManager = ace.require("ace/snippets").snippetManager;
+
 
             var util = ace.require("ace/autocomplete/util");
             var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
@@ -417,11 +419,27 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 }
                 return text.replace(/^\s+/, "");
             };
-
+            response.data.forEach(changeStepContent);
+            console.log(response.data)
             snippetManager.register(response.data, "gherkin");
         });
+
+        //snippets for scenario or features
+        var snippets = SnippetsProvider.all();
+        console.log(snippets)
+        snippetManager.register(snippets, "gherkin");
+
+        var tableSnippets = SnippetsProviderBWC.all();
+
+        snippetManager.register(tableSnippets, "gherkin");
+
     }
 
+    function changeStepContent(element, index, array) {
+        var i = 0;
+        var simpleStep = element.name;
+        element.content = simpleStep.replace(/\.\.\./g, "${" + i + ":value}");
+    }
 
     //////////////////////////////////////////////////////////////////
     //
@@ -708,5 +726,3 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
 
 });
-
-

@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService, TabFactory,SnippetsProviderBWC) {
+pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService, TabFactory, SnippetsProviderBWC) {
     var MiniumEditor = function() {}
 
 

@@ -106,54 +106,54 @@ pupinoIDE.factory('SnippetsProviderBWC', function() {
     return {
         all: function() {
             return [{
-            name: "When I fill:",
-            trigger: "fill",
-            content: [
-                "When I fill:",
-                "  | ${1:attr1} | ${2:attr2} |",
-                "  | ${3:attr1} | ${4:attr2} |"
-            ].join("\n")
-        }, {
-            name: "Given the following persons exist:",
-            trigger: "given",
-            content: [
-                "Given the following persons exist:",
-                "  | ${1:attr1} | ${2:attr2} |",
-                "  | ${3:attr1} | ${4:attr2} |"
-            ].join("\n")
-        }, {
-            name: "Then I see in fields:",
-            trigger: "fields",
-            content: [
-                "Then I see in fields:",
-                "  | ${1:attr1} | ${2:attr2} |",
-                "  | ${3:attr1} | ${4:attr2} |"
-            ].join("\n")
-        }, {
-            name: "Then I should see the error message:",
-            trigger: "error",
-            content: [
-                "Then I should see the error message:",
-                "  | ${1:attr1} | ${2:attr2} |",
-                "  | ${3:attr1} | ${4:attr2} |"
-            ].join("\n")
-        }, {
-            name: "Then I should see the following sections:",
-            trigger: "error",
-            content: [
-                "Then I should see the following sections:",
-                "  | ${1:attr1} | ${2:attr2} |",
-                "  | ${3:attr1} | ${4:attr2} |"
-            ].join("\n")
-        }, {
-            name: "Then I should not see the following sections:",
-            trigger: "error",
-            content: [
-                "hen I should not see the following sections:",
-                "  | ${1:attr1} | ${2:attr2} |",
-                "  | ${3:attr1} | ${4:attr2} |"
-            ].join("\n")
-        } ];
+                name: "When I fill:",
+                trigger: "fill",
+                content: [
+                    "When I fill:",
+                    "  | ${1:attr1} | ${2:attr2} |",
+                    "  | ${3:attr1} | ${4:attr2} |"
+                ].join("\n")
+            }, {
+                name: "Given the following persons exist:",
+                trigger: "given",
+                content: [
+                    "Given the following persons exist:",
+                    "  | ${1:attr1} | ${2:attr2} |",
+                    "  | ${3:attr1} | ${4:attr2} |"
+                ].join("\n")
+            }, {
+                name: "Then I see in fields:",
+                trigger: "fields",
+                content: [
+                    "Then I see in fields:",
+                    "  | ${1:attr1} | ${2:attr2} |",
+                    "  | ${3:attr1} | ${4:attr2} |"
+                ].join("\n")
+            }, {
+                name: "Then I should see the error message:",
+                trigger: "error",
+                content: [
+                    "Then I should see the error message:",
+                    "  | ${1:attr1} | ${2:attr2} |",
+                    "  | ${3:attr1} | ${4:attr2} |"
+                ].join("\n")
+            }, {
+                name: "Then I should see the following sections:",
+                trigger: "error",
+                content: [
+                    "Then I should see the following sections:",
+                    "  | ${1:attr1} | ${2:attr2} |",
+                    "  | ${3:attr1} | ${4:attr2} |"
+                ].join("\n")
+            }, {
+                name: "Then I should not see the following sections:",
+                trigger: "error",
+                content: [
+                    "hen I should not see the following sections:",
+                    "  | ${1:attr1} | ${2:attr2} |",
+                    "  | ${3:attr1} | ${4:attr2} |"
+                ].join("\n")
+            }];
         }
     };
 })
@@ -338,4 +338,3 @@ pupinoIDE.factory('TabFactory', function($http, $q) {
     return tabFactory;
 
 });
-

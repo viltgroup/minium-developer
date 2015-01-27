@@ -60,7 +60,7 @@ public class BuildService {
 		build.setArtifact(buildDTO.getResultJSON());
 		build.setNumber(buildDTO.getNumber());
 		build.setDuration(buildDTO.getDuration());
-
+		build.setResult(buildDTO.getBuildResult());
 		build.setTimestamp(buildDTO.getTimestamp());
 		build.setKey(buildDTO.getKey());
 		build.setState("FINISHED");
@@ -130,7 +130,7 @@ public class BuildService {
 					summary = reporter.getSummaryFromFeatures(features);
 				}
 				buildDTO = new BuildDTO(b.getId(), Integer.valueOf(b.getNumber()), "", false, "", b.getDuration(), b.getName(), b.getKey(), b.getTimestamp(),
-						b.getResult(), null, summary, b.getState());
+						"", null, summary, b.getState(),b.getResult());
 			}
 			buildsDTO.add(buildDTO);
 		}
@@ -150,7 +150,7 @@ public class BuildService {
 		f.processSteps();
 
 		BuildDTO buildDTO = new BuildDTO(b.getId(), Integer.valueOf(b.getNumber()), "", false, "", b.getDuration(), b.getName(), b.getKey(), b.getTimestamp(),
-				b.getResult(), Arrays.asList(f), null, b.getState());
+				b.getResult(), Arrays.asList(f), null, b.getState(),b.getResult());
 		return buildDTO;
 	}
 
@@ -173,7 +173,7 @@ public class BuildService {
 			summary = reporter.getSummaryFromFeatures(features);
 		}
 		BuildDTO buildDTO = new BuildDTO(b.getId(), Integer.valueOf(b.getNumber()), "", false, "", b.getDuration(), b.getName(), b.getKey(), b.getTimestamp(),
-				b.getResult(), features, summary, b.getState());
+				b.getResult(), features, summary, b.getState(),b.getResult());
 
 		return buildDTO;
 	}

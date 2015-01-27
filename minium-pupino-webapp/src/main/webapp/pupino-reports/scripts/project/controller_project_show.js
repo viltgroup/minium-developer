@@ -45,6 +45,9 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
 
     }
 
+    $scope.getCenas = function(a){
+        alert(a)
+    }
 
     //REFACTOR
     var colorArray = ['green', 'red', '#f39c12'];

@@ -171,7 +171,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			List<Feature> features = reporter.parseJsonResult(artifact);
 			summary = reporter.getSummaryFromFeatures(features);
 			buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(), bd.getId(),
-					bd.getTimestamp(), artifact, features, summary, "");
+					bd.getTimestamp(), artifact, features, summary, "","");
 			// } else {
 			// summary = null;
 			// buildDTO = new BuildDTO(b.getNumber(), b.getUrl(),
@@ -205,7 +205,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					f.processSteps();
 				}
 				buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(),
-						bd.getId(), bd.getTimestamp(), artifact, features, null, "");
+						bd.getId(), bd.getTimestamp(), artifact, features, null, "",bd.getResult().name());
 			}
 
 		}
@@ -241,7 +241,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 					Feature f = features.get(featureURI);
 					f.processSteps();
 					buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(),
-							bd.getId(), bd.getTimestamp(), artifact, Arrays.asList(f), null, "");
+							bd.getId(), bd.getTimestamp(), artifact, Arrays.asList(f), null, "",bd.getResult().name());
 				}
 			}
 		}

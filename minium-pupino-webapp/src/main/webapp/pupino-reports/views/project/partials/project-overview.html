@@ -88,10 +88,11 @@
                         <!-- LAST BUILD -->
                         <tbody ng-show="buildsFacade.lastFinishedBuild">
                             <!-- {{buildsFacade.lastFinishedBuild}} -->
-                            <tr ng-class="{'danger' : (buildsFacade.lastFinishedBuild.result != 'SUCCESS') }">
+                            <tr ng-class="{'danger' : (buildsFacade.lastFinishedBuild.buildResult != 'SUCCESS'), 'success': (buildsFacade.lastFinishedBuild.buildResult == 'SUCCESS')}">
                                 <td>
-                                    <icon-item content="buildsFacade.lastFinishedBuild.result" type="build">
-                                    </icon-item>
+                                    <!-- <icon-item content="buildsFacade.lastFinishedBuild.buildResult" type="build"></icon-item> -->
+                                    <i class="success fa fa-check-square fa-2x" ng-if="buildsFacade.lastFinishedBuild.buildResult == 'SUCCESS'"></i>
+                                    <i class="danger fa fa-bug fa-2x" ng-if="buildsFacade.lastFinishedBuild.buildResult != 'SUCCESS'"></i>
                                     <br>
                                     <span ng-if="$index == 0" class="label label-primary">
                                         Last Stable buildsFacade.lastFinishedBuild
@@ -104,7 +105,7 @@
 
                                 </td>
                                 <td>
-                                    <i class="fa fa-clock-o"></i> {{buildsFacade.lastFinishedBuild.key | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i> <span title="{{buildsFacade.lastFinishedBuild.key}}">{{buildsFacade.lastFinishedBuild.key | humanizeDate}}</span>
                                 </td>
                                 <td>
                                     {{buildsFacade.lastFinishedBuild.duration | durationMilliseconds}}
@@ -146,17 +147,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="build in buildsFacade.builds " ng-class="{'danger' : (build.result != 'SUCCESS') }">
+                            <tr ng-repeat="build in buildsFacade.builds " ng-class="{'danger' : (build.buildResult != 'SUCCESS') }">
 
                                 <td>
-                                    <icon-item content="build.result" type="build"></icon-item>
+                                    <icon-item content="build.buildResult" type="build"></icon-item>
                                     <br>
                                 </td>
                                 <td>
                                     <a ui-sref="global.build({ id: project.id, buildId: build.id })">{{build.fullDisplayName}}</a>
                                 </td>
                                 <td>
-                                    <i class="fa fa-clock-o"></i> {{build.key | humanizeDate}}
+                                    <i class="fa fa-clock-o"></i>
+                                    <span title="{{build.key}}">{{build.key | humanizeDate}}</span>
                                 </td>
                                 <td>
                                     {{build.duration | durationMilliseconds}}

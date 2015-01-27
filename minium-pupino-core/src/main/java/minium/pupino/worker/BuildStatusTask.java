@@ -79,8 +79,8 @@ public class BuildStatusTask implements Runnable {
 				// insert into database the method
 				BuildDTO buildDTO = new BuildDTO(1, jenkinsBuild.getNumber(), jenkinsBuild.getUrl(), buildDetails.isBuilding(), buildDetails.getDescription(),
 						buildDetails.getDuration(), buildDetails.getFullDisplayName(), buildDetails.getId(), buildDetails.getTimestamp(),
-						jenkinsClient.getArtifactsBuild(buildDetails), null, null, "");
-
+						jenkinsClient.getArtifactsBuild(buildDetails), null, null, "",buildDetails.getResult().name());
+				
 				buildService.update(build, buildDTO);
 
 				fut.cancel(true);

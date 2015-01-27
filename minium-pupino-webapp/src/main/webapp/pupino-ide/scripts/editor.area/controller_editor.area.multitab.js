@@ -1,5 +1,5 @@
 'use strict';
-var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID) {
+var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID) {
 
     //initialize the service to manage the instances
     var editors = MiniumEditor;
@@ -96,7 +96,16 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
                 //     inherit: false,
                 //     notify: false
                 // });
+                $state.transitionTo('global.multi', {
+                    path: editor.relativeUri
+                }, {
+                    location: false,
+                    inherit: true,
+                    relative: $state.$current,
+                    notify: false
+                })
             }
+
         }
     });
 
@@ -130,7 +139,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
         var promise = FileLoader.loadFile(props, editors);
         console.log(promise)
         promise.then(function(result) {
-            
+
             var newEditor = result;
             console.log(newEditor)
             activeSession = newEditor.instance;
@@ -144,10 +153,10 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
 
     };
 
-    $scope.getSession  = function(){
+    $scope.getSession = function() {
         console.log($scope.selected.item)
     }
-    
+
     if ($stateParams.path) {
         $scope.loadFile($stateParams.path);
     } else {
@@ -357,7 +366,7 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             $scope.expandedNodes.push(node)
         }
 
-    };   
+    };
 
     $scope.showToggle = function(node, expanded) {
         //console.log(node.children)
@@ -550,5 +559,6 @@ var EditorAreaMultiTabController = function($scope, $log, $timeout, $modal, $sta
             $state.go(".open");
         }
     }, false);
+
 
 };

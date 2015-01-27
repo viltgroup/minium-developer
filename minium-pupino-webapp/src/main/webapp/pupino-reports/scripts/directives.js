@@ -180,6 +180,7 @@ angular.module('pupinoReports')
 
     var getBuildResult = function(contentType) {
         var template = '';
+        
         switch (contentType) {
             case 'SUCCESS':
                 template = successTemplate;
@@ -205,25 +206,11 @@ angular.module('pupinoReports')
         return template;
     }
 
-    var getScenarioResult = function(contentType) {
-        var template = '';
-
-        switch (contentType) {
-            case 'PASSED':
-                template = successTemplateForScenario;
-                break;
-            default:
-                template = errorTemplateForScenario;
-        }
-
-        return template;
-    }
 
     var linker = function(scope, element, attrs) {
+        console.log(scope.content)
         if (attrs.type === "build") {
             element.html(getBuildResult(scope.content)).show();
-        } else if (attrs.type === "scenario") {
-            element.html(getScenarioResult(scope.content)).show();
         } else {
             element.html(getFeatureResult(scope.content)).show();
         }

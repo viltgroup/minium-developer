@@ -19,9 +19,10 @@ public class BuildDTO {
 	List<Feature> features;
 	String resultJSON;
 	String state;
-	
+	String buildResult;
+			
 	public BuildDTO(long id,int number, String url, boolean building, String description, int duration, String fullDisplayName, String key,
-			long timestamp, String resultJSON, List<Feature> features,SummaryDTO summary,String state) {
+			long timestamp, String resultJSON, List<Feature> features,SummaryDTO summary,String state,String buildResult) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -36,11 +37,12 @@ public class BuildDTO {
 		this.summary = summary;
 		this.resultJSON = resultJSON;
 		this.state = state;
+		this.buildResult = buildResult;
 	}
 
 
 	public BuildDTO(long id, int number, String url, List actions, boolean building, String description, int duration, String fullDisplayName,
-			String key, long timestamp,SummaryDTO summary,String state) {
+			String key, long timestamp,SummaryDTO summary,String state,String buildResult) {
 		super();
 		this.number = number;
 		this.url = url;
@@ -53,6 +55,7 @@ public class BuildDTO {
 		this.timestamp = timestamp;
 		this.summary = summary;
 		this.state = state;
+		this.buildResult = buildResult;
 	}
 	
 	
@@ -60,8 +63,6 @@ public class BuildDTO {
 		super();
 	}
 	
-
-
 	public int getNumber() {
 		return number;
 	}
@@ -160,6 +161,16 @@ public class BuildDTO {
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+
+	public String getBuildResult() {
+		return buildResult;
+	}
+
+
+	public void setBuildResult(String buildResult) {
+		this.buildResult = buildResult;
 	}
 
 

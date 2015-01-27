@@ -1,16 +1,23 @@
 'use strict';
 
-pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService) {
-    /**
-     * Constructor, with class name
-     */
+pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService,TabFactory) {
     var MiniumEditor = function() {}
 
 
+    //////////////////////////////////////////////////////////////////
+    //
+    // Initialize the instance of the editor
+    //
+    // Parameters:
+    //   scope - the scope from the controller beacuse we need to use
+    //             some of the function define in the controller
+    //
+    //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.init = function(scope) {
         // Public properties, assigned to the instance ('this')
+        // list of editors
         this.editors = [];
-        this.activeInstance = null;
+        //scope
         this.scope = scope;
 
         //init the possible modes
@@ -19,9 +26,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             FEATURE: "FEATURE",
             YAML: "YAML"
         };
-
+        //the actual mode
         this.mode = "";
 
+        //the settings of the editor
         this.settings = {
             theme: 'ace/theme/monokai',
             fontSize: 14,
@@ -33,19 +41,20 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             tabSize: 2,
             resize: true
         };
+
+        this.tabFactory = TabFactory;
+
     }
 
     //////////////////////////////////////////////////////////////////
     //
-    // Create a new editor
+    // Create a new instance of an editor
     //
     // Parameters:
     //   session - {EditSession} Session to be used for new Editor instance
     //
     //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.addInstance = function(fileContent, num) {
-        var range = ace.require('ace/range').Range;
-
 
         console.log('add a tab with an ace editor instance' + JSON.stringify(fileContent));
 
@@ -53,32 +62,37 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
         var fileProps = fileContent.fileProps || "";
-        addDOM(tabUniqueId, fileProps);
+        //create the DOM elements
+        this.tabFactory.createTab(tabUniqueId, fileProps);
 
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
 
         var fileName = fileProps.name || "";
+        //create a new session and set the content
         setAceContent(fileContent, editor);
+
+        //set the type of file extension
         this.setTypeFile(fileName, editor);
 
         //change the settings of editor (themes, size, etc)
-        setSettings(editor);
+        setSettings(editor, this.settings);
 
         // resize the editor
         editor.resize();
 
-        // //add listener to input
+        // add listener to input
         listenChanged(editor)
 
         //create event listeners (bind keys events)
-        bindKeys(editor, this.scope);
+        bindKeys(editor, this);
 
         //init other configurations like autocompletion
         otherConfigurations(editor);
 
         //check if fileContent has fileProps
         var fileProps = fileContent.fileProps || "";
+        //add this instance to the list of editors instance
         this.editors.push({
             id: tabUniqueId,
             instance: editor,
@@ -87,7 +101,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             selected: fileContent
         });
 
-        console.log(fileContent);
         return {
             id: tabUniqueId,
             instance: editor,
@@ -223,7 +236,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.saveFile = function(editor) {
-        saveFile(editor, this.scope);
+        saveFile(editor, this.scope, this);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -372,71 +385,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //
     /////////////////////////////////////////////////////////////////
 
-
-    ////////////////////////////////////////////////////////////////
-    //
-    // Create new tab
-    //
-    //
-    /////////////////////////////////////////////////////////////////
-    function addDOM(tabUniqueId, fileProps) {
-
-        var fileName = fileProps.name || "untitled";
-
-        var tabsElement = $('#tabs');
-        var tabsUlElement = tabsElement.find('ul');
-
-        // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + ' <span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close" ></span></li>');
-
-        // add the new nav item to the DOM
-        tabsUlElement.append(newTabNavElement);
-
-        // create a new panel DOM
-        var newTabPanelElement = $('<div id="panel_' + tabUniqueId + '" data-tab-id="' + tabUniqueId + '"></div>');
-
-        tabsElement.append(newTabPanelElement);
-
-        // refresh the tabs widget
-        tabsElement.tabs('refresh');
-
-        var tabIndex = $('#tabs ul li').index($('#panel_nav_' + tabUniqueId));
-
-        console.log('tabIndex: ' + tabIndex);
-
-        // activate the new panel
-        tabsElement.tabs('option', 'active', tabIndex);
-
-        // create the editor dom
-        var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
-
-        newTabPanelElement.append(newEditorElement);
-
-        // set the size of the panel
-        // newTabPanelElement.width('600');
-        // newTabPanelElement.height('600');
-
-        // // set the size of the editor
-        // newEditorElement.width('1180');
-        newEditorElement.height('700');
-
-    }
-
-
-    function setSettings(editor) {
-
-         var settings = {
-            theme: 'ace/theme/monokai',
-            fontSize: 14,
-            printMargin: false,
-            highlightLine: true,
-            wrapMode: false,
-            softTabs: true,
-            HighlightActiveLine: true,
-            tabSize: 2,
-            resize: true
-        };
-
+    function setSettings(editor, settings) {
 
         editor.setTheme(settings.theme);
 
@@ -515,9 +464,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //   editor - instance of the editor
     //
     //////////////////////////////////////////////////////////////////
-    function bindKeys(editor, scope) {
-        var scope = scope;
-
+    function bindKeys(editor, that) {
+        var _this = that;
         editor.commands.addCommand({
             name: "saveFile",
             bindKey: {
@@ -526,8 +474,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 sender: "editor|cli"
             },
             exec: function(env) {
-                console.log(scope);
-                saveFile(env, scope);
+                saveFile(env, _this);
             },
             readOnly: false // should not apply in readOnly mode
         });
@@ -545,16 +492,15 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         });
     }
 
-    function saveFile(editor, scope) {
-
-        var scope = scope;
-        var item = scope.selected.item;
+    function saveFile(editor, that) {
+        var _this = that;
+        var item = _this.scope.selected.item;
         item.content = editor.getSession().getValue();
         console.log(editor);
-        console.log(scope.selected.item);
+        console.log(_this.scope.selected.item);
         item.$save(function() {
-            updateContent(item,editor)
-            //setAceContent(item, editor);
+            updateContent(item, editor, _this)
+                //setAceContent(item, editor);
             toastr.success("File saved")
             var tabUniqueId = getEditorID(editor);
             markAsDirty(tabUniqueId, false)
@@ -568,17 +514,17 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     };
 
-    
-    function updateContent(item,editor) {
+
+    function updateContent(item, editor, that) {
         console.log(item)
         var fileName = item.fileProps.name || "";
-        
-        setAceContent(item, editor);        
-        
+
+        setAceContent(item, editor);
+        var _this = that;
 
         if (/\.js$/.test(fileName)) {
 
-            var _this = this;
+            //var _this = this;
 
             editor.getSession().setMode("ace/mode/javascript");
 
@@ -601,11 +547,11 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             //     readOnly: false // should not apply in readOnly mode
             // });
 
-            //this.mode = this.modeEnum.JS;
+            _this.mode = _this.modeEnum.JS;
         }
         if (/\.feature$/.test(fileName)) {
 
-            var _this = this;
+            //var _this = this;
 
             editor.getSession().setMode("ace/mode/gherkin");
 
@@ -623,7 +569,9 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             // });
 
             //set the mode
-           // this.mode = this.modeEnum.FEATURE;
+            console.log(_this)
+            _this.scope.subscribeMessages();
+            _this.mode = _this.modeEnum.FEATURE;
         }
 
         if (/\.yml$/.test(fileName)) {
@@ -634,7 +582,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         }
 
         //change the settings of editor (themes, size, etc)
-        setSettings(editor);
+        setSettings(editor, _this.settings);
 
 
     }
@@ -762,40 +710,3 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 });
 
 
-pupinoIDE.service('FileLoader', function($q, FS) {
-
-    var all = [];
-
-    this.loadFile = function(props, editors) {
-        console.debug(props)
-            //load the file and create a new editor instance with the file loaded
-        var newEditor;
-        var result = editors.isOpen(props);
-
-        var deferred = $q.defer();
-
-        if (props === "") {
-            //create an empty editor
-            newEditor = editors.addInstance("", 1);
-        } else if (result.isOpen) {
-            var id = result.id;
-            //tab is already open
-            var tab = "#panel_" + id;
-            var index = $('#tabs a[href="' + tab + '"]').parent().index();
-            $("#tabs").tabs("option", "active", index);
-        } else {
-            var path = props.relativeUri || props;
-            console.debug(path);
-            FS.get({
-                path: path
-            }, function(fileContent) {
-                newEditor = editors.addInstance(fileContent);
-                deferred.resolve(newEditor);
-            });
-        }
-
-        return deferred.promise;
-
-    }
-
-});

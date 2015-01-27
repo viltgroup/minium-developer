@@ -101,6 +101,7 @@ public class BuildStatusTask implements Runnable {
 
 		} catch (Exception e) {
 			log.debug("Error");
+			fut.cancel(true);
 			e.printStackTrace();
 		}
 

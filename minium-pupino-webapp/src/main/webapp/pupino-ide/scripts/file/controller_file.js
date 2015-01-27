@@ -10,8 +10,7 @@ var FileController = function($scope, $rootScope, $state, $stateParams, $log, $l
     $scope.type = $stateParams.type | ''
 
     //focus on search input
-    $("search-query").focus();
-
+   
     $scope.asyncLoad = function(node) {
         console.debug(node);
         var params = {
@@ -22,8 +21,11 @@ var FileController = function($scope, $rootScope, $state, $stateParams, $log, $l
                 // tree navigation needs a label property
                 item.label = item.name;
                 item.parent = node;
+                console.log(item)
             });
         });
+        $scope.fs.current.children =  node.children;
+        console.log(node)
     };
 
     $scope.loadParent = function() {
@@ -45,7 +47,8 @@ var FileController = function($scope, $rootScope, $state, $stateParams, $log, $l
         $scope.asyncLoad(item);
     };
 
-    $scope.asyncLoad($scope.fs.current);
-
+   
+    
+    
 
 };

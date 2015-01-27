@@ -98,13 +98,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 		if (updatedConfig)
 			this.updateJobConfiguration(jobName, buildConfig);
 		job.build();
-
-		int c = job.getNextBuildNumber();
 		return job;
-		// List<Build> builds = jenkins.getJob("server").getBuilds();
-		//
-		// Build z = job.getLastBuild();
-
 	}
 
 	@Override
@@ -128,24 +122,26 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 	@Override
 	public String getArtifactsBuild(BuildWithDetails buildDetails) {
 	    Reader in = null;
+	    String result = "";
 	    try {
     		if (!buildDetails.getArtifacts().isEmpty()) {
     			Artifact artifact = buildDetails.getArtifacts().get(0);
     			// function from the jenkins client was not working properly use
-    			// this temporary solution
     			if (artifact.getDisplayPath().equals("result.json")) {
     			    String artifactPath = buildDetails.getUrl() +"artifact/"+  artifact.getRelativePath();
                     in = new InputStreamReader(new URL(artifactPath).openStream(), Charsets.UTF_8);
     			} else {
     			    in = new FileReader("mocks/mock-cgd-store.json");
     			}
+    			result =  IOUtils.toString(in);
     		}
-    		return IOUtils.toString(in);
+    		
 	    } catch (IOException e) {
             throw Throwables.propagate(e);
         } finally {
             IOUtils.closeQuietly(in);
         }
+	    return result;
 	}
 
 	private String getStatusForBuild(BuildWithDetails bd) {

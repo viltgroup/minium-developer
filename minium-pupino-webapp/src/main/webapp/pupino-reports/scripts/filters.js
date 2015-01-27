@@ -21,7 +21,7 @@ filter('durationInMinutes', function() {
 }).
 filter('durationMilliseconds', function() {
     return function(time) {
-        return moment.duration(time,"milliseconds").humanize();
+        return moment.duration(time, "milliseconds").humanize();
     };
 }).
 filter('humanizeDate', function() {
@@ -83,4 +83,33 @@ filter('split', function() {
         // do some bounds checking here to ensure it has that index
         return input.split(splitChar)[splitIndex];
     }
-});;
+}).
+
+filter('scenarioStatusFilter', function() {
+    return function(items, field) {
+        var result = {};
+
+        //if thres no filter
+        if (field === undefined || field === '') {
+            return items;
+        }
+        //if field is defined
+        angular.forEach(items, function(value, key) {
+            if (field === "FAILED") {
+                if (value.scenario.status === field || value.background.status === field) {
+                    result[key] = value;
+                    
+                }
+            } else {
+                if (value.scenario.status === field && value.background.status === field) {
+                    result[key] = value;
+                } else if (value.scenario.status === field && (value.background.status === undefined)) {
+                    result[key] = value;
+                }
+            }
+
+        });
+        console.log(result)
+        return result;
+    };
+});

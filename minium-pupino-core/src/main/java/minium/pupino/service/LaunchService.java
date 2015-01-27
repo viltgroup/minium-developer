@@ -95,6 +95,8 @@ public class LaunchService {
             }
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
+		} catch (Exception e) {
+			LOGGER.debug("Something went worng ", e);
         }
         String content = FileUtils.readFileToString(tmpFile);
 		Feature feature = null;
@@ -103,9 +105,10 @@ public class LaunchService {
 		if (!content.equals("")) {
 			List<Feature> features = reporter.parseJsonResult(content);
 			
-			if (features != null)
+			if (features != null){
 				feature = features.get(0);
 				feature.processSteps();
+			}
 		}
 
 		return feature;

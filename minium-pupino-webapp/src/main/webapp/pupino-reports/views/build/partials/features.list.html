@@ -102,7 +102,7 @@
 <!-- table-responsive -->
 
 
-<accordion close-others="oneAtATime" ng-hide="feature_status == 'FAILED' ">
+<accordion close-others="oneAtATime" ng-hide="feature_status == 'FAILED' || isEmpty(passingFeatures)">
     <accordion-group is-open="status.open" >
         <accordion-heading>
             <i class="success fa fa-check-square "></i>
@@ -110,7 +110,7 @@
             <strong>Passing Features  <span class="badge">{{passingFeatures.length}}</span></strong>
         </accordion-heading>
 
-        <table class="table table-primary table-list" ng-hide="isEmptyObject(passingFeatures)">
+        <table class="table table-primary table-list">
             <thead>
                 <tr>
                     <th>Result</th>

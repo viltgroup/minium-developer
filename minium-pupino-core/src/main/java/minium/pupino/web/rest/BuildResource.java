@@ -103,9 +103,6 @@ public class BuildResource {
     public ResponseEntity<List<BuildDTO>> getByProject(@RequestBody Project project, HttpServletResponse response) throws IOException, URISyntaxException {
         log.debug("REST request to get Build : {}", project);
         List<BuildDTO> builds = buildService.findByProject(project);
-        if (builds.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(builds, HttpStatus.OK);
     }
     
@@ -122,10 +119,6 @@ public class BuildResource {
         log.debug("REST request to get Build : {}", project);
         
         BuildDTO build = buildService.findLastBuild(project);
-        
-        if (build == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         return new ResponseEntity<>(build, HttpStatus.OK);
     }
     
@@ -135,9 +128,6 @@ public class BuildResource {
     @Timed
 	public  ResponseEntity<BuildDTO> getBuild(@PathVariable("buildId") String buildId,@AntPath("featureURI") String featureURI) throws URISyntaxException, IOException {
     	 BuildDTO build = buildService.findByFeature(Integer.valueOf(buildId), featureURI);
-         if (build == null) {
-             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-         }
          return new ResponseEntity<>(build, HttpStatus.OK);
 	}
     

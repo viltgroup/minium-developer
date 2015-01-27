@@ -2,12 +2,14 @@
 <aside class="right-side">
     <!-- Content Header (Page header) -->
     <section class="container-fluid">
-        <div ng-include="'pupino-ide/views/editor.area/modal/toolbar.html'"></div>
+        <div ng-include="'pupino-ide/views/editor.area/partials/toolbar.html'"></div>
 
         <!-- /.navbar-collapse -->
     </section>
     <!-- Main content -->
     <section class="content container container-editor full ">
+
+        <!-- BUTTON TOOLBAR -->
         <div class="btn-toolbar" role="toolbar">
             <div class="col-md-7 pull-right">
                 <br>
@@ -22,25 +24,25 @@
                      Not Running
                      </span>
                 </button>
-            
-            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#launchModal" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
-                <span class="fa  fa-bar-chart"></span>
-                <span translate="editor.summary">Summary Report</span>
-            </button>
 
-            <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#launchModal" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
+                    <span class="fa  fa-bar-chart"></span>
+                    <span translate="editor.summary">Summary Report</span>
+                </button>
+
+                <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
                 <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
 
                 <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
                 </progressbar>
 
-            </span>
-            
-            <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
-                <i class="fa fa-arrow-circle-o-down"></i>
-                <span translate="editor.seeExecution">See Execution</span>
-            </button>   
-            <!--button group -->
+                </span>
+
+                <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
+                    <i class="fa fa-arrow-circle-o-down"></i>
+                    <span translate="editor.seeExecution">See Execution</span>
+                </button>
+                <!--button group -->
             </div>
             <br>
 
@@ -73,7 +75,13 @@
             </div>
             <br>
             <br>
+
+            <a class="btn  btn-default" title="Evaluator" ng-click="getSession()">
+                    <span class="fa  fa-binoculars"></span> GetSession
+                </a>
         </div>
+
+
         <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
         <div id="tabs">
             <!-- <div class="scroller"> -->
@@ -86,7 +94,7 @@
         </div>
     </section>
 
-    <div ng-include="'pupino-ide/views/editor.area/modal/tree.html'"></div>
+    <div ng-include="'pupino-ide/views/editor.area/partials/tree-nav.html'"></div>
 
 
     <div ui-view></div>

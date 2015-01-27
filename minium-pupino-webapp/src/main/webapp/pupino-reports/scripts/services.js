@@ -355,7 +355,6 @@ pupinoReports.factory('BuildFacade', function() {
         this.build = data;
         this.feature = data.features[0];
         var elements = this.processBuild();
-        this.background = elements.background;
         this.scenarios = elements.scenarios;
         this.faillingScenarios = elements.faillingScenarios;
     }
@@ -365,24 +364,27 @@ pupinoReports.factory('BuildFacade', function() {
      */
 
     BuildFacade.prototype.processBuild = function() {
-        var r = true;
-        var background = {};
         var scenarios = [];
+        var scenario = {};
         var faillingScenarios = [];
+        var i = 0;
+        var elems = {};
         angular.forEach(this.feature.elements, function(elem) {
-            if (elem.keyword === "Background" && r === true) {
-                background = elem;
-                r = false;
+            if (elem.keyword === "Background" ) {
+                scenario.background = elem;
             } else if (elem.keyword !== "Background") {
                 if (elem.status === "FAILED") {
                     faillingScenarios.push(elem)
                 }
-                scenarios.push(elem);
+                scenario.scenario = elem;
+
+                //add the elements 
+                scenarios.push(scenario);
+                scenario = {};
             }
         });
 
         return {
-            background: background,
             scenarios: scenarios,
             faillingScenarios: faillingScenarios
         }

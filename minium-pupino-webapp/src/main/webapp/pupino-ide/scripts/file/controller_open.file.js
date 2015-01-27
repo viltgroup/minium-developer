@@ -11,10 +11,7 @@ var OpenFileController = function($scope, $rootScope, $controller, $modalInstanc
     //had to do this because we dont have access
     //to the parent scope with modalProvider
     var parentScope = MiniumEditor.getScope();
-
-    //focus on search
-    $('input[autofocus]:visible:first').focus();
-
+    
     console.log(parentScope)
     $scope.form = {};
 

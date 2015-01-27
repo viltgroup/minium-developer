@@ -18,13 +18,13 @@ pupinoIDE
 
         modalStateProvider
             .state('global.multi.newFile', {
-                templateUrl: "pupino-ide/views/editor.area/modal/new-file.html",
+                templateUrl: "pupino-ide/views/files/new-file.html",
                 controller: "NewFileController"
             });
 
         modalStateProvider
             .state('global.multi.open', {
-                templateUrl: "pupino-ide/views/editor.area/modal/open.file.html",
+                templateUrl: "pupino-ide/views/files/open.file.html",
                 controller: "OpenFileController"
             });
 

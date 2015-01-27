@@ -89,21 +89,13 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
                 //console.log($scope.selected.item)
                 //set the mode
                 $scope.mode = editor.mode;
-                // $state.go("global.multi", {
-                //     path: editor.relativeUri
-                // }, {
-                //     location: 'replace', //  update url and replace
-                //     inherit: false,
-                //     notify: false
-                // });
-                $state.transitionTo('global.multi', {
+                $state.go("global.multi", {
                     path: editor.relativeUri
                 }, {
-                    location: false,
-                    inherit: true,
-                    relative: $state.$current,
+                    location: 'replace', //  update url and replace
+                    inherit: false,
                     notify: false
-                })
+                });
             }
 
         }
@@ -353,13 +345,13 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         if (node.type == "FILE") {
             $scope.loadFile($scope.selectedNode.relativeUri);
             //need to remove this because of the search and new file
-            // $state.go("global.multi", {
-            //     path: $scope.selectedNode.relativeUri
-            // }, {
-            //     location: 'false', //  update url and replace
-            //     inherit: false,
-            //     notify: false
-            // });
+            $state.go("global.multi", {
+                path: $scope.selectedNode.relativeUri
+            }, {
+                location: 'false', //  update url and replace
+                inherit: false,
+                notify: false
+            });
         } else {
             $scope.loadChildren(node);
             //expand the node

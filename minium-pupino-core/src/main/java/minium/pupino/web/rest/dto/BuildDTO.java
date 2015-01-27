@@ -17,7 +17,7 @@ public class BuildDTO {
 	long timestamp;
 	SummaryDTO summary;
 	List<Feature> features;
-	String resultJSON;
+	String artifact;
 	String state;
 	String buildResult;
 			
@@ -35,7 +35,7 @@ public class BuildDTO {
 		this.timestamp = timestamp;
 		this.features = features;
 		this.summary = summary;
-		this.resultJSON = resultJSON;
+		this.artifact = resultJSON;
 		this.state = state;
 		this.buildResult = buildResult;
 	}
@@ -134,13 +134,13 @@ public class BuildDTO {
 	}
 
 
-	public String getResultJSON() {
-		return resultJSON;
+	public String getArtifact() {
+		return artifact;
 	}
 
 
-	public void setResultJSON(String resultJSON) {
-		this.resultJSON = resultJSON;
+	public void setArtifact(String artifact) {
+		this.artifact = artifact;
 	}
 
 

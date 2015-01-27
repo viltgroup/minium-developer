@@ -57,7 +57,7 @@ public class BuildService {
 	 */
 	public Build update(Build build, BuildDTO buildDTO) {
 		build.setName(buildDTO.getFullDisplayName());
-		build.setArtifact(buildDTO.getResultJSON());
+		build.setArtifact(buildDTO.getArtifact());
 		build.setNumber(buildDTO.getNumber());
 		build.setDuration(buildDTO.getDuration());
 		build.setResult(buildDTO.getBuildResult());
@@ -71,7 +71,7 @@ public class BuildService {
 		for (BuildDTO buildDTO : buildsDTO) {
 			Build build = new Build();
 			build.setName(buildDTO.getFullDisplayName());
-			build.setArtifact(buildDTO.getResultJSON());
+			build.setArtifact(buildDTO.getArtifact());
 			build.setNumber(buildDTO.getNumber());
 			build.setDuration(buildDTO.getDuration());
 			

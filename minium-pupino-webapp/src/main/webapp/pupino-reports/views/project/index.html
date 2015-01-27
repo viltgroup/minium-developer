@@ -62,22 +62,30 @@
                                         </progress>
 
                                     </td>
+
+
+                                    <!-- Column with last execution -->
                                     <td ng-if="builds[project.id] == null ">
-                                        No execution yet 
+                                        No execution yet
                                     </td>
 
-                                     <td ng-if="builds[project.id] != null && builds[project.id].summary == null">
+                                    <td ng-if="builds[project.id] != null && builds[project.id].summary == null">
                                         No results found
                                     </td>
-                                    <!-- <td>
-                                        <span class="label" ng-class="{'label-danger' : !isPassed(builds[project.id].result),'label-success' : isPassed(builds[project.id].result)}">Failing</span>
-                                    </td> -->
-                                    <td ng-if="builds[project.id] == null ">
-                                        No execution yet 
+
+                                    <!-- Column with last execution -->
+                                    <td ng-if="!builds[project.id] ">
+                                        &nbsp;
                                     </td>
-                                    <td  ng-if="builds[project.id] != null ">
-                                        <i class="fa fa-clock-o"></i> {{builds[project.id].key | humanizeDate}}
+
+                                    <td ng-if="builds[project.id]">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span title="{{builds[project.id].key}}">
+                                            {{builds[project.id].key | humanizeDate}}
+                                        </span>
                                     </td>
+
+
                                     <td>{{project.description}}</td>
                                     <td style="text-align: center;">
                                         <button type="submit" ng-click="update(project.id)" class="btn btn-default">

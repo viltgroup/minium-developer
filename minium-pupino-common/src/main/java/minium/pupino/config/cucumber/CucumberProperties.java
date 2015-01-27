@@ -251,7 +251,9 @@ public class CucumberProperties {
         private String content;
         private String trigger;
         private List<String> table = Lists.newArrayList();
-
+        private List<String> tableColumns = Lists.newArrayList();
+        private List<String> simpleTable = Lists.newArrayList();
+        
         public String getName() {
             return name;
         }
@@ -281,9 +283,32 @@ public class CucumberProperties {
                         buf.append("|");
                     }
                 }
-
+                
+                if (!tableColumns.isEmpty()) {
+                	
+                	for (String col : tableColumns) {
+                		buf.append("\n");
+                		buf.append("  | " + col + "  | " );
+                        buf.append(" ${" + (curr++) + ":" + col + "} ");
+                        buf.append("|");
+                    }
+                    
+                }
+                
+                
+                if (!simpleTable.isEmpty()) {
+                	
+                	for (String col : simpleTable) {
+                		buf.append("\n");
+                		buf.append("|");
+                        buf.append(" ${" + (curr++) + ":" + col + "} ");
+                        buf.append("|");
+                    }
+                    
+                }
                 return buf.toString();
             }
+            
             return content;
         }
 
@@ -309,6 +334,22 @@ public class CucumberProperties {
         public void setTable(List<String> table) {
             this.table = table;
         }
+
+		public List<String> getTableColumns() {
+			return tableColumns;
+		}
+
+		public void setTableColumns(List<String> tableColumns) {
+			this.tableColumns = tableColumns;
+		}
+
+		public List<String> getSimpleTable() {
+			return simpleTable;
+		}
+
+		public void setSimpleTable(List<String> simpleTable) {
+			this.simpleTable = simpleTable;
+		}
     }
 
     private OptionsProperties options = new OptionsProperties();

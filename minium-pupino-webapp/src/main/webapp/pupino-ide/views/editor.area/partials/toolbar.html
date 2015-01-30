@@ -71,6 +71,13 @@
                 </li>
 
 
+                 <li ng-class="{'disabled': (mode !== 'JS')}">
+                    <a href title="Evaluator" a-disabled="(mode !== 'JS')" ng-click="evaluate()">
+                        <span class="fa fa-trash"></span>
+                        <span class="ladda-label">Clean Scope</span>
+                    </a>
+                </li>
+
             </ul>
         </li>
 
@@ -111,7 +118,7 @@
         <li class="dropdown" on-toggle="toggled(open)">
             <a href="#" class="dropdown-toggle">Preferences <span class="caret"></span></a>
             <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
-                <li class="dropdown-submenu">
+                <!-- <li class="dropdown-submenu">
                     <a tabindex="-1" href="#">Theme</a>
                     <ul class="dropdown-menu">
                         <li>
@@ -125,6 +132,13 @@
                             </a>
                         </li>
                     </ul>
+                </li> -->
+
+                <li>
+                    <a href ng-click="openPreferences()">
+                        <i class="fa fa-arrow-circle-o-down"></i>
+                        <span class="ladda-label">Preferences</span>
+                    </a>
                 </li>
             </ul>
         </li>

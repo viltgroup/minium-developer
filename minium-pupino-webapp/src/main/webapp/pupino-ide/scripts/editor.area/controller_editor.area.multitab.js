@@ -1,5 +1,5 @@
 'use strict';
-var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID) {
+var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
     //initialize the service to manage the instances
     var editors = MiniumEditor;
@@ -46,6 +46,8 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         });
     };
 
+    //executed after the test execution
+    //chnage the flag of execution test
     $scope.onFinishTestExecution = function(annotations) {
         //stop button NEED TO INSERT
         runningTest.stop();
@@ -97,7 +99,6 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
                     notify: false
                 });
             }
-
         }
     });
 
@@ -125,13 +126,17 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
     //this value is being update
     $scope.selected = {};
 
+
     //load the file and create a new editor instance with the file loaded
     $scope.loadFile = function(props) {
         //create an empty file
         var promise = FileLoader.loadFile(props, editors);
-        console.log(promise)
-        promise.then(function(result) {
 
+        console.log(promise)
+
+        promise.then(function(result) {
+            //success handler
+            console.log(result)
             var newEditor = result;
             console.log(newEditor)
             activeSession = newEditor.instance;
@@ -140,9 +145,9 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
             activeID = newEditor.id;
             $scope.mode = newEditor.mode;
         }, function(errorPayload) {
-            //TODO
+            //the promise was rejected
+            toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
         });
-
     };
 
     $scope.getSession = function() {
@@ -265,13 +270,12 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         });
     };
 
+
     /**
      * Save the file of active session
      *
      */
     $scope.saveFile = function() {
-        $state.go("global.multi.newFile");
-        return;
         editors.saveFile(activeSession);
     }
 
@@ -294,6 +298,13 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         }
     }
 
+    /**
+     * Clean the scope of the engine
+     */
+     $scope.evaluate = function() {
+        EvalService.clean();
+    }
+    
     /**
      * LAUnch test
      */
@@ -433,7 +444,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         launchTestSession = activeSession;
         //check if the test already executing
         if ($scope.testExecuting == true) {
-            toastr.error("A test is already running!!");
+            toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_EXECUTING);
             return;
         }
 
@@ -445,7 +456,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         $scope.testsExecuted = 0;
         $scope.isFailing = false;
 
-        toastr.success("Test Started...");
+        toastr.success(GENERAL_CONFIG.MSG.TEST_STARTED);
         runningTest.start();
         $scope.tests = {};
 
@@ -469,7 +480,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
                 //check if the data is valid
             if (data === undefined || data === "") {
                 $scope.stopLaunch();
-                toastr.error("Oops, something went wrong.");
+                toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
                 return;
             }
 
@@ -501,24 +512,24 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
             });
 
             if (annotations.length > 0) {
-                toastr.warning("Test didn't pass!!");
+                toastr.warning(GENERAL_CONFIG.TEST.FAILING);
                 $("#runningTest").removeClass("btn-warning").addClass("btn-danger");
                 $("#status").removeClass().addClass("").html("Failing");
             } else {
                 if ($scope.resultsSummary.runCount == 0) {
                     //no test were run
-                    $("#status").removeClass().addClass("").html("No tests executed");
+                    $("#status").removeClass().addClass("").html(GENERAL_CONFIG.TEST.NOT_EXECUTED);
                     toastr.error("No test executed");
                 } else {
                     $("#runningTest").removeClass("btn-warning").addClass("btn-success");
 
                     $("#status").removeClass().addClass("").html("Passed");
-                    toastr.success("Test Pass with Sucess");
+                    toastr.success(GENERAL_CONFIG.TEST.PASS);
                 }
 
                 annotations.push({
                     row: launchParams.line,
-                    text: 'Test Executed and Pass',
+                    text: GENERAL_CONFIG.TEST.EXECUTED_PASSED,
                     type: 'info'
                 });
 
@@ -529,7 +540,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
 
         }).error(function() {
             $scope.stopLaunch();
-            toastr.error("Oops, something went wrong.");
+            toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
         });
     }
 
@@ -551,6 +562,28 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
             $state.go(".open");
         }
     }, false);
+
+
+    $scope.openPreferences = function(size) {
+
+        var modalInstance = $modal.open({
+             templateUrl: 'pupino-ide/views/preferences/preferences.html',
+            controller: 'PreferencesController',
+            size: size,
+            resolve: {
+                editors: function() {
+                    return editors;
+                }
+            }
+        });
+
+        modalInstance.result.then(function(selectedItem) {
+           // $scope.selected = selectedItem;
+        }, function() {
+            $log.info('Modal dismissed at: ' + new Date());
+        });
+    };
+
 
 
 };

@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvider, EvalService, TabFactory) {
+pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, SnippetsProvider, EvalService, TabFactory) {
     var MiniumEditor = function() {}
 
 
@@ -30,7 +30,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         this.mode = "";
 
         //the settings of the editor
-        this.settings = {
+        this.defaultSettings = {
             theme: 'ace/theme/monokai',
             fontSize: 14,
             printMargin: false,
@@ -41,6 +41,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             tabSize: 2,
             resize: true
         };
+
+        //this settings can be loaded a cookie
+        //if the cookie dont exist load default settings
+        this.settings = loadEditorPreferences(this.defaultSettings);
 
         this.tabFactory = TabFactory;
 
@@ -87,8 +91,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         //create event listeners (bind keys events)
         bindKeys(editor, this);
 
-        //init other configurations like autocompletion
-        otherConfigurations(editor);
+        //init snippets like autocompletion
+        initSnippets(editor);
 
         //check if fileContent has fileProps
         var fileProps = fileContent.fileProps || "";
@@ -144,8 +148,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     /////////////////////////////////////////////////////////////////
     //
     // Get number of edirtors
-    //
-    // Return from the all the instances of the editor
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.size = function() {
         return this.editors.length;
@@ -156,12 +158,61 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //
     // Set theme
     //
-    // Return from the all the instances of the editor
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.setTheme = function(editor, themeName) {
         var name = "ace/theme/" + themeName;
+        this.settings.theme = name;
         editor.setTheme(name);
     }
+
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Set font size
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.setFontSize = function(editor, fontSize) {
+        this.settings.fontSize = fontSize;
+        editor.setFontSize(fontSize);
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get settings
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.getSettings = function() {
+        return this.settings;
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Set settings
+    // Set the settings for every instance
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.setSettings = function(settings) {
+        //creates a shallow copy
+        //maintaining the fileds that dont exists in settings
+        this.settings = angular.extend(settings);
+        this.editors.forEach(function(item) {
+            var editor = item.instance;
+            console.log(editor)
+            setSettings(editor,settings);
+        });
+
+        storeEditorPreferences(this.settings);
+        console.log(this.settings);
+    }
+
+
+     /////////////////////////////////////////////////////////////////
+    //
+    // Reset the setting to default
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.resetSetting = function() {
+        this.setSettings(this.defaultSettings);
+    }
+    
 
     //////////////////////////////////////////////////////////////////
     //
@@ -398,18 +449,24 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         editor.resize(settings.resize);
     }
 
-    function otherConfigurations(editor) {
+    //////////////////////////////////////////////////////////////////
+    //
+    // Configure the snippets of the editor
+    //
+    //////////////////////////////////////////////////////////////////
+    function initSnippets(editor) {
         // autocompletion
         var langTools = ace.require("ace/ext/language_tools");
-        editor.setOptions({
-            enableLiveAutocompletion: true,
-            enableSnippets: true
-        });
-
+        //snippets
         var snippetManager = ace.require("ace/snippets").snippetManager;
 
-        StepProvider.all().then(function(response) {
+        editor.setOptions({
+            // enableBasicAutocompletion: true,  //this enable a autocomplete (ctrl + space)
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
 
+        StepProvider.all().then(function(response) {
 
             var util = ace.require("ace/autocomplete/util");
             var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
@@ -419,17 +476,18 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
                 }
                 return text.replace(/^\s+/, "");
             };
-           // response.data.forEach(changeStepContent);
-            console.log(response.data)
+
+            //register the snippets founded
             snippetManager.register(response.data, "gherkin");
         });
 
-        //snippets for scenario or features
+        //snippets for scenario
+        //when we write a scenario
+        //he complete the scenario with a step
         var snippets = SnippetsProvider.all();
+
         console.log(snippets)
         snippetManager.register(snippets, "gherkin");
-
-
     }
 
     //////////////////////////////////////////////////////////////////
@@ -438,7 +496,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     //
     // Parameters:
     //   editor - instance of the editor
-    //
     //////////////////////////////////////////////////////////////////
     function listenChanged(editor) {
 
@@ -508,10 +565,11 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         console.log(editor);
         console.log(_this.scope.selected.item);
         item.$save(function() {
-            updateContent(item, editor, _this)
+            var tabUniqueId = getEditorID(editor);
+            updateContent(item, editor, _this, tabUniqueId)
                 //setAceContent(item, editor);
             toastr.success("File saved")
-            var tabUniqueId = getEditorID(editor);
+
             markAsDirty(tabUniqueId, false)
         }, function(response) {
             var data = response.data;
@@ -524,58 +582,22 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
     };
 
 
-    function updateContent(item, editor, that) {
+    function updateContent(item, editor, that, tabUniqueId) {
         console.log(item)
         var fileName = item.fileProps.name || "";
 
-        setAceContent(item, editor);
+
         var _this = that;
 
         if (/\.js$/.test(fileName)) {
-
             //var _this = this;
-
             editor.getSession().setMode("ace/mode/javascript");
-
-            // editor.commands.addCommand({
-            //     name: "evaluate",
-            //     bindKey: {
-            //         win: "Ctrl-Enter",
-            //         mac: "Command-Enter"
-            //     },
-            //     exec: evaluate,
-            //     readOnly: false // should not apply in readOnly mode
-            // });
-            // editor.commands.addCommand({
-            //     name: "activateSelectorGadget",
-            //     bindKey: {
-            //         win: "Ctrl-Shift-C",
-            //         mac: "Command-Shift-C"
-            //     },
-            //     exec: activateSelectorGadget,
-            //     readOnly: false // should not apply in readOnly mode
-            // });
-
             _this.mode = _this.modeEnum.JS;
         }
         if (/\.feature$/.test(fileName)) {
-
+            setAceContent1(item, editor, tabUniqueId);
             //var _this = this;
-
             editor.getSession().setMode("ace/mode/gherkin");
-
-            // editor.commands.addCommand({
-            //     name: "launchCucumber",
-            //     bindKey: {
-            //         win: "Ctrl+Enter",
-            //         mac: "Ctrl+Enter"
-            //     },
-            //     exec: function(env) {
-            //         //console.log(_this.scope);
-            //         launchCucumber(env, _this.scope);
-            //     },
-            //     readOnly: false // should not apply in readOnly mode
-            // });
 
             //set the mode
             console.log(_this)
@@ -587,15 +609,19 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
             editor.getSession().setMode("ace/mode/yaml");
 
             //set the mode
-            //this.mode = this.modeEnum.YAML;
+            _this.mode = _this.modeEnum.YAML;
         }
-
         //change the settings of editor (themes, size, etc)
         setSettings(editor, _this.settings);
 
 
     }
 
+    /**
+     * Set the content of the session
+     * @param {item} the properties of the file
+     * @param {editor} the editor than we gonna edit
+     **/
     function setAceContent(item, editor) {
 
         var content = item.content || "";
@@ -603,6 +629,8 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         var EditSession = ace.require('ace/edit_session').EditSession;
         var UndoManager = ace.require('ace/undomanager').UndoManager;
         //editor.getSession().getDocument().setValue(item.content);
+
+
         var session = editor.getSession();
         session = new EditSession(content);
 
@@ -616,6 +644,28 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
 
     }
 
+
+    function setAceContent1(item, editor, tabUniqueId) {
+
+        var content = item.content || "";
+        var cursor = editor.getCursorPosition();
+        var EditSession = ace.require('ace/edit_session').EditSession;
+        var UndoManager = ace.require('ace/undomanager').UndoManager;
+        //olda UNDO
+        var oldUndoManager = editor.getSession().getUndoManager()
+
+        var getOldSession = editor.getSession();
+
+        var session = editor.getSession();
+
+        //can be done this way but has some bugs
+        //   var text = new Document(text);
+        // var document = session.setDocument(content);
+        var document = session.getDocument().setValue(content);
+
+        editor.moveCursorToPosition(cursor);
+        editor.clearSelection();
+    }
 
     ////////////////////////////////////////////////////////////////
     //
@@ -712,6 +762,25 @@ pupinoIDE.factory('MiniumEditor', function($modal, StepProvider, SnippetsProvide
         scope.launch(launchParams);
     };
 
+    /**
+     * Returns the settings from a coookie if the cookie exists,
+     * return the default settings if theres no cookie
+     * @returns {settings}
+     **/
+    var loadEditorPreferences = function(defaultsSettings) {
+        var editorPreferences = $cookieStore.get("editorPreferences");
+        editorPreferences = editorPreferences ? JSON.parse(editorPreferences) : {};
+        return _.defaults(editorPreferences, defaultsSettings);
+    };
+
+
+    var storeEditorPreferences = function(settings){
+
+        $cookieStore.put("editorPreferences", JSON.stringify(settings), {
+            expires: 365 * 5
+        });
+
+    }
 
     return new MiniumEditor;
 

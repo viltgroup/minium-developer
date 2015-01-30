@@ -83,7 +83,7 @@
 }
 /**  Active line ace editor**/
 .ace-monokai .ace_marker-layer .ace_active-line {
-    background: #444;
+    /*background: #666;*/
 }
 /**  Autocomplete **/
 .ace_editor.ace_autocomplete {
@@ -667,7 +667,7 @@ treecontrol.tree-classic li .tree-selected {
     width: 270px;
     overflow: auto;
     overflow-x: scroll;
-    margin-top: -710px;
+    margin-top: -690px;
 }
 .editor {
     margin-top: -680px;
@@ -685,7 +685,7 @@ treecontrol.tree-classic li .tree-selected {
     width: 220px;
     position: absolute;
     margin-left: -260px;
-    margin-top: -740px;
+    margin-top: -725px;
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;

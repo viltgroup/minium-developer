@@ -98,6 +98,15 @@ pupinoIDE.factory('EvalService', function($http) {
                     "Content-Type": "application/x-www-form-urlencoded"
                 }
             });
+        },
+        clean: function() {
+            return $http({
+                method: "POST",
+                url: '/app/rest/js/clean',
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            });
         }
     };
 })
@@ -184,14 +193,19 @@ pupinoIDE.service('FileLoader', function($q, FS) {
     this.loadFile = function(props, editors) {
         console.debug(props)
             //load the file and create a new editor instance with the file loaded
-        var newEditor;
+        var newEditor = {};
         var result = editors.isOpen(props);
 
         var deferred = $q.defer();
 
-        if (props === "") {
+        var emptyEditor = function() {
             //create an empty editor
             newEditor = editors.addInstance("", 1);
+        }
+
+        if (props === "") {
+            //create an empty editor
+            emptyEditor();
             deferred.resolve(newEditor);
         } else if (result.isOpen) {
             var id = result.id;
@@ -205,8 +219,14 @@ pupinoIDE.service('FileLoader', function($q, FS) {
             FS.get({
                 path: path
             }, function(fileContent) {
+                //succes handler file exists 
                 newEditor = editors.addInstance(fileContent);
                 deferred.resolve(newEditor);
+            }, function() {
+                //error handler file dont found
+                //so create an empty editor
+                emptyEditor();
+                deferred.reject(newEditor);
             });
         }
 

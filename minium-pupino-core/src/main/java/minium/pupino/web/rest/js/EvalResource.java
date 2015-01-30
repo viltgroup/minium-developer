@@ -54,4 +54,12 @@ public class EvalResource {
             throw new EvalException(e);
         }
     }
+    
+    /**
+     * Clean the scope
+     */
+    @RequestMapping(value = "/clean")
+    public synchronized void clean() {
+        //TODO
+    }
 }

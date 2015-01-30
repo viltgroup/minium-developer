@@ -16,7 +16,8 @@ var pupinoIDE = angular.module('pupinoIDE', [
     'treeControl',
     'pasvaz.bindonce',
     'pupinoIDE.filters',
-    'pupinoIDE.directives'
+    'pupinoIDE.directives',
+    'pupinoIDE.config'
 ]);
 
 pupinoIDE.provider('modalState', function($stateProvider) {

@@ -14,6 +14,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
     $scope.buildsFacade;
     var buildSuccess, buildFailling;
 
+    //enter in substate (a tab)
     $state.go('.overview');
 
 
@@ -37,6 +38,11 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
             // buildSuccess = summary.passingScenarios;
             //buildFailling = summary.faillingScenarios;
 
+            //
+            if ($scope.buildsFacade.buildingBuilds == 0) {
+                console.debug("NOOOOO MORE BUILDDSSS")
+                $scope.stop();
+            }
             processData();
 
         }).error(function(serverResponse) {
@@ -45,7 +51,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
 
     }
 
-    $scope.getCenas = function(a){
+    $scope.getCenas = function(a) {
         alert(a)
     }
 
@@ -99,14 +105,15 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
 
     $scope.estimatedTime = 0;
     /** WEBSOCKETS */
+    var socket;
     var subscribeBuilding = function() {
         var session_id = $scope.readCookie("JSESSIONID");
-        var socket = new SockJS("/app/ws");
+        socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
         stompClient.connect({}, function(frame) {
-            stompClient.subscribe("/building/" + session_id + "/project/" + $scope.project.id , function(data) {
+            stompClient.subscribe("/building/" + session_id + "/project/" + $scope.project.id, function(data) {
                 console.debug(data);
-            
+
                 //data arrive like duration-timestamp ("2222-14000000")
                 var res = data.body.split("-");
                 //return data 
@@ -117,9 +124,11 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
             });
         });
     };
+
+
     $scope.duration = 0;
     $scope.time = 0;
-    $scope.time2 = 1420070400000;
+
     var stop;
     var estimationTime = function(timestamp, duration) {
         //create an object to calculate the estimation for the build progress
@@ -133,17 +142,21 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
             $scope.estimatedRemainning = estimation.duration();
             if ($scope.estimatedTime >= 110) {
                 console.log("Stopeedes")
-                $scope.stop();
+                //$scope.stop();
                 //update the builds
                 getBuilds();
             }
         }, 1000);
 
-        $scope.stop = function() {
-            if (angular.isDefined(stop)) {
-                $interval.cancel(stop);
-                stop = undefined;
-            }
+
+    }
+
+    //function to stop the interval
+    //created to check the status of the build
+    $scope.stop = function() {
+        if (angular.isDefined(stop)) {
+            $interval.cancel(stop);
+            stop = undefined;
         }
     }
 
@@ -164,7 +177,9 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
     //get all the builds
     getBuilds();
 
+    //only need to do it when the project has a build
     subscribeBuilding();
+
 
     $scope.$on('trackLoaded', function(event, track) {
         $scope.buildsFacade = track;
@@ -182,7 +197,7 @@ pupinoReports.controller('ProjectDetailController', function($scope, $state, $in
     }
 
 
-    $scope.isPassed = function(value){
+    $scope.isPassed = function(value) {
         return (value === "PASSED") ? true : false;
     }
 

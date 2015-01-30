@@ -102,10 +102,7 @@ pupinoIDE.factory('EvalService', function($http) {
         clean: function() {
             return $http({
                 method: "POST",
-                url: '/app/rest/js/clean',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
+                url: '/app/rest/js/clean'
             });
         }
     };

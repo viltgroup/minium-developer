@@ -15,6 +15,8 @@
  */
 package minium.pupino.web.rest.js;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +60,9 @@ public class EvalResource {
     /**
      * Clean the scope
      */
-    @RequestMapping(value = "/clean")
+    @RequestMapping(value = "/clean",method = POST)
     public synchronized void clean() {
         //TODO
+    	logger.info("clean Done");
     }
 }

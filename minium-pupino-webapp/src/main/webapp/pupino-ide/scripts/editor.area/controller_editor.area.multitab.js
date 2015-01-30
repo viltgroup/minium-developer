@@ -1,5 +1,5 @@
 'use strict';
-var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
     //initialize the service to manage the instances
     var editors = MiniumEditor;
@@ -301,10 +301,10 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
     /**
      * Clean the scope of the engine
      */
-     $scope.evaluate = function() {
+    $scope.cleanScriptEngineScope = function() {
         EvalService.clean();
     }
-    
+
     /**
      * LAUnch test
      */
@@ -567,7 +567,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
     $scope.openPreferences = function(size) {
 
         var modalInstance = $modal.open({
-             templateUrl: 'pupino-ide/views/preferences/preferences.html',
+            templateUrl: 'pupino-ide/views/preferences/preferences.html',
             controller: 'PreferencesController',
             size: size,
             resolve: {
@@ -578,7 +578,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         });
 
         modalInstance.result.then(function(selectedItem) {
-           // $scope.selected = selectedItem;
+            // $scope.selected = selectedItem;
         }, function() {
             $log.info('Modal dismissed at: ' + new Date());
         });

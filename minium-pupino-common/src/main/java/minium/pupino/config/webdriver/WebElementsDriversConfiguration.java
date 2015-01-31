@@ -1,6 +1,7 @@
 package minium.pupino.config.webdriver;
 
 import static java.lang.String.format;
+import static minium.script.rhinojs.RhinoWebModules.rhinoModule;
 import static minium.web.WebModules.baseModule;
 import static minium.web.WebModules.combine;
 import static minium.web.WebModules.conditionalModule;
@@ -140,7 +141,7 @@ public class WebElementsDriversConfiguration {
     @Bean
     public Elements root(WebDriver wd) {
         WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
-        WebModule webModule = combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule(performer), debugModule(performer), new SelectorGadgetWebElements.SelectorGadgetWebModule());
+        WebModule webModule = combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule(performer), debugModule(performer), rhinoModule(), new SelectorGadgetWebElements.SelectorGadgetWebModule());
         Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
         webModule.configure(builder);
         DefaultWebElements root = builder.build().createRoot();

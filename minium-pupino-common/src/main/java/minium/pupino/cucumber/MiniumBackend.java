@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EcmaError;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeFunction;
 import org.mozilla.javascript.Scriptable;
@@ -83,6 +84,8 @@ public class MiniumBackend implements Backend {
                 for (Resource resource : resources) {
                     runScript(resource);
                 }
+            } catch (EcmaError e) {
+                throw e;
             } catch (Exception e) {
                 LOGGER.warn("Could not load glue {}", gluePath);
             }

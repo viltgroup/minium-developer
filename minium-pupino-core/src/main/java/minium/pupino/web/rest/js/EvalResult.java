@@ -17,7 +17,7 @@ package minium.pupino.web.rest.js;
 
 import java.io.Serializable;
 
-import com.vilt.minium.WebElements;
+import minium.Elements;
 
 public class EvalResult implements Serializable {
 
@@ -33,8 +33,8 @@ public class EvalResult implements Serializable {
     public EvalResult(Object value, int size) {
         this.value = value;
         this.size = size;
-        if (value instanceof WebElements) {
-            this.value = ((WebElements) value).toString();
+        if (value instanceof Elements) {
+            this.value = ((Elements) value).toString();
         } else {
             this.value = value == null ? null : value.toString();
         }

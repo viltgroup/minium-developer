@@ -25,7 +25,6 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
 import org.mozilla.javascript.NativeFunction;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.regexp.NativeRegExp;
 import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
@@ -59,7 +58,7 @@ public class MiniumBackend implements Backend {
 	private Function buildWorldFn;
 	private Function disposeWorldFn;
 
-    public MiniumBackend(ResourceLoader resourceLoader, Context cx, ScriptableObject scope) throws IOException {
+    public MiniumBackend(ResourceLoader resourceLoader, Context cx, Scriptable scope) throws IOException {
         try {
             this.resourceLoader = resourceLoader;
             this.cx = cx;

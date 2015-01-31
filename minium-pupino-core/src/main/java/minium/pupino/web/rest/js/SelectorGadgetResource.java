@@ -15,10 +15,10 @@
  */
 package minium.pupino.web.rest.js;
 
-import static com.vilt.minium.Minium.$;
 import static java.lang.String.format;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import minium.Elements;
 import minium.pupino.webdriver.SelectorGadgetWebElements;
 
 import org.slf4j.Logger;
@@ -30,8 +30,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.vilt.minium.DefaultWebElementsDriver;
-
 @Controller
 @RequestMapping("/app/rest/js/selectorGadget")
 public class SelectorGadgetResource {
@@ -40,7 +38,7 @@ public class SelectorGadgetResource {
 
 	@Autowired
 	@Lazy
-	private DefaultWebElementsDriver wd;
+	private Elements root;
 
 	private boolean activated = false;
 
@@ -83,12 +81,12 @@ public class SelectorGadgetResource {
 		activated = false;
 
 		if (cssSelector != null) {
-			result.setExpression(format("$(wd, \"%s\")", cssSelector));
+			result.setExpression(format("$(\"%s\")", cssSelector));
 		}
 		return new ResponseEntity<SelectorGadgetResult>(result, HttpStatus.OK);
 	}
 
 	protected SelectorGadgetWebElements getSelectorGadgetWebElements() {
-		return $(wd).as(SelectorGadgetWebElements.class);
+		return root.as(SelectorGadgetWebElements.class);
 	}
 }

@@ -1,18 +1,29 @@
 package minium.pupino.config.webdriver;
 
 import static java.lang.String.format;
+import static minium.web.WebModules.baseModule;
+import static minium.web.WebModules.combine;
+import static minium.web.WebModules.conditionalModule;
+import static minium.web.WebModules.debugModule;
+import static minium.web.WebModules.interactableModule;
+import static minium.web.WebModules.positionModule;
 
 import java.util.Set;
 
-import minium.pupino.config.PupinoConfiguration;
+import minium.Elements;
+import minium.Minium;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.DimensionProperties;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.PointProperties;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.WindowProperties;
 import minium.pupino.cucumber.JsVariable;
 import minium.pupino.cucumber.JsVariablePostProcessor;
 import minium.pupino.webdriver.SelectorGadgetWebElements;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.WebElementsFactory;
+import minium.web.WebElementsFactory.Builder;
+import minium.web.WebModule;
+import minium.web.internal.actions.WebDebugInteractionPerformer;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -30,13 +41,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.vilt.minium.DefaultWebElementsDriver;
-import com.vilt.minium.debug.DebugWebElements;
 
 @Configuration
 @EnableConfigurationProperties(WebElementsDriversProperties.class)
@@ -101,9 +109,8 @@ public class WebElementsDriversConfiguration {
 
     @Autowired
     @Bean(destroyMethod = "quit")
-    @Lazy
     @JsVariable("wd")
-    public DefaultWebElementsDriver wd(WebElementsDriversProperties webElementsDriversProperties, Environment env) {
+    public WebDriver wd(WebElementsDriversProperties webElementsDriversProperties, Environment env) {
         DesiredCapabilities desiredCapabilities = new DesiredCapabilities(webElementsDriversProperties.getDesiredCapabilities());
         DesiredCapabilities requiredCapabilities = new DesiredCapabilities(webElementsDriversProperties.getRequiredCapabilities());
         WebDriver webDriver = null;
@@ -113,7 +120,7 @@ public class WebElementsDriversConfiguration {
             webDriver = remoteDriver;
         } else {
             String browserName = desiredCapabilities == null ? null : desiredCapabilities.getBrowserName();
-            if (StringUtils.isEmpty(browserName)) browserName = BrowserType.CHROME;
+            if (Strings.isNullOrEmpty(browserName)) browserName = BrowserType.CHROME;
             webDriver = WebDriverType.typeFor(browserName).create(desiredCapabilities, requiredCapabilities);
         }
         WindowProperties window = webElementsDriversProperties.getWindow();
@@ -126,18 +133,18 @@ public class WebElementsDriversConfiguration {
                 webDriver.manage().window().maximize();
             }
         }
-        webDriver = new Augmenter().augment(webDriver);
-        return new DefaultWebElementsDriver(webDriver, elementInterfaces(webElementsDriversProperties, env));
+        return new Augmenter().augment(webDriver);
     }
 
-    private Class<?>[] elementInterfaces(WebElementsDriversProperties webElementsDriversProperties, Environment env) {
-        Set<Class<?>> elementInterfaces = ImmutableSet.<Class<?>>builder()
-                .addAll(webElementsDriversProperties.getElementInterfaces())
-                .add(env.acceptsProfiles(PupinoConfiguration.PUPINO_PROFILE) ?
-                        new Class<?>[] { DebugWebElements.class, SelectorGadgetWebElements.class } :
-                        new Class<?>[] {})
-                .build();
-        return elementInterfaces.toArray(new Class<?>[elementInterfaces.size()]);
+    @Autowired
+    @Bean
+    public Elements root(WebDriver wd) {
+        WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
+        WebModule webModule = combine(baseModule(wd), positionModule(), conditionalModule(), interactableModule(performer), debugModule(performer), new SelectorGadgetWebElements.SelectorGadgetWebModule());
+        Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
+        webModule.configure(builder);
+        DefaultWebElements root = builder.build().createRoot();
+        Minium.set(root);
+        return root;
     }
-
 }

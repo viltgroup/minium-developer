@@ -21,13 +21,14 @@ import java.util.Collections;
 import java.util.List;
 
 import minium.pupino.config.cucumber.CucumberProperties;
+import minium.script.rhinojs.RhinoEngine;
+import minium.script.rhinojs.RhinoProperties;
+import minium.script.rhinojs.RhinoProperties.RequireProperties;
 
 import org.junit.runner.Description;
 import org.junit.runner.notification.RunNotifier;
 import org.junit.runners.ParentRunner;
 import org.junit.runners.model.InitializationError;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.tools.shell.Global;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,12 +113,14 @@ public class MiniumCucumber extends ParentRunner<FeatureRunner> {
         LOGGER.debug("Found cucumber options {}", args);
         LOGGER.debug("Found {} remote backends", remoteBackends.size());
 
-        Context cx = Context.enter();
-        Global scope = new Global(cx);
-        MiniumRhinoTestsSupport support = new MiniumRhinoTestsSupport(classLoader, cx, scope, beanFactory, variablePostProcessor);
-        support.initialize();
+        RequireProperties require = new RequireProperties();
+        RhinoProperties rhinoProperties = new RhinoProperties();
+        rhinoProperties.setRequire(require);
 
-        MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);
+        RhinoEngine engine = new RhinoEngine(rhinoProperties);
+        variablePostProcessor.populateEngine(beanFactory, engine);
+
+        MiniumBackend backend = new MiniumBackend(resourceLoader, engine.getContext(), engine.getScope());
         allBackends = ImmutableList.<Backend>builder().add(backend).addAll(remoteBackends).build();
 
         RuntimeBuilder runtimeBuilder = new RuntimeBuilder();

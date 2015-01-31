@@ -16,13 +16,13 @@
 package minium.pupino.web.rest.js;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import minium.ElementsException;
 
 import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.WrappedException;
 import org.openqa.selenium.WebDriverException;
 
 import com.google.common.base.Objects;
-import com.vilt.minium.WebElementsException;
 
 public class EvalException extends RuntimeException {
 
@@ -66,7 +66,7 @@ public class EvalException extends RuntimeException {
         }
 
         if (exception instanceof WebDriverException) {
-            exception = new WebElementsException(exception);
+            exception = new ElementsException(exception);
         }
         return exception;
     }

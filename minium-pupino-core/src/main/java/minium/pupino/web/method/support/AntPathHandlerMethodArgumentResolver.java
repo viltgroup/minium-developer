@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
@@ -19,12 +18,13 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.google.common.base.Charsets;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.common.collect.Collections2;
 
 
 @Component
 public class AntPathHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
-	
+
 	private static final String URL_PATH_SEPARATOR = "/";
 
 	@Override
@@ -52,7 +52,7 @@ public class AntPathHandlerMethodArgumentResolver implements HandlerMethodArgume
 	}
 
 	private String decode(String extractedPaths) {
-		return StringUtils.join(Collections2.transform(Arrays.asList(extractedPaths.split(URL_PATH_SEPARATOR)), new Function<String, String>() {
+		return Joiner.on(URL_PATH_SEPARATOR).join(Collections2.transform(Arrays.asList(extractedPaths.split(URL_PATH_SEPARATOR)), new Function<String, String>() {
 			@Override
 			public String apply(String input) {
 				try {
@@ -61,7 +61,7 @@ public class AntPathHandlerMethodArgumentResolver implements HandlerMethodArgume
 					return input;
 				}
 			}
-		}), URL_PATH_SEPARATOR);
+		}));
 	}
 
 	@Override

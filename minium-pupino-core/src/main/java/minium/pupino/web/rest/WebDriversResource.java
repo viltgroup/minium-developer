@@ -16,37 +16,11 @@
 
 package minium.pupino.web.rest;
 
-import static org.springframework.http.HttpStatus.CREATED;
-import minium.pupino.webdrivers.WebDriverInfo.Type;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.vilt.minium.DefaultWebElementsDriver;
 
 @Controller
 @RequestMapping(value = "/app/rest/webDrivers", produces = MimeTypeUtils.APPLICATION_JSON_VALUE)
 public class WebDriversResource {
-
-	@Autowired
-	@Lazy
-    private DefaultWebElementsDriver wd;
-
-    @RequestMapping(value = "/{var}/create",method = RequestMethod.POST)
-    @ResponseBody
-    @ResponseStatus(CREATED)
-    public void create(@PathVariable String var, @RequestParam(value = "type", required = false) Type type, @RequestParam(value = "remoteUrl", required = false) String remoteUrl) {
-        //create new instance
-    	int x = 1;
-    	x = 2;
-    }
-
 }

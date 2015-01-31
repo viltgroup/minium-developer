@@ -68,7 +68,7 @@ public class LaunchService {
 
 	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
         URI resourceDir = launchInfo.getFileProps().getRelativeUri();
-      
+
         File tmpFile = File.createTempFile("cucumber", ".json");
 
         String path;
@@ -96,7 +96,7 @@ public class LaunchService {
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
 		} catch (Exception e) {
-			LOGGER.debug("Something went worng ", e);
+			LOGGER.error("Something went worng ", e);
         }
         String content = FileUtils.readFileToString(tmpFile);
 		Feature feature = null;
@@ -104,7 +104,7 @@ public class LaunchService {
 		//to present the result in the interface
 		if (!content.equals("")) {
 			List<Feature> features = reporter.parseJsonResult(content);
-			
+
 			if (features != null){
 				feature = features.get(0);
 				feature.processSteps();

@@ -87,19 +87,19 @@
             <a href="#" class="dropdown-toggle">Other actions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a ui-sref="global.editorarea.configs">
+                        <a  modal state="global.multi.configs">
                         <span class="fa fa-list"></span>
                         <span class="ladda-label">Launch Browser</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="global.editorarea.registerBackend">
+                    <a  modal state="global.editorarea.registerBackend">
                         <span class="fa fa-cloud-download"></span>
                         <span class="ladda-label">Register Backend</span>
                     </a>
                 </li>
                 <li>
-                    <a ui-sref="global.multi.help">
+                    <a  modal state="global.multi.help">
                         <span class="fa fa-info-circle"></span>
                         <span class="ladda-label">Help</span>
                     </a>
@@ -135,7 +135,7 @@
                 </li> -->
 
                 <li>
-                    <a href ng-click="openPreferences()">
+                    <a href modal state="global.multi.preferences">
                         <i class="fa fa-arrow-circle-o-down"></i>
                         <span class="ladda-label">Preferences</span>
                     </a>

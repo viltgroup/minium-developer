@@ -35,7 +35,7 @@ pupinoIDE
             })
 
         //configuration to execute the file
-        modalStateProvider.state('global.editorarea.configs', {
+        modalStateProvider.state('global.multi.configs', {
             templateUrl: "pupino-ide/views/editor.area/modal/configs.html",
             controller: "ConfigsController"
         });
@@ -49,5 +49,11 @@ pupinoIDE
         //register backend
         modalStateProvider.state('global.multi.help', {
             templateUrl: "pupino-ide/views/editor.area/modal/help.html"
+        });
+
+         //register backend
+        modalStateProvider.state('global.multi.preferences', {
+            templateUrl: 'pupino-ide/views/preferences/preferences.html',
+            controller: 'PreferencesController'
         });
     });

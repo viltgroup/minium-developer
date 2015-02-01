@@ -1,16 +1,16 @@
 'use strict';
 
-var PreferencesController = function($scope, $cookieStore, $modalInstance,editors,GENERAL_CONFIG,THEMES) {
+var PreferencesController = function($scope, $cookieStore, $modalInstance,GENERAL_CONFIG,THEMES,MiniumEditor) {
 
     $scope.themes = THEMES;
     //MODAL PREFERENCES
-    $scope.model = angular.copy(editors.getSettings());
+
+    $scope.model = angular.copy(MiniumEditor.getSettings());
     $scope.submit = function() {
         // copy updated values to editorPreferences
-        editors.setSettings($scope.model);
+        MiniumEditor.setSettings($scope.model);
 
-
-        $cookieStore.put("editorPreferences", JSON.stringify(editors.getSettings()), {
+        $cookieStore.put("editorPreferences", JSON.stringify(MiniumEditor.getSettings()), {
             expires: 365 * 5
         });
         
@@ -23,7 +23,7 @@ var PreferencesController = function($scope, $cookieStore, $modalInstance,editor
     };
 
     $scope.reset = function(){
-        editors.resetSetting();
+        MiniumEditor.resetSetting();
         $scope.$close(true);
         toastr.success(GENERAL_CONFIG.SUCCESS_MSG.PREFERENCES)
     }

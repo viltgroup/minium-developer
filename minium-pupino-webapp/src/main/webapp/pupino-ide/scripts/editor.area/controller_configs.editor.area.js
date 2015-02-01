@@ -6,7 +6,7 @@ var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $st
     $scope.browsers = {
         "firefox": true,
         "chrome": false,
-        "IE": true,
+        "ie": true,
         "opera": true
 
     };
@@ -19,7 +19,7 @@ var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $st
         name: "chrome"
     }, {
         id: 3,
-        name: "IE"
+        name: "ie"
     }, {
         id: 4,
         name: "opera"

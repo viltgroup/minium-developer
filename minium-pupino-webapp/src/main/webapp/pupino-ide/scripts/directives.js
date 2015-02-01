@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('pupinoIDE.directives',[])
+angular.module('pupinoIDE.directives', [])
     .directive('activeMenu', function($translate, $locale, tmhDynamicLocale) {
         return {
             restrict: 'A',
@@ -96,9 +96,15 @@ angular.module('pupinoIDE.directives',[])
 .directive('radioButtonGroup', function() {
     return {
         restrict: 'E',
-        scope: { model: '=', options: '=', id: '=', name: '=', suffix: '=' },
+        scope: {
+            model: '=',
+            options: '=',
+            id: '=',
+            name: '=',
+            suffix: '='
+        },
         controller: function($scope) {
-            $scope.activate = function (option, $event) {
+            $scope.activate = function(option, $event) {
                 $scope.model = option[$scope.id];
                 // stop the click event to avoid that Bootstrap toggles the "active" class
                 if ($event.stopPropagation) {
@@ -110,12 +116,12 @@ angular.module('pupinoIDE.directives',[])
                 $event.cancelBubble = true;
                 $event.returnValue = false;
             };
-            
+
             $scope.isActive = function(option) {
                 return option[$scope.id] == $scope.model;
             };
-            
-            $scope.getName = function (option) {
+
+            $scope.getName = function(option) {
                 return option[$scope.name];
             }
         },
@@ -160,17 +166,17 @@ angular.module('pupinoIDE.directives',[])
 })
 
 /**
- * Disable the ng-click in the tag <a> 
+ * Disable the ng-click in the tag <a>
  */
 .directive('aDisabled', function() {
     return {
         compile: function(tElement, tAttrs, transclude) {
 
             //Disable ngClick
-            tAttrs["ngClick"] = ("ng-click", "!("+tAttrs["aDisabled"]+") && ("+tAttrs["ngClick"]+")");
+            tAttrs["ngClick"] = ("ng-click", "!(" + tAttrs["aDisabled"] + ") && (" + tAttrs["ngClick"] + ")");
 
             //Toggle "disabled" to class when aDisabled becomes true
-            return function (scope, iElement, iAttrs) {
+            return function(scope, iElement, iAttrs) {
                 scope.$watch(iAttrs["aDisabled"], function(newValue) {
                     if (newValue !== undefined) {
                         iElement.toggleClass("disabled", newValue);
@@ -184,6 +190,30 @@ angular.module('pupinoIDE.directives',[])
                     }
                 });
             };
+        }
+    };
+})
+
+/**
+ * To go to a state without notify
+ * On open a modal with ui-sref the 
+ * parent state reload. With this we 
+ * can avoid that
+ **/
+.directive('modal', function($state) {
+    return {
+        restrict: 'A',
+        scope: {
+            state: '@'
+        },
+        link: function(scope, element, attrs) {
+            var state = attrs.state;
+            $(element).click(function(e) {
+                $state.go(state, {}, {
+                    notify: false,
+                });
+            });
+
         }
     };
 });

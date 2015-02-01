@@ -1,6 +1,6 @@
 'use strict';
 
-pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, SnippetsProvider, EvalService, TabFactory) {
+pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, SnippetsProvider, EvalService, TabFactory, editorPreferences) {
     var MiniumEditor = function() {}
 
 
@@ -44,10 +44,10 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
 
         //this settings can be loaded a cookie
         //if the cookie dont exist load default settings
-        this.settings = loadEditorPreferences(this.defaultSettings);
+        this.settings = editorPreferences.loadEditorPreferences(this.defaultSettings);
 
-        this.tabFactory = TabFactory;
-
+        //init the event handler for ctrl + scroll to resize fontSize
+        this.initMouseWheelEvenHandler();
     }
 
     //////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
 
         var fileProps = fileContent.fileProps || "";
         //create the DOM elements
-        this.tabFactory.createTab(tabUniqueId, fileProps);
+        TabFactory.createTab(tabUniqueId, fileProps);
 
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
@@ -80,7 +80,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
         this.setTypeFile(fileName, editor);
 
         //change the settings of editor (themes, size, etc)
-        setSettings(editor, this.settings);
+        editorPreferences.setEditorSettings(editor, this.settings);
 
         // resize the editor
         editor.resize();
@@ -156,27 +156,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
 
     /////////////////////////////////////////////////////////////////
     //
-    // Set theme
-    //
-    /////////////////////////////////////////////////////////////////
-    MiniumEditor.prototype.setTheme = function(editor, themeName) {
-        var name = "ace/theme/" + themeName;
-        this.settings.theme = name;
-        editor.setTheme(name);
-    }
-
-
-    /////////////////////////////////////////////////////////////////
-    //
-    // Set font size
-    /////////////////////////////////////////////////////////////////
-    MiniumEditor.prototype.setFontSize = function(editor, fontSize) {
-        this.settings.fontSize = fontSize;
-        editor.setFontSize(fontSize);
-    }
-
-    /////////////////////////////////////////////////////////////////
-    //
     // Get settings
     //
     /////////////////////////////////////////////////////////////////
@@ -196,15 +175,15 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
         this.editors.forEach(function(item) {
             var editor = item.instance;
             console.log(editor)
-            setSettings(editor,settings);
+            editorPreferences.setEditorSettings(editor, settings);
         });
 
-        storeEditorPreferences(this.settings);
+        editorPreferences.storeEditorPreferences(this.settings);
         console.log(this.settings);
     }
 
 
-     /////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
     //
     // Reset the setting to default
     //
@@ -212,7 +191,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
     MiniumEditor.prototype.resetSetting = function() {
         this.setSettings(this.defaultSettings);
     }
-    
+
 
     //////////////////////////////////////////////////////////////////
     //
@@ -227,7 +206,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
 
         var id = null;
         $.each(this.editors, function(i, obj) {
-            console.log(obj.relativeUri + " cenas " + relativeUri)
             if (obj.relativeUri === relativeUri) {
                 id = obj.id;
                 isOpen = true;
@@ -436,17 +414,33 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
     //
     /////////////////////////////////////////////////////////////////
 
-    function setSettings(editor, settings) {
+     MiniumEditor.prototype.initMouseWheelEvenHandler = function(settings) {
+        //KEY EVENT FOR CTRL + SCROLL MOUSE
+        var curSize;
+        var self = this;
 
-        editor.setTheme(settings.theme);
+        $(window).bind('mousewheel DOMMouseScroll', function(event) {
+            if (event.ctrlKey == true) {
+                var e = this.event;
 
-        editor.setShowPrintMargin(settings.printMargin);
-        editor.setFontSize(settings.fontSize);
-        editor.getSession().setTabSize(settings.tabSize);
-        editor.getSession().setUseSoftTabs(settings.softTabs);
-        editor.setHighlightActiveLine(settings.HighlightActiveLine);
-        //to sroll
-        editor.resize(settings.resize);
+                // determines direction of scroll
+                var delta = e.wheelDelta || -e.detail;
+                curSize = self.settings.fontSize;
+
+                // scroll down
+                if (delta > 0) {
+                    curSize -= 0.25;
+                } else { //scroll up
+                    curSize += 0.25;
+                }
+                self.settings.fontSize = curSize;
+                self.setSettings(self.settings);
+                console.log(curSize);
+
+
+                event.preventDefault();
+            }
+        });
     }
 
     //////////////////////////////////////////////////////////////////
@@ -502,11 +496,11 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
         editor.on('input', function() {
             //  console.log( editor.session.getUndoManager().isClean() )
             var tabUniqueId = getEditorID(editor);
-            // if (editor.session.getUndoManager().isClean()) {
-            //     markAsDirty(tabUniqueId, false)
-            // } else {
-            markAsDirty(tabUniqueId, true)
-                // }
+            if (editor.session.getUndoManager().isClean()) {
+                markAsDirty(tabUniqueId, false)
+            } else {
+                markAsDirty(tabUniqueId, true)
+            }
         });
     }
 
@@ -595,7 +589,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
             _this.mode = _this.modeEnum.JS;
         }
         if (/\.feature$/.test(fileName)) {
-            setAceContent1(item, editor, tabUniqueId);
+            setDocumentValue(item, editor, tabUniqueId);
             //var _this = this;
             editor.getSession().setMode("ace/mode/gherkin");
 
@@ -612,7 +606,7 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
             _this.mode = _this.modeEnum.YAML;
         }
         //change the settings of editor (themes, size, etc)
-        setSettings(editor, _this.settings);
+        editorPreferences.setEditorSettings(editor, _this.settings);
 
 
     }
@@ -644,17 +638,16 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
 
     }
 
-
-    function setAceContent1(item, editor, tabUniqueId) {
+    /**
+     * Update the document value attatched to a EditSession
+     * We don't need to create a new EditSession
+     * This way we can maintain the UndoManager
+     * @returns {Boolean}
+     **/
+    function setDocumentValue(item, editor, tabUniqueId) {
 
         var content = item.content || "";
         var cursor = editor.getCursorPosition();
-        var EditSession = ace.require('ace/edit_session').EditSession;
-        var UndoManager = ace.require('ace/undomanager').UndoManager;
-        //olda UNDO
-        var oldUndoManager = editor.getSession().getUndoManager()
-
-        var getOldSession = editor.getSession();
 
         var session = editor.getSession();
 
@@ -735,8 +728,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
         });
     };
 
-
-
     function launchCucumber(editor, scope) {
 
         var scope = scope;
@@ -762,25 +753,6 @@ pupinoIDE.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, S
         scope.launch(launchParams);
     };
 
-    /**
-     * Returns the settings from a coookie if the cookie exists,
-     * return the default settings if theres no cookie
-     * @returns {settings}
-     **/
-    var loadEditorPreferences = function(defaultsSettings) {
-        var editorPreferences = $cookieStore.get("editorPreferences");
-        editorPreferences = editorPreferences ? JSON.parse(editorPreferences) : {};
-        return _.defaults(editorPreferences, defaultsSettings);
-    };
-
-
-    var storeEditorPreferences = function(settings){
-
-        $cookieStore.put("editorPreferences", JSON.stringify(settings), {
-            expires: 365 * 5
-        });
-
-    }
 
     return new MiniumEditor;
 

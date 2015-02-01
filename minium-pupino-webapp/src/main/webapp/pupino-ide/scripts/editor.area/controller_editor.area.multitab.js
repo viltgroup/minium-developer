@@ -359,7 +359,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
             $state.go("global.multi", {
                 path: $scope.selectedNode.relativeUri
             }, {
-                location: 'false', //  update url and replace
+                location: 'replace', //  update url and replace
                 inherit: false,
                 notify: false
             });
@@ -559,31 +559,11 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
             e.preventDefault();
             //your implementation or function calls
             // $state.transition();
-            $state.go(".open");
+            $state.go(".open", {}, {
+                notify: false,
+            });
         }
     }, false);
-
-
-    $scope.openPreferences = function(size) {
-
-        var modalInstance = $modal.open({
-            templateUrl: 'pupino-ide/views/preferences/preferences.html',
-            controller: 'PreferencesController',
-            size: size,
-            resolve: {
-                editors: function() {
-                    return editors;
-                }
-            }
-        });
-
-        modalInstance.result.then(function(selectedItem) {
-            // $scope.selected = selectedItem;
-        }, function() {
-            $log.info('Modal dismissed at: ' + new Date());
-        });
-    };
-
 
 
 };

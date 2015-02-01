@@ -30,12 +30,13 @@ pupinoIDE.provider('modalState', function($stateProvider) {
         $stateProvider.state(stateName, {
             url: options.url,
             onEnter: function($modal, $state) {
-
                 modalInstance = $modal.open(options);
                 modalInstance.result['finally'](function() {
                     modalInstance = null;
                     if ($state.$current.name === stateName) {
-                        $state.go('^');
+                        $state.go('^', {}, {
+                            notify: false,
+                        });
                     }
                 });
             },
@@ -48,7 +49,7 @@ pupinoIDE.provider('modalState', function($stateProvider) {
     };
 })
 
-.config(function( $httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider) {
+.config(function($httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider) {
 
     // Initialize angular-translate
     $translateProvider.useStaticFilesLoader({

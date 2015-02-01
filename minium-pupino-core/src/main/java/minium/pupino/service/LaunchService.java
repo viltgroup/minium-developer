@@ -5,7 +5,12 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import minium.pupino.config.MiniumConfiguration;
 import minium.pupino.cucumber.JsVariablePostProcessor;
@@ -29,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.messaging.core.MessageSendingOperations;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Joiner;
@@ -43,69 +49,97 @@ import cucumber.runtime.rest.SimpleGlue;
 @Service
 public class LaunchService {
 
-    @RunWith(MiniumCucumber.class)
-    @SpringApplicationConfiguration(classes = MiniumConfiguration.class)
-    public static class GenericTest {
-    }
+	@RunWith(MiniumCucumber.class)
+	@SpringApplicationConfiguration(classes = MiniumConfiguration.class)
+	public static class GenericTest {
+	}
 
-    public MessageSendingOperations<String> messagingTemplate;
+	public MessageSendingOperations<String> messagingTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LaunchService.class);
 
-    private String resourcesBaseDir = "src/test/resources";
-    private ReporterParser reporter = new ReporterParser();
-    private RunNotifier notifier;
+	private Map<String, Thread> threadList;
 
-    private ConfigurableApplicationContext applicationContext;
-    private JsVariablePostProcessor variablePostProcessor;
+	private ThreadPoolTaskExecutor executor;
+	private ThreadGroup threadGroup;
+	private ExecutorService executorService;
+	
+	private String resourcesBaseDir = "src/test/resources";
+	private ReporterParser reporter = new ReporterParser();
+	private RunNotifier notifier;
 
-    @Autowired
-    public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext, JsVariablePostProcessor variablePostProcessor) {
-        this.messagingTemplate = messagingTemplate;
-        this.applicationContext = applicationContext;
-        this.variablePostProcessor = variablePostProcessor;
-    }
+	private ConfigurableApplicationContext applicationContext;
+	private JsVariablePostProcessor variablePostProcessor;
+
+	@Autowired
+	public LaunchService(final MessageSendingOperations<String> messagingTemplate, ConfigurableApplicationContext applicationContext,
+			JsVariablePostProcessor variablePostProcessor) {
+		this.messagingTemplate = messagingTemplate;
+		this.applicationContext = applicationContext;
+		this.variablePostProcessor = variablePostProcessor;
+		this.threadList = Collections.synchronizedMap(new HashMap<String, Thread>());
+		executor = new ThreadPoolTaskExecutor();
+		executor.initialize();
+		threadGroup = new ThreadGroup("cucumberLaunchers");
+		executorService = Executors.newSingleThreadExecutor();
+	}
 
 	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
-        URI resourceDir = launchInfo.getFileProps().getRelativeUri();
-      
-        File tmpFile = File.createTempFile("cucumber", ".json");
+		
+		
+	 executorService.execute(new Runnable() {
+			public void run() {
+				LOGGER.info("Hello");
+			}
+		});
+		
+		Thread t = executor.createThread(new Runnable() {
+			public void run() {
+				LOGGER.info("Hello");
+			}
+		});
+		t.start();
+		threadList.put(sessionID, t);
+		
+		URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
-        String path;
-        if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
-            path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
-        } else {
-            String lines = Joiner.on(":").join(launchInfo.getLine());
-            path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
-        }
+		File tmpFile = File.createTempFile("cucumber", ".json");
 
-        String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
-        LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
+		String path;
+		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
+			path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
+		} else {
+			String lines = Joiner.on(":").join(launchInfo.getLine());
+			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
+		}
 
-        System.setProperty("cucumber.options", cucumberOptions);
-        System.setProperty("spring.profiles.active", "pupino");
+		String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
+		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
-        try {
-            notifier = new RunNotifier();
+		System.setProperty("cucumber.options", cucumberOptions);
+		System.setProperty("spring.profiles.active", "pupino");
 
-            Result result = run(sessionID);
+		try {
+			notifier = new RunNotifier();
 
-            for (Failure failure : result.getFailures()) {
-                LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
-            }
-        } catch (StoppedByUserException e) {
-            LOGGER.debug("Stopped by user ", e);
+			Result result = run(sessionID);
+
+			for (Failure failure : result.getFailures()) {
+				LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
+			}
+		} catch (StoppedByUserException e) {
+			LOGGER.debug("Stopped by user ", e);
 		} catch (Exception e) {
 			LOGGER.debug("Something went worng ", e);
-        }
-        String content = FileUtils.readFileToString(tmpFile);
+		}
+		String content = FileUtils.readFileToString(tmpFile);
 		Feature feature = null;
-		//check if the execution as results
-		//to present the result in the interface
+		// check if the execution as results
+		// to present the result in the interface
 		if (!content.equals("")) {
 			List<Feature> features = reporter.parseJsonResult(content);
-			
-			if (features != null){
+
+			if (features != null) {
 				feature = features.get(0);
 				feature.processSteps();
 			}
@@ -114,52 +148,53 @@ public class LaunchService {
 		return feature;
 	}
 
-    private Result run(String sessionID) {
-        try {
-            Result result = new Result();
-            RunListener resultListener = result.createListener();
-            RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate, sessionID);
-            notifier.addFirstListener(resultListener);
-            notifier.addListener(pupinoListener);
+	private Result run(String sessionID) {
+		try {
+			Result result = new Result();
+			RunListener resultListener = result.createListener();
+			RunListener pupinoListener = new PupinoJUnitListener(messagingTemplate, sessionID);
+			notifier.addFirstListener(resultListener);
+			notifier.addListener(pupinoListener);
 
-            Runner runner = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
-            try {
-                notifier.fireTestRunStarted(runner.getDescription());
-                runner.run(notifier);
-                notifier.fireTestRunFinished(result);
-            } finally {
-                notifier.removeListener(resultListener);
-                notifier.removeListener(pupinoListener);
-            }
-            return result;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
-    }
+			Runner runner = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
+			try {
+				notifier.fireTestRunStarted(runner.getDescription());
+				runner.run(notifier);
+				notifier.fireTestRunFinished(result);
+			} finally {
+				notifier.removeListener(resultListener);
+				notifier.removeListener(pupinoListener);
+			}
+			return result;
+		} catch (Exception e) {
+			throw Throwables.propagate(e);
+		}
+	}
 
-    public List<StepDefinitionDTO> getStepDefinitions() {
-        try {
-            MiniumCucumber miniumCucumber = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
-            List<Backend> backends = miniumCucumber.getAllBackends();
-            RuntimeOptions runtimeOptions = miniumCucumber.getRuntimeOptions();
+	public List<StepDefinitionDTO> getStepDefinitions() {
+		try {
+			MiniumCucumber miniumCucumber = new MiniumCucumber(GenericTest.class, applicationContext.getAutowireCapableBeanFactory());
+			List<Backend> backends = miniumCucumber.getAllBackends();
+			RuntimeOptions runtimeOptions = miniumCucumber.getRuntimeOptions();
 
-            SimpleGlue glue = new SimpleGlue();
-            for (Backend backend : backends) {
-                backend.loadGlue(glue, runtimeOptions.getGlue());
-            }
+			SimpleGlue glue = new SimpleGlue();
+			for (Backend backend : backends) {
+				backend.loadGlue(glue, runtimeOptions.getGlue());
+			}
 
-            List<StepDefinitionDTO> results = Lists.newArrayList();
-            for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
-                results.add(new StepDefinitionDTO(stepDefinition));
-            }
-            return results;
-        } catch (Exception e) {
-            throw Throwables.propagate(e);
-        }
-    }
+			List<StepDefinitionDTO> results = Lists.newArrayList();
+			for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
+				results.add(new StepDefinitionDTO(stepDefinition));
+			}
+			return results;
+		} catch (Exception e) {
+			throw Throwables.propagate(e);
+		}
+	}
 
-    public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        if (notifier != null) notifier.pleaseStop();
-    }
+	public void stopLaunch() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		if (notifier != null)
+			notifier.pleaseStop();
+	}
 
 }

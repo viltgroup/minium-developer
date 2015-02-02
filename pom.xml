@@ -387,6 +387,16 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>minium</groupId>
+            <artifactId>minium-webelements</artifactId>
+            <version>${minium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>minium</groupId>
+            <artifactId>minium-visualelements</artifactId>
+            <version>${minium.version}</version>
+        </dependency>
+        <dependency>
 	        <groupId>org.seleniumhq.selenium</groupId>
 	        <artifactId>selenium-java</artifactId>
 	        <version>2.44.0</version>

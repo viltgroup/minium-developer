@@ -5,9 +5,9 @@ import java.util.Map.Entry;
 
 import minium.pupino.config.ConfigProperties;
 import minium.script.rhinojs.RhinoEngine;
+import minium.script.rhinojs.RhinoEngine.RhinoCallable;
 
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.json.JsonParser;
 import org.mozilla.javascript.json.JsonParser.ParseException;
 import org.springframework.beans.BeansException;
@@ -50,6 +50,7 @@ public class JsVariablePostProcessor implements BeanDefinitionRegistryPostProces
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        // nothing to do here
     }
 
     public void populateEngine(AutowireCapableBeanFactory beanFactory, RhinoEngine engine) {
@@ -64,24 +65,24 @@ public class JsVariablePostProcessor implements BeanDefinitionRegistryPostProces
     protected Object getVal(AutowireCapableBeanFactory beanFactory, RhinoEngine engine, String beanName) {
         Object bean = beanFactory.getBean(beanName);
         if (bean == null) return null;
-        return bean instanceof ConfigProperties ? parseJson(engine.getContext(), engine.getScope(), ((ConfigProperties) bean).toJson()) : bean;
+        return bean instanceof ConfigProperties ? parseJson(engine, ((ConfigProperties) bean).toJson()) : bean;
     }
 
     protected void put(RhinoEngine engine, String name, Object value) {
-        Scriptable scope = engine.getScope();
-        scope.put(name, scope, Context.javaToJS(value, scope));
+        engine.put(name, value);
     }
 
-    protected void delete(Scriptable scope, String name) {
-        scope.delete(name);
-    }
-
-    protected Object parseJson(Context cx, Scriptable scope, String json) {
-        try {
-            return new JsonParser(cx, scope).parseValue(json);
-        } catch (ParseException e) {
-            throw Throwables.propagate(e);
-        }
+    protected Object parseJson(final RhinoEngine engine, final String json) {
+        return engine.runWithContext(new RhinoCallable<Object, RuntimeException>() {
+            @Override
+            protected Object doCall(Context cx) throws RuntimeException {
+                try {
+                    return new JsonParser(cx, engine.getScope()).parseValue(json);
+                } catch (ParseException e) {
+                    throw Throwables.propagate(e);
+                }
+            }
+        });
     }
 
 }

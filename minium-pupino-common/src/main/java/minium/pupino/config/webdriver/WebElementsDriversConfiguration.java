@@ -9,6 +9,7 @@ import static minium.web.WebModules.debugModule;
 import static minium.web.WebModules.interactableModule;
 import static minium.web.WebModules.positionModule;
 
+import java.io.IOException;
 import java.util.Set;
 
 import minium.Elements;
@@ -17,8 +18,9 @@ import minium.pupino.config.webdriver.WebElementsDriversProperties.DimensionProp
 import minium.pupino.config.webdriver.WebElementsDriversProperties.PointProperties;
 import minium.pupino.config.webdriver.WebElementsDriversProperties.WindowProperties;
 import minium.pupino.cucumber.JsVariable;
-import minium.pupino.cucumber.JsVariablePostProcessor;
 import minium.pupino.webdriver.SelectorGadgetWebElements;
+import minium.script.rhinojs.RhinoEngine;
+import minium.script.rhinojs.RhinoProperties;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebElementsFactory;
 import minium.web.WebElementsFactory.Builder;
@@ -42,11 +44,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+@Profile("!visual")
 @Configuration
 @EnableConfigurationProperties(WebElementsDriversProperties.class)
 public class WebElementsDriversConfiguration {
@@ -103,11 +107,6 @@ public class WebElementsDriversConfiguration {
         }
     }
 
-    @Bean
-    public JsVariablePostProcessor jsVariablePostProcessor() {
-        return new JsVariablePostProcessor();
-    }
-
     @Autowired
     @Bean(destroyMethod = "quit")
     @JsVariable("wd")
@@ -147,5 +146,13 @@ public class WebElementsDriversConfiguration {
         DefaultWebElements root = builder.build().createRoot();
         Minium.set(root);
         return root;
+    }
+
+    @Autowired
+    @Bean
+    public RhinoEngine rhinoEngine(RhinoProperties rhinoProperties, WebDriver wd) throws IOException {
+        RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
+        rhinoEngine.put("wd", wd);
+        return rhinoEngine;
     }
 }

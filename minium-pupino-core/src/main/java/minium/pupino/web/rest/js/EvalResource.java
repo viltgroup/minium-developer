@@ -20,7 +20,6 @@ import minium.Elements;
 import minium.FreezableElements;
 import minium.actions.debug.DebugInteractable;
 import minium.script.rhinojs.RhinoEngine;
-import minium.web.EvalWebElements;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,13 +45,13 @@ public class EvalResource {
             Object result = engine.eval(expression, lineNumber);
             if (result instanceof Elements) {
                 Elements elements = (Elements) result;
-                boolean canHighlight = elements.is(EvalWebElements.class) && elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
+                boolean canHighlight = elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
                 if (canHighlight) {
                     elements = elements.as(FreezableElements.class).freeze();
                 }
                 int totalCount = elements.as(BasicElements.class).size();
                 if (totalCount > 0 && canHighlight) {
-                    elements.as(EvalWebElements.class).eval("$(this).effect('highlight', { color : 'red' }, 5000);");
+                    elements.as(DebugInteractable.class).highlight();
                 }
                 return new EvalResult(expression, totalCount);
             } else {

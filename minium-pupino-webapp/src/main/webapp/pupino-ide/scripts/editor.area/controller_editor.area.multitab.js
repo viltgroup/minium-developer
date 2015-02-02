@@ -327,14 +327,18 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         var params = {
             path: node.relativeUri || ""
         };
+
         node.children = FS.list(params, function() {
+            //sort the child by name
+            node.children.sort(predicatBy("name"))
             _.each(node.children, function(item) {
                 // tree navigation needs a label property
-                item.label = item.name;
 
+                item.label = item.name;
                 if (firstLoad) {
                     $scope.dataForTheTree.push(item);
                 }
+
             });
             firstLoad = false;
         });
@@ -345,6 +349,18 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
         asyncLoad(item);
         // item.childrenLoaded = true;
     };
+
+    function predicatBy(prop) {
+        return function(a, b) {
+            if (a[prop] > b[prop]) {
+                return 1;
+            } else if (a[prop] < b[prop]) {
+                return -1;
+            }
+            return 0;
+        }
+    }
+
 
     $scope.selectedNode = "";
     $scope.expandedNodes = [];
@@ -363,7 +379,7 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
                 inherit: false,
                 notify: false
             });
-        } else {
+        } else { //if the is on click on a file
             $scope.loadChildren(node);
             //expand the node
             $scope.expandedNodes.push(node)

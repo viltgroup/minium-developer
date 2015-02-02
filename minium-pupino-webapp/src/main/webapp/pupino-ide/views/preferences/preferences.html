@@ -15,18 +15,19 @@
             </div>
             <div class="form-group" ng-class="{ 'has-error' : editorPreferencesForm.theme.$dirty &amp;&amp; editorPreferencesForm.theme.$invalid}">
                 <label for="editor-theme">Theme</label>
-                <select id="editor-theme" name="theme" ng-model="model.theme" class="form-control ng-pristine ng-valid ng-valid-required" required="">
+                <select id="editor-theme" name="theme" ng-model="model.theme" class="form-control" required>
                     <optgroup label="Bright">
-                        <option ng-repeat="(themeName, theme) in themes.BRIGHT" value="{{theme}}">{{themeName}}</option>
+                        <option ng-repeat="(themeName, theme) in themes.BRIGHT" value="{{theme}}" ng-selected='model.theme === theme'>{{themeName}}</option>
                     </optgroup>
 
                     <optgroup label="Dark">
-                        <option ng-repeat="(themeName, theme) in themes.DARK" value="{{theme}}">{{themeName}}</option>
+                        <option ng-repeat="(themeName, theme) in themes.DARK" value="{{theme}}" ng-selected='model.theme === theme'>{{themeName}}</option>
                     </optgroup>
 
                 </select>
                 <span class="help-block ng-hide" ng-show="editorPreferencesForm.theme.$dirty &amp;&amp; editorPreferencesForm.theme.$error.required">Required field.</span>
             </div>
+
             <div class="form-group form-inline" ng-class="{ 'has-error' : editorPreferencesForm.tabSize.$dirty &amp;&amp; editorPreferencesForm.tabSize.$invalid}">
                 <label for="editor-tab-size">Tab size</label>
                 <div class="input-group">
@@ -37,6 +38,7 @@
                 </div>
                 <span class="help-block ng-hide" ng-show="editorPreferencesForm.tabSize.$dirty &amp;&amp; editorPreferencesForm.tabSize.$error.required">Required field.</span>
             </div>
+
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>

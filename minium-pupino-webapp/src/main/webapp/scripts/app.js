@@ -3,8 +3,8 @@
 /* App Module */
 var pupinoApp = angular.module('pupinoApp', [
 	'minium.components',
-	'pupinoIDE',
-    'pupinoReports'
+	'minium.developer',
+    'minium.manager'
 ])
 
 .config(function($httpProvider, $urlRouterProvider, $stateProvider) {

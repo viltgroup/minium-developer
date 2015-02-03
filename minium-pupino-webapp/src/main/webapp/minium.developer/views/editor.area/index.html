@@ -1,0 +1,118 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="container-fluid">
+        <div ng-include="'minium.developer/views/editor.area/partials/toolbar.html'"></div>
+
+        <!-- /.navbar-collapse -->
+    </section>
+    <!-- Main content -->
+    <section class="content container container-editor full ">
+
+        <!-- BUTTON TOOLBAR -->
+        <div class="btn-toolbar" role="toolbar">
+            <div class="col-md-7 pull-right">
+                <br>
+                <i class="fa fa-info-circle"></i>
+                <span translate="editor.status">Status</span>:
+                <!-- <span class="label label-default" id="status">
+                Not Run
+                </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                <button id="runningTest" class="btn btn-xs btn-warning ladda-button disabled " data-style="expand-right">
+                    <span class="fa fa-gears"></span>
+                    <span id="status">
+                     Not Running
+                     </span>
+                </button>
+
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#launchModal" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
+                    <span class="fa  fa-bar-chart"></span>
+                    <span translate="editor.summary">Summary Report</span>
+                </button>
+
+                <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
+                <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
+
+                <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
+                </progressbar>
+
+                </span>
+
+                <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
+                    <i class="fa fa-arrow-circle-o-down"></i>
+                    <span translate="editor.seeExecution">See Execution</span>
+                </button>
+                <!--button group -->
+            </div>
+            <br>
+
+            <div class="btn-group ">
+                <a class="btn  btn-default" title="Save file" ng-click="saveFile()">
+                    <span class="fa  fa-save"></span>
+                </a>
+                <a class="btn  btn-default" title="Add Editor" ng-show="multiTab" ng-click="addEmptyTab()">
+                    <span class="fa fa-plus"></span>
+                </a>
+            </div>
+            <div class="btn-group ">
+                <a class="btn  btn-default" title="Interface Selector Gadget" ng-show="mode === 'JS'" ng-click="activateSelectorGadget()">
+                    <span class="fa  fa-hand-o-up"></span> Selector Gadget
+                </a>
+                <a class="btn  btn-default" title="Evaluator" ng-show="mode === 'JS'" ng-click="evaluate()">
+                    <span class="fa  fa-binoculars"></span> Evaluate
+                </a>
+            </div>
+            <div class="btn-group">
+                <a class="btn btn-primary " title="Run test from cursor" ng-show="multiTab && (mode !== 'JS')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+                    <span class="fa  fa-play"></span> Run Test
+                </a>
+                <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="mode !== 'JS'" ng-disabled="testExecuting">
+                    <span class="fa  fa-list"></span> Run All
+                </a>
+                <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (mode !== 'JS')">
+                    <span class="fa fa-ban"></span>
+                </a>
+            </div>
+            <br>
+            <br>
+        </div>
+
+
+        <div ng-show="!multiTab" id="editor editor-container" ui-ace="{ onLoad : aceLoaded }" class="full"></div>
+        <div id="tabs">
+            <!-- <div class="scroller"> -->
+            <!-- <a href="#" id="right-button"><i class="fa fa-arrow-circle-right"/></a> -->
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+
+            </ul>
+            <!-- <a href="#" id="left-button"><i class="fa fa-arrow-circle-left"/></a> -->
+            <!-- </div> -->
+        </div>
+    </section>
+
+    <div ng-include="'minium.developer/views/editor.area/partials/tree-nav.html'"></div>
+
+
+    <div ui-view></div>
+
+
+</aside>
+
+<!-- MODALS witohout substate -->
+<div ng-include="'minium.developer/views/editor.area/modal/execution.html'"></div>
+<div ng-include="'minium.developer/views/editor.area/modal/launch.html'"></div>
+
+
+<script type="text/ng-template" id="selectorGadgetModal.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Pick elements with Selector Gadget</h4>
+    </div>
+    <div class="modal-body">
+        <p>Pick elements with Selector Gadget to generate a CSS selector expression.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
+        <button type="submit" class="btn btn-primary" ng-click="accept()">Accept</button>
+    </div>
+</script>

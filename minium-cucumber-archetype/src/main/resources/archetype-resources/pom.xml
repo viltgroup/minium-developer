@@ -47,7 +47,7 @@
 		</dependency>
 		<dependency>
 			<groupId>minium.tools</groupId>
-			<artifactId>minium-pupino-common</artifactId>
+			<artifactId>minium-tools-common</artifactId>
 			<version>${minium.version}</version>
 			<exclusions>
 				<exclusion>
@@ -98,7 +98,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>minium.tools</groupId>
-					<artifactId>minium-pupino-webapp</artifactId>
+					<artifactId>minium-tools-webapp</artifactId>
 					<version>${minium.version}</version>
 				</dependency>
 			</dependencies>

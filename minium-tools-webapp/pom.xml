@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>minium-pupino</artifactId>
+        <artifactId>minium-tools</artifactId>
         <groupId>minium.tools</groupId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>minium-pupino-webapp</artifactId>
+    <artifactId>minium-tools-webapp</artifactId>
     <packaging>jar</packaging>
 
     <name>Minium Pupino - Web</name>
@@ -16,12 +16,12 @@
     <dependencies>
         <dependency>
             <groupId>minium.tools</groupId>
-            <artifactId>minium-pupino-common</artifactId>
+            <artifactId>minium-tools-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>minium.tools</groupId>
-            <artifactId>minium-pupino-core</artifactId>
+            <artifactId>minium-tools-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 

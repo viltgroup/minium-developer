@@ -4,11 +4,11 @@
 
     <parent>
         <groupId>minium.tools</groupId>
-        <artifactId>minium-pupino</artifactId>
+        <artifactId>minium-tools</artifactId>
         <version>2.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>minium-pupino-cucumber-archetype</artifactId>
+    <artifactId>minium-cucumber-archetype</artifactId>
     <name>Minium Pupino - Cucumber Rhino Archetype</name>
 
     <properties>

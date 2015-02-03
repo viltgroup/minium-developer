@@ -1,10 +1,10 @@
 After(function (scenario) {
+  var TakesScreenshot = Packages.org.openqa.selenium.TakesScreenshot;
+  var OutputType      = Packages.org.openqa.selenium.OutputType;
   
   if (scenario.isFailed()) {
-    var io = Packages.java.io;
-    var data = new io.ByteArrayOutputStream();
-    takeWindowScreenshot($(wd), data);
-    scenario.embed(data.toByteArray(), "image/png");     
+    if (wd instanceof org.openqa.selenium.TakesScreenshot) {
+      scenario.embed(wd.getScreenshotAs(OutputType.BYTES), "image/png");     
+    }
   }
-  
 });

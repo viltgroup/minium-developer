@@ -16,6 +16,11 @@
 package minium.pupino.web.rest.js;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import minium.BasicElements;
+import minium.Elements;
+import minium.FreezableElements;
+import minium.actions.debug.DebugInteractable;
+import minium.script.rhinojs.RhinoEngine;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Iterables;
-import com.vilt.minium.debug.DebugWebElements;
-import com.vilt.minium.script.MiniumScriptEngine;
-
 @Controller
 @RequestMapping("/app/rest/js")
 public class EvalResource {
@@ -36,17 +37,23 @@ public class EvalResource {
     private static final Logger logger = LoggerFactory.getLogger(EvalResource.class);
 
     @Autowired
-    private MiniumScriptEngine engine;
+    private RhinoEngine engine;
 
     @RequestMapping(value = "/eval")
     @ResponseBody
     public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
         try {
             Object result = engine.eval(expression, lineNumber);
-            if (result instanceof DebugWebElements) {
-                DebugWebElements webElements = (DebugWebElements) result;
-                webElements.highlight();
-                int totalCount = Iterables.size(webElements);
+            if (result instanceof Elements) {
+                Elements elements = (Elements) result;
+                boolean canHighlight = elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
+                if (canHighlight) {
+                    elements = elements.as(FreezableElements.class).freeze();
+                }
+                int totalCount = elements.as(BasicElements.class).size();
+                if (totalCount > 0 && canHighlight) {
+                    elements.as(DebugInteractable.class).highlight();
+                }
                 return new EvalResult(expression, totalCount);
             } else {
                 return new EvalResult(result);

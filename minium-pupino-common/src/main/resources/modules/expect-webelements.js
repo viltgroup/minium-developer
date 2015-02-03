@@ -14,7 +14,7 @@
   
   expect.Assertion.prototype._assertElements = function (obj, msg, err, expected) {
     obj = obj || this.obj;
-    var truth = this.flags.not ? !checkEmpty(obj) : checkNotEmpty(obj);
+    var truth = this.flags.not ? !obj.checkForUnexistence() : obj.checkForExistence();
     this.assert(
       truth, 
       msg || function(){ return 'expected ' + obj + ' to have elements' },
@@ -32,7 +32,7 @@
   };
   
   expect.Assertion.prototype.size = function (n) {
-    return this._assertElements(this.obj.evalWebElements("$(this).length === " + n + " ? $('body') : $()"),
+    return this._assertElements(this.obj.applyWebElements(function (n) { return $(this).length == n ? $(':root') : $() }, [ n ]),
       function(){ return 'expected ' + this.obj + ' to have size ' + n + ' but got ' + this.obj.size() },
       function(){ return 'expected ' + this.obj + ' to not have size ' + n }
     );
@@ -68,8 +68,8 @@
   
   var _empty = expect.Assertion.prototype.empty;
   expect.Assertion.prototype.empty = function () {
-    if (this.obj instanceof WebElements) {
-      var truth = this.flags.not ? !checkNotEmpty(this.obj) : checkEmpty(this.obj);
+    if (this.obj instanceof Packages.minium.Elements) {
+      var truth = this.flags.not ? !this.obj.checkForExistence() : this.obj.checkForUnexistence();
       this.assert(
           truth
         , function(){ return 'expected ' + this.obj + ' to be empty' }

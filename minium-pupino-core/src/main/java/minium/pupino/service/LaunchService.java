@@ -85,61 +85,45 @@ public class LaunchService {
 	}
 
 	public Feature launch(URI baseUri, LaunchInfo launchInfo, String sessionID) throws IOException {
-		
-		
-	 executorService.execute(new Runnable() {
-			public void run() {
-				LOGGER.info("Hello");
-			}
-		});
-		
-		Thread t = executor.createThread(new Runnable() {
-			public void run() {
-				LOGGER.info("Hello");
-			}
-		});
-		t.start();
-		threadList.put(sessionID, t);
-		
-		URI resourceDir = launchInfo.getFileProps().getRelativeUri();
+        URI resourceDir = launchInfo.getFileProps().getRelativeUri();
 
-		File tmpFile = File.createTempFile("cucumber", ".json");
+        File tmpFile = File.createTempFile("cucumber", ".json");
 
-		String path;
-		if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
-			path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
-		} else {
-			String lines = Joiner.on(":").join(launchInfo.getLine());
-			path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
-		}
+        String path;
+        if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
+            path = format("%s/%s ", resourcesBaseDir, resourceDir.getPath());
+        } else {
+            String lines = Joiner.on(":").join(launchInfo.getLine());
+            path = format("%s/%s:%s", resourcesBaseDir, resourceDir.getPath(), lines);
+        }
 
-		String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
-		LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
+        String cucumberOptions = format("%s --plugin json:%s --plugin %s", path, tmpFile.getAbsolutePath(), PupinoReporter.class.getName());
+        LOGGER.info("About to launch cucumber test with options: {}", cucumberOptions);
 
-		System.setProperty("cucumber.options", cucumberOptions);
-		System.setProperty("spring.profiles.active", "pupino");
+        System.setProperty("cucumber.options", cucumberOptions);
+        System.setProperty("spring.profiles.active", "pupino");
 
-		try {
-			notifier = new RunNotifier();
+        try {
+            notifier = new RunNotifier();
 
-			Result result = run(sessionID);
+            Result result = run(sessionID);
 
-			for (Failure failure : result.getFailures()) {
-				LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
-			}
-		} catch (StoppedByUserException e) {
-			LOGGER.debug("Stopped by user ", e);
+            for (Failure failure : result.getFailures()) {
+                LOGGER.error("{} failed", failure.getTestHeader(), failure.getException());
+            }
+        } catch (StoppedByUserException e) {
+            LOGGER.debug("Stopped by user ", e);
 		} catch (Exception e) {
-			LOGGER.debug("Something went worng ", e);
-		}
-		String content = FileUtils.readFileToString(tmpFile);
+			LOGGER.error("Something went worng ", e);
+        }
+        String content = FileUtils.readFileToString(tmpFile);
 		Feature feature = null;
 		// check if the execution as results
 		// to present the result in the interface
 		if (!content.equals("")) {
 			List<Feature> features = reporter.parseJsonResult(content);
 
-			if (features != null) {
+			if (features != null){
 				feature = features.get(0);
 				feature.processSteps();
 			}

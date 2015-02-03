@@ -15,17 +15,30 @@
  */
 package minium.pupino.webdriver;
 
-import com.vilt.minium.JQueryResources;
-import com.vilt.minium.WebElements;
+import minium.web.WebElements;
+import minium.web.WebElementsFactory.Builder;
+import minium.web.WebModule;
 
-@JQueryResources(
-        value = { "minium/selectorgadget/selectorgadget_combined.js", "minium/selectorgadget/selectorgadget_minium.js" },
-        styles = "minium/selectorgadget/selectorgadget_combined.css"
-)
 public interface SelectorGadgetWebElements extends WebElements {
+
     public void activateSelectorGadget();
 
     public void deactivateSelectorGadget();
 
     public String getCssSelector();
+
+    public static class SelectorGadgetWebModule implements WebModule {
+
+        public SelectorGadgetWebModule() {
+        }
+
+        @Override
+        public void configure(Builder<?> builder) {
+            builder
+                .withCssResources("minium/selectorgadget/selectorgadget_combined.css")
+                .withJsResources("minium/selectorgadget/selectorgadget_combined.js", "minium/selectorgadget/selectorgadget_minium.js")
+                .implementingInterfaces(SelectorGadgetWebElements.class);
+        }
+
+    }
 }

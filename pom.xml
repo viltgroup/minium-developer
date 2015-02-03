@@ -71,8 +71,6 @@
     	<module>minium-pupino-common</module>
     	<module>minium-pupino-core</module>
     	<module>minium-pupino-cucumber-archetype</module>
-    	<module>minium-developer</module>
-    	<module>minium-manager</module>
     </modules>
 
     <dependencies>

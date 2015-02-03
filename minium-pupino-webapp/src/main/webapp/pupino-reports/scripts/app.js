@@ -49,8 +49,7 @@ pupinoReports.provider('modalState', function($stateProvider) {
 })
 
 .config(function($httpProvider, $urlRouterProvider, $stateProvider, $translateProvider, tmhDynamicLocaleProvider, USER_ROLES) {
-
-
+    
     $urlRouterProvider
         .when("", "/project")
         .otherwise("/project");

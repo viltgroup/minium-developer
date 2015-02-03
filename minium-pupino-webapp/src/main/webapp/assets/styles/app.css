@@ -78,9 +78,7 @@
     background-color: rgb(186, 0, 0);
 }
 .undefined {
-    border-radius: 20px 0px 0px 20px;
-    box-shadow: inset 0px 0px 2px 2px ;
-    color: white;
+    background-color: #E8AC0C;
 }
 /**  Active line ace editor**/
 .ace-monokai .ace_marker-layer .ace_active-line {

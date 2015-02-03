@@ -30,7 +30,7 @@
 
     <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
 
-    
+
     <!-- endbuild -->
 </head>
 
@@ -53,7 +53,7 @@
     <script src="../bower_components/toastr/toastr.js"></script>
     <script src="../bower_components/jqueryui/jquery-ui.min.js"></script>
     <script src="../bower_components/angular-tree-control/angular-tree-control.js"></script>
-    
+
     <!-- Bootstrap -->
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/tab.js"></script>
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/affix.js"></script>
@@ -106,35 +106,13 @@
     <script src="components/js/components.js"></script>
     <script src="components/js/utils.js"></script>
 
+    <!-- Shared components -->
+    <script src="shared-components/scripts/app.js"></script>
     <script src="scripts/controllers/global.js"></script>
+
+    <!-- MINIUM MANAGER -->
     <script src="pupino-reports/scripts/launch/controller_launch.js"></script>
     <script src="pupino-reports/scripts/report/controller_report.js"></script>
-    
-    <script src="pupino-ide/scripts/app.js"></script>
-    <script src="pupino-ide/scripts/services.js"></script>
-    <script src="pupino-ide/scripts/filters.js"></script>
-    <script src="pupino-ide/scripts/directives.js"></script>
-    <script src="pupino-ide/scripts/config.js"></script>
-
-    <!-- File open/new -->
-    <script src="pupino-ide/scripts/file/service_file_system.js"></script>
-    <script src="pupino-ide/scripts/file/controller_file.js"></script>
-    <script src="pupino-ide/scripts/file/controller_open.file.js"></script>
-    <script src="pupino-ide/scripts/file/controller_new_file.js"></script>
-    <!-- Editor Area -->
-    <script src="pupino-ide/scripts/editor.area/controller_editor.area.js"></script>
-    <script src="pupino-ide/scripts/editor.area/controller_editor.area.multitab.js"></script>
-    <script src="pupino-ide/scripts/editor.area/controller_configs.editor.area.js"></script>
-    <script src="pupino-ide/scripts/editor.area/controller_editor.area.backends.js"></script>
-    <script src="pupino-ide/scripts/editor.area/router_editor.area.js"></script>
-    <script src="pupino-ide/scripts/editor.area/service.minium.editor.tabs.js"></script>
-    
-    <!-- Selector gadget -->
-    <script src="pupino-ide/scripts/selector.gadget/controller.selector.gadget.js"></script>
-
-    <!-- PUPINO-IDE PREFERENCES-->
-    <script src="pupino-ide/scripts/preferences/controller_preferences.js"></script>
-
 
     <script src="pupino-reports/scripts/truncate.js"></script>
     <script src="pupino-reports/scripts/utils.js"></script>
@@ -157,27 +135,46 @@
     <script src="pupino-reports/scripts/build/controller_build_from_jenkins.js"></script>
     <script src="pupino-reports/scripts/build/service_build.js"></script>
 
-    
-
-    <!-- PUPINO-APP -->
-    <script src="scripts/app.js"></script>
-
-
-    <!-- Dashboard -->
+      <!-- Dashboard -->
     <script src="pupino-reports/scripts/dashboard/router_dashboard.js"></script>
     <script src="pupino-reports/scripts/dashboard/controller_dashboard.js"></script>
-
 
     <!-- Features -->
     <script src="pupino-reports/scripts/feature/router_feature.js"></script>
     <script src="pupino-reports/scripts/feature/controller_feature.js"></script>
     <script src="pupino-reports/scripts/feature/service_feature.js"></script>
 
-    
-    <!--     <script src="scripts/build/router_build.js"></script>
-    <script src="scripts/build/controller_build.js"></script>
-    <script src="scripts/build/service_build.js"></script> -->
-    <!-- endbuild -->
+
+    <!-- MINIUM DEVELOPER -->
+    <script src="pupino-ide/scripts/app.js"></script>
+    <script src="pupino-ide/scripts/services.js"></script>
+    <script src="pupino-ide/scripts/filters.js"></script>
+    <script src="pupino-ide/scripts/directives.js"></script>
+    <script src="pupino-ide/scripts/config.js"></script>
+
+    <!-- File open/new -->
+    <script src="pupino-ide/scripts/file/service_file_system.js"></script>
+    <script src="pupino-ide/scripts/file/controller_file.js"></script>
+    <script src="pupino-ide/scripts/file/controller_open.file.js"></script>
+    <script src="pupino-ide/scripts/file/controller_new_file.js"></script>
+    <!-- Editor Area -->
+    <script src="pupino-ide/scripts/editor.area/controller_editor.area.js"></script>
+    <script src="pupino-ide/scripts/editor.area/controller_editor.area.multitab.js"></script>
+    <script src="pupino-ide/scripts/editor.area/controller_configs.editor.area.js"></script>
+    <script src="pupino-ide/scripts/editor.area/controller_editor.area.backends.js"></script>
+    <script src="pupino-ide/scripts/editor.area/router_editor.area.js"></script>
+    <script src="pupino-ide/scripts/editor.area/service.minium.editor.tabs.js"></script>
+
+    <!-- Selector gadget -->
+    <script src="pupino-ide/scripts/selector.gadget/controller.selector.gadget.js"></script>
+
+    <!-- PUPINO-IDE PREFERENCES-->
+    <script src="pupino-ide/scripts/preferences/controller_preferences.js"></script>
+
+    <!-- END OF MINIUM DEVELOPER -->
+
+    <!-- PUPINO-APP -->
+    <script src="scripts/app.js"></script>
 
     <!-- LOAD AFTER ACE EDITOR or the css gonna be overwrited -->
     <link rel="stylesheet" href="../assets/styles/app.css" />

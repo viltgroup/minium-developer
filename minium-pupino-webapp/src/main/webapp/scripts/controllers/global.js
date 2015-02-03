@@ -1,6 +1,6 @@
 'use strict';
 
-var GlobalController = function($scope, $modal, $http, $state, $log, $location, $timeout, FS, FormatService) {
+var GlobalController = function($scope, $modal, $http, $state, $log, $location, $timeout) {
 
     $scope.$state = $state;
 
@@ -8,13 +8,6 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
         $modal.open({
             templateUrl: "partials/modal/open.file.html",
             controller: "OpenFileController"
-        });
-    };
-
-    $scope.search = function() {
-        var searchQuery = $scope.form.searchQuery;
-        $scope.results = FS.search({
-            q: searchQuery
         });
     };
 

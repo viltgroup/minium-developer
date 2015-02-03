@@ -62,6 +62,17 @@ pupinoIDE.factory('SnippetsProvider', function() {
                     "  Examples:",
                     "  | ${3:attr1} | ${4:attr2} |"
                 ].join("\n")
+            }, {
+                name: "feature",
+                trigger: "feat",
+                content: [
+                    "Feature: ${1:Little description here}                                                                                                                                                                                                                                                              ",
+                    " ",
+                    "  Scenario Outline: ${2:Little description here}",
+                    "    Given ${3:something}",
+                    "    Examples:",
+                    "    | ${4:attr1} | ${4:attr2} |"
+                ].join("\n")
             }];
         }
     };

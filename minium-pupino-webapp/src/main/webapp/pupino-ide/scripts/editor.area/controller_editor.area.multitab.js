@@ -264,12 +264,8 @@ var EditorAreaMultiTabController = function($rootScope, $route, $scope, $log, $t
                     // if (markerId) $scope.markerIds.push(markerId);
                 });
             });
-
-
-
         });
     };
-
 
     /**
      * Save the file of active session

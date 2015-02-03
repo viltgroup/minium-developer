@@ -75,7 +75,6 @@ filter('isEmpty', function() {
                 return false;
             }
         }
-        alert(true)
         return true;
     };
 }).

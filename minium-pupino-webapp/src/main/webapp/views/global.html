@@ -1,9 +1,9 @@
 <header class="header">
     <a href="#/editor" class="logo navbar-brand">
         <span class="col-md-6 first">Minium </span>
-        <span class="second" ng-show="$state.current.name === 'global.multi'"><small>Developer</small></span>
+        <span class="second" ng-show="$state.current.name === 'global.editorarea'"><small>Developer</small></span>
 
-        <span class="second" ng-show="$state.current.name !== 'global.multi'"><small>Manager</small></span>
+        <span class="second" ng-show="$state.current.name !== 'global.editorarea'"><small>Manager</small></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -160,8 +160,9 @@
 
 <!---********************************************** HEADER END ***********-->
 <div class="wrapper row-offcanvas row-offcanvas-left">
+
     <!-- Left side column. contains the logo and sidebar -->
-    <aside class="left-side sidebar-offcanvas">
+    <aside class="left-side sidebar-offcanvas" id="sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- search form -->
@@ -192,7 +193,7 @@
                     </a>
                 </li> -->
 
-               <!--  <li ng-class="getClass('#/editor')">
+                <!--  <li ng-class="getClass('#/editor')">
                     <a ui-sref="global.editorarea">
                         <i class="glyphicon glyphicon-pencil"></i>
                         <span translate="global.menu.editor">Editor</span>
@@ -200,7 +201,7 @@
                 </li> -->
 
                 <li ng-class="getClass('#/editor')">
-                    <a ui-sref="global.multi">
+                    <a ui-sref="global.editorarea">
                         <i class="glyphicon glyphicon-pencil"></i>
                         <span>Editor</span>
                     </a>
@@ -227,8 +228,9 @@
     </aside>
 
     <!--content-->
-  <div ui-view></div>
-    
-  
+    <div ui-view></div>
+
+
+
 </div>
 <!-- ./wrapper -->

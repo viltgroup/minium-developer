@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="../assets/styles/theme.css" />
     <link rel="stylesheet" href="../assets/styles/fontello/css/fontello.css" />
 
+    <link rel="stylesheet" href="../bower_components/jquery.splitter/css/jquery.splitter.css" />
+
     <link rel="stylesheet" href="../bower_components/angular-tree-control/css/tree-control.css" />
 
     <script src="../bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -69,6 +71,8 @@
     <script src="../bower_components/bootstrap-sass/vendor/assets/javascripts/bootstrap/collapse.js"></script>
 
     <script src="../bower_components/angular-timer/dist/angular-timer.min.js"></script>
+    <script src="../bower_components/jquery.splitter/js/jquery.splitter-0.14.0.js"></script>
+
 
     <!-- Sockets -->
     <script src="../bower_components/sockjs/sockjs.js"></script>
@@ -109,8 +113,8 @@
     <script src="scripts/controllers/global.js"></script>
 
     <!-- MINIUM MANAGER -->
-    <script src="minium.manager/scripts/launch/controller_launch.js"></script>
-    <script src="minium.manager/scripts/report/controller_report.js"></script>
+    <script src="minium.manager/scripts/launch/controller.launch.js"></script>
+    <script src="minium.manager/scripts/report/controller.report.js"></script>
 
     <script src="minium.manager/scripts/truncate.js"></script>
     <script src="minium.manager/scripts/utils.js"></script>
@@ -122,25 +126,25 @@
     <script src="minium.manager/scripts/filters.js"></script>
 
     <!-- Project -->
-    <script src="minium.manager/scripts/project/router_project.js"></script>
-    <script src="minium.manager/scripts/project/controller_project.js"></script>
-    <script src="minium.manager/scripts/project/controller_project_show.js"></script>
-    <script src="minium.manager/scripts/project/service_project.js"></script>
+    <script src="minium.manager/scripts/project/router.project.js"></script>
+    <script src="minium.manager/scripts/project/controller.project.js"></script>
+    <script src="minium.manager/scripts/project/controller.project.details.js"></script>
+    <script src="minium.manager/scripts/project/service.project.js"></script>
 
     <!--BUILD-->
-    <script src="minium.manager/scripts/build/router_build.js"></script>
-    <script src="minium.manager/scripts/build/controller_build.js"></script>
-    <script src="minium.manager/scripts/build/controller_build_from_jenkins.js"></script>
-    <script src="minium.manager/scripts/build/service_build.js"></script>
+    <script src="minium.manager/scripts/build/router.build.js"></script>
+    <script src="minium.manager/scripts/build/controller.build.js"></script>
+    <script src="minium.manager/scripts/build/controller.build.from.jenkins.js"></script>
+    <script src="minium.manager/scripts/build/service.build.js"></script>
 
       <!-- Dashboard -->
-    <script src="minium.manager/scripts/dashboard/router_dashboard.js"></script>
-    <script src="minium.manager/scripts/dashboard/controller_dashboard.js"></script>
+    <script src="minium.manager/scripts/dashboard/router.dashboard.js"></script>
+    <script src="minium.manager/scripts/dashboard/controller.dashboard.js"></script>
 
     <!-- Features -->
-    <script src="minium.manager/scripts/feature/router_feature.js"></script>
-    <script src="minium.manager/scripts/feature/controller_feature.js"></script>
-    <script src="minium.manager/scripts/feature/service_feature.js"></script>
+    <script src="minium.manager/scripts/feature/router.feature.js"></script>
+    <script src="minium.manager/scripts/feature/controller.feature.js"></script>
+    <script src="minium.manager/scripts/feature/service.feature.js"></script>
 
 
     <!-- MINIUM DEVELOPER -->
@@ -151,23 +155,23 @@
     <script src="minium.developer/scripts/config.js"></script>
 
     <!-- File open/new -->
-    <script src="minium.developer/scripts/file/service_file_system.js"></script>
-    <script src="minium.developer/scripts/file/controller_file.js"></script>
-    <script src="minium.developer/scripts/file/controller_open.file.js"></script>
-    <script src="minium.developer/scripts/file/controller_new_file.js"></script>
+    <script src="minium.developer/scripts/file/service.file.system.js"></script>
+    <script src="minium.developer/scripts/file/controller.file.js"></script>
+    <script src="minium.developer/scripts/file/controller.open.file.js"></script>
+    <script src="minium.developer/scripts/file/controller.new.file.js"></script>
     <!-- Editor Area -->
-    <script src="minium.developer/scripts/editor.area/controller_editor.area.js"></script>
-    <script src="minium.developer/scripts/editor.area/controller_editor.area.multitab.js"></script>
-    <script src="minium.developer/scripts/editor.area/controller_configs.editor.area.js"></script>
-    <script src="minium.developer/scripts/editor.area/controller_editor.area.backends.js"></script>
-    <script src="minium.developer/scripts/editor.area/router_editor.area.js"></script>
+    <script src="minium.developer/scripts/editor.area/controller.editor.area.js"></script>
+    <script src="minium.developer/scripts/editor.area/controller.editor.area.multitab.js"></script>
+    <script src="minium.developer/scripts/editor.area/controller.configs.editor.area.js"></script>
+    <script src="minium.developer/scripts/editor.area/controller.editor.area.backends.js"></script>
+    <script src="minium.developer/scripts/editor.area/router.editor.area.js"></script>
     <script src="minium.developer/scripts/editor.area/service.minium.editor.tabs.js"></script>
 
     <!-- Selector gadget -->
     <script src="minium.developer/scripts/selector.gadget/controller.selector.gadget.js"></script>
 
     <!-- PUPINO-IDE PREFERENCES-->
-    <script src="minium.developer/scripts/preferences/controller_preferences.js"></script>
+    <script src="minium.developer/scripts/preferences/controller.preferences.js"></script>
 
     <!-- END OF MINIUM DEVELOPER -->
 

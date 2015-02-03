@@ -20,7 +20,7 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
     $scope.collapseAll = function() {
         $scope.expandedNodes = [];
     };
-    
+
     $scope.readCookie = function(name) {
         var nameEQ = name + "=";
         var ca = document.cookie.split(';');
@@ -41,6 +41,5 @@ var GlobalController = function($scope, $modal, $http, $state, $log, $location, 
 
         return true;
     }
-
 
 };

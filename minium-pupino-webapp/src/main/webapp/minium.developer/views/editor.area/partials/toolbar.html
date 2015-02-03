@@ -5,7 +5,7 @@
             <a href="#" class="dropdown-toggle"> File <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                    <a  ui-sref="global.multi.newFile">
+                    <a modal state="global.editorarea.newFile">
                         <i class="fa fa-file"></i>
                         <span class="ladda-label">Create File</span>
                     </a>
@@ -87,7 +87,7 @@
             <a href="#" class="dropdown-toggle">Other actions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li>
-                        <a  modal state="global.multi.configs">
+                        <a  modal state="global.editorarea.configs">
                         <span class="fa fa-list"></span>
                         <span class="ladda-label">Launch Browser</span>
                     </a>
@@ -99,7 +99,7 @@
                     </a>
                 </li>
                 <li>
-                    <a  modal state="global.multi.help">
+                    <a  modal state="global.editorarea.help">
                         <span class="fa fa-info-circle"></span>
                         <span class="ladda-label">Help</span>
                     </a>
@@ -117,7 +117,7 @@
         <!-- OTHER ACTIONS -->
         <li class="dropdown" on-toggle="toggled(open)">
             <a href="#" class="dropdown-toggle">Preferences <span class="caret"></span></a>
-            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+            <ul class="dropdown-menu editorarea-level" role="menu" aria-labelledby="dropdownMenu">
                 <!-- <li class="dropdown-submenu">
                     <a tabindex="-1" href="#">Theme</a>
                     <ul class="dropdown-menu">
@@ -135,7 +135,7 @@
                 </li> -->
 
                 <li>
-                    <a href modal state="global.multi.preferences">
+                    <a href modal state="global.editorarea.preferences">
                         <i class="fa fa-arrow-circle-o-down"></i>
                         <span class="ladda-label">Preferences</span>
                     </a>

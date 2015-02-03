@@ -772,3 +772,11 @@ treecontrol.tree-classic li .tree-selected {
 .modal-with-bg-color .modal-body{
     padding: 0px;
 }
+
+
+/**
+ * SPLITTER SIDE BAR CUSTOM CSS
+ */
+.splitter_panel{
+    position: absolute;
+}

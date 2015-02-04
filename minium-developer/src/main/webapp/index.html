@@ -100,18 +100,12 @@
     <!-- endbuild -->
 
     <!-- Ace editor -->
+    <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
     <script src="bower_components/ace-builds/src/ace.js"></script>
     <script src="bower_components/ace-builds/src/ext-language_tools.js"></script>
-    <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
+
     <script src="scripts/app/app.js"></script>
     <script src="scripts/app/app.constants.js"></script>
-
-    <script src="scripts/components/auth/auth.service.js"></script>
-    <script src="scripts/components/auth/principal.service.js"></script>
-    <script src="scripts/components/auth/services/account.service.js"></script>
-    <script src="scripts/components/auth/services/activate.service.js"></script>
-    <script src="scripts/components/auth/services/password.service.js"></script>
-    <script src="scripts/components/auth/services/register.service.js"></script>
     <script src="scripts/components/form/form.directive.js"></script>
     <script src="scripts/components/language/language.service.js"></script>
     <script src="scripts/components/language/language.controller.js"></script>
@@ -123,20 +117,6 @@
     <script src="scripts/components/navbar/navbar.controller.js"></script>
     <script src="scripts/components/util/truncate.filter.js"></script>
     <script src="scripts/components/util/base64.service.js"></script>
-    <script src="scripts/app/account/account.js"></script>
-    <script src="scripts/app/account/activate/activate.js"></script>
-    <script src="scripts/app/account/activate/activate.controller.js"></script>
-    <script src="scripts/app/account/login/login.js"></script>
-    <script src="scripts/app/account/login/login.controller.js"></script>
-    <script src="scripts/app/account/logout/logout.js"></script>
-    <script src="scripts/app/account/logout/logout.controller.js"></script>
-    <script src="scripts/app/account/password/password.js"></script>
-    <script src="scripts/app/account/password/password.controller.js"></script>
-    <script src="scripts/app/account/password/password.directive.js"></script>
-    <script src="scripts/app/account/register/register.js"></script>
-    <script src="scripts/app/account/register/register.controller.js"></script>
-    <script src="scripts/app/account/settings/settings.js"></script>
-    <script src="scripts/app/account/settings/settings.controller.js"></script>
     <script src="scripts/app/admin/admin.js"></script>
     <script src="scripts/app/admin/audits/audits.js"></script>
     <script src="scripts/app/admin/audits/audits.controller.js"></script>
@@ -153,14 +133,9 @@
     <script src="scripts/app/error/error.js"></script>
     <script src="scripts/app/main/main.js"></script>
     <script src="scripts/app/main/main.controller.js"></script>
-    <script src="scripts/components/auth/services/sessions.service.js"></script>
-    <script src="scripts/components/auth/provider/auth.session.service.js"></script>
-    <script src="scripts/app/account/sessions/sessions.js"></script>
-    <script src="scripts/app/account/sessions/sessions.controller.js"></script>
     <script src="scripts/app/admin/tracker/tracker.js"></script>
     <script src="scripts/app/admin/tracker/tracker.controller.js"></script>
     <script src="scripts/components/tracker/tracker.service.js"></script>
-
 
     <!-- Ace editor -->
     <script src="minium.developer/ext/ace/gherkin.js"></script>

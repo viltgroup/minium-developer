@@ -1,0 +1,18 @@
+{
+  "generator-jhipster": {
+    "baseName": "miniumdev",
+    "packageName": "minium.tools.dev",
+    "packageFolder": "minium/tools/dev",
+    "authenticationType": "session",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "h2Memory",
+    "prodDatabaseType": "mysql",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "7"
+  }
+}

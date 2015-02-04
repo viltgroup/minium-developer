@@ -3,18 +3,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <groupId>org.springframework.boot</groupId>
-        <version>1.2.0.RELEASE</version>
-        <relativePath/>
+        <groupId>minium</groupId>
+        <artifactId>minium-magic</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
+        <relativePath>../minium-magic</relativePath>
     </parent>
 
     <groupId>minium.tools</groupId>
-    <artifactId>minium-pupino</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <artifactId>minium-tools</artifactId>
     <packaging>pom</packaging>
 
-    <name>Minium Pupino</name>
+    <name>Minium Tools</name>
 
     <prerequisites>
         <maven>3.0.0</maven>
@@ -67,12 +66,10 @@
 	</properties>
     
     <modules>
-    	<module>minium-pupino-webapp</module>
-    	<module>minium-pupino-common</module>
-    	<module>minium-pupino-core</module>
-    	<module>minium-pupino-cucumber-archetype</module>
-    	<module>minium-developer</module>
-    	<module>minium-manager</module>
+    	<module>minium-tools-webapp</module>
+    	<module>minium-tools-common</module>
+    	<module>minium-tools-core</module>
+	<module>minium-developer</module>
     </modules>
 
     <dependencies>
@@ -370,17 +367,14 @@
 		<dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-junit</artifactId>
-            <version>${cucumber.version}</version>
         </dependency>
 		<dependency>
             <groupId>info.cukes</groupId>
             <artifactId>cucumber-rhino</artifactId>
-            <version>${cucumber.version}</version>
         </dependency>
         <dependency>
             <groupId>minium</groupId>
             <artifactId>minium-script-rhinojs</artifactId>
-            <version>${minium.version}</version>
             <exclusions>
             	<exclusion>
             		<artifactId>guava</artifactId>
@@ -391,17 +385,22 @@
         <dependency>
             <groupId>minium</groupId>
             <artifactId>minium-webelements</artifactId>
-            <version>${minium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>minium</groupId>
+            <artifactId>minium-script-rhinojs</artifactId>
         </dependency>
         <dependency>
             <groupId>minium</groupId>
             <artifactId>minium-visualelements</artifactId>
-            <version>${minium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>minium</groupId>
+            <artifactId>minium-script-rhinojs</artifactId>
         </dependency>
         <dependency>
 	        <groupId>org.seleniumhq.selenium</groupId>
 	        <artifactId>selenium-java</artifactId>
-	        <version>2.44.0</version>
 	        <exclusions>
 	        	<exclusion>
 	        		<artifactId>selenium-htmlunit-driver</artifactId>

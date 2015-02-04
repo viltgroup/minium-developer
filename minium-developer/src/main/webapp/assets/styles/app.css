@@ -542,15 +542,15 @@ div.inline {
 
 treecontrol.tree-classic li.tree-collapsed i {
     padding: 1px 10px;
-    background: url("/icons/folder5.png") no-repeat;
+    background: url("/assets/images/icons/folder5.png") no-repeat;
 }
 treecontrol.tree-classic li.tree-expanded i {
     padding: 1px 10px;
-    background: url("/icons/folder99.png") no-repeat;
+    background: url("/assets/images/icons/folder99.png") no-repeat;
 }
 treecontrol.tree-classic li.tree-leaf i {
     padding: 1px 10px;
-    background: url("/icons/file.png") no-repeat;
+    background: url("/assets/images/icons/file.png") no-repeat;
 }
 treecontrol ul {
     cursor: pointer;

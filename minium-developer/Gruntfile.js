@@ -92,6 +92,13 @@ module.exports = function (grunt) {
         },
         connect: {
             proxies: [
+		{
+                    context: '/app',
+                    host: 'localhost',
+                    port: 8080,
+                    https: false,
+                    changeOrigin: false
+                },
                 {
                     context: '/api',
                     host: 'localhost',

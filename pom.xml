@@ -46,7 +46,6 @@
         <junit.version>4.11</junit.version>
         
         <!-- Other libraries -->
-        <guava.version>18.0</guava.version>
         <minium.version>2.0.0-SNAPSHOT</minium.version>
         <cucumber.version>1.2.0</cucumber.version>
         <cucumber.rest.version>1.2.1-SNAPSHOT</cucumber.rest.version>
@@ -66,18 +65,11 @@
 	</properties>
     
     <modules>
-    	<module>minium-tools-webapp</module>
-    	<module>minium-tools-common</module>
-    	<module>minium-tools-core</module>
-	<module>minium-developer</module>
+		<module>minium-developer</module>
+		<module>minium-tools-fs</module>
     </modules>
 
     <dependencies>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-core</artifactId>
@@ -476,6 +468,16 @@
 	    <scope>provided</scope>
         </dependency>
     </dependencies>
+    
+    <dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>minium.tools</groupId>
+				<artifactId>minium-tools-fs</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
     <build>
         <pluginManagement>

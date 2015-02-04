@@ -4,8 +4,8 @@ angular.module('miniumdevApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('home', {
-                parent: 'site',
-                url: '/',
+                parent: 'global',
+                url: '/editor',
                 data: {
                     roles: []
                 },

@@ -1,0 +1,47 @@
+<!-- /.content -->
+<div id="tree-bar" ng-class="{'editor': !multiTab, 'editorarea-editor': multiTab}">
+    <ul class="treeview-menu" style="display: block;text-transform: initial;">
+        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
+            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
+        </treecontrol>
+    </ul>
+</div>
+
+<section class="sidebar">
+    <!-- search form -->
+    <!-- /.search form -->
+    <!-- sidebar menu: : style can be found in sidebar.less -->
+    <ul>
+
+        <li class="tree-panel">
+            <ul class="list-inline">
+                <li class="dropdown">
+                    <a href title="Save" ng-click="saveFile()">
+                        <i class="fa fa-save"></i>
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a href title="Set Theme" ng-click="collapseAll()">
+                        <i class="fa fa-minus-square-o"></i>
+                    </a>
+                </li>
+
+                <li class="dropdown">
+                    <a href title="Search File" modal state='global.editorarea.open'>
+                        <i class="fa fa-search"></i>
+                    </a>
+                </li>
+
+
+                <li class="pull-right">
+                    <a href title="New file" modal state="global.editorarea.newFile">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                </li>
+
+
+            </ul>
+        </li>
+    </ul>
+</section>
+<!-- /.sidebar -->

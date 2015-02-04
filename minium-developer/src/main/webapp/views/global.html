@@ -1,7 +1,9 @@
 <header class="header">
     <a href="#/editor" class="logo navbar-brand">
         <span class="col-md-6 first">Minium </span>
-        <span class="second"><small>Developer</small></span>
+        <span class="second" ng-show="$state.current.name === 'global.editorarea'"><small>Developer</small></span>
+
+        <span class="second" ng-show="$state.current.name !== 'global.editorarea'"><small>Manager</small></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -155,3 +157,80 @@
 
     </nav>
 </header>
+
+<!---********************************************** HEADER END ***********-->
+<div class="wrapper row-offcanvas row-offcanvas-left">
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="left-side sidebar-offcanvas" id="sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- search form -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="form.searchQuery" ng-change="search()" />
+                    <span class="input-group-btn">
+                        <button type='button' class="btn btn-flat">
+                            <i class="glyphicon glyphicon-search" ></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+
+            <div class="list-group">
+                <a ng-repeat="item in results | orderBy : 'uri' | limitTo: 5" ng-click="select(item)" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{item.name}}</h4>
+                    <p class="list-group-item-text nowrap hideoverflow">{{item.relativeUri | unescape}}</p>
+                </a>
+            </div>
+            <!-- /.search form -->
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul class="sidebar-menu">
+                <!-- <li ng-class="getClass('#/dashboard')">
+                    <a href="#/dashboard">
+                        <i class="glyphicon glyphicon-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li> -->
+
+                <!--  <li ng-class="getClass('#/editor')">
+                    <a ui-sref="global.editorarea">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        <span translate="global.menu.editor">Editor</span>
+                    </a>
+                </li> -->
+
+                <li ng-class="getClass('#/editor')">
+                    <a ui-sref="global.editorarea">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        <span>Editor</span>
+                    </a>
+                </li>
+
+                <li ng-class="getClass('#/project')">
+                    <a ui-sref="global.project">
+                        <i class="glyphicon glyphicon-list"></i>
+                        <span translate="global.menu.projects">Projects</span>
+                    </a>
+                </li>
+
+
+
+
+            </ul>
+
+            <span>
+                <!-- as a Dom element -->
+                
+            </span>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!--content-->
+    <div ui-view="content"></div>
+
+
+
+</div>
+<!-- ./wrapper -->

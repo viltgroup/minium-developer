@@ -12,12 +12,12 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import minium.pupino.config.MiniumConfiguration;
-import minium.pupino.cucumber.JsVariablePostProcessor;
-import minium.pupino.cucumber.MiniumCucumber;
+import minium.cucumber.MiniumConfiguration;
+import minium.cucumber.MiniumCucumber;
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.web.rest.StepDefinitionDTO;
+import minium.script.js.JsVariablePostProcessor;
 import net.masterthought.cucumber.json.Feature;
 
 import org.apache.commons.io.FileUtils;
@@ -63,7 +63,7 @@ public class LaunchService {
 	private ThreadPoolTaskExecutor executor;
 	private ThreadGroup threadGroup;
 	private ExecutorService executorService;
-	
+
 	private String resourcesBaseDir = "src/test/resources";
 	private ReporterParser reporter = new ReporterParser();
 	private RunNotifier notifier;

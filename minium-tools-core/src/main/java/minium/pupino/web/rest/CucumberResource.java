@@ -6,8 +6,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import minium.pupino.config.cucumber.CucumberProperties;
-import minium.pupino.config.cucumber.CucumberProperties.SnippetProperties;
+import minium.cucumber.config.CucumberProperties;
+import minium.cucumber.config.CucumberProperties.SnippetProperties;
 import minium.pupino.domain.LaunchInfo;
 import minium.pupino.service.LaunchService;
 import minium.pupino.web.method.support.BaseURL;

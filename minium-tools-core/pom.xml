@@ -13,6 +13,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>minium</groupId>
+			<artifactId>minium-cucumber</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>minium.tools</groupId>
 			<artifactId>minium-tools-common</artifactId>
 			<version>${project.version}</version>

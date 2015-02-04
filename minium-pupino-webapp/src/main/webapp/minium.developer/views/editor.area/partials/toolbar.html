@@ -1,5 +1,5 @@
 <!-- Collect the nav links, forms, and other content for toggling -->
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+<div class="collapse navbar-collapse" id="toolbar" >
     <ul class="nav navbar-nav">
         <li class="dropdown" on-toggle="toggled(open)">
             <a href="#" class="dropdown-toggle"> File <span class="caret"></span></a>
@@ -29,7 +29,7 @@
 
         <!-- RUN options -->
         <li class="dropdown" on-toggle="toggled(open)">
-            <a href="#" class="dropdown-toggle">Run <span class="caret"></span></a>
+            <a href class="dropdown-toggle">Run <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
                 <li ng-class="{'disabled': (mode === 'JS')}">
                     <a href ng-click="launchCucumber()" title="Run all tests" a-disabled="(mode === 'JS')">
@@ -116,7 +116,7 @@
 
         <!-- OTHER ACTIONS -->
         <li class="dropdown" on-toggle="toggled(open)">
-            <a href="#" class="dropdown-toggle">Preferences <span class="caret"></span></a>
+            <a href class="dropdown-toggle">Preferences <span class="caret"></span></a>
             <ul class="dropdown-menu editorarea-level" role="menu" aria-labelledby="dropdownMenu">
                 <!-- <li class="dropdown-submenu">
                     <a tabindex="-1" href="#">Theme</a>

@@ -3,6 +3,7 @@
 angular.module('minium.developer')
     .controller('EditorAreaMultiTabController', function($rootScope, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
+        alert($scope.cenas)
         //initialize the service to manage the instances
         var editors = MiniumEditor;
 
@@ -92,7 +93,7 @@ angular.module('minium.developer')
                     //console.log($scope.selected.item)
                     //set the mode
                     $scope.mode = editor.mode;
-                    $state.go("global.editorarea", {
+                    $state.go("global.editorarea.sub", {
                         path: editor.relativeUri
                     }, {
                         location: 'replace', //  update url and replace
@@ -145,10 +146,16 @@ angular.module('minium.developer')
                 $scope.selected.item = newEditor.selected;
                 activeID = newEditor.id;
                 $scope.mode = newEditor.mode;
+
+                editors.hightlightLine(10, activeSession, "failed");
+                editors.hightlightLine(12, activeSession, "failed");
+
             }, function(errorPayload) {
                 //the promise was rejected
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
             });
+
+
         };
 
         $scope.getSession = function() {
@@ -211,8 +218,6 @@ angular.module('minium.developer')
                 stompClient.connect({}, function(frame) {
                     var suffix = frame.headers;
 
-                    console.log(suffix)
-                    console.log(JSON.stringify(frame))
                     stompClient.subscribe("/tests/" + session_id, function(message) {
                         var body = message.body;
                         var testMessage = eval('(' + body + ')');
@@ -369,7 +374,7 @@ angular.module('minium.developer')
             if (node.type == "FILE") {
                 $scope.loadFile($scope.selectedNode.relativeUri);
                 //need to remove this because of the search and new file
-                $state.go("global.editorarea", {
+                $state.go("global.editorarea.sub", {
                     path: $scope.selectedNode.relativeUri
                 }, {
                     location: 'replace', //  update url and replace

@@ -1,6 +1,6 @@
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, SnippetsProvider, EvalService, TabFactory, editorPreferences) {
+miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, SnippetsProvider, StepSnippetsProvider, EvalService, TabFactory, editorPreferences) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -474,6 +474,11 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
 
         console.log(snippets)
         snippetManager.register(snippets, "gherkin");
+
+
+        //step snippets
+        snippets = StepSnippetsProvider.all();
+         snippetManager.register(snippets, "javascript");
     }
 
     //////////////////////////////////////////////////////////////////
@@ -765,6 +770,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
         scope.launch(launchParams);
     };
 
+    
     return new MiniumEditor;
 
 });

@@ -664,7 +664,7 @@ treecontrol.tree-classic li .tree-selected {
     width: 270px;
     overflow: auto;
     overflow-x: scroll;
-    margin-top: -690px;
+    margin-top: -660px;
 }
 .editor {
     margin-top: -680px;
@@ -682,7 +682,7 @@ treecontrol.tree-classic li .tree-selected {
     width: 220px;
     position: absolute;
     margin-left: -275px;
-    margin-top: -725px;
+    margin-top: -710px;
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;

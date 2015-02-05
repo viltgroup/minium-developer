@@ -215,4 +215,28 @@ angular.module('miniumDeveloper.directives', [])
 
         }
     };
+})
+
+.directive('sidebarToggle', function() {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr, ctrl) {
+            var classToToggle = attr.sideBarToggle;
+            element.bind('click', function(e) {
+                e.preventDefault();
+                if ($(window).width() <= 800) {
+                    $('.row-offcanvas').toggleClass('active');
+                    $('.left-side').removeClass("collapse-left");
+                    $(".right-side").removeClass("strech");
+                    $('.row-offcanvas').toggleClass("relative");
+                } else {
+                    //Else, enable content streching
+                    $('.left-side').toggleClass("collapse-left");
+                    $(".right-side").toggleClass("strech");
+                }
+
+            });
+
+        }
+    };
 });

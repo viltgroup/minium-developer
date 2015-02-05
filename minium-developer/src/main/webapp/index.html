@@ -9,7 +9,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>miniumdev</title>
+    <title>Minium Developer</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -42,11 +42,9 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-    <div ui-view="navbar" ng-cloak=""></div>
+    <div ui-view="navbar"  ng-cloak=""></div>
     <div ui-view="sidebar" ng-cloak=""></div>
-    <div class="container">
-        <div class="full" ui-view="content"></div>
-    </div>
+    <div class="full" ui-view="content"></div>
 
     <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
         <script>
@@ -96,6 +94,7 @@
     <script src="bower_components/angular-timer/dist/angular-timer.js"></script>
     <script src="bower_components/jquery.splitter/js/jquery.splitter-0.14.0.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+     <script src="bower_components/jsonpath/lib/jsonpath.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -153,6 +152,8 @@
     <script src="minium.developer/scripts/file/controller.file.js"></script>
     <script src="minium.developer/scripts/file/controller.open.file.js"></script>
     <script src="minium.developer/scripts/file/controller.new.file.js"></script>
+    <!-- Tree Nav -->
+    <script src="minium.developer/scripts/tree.nav/controller.tree.nav.js"></script>
     <!-- Editor Area -->
     <script src="minium.developer/scripts/editor.area/controller.editor.area.js"></script>
     <script src="minium.developer/scripts/editor.area/controller.editor.area.multitab.js"></script>

@@ -4,25 +4,32 @@ miniumDeveloper
     .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, $urlRouterProvider) {
 
         $stateProvider
+
+        $stateProvider
             .state('global.editorarea', {
-                parent: 'global',
+                abstract: true,
                 url: "/editor/*path",
                 views: {
                     'content@': {
                         templateUrl: "minium.developer/views/editor.area/index.html",
-                        controller: "EditorAreaMultiTabController",
+                        controller: 'EditorAreaController'
                     }
-                },
-                data: {
-                    roles: []
-                },
-                resolve: {
-                    mainTranslatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate,$translatePartialLoader) {
-                        $translatePartialLoader.addPart('main');
-                        return $translate.refresh();
-                    }]
                 }
             })
+            .state('global.editorarea.sub', {
+                url: '',
+                views: {
+                    'view1@global.editorarea': {
+                        controller: "EditorAreaMultiTabController",
+                        templateUrl: 'minium.developer/views/editor.area/partials/editors.html',
+                    },
+                    'treeNav@global.editorarea': {
+                        controller: "TreeNavController",
+                        templateUrl: 'minium.developer/views/editor.area/partials/tree-nav.html',
+                    }
+                }
+            });
+    
                 
         modalStateProvider
             .state('global.editorarea.newFile', {
@@ -60,7 +67,7 @@ miniumDeveloper
         });
 
         //register backend
-        modalStateProvider.state('global.editorarea.preferences', {
+        modalStateProvider.state('global.editorarea.sub.preferences', {
             templateUrl: 'minium.developer/views/preferences/preferences.html',
             controller: 'PreferencesController'
         });

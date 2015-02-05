@@ -2,10 +2,10 @@ angular.module('miniumdevApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('tracker', {
-                parent: 'admin',
+                parent: 'log',
                 url: '/tracker',
                 data: {
-                    roles: ['ROLE_ADMIN']
+                    roles: []
                 },
                 views: {
                     'content@': {

@@ -4,10 +4,10 @@ angular.module('miniumdevApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('logs', {
-                parent: 'admin',
+                parent: 'global',
                 url: '/logs',
                 data: {
-                    roles: ['ROLE_ADMIN']
+                    roles: []
                 },
                 views: {
                     'content@': {

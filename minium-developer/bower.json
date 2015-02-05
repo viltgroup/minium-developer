@@ -30,7 +30,7 @@
     "angular-ui-ace": "~0.2.3",
     "lodash": "latest",
     "moment": "latest",
-    "jsonpath": "latest",
+    "jsonpath": "*",
     "ladda": "~0.9.4",
     "toastr": "~2.1.0",
     "font-awesome": "~4.2.0",

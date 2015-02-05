@@ -77,6 +77,44 @@ miniumDeveloper.factory('SnippetsProvider', function() {
         }
     };
 })
+
+
+miniumDeveloper.factory('StepSnippetsProvider', function() {
+
+    var KEYWORD = {
+        GIVEN: "Given", // optionally you can give the object properties and methods
+        WHEN: "When",
+        THEN: "Then"
+    };
+
+    var createStep = function(keyword) {
+        return keyword + "(/^${1:step}'(.*?)'$/, function(${2:arg}) { \n\n });"
+    }
+
+    return {
+        all: function() {
+            return [{
+                name: "When",
+                trigger: "when",
+                content: [
+                    createStep(KEYWORD.WHEN)
+                ].join("\n")
+            }, {
+                name: "Given",
+                trigger: "given",
+                content: [
+                    createStep(KEYWORD.GIVEN)
+                ].join("\n")
+            }, {
+                name: "Then",
+                trigger: "then",
+                content: [
+                    createStep(KEYWORD.THEN)
+                ].join("\n")
+            }];
+        }
+    };
+})
 miniumDeveloper.factory('ReportService', function($resource) {
     return $resource('mocks/result.json', {}, {
         getData: {
@@ -274,7 +312,7 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '">' + fileName + ' <span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close" ></span></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '" name="' + fileName + '">' + fileName + '<span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close" ></span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);

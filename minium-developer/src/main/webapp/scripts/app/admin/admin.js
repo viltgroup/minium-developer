@@ -5,6 +5,6 @@ angular.module('miniumdevApp')
         $stateProvider
             .state('admin', {
                 abstract: true,
-                parent: 'site'
+                parent: 'global'
             });
     });

@@ -44,17 +44,17 @@ angular.module('miniumdevApp', [
     //Cache everything except rest api requests
     httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
 
-    $urlRouterProvider.otherwise('/editor');
+    $urlRouterProvider.otherwise('/editor/');
     $stateProvider.state('global', {
         'abstract': true,
         views: {
             'navbar@': {
                 templateUrl: 'scripts/components/navbar/navbar.html',
-                controller: 'NavbarController'
+                // controller: 'NavbarController'
             },
             'sidebar@': {
                 templateUrl: 'scripts/components/sidebar/sidebar.html',
-                controller: 'NavbarController'
+                // controller: 'NavbarController'
             }
         },
         resolve: {

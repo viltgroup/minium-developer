@@ -70,7 +70,8 @@
     	<module>minium-tools-common</module>
     	<module>minium-tools-core</module>
 	<module>minium-developer</module>
-    </modules>
+    <module>minium-developer-e2e-tests-tmp</module>
+  </modules>
 
     <dependencies>
         <dependency>

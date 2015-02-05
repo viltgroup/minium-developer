@@ -14,6 +14,7 @@ import java.util.concurrent.Executors;
 
 import minium.cucumber.MiniumConfiguration;
 import minium.cucumber.MiniumCucumber;
+import minium.cucumber.rest.SimpleGlue;
 import minium.developer.cucumber.reports.ReporterParser;
 import minium.developer.web.rest.LaunchInfo;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
@@ -44,7 +45,6 @@ import com.google.common.collect.Lists;
 import cucumber.runtime.Backend;
 import cucumber.runtime.RuntimeOptions;
 import cucumber.runtime.StepDefinition;
-import cucumber.runtime.rest.SimpleGlue;
 
 @Service
 public class LaunchService {

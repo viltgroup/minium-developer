@@ -6,8 +6,11 @@ import java.util.Arrays;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import minium.cucumber.MiniumConfiguration;
 import minium.developer.browser.BrowserLauncher;
 import minium.developer.config.Constants;
+import minium.script.rhinojs.RhinoConfiguration;
+import minium.tools.fs.config.FileSystemConfiguration;
 
 import org.apache.catalina.Context;
 import org.slf4j.Logger;
@@ -21,11 +24,13 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
-@ComponentScan
+@Configuration
+@Import({ MiniumConfiguration.class, RhinoConfiguration.class, FileSystemConfiguration.class })
 @EnableAutoConfiguration
 public class Application implements EmbeddedServletContainerCustomizer {
 

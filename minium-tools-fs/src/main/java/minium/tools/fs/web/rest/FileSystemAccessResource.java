@@ -46,7 +46,7 @@ import com.google.common.collect.Sets;
 @ConfigurationProperties(prefix = "fs", locations = "classpath:pupino.yml", ignoreUnknownFields = false)
 public class FileSystemAccessResource {
 
-    @Autowired
+    @Autowired(required = false)
     private List<AutoFormatter> autoFormatters = Lists.newArrayList();
 
     @Autowired

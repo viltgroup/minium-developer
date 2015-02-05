@@ -2,7 +2,6 @@ package minium.developer.config;
 
 import java.util.Arrays;
 import java.util.EnumSet;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.DispatcherType;
@@ -12,8 +11,6 @@ import javax.servlet.ServletException;
 
 import minium.developer.web.filter.CachingHttpHeadersFilter;
 import minium.developer.web.filter.StaticResourcesProductionFilter;
-import minium.tools.fs.web.method.support.AntPathHandlerMethodArgumentResolver;
-import minium.tools.fs.web.method.support.BaseURLHandlerMethodArgumentResolver;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +20,12 @@ import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.web.method.support.HandlerMethodArgumentResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
-public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
+public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
     private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
@@ -59,13 +54,6 @@ public class WebConfigurer extends WebMvcConfigurerAdapter implements ServletCon
         // CloudFoundry issue, see https://github.com/cloudfoundry/gorouter/issues/64
         mappings.add("json", "text/html;charset=utf-8");
         container.setMimeMappings(mappings);
-    }
-
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-        argumentResolvers.add(new AntPathHandlerMethodArgumentResolver());
-        argumentResolvers.add(new BaseURLHandlerMethodArgumentResolver());
     }
 
     /**

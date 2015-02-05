@@ -24,6 +24,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
@@ -31,6 +32,7 @@ import org.springframework.core.env.SimpleCommandLinePropertySource;
 
 @Configuration
 @Import({ MiniumConfiguration.class, RhinoConfiguration.class, FileSystemConfiguration.class })
+@ComponentScan
 @EnableAutoConfiguration
 public class Application implements EmbeddedServletContainerCustomizer {
 

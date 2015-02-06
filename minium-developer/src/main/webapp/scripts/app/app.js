@@ -25,6 +25,13 @@ angular.module('miniumdevApp', [
         $rootScope.previousStateParams = fromParams;
     });
 
+    $rootScope.$on('$locationChangeStart', function(ev, next, current) {
+        // We need the path component of `next`. We can either process `next` and 
+        // spit out its path component, or simply use $location.path(). I go with
+        // the latter.
+        var nextPath = $location.path();
+    });
+
     $rootScope.back = function() {
         // If previous state is 'activate' or do not exist go to 'home'
         if ($rootScope.previousStateName === 'activate' || $state.get($rootScope.previousStateName) === null) {

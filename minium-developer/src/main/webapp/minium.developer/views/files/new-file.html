@@ -21,9 +21,8 @@
                 <tr ng-repeat="file in fs.current.children | orderBy:['type','name']">
                     <td>
                         <span class="fa-stack">
-                        <!-- FOLDER -->
-                          <i class="fa fa-circle fa-stack-2x text-info" ng-if="file.type == 'DIR'"></i>
-                          <i class="fa fa-folder-o fa-stack-1x fa-inverse" ng-if="file.type == 'DIR'"></i>
+                          <!-- FOLDER -->
+                          <img src="/assets/images/icons/folder5.png"  width="16" height="16" ng-if="file.type == 'DIR'"/>
 
                           <!-- FILE -->
                           <img src="/assets/images/icons/feature.png" width="16" height="16" ng-if="file.type == 'FILE'">

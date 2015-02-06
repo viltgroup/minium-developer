@@ -9,7 +9,7 @@ angular.module('minium.developer')
         $scope.selected = {};
         $scope.selectedNode = "";
 
-         $scope.resultsSummary = {};
+        $scope.resultsSummary = {};
 
         //init variables
         $scope.testExecuting = false;
@@ -55,4 +55,26 @@ angular.module('minium.developer')
         };
 
 
+        //REFACTOR put this in a directive or service 
+        //search what the best way to do this.
+        //value to check if thres any editor dirty
+        $scope.isDirty = false;
+        window.onbeforeunload = function(e) {
+            var message = 'Are you sure you want to leave this page?';
+            if (isDirty) { 
+                return message; 
+            } 
+        };
+        
+        
+        $scope.$on('$locationChangeStart', function(event, nextPath, current) {
+            if ( nextPath.indexOf("editor") == -1 && isDirty )
+                var answer = confirm("Are you sure you want to leave this page?")
+            if (!answer) {
+                event.preventDefault();
+            }
+        });
+
+
     });
+    

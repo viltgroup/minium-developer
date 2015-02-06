@@ -27,7 +27,7 @@ miniumDeveloper
             is: regexpMatches,
             pattern: /.*/
         });
-        
+
         $stateProvider
             .state('global.editorarea', {
                 abstract: true,
@@ -48,44 +48,47 @@ miniumDeveloper
                     },
                     'treeNav@global.editorarea': {
                         controller: "TreeNavController",
-                        templateUrl: 'minium.developer/views/editor.area/partials/tree-nav.html',
+                        templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
+                    },
+                    'toolBar@global.editorarea': {
+                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
                     }
                 }
             });
 
 
         modalStateProvider
-            .state('global.editorarea.newFile', {
+            .state('global.editorarea.sub.newFile', {
                 templateUrl: "minium.developer/views/files/new-file.html",
                 controller: "NewFileController"
             });
 
         modalStateProvider
-            .state('global.editorarea.open', {
+            .state('global.editorarea.sub.open', {
                 templateUrl: "minium.developer/views/files/open.file.html",
                 controller: "OpenFileController"
             });
 
         modalStateProvider
-            .state('global.editorarea.results', {
+            .state('global.editorarea.sub.results', {
                 templateUrl: "minium.developer/views/editor.area/modal/launch.html",
                 controller: "LaunchController"
             })
 
         //configuration to execute the file
-        modalStateProvider.state('global.editorarea.configs', {
+        modalStateProvider.state('global.editorarea.sub.configs', {
             templateUrl: "minium.developer/views/editor.area/modal/configs.html",
             controller: "ConfigsController"
         });
 
         //register backend
-        modalStateProvider.state('global.editorarea.registerBackend', {
+        modalStateProvider.state('global.editorarea.sub.registerBackend', {
             templateUrl: "minium.developer/views/editor.area/modal/register-backend.html",
             controller: "BackendsController"
         });
 
         //register backend
-        modalStateProvider.state('global.editorarea.help', {
+        modalStateProvider.state('global.editorarea.sub.help', {
             templateUrl: "minium.developer/views/editor.area/modal/help.html"
         });
 
@@ -94,4 +97,4 @@ miniumDeveloper
             templateUrl: 'minium.developer/views/preferences/preferences.html',
             controller: 'PreferencesController'
         });
-    });
+    })

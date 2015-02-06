@@ -3,7 +3,6 @@
 angular.module('minium.developer')
     .controller('EditorAreaMultiTabController', function($rootScope, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
-        alert($scope.cenas)
         //initialize the service to manage the instances
         var editors = MiniumEditor;
 
@@ -28,11 +27,11 @@ angular.module('minium.developer')
         $scope.hasBreakPoints = false;
         $scope.clearMarkers = function() {
             // $scope.markerIds.forEach(function(markerId) {
-            //     activeSession.session.removeMarker(markerId);
+            //     $scope.activeSession.session.removeMarker(markerId);
             // });
             // $scope.markerIds = [];
-            activeSession.getSession().clearBreakpoints();
-            activeSession.getSession().setAnnotations([]);
+            $scope.activeSession.getSession().clearBreakpoints();
+            $scope.activeSession.getSession().setAnnotations([]);
         }
 
         //to know when the execution was stopped
@@ -57,24 +56,12 @@ angular.module('minium.developer')
             //$('#launchModal').modal('show');
 
             if (annotations)
-                launchTestSession.getSession().setAnnotations(annotations);
+                $scope.launchTestSession.getSession().setAnnotations(annotations);
             //remove the lock in test execution
             $scope.testExecuting = false;
         }
 
-        $scope.resultsSummary = {};
-
-        //init variables
-        $scope.testExecuting = false;
-        //mode of the open file
-        $scope.mode = "";
-
-        //store the active instance of the editor
-        var activeSession = null;
-        //store the editor where the test are launched 
-        var launchTestSession = null;
-
-        var activeID = null;
+       
         /**
          * Initialize tabs
          */
@@ -85,10 +72,10 @@ angular.module('minium.developer')
 
                 if (editor !== null) {
                     //console.log(editor)
-                    activeSession = editor.instance;
+                    $scope.activeSession = editor.instance;
                     $scope.selected.item = editor.selected;
-                    activeID = editor.id;
-                    activeSession.focus();
+                    $scope.activeID = editor.id;
+                    $scope.activeSession.focus();
 
                     //console.log($scope.selected.item)
                     //set the mode
@@ -123,41 +110,7 @@ angular.module('minium.developer')
                 $scope.addEmptyTab();
             }
         });
-        //is the actual file selected
-        //every time we move to other tab 
-        //this value is being update
-        $scope.selected = {};
-
-
-        //load the file and create a new editor instance with the file loaded
-        $scope.loadFile = function(props) {
-            //create an empty file
-            var promise = FileLoader.loadFile(props, editors);
-
-            console.log(promise)
-
-            promise.then(function(result) {
-                //success handler
-                console.log(result)
-                var newEditor = result;
-                console.log(newEditor)
-                activeSession = newEditor.instance;
-                activeSession.focus();
-                $scope.selected.item = newEditor.selected;
-                activeID = newEditor.id;
-                $scope.mode = newEditor.mode;
-
-                editors.hightlightLine(10, activeSession, "failed");
-                editors.hightlightLine(12, activeSession, "failed");
-
-            }, function(errorPayload) {
-                //the promise was rejected
-                toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
-            });
-
-
-        };
-
+        
         $scope.getSession = function() {
             console.log($scope.selected.item)
         }
@@ -177,7 +130,7 @@ angular.module('minium.developer')
         $scope.multiTab = true;
 
         $scope.setTheme = function(themeName) {
-            editors.setTheme(activeSession, themeName);
+            editors.setTheme($scope.activeSession, themeName);
         }
 
         /**
@@ -248,21 +201,21 @@ angular.module('minium.developer')
                         var markerId;
                         switch (step.status) {
                             case "failed":
-                                editors.hightlightLine((step.line - 1), launchTestSession, "failed");
-                                // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
+                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                                // markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
                                 break;
                             case "passed":
-                                editors.hightlightLine((step.line - 1), launchTestSession, "passed");
-                                //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
+                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
+                                //markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
                                 break;
                             case "executing":
-                                editors.hightlightLine((step.line - 1), launchTestSession, "breakpoint");
-                                // markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
+                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
+                                // markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
                                 //breakpoint(step.line - 1);
                                 break;
                             case "undefined":
-                                editors.hightlightLine((step.line - 1), launchTestSession, "undefined");
-                                //markerId = activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
+                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
+                                //markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
                                 break;
                             default: //do nothing
                         }
@@ -278,7 +231,7 @@ angular.module('minium.developer')
          *
          */
         $scope.saveFile = function() {
-            editors.saveFile(activeSession);
+            editors.saveFile($scope.activeSession);
         }
 
         /**
@@ -287,7 +240,7 @@ angular.module('minium.developer')
          */
         $scope.activateSelectorGadget = function() {
             if ($scope.mode == editors.modeEnum.JS) {
-                editors.activateSelectorGadget(activeSession);
+                editors.activateSelectorGadget($scope.activeSession);
             }
         }
 
@@ -296,7 +249,7 @@ angular.module('minium.developer')
          */
         $scope.evaluate = function() {
             if ($scope.mode == editors.modeEnum.JS) {
-                editors.evaluate(activeSession);
+                editors.evaluate($scope.activeSession);
             }
         }
 
@@ -311,127 +264,8 @@ angular.module('minium.developer')
          * LAUnch test
          */
         $scope.launchCucumber = function() {
-            editors.launchCucumber(activeSession);
+            editors.launchCucumber($scope.activeSession);
         }
-
-        /**
-         *   Tree view  controller
-         */
-
-        $scope.dataForTheTree = [];
-
-        $scope.fs = {
-            current: {}
-        };
-        var firstLoad = true;
-        var asyncLoad = function(node) {
-
-            var params = {
-                path: node.relativeUri || ""
-            };
-
-            node.children = FS.list(params, function() {
-                //sort the child by name
-                node.children.sort(predicatBy("name"))
-                _.each(node.children, function(item) {
-                    // tree navigation needs a label property
-
-                    item.label = item.name;
-                    if (firstLoad) {
-                        $scope.dataForTheTree.push(item);
-                    }
-
-                });
-                firstLoad = false;
-            });
-        };
-
-        $scope.loadChildren = function(item) {
-            // if (item.childrenLoaded) return;
-            asyncLoad(item);
-            // item.childrenLoaded = true;
-        };
-
-        function predicatBy(prop) {
-            return function(a, b) {
-                if (a[prop] > b[prop]) {
-                    return 1;
-                } else if (a[prop] < b[prop]) {
-                    return -1;
-                }
-                return 0;
-            }
-        }
-
-
-        $scope.selectedNode = "";
-        $scope.expandedNodes = [];
-        //console.log($scope.expandedNodes);
-        $scope.showSelected = function(node) {
-
-            $scope.selectedNode = node;
-            //console.log($scope.selectedNode)
-            if (node.type == "FILE") {
-                $scope.loadFile($scope.selectedNode.relativeUri);
-                //need to remove this because of the search and new file
-                $state.go("global.editorarea.sub", {
-                    path: $scope.selectedNode.relativeUri
-                }, {
-                    location: 'replace', //  update url and replace
-                    inherit: false,
-                    notify: false
-                });
-            } else { //if the is on click on a file
-                $scope.loadChildren(node);
-                //expand the node
-                $scope.expandedNodes.push(node)
-            }
-
-        };
-
-        $scope.showToggle = function(node, expanded) {
-            //console.log(node.children)
-            $scope.loadChildren(node);
-        };
-
-        console.debug($scope.fs.current)
-        asyncLoad($scope.fs.current);
-
-
-        /**
-         * NAVIGATION FOLDERS Functions
-         */
-        $scope.opts = {
-            injectClasses: {
-                ul: "a1",
-                li: "a2",
-                liSelected: "a7",
-                iExpanded: "a3",
-                iCollapsed: "a4",
-                iLeaf: "a5",
-                isFeature: "a2",
-                label: "a6",
-                labelSelected: "a8"
-            },
-            isLeaf: function(node) {
-                if (node.type === "DIR")
-                    return false;
-                else
-                    return true;
-            },
-            isFeature: function(node) {
-                if (node.type === "DIR")
-                    return false;
-                else
-                    return true;
-            },
-            dirSelectable: false
-        };
-
-        $scope.collapseAll = function() {
-            $scope.expandedNodes = [];
-        };
-
 
         //functions used in the 2 modules
         $scope.isEmptyObject = function(obj) {
@@ -459,7 +293,7 @@ angular.module('minium.developer')
         var executionWasStopped;
         $scope.launch = function(launchParams) {
 
-            launchTestSession = activeSession;
+            $scope.launchTestSession = $scope.activeSession;
             //check if the test already executing
             if ($scope.testExecuting == true) {
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_EXECUTING);

@@ -1,14 +1,37 @@
 'use strict';
 
+
+
+
 miniumDeveloper
-    .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, $urlRouterProvider) {
+    .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
 
-        $stateProvider
+        //////////////////////////////////////////////////////////////////
+        //
+        // Angular encode the url 
+        // with this features/preferences.features => features%252Fpreferences.features
+        // So we need to register a custom type 
+        // from https://github.com/angular-ui/ui-router/issues/1557
+        //
+        //////////////////////////////////////////////////////////////////
+        function valToString(val) {
+            return val != null ? val.toString() : val;
+        }
 
+        function regexpMatches(val) { /*jshint validthis:true */
+            return this.pattern.test(val);
+        }
+        $urlMatcherFactoryProvider.type("uriType", {
+            encode: valToString,
+            decode: valToString,
+            is: regexpMatches,
+            pattern: /.*/
+        });
+        
         $stateProvider
             .state('global.editorarea', {
                 abstract: true,
-                url: "/editor/*path",
+                url: '/editor/{path:uriType}',
                 views: {
                     'content@': {
                         templateUrl: "minium.developer/views/editor.area/index.html",
@@ -29,8 +52,8 @@ miniumDeveloper
                     }
                 }
             });
-    
-                
+
+
         modalStateProvider
             .state('global.editorarea.newFile', {
                 templateUrl: "minium.developer/views/files/new-file.html",

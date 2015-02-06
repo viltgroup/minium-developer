@@ -11,7 +11,6 @@ import minium.pupino.domain.Build;
 import minium.pupino.domain.Project;
 import minium.pupino.repository.ProjectRepository;
 import minium.pupino.service.BuildService;
-import minium.pupino.service.FormatService;
 import minium.pupino.service.JenkinsService;
 import minium.pupino.web.method.support.AntPath;
 import minium.pupino.web.rest.dto.BrowsersDTO;
@@ -36,7 +35,7 @@ import com.offbytwo.jenkins.model.JobWithDetails;
 @RequestMapping("/app/rest")
 public class JenkinsResource {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(FormatService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(JenkinsResource.class);
 
 	@Autowired
 	private JenkinsService jenkinService;
@@ -85,7 +84,7 @@ public class JenkinsResource {
 			httpStatus = HttpStatus.CREATED;
 		} catch (IOException e) {
 			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-			e.printStackTrace();	
+			LOGGER.error("Error creating a build {}",e);
 		}
 		
 		return new ResponseEntity<String>("Created", httpStatus);

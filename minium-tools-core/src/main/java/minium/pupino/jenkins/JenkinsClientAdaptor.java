@@ -77,8 +77,7 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			// update the job with the new configuration in jenkins
 			jenkins.updateJob(jobName, updatedXml);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.error("Error ", e);
 		}
 	}
 
@@ -93,7 +92,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 
 	@Override
 	public JobWithDetails createBuild(String jobName, BrowsersDTO buildConfig, boolean updatedConfig) throws IOException, URISyntaxException {
-		// jobName = "server";
 		JobWithDetails job = jenkins.getJob(jobName);
 		if (updatedConfig)
 			this.updateJobConfiguration(jobName, buildConfig);
@@ -172,14 +170,6 @@ public class JenkinsClientAdaptor implements JenkinsClient {
 			summary = reporter.getSummaryFromFeatures(features);
 			buildDTO = new BuildDTO(1, b.getNumber(), b.getUrl(), bd.isBuilding(), bd.getDescription(), bd.getDuration(), bd.getFullDisplayName(), bd.getId(),
 					bd.getTimestamp(), artifact, features, summary, "","");
-			// } else {
-			// summary = null;
-			// buildDTO = new BuildDTO(b.getNumber(), b.getUrl(),
-			// bd.getActions(), bd.isBuilding(), bd.getDescription(),
-			// bd.getDuration(),
-			// bd.getFullDisplayName(), bd.getId(), bd.getTimestamp(), result,
-			// summary);
-			// }
 			buildsDTO.add(buildDTO);
 		}
 		return buildsDTO;

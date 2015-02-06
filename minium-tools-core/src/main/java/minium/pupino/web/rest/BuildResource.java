@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import minium.pupino.domain.Build;
 import minium.pupino.domain.Project;
-import minium.pupino.jenkins.ReporterParser;
 import minium.pupino.repository.BuildRepository;
 import minium.pupino.service.BuildService;
 import minium.pupino.web.method.support.AntPath;
@@ -40,9 +39,6 @@ public class BuildResource {
 
     @Inject
     private BuildRepository buildRepository;
-    
-    @Autowired
-    private ReporterParser reporter;
     
     @Autowired
 	private BuildService buildService;
@@ -82,7 +78,7 @@ public class BuildResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<BuildDTO> get(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        log.debug("REST request to get Build : {}", id);
+        log.debug("REST request to get Build with ID : {}", id);
         BuildDTO build = buildService.findOne(id);
         if (build == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -101,7 +97,7 @@ public class BuildResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<List<BuildDTO>> getByProject(@RequestBody Project project, HttpServletResponse response) throws IOException, URISyntaxException {
-        log.debug("REST request to get Build : {}", project);
+        log.debug("REST request to get the list of builds of the project: {}", project);
         List<BuildDTO> builds = buildService.findByProject(project);
         return new ResponseEntity<>(builds, HttpStatus.OK);
     }
@@ -116,7 +112,7 @@ public class BuildResource {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
     public ResponseEntity<BuildDTO> getLastBuild(@RequestBody Project project, HttpServletResponse response) throws IOException, URISyntaxException {
-        log.debug("REST request to get Build : {}", project);
+        log.debug("REST request to get last build for project: {}", project);
         
         BuildDTO build = buildService.findLastBuild(project);
         return new ResponseEntity<>(build, HttpStatus.OK);

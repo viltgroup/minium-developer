@@ -22,7 +22,7 @@ public class CucumberJUnitListener extends RunListener {
 	private String sessionID;
 
 	@Autowired
-	public CucumberJUnitListener(final MessageSendingOperations<String> messagingTemplate,String sessionID) {
+	public CucumberJUnitListener(final MessageSendingOperations<String> messagingTemplate, String sessionID) {
 		this.messagingTemplate = messagingTemplate;
 		passed = 0;
 		failing = 0;

@@ -20,7 +20,7 @@ import minium.BasicElements;
 import minium.Elements;
 import minium.FreezableElements;
 import minium.actions.debug.DebugInteractable;
-import minium.script.rhinojs.RhinoEngine;
+import minium.developer.project.AbstractProjectContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +37,13 @@ public class EvalResource {
     private static final Logger logger = LoggerFactory.getLogger(EvalResource.class);
 
     @Autowired
-    private RhinoEngine engine;
+    private AbstractProjectContext projectContext;
 
     @RequestMapping(value = "/eval")
     @ResponseBody
     public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
         try {
-            Object result = engine.eval(expression, lineNumber);
+            Object result = projectContext.getJsEngine().eval(expression, lineNumber);
             if (result instanceof Elements) {
                 Elements elements = (Elements) result;
                 boolean canHighlight = elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
@@ -63,7 +63,7 @@ public class EvalResource {
             throw new EvalException(e);
         }
     }
-    
+
     /**
      * Clean the scope
      */

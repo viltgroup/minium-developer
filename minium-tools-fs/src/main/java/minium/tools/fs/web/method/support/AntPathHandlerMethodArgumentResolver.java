@@ -51,22 +51,22 @@ public class AntPathHandlerMethodArgumentResolver implements HandlerMethodArgume
 		return decode(extractedPaths);
 	}
 
-	private String decode(String extractedPaths) {
-		return Joiner.on(URL_PATH_SEPARATOR).join(Collections2.transform(Arrays.asList(extractedPaths.split(URL_PATH_SEPARATOR)), new Function<String, String>() {
-			@Override
-			public String apply(String input) {
-				try {
-					return URLDecoder.decode(input, Charsets.UTF_8.name());
-				} catch (UnsupportedEncodingException e) {
-					return input;
-				}
-			}
-		}));
-	}
-
 	@Override
 	public boolean supportsParameter(MethodParameter methodParameter) {
 		AntPath antMatcherPath = methodParameter.getParameterAnnotation(AntPath.class);
 		return antMatcherPath != null;
 	}
+
+    String decode(String extractedPaths) {
+    	return Joiner.on(URL_PATH_SEPARATOR).join(Collections2.transform(Arrays.asList(extractedPaths.split(URL_PATH_SEPARATOR)), new Function<String, String>() {
+    		@Override
+    		public String apply(String input) {
+    			try {
+    				return URLDecoder.decode(input, Charsets.UTF_8.name());
+    			} catch (UnsupportedEncodingException e) {
+    				return input;
+    			}
+    		}
+    	}));
+    }
 }

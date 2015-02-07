@@ -1,16 +1,13 @@
 package minium.developer.web.rest;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
-import minium.developer.service.LaunchService;
+import minium.developer.project.CucumberProjectContext;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
-import minium.tools.fs.web.method.support.BaseURL;
 import net.masterthought.cucumber.json.Feature;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,32 +24,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CucumberResource {
 
 	@Autowired
-	private LaunchService launchService;
-
-	@Autowired
-	private CucumberProperties cucumberProperties;
+	private CucumberProjectContext projectContext;
 
     @RequestMapping(value = "/launch", method = RequestMethod.POST)
     @ResponseBody
-    public Feature launch(@BaseURL URI baseUri, @RequestBody LaunchInfo launchInfo,HttpServletRequest request) throws IOException {
-        return launchService.launch(baseUri, launchInfo,request.getSession().getId());
+    public Feature launch(@RequestBody LaunchInfo launchInfo,HttpServletRequest request) throws IOException {
+        return projectContext.launchCucumber(launchInfo, request.getSession().getId());
     }
 
     @RequestMapping(value = "/snippets", method = RequestMethod.GET)
     @ResponseBody
     public List<SnippetProperties> getSnippets() throws IOException {
-        return cucumberProperties.getSnippets();
+        return projectContext.getSnippets();
     }
 
     @RequestMapping(value = "/stepDefinitions", method = RequestMethod.GET)
     @ResponseBody
     public List<StepDefinitionDTO> getStepDefinitions() throws IOException {
-        return launchService.getStepDefinitions();
+        return projectContext.getStepDefinitions();
     }
 
     @RequestMapping(value = "/stop", method = RequestMethod.POST)
     public ResponseEntity<String>  stop() throws IOException, SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
-        launchService.stopLaunch();
+        projectContext.cancel();
         return new ResponseEntity<String>("OK", HttpStatus.OK);
     }
 

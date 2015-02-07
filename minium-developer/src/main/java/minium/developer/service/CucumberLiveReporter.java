@@ -16,17 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-import javax.servlet.ServletContext;
-
 import minium.developer.web.rest.dto.StepDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.google.common.collect.Queues;
 
@@ -35,24 +30,17 @@ public class CucumberLiveReporter implements Formatter, Reporter {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CucumberLiveReporter.class);
 
 	private Queue<Step> queue = Queues.newArrayDeque();
-
 	private String uri;
-
 	private StepDTO stepDTO;
-
 	private WebApplicationContext webApplicationContext;
-
 	private Integer exampleLine;
-
 	private List<Result> results;
-	
-	private String sessionID;
-	
-	public CucumberLiveReporter() {
-		ServletContext servletContext = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession()
-				.getServletContext();
-		webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
-		sessionID = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getSession().getId();
+	private String sessionId;
+    private MessageSendingOperations<String> messagingTemplate;
+
+	public CucumberLiveReporter(String sessionId, MessageSendingOperations<String> messagingTemplate) {
+        this.sessionId = sessionId;
+        this.messagingTemplate = messagingTemplate;
 	}
 
 	@Override
@@ -63,19 +51,17 @@ public class CucumberLiveReporter implements Formatter, Reporter {
     public void result(Result result) {
 		Step step = queue.poll();
 		int line = step.getLine();
-		
-		@SuppressWarnings("unchecked")
-		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
+
 		// check if step has a dataTable
 		if (step.getRows() != null) {
 			for (DataTableRow dt : step.getRows()) {
 				stepDTO = new StepDTO(step.getName(), dt.getLine(), uri, "executing");
-				messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
+				messagingTemplate.convertAndSend("/cucumber/"+ sessionId, stepDTO);
 			}
 		}
 		stepDTO = new StepDTO(step.getName(), line, uri, result.getStatus());
 		LOGGER.info("Step {} ({}:{}) got result {}", step.getName(), uri, line, result.getStatus());
-		messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
+		messagingTemplate.convertAndSend("/cucumber/"+ sessionId, stepDTO);
 
 		// store the results of a scenario outline
 		if (exampleLine != null) {
@@ -137,9 +123,7 @@ public class CucumberLiveReporter implements Formatter, Reporter {
 			exampleLine = scenario.getLine();
 			stepDTO = new StepDTO(scenario.getName(), exampleLine, uri, "executing");
 			LOGGER.info("Scenario {} ({}:{}) got result {}", scenario.getName(), uri, exampleLine, "Executing");
-			@SuppressWarnings("unchecked")
-			MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
-			messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
+			messagingTemplate.convertAndSend("/cucumber/"+ sessionId, stepDTO);
 			results = new ArrayList<Result>();
 		}
 	}
@@ -161,7 +145,7 @@ public class CucumberLiveReporter implements Formatter, Reporter {
 		stepDTO = new StepDTO(scenario.getDescription(), scenario.getLine(), uri, r);
 		@SuppressWarnings("unchecked")
 		MessageSendingOperations<String> messagingTemplate = webApplicationContext.getBean(MessageSendingOperations.class);
-		messagingTemplate.convertAndSend("/cucumber/"+ sessionID, stepDTO);
+		messagingTemplate.convertAndSend("/cucumber/"+ sessionId, stepDTO);
 		results.clear();
 		// reset the example line
 		exampleLine = null;

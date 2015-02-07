@@ -1,0 +1,8 @@
+minium.config:
+  foo: bar
+  stuff:
+    - name: some stuff
+      desc: some stuff there
+    - name: more stuff
+      desc: more stuff there
+    - with_replacement: some ${minium.config.foo}

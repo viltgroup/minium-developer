@@ -18,7 +18,8 @@ public class CucumberJUnitListener extends RunListener {
 	private final MessageSendingOperations<String> messagingTemplate;
 	private TestExecutionDTO testExecution;
 	private int passed;
-	private int failing;
+	@SuppressWarnings("unused")
+    private int failing;
 	private String sessionID;
 
 	@Autowired
@@ -35,7 +36,7 @@ public class CucumberJUnitListener extends RunListener {
 	@Override
     public void testRunStarted(Description description) throws java.lang.Exception {
 		testExecution = new TestExecutionDTO(Integer.toString(description.testCount()), "total", description.getMethodName());
-		messagingTemplate.convertAndSend("/tests/"+ sessionID, testExecution);
+		messagingTemplate.convertAndSend("/tests/" + sessionID, testExecution);
 		LOGGER.info("Number of testcases to execute : " + description.testCount());
 	}
 
@@ -64,7 +65,7 @@ public class CucumberJUnitListener extends RunListener {
 		if (description.getMethodName() != null) {
 			passed++;
 			testExecution = new TestExecutionDTO(Integer.toString(passed), "passed", description.getMethodName());
-			messagingTemplate.convertAndSend("/tests/"+ sessionID, testExecution);
+			messagingTemplate.convertAndSend("/tests/" + sessionID, testExecution);
 			LOGGER.info("Finished execution of test case : " + description.getMethodName());
 		}
 	}
@@ -76,7 +77,7 @@ public class CucumberJUnitListener extends RunListener {
     public void testFailure(Failure failure) throws java.lang.Exception {
 		failing++;
 		testExecution = new TestExecutionDTO(failure.getMessage(), "failing", failure.getDescription().getMethodName());
-		messagingTemplate.convertAndSend("/tests/"+ sessionID, testExecution);
+		messagingTemplate.convertAndSend("/tests/" + sessionID, testExecution);
 		LOGGER.info("Execution of test case failed : " + failure.getMessage());
 	}
 

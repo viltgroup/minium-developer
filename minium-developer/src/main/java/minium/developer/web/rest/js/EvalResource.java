@@ -21,6 +21,7 @@ import minium.Elements;
 import minium.FreezableElements;
 import minium.actions.debug.DebugInteractable;
 import minium.developer.project.AbstractProjectContext;
+import minium.developer.project.Evaluation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,9 +42,9 @@ public class EvalResource {
 
     @RequestMapping(value = "/eval")
     @ResponseBody
-    public synchronized EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
+    public EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
         try {
-            Object result = projectContext.getJsEngine().eval(expression, lineNumber);
+            Object result = projectContext.eval(new Evaluation(expression, null, lineNumber));
             if (result instanceof Elements) {
                 Elements elements = (Elements) result;
                 boolean canHighlight = elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
@@ -64,10 +65,28 @@ public class EvalResource {
         }
     }
 
+    @RequestMapping(value = "/stacktrace")
+    @ResponseBody
+    public StackTraceElement[] stacktrace() {
+        return projectContext.getExecutionStackTrace();
+    }
+
+    @RequestMapping(value = "/cancel")
+    @ResponseBody
+    public void cancel() {
+        projectContext.cancel();
+    }
+
+    @RequestMapping(value = "/isRunning")
+    @ResponseBody
+    public boolean isRunning() {
+        return projectContext.isRunning();
+    }
+
     /**
      * Clean the scope
      */
-    @RequestMapping(value = "/clean",method = POST)
+    @RequestMapping(value = "/clean", method = POST)
     public synchronized void clean() {
         //TODO
     	logger.info("clean Done");

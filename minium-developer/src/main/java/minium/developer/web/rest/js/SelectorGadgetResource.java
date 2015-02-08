@@ -18,13 +18,12 @@ package minium.developer.web.rest.js;
 import static java.lang.String.format;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import minium.Elements;
 import minium.developer.internal.webelements.SelectorGadgetWebElements;
+import minium.developer.project.AbstractProjectContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -36,11 +35,10 @@ public class SelectorGadgetResource {
 
 	private static final Logger log = LoggerFactory.getLogger(SelectorGadgetResource.class);
 
-	@Autowired
-	@Lazy
-	private Elements root;
-
 	private boolean activated = false;
+
+    @Autowired
+    private AbstractProjectContext projectContext;
 
 	@RequestMapping(value = "/activate", method = { POST, GET })
 	public ResponseEntity<Void> activate() throws Exception {
@@ -87,6 +85,6 @@ public class SelectorGadgetResource {
 	}
 
 	protected SelectorGadgetWebElements getSelectorGadgetWebElements() {
-		return root.as(SelectorGadgetWebElements.class);
+		return projectContext.by().root().as(SelectorGadgetWebElements.class);
 	}
 }

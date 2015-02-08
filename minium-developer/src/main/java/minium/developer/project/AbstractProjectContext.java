@@ -1,5 +1,6 @@
 package minium.developer.project;
 
+import static minium.developer.internal.webelements.SelectorGadgetWebModules.selectorGadgetModule;
 import static minium.script.rhinojs.RhinoWebModules.rhinoModule;
 import static minium.web.WebModules.baseModule;
 import static minium.web.WebModules.combine;
@@ -10,8 +11,11 @@ import static minium.web.WebModules.positionModule;
 
 import java.io.File;
 
+import minium.actions.debug.DebugInteractable;
 import minium.cucumber.config.ConfigProperties;
+import minium.developer.internal.webelements.SelectorGadgetWebElements;
 import minium.script.js.JsEngine;
+import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.JsFunctionWebElements;
 import minium.script.rhinojs.RhinoEngine;
 import minium.script.rhinojs.RhinoProperties;
@@ -58,12 +62,28 @@ public class AbstractProjectContext implements DisposableBean {
         this.webDriverProperties = getAppConfigBean("minium.webdriver", WebDriverProperties.class);
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);
         this.webDriver = new WebDriverFactory().create(webDriverProperties);
-        this.by = new WebFinder<>(createElementsFactory().createRoot(), DefaultWebElements.class, JsFunctionWebElements.class);
+        this.by = new WebFinder<>(createElementsFactory().createRoot(), DefaultWebElements.class, JsFunctionWebElements.class, DebugInteractable.class, SelectorGadgetWebElements.class);
         this.jsEngine = createJsEngine();
     }
 
-    public JsEngine getJsEngine() {
-        return jsEngine;
+    public WebFinder<DefaultWebElements> by() {
+        return by;
+    }
+
+    public Object eval(Evaluation evaluation) {
+        return jsEngine.eval(evaluation.getExpression(), evaluation.getLineNumber());
+    }
+
+    public StackTraceElement[] getExecutionStackTrace() {
+        return jsEngine.getExecutionStackTrace();
+    }
+
+    public boolean isRunning() {
+        return jsEngine.isRunning();
+    }
+
+    public void cancel() {
+        jsEngine.cancel();
     }
 
     @Override
@@ -79,7 +99,7 @@ public class AbstractProjectContext implements DisposableBean {
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
-        rhinoEngine.put("by", by);
+        new MiniumJsEngineAdapter(by).adapt(rhinoEngine);
         rhinoEngine.putJson("config", configProperties.toJson());
         return rhinoEngine;
     }
@@ -112,7 +132,7 @@ public class AbstractProjectContext implements DisposableBean {
 
     protected WebModule createWebModule() {
         WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
-        return combine(baseModule(webDriver), positionModule(), conditionalModule(), interactableModule(performer), rhinoModule(), debugModule(performer));
+        return combine(baseModule(webDriver), positionModule(), conditionalModule(), interactableModule(performer), rhinoModule(), debugModule(performer), selectorGadgetModule());
     }
 
     protected WebElementsFactory<DefaultWebElements> createElementsFactory() {

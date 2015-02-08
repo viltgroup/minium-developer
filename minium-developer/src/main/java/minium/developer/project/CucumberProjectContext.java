@@ -8,7 +8,6 @@ import java.net.URI;
 import java.util.List;
 
 import minium.cucumber.MiniumBackend;
-import minium.cucumber.MiniumCucumber.GenericTest;
 import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.OptionsProperties;
 import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
@@ -107,10 +106,8 @@ public class CucumberProjectContext extends AbstractProjectContext {
             @Override
             protected List<StepDefinitionDTO> doCall(Context cx, Scriptable scope) throws RuntimeException {
                 try {
-                    ResourceLoader resourceLoader = new MultiLoader(GenericTest.class.getClassLoader());
-                    MiniumBackend miniumBackend = new MiniumBackend(resourceLoader, cx, scope);
-                    List<RemoteBackend> remoteBackends = getRemoteBackends(projectCucumberProperties);
-                    List<Backend> allBackends = ImmutableList.<Backend>builder().add(miniumBackend).addAll(remoteBackends).build();
+                    ResourceLoader resourceLoader = new MultiLoader(Thread.currentThread().getContextClassLoader());
+                    List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, projectCucumberProperties);
 
                     RuntimeBuilder runtimeBuilder = new RuntimeBuilder()
                         .withArgs(projectCucumberProperties.getOptions().toArgs())
@@ -137,9 +134,35 @@ public class CucumberProjectContext extends AbstractProjectContext {
         });
     }
 
+    @Override
+    public Object eval(Evaluation evaluation) {
+        // TODO
+        return super.eval(evaluation);
+    }
+
+    @Override
+    public StackTraceElement[] getExecutionStackTrace() {
+        if (cucumberEngine != null) {
+            return cucumberEngine.getExecutionStackTrace();
+        } else {
+            return super.getExecutionStackTrace();
+        }
+    }
+
+    @Override
+    public boolean isRunning() {
+        if (cucumberEngine != null) {
+            return cucumberEngine.isRunning();
+        }
+        return super.isRunning();
+    }
+
+    @Override
     public void cancel() {
         if (cucumberEngine != null) {
             cucumberEngine.cancel();
+        } else {
+            super.cancel();
         }
     }
 
@@ -176,10 +199,8 @@ public class CucumberProjectContext extends AbstractProjectContext {
                     try {
                         CucumberLiveReporter cucumberLiveReporter = new CucumberLiveReporter(sessionId, messagingTemplate);
 
-                        ResourceLoader resourceLoader = new MultiLoader(GenericTest.class.getClassLoader());
-                        MiniumBackend backend = new MiniumBackend(resourceLoader, cx, scope);
-                        List<RemoteBackend> remoteBackends = getRemoteBackends(cucumberProperties);
-                        List<Backend> allBackends = ImmutableList.<Backend>builder().add(backend).addAll(remoteBackends).build();
+                        ResourceLoader resourceLoader = new MultiLoader(Thread.currentThread().getContextClassLoader());
+                        List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, cucumberProperties);
 
                         RuntimeBuilder runtimeBuilder = new RuntimeBuilder()
                             .withArgs(cucumberProperties.getOptions().toArgs())
@@ -197,5 +218,12 @@ public class CucumberProjectContext extends AbstractProjectContext {
         } finally {
             cucumberEngine = null;
         }
+    }
+
+    protected List<Backend> getAllBackends(Context cx, Scriptable scope, ResourceLoader resourceLoader, CucumberProperties cucumberProperties) throws IOException {
+        MiniumBackend miniumBackend = new MiniumBackend(resourceLoader, cx, scope);
+        List<RemoteBackend> remoteBackends = getRemoteBackends(cucumberProperties);
+        List<Backend> allBackends = ImmutableList.<Backend>builder().add(miniumBackend).addAll(remoteBackends).build();
+        return allBackends;
     }
 }

@@ -57,7 +57,7 @@ public class EvalResource {
                 }
                 return new EvalResult(expression, totalCount);
             } else {
-                return new EvalResult(result);
+                return new EvalResult(projectContext.toString(result));
             }
         } catch (Exception e) {
             logger.error("Evaluation of {} failed", expression, e);

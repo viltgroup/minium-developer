@@ -93,6 +93,10 @@ public class AbstractProjectContext implements DisposableBean {
         webDriver.quit();
     }
 
+    public String toString(Object obj) {
+        return jsEngine.toString(obj);
+    }
+
     protected RhinoEngine createJsEngine() {
         RequireProperties require = new RequireProperties();
         require.getModulePaths().add(new File(resourcesDir, "modules").toURI().toString());

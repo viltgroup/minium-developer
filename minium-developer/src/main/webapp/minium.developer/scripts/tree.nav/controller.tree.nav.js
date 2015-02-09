@@ -2,17 +2,24 @@
 
 angular.module('minium.developer')
     .controller('TreeNavController', function($rootScope, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
-    
+
         /**
          *   Tree view  controller
          */
 
+        //data for the tree
         $scope.dataForTheTree = [];
-
+        //current file selected
         $scope.fs = {
             current: {}
         };
+
         var firstLoad = true;
+        //////////////////////////////////////////////////////////////////
+        //
+        // Load the files from the file system
+        //
+        //////////////////////////////////////////////////////////////////
         var asyncLoad = function(node) {
 
             var params = {
@@ -24,36 +31,28 @@ angular.module('minium.developer')
                 node.children.sort(predicatBy("name"))
                 _.each(node.children, function(item) {
                     // tree navigation needs a label property
-
                     item.label = item.name;
                     if (firstLoad) {
                         $scope.dataForTheTree.push(item);
                     }
-
                 });
                 firstLoad = false;
             });
         };
 
+        //////////////////////////////////////////////////////////////////
+        //
+        // Load childrens of an item
+        //
+        //////////////////////////////////////////////////////////////////
         $scope.loadChildren = function(item) {
             // if (item.childrenLoaded) return;
             asyncLoad(item);
             // item.childrenLoaded = true;
         };
 
-        function predicatBy(prop) {
-            return function(a, b) {
-                if (a[prop] > b[prop]) {
-                    return 1;
-                } else if (a[prop] < b[prop]) {
-                    return -1;
-                }
-                return 0;
-            }
-        }
 
 
-        
         $scope.expandedNodes = [];
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
@@ -82,9 +81,6 @@ angular.module('minium.developer')
             //console.log(node.children)
             $scope.loadChildren(node);
         };
-
-        console.debug($scope.fs.current)
-        asyncLoad($scope.fs.current);
 
 
         /**
@@ -121,6 +117,23 @@ angular.module('minium.developer')
             $scope.expandedNodes = [];
         };
 
+        function predicatBy(prop) {
+            return function(a, b) {
+                if (a[prop] > b[prop]) {
+                    return 1;
+                } else if (a[prop] < b[prop]) {
+                    return -1;
+                }
+                return 0;
+            }
+        }
 
+        //////////////////////////////////////////////////////////////////
+        //
+        // Initialize functions
+        //
+        //////////////////////////////////////////////////////////////////
+        console.debug($scope.fs.current)
+        asyncLoad($scope.fs.current);
 
     });

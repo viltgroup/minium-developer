@@ -1,6 +1,6 @@
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvider, SnippetsProvider, StepSnippetsProvider, EvalService, TabFactory, editorPreferences) {
+miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalService, TabFactory, EditorFactory, editorPreferences) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -70,33 +70,19 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
         //create the DOM elements
         TabFactory.createTab(tabUniqueId, fileProps);
 
-        // initialize the editor in the tab
-        var editor = ace.edit('editor_' + tabUniqueId);
+        //inicialize editor and create and configure the editor
+        //returns an object like an object with:
+        //an editor and the mode(type of file feature,js,yml)
+        var obj = EditorFactory.create(tabUniqueId, fileContent, this.settings);
+
+        var editor = obj.editor;
+        this.mode = obj.mode;
 
         var fileName = fileProps.name || "";
-        //create a new session and set the content
-        setAceContent(fileContent, editor);
 
-        //set the type of file extension
-        this.setTypeFile(fileName, editor);
+        //ADD EVENT HANDLERS to the editor 
+        addEventListeners(editor, fileName, this);
 
-        //change the settings of editor (themes, size, etc)
-        editorPreferences.setEditorSettings(editor, this.settings);
-
-        // resize the editor
-        editor.resize();
-
-        // add listener to input
-        listenChanged(editor, this)
-
-        //create event listeners (bind keys events)
-        bindKeys(editor, this);
-
-        //init snippets like autocompletion
-        initSnippets(editor);
-
-        //check if fileContent has fileProps
-        var fileProps = fileContent.fileProps || "";
         //add this instance to the list of editors instance
         this.editors.push({
             id: tabUniqueId,
@@ -339,74 +325,12 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
         this.deleteSession(id);
     };
 
-    MiniumEditor.prototype.setTypeFile = function(fileName, editor) {
-
-        if (/\.js$/.test(fileName)) {
-
-            var _this = this;
-
-            editor.getSession().setMode("ace/mode/javascript");
-
-            editor.commands.addCommand({
-                name: "evaluate",
-                bindKey: {
-                    win: "Ctrl-Enter",
-                    mac: "Command-Enter"
-                },
-                exec: evaluate,
-                readOnly: false // should not apply in readOnly mode
-            });
-            editor.commands.addCommand({
-                name: "activateSelectorGadget",
-                bindKey: {
-                    win: "Ctrl-Shift-C",
-                    mac: "Command-Shift-C"
-                },
-                exec: activateSelectorGadget,
-                readOnly: false // should not apply in readOnly mode
-            });
-
-            this.mode = this.modeEnum.JS;
-        }
-        if (/\.feature$/.test(fileName)) {
-
-            var _this = this;
-
-            editor.getSession().setMode("ace/mode/gherkin");
-
-            editor.commands.addCommand({
-                name: "launchCucumber",
-                bindKey: {
-                    win: "Ctrl+Enter",
-                    mac: "Ctrl+Enter"
-                },
-                exec: function(env) {
-                    console.log(_this.scope);
-                    launchCucumber(env, _this.scope);
-                },
-                readOnly: false // should not apply in readOnly mode
-            });
-
-            this.scope.subscribeMessages();
-            //set the mode
-            this.mode = this.modeEnum.FEATURE;
-        }
-
-        if (/\.yml$/.test(fileName)) {
-            editor.getSession().setMode("ace/mode/yaml");
-
-            //set the mode
-            this.mode = this.modeEnum.YAML;
-        }
-
-    }
-
     ////////////////////////////////////////////////////////////////
     //
-    // PRIVATE FUCNTIONS
+    // Handler for Mouse Wheel Event (ctrl + scroll)
+    // To resize de font of the editors
     //
     /////////////////////////////////////////////////////////////////
-
     MiniumEditor.prototype.initMouseWheelEvenHandler = function(settings) {
         //KEY EVENT FOR CTRL + SCROLL MOUSE
         var curSize;
@@ -435,51 +359,11 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
         });
     }
 
-    //////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////
     //
-    // Configure the snippets of the editor
+    // PRIVATE FUCNTIONS
     //
-    //////////////////////////////////////////////////////////////////
-    function initSnippets(editor) {
-        // autocompletion
-        var langTools = ace.require("ace/ext/language_tools");
-        //snippets
-        var snippetManager = ace.require("ace/snippets").snippetManager;
-
-        editor.setOptions({
-            // enableBasicAutocompletion: true,  //this enable a autocomplete (ctrl + space)
-            enableSnippets: true,
-            enableLiveAutocompletion: true
-        });
-
-        StepProvider.all().then(function(response) {
-
-            var util = ace.require("ace/autocomplete/util");
-            var originalRetrievePrecedingIdentifier = util.retrievePrecedingIdentifier;
-            util.retrievePrecedingIdentifier = function(text, pos, regex) {
-                if (!/^\s*(?:Given|When|Then|And|Neither)\s+/.test(text)) {
-                    return originalRetrievePrecedingIdentifier(text, pos, regex);
-                }
-                return text.replace(/^\s+/, "");
-            };
-
-            //register the snippets founded
-            snippetManager.register(response.data, "gherkin");
-        });
-
-        //snippets for scenario
-        //when we write a scenario
-        //he complete the scenario with a step
-        var snippets = SnippetsProvider.all();
-
-        console.log(snippets)
-        snippetManager.register(snippets, "gherkin");
-
-
-        //step snippets
-        snippets = StepSnippetsProvider.all();
-         snippetManager.register(snippets, "javascript");
-    }
+    /////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////
     // Put or remove the marker
@@ -491,6 +375,67 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
         } else {
             $('#save_' + tabUniqueId).addClass("hide");
         }
+    }
+
+
+    function addEventListeners(editor, fileName,that) {
+
+        specificHandlers(fileName, editor,that);
+        // add listener to input
+        listenerOnChange(editor, that)
+            //create event listeners (bind keys events)
+        bindKeys(editor, that);
+
+    }
+
+    function specificHandlers(fileName, editor,that) {
+
+        var _this = that;
+        switch (_this.mode) {
+
+            case _this.modeEnum.JS:
+                editor.commands.addCommand({
+                    name: "evaluate",
+                    bindKey: {
+                        win: "Ctrl-Enter",
+                        mac: "Command-Enter"
+                    },
+                    exec: evaluate,
+                    readOnly: false // should not apply in readOnly mode
+                });
+                editor.commands.addCommand({
+                    name: "activateSelectorGadget",
+                    bindKey: {
+                        win: "Ctrl-Shift-C",
+                        mac: "Command-Shift-C"
+                    },
+                    exec: activateSelectorGadget,
+                    readOnly: false // should not apply in readOnly mode
+                });
+                break;
+
+            case _this.modeEnum.FEATURE:
+               
+                editor.commands.addCommand({
+                    name: "launchCucumber",
+                    bindKey: {
+                        win: "Ctrl+Enter",
+                        mac: "Ctrl+Enter"
+                    },
+                    exec: function(env) {
+                        console.log(_this.scope);
+                        launchCucumber(env, _this.scope);
+                    },
+                    readOnly: false // should not apply in readOnly mode
+                });
+
+                _this.scope.subscribeMessages();
+                break;
+
+            default:
+
+        }
+
     }
 
     //////////////////////////////////////////////////////////////////
@@ -544,7 +489,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
     //   editor - instance of the editor
     //   that   - class variables
     //////////////////////////////////////////////////////////////////
-    function listenChanged(editor, that) {
+    function listenerOnChange(editor, that) {
         var _this = that;
         editor.on('input', function() {
             var tabUniqueId = getEditorID(editor);
@@ -586,9 +531,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
             updateContent(item, editor, _this, tabUniqueId)
                 //setAceContent(item, editor);
             toastr.success("File saved")
-
-            editor.getSession().getUndoManager().markClean();
-            console.log(editor.getSession().getUndoManager());
             markAsDirty(tabUniqueId, false)
 
         }, function(response) {
@@ -607,27 +549,14 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
 
         var _this = that;
 
-        if (/\.js$/.test(fileName)) {
-            //var _this = this;
-            editor.getSession().setMode("ace/mode/javascript");
-            _this.mode = _this.modeEnum.JS;
-        }
-        if (/\.feature$/.test(fileName)) {
-            setDocumentValue(item, editor, tabUniqueId);
-            //var _this = this;
-            editor.getSession().setMode("ace/mode/gherkin");
-
-            //set the mode
-            console.log(_this)
-            _this.scope.subscribeMessages();
-            _this.mode = _this.modeEnum.FEATURE;
-        }
-
-        if (/\.yml$/.test(fileName)) {
-            editor.getSession().setMode("ace/mode/yaml");
-
-            //set the mode
-            _this.mode = _this.modeEnum.YAML;
+        var mode = EditorFactory.setMode(fileName,editor);
+        switch (_this.mode) {
+            case _this.modeEnum.FEATURE:
+                setDocumentValue(item, editor, tabUniqueId);
+                _this.mode = mode;
+                _this.scope.subscribeMessages();
+                alert("asd")
+                break;
         }
         //change the settings of editor (themes, size, etc)
         editorPreferences.setEditorSettings(editor, _this.settings);
@@ -770,7 +699,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, StepProvi
         scope.launch(launchParams);
     };
 
-    
+
     return new MiniumEditor;
 
 });

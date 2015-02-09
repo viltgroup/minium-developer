@@ -39,7 +39,7 @@
         <a class="btn  btn-default" title="Save file" ng-click="saveFile()">
             <span class="fa  fa-save"></span>
         </a>
-        <a class="btn  btn-default" title="Add Editor" ng-show="multiTab" ng-click="addEmptyTab()">
+        <a class="btn  btn-default" title="Add Editor"  ng-click="addEmptyTab()">
             <span class="fa fa-plus"></span>
         </a>
     </div>
@@ -52,10 +52,10 @@
         </a>
     </div>
     <div class="btn-group">
-        <a class="btn btn-primary " title="Run test from cursor" ng-show="multiTab && (mode !== 'JS')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+        <a class="btn btn-primary " title="Run test from cursor" ng-show=" (mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
             <span class="fa  fa-play"></span> Run Test
         </a>
-        <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="mode !== 'JS'" ng-disabled="testExecuting">
+        <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(mode === 'FEATURE')" ng-disabled="testExecuting">
             <span class="fa  fa-list"></span> Run All
         </a>
         <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (mode !== 'JS')">

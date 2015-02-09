@@ -23,9 +23,10 @@ angular.module('minium.developer')
 
         $scope.activeID = null;
 
+        //init the minium editor 
+        //that manage editor and tabs
+        //service is shared by controllers
         var editors = MiniumEditor;
-
-        editors.init($scope);
 
         //load the file and create a new editor instance with the file loaded
         $scope.loadFile = function(props) {
@@ -45,9 +46,6 @@ angular.module('minium.developer')
                 $scope.activeID = newEditor.id;
                 $scope.mode = newEditor.mode;
 
-                editors.hightlightLine(10, $scope.activeSession, "failed");
-                editors.hightlightLine(12, $scope.activeSession, "failed");
-
             }, function(errorPayload) {
                 //the promise was rejected
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
@@ -59,22 +57,26 @@ angular.module('minium.developer')
         //search what the best way to do this.
         //value to check if thres any editor dirty
         $scope.isDirty = false;
-        window.onbeforeunload = function(e) {
-            var message = 'Are you sure you want to leave this page?';
-            if (isDirty) { 
-                return message; 
-            } 
-        };
-        
-        
-        $scope.$on('$locationChangeStart', function(event, nextPath, current) {
-            if ( nextPath.indexOf("editor") == -1 && isDirty )
-                var answer = confirm("Are you sure you want to leave this page?")
-            if (!answer) {
-                event.preventDefault();
+
+        window.addEventListener("beforeunload", function(e) {
+            var confirmationMessage = GENERAL_CONFIG.UNSAVED_MSG;
+
+            if ($scope.isDirty) {
+                (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+                return confirmationMessage;//Webkit, Safari, Chrome
             }
+        });
+
+        $scope.$on('$locationChangeStart', function(event, nextPath, current) {
+            if (nextPath.indexOf("editor") == -1 && $scope.isDirty) {
+                var answer = confirm(GENERAL_CONFIG.UNSAVED_MSG)
+                if (!answer) {
+                    event.preventDefault();
+                }
+            }
+
+
         });
 
 
     });
-    

@@ -5,11 +5,16 @@ angular.module('minium.developer')
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
-
         editors.init($scope);
 
         //functions needed to be here
         var runningTest = Ladda.create(document.querySelector('#runningTest'));
+
+         //to know when the execution was stopped
+        //inicialize a false
+        $scope.executionWasStopped = false;
+        //image to take screenshots
+        $scope.image = {}; 
 
         //open modal to see the execution state
         $scope.openExecution = function(argument) {
@@ -18,26 +23,17 @@ angular.module('minium.developer')
             });
         }
 
-        $scope.image = {};
+        
         $scope.takeScreenShot = function(argument) {
             $scope.image = "/app/rest/screenshot?timestamp=" + new Date().getTime();
         };
 
-        $scope.markerIds = [];
-        $scope.hasBreakPoints = false;
+        
         $scope.clearMarkers = function() {
-            // $scope.markerIds.forEach(function(markerId) {
-            //     $scope.activeSession.session.removeMarker(markerId);
-            // });
-            // $scope.markerIds = [];
             $scope.activeSession.getSession().clearBreakpoints();
             $scope.activeSession.getSession().setAnnotations([]);
         }
-
-        //to know when the execution was stopped
-        //inicialize a false
-        $scope.executionWasStopped = false;
-
+       
         //stops a launch execution
         $scope.stopLaunch = function() {
             launcherService.stop().success(function() {
@@ -61,10 +57,11 @@ angular.module('minium.developer')
             $scope.testExecuting = false;
         }
 
-       
+
         /**
          * Initialize tabs
          */
+        
         var tabs = $('#tabs').tabs({
             beforeActivate: function(event, ui) {
                 var tabId = ui.newPanel.attr('data-tab-id');
@@ -80,6 +77,7 @@ angular.module('minium.developer')
                     //console.log($scope.selected.item)
                     //set the mode
                     $scope.mode = editor.mode;
+                    alert(editor.relativeUri)
                     $state.go("global.editorarea.sub", {
                         path: editor.relativeUri
                     }, {
@@ -98,7 +96,7 @@ angular.module('minium.developer')
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
                 //the editor is dirty so check if the user 
-                var answer = confirm('If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?');
+                var answer = confirm(GENERAL_CONFIG.UNSAVED_MSG);
                 if (answer) {
                     editors.closeTab(tabUniqueId, tabs, $(this));
                 }
@@ -110,7 +108,7 @@ angular.module('minium.developer')
                 $scope.addEmptyTab();
             }
         });
-        
+
         $scope.getSession = function() {
             console.log($scope.selected.item)
         }
@@ -126,8 +124,6 @@ angular.module('minium.developer')
             $scope.loadFile("");
             editors.getEditors();
         }
-
-        $scope.multiTab = true;
 
         $scope.setTheme = function(themeName) {
             editors.setTheme($scope.activeSession, themeName);
@@ -148,6 +144,7 @@ angular.module('minium.developer')
         //to check if we already made a subscription to the sockets
         //we only need a subscription once
         var isAlreadySubscribed = false;
+
         $scope.subscribeMessages = function() {
 
             if (isAlreadySubscribed)
@@ -219,8 +216,6 @@ angular.module('minium.developer')
                                 break;
                             default: //do nothing
                         }
-                        $scope.hasBreakPoints = true;
-                        // if (markerId) $scope.markerIds.push(markerId);
                     });
                 });
             });
@@ -337,21 +332,14 @@ angular.module('minium.developer')
                 }
 
                 var feature = new FeatureFacade(data);
-                console.debug(feature);
+
                 $scope.faillingSteps = feature.notPassingsteps;
 
-                $scope.resultsSummary.passed = feature.passedSteps.length;
-                $scope.resultsSummary.failures = feature.failingSteps.length;
-                $scope.resultsSummary.skipped = feature.skippedSteps.length;
+                $scope.resultsSummary = feature.resultsSummary;
 
-                $scope.resultsSummary.runCount = feature.passedSteps.length + feature.notPassingsteps.length;
+                console.debug(feature.resultsSummary);
 
-                // //convert in millisecond
-                $scope.resultsSummary.runTime = feature.totalDuration / 1000000.0;
-
-                console.debug(feature.notPassingsteps);
-
-                annotations = _.map(feature.notPassingsteps, function(step) {
+                annotations = _.map(feature.resultsSummary.notPassingsteps, function(step) {
                     var result = step.status;
                     var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
                     var lines = msg;
@@ -416,11 +404,6 @@ angular.module('minium.developer')
                 });
             }
         }, false);
-
-
-        $scope.collapseAll = function() {
-            $scope.expandedNodes = []
-        };
 
 
         $scope.readCookie = function(name) {

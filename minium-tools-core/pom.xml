@@ -15,29 +15,11 @@
 		<dependency>
 			<groupId>minium</groupId>
 			<artifactId>minium-cucumber</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>minium.tools</groupId>
-			<artifactId>minium-tools-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-integration</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>spring-integration-core</artifactId>
-					<groupId>org.springframework.integration</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-integration</artifactId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		 -->
 	</dependencies>
 
 	<build>

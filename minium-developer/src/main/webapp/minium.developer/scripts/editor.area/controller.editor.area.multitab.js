@@ -77,7 +77,6 @@ angular.module('minium.developer')
                     //console.log($scope.selected.item)
                     //set the mode
                     $scope.mode = editor.mode;
-                    alert(editor.relativeUri)
                     $state.go("global.editorarea.sub", {
                         path: editor.relativeUri
                     }, {

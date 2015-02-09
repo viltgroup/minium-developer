@@ -1,8 +1,8 @@
 {
   "generator-jhipster": {
     "baseName": "miniumdev",
-    "packageName": "minium.tools.dev",
-    "packageFolder": "minium/tools/dev",
+    "packageName": "minium.developer",
+    "packageFolder": "minium/developer",
     "authenticationType": "session",
     "hibernateCache": "no",
     "clusteredHttpSession": "no",

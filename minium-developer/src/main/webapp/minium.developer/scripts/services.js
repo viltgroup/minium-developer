@@ -27,19 +27,6 @@ miniumDeveloper.factory('launcherService', function($http) {
         }
     };
 })
-miniumDeveloper.factory('FormatService', function($http) {
-    return {
-        file: function(path) {
-            console.debug(path);
-            return $http.post('/app/rest/format', path);
-        },
-        directory: function(path) {
-            console.debug(path);
-
-            return $http.post('/app/rest/format?action=directory', path);
-        },
-    };
-})
 
 miniumDeveloper.factory('StepProvider', function($http) {
     return {

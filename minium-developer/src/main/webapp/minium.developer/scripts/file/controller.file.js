@@ -1,6 +1,6 @@
 'use strict';
 angular.module('minium.developer')
-    .controller('FileController', function($scope, $rootScope, $state, $stateParams, $log, $location, FS, FormatService, launcherService) {
+    .controller('FileController', function($scope, $rootScope, $state, $stateParams, $log, $location, FS, launcherService) {
 
     $scope.fs = {
         current: {}

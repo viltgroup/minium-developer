@@ -13,7 +13,6 @@ import minium.tools.fs.web.method.support.AntPath;
 import minium.tools.fs.web.method.support.BaseURL;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
@@ -27,7 +26,6 @@ import com.google.common.collect.Lists;
 
 @Controller
 @RequestMapping("/app/rest/fs")
-@ConfigurationProperties(prefix = "fs", locations = "classpath:pupino.yml", ignoreUnknownFields = false)
 public class FileSystemAccessResource {
 
     @Autowired(required = false)

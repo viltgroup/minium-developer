@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('NewFileController', function($scope, $modalInstance, $state, $controller, $stateParams, $log, $location, FS, FileFactory, FormatService, launcherService, MiniumEditor) {
+    .controller('NewFileController', function($scope, $modalInstance, $state, $controller, $stateParams, $log, $location, FS, FileFactory, launcherService, MiniumEditor) {
 
     //extends the fileController
     $controller('FileController', {

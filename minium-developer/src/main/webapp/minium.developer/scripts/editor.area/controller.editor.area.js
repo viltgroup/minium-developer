@@ -63,7 +63,7 @@ angular.module('minium.developer')
 
             if ($scope.isDirty) {
                 (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-                return confirmationMessage;//Webkit, Safari, Chrome
+                return confirmationMessage; //Webkit, Safari, Chrome
             }
         });
 
@@ -78,5 +78,10 @@ angular.module('minium.developer')
 
         });
 
+
+        //TEMPORARY SOLUTION - NEDD TO PUT IN directive
+        $(window).on('resize', function() {
+           // editors.resizeEditors();
+        });
 
     });

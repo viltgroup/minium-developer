@@ -18,6 +18,12 @@ miniumDeveloper.factory('launcherService', function($http) {
         },
         stop: function() {
             return $http.post("/app/rest/stop", {});
+        },
+        isRunning: function() {
+            return $http.get("/app/rest/isRunning");
+        },
+        stepDefinitions : function(){
+            return $http.get("/app/rest/stepDefinitions");
         }
     };
 })
@@ -174,7 +180,7 @@ miniumDeveloper.factory('FeatureFacade', function() {
 
     FeatureFacade.prototype.process = function(data) {
         var r = true;
-        var notPassingsteps = jsonPath.eval(data, "$..steps[?(@.status!='PASSED')]");
+        this.notPassingsteps = jsonPath.eval(data, "$..steps[?(@.status!='PASSED')]");
         var failingSteps = jsonPath.eval(data, "$..steps[?(@.status=='FAILED')]");
         var skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
         var passedSteps = jsonPath.eval(data, "$..steps[?(@.status=='PASSED')]");
@@ -186,10 +192,11 @@ miniumDeveloper.factory('FeatureFacade', function() {
         });
 
         this.resultsSummary = {
-            runCount: passedSteps.length + notPassingsteps.length,
+            runCount: passedSteps.length + this.notPassingsteps.length,
             passed: passedSteps.length,
             failures: failingSteps.length,
             skipped: skippedSteps.length,
+            notPassingsteps: this.notPassingsteps.length,
             runTime: totalDuration / 1000000.0
         }
 
@@ -290,7 +297,7 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
 });
 
 
-miniumDeveloper.factory('SessionID', function($http, $q) {
+miniumDeveloper.service('SessionID', function($http, $q) {
     return {
         sessionId: function() {
             // the $http API is based on the deferred/promise APIs exposed by the $q service
@@ -319,7 +326,7 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
         var tabsUlElement = tabsElement.find('ul');
 
         // create a navigation bar item for the new panel
-        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '" name="' + fileName + '">' + fileName + '<span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close" ></span></li>');
+        var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '" name="' + fileName + '">' + fileName + '<span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close close-tab" ></span></li>');
 
         // add the new nav item to the DOM
         tabsUlElement.append(newTabNavElement);

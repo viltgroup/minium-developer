@@ -8,6 +8,7 @@
                 TEST_EXECUTING: "A test is already running!!",
                 FILE_NOT_FOUND: 'The file was not found!!',
                 TEST_ERROR: "Oops, something went wrong.",
+                SOCKET_CONNECT: "It was not possible to connect to the socket!!"
             },
             TEST: {
                 FAILING: "Test didn't pass!!",

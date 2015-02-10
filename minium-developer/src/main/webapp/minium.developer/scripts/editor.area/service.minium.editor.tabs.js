@@ -92,6 +92,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
             selected: fileContent
         });
 
+        //this.resizeEditors();
         return {
             id: tabUniqueId,
             instance: editor,
@@ -216,6 +217,25 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
             }
         });
         return (editor != null ? editor : null);
+    };
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get the Editor session by ID
+    //
+    // Return from the ID the instance of the editor
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.resizeEditors = function(containerHeight) {
+        var editor = null;
+        var containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - 150;
+        
+        $.each(this.editors, function(i, obj) {
+            var panel = "#editor_"+ obj.id;
+            $(panel).css({
+                'height': containerHeight
+            });
+            obj.instance.resize();
+        });
     };
 
     /////////////////////////////////////////////////////////////////
@@ -555,7 +575,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
                 setDocumentValue(item, editor, tabUniqueId);
                 _this.mode = mode;
                 _this.scope.subscribeMessages();
-                alert("asd")
                 break;
         }
         //change the settings of editor (themes, size, etc)

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -10,11 +10,11 @@ angular.module('minium.developer')
         //functions needed to be here
         var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
-         //to know when the execution was stopped
+        //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
         //image to take screenshots
-        $scope.image = {}; 
+        $scope.image = {};
 
         //open modal to see the execution state
         $scope.openExecution = function(argument) {
@@ -23,17 +23,17 @@ angular.module('minium.developer')
             });
         }
 
-        
+
         $scope.takeScreenShot = function(argument) {
             $scope.image = "/app/rest/screenshot?timestamp=" + new Date().getTime();
         };
 
-        
+
         $scope.clearMarkers = function() {
             $scope.activeSession.getSession().clearBreakpoints();
             $scope.activeSession.getSession().setAnnotations([]);
         }
-       
+
         //stops a launch execution
         $scope.stopLaunch = function() {
             launcherService.stop().success(function() {
@@ -61,7 +61,7 @@ angular.module('minium.developer')
         /**
          * Initialize tabs
          */
-        
+
         var tabs = $('#tabs').tabs({
             beforeActivate: function(event, ui) {
                 var tabId = ui.newPanel.attr('data-tab-id');
@@ -154,6 +154,7 @@ angular.module('minium.developer')
             var session_id = $scope.readCookie("JSESSIONID");
             var socket = new SockJS("/app/ws");
             var stompClient = Stomp.over(socket);
+
             //get the sessionID in the server 
             //to use it for private sockets
             //workflow : 
@@ -162,6 +163,7 @@ angular.module('minium.developer')
             //3- subscribe to a websocket with the sessionID fetched
             // TODO: Need a better solution
             SessionID.sessionId().then(function(data) {
+                //alert("sdsd")
                 session_id = data;
 
                 stompClient.connect({}, function(frame) {
@@ -217,6 +219,9 @@ angular.module('minium.developer')
                         }
                     });
                 });
+            }, function(errorPayload) {
+                //the promise was rejected
+                toastr.error(GENERAL_CONFIG.ERROR_MSG.SOCKET_CONNECT)
             });
         };
 
@@ -297,6 +302,8 @@ angular.module('minium.developer')
             //put a lock in test execution
             $scope.testExecuting = true;
 
+            startCheckIfRunning();
+
             //init values for live results
             $scope.tests.total;
             $scope.testsExecuted = 0;
@@ -337,8 +344,10 @@ angular.module('minium.developer')
                 $scope.resultsSummary = feature.resultsSummary;
 
                 console.debug(feature.resultsSummary);
-
-                annotations = _.map(feature.resultsSummary.notPassingsteps, function(step) {
+                //refactor all this logic
+                //URGENT NEED TO PUT THIS ON A MODEL
+                //CANT BE IN A CONTROLLER
+                annotations = _.map($scope.faillingSteps, function(step) {
                     var result = step.status;
                     var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
                     var lines = msg;
@@ -376,12 +385,42 @@ angular.module('minium.developer')
 
                 $scope.onFinishTestExecution(annotations);
 
-
             }).error(function() {
                 $scope.stopLaunch();
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
             });
         }
+        /**
+         * Function to check every X seconds if the test is running
+         * 
+         */
+        var checkIfRunning;
+        var startCheckIfRunning = function() {
+            if (angular.isDefined(checkIfRunning)) return;
+
+            checkIfRunning = $interval(function() {
+                launcherService.isRunning().then(function(response) {
+                    //resposnse should come as a string and be converted in a boolean
+                    $scope.testExecuting = JSON.parse(response.data);
+                    if ($scope.testExecuting === false) {
+                        stopCheckIfRunning();
+                    }
+                });
+
+            }, 2000);
+
+        }
+
+        //function to stop the interval
+        //created to check the status of the build
+        var stopCheckIfRunning = function() {
+            if (angular.isDefined(checkIfRunning)) {
+                $interval.cancel(checkIfRunning);
+                checkIfRunning = undefined;
+            }
+        }
+
+
 
         $('#miniumOnDrugs').click(function() {
             $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');

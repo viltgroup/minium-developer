@@ -26,6 +26,8 @@
 .search-results {
     cursor: pointer;
 }
+
+
 /**
  * ACE EDITOR
  */
@@ -109,7 +111,7 @@
     /* background-color: #34495E;
     color: #ECF0F1;*/
     
-    background: white;
+    background: #f4f4f4;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
 .left-side {
@@ -257,6 +259,10 @@ body > div > .header .logo {
 }
 .ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
     /*border-radius: 3px;*/
+}
+
+.close-tab{
+    float:right
 }
 /*#tabs .scroller { 
     overflow: auto; 
@@ -659,12 +665,12 @@ treecontrol.tree-classic li .tree-selected {
 
 #tree-bar {
     position: absolute;
-    margin-left: -270px;
+    margin-left: -280px;
     height: 60%;
     width: 270px;
     overflow: auto;
     overflow-x: scroll;
-    margin-top: -660px;
+    margin-top: -710px;
 }
 .editor {
     margin-top: -680px;
@@ -682,7 +688,7 @@ treecontrol.tree-classic li .tree-selected {
     width: 220px;
     position: absolute;
     margin-left: -275px;
-    margin-top: -710px;
+    margin-top: -755px;
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;

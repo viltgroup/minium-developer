@@ -1,12 +1,3 @@
-<!-- /.content -->
-<div id="tree-bar" class="editor">
-    <ul class="treeview-menu" style="display: block;text-transform: initial;">
-        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
-            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
-        </treecontrol>
-    </ul>
-</div>
-
 <section class="sidebar">
     <!-- search form -->
     <!-- /.search form -->
@@ -45,3 +36,13 @@
     </ul>
 </section>
 <!-- /.sidebar -->
+<!-- /.content -->
+<div id="tree-bar" class="editor">
+    <ul class="treeview-menu" style="display: block;text-transform: initial;">
+        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
+            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
+        </treecontrol>
+    </ul>
+</div>
+
+

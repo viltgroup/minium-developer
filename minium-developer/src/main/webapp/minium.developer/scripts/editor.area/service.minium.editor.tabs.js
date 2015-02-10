@@ -1,6 +1,6 @@
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalService, TabFactory, EditorFactory, editorPreferences) {
+miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -92,7 +92,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
             selected: fileContent
         });
 
-        //this.resizeEditors();
+        this.resizeEditors();
+
         return {
             id: tabUniqueId,
             instance: editor,
@@ -149,6 +150,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
     MiniumEditor.prototype.getSettings = function() {
         return this.settings;
     }
+
+
 
     /////////////////////////////////////////////////////////////////
     //
@@ -228,9 +231,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
         var containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - 150;
-        
+
         $.each(this.editors, function(i, obj) {
-            var panel = "#editor_"+ obj.id;
+            var panel = "#editor_" + obj.id;
             $(panel).css({
                 'height': containerHeight
             });
@@ -313,20 +316,38 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
         launchCucumber(editor, this.scope);
     };
 
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Check if there any editor dirty
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.areDirty = function() {
+        var isDirty = false;
+        var that = this;
+
+        for (var i = this.editors.length - 1; i >= 0; i--) {
+            if (this.isDirty(this.editors[i].id) == true) {
+                isDirty = true;
+                break;
+            }
+        }
+        return isDirty;
+    }
+
     ////////////////////////////////////////////////////////////////
     //
     // Check if the tab is dirty
     //
-    //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isDirty = function(id) {
-        var editor = this.getSession(id);
+        console.log(id)
         var elem = $("#save_" + id);
         console.log(elem.attr('class'))
             //check if the element is dirty
         if (elem.hasClass("hide")) {
             return false; //the element is not dirty
-        } else {
+        } else  {
             return true; //the element is dirty
         }
     };
@@ -398,9 +419,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
     }
 
 
-    function addEventListeners(editor, fileName,that) {
+    function addEventListeners(editor, fileName, that) {
 
-        specificHandlers(fileName, editor,that);
+        specificHandlers(fileName, editor, that);
         // add listener to input
         listenerOnChange(editor, that)
             //create event listeners (bind keys events)
@@ -408,7 +429,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
 
     }
 
-    function specificHandlers(fileName, editor,that) {
+    function specificHandlers(fileName, editor, that) {
 
         var _this = that;
         switch (_this.mode) {
@@ -435,7 +456,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
                 break;
 
             case _this.modeEnum.FEATURE:
-               
+
                 editor.commands.addCommand({
                     name: "launchCucumber",
                     bindKey: {
@@ -569,7 +590,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, $cookieStore, EvalServi
 
         var _this = that;
 
-        var mode = EditorFactory.setMode(fileName,editor);
+        var mode = EditorFactory.setMode(fileName, editor);
         switch (_this.mode) {
             case _this.modeEnum.FEATURE:
                 setDocumentValue(item, editor, tabUniqueId);

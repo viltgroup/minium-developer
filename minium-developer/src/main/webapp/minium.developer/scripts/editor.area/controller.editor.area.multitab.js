@@ -13,21 +13,6 @@ angular.module('minium.developer')
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
-        //image to take screenshots
-        $scope.image = {};
-
-        //open modal to see the execution state
-        $scope.openExecution = function(argument) {
-            $('#screenShotsModal').modal({
-                show: true
-            });
-        }
-
-
-        $scope.takeScreenShot = function(argument) {
-            $scope.image = "/app/rest/screenshot?timestamp=" + new Date().getTime();
-        };
-
 
         $scope.clearMarkers = function() {
             $scope.activeSession.getSession().clearBreakpoints();
@@ -276,6 +261,7 @@ angular.module('minium.developer')
                 return true;
         }
 
+        var feature;
         $scope.launchAll = function() {
             //if no file is selected
             if ($scope.selected.item === undefined)
@@ -313,9 +299,6 @@ angular.module('minium.developer')
             runningTest.start();
             $scope.tests = {};
 
-            //start to take screenshots
-            $scope.takeScreenShot();
-
             // clear markers
             $scope.clearMarkers();
 
@@ -337,7 +320,7 @@ angular.module('minium.developer')
                     return;
                 }
 
-                var feature = new FeatureFacade(data);
+                feature = new FeatureFacade(data);
 
                 $scope.faillingSteps = feature.notPassingsteps;
 
@@ -390,9 +373,12 @@ angular.module('minium.developer')
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
             });
         }
+
+
+
         /**
          * Function to check every X seconds if the test is running
-         * 
+         *
          */
         var checkIfRunning;
         var startCheckIfRunning = function() {
@@ -427,6 +413,40 @@ angular.module('minium.developer')
             $(".navbar-brand").css('background-color', '#367fa9');
             $(".navbar-brand").css('color', '#f9f9f9');
         });
+
+        //////////////////////////////////////////////////////////////////
+        //
+        // Modals Open
+        //
+        //////////////////////////////////////////////////////////////////
+        $scope.openModalReport = function(size) {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'minium.developer/views/editor.area/modal/launch.html',
+                controller: 'ReportController',
+                size: size,
+                resolve: {
+                    featureReport: function() {
+                        return feature;
+                    }
+                }
+            });
+        };
+
+        $scope.openModalExecution = function(size) {
+
+            var modalInstance = $modal.open({
+                templateUrl: 'minium.developer/views/editor.area/modal/execution.html',
+                controller: 'ExecutionController',
+                size: size,
+                resolve: {
+                    featureReport: function() {
+                        return feature;
+                    }
+                }
+            });
+        };
+
 
         //////////////////////////////////////////////////////////////////
         // EVENT HANDLER  CTLR + P 

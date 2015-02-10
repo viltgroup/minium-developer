@@ -92,6 +92,11 @@ miniumDeveloper
             templateUrl: "minium.developer/views/editor.area/modal/help.html"
         });
 
+         //register backend
+        modalStateProvider.state('global.editorarea.sub.report', {
+            templateUrl: "minium.developer/views/editor.area/modal/launch.html"
+        });
+
         //register backend
         modalStateProvider.state('global.editorarea.sub.preferences', {
             templateUrl: 'minium.developer/views/preferences/preferences.html',

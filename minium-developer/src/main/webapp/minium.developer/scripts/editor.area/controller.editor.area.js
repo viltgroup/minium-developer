@@ -53,15 +53,22 @@ angular.module('minium.developer')
         };
 
 
+        /////////////////////////////////////////////////////////////////
+        //
+        // EVENTS HANDLERS
+        //
+        /////////////////////////////////////////////////////////////////
+
         //REFACTOR put this in a directive or service 
         //search what the best way to do this.
         //value to check if thres any editor dirty
-        $scope.isDirty = false;
 
+        //TODO
+        //Another option here is when we close the window
+        //try to close tab one by one
         window.addEventListener("beforeunload", function(e) {
             var confirmationMessage = GENERAL_CONFIG.UNSAVED_MSG;
-
-            if ($scope.isDirty) {
+            if (editors.areDirty()) {
                 (e || window.event).returnValue = confirmationMessage; //Gecko + IE
                 return confirmationMessage; //Webkit, Safari, Chrome
             }
@@ -81,7 +88,7 @@ angular.module('minium.developer')
 
         //TEMPORARY SOLUTION - NEDD TO PUT IN directive
         $(window).on('resize', function() {
-           // editors.resizeEditors();
+            editors.resizeEditors();
         });
 
     });

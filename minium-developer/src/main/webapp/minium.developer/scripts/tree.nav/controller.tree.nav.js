@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($rootScope, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('TreeNavController', function( $scope, $state, FS, GENERAL_CONFIG) {
 
         /**
          *   Tree view  controller
@@ -73,6 +73,7 @@ angular.module('minium.developer')
                 $scope.loadChildren(node);
                 //expand the node
                 $scope.expandedNodes.push(node)
+
             }
 
         };

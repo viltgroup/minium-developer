@@ -365,6 +365,8 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
 });
 
 
+
+
 // this service load and store preferences from cookies
 miniumDeveloper.factory('editorPreferences', function($cookieStore) {
     var EditorPreferences = {};
@@ -408,6 +410,42 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
 
 });
 
+
+
+// This module creates and append the new elements create for new tabs
+miniumDeveloper.service('TreeBarCookies', function($cookieStore) {
+
+/**
+     * Constructor, with class name
+     */
+    this.save = function(expanded,treeData) {
+        $cookieStore.put("treeBar", JSON.stringify(expanded), {
+            expires: 365 * 5
+        });
+        var c = [{"name":"config","uri":"http://localhost:8090/fs/config/","relativeUri":"config/","size":429,"type":"DIR","lastModified":1423488700000,"label":"config"},{"name":"features","uri":"http://localhost:8090/fs/features/","relativeUri":"features/","size":2034,"type":"DIR","lastModified":1423044511000,"label":"features","children":[{"name":"Preferences.feature","uri":"http://localhost:8090/fs/features/Preferences.feature","relativeUri":"features/Preferences.feature","size":885,"type":"FILE","lastModified":1423500508000,"label":"Preferences.feature"},{"name":"SideBar.feature","uri":"http://localhost:8090/fs/features/SideBar.feature","relativeUri":"features/SideBar.feature","size":1149,"type":"FILE","lastModified":1423564825000,"label":"SideBar.feature"}]},{"name":"logback.xml","uri":"http://localhost:8090/fs/logback.xml","relativeUri":"logback.xml","size":492,"type":"FILE","lastModified":1422905820000,"label":"logback.xml"},{"name":"modules","uri":"http://localhost:8090/fs/modules/","relativeUri":"modules/","size":237311,"type":"DIR","lastModified":1423500780000,"label":"modules"},{"name":"steps","uri":"http://localhost:8090/fs/steps/","relativeUri":"steps/","size":5614,"type":"DIR","lastModified":1423504978000,"label":"steps"}]
+        alert( JSON.stringify(treeData) )
+        $cookieStore.put("treeData", JSON.stringify(treeData), {
+            expires: 365 * 5
+        });
+
+
+    }
+
+    this.get = function(dataTree){
+        var treeBar = $cookieStore.get("treeBar");
+        treeBar = treeBar ? JSON.parse(treeBar) : [];
+
+        var treeData = $cookieStore.get("treeData");
+        treeData = treeData ? JSON.parse(treeData) : dataTree;
+
+        alert(JSON.stringify(treeData))
+
+        return {
+            treeBar: treeBar,
+            treeData: treeData
+        };
+    }
+});
 
 
 // This module creates and append the new elements create for new tabs

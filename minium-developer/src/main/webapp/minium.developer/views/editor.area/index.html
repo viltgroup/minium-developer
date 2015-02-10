@@ -6,20 +6,21 @@
         <!-- /.navbar-collapse -->
     </section>
     <!-- Main content -->
+
+    <div ui-view="treeNav"></div>
+
     <section class="content container container-editor full ">
         <div ui-view="view1"></div>
-        <div ui-view="treeNav"></div>
     </section>
 
     <!-- <div ng-controller="NavbarController">
         <div ng-include="'minium.developer/views/editor.area/partials/tree-nav.html'"></div>
     </div> -->
 
+
+
 </aside>
 
-<!-- MODALS witohout substate -->
-<div ng-include="'minium.developer/views/editor.area/modal/execution.html'"></div>
-<div ng-include="'minium.developer/views/editor.area/modal/launch.html'"></div>
 
 
 <script type="text/ng-template" id="selectorGadgetModal.html">

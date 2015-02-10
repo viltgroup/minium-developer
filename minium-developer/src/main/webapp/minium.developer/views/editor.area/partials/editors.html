@@ -14,10 +14,11 @@
                      </span>
         </button>
 
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#launchModal" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
+        <button type="button" class="btn btn-primary" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)" >
             <span class="fa  fa-bar-chart"></span>
             <span >Summary Report</span>
         </button>
+
 
         <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
                 <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
@@ -27,9 +28,9 @@
 
         </span>
 
-        <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openExecution()">
+        <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openModalExecution('lg')">
             <i class="fa fa-arrow-circle-o-down"></i>
-            <span translate="editor.seeExecution">See Execution</span>
+            <span >See Execution</span>
         </button>
         <!--button group -->
     </div>

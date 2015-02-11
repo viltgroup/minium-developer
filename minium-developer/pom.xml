@@ -111,6 +111,7 @@
                 </excludes>
             </resource>
         </resources>
+        <finalName>${project.artifactId}</finalName>
         <pluginManagement>
             <plugins>
                 <!--This plugin's configuration is used to store Eclipse m2e settings
@@ -310,7 +311,7 @@
                         <artifactId>yeoman-maven-plugin</artifactId>
                         <version>0.2</version>
                         <executions>
-                           
+
                         </executions>
                         <configuration>
                             <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
@@ -354,6 +355,51 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </dependency>
             </dependencies>
+        </profile>
+        <!-- 
+        We only run launch4j if we're in a windows machine or if we run it with this profile explicitly.
+        Note: running launch4j in *nix / mac environments requires ia32-libs
+        -->
+        <profile>
+            <id>exe-generation</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                        <artifactId>launch4j-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>launch4j</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>launch4j</goal>
+                                </goals>
+                                <configuration>
+                                    <dontWrapJar>false</dontWrapJar>
+                                    <headerType>gui</headerType>
+                                    <outfile>${project.build.directory}/${project.build.finalName}.exe</outfile>
+                                    <jar>${project.build.directory}/${project.build.finalName}.jar</jar>
+                                    <errTitle>Launcher</errTitle>
+                                    <jre>
+                                        <minVersion>1.7.0</minVersion>
+                                    </jre>
+                                    <classPath>
+                                        <mainClass>minium.developer.Application</mainClass>
+                                        <addDependencies>true</addDependencies>
+                                        <jarLocation>lib/</jarLocation>
+                                    </classPath>
+                                    <icon>${basedir}/src/main/resources/icons/minium_logo.ico</icon>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>

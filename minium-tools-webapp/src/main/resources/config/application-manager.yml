@@ -1,4 +1,0 @@
-minium.manager.jenkins:
-  url: http://lw255:8080/jenkins/
-  username: admin
-  password: admin

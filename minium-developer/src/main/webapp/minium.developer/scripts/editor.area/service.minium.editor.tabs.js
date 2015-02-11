@@ -561,11 +561,16 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var _this = that;
         //flag for the even listener don't mark as dirty the editor 
         _this.ignore = true;
-        console.log(_this)
+        
         var item = _this.scope.selected.item;
-        item.content = editor.getSession().getValue();
+        //if its an untitled tab
+        if(item  == ""){
+            createNewFile(editor,that);
+            return;
+        }
+        // item.content = editor.getSession().getValue();
         console.log(editor);
-        console.log(_this.scope.selected.item);
+        
         item.$save(function() {
 
             var tabUniqueId = getEditorID(editor);
@@ -583,6 +588,16 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         });
 
     };
+
+    //TODO
+    function createNewFile(editor,that){
+        //open modal
+        //create the file in the filesystem
+        //get the relativeURI
+        //update the relative uri
+        //update the tab name
+    }
+
 
     function updateContent(item, editor, that, tabUniqueId) {
         console.log(item)

@@ -310,7 +310,16 @@
                         <artifactId>yeoman-maven-plugin</artifactId>
                         <version>0.2</version>
                         <executions>
-                           
+                            <execution>
+                                <id>run-grunt</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                                <configuration>
+                                    <gruntBuildArgs>--force</gruntBuildArgs>
+                                </configuration>
+                            </execution>
                         </executions>
                         <configuration>
                             <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>

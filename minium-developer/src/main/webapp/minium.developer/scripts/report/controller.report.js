@@ -7,8 +7,13 @@ angular.module('minium.developer')
 
         $scope.resultsSummary = featureReport.resultsSummary;
         
+        console.log(featureReport);
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
+
+        $scope.isPassed = function(status){
+
+        }
 
     });

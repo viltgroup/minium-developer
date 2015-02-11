@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import minium.cucumber.MiniumBackend;
 import minium.cucumber.config.CucumberProperties;
@@ -81,7 +82,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
             }
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
-        } catch (Exception e) {
+        }catch (CancellationException e) {
             LOGGER.error("Something went worng ", e);
         }
 

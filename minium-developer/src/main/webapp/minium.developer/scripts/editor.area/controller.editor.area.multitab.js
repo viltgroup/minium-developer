@@ -406,8 +406,6 @@ angular.module('minium.developer')
             }
         }
 
-
-
         $('#miniumOnDrugs').click(function() {
             $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');
             $(".navbar-brand").css('background-color', '#367fa9');
@@ -484,5 +482,11 @@ angular.module('minium.developer')
 
             return true;
         }
+
+        // $(document).bind('contextmenu', function (e) {
+        //     // Do something
+        //     alert("sdsd")
+        //      e.preventDefault();
+        // });
 
     });

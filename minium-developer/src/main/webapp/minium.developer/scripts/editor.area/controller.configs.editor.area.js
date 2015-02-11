@@ -1,7 +1,6 @@
 'use strict';
 
-var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, launcherService, WebDriverFactory) {
-
+var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory) {
 
     $scope.browsers = {
         "firefox": true,
@@ -47,6 +46,5 @@ var ConfigsController = function($scope, $rootScope, $modalInstance, $state, $st
             toastr.error('Could not create a new WebDriver!!');
         });
     }
-
 
 };

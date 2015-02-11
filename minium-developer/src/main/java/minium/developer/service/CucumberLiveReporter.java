@@ -46,8 +46,6 @@ public class CucumberLiveReporter implements Formatter, Reporter {
 	
 	@Override
 	public void before(Match match, Result result) {
-		int i = 0;
-		i++;
 	}
 
 	@Override
@@ -112,7 +110,7 @@ public class CucumberLiveReporter implements Formatter, Reporter {
 
 	@Override
 	public void startOfScenarioLifeCycle(Scenario scenario) {
-		
+
 	}
 
 	@Override

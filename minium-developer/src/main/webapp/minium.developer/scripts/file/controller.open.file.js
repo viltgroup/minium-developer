@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('OpenFileController',function($scope, $rootScope, $controller, $modalInstance, $state, $stateParams, $log, $location, FS, FormatService, FileLoader, MiniumEditor) {
+    .controller('OpenFileController',function($scope, $rootScope, $controller, $modalInstance, $state, $stateParams, $log, $location, FS, FileLoader, MiniumEditor) {
 
     console.debug("loaded FileController")
         //extends the fileController
@@ -17,7 +17,6 @@ angular.module('minium.developer')
     $scope.form = {};
 
     $scope.type = $stateParams.type | '';
-
 
     $scope.search = function() {
         var searchQuery = $scope.form.searchQuery;
@@ -39,10 +38,5 @@ angular.module('minium.developer')
         $modalInstance.dismiss('cancel');
         $scope.$dismiss();
     };
-
-
-
-
-
 
 });

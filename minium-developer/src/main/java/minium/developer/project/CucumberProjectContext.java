@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
+import minium.cucumber.ListenerReporter;
 import minium.cucumber.MiniumBackend;
 import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.OptionsProperties;
@@ -16,7 +17,7 @@ import minium.cucumber.internal.RuntimeBuilder;
 import minium.cucumber.rest.RemoteBackend;
 import minium.cucumber.rest.SimpleGlue;
 import minium.developer.cucumber.reports.ReporterParser;
-import minium.developer.service.CucumberLiveReporter;
+import minium.developer.service.DeveloperStepListener;
 import minium.developer.web.rest.LaunchInfo;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 import minium.script.rhinojs.RhinoEngine;
@@ -74,7 +75,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         CucumberProperties cucumberProperties = createEvaluationCucumberProperties(resultsFile, featurePath);
 
         try {
-            List<Throwable> failures = run(cucumberProperties, sessionId);
+            List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString());
 
             for (Throwable failure : failures) {
                 LOGGER.error("Feature {} failed", featurePath, failure);
@@ -190,26 +191,29 @@ public class CucumberProjectContext extends AbstractProjectContext {
         return cucumberProperties;
     }
 
-    protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId) {
+    protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId, final String uri) {
         cucumberEngine = createJsEngine();
         try {
             return cucumberEngine.runWithContext(cucumberEngine.new RhinoCallable<List<Throwable>, RuntimeException>() {
                 @Override
                 protected List<Throwable> doCall(Context cx, Scriptable scope) throws RuntimeException {
                     try {
-                        CucumberLiveReporter cucumberLiveReporter = new CucumberLiveReporter(sessionId, messagingTemplate);
+                        DeveloperStepListener cucumberLiveReporter = new DeveloperStepListener(messagingTemplate, sessionId, uri);
 
                         ResourceLoader resourceLoader = new MultiLoader(Thread.currentThread().getContextClassLoader());
                         List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, cucumberProperties);
 
-                        RuntimeBuilder runtimeBuilder = new RuntimeBuilder()
-                            .withArgs(cucumberProperties.getOptions().toArgs())
-                            .withResourceLoader(resourceLoader)
-                            .withPlugins(cucumberLiveReporter)
-                            .withBackends(allBackends);
-                        Runtime runtime = runtimeBuilder.build();
-                        runtime.run();
-                        return runtime.getErrors();
+                        try (ListenerReporter listenerReporter = new ListenerReporter()) {
+                            listenerReporter.add(cucumberLiveReporter);
+                            RuntimeBuilder runtimeBuilder = new RuntimeBuilder()
+                                .withArgs(cucumberProperties.getOptions().toArgs())
+                                .withResourceLoader(resourceLoader)
+                                .withPlugins(cucumberLiveReporter, listenerReporter)
+                                .withBackends(allBackends);
+                            Runtime runtime = runtimeBuilder.build();
+                            runtime.run();
+                            return runtime.getErrors();
+                        }
                     } catch (Exception e) {
                         throw Throwables.propagate(e);
                     }

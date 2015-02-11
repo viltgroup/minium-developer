@@ -57,9 +57,14 @@
                     </tr>
                 </tbody>
             </table>
+
         </accordion-group>
     </accordion>
 
+    <span ng-repeat="snippet in snippetsForUndefinedSteps track by $index">
+         <pre class="prettyprint lang-js" style="white-space: pre;">{{snippet}} </pre>
+    </span>
+    
     <div class="row">
         <h5>
                List of features

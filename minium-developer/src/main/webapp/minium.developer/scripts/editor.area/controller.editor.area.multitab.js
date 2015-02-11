@@ -128,7 +128,7 @@ angular.module('minium.developer')
         //to check if we already made a subscription to the sockets
         //we only need a subscription once
         var isAlreadySubscribed = false;
-
+        var snippetsForUndefinedSteps = [];
         $scope.subscribeMessages = function() {
 
             if (isAlreadySubscribed)
@@ -199,6 +199,9 @@ angular.module('minium.developer')
                             case "undefined":
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
                                 //markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
+                                break;
+                            case "snippet":
+                                snippetsForUndefinedSteps.push(step.name);
                                 break;
                             default: //do nothing
                         }
@@ -320,7 +323,7 @@ angular.module('minium.developer')
                     return;
                 }
 
-                feature = new FeatureFacade(data);
+                feature = new FeatureFacade(data,snippetsForUndefinedSteps);
 
                 $scope.faillingSteps = feature.notPassingsteps;
 

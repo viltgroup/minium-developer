@@ -568,7 +568,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             createNewFile(editor,that);
             return;
         }
-        // item.content = editor.getSession().getValue();
+        item.content = editor.getSession().getValue();
         console.log(editor);
         
         item.$save(function() {

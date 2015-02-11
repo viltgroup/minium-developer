@@ -43,6 +43,7 @@ public class CucumberLiveReporter implements Formatter, Reporter {
         this.messagingTemplate = messagingTemplate;
 	}
 
+	
 	@Override
 	public void before(Match match, Result result) {
 		int i = 0;

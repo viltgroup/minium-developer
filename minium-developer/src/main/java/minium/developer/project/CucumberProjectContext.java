@@ -19,6 +19,7 @@ import minium.cucumber.rest.SimpleGlue;
 import minium.developer.cucumber.reports.ReporterParser;
 import minium.developer.service.CucumberLiveReporter;
 import minium.developer.web.rest.LaunchInfo;
+import minium.developer.web.rest.dto.StepDTO;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 import minium.script.rhinojs.RhinoEngine;
 import net.masterthought.cucumber.json.Feature;
@@ -126,7 +127,8 @@ public class CucumberProjectContext extends AbstractProjectContext {
                     for (StepDefinition stepDefinition : glue.getStepDefinitions().values()) {
                         results.add(new StepDefinitionDTO(stepDefinition));
                     }
-
+                  
+                    
                     return results;
                 } catch (Exception e) {
                     throw Throwables.propagate(e);
@@ -209,7 +211,11 @@ public class CucumberProjectContext extends AbstractProjectContext {
                             .withPlugins(cucumberLiveReporter)
                             .withBackends(allBackends);
                         Runtime runtime = runtimeBuilder.build();
+                       
                         runtime.run();
+                        
+                        //send snippets of undefined steps to the client
+                        sendSnippets(runtime, sessionId);
                         return runtime.getErrors();
                     } catch (Exception e) {
                         throw Throwables.propagate(e);
@@ -227,4 +233,17 @@ public class CucumberProjectContext extends AbstractProjectContext {
         List<Backend> allBackends = ImmutableList.<Backend>builder().add(miniumBackend).addAll(remoteBackends).build();
         return allBackends;
     }
+    
+    protected void sendSnippets(Runtime runtime,String sessionId) {
+    	 List<String> snippets = runtime.getSnippets(); 
+         if (!(snippets.isEmpty())) {
+ 			for (String snippet : snippets){
+					StepDTO stepDTO = new StepDTO(snippet, 0, "", "snippet");
+ 				messagingTemplate.convertAndSend("/cucumber/"+ sessionId, stepDTO);
+ 				LOGGER.info("SNIPPETS {}", snippet);
+ 			}
+ 			
+ 				
+ 		}
+	}
 }

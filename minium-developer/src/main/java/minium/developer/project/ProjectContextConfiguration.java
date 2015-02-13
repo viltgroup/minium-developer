@@ -3,6 +3,7 @@ package minium.developer.project;
 import java.io.File;
 
 import minium.tools.fs.service.FileSystemService;
+import minium.web.config.services.DriverServicesProperties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,6 +24,12 @@ public class ProjectContextConfiguration {
     }
 
     @Bean
+    @ConfigurationProperties(prefix = "minium.driverservices")
+    public DriverServicesProperties driverServicesProperties() {
+        return new DriverServicesProperties();
+    }
+
+    @Bean
     @ConfigurationProperties(prefix = "minium.project")
     public ProjectProperties projectConfiguration() {
         return new ProjectProperties();
@@ -30,8 +37,8 @@ public class ProjectContextConfiguration {
 
     @Autowired
     @Bean
-    public CucumberProjectContext cucumberProjectContext(ProjectProperties projConfiguration, ConfigurableApplicationContext applicationContext, MessageSendingOperations<String> messagingTemplate) throws Exception {
-        return new CucumberProjectContext(projConfiguration.getDir(), applicationContext, messagingTemplate);
+    public CucumberProjectContext cucumberProjectContext(DriverServicesProperties driverServices, ProjectProperties projConfiguration, ConfigurableApplicationContext applicationContext, MessageSendingOperations<String> messagingTemplate) throws Exception {
+        return new CucumberProjectContext(driverServices, projConfiguration.getDir(), applicationContext, messagingTemplate);
     }
 
 }

@@ -2,12 +2,12 @@ package minium.developer.project;
 
 import static minium.developer.internal.webelements.SelectorGadgetWebModules.selectorGadgetModule;
 import static minium.script.rhinojs.RhinoWebModules.rhinoModule;
-import static minium.web.WebModules.baseModule;
-import static minium.web.WebModules.combine;
-import static minium.web.WebModules.conditionalModule;
-import static minium.web.WebModules.debugModule;
-import static minium.web.WebModules.interactableModule;
-import static minium.web.WebModules.positionModule;
+import static minium.web.internal.WebModules.baseModule;
+import static minium.web.internal.WebModules.combine;
+import static minium.web.internal.WebModules.conditionalModule;
+import static minium.web.internal.WebModules.debugModule;
+import static minium.web.internal.WebModules.interactableModule;
+import static minium.web.internal.WebModules.positionModule;
 
 import java.io.File;
 
@@ -15,18 +15,21 @@ import minium.actions.debug.DebugInteractable;
 import minium.cucumber.config.ConfigProperties;
 import minium.developer.internal.webelements.SelectorGadgetWebElements;
 import minium.script.js.JsEngine;
+import minium.script.js.JsWebDriverFactory;
 import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.JsFunctionWebElements;
 import minium.script.rhinojs.RhinoEngine;
 import minium.script.rhinojs.RhinoProperties;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
+import minium.script.rhinojs.RhinoWebDriverFactory;
 import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.WebElementsFactory;
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebFinder;
-import minium.web.WebModule;
+import minium.web.WebLocator;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.WebDriverProperties;
+import minium.web.config.services.DriverServicesProperties;
+import minium.web.internal.WebElementsFactory;
+import minium.web.internal.WebElementsFactory.Builder;
+import minium.web.internal.WebModule;
 import minium.web.internal.actions.WebDebugInteractionPerformer;
 
 import org.openqa.selenium.WebDriver;
@@ -52,21 +55,21 @@ public class AbstractProjectContext implements DisposableBean {
     private ConfigProperties configProperties;
     private PropertySources propertySources;
     private WebDriver webDriver;
-    private WebFinder<DefaultWebElements> by;
+    private WebLocator<DefaultWebElements> by;
 
-    public AbstractProjectContext(File projectDir, ConfigurableApplicationContext applicationContext) throws Exception {
+    public AbstractProjectContext(DriverServicesProperties driverServices, File projectDir, ConfigurableApplicationContext applicationContext) throws Exception {
         this.projectDir = projectDir;
         this.applicationContext = applicationContext;
         this.resourcesDir = new File(projectDir, "src/test/resources");
         this.propertySources = loadConfiguration();
         this.webDriverProperties = getAppConfigBean("minium.webdriver", WebDriverProperties.class);
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);
-        this.webDriver = new WebDriverFactory().create(webDriverProperties);
-        this.by = new WebFinder<>(createElementsFactory().createRoot(), DefaultWebElements.class, JsFunctionWebElements.class, DebugInteractable.class, SelectorGadgetWebElements.class);
+        this.webDriver = new WebDriverFactory(driverServices).create(webDriverProperties);
+        this.by = new WebLocator<>(createElementsFactory().createRoot(), DefaultWebElements.class, JsFunctionWebElements.class, DebugInteractable.class, SelectorGadgetWebElements.class);
         this.jsEngine = createJsEngine();
     }
 
-    public WebFinder<DefaultWebElements> by() {
+    public WebLocator<DefaultWebElements> by() {
         return by;
     }
 
@@ -103,7 +106,8 @@ public class AbstractProjectContext implements DisposableBean {
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
-        new MiniumJsEngineAdapter(by).adapt(rhinoEngine);
+        JsWebDriverFactory browsers = new RhinoWebDriverFactory(rhinoEngine);
+        new MiniumJsEngineAdapter(by, browsers).adapt(rhinoEngine);
         rhinoEngine.putJson("config", configProperties.toJson());
         return rhinoEngine;
     }

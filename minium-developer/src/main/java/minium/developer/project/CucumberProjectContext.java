@@ -21,6 +21,7 @@ import minium.developer.service.DeveloperStepListener;
 import minium.developer.web.rest.LaunchInfo;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 import minium.script.rhinojs.RhinoEngine;
+import minium.web.config.services.DriverServicesProperties;
 import net.masterthought.cucumber.json.Feature;
 
 import org.apache.commons.io.FileUtils;
@@ -48,12 +49,12 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CucumberProjectContext.class);
 
-    private MessageSendingOperations<String> messagingTemplate;
-    private CucumberProperties projectCucumberProperties;
+    private final MessageSendingOperations<String> messagingTemplate;
+    private final CucumberProperties projectCucumberProperties;
     private RhinoEngine cucumberEngine;
 
-    public CucumberProjectContext(File projectDir, ConfigurableApplicationContext applicationContext, MessageSendingOperations<String> messagingTemplate) throws Exception {
-        super(projectDir, applicationContext);
+    public CucumberProjectContext(DriverServicesProperties driverServices, File projectDir, ConfigurableApplicationContext applicationContext, MessageSendingOperations<String> messagingTemplate) throws Exception {
+        super(driverServices, projectDir, applicationContext);
         this.messagingTemplate = messagingTemplate;
         this.projectCucumberProperties = getAppConfigBean("minium.cucumber", CucumberProperties.class);
     }

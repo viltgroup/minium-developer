@@ -19,6 +19,8 @@ import minium.tools.fs.web.rest.ResourceConflictException;
 import minium.tools.fs.web.rest.ResourceNotFoundException;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.FileSystemResourceLoader;
@@ -36,145 +38,149 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class FileSystemService {
-    @Autowired(required = false)
-    private List<AutoFormatter> autoFormatters = Lists.newArrayList();
 
-    private File baseDir = new File("src/test/resources");
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileSystemService.class);
 
-    public FileSystemService() {
-    }
+	@Autowired(required = false)
+	private List<AutoFormatter> autoFormatters = Lists.newArrayList();
 
-    public FileSystemService(File baseDir) {
-        this.baseDir = baseDir;
-    }
+	private File baseDir = new File("src/test/resources");
 
-    public FileProps getFileProps(String baseUrl, String path) throws IOException {
-        File file = getFile(path);
-        if (!file.exists())
-            throw new ResourceNotFoundException();
+	public FileSystemService() {
+	}
 
-        return extractFileProps(baseUrl, file);
-    }
+	public FileSystemService(File baseDir) {
+		this.baseDir = baseDir;
+	}
 
-    public Set<FileProps> list(String baseUrl, String path) throws IOException {
-        File file = getFile(path);
-        if (!file.exists())
-            throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
-        if (!file.isDirectory())
-            new IllegalOperationException();
+	public FileProps getFileProps(String baseUrl, String path) throws IOException {
+		File file = getFile(path);
+		if (!file.exists())
+			throw new ResourceNotFoundException();
 
-        File[] childFiles = file.listFiles();
+		return extractFileProps(baseUrl, file);
+	}
 
-        Set<FileProps> fileProps = Sets.newHashSet();
+	public Set<FileProps> list(String baseUrl, String path) throws IOException {
+		File file = getFile(path);
+		if (!file.exists())
+			throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
+		if (!file.isDirectory())
+			new IllegalOperationException();
 
-        if (childFiles != null) {
-            for (File childFile : childFiles) {
-                fileProps.add(extractFileProps(baseUrl, childFile));
-            }
-        }
+		File[] childFiles = file.listFiles();
 
-        return fileProps;
-    }
+		Set<FileProps> fileProps = Sets.newHashSet();
 
-    public FileContent getFileContent(String baseUrl, String path) throws IOException, URISyntaxException {
-        FileSystemResource resource = get(path);
-        File file = resource.getFile();
-        return extractFileContent(baseUrl, file);
-    }
+		if (childFiles != null) {
+			for (File childFile : childFiles) {
+				fileProps.add(extractFileProps(baseUrl, childFile));
+			}
+		}
 
-    public ResponseEntity<String> create(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
-        File file = getFile(path);
-        if (file.exists()) {
-            return new ResponseEntity<String>("Not Created", HttpStatus.PRECONDITION_FAILED);
-        } else {
-            file.createNewFile();
-            return new ResponseEntity<String>("Created", HttpStatus.CREATED);
-        }
-    }
+		return fileProps;
+	}
 
-    public void delete(String path) throws IOException {
-        File file = getFile(path);
-        if (!file.exists())
-            throw new ResourceNotFoundException();
-        if (!file.delete())
-            new IllegalOperationException();
-    }
+	public FileContent getFileContent(String baseUrl, String path) throws IOException, URISyntaxException {
+		FileSystemResource resource = get(path);
+		File file = resource.getFile();
+		return extractFileContent(baseUrl, file);
+	}
 
-    public FileContent save(String baseUrl, @RequestBody FileContent fileContent) throws IOException {
-        FileProps fileProps = fileContent.getFileProps();
-        File file = getFile(fileProps.getRelativeUri().getPath());
-        if (!file.exists())
-            throw new ResourceNotFoundException();
+	public ResponseEntity<String> create(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
+		File file = getFile(path);
+		if (file.exists()) {
+			return new ResponseEntity<String>("Not Created", HttpStatus.PRECONDITION_FAILED);
+		} else {
+			file.createNewFile();
+			LOGGER.info("Created new file {}", path);
+			return new ResponseEntity<String>("Created", HttpStatus.OK);
+		}
+	}
 
-        if (file.lastModified() != fileProps.getLastModified().getTime())
-            throw new ResourceConflictException();
+	public void delete(String path) throws IOException {
+		File file = getFile(path);
+		if (!file.exists())
+			throw new ResourceNotFoundException();
+		if (!file.delete())
+			new IllegalOperationException();
+	}
 
-        maybeAutoFormat(fileContent);
+	public FileContent save(String baseUrl, @RequestBody FileContent fileContent) throws IOException {
+		FileProps fileProps = fileContent.getFileProps();
+		File file = getFile(fileProps.getRelativeUri().getPath());
+		if (!file.exists())
+			throw new ResourceNotFoundException();
 
-        FileUtils.write(file, fileContent.getContent(), Charsets.UTF_8);
+		if (file.lastModified() != fileProps.getLastModified().getTime())
+			throw new ResourceConflictException();
 
-        return extractFileContent(baseUrl, file);
-    }
+		maybeAutoFormat(fileContent);
 
-    public Set<FileProps> search(String baseUrl, String path, @RequestParam("q") String query) throws IOException {
-        File file = getFile(path.endsWith("/") ? path.substring(0, path.length() - 1) : path);
-        String antQuery = format("file://%s/**/*", file.getAbsolutePath());
-        ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(new FileSystemResourceLoader());
-        Resource[] allResources = resolver.getResources(antQuery);
-        String charWildcards = query.replaceAll("\\W", "").replaceAll("(\\w)(?=\\w)", "$1.*");
-        Pattern pattern = Pattern.compile(format(".*%s.*", charWildcards), Pattern.CASE_INSENSITIVE);
-        Set<FileProps> fileProps = Sets.newHashSet();
-        for (Resource resource : allResources) {
-            File matchedFile = resource.getFile();
-            if (matchedFile.isFile()) {
-                FileProps fileProp = extractFileProps(baseUrl, resource.getFile());
-                if (pattern.matcher(fileProp.getRelativeUri().toString()).matches())
-                    fileProps.add(fileProp);
-            }
-        }
+		FileUtils.write(file, fileContent.getContent(), Charsets.UTF_8);
 
-        return fileProps;
-    }
+		return extractFileContent(baseUrl, file);
+	}
 
-    protected void maybeAutoFormat(FileContent fileContent) {
-        for (AutoFormatter autoFormatter : autoFormatters) {
-            if (autoFormatter.handles(fileContent)) {
-                autoFormatter.format(fileContent);
-            }
-        }
-    }
+	public Set<FileProps> search(String baseUrl, String path, @RequestParam("q") String query) throws IOException {
+		File file = getFile(path.endsWith("/") ? path.substring(0, path.length() - 1) : path);
+		String antQuery = format("file://%s/**/*", file.getAbsolutePath());
+		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver(new FileSystemResourceLoader());
+		Resource[] allResources = resolver.getResources(antQuery);
+		String charWildcards = query.replaceAll("\\W", "").replaceAll("(\\w)(?=\\w)", "$1.*");
+		Pattern pattern = Pattern.compile(format(".*%s.*", charWildcards), Pattern.CASE_INSENSITIVE);
+		Set<FileProps> fileProps = Sets.newHashSet();
+		for (Resource resource : allResources) {
+			File matchedFile = resource.getFile();
+			if (matchedFile.isFile()) {
+				FileProps fileProp = extractFileProps(baseUrl, resource.getFile());
+				if (pattern.matcher(fileProp.getRelativeUri().toString()).matches())
+					fileProps.add(fileProp);
+			}
+		}
 
-    protected FileSystemResource get(String path) throws IOException, URISyntaxException {
-        File file = getFile(path);
-        if (!file.exists())
-            throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
-        if (file.isDirectory())
-            return null;
-        return new FileSystemResource(file);
-    }
+		return fileProps;
+	}
 
-    protected FileContent extractFileContent(String baseUrl, File file) throws IOException {
-        FileProps props = extractFileProps(baseUrl, file);
-        String content = FileUtils.readFileToString(file, Charsets.UTF_8);
-        return new FileContent(props, content);
-    }
+	protected void maybeAutoFormat(FileContent fileContent) {
+		for (AutoFormatter autoFormatter : autoFormatters) {
+			if (autoFormatter.handles(fileContent)) {
+				autoFormatter.format(fileContent);
+			}
+		}
+	}
 
-    protected File getFile(String path) throws IOException {
-        return new File(baseDir, path);
-    }
+	protected FileSystemResource get(String path) throws IOException, URISyntaxException {
+		File file = getFile(path);
+		if (!file.exists())
+			throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
+		if (file.isDirectory())
+			return null;
+		return new FileSystemResource(file);
+	}
 
-    protected FileProps extractFileProps(String baseUrl, File file) throws IOException {
-        URI relativeUri = baseDir.toURI().relativize(file.toURI());
-        String path = relativeUri.getPath();
-        FileProps fileProps = new FileProps();
-        fileProps.setName(file.getName());
-        URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("fs/").path(path.toString()).build().toUri();
+	protected FileContent extractFileContent(String baseUrl, File file) throws IOException {
+		FileProps props = extractFileProps(baseUrl, file);
+		String content = FileUtils.readFileToString(file, Charsets.UTF_8);
+		return new FileContent(props, content);
+	}
 
-        fileProps.setUri(uri);
-        fileProps.setRelativeUri(relativeUri);
-        fileProps.setSize(FileUtils.sizeOf(file));
-        fileProps.setType(file.isFile() ? FileProps.Type.FILE : FileProps.Type.DIR);
-        fileProps.setLastModified(new Date(file.lastModified()));
-        return fileProps;
-    }
+	protected File getFile(String path) throws IOException {
+		return new File(baseDir, path);
+	}
+
+	protected FileProps extractFileProps(String baseUrl, File file) throws IOException {
+		URI relativeUri = baseDir.toURI().relativize(file.toURI());
+		String path = relativeUri.getPath();
+		FileProps fileProps = new FileProps();
+		fileProps.setName(file.getName());
+		URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("fs/").path(path.toString()).build().toUri();
+
+		fileProps.setUri(uri);
+		fileProps.setRelativeUri(relativeUri);
+		fileProps.setSize(FileUtils.sizeOf(file));
+		fileProps.setType(file.isFile() ? FileProps.Type.FILE : FileProps.Type.DIR);
+		fileProps.setLastModified(new Date(file.lastModified()));
+		return fileProps;
+	}
 }

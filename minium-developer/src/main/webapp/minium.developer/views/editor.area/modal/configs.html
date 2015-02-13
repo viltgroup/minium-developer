@@ -1,34 +1,25 @@
 <div class="modal-body">
     <div class="panel-body">
-        <div class="alert alert-error alert-warning" ng-show="error">{{errorMessage}}</div>
+        <div class="alert alert-error alert-warning" ng-show="error">
+            <i class="fa fa-warning"></i>{{errorMessage}}
+        </div>
         <form class="" name="newLogForm">
 
             <div class="form-group">
-
-                <label class="control-label" for="log_name">Browsers</label>
 <!-- 
-                <button type="button" button-toggle="btn-primary active" class="btn checkboxBtn" ng-model="browsers['firefox']">
-                    <i class="icon-firefox"></i> Firefox
-                </button>
-                <button type="button" button-toggle="btn-primary active" class="btn checkboxBtn" ng-model="browsers['chrome']">
-                    <i class="icon-chrome"></i> Chrome
-                </button>
-                <button type="button" button-toggle="btn-primary  active" class="btn checkboxBtn" ng-model="browsers['IE']"><i class="icon-ie"></i> IE
-                </button>
-                <button type="button" button-toggle="btn-primary active" class="btn checkboxBtn" ng-model="browsers['opera']">
-                    <i class="icon-opera"></i>Opera
-                </button>
-                <br>
-                <br> You will test in this browsers:
-                <i class="icon-firefox" ng-show="browsers['firefox']"></i>
-                <i class="icon-chrome" ng-show="browsers['chrome']"></i>
-                <i class="icon-ie" ng-show="browsers['IE']"></i>
-                <i class="icon-opera" ng-show="browsers['opera']"></i> -->
+                <div class="radio radio-info radio-inline" ng-repeat="browser in browsers_radio">
+                    <input type="radio" id="{{browser.name}}" value="{{browser.name}}" name="radioInline" checked="">
+                    <label for="{{browser.name}}"> {{browser.name}} </label>
+                </div> -->
 
-                <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers_radio" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
-
-                
-
+                <div class="media">
+                    <div class="pull-left">
+                        <label class="control-label" for="log_name">Browsers</label>
+                    </div>
+                    <div class="media-body">
+                        <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
+                    </div>
+                </div>
         </form>
         </div>
     </div>

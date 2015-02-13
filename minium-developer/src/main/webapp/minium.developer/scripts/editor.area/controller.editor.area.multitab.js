@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval, $q, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -33,14 +33,12 @@ angular.module('minium.developer')
         $scope.onFinishTestExecution = function(annotations) {
             //stop button NEED TO INSERT
             runningTest.stop();
-            //$('#screenShotsModal').modal('hide');
-            //$('#launchModal').modal('show');
-
             if (annotations)
                 $scope.launchTestSession.getSession().setAnnotations(annotations);
             //remove the lock in test execution
             $scope.testExecuting = false;
         }
+
 
 
         /**
@@ -97,9 +95,21 @@ angular.module('minium.developer')
             console.log($scope.selected.item)
         }
 
+        var tabLoader = function() {
+            var openTabs = openTab.load();
+            var i = 0;
+            for (var i = 0; i < openTabs.length; i++) {
+                $scope.loadFile(openTabs[i]);
+            }
+        }
+
         if ($stateParams.path) {
             $scope.loadFile($stateParams.path);
+            // alert(editors.getIdFromRelativeUri($stateParams.path));
+            // tabLoader();
+            
         } else {
+            // tabLoader();
             $scope.loadFile("");
         }
 
@@ -288,7 +298,32 @@ angular.module('minium.developer')
                 return;
             }
 
-            //put a lock in test execution
+            /*
+             * check if a webdriver if launched
+             */
+            WebDriverFactory.isCreated().success(function(data, status, headers, config) {
+                // this callback will be called asynchronously
+                // when the response is available
+                //put a lock in test execution
+                launchTest(launchParams);
+            }).
+            error(function(data, status, headers, config) {
+                // called asynchronously if an error occurs
+                // or server returns response with an error status.
+                //set the modal select webdriver 
+                //now the modal wil be launch with an error message
+                $scope.setWebDriverMsg(true);
+                $scope.openModalWebDriverSelect();
+            });
+        }
+
+        /**
+         * Launch the test with the params
+         * @param  {[type]} launchParams [description]
+         *
+         */
+        var launchTest = function(launchParams) {
+
             $scope.testExecuting = true;
 
             startCheckIfRunning();
@@ -307,9 +342,9 @@ angular.module('minium.developer')
 
             //reset the variable
             executionWasStopped = false;
+            snippetsForUndefinedSteps = [];
 
             $("#status").removeClass().addClass("").html("Running");
-
             launcherService.launch(launchParams).success(function(data) {
 
                 //if execution was stopped there's no need to execute the block
@@ -323,7 +358,7 @@ angular.module('minium.developer')
                     return;
                 }
 
-                feature = new FeatureFacade(data,snippetsForUndefinedSteps);
+                feature = new FeatureFacade(data, snippetsForUndefinedSteps);
 
                 $scope.faillingSteps = feature.notPassingsteps;
 
@@ -376,8 +411,6 @@ angular.module('minium.developer')
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
             });
         }
-
-
 
         /**
          * Function to check every X seconds if the test is running
@@ -485,6 +518,8 @@ angular.module('minium.developer')
 
             return true;
         }
+
+
 
         // $(document).bind('contextmenu', function (e) {
         //     // Do something

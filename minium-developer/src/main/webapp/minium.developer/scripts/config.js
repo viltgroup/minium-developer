@@ -19,7 +19,10 @@
             SUCCESS_MSG: {
                 PREFERENCES: "Preferences updated with success"
             },
-            UNSAVED_MSG: 'If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?'
+            UNSAVED_MSG: 'If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?',
+            WEBDRIVER: {
+                NOTLAUNCHED: 'No web driver launched. Please select one!'
+            }
 
         },
         THEMES: {

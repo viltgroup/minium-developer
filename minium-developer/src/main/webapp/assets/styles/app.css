@@ -26,8 +26,6 @@
 .search-results {
     cursor: pointer;
 }
-
-
 /**
  * ACE EDITOR
  */
@@ -260,9 +258,8 @@ body > div > .header .logo {
 .ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
     /*border-radius: 3px;*/
 }
-
-.close-tab{
-    float:right
+.close-tab {
+    float: right
 }
 /*#tabs .scroller { 
     overflow: auto; 
@@ -790,3 +787,9 @@ treecontrol.tree-classic li .tree-selected {
     -webkit-tap-highlight-color: transparent;
 }
 */
+
+ .btn-default.active, .open>.dropdown-toggle.btn-default {
+    color: #eee;
+    background-color: #3c8dbc;
+    border-color: #367fa9;
+}

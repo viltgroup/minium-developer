@@ -1,6 +1,6 @@
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences) {
+miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -92,6 +92,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             selected: fileContent
         });
 
+        this.storeOpenTabs();
+
         this.resizeEditors();
 
         return {
@@ -114,6 +116,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         console.log(this.editors)
         return this.editors;
     }
+
+
 
     /////////////////////////////////////////////////////////////////
     //
@@ -151,6 +155,21 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         return this.settings;
     }
 
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get editor Id from is relative uri
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.getIdFromRelativeUri = function(relativeUri) {
+        var id;
+        this.editors.forEach(function(editor) {
+            if (editor.relativeUri == relativeUri) {
+                id = editor.id;
+                return true;
+            }
+        });
+        return id;
+    }
 
 
     /////////////////////////////////////////////////////////////////
@@ -191,10 +210,12 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isOpen = function(relativeUri) {
         var isOpen = false;
-
         var id = null;
+
+        console.debug(this.editors);
         $.each(this.editors, function(i, obj) {
-            if (obj.relativeUri === relativeUri) {
+
+            if (obj.relativeUri == relativeUri) {
                 id = obj.id;
                 isOpen = true;
             }
@@ -253,6 +274,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                 this.editors.splice(i, 1);
             }
         }
+        openTab.store(this.editors);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -305,7 +327,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         }
         this.editors[i].fileProps.relativeUri = filePath;
     };
-
     ////////////////////////////////////////////////////////////////
     //
     // Launch test
@@ -314,6 +335,18 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.launchCucumber = function(editor) {
         launchCucumber(editor, this.scope);
+    };
+
+
+    ////////////////////////////////////////////////////////////////
+    //
+    // Store the open 
+    //
+    //
+    /////////////////////////////////////////////////////////////////
+    MiniumEditor.prototype.storeOpenTabs = function() {
+        console.log("storeOpenTabs")
+        openTab.store(this.editors);
     };
 
 
@@ -347,7 +380,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             //check if the element is dirty
         if (elem.hasClass("hide")) {
             return false; //the element is not dirty
-        } else  {
+        } else {
             return true; //the element is dirty
         }
     };
@@ -561,16 +594,16 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var _this = that;
         //flag for the even listener don't mark as dirty the editor 
         _this.ignore = true;
-        
+
         var item = _this.scope.selected.item;
         //if its an untitled tab
-        if(item  == ""){
-            createNewFile(editor,that);
+        if (item == "") {
+            createNewFile(editor, that);
             return;
         }
         item.content = editor.getSession().getValue();
         console.log(editor);
-        
+
         item.$save(function() {
 
             var tabUniqueId = getEditorID(editor);
@@ -590,7 +623,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     };
 
     //TODO
-    function createNewFile(editor,that){
+    function createNewFile(editor, that) {
         //open modal
         //create the file in the filesystem
         //get the relativeURI
@@ -606,6 +639,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var _this = that;
 
         var mode = EditorFactory.setMode(fileName, editor);
+
         switch (_this.mode) {
             case _this.modeEnum.FEATURE:
                 setDocumentValue(item, editor, tabUniqueId);

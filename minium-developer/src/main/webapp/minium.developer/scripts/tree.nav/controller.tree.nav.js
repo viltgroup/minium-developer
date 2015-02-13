@@ -61,7 +61,7 @@ angular.module('minium.developer')
             //console.log($scope.selectedNode)
             if (node.type == "FILE") {
                 $scope.loadFile($scope.selectedNode.relativeUri);
-                //need to remove this because of the search and new file
+                
                 $state.go("global.editorarea.sub", {
                     path: $scope.selectedNode.relativeUri
                 }, {
@@ -82,7 +82,6 @@ angular.module('minium.developer')
             //console.log(node.children)
             $scope.loadChildren(node);
         };
-
 
         /**
          * NAVIGATION FOLDERS Functions

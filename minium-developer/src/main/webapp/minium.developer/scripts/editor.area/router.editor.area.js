@@ -31,7 +31,7 @@ miniumDeveloper
         $stateProvider
             .state('global.editorarea', {
                 abstract: true,
-                url: '/editor/{path:uriType}',
+                url: '/editor/{path:uriType}?line',
                 views: {
                     'content@': {
                         templateUrl: "minium.developer/views/editor.area/index.html",
@@ -76,10 +76,10 @@ miniumDeveloper
             })
 
         //configuration to execute the file
-        modalStateProvider.state('global.editorarea.sub.configs', {
-            templateUrl: "minium.developer/views/editor.area/modal/configs.html",
-            controller: "ConfigsController"
-        });
+        // modalStateProvider.state('global.editorarea.sub.configs', {
+        //     templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+        //     controller: "WebDriversController"
+        // });
 
         //register backend
         modalStateProvider.state('global.editorarea.sub.registerBackend', {

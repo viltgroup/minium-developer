@@ -12,7 +12,6 @@ angular.module('minium.developer')
     var parentScope = MiniumEditor.getScope();
 
     console.log(parentScope)
-
     
     if (parentScope.selectedNode !== "" && parentScope.selectedNode.type !== "FILE") {
         $scope.fs.current = parentScope.selectedNode;
@@ -23,12 +22,13 @@ angular.module('minium.developer')
     
     $scope.createFile = function(fileName, path) {
         var fs = $scope.fs.current.relativeUri || "";
-        FileFactory.create(fs + fileName).success(function() {
+        
+        FileFactory.create(fs + fileName).success(function(data) {
             //$scope.asyncLoad($scope.fs.current);
             toastr.success("Created file " + $scope.fileName);
             $scope.fileName = "";
             //reload the children where the file was created
-            parentScope.loadChildren($scope.fs.current);
+            $scope.loadChildren($scope.fs.current);
             $scope.$close(true);
         }).error(function(data) {
             toastr.error("Error " + data);

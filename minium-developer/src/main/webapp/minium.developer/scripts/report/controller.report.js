@@ -7,22 +7,11 @@ angular.module('minium.developer')
 
         $scope.resultsSummary = featureReport.resultsSummary;
 
-        $scope.snippetsForUndefinedSteps = [];
-
+        $scope.snippetsForUndefinedSteps = featureReport.snippetsForUndefinedSteps;
         
-        featureReport.snippetsForUndefinedSteps.forEach(function(snippet) {
-           $scope.snippetsForUndefinedSteps.push(snippet);
-        });
-
         console.log(featureReport);
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
-
-        $scope.isPassed = function(status) {
-
-        }
-
-
 
     });

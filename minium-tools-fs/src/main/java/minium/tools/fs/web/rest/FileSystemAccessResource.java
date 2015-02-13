@@ -52,7 +52,7 @@ public class FileSystemAccessResource {
         return service.getFileContent(baseUrl, path);
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
     @ResponseBody
     public ResponseEntity<String> create(@BaseURL String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
         return service.create(baseUrl, path);

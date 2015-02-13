@@ -123,11 +123,15 @@ angular.module('miniumDeveloper.directives', [])
             $scope.getName = function(option) {
                 return option[$scope.name];
             }
+
+            $scope.getIcon = function(option) {
+                return option['icon'];
+            }
         },
         template: "<button type='button' class='btn btn-{{suffix}}' " +
             "ng-class='{active: isActive(option)}'" +
             "ng-repeat='option in options' " +
-            "ng-click='activate(option, $event)'><i class='icon-{{getName(option)}}'></i>{{getName(option)}} " +
+            "ng-click='activate(option, $event)'><i class='{{getIcon(option)}}'></i>{{getName(option)}} " +
             "</button>"
     };
 })

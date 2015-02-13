@@ -22,7 +22,7 @@ miniumDeveloper.factory('launcherService', function($http) {
         isRunning: function() {
             return $http.get("/app/rest/isRunning");
         },
-        stepDefinitions : function(){
+        stepDefinitions: function() {
             return $http.get("/app/rest/stepDefinitions");
         }
     };
@@ -155,10 +155,10 @@ miniumDeveloper.factory('FeatureFacade', function() {
     /**
      * Constructor
      */
-    function FeatureFacade(data,snippetsForUndefinedSteps) {
+    function FeatureFacade(data, snippetsForUndefinedSteps) {
         console.debug(data);
         this.feature = data;
-        this.snippetsForUndefinedSteps  = snippetsForUndefinedSteps;
+        this.snippetsForUndefinedSteps = snippetsForUndefinedSteps;
         var elements = this.process(data);
     }
 
@@ -209,29 +209,6 @@ miniumDeveloper.factory('backendFactory', function($http) {
 })
 
 
-miniumDeveloper.factory('WebDriverFactory', function($http) {
-    return {
-        create: function(varName, type) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
-                type: type
-            });
-        },
-        quit: function(varName) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/quit")
-        }
-    };
-});
-
-miniumDeveloper.factory('RemoteWebDriverFactory', function($http) {
-    return {
-        create: function(type, url) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
-                type: type,
-                remoteUrl: url
-            })
-        }
-    };
-});
 
 
 miniumDeveloper.service('FileLoader', function($q, FS) {
@@ -243,7 +220,6 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
             //load the file and create a new editor instance with the file loaded
         var newEditor = {};
         var result = editors.isOpen(props);
-
         var deferred = $q.defer();
 
         var emptyEditor = function() {
@@ -262,22 +238,33 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
             var index = $('#tabs a[href="' + tab + '"]').parent().index();
             $("#tabs").tabs("option", "active", index);
         } else {
+
             var path = props.relativeUri || props;
             console.debug(path);
             FS.get({
                 path: path
             }, function(fileContent) {
                 //succes handler file exists 
-                newEditor = editors.addInstance(fileContent);
-                deferred.resolve(newEditor);
+                result = editors.isOpen(props);
+                if (result.isOpen) {
+                    var id = result.id;
+                    //tab is already open
+                    var tab = "#panel_" + id;
+                    var index = $('#tabs a[href="' + tab + '"]').parent().index();
+                    $("#tabs").tabs("option", "active", index);
+                } else {
+                    newEditor = editors.addInstance(fileContent);
+                    deferred.resolve(newEditor);
+                }
+
             }, function() {
                 //error handler file dont found
                 //so create an empty editor
                 emptyEditor();
                 deferred.reject(newEditor);
             });
-        }
 
+        }
         return deferred.promise;
 
     }
@@ -380,7 +367,6 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
 
     }
 
-
     EditorPreferences.setEditorSettings = function(editor, settings) {
 
         editor.setTheme(settings.theme);
@@ -399,7 +385,31 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
 });
 
 
+// this service load and store open tabs from cookies
+miniumDeveloper.service('openTab', function($cookieStore) {
 
+    this.store = function(editors) {
+
+        var reltivepaths = [];
+        editors.forEach(function(editor) {
+            console.debug(editor.relativeUri)
+            reltivepaths.push(editor.relativeUri);
+        });
+
+        //meter nomes de cookie em configs
+        $cookieStore.put("openTabs", reltivepaths, {
+            expires: 365 * 5
+        });
+
+        console.debug(reltivepaths)
+        console.debug("cookie stored")
+    };
+
+    this.load = function() {
+        var openTabs = $cookieStore.get("openTabs");
+        return openTabs ? openTabs : [];
+    }
+});
 
 // This module creates and append the new elements create for new tabs
 miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider) {

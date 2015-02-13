@@ -54,12 +54,15 @@
 <p><a href="https://github.com/viltgroup/minium" target=_blank class="btn btn-primary btn-lg" role=button>Download on Github</a>
 </p>
 <br>
-<br>
+<video width="930" height="450" autoplay loop>
+  <source src="minium.mp4" type="video/mp4">
+  <source src="minium.ogg" type="video/ogg">
+  <img src="images/minium_fallback.png" title="Your browser does not support the <video> tag">
+</video>
 <span style="position:relative;color:white">
-<h3>Hello, I am Minium <br> I am the Most <span data-typer-targets="Easy,Effective,Friendly,Simple">Simpl</span> and <strong>Powerful Way</strong>
-<br> to <strong>test</strong> your interface</h3>
+<h3>Hello, I am Minium <br> I am the Most <strong>Simple</strong> and <strong>Powerful Way</strong>
+ to <strong>test</strong> your interface</h3>
 </span>
-<img src="images/minium_window3.png">
 </div>
 </div>
 <div id='about' class='about'>
@@ -74,44 +77,10 @@
 </div>
 </div>
 </div>
-<div class=space-bottom></div>
-<div id=products class=products>
-<div class=container>
-<div class=row>
-<div class=col-md-12>
-<h2>Minium Core</h2>
-<p>You may be thinking: big deal, there are several other tools for browser automation... That&apos;s true, but:</p>
-<div class=container data-scrollreveal="enter left and move 100px, wait 0.5s">
-<p class=subtitle>can those tools access another window (for instance, popup windows) in a easy way? Minium can!</p>
-<pre class="prettyprint lang-js"> // ALL opened windows to find a text field with label "Username", and fill it with a value
-usernameFld = $(wd).window().find(":text").withLabel("Username");
-           </pre>
-<p class=subtitle>can those tools easily access iframes? Minium can!</p>
-<pre class="prettyprint lang-js"> // will look to ALL frames in the main page to find a text field with label "Username"
-usernameFld = $(wd).frame().find(":text").withLabel("Username");
-            </pre>
-<p class=subtitle>can those tools select elements based on their relative position to other elements? Minium can!</p>
-<pre class="prettyprint lang-js">// will look to ALL frames in the main page to find a text field with label "Username"
-oneWay = $(wd “input:checkbox”).withLabel(”One way only”);
-label= $(wd “label”).withText(”Outbound:”);
-input= $(wd “input”).below(label).first();
-datePicker= $(wd “img.ui-datepicker-trigger”).rightOf(input).first();
-            </pre>
-<p class=subtitle>can those tools 'speak' and teach you how to use themselves? Minium can!</p>
-<div class=video data-scrollreveal="enter left and move 100px, wait 0.5s">
-
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
 <div id=services class="services bg-primary">
 <div class=container>
-<h2>Minium Developer</h2>
 <div class="row text-center">
 <div class="col-lg-10 col-lg-offset-1">
-
 <h2>Features</h2>
 <hr class=small>
 <div class=row>
@@ -162,6 +131,37 @@ datePicker= $(wd “img.ui-datepicker-trigger”).rightOf(input).first();
 </h4>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id=products class=products>
+<div class=container>
+<div class=row>
+<div class=col-md-12>
+<h2>Minium Core</h2>
+<p>You may be thinking: big deal, there are several other tools for browser automation... That&apos;s true, but:</p>
+<div class=container data-scrollreveal="enter left and move 100px, wait 0.5s">
+<p class=subtitle>can those tools access another window (for instance, popup windows) in a easy way? Minium can!</p>
+<pre class="prettyprint lang-js"> // ALL opened windows to find a text field with label "Username", and fill it with a value
+usernameFld = $(wd).window().find(":text").withLabel("Username");
+           </pre>
+<p class=subtitle>can those tools easily access iframes? Minium can!</p>
+<pre class="prettyprint lang-js"> // will look to ALL frames in the main page to find a text field with label "Username"
+usernameFld = $(wd).frame().find(":text").withLabel("Username");
+            </pre>
+<p class=subtitle>can those tools select elements based on their relative position to other elements? Minium can!</p>
+<pre class="prettyprint lang-js">// will look to ALL frames in the main page to find a text field with label "Username"
+oneWay = $(wd “input:checkbox”).withLabel(”One way only”);
+label= $(wd “label”).withText(”Outbound:”);
+input= $(wd “input”).below(label).first();
+datePicker= $(wd “img.ui-datepicker-trigger”).rightOf(input).first();
+            </pre>
+<p class=subtitle>can those tools 'speak' and teach you how to use themselves? Minium can!</p>
+<div class=video data-scrollreveal="enter left and move 100px, wait 0.5s">
+
 </div>
 </div>
 </div>

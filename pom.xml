@@ -54,7 +54,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-
 	<modules>
 		<module>minium-developer</module>
 		<module>minium-tools-fs</module>

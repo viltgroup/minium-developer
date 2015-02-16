@@ -22,7 +22,7 @@ miniumDeveloper.factory('launcherService', function($http) {
         isRunning: function() {
             return $http.get("/app/rest/isRunning");
         },
-        stepDefinitions : function(){
+        stepDefinitions: function() {
             return $http.get("/app/rest/stepDefinitions");
         }
     };
@@ -155,9 +155,10 @@ miniumDeveloper.factory('FeatureFacade', function() {
     /**
      * Constructor
      */
-    function FeatureFacade(data) {
+    function FeatureFacade(data, snippetsForUndefinedSteps) {
         console.debug(data);
         this.feature = data;
+        this.snippetsForUndefinedSteps = snippetsForUndefinedSteps;
         var elements = this.process(data);
     }
 
@@ -208,29 +209,6 @@ miniumDeveloper.factory('backendFactory', function($http) {
 })
 
 
-miniumDeveloper.factory('WebDriverFactory', function($http) {
-    return {
-        create: function(varName, type) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
-                type: type
-            });
-        },
-        quit: function(varName) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/quit")
-        }
-    };
-});
-
-miniumDeveloper.factory('RemoteWebDriverFactory', function($http) {
-    return {
-        create: function(type, url) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
-                type: type,
-                remoteUrl: url
-            })
-        }
-    };
-});
 
 
 miniumDeveloper.service('FileLoader', function($q, FS) {
@@ -242,7 +220,6 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
             //load the file and create a new editor instance with the file loaded
         var newEditor = {};
         var result = editors.isOpen(props);
-
         var deferred = $q.defer();
 
         var emptyEditor = function() {
@@ -261,22 +238,33 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
             var index = $('#tabs a[href="' + tab + '"]').parent().index();
             $("#tabs").tabs("option", "active", index);
         } else {
+
             var path = props.relativeUri || props;
             console.debug(path);
             FS.get({
                 path: path
             }, function(fileContent) {
                 //succes handler file exists 
-                newEditor = editors.addInstance(fileContent);
-                deferred.resolve(newEditor);
+                result = editors.isOpen(props);
+                if (result.isOpen) {
+                    var id = result.id;
+                    //tab is already open
+                    var tab = "#panel_" + id;
+                    var index = $('#tabs a[href="' + tab + '"]').parent().index();
+                    $("#tabs").tabs("option", "active", index);
+                } else {
+                    newEditor = editors.addInstance(fileContent);
+                    deferred.resolve(newEditor);
+                }
+
             }, function() {
                 //error handler file dont found
                 //so create an empty editor
                 emptyEditor();
                 deferred.reject(newEditor);
             });
-        }
 
+        }
         return deferred.promise;
 
     }
@@ -379,7 +367,6 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
 
     }
 
-
     EditorPreferences.setEditorSettings = function(editor, settings) {
 
         editor.setTheme(settings.theme);
@@ -398,42 +385,31 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
 });
 
 
+// this service load and store open tabs from cookies
+miniumDeveloper.service('openTab', function($cookieStore) {
 
-// This module creates and append the new elements create for new tabs
-miniumDeveloper.service('TreeBarCookies', function($cookieStore) {
+    this.store = function(editors) {
 
-/**
-     * Constructor, with class name
-     */
-    this.save = function(expanded,treeData) {
-        $cookieStore.put("treeBar", JSON.stringify(expanded), {
-            expires: 365 * 5
-        });
-        var c = [{"name":"config","uri":"http://localhost:8090/fs/config/","relativeUri":"config/","size":429,"type":"DIR","lastModified":1423488700000,"label":"config"},{"name":"features","uri":"http://localhost:8090/fs/features/","relativeUri":"features/","size":2034,"type":"DIR","lastModified":1423044511000,"label":"features","children":[{"name":"Preferences.feature","uri":"http://localhost:8090/fs/features/Preferences.feature","relativeUri":"features/Preferences.feature","size":885,"type":"FILE","lastModified":1423500508000,"label":"Preferences.feature"},{"name":"SideBar.feature","uri":"http://localhost:8090/fs/features/SideBar.feature","relativeUri":"features/SideBar.feature","size":1149,"type":"FILE","lastModified":1423564825000,"label":"SideBar.feature"}]},{"name":"logback.xml","uri":"http://localhost:8090/fs/logback.xml","relativeUri":"logback.xml","size":492,"type":"FILE","lastModified":1422905820000,"label":"logback.xml"},{"name":"modules","uri":"http://localhost:8090/fs/modules/","relativeUri":"modules/","size":237311,"type":"DIR","lastModified":1423500780000,"label":"modules"},{"name":"steps","uri":"http://localhost:8090/fs/steps/","relativeUri":"steps/","size":5614,"type":"DIR","lastModified":1423504978000,"label":"steps"}]
-        alert( JSON.stringify(treeData) )
-        $cookieStore.put("treeData", JSON.stringify(treeData), {
-            expires: 365 * 5
+        var reltivepaths = [];
+        editors.forEach(function(editor) {
+            console.debug(editor.relativeUri)
+            reltivepaths.push(editor.relativeUri);
         });
 
+        //meter nomes de cookie em configs
+        $cookieStore.put("openTabs", reltivepaths, {
+            expires: 365 * 5
+        });
 
-    }
+        console.debug(reltivepaths)
+        console.debug("cookie stored")
+    };
 
-    this.get = function(dataTree){
-        var treeBar = $cookieStore.get("treeBar");
-        treeBar = treeBar ? JSON.parse(treeBar) : [];
-
-        var treeData = $cookieStore.get("treeData");
-        treeData = treeData ? JSON.parse(treeData) : dataTree;
-
-        alert(JSON.stringify(treeData))
-
-        return {
-            treeBar: treeBar,
-            treeData: treeData
-        };
+    this.load = function() {
+        var openTabs = $cookieStore.get("openTabs");
+        return openTabs ? openTabs : [];
     }
 });
-
 
 // This module creates and append the new elements create for new tabs
 miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider) {

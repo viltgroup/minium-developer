@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.CancellationException;
 
 import minium.cucumber.ListenerReporter;
 import minium.cucumber.MiniumBackend;
@@ -19,9 +20,9 @@ import minium.cucumber.rest.SimpleGlue;
 import minium.developer.cucumber.reports.ReporterParser;
 import minium.developer.service.DeveloperStepListener;
 import minium.developer.web.rest.LaunchInfo;
+import minium.developer.web.rest.dto.StepDTO;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 import minium.script.rhinojs.RhinoEngine;
-import minium.web.config.services.DriverServicesProperties;
 import net.masterthought.cucumber.json.Feature;
 
 import org.apache.commons.io.FileUtils;
@@ -30,7 +31,7 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.MessageSendingOperations;
 
 import com.google.common.base.Joiner;
@@ -49,15 +50,21 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CucumberProjectContext.class);
 
-    private final MessageSendingOperations<String> messagingTemplate;
-    private final CucumberProperties projectCucumberProperties;
+    @Autowired
+    private MessageSendingOperations<String> messagingTemplate;
+    private CucumberProperties projectCucumberProperties;
     private RhinoEngine cucumberEngine;
 
-    public CucumberProjectContext(DriverServicesProperties driverServices, File projectDir, ConfigurableApplicationContext applicationContext, MessageSendingOperations<String> messagingTemplate) throws Exception {
-        super(driverServices, projectDir, applicationContext);
-        this.messagingTemplate = messagingTemplate;
+    public CucumberProjectContext(File projectDir) throws Exception {
+        super(projectDir);
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        super.afterPropertiesSet();
         this.projectCucumberProperties = getAppConfigBean("minium.cucumber", CucumberProperties.class);
     }
+
 
     public Feature launchCucumber(LaunchInfo launchInfo, final String sessionId) throws IOException {
         URI file = launchInfo.getFileProps().getRelativeUri();
@@ -83,7 +90,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
             }
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
-        } catch (Exception e) {
+		} catch (CancellationException e) {
             LOGGER.error("Something went worng ", e);
         }
 
@@ -111,10 +118,8 @@ public class CucumberProjectContext extends AbstractProjectContext {
                     ResourceLoader resourceLoader = new MultiLoader(Thread.currentThread().getContextClassLoader());
                     List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, projectCucumberProperties);
 
-                    RuntimeBuilder runtimeBuilder = new RuntimeBuilder()
-                        .withArgs(projectCucumberProperties.getOptions().toArgs())
-                        .withResourceLoader(resourceLoader)
-                        .withBackends(allBackends);
+					RuntimeBuilder runtimeBuilder = new RuntimeBuilder().withArgs(projectCucumberProperties.getOptions().toArgs())
+							.withResourceLoader(resourceLoader).withBackends(allBackends);
                     runtimeBuilder.build();
                     RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
 
@@ -206,13 +211,12 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
                         try (ListenerReporter listenerReporter = new ListenerReporter()) {
                             listenerReporter.add(cucumberLiveReporter);
-                            RuntimeBuilder runtimeBuilder = new RuntimeBuilder()
-                                .withArgs(cucumberProperties.getOptions().toArgs())
-                                .withResourceLoader(resourceLoader)
-                                .withPlugins(cucumberLiveReporter, listenerReporter)
-                                .withBackends(allBackends);
+							RuntimeBuilder runtimeBuilder = new RuntimeBuilder().withArgs(cucumberProperties.getOptions().toArgs())
+									.withResourceLoader(resourceLoader).withPlugins(cucumberLiveReporter, listenerReporter).withBackends(allBackends);
                             Runtime runtime = runtimeBuilder.build();
                             runtime.run();
+							// send snippets of undefined steps to the client
+							sendSnippets(runtime, sessionId);
                             return runtime.getErrors();
                         }
                     } catch (Exception e) {
@@ -225,10 +229,23 @@ public class CucumberProjectContext extends AbstractProjectContext {
         }
     }
 
-    protected List<Backend> getAllBackends(Context cx, Scriptable scope, ResourceLoader resourceLoader, CucumberProperties cucumberProperties) throws IOException {
+	protected List<Backend> getAllBackends(Context cx, Scriptable scope, ResourceLoader resourceLoader, CucumberProperties cucumberProperties)
+			throws IOException {
         MiniumBackend miniumBackend = new MiniumBackend(resourceLoader, cx, scope);
         List<RemoteBackend> remoteBackends = getRemoteBackends(cucumberProperties);
         List<Backend> allBackends = ImmutableList.<Backend>builder().add(miniumBackend).addAll(remoteBackends).build();
         return allBackends;
     }
+
+	protected void sendSnippets(Runtime runtime, String sessionId) {
+		List<String> snippets = runtime.getSnippets();
+		if (!(snippets.isEmpty())) {
+			for (String snippet : snippets) {
+				StepDTO stepDTO = new StepDTO(snippet, 0, "", "snippet");
+				messagingTemplate.convertAndSend("/cucumber/" + sessionId, stepDTO);
+				LOGGER.info("SNIPPETS {}", snippet);
+}
+
+		}
+	}
 }

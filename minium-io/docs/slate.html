@@ -1,0 +1,2213 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link href="stylesheets/screen.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" type="text/css" media="print" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+      <script src="javascripts/all.js" type="text/javascript"></script>
+
+      <script>
+        $(function() {
+          setupLanguages(["minium"]);
+        });
+      </script>
+  </head>
+
+  <body class="index">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <a href="http://vilt.io"><img src="images/logo.png" /></a>
+        <div class="lang-selector">
+              <a href="#" data-language-name="minium">minium</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='http://minium.io'>minium.io</a></li>
+            <li><a href='https://github.com/viltgroup/minium'>Github</a></li>
+            <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+          <h1 id="basicwebelements">BasicWebElements</h1>
+
+<h2 id=".find(elems)">.find(elems)</h2>
+
+<h2 id=".attr(attributename)">.attr(attributeName)</h2>
+
+<p><code class="prettyprint">
+ Get the value of an attribute for the first element in the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>attributeName</td>
+<td>The name of the attribute to get.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/attr/#attr-attributeName"> http://api.jquery.com/attr/#attr-attributeName</a></li>
+<li><strong>returns:</strong> result of jQuery .attr() method</li>
+</ul>
+
+<h2 id=".css(propertyname)">.css(propertyName)</h2>
+
+<p><code class="prettyprint">
+ Get the value of style properties for the first element in the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>propertyName</td>
+<td>A CSS property.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/css/#css-propertyName"> http://api.jquery.com/css/#css-propertyName</a></li>
+<li><strong>returns:</strong> result of jQuery .css() method</li>
+</ul>
+
+<h2 id=".html()">.html()</h2>
+
+<p><code class="prettyprint">
+ Get the HTML contents of the first element in the set of matched elements.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/html/"> http://api.jquery.com/html/</a></li>
+<li><strong>returns:</strong> result of jQuery .html() method</li>
+</ul>
+
+<h2 id=".text()">.text()</h2>
+
+<p><code class="prettyprint">
+ Get the combined text contents of each element in the set of matched elements, including their descendants.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/text/"> http://api.jquery.com/text/</a></li>
+<li><strong>returns:</strong> result of jQuery .text() method</li>
+</ul>
+
+<h2 id=".val()">.val()</h2>
+
+<p><code class="prettyprint">
+ Get the current value of the first element in the set of matched elements.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/val/"> http://api.jquery.com/val/</a></li>
+<li><strong>returns:</strong> result of jQuery .val() method</li>
+</ul>
+
+<h2 id=".add(selector)">.add(selector)</h2>
+
+<p><code class="prettyprint">
+ Add elements to the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string representing a selector expression to find additional elements to add to the set of matched elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/add/#add-selector"> http://api.jquery.com/add/#add-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .add() method</li>
+</ul>
+
+<h2 id=".add(elems)">.add(elems)</h2>
+
+<p><code class="prettyprint">
+ Add elements to the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>One or more elements to add to the set of matched elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/add/#add-elements"> http://api.jquery.com/add/#add-elements</a></li>
+<li><strong>returns:</strong> result of jQuery .add() method</li>
+</ul>
+
+<h2 id=".addback()">.addBack()</h2>
+
+<p><code class="prettyprint">
+ Add the previous set of elements on the stack to the current set, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/addBack/"> http://api.jquery.com/addBack/</a></li>
+<li><strong>returns:</strong> result of jQuery .addBack() method</li>
+</ul>
+
+<h2 id=".addback(selector)">.addBack(selector)</h2>
+
+<p><code class="prettyprint">
+ Add the previous set of elements on the stack to the current set, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match the current set of elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/addBack/#addBack-selector"> http://api.jquery.com/addBack/#addBack-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .addBack() method</li>
+</ul>
+
+<h2 id=".children()">.children()</h2>
+
+<p><code class="prettyprint">
+ Get the children of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/children/"> http://api.jquery.com/children/</a></li>
+<li><strong>returns:</strong> result of jQuery .children() method</li>
+</ul>
+
+<h2 id=".children(selector)">.children(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the children of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/children/#children-selector"> http://api.jquery.com/children/#children-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .children() method</li>
+</ul>
+
+<h2 id=".children(elems)">.children(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the children of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/children/#children-selector"> http://api.jquery.com/children/#children-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .children() method</li>
+</ul>
+
+<h2 id=".closest(selector)">.closest(selector)</h2>
+
+<p><code class="prettyprint">
+ For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/closest/#closest-selector"> http://api.jquery.com/closest/#closest-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .closest() method</li>
+</ul>
+
+<h2 id=".closest(elems)">.closest(elems)</h2>
+
+<p><code class="prettyprint">
+ For each element in the set, get the first element that matches the selector by testing the element itself and traversing up through its ancestors in the DOM tree.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A jQuery object to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/closest/#closest-jQuery-object"> http://api.jquery.com/closest/#closest-jQuery-object</a></li>
+<li><strong>returns:</strong> result of jQuery .closest() method</li>
+</ul>
+
+<h2 id=".contents()">.contents()</h2>
+
+<p><code class="prettyprint">
+ Get the children of each element in the set of matched elements, including text and comment nodes.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/contents/"> http://api.jquery.com/contents/</a></li>
+<li><strong>returns:</strong> result of jQuery .contents() method</li>
+</ul>
+
+<h2 id=".end()">.end()</h2>
+
+<p><code class="prettyprint">
+ End the most recent filtering operation in the current chain and return the set of matched elements to its previous state.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/end/"> http://api.jquery.com/end/</a></li>
+<li><strong>returns:</strong> result of jQuery .end() method</li>
+</ul>
+
+<h2 id=".filter(selector)">.filter(selector)</h2>
+
+<p><code class="prettyprint">
+ Reduce the set of matched elements to those that match the selector or pass the function&#39;s test.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match the current set of elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> result of jQuery .filter() method</li>
+</ul>
+
+<h2 id=".filter(elems)">.filter(elems)</h2>
+
+<p><code class="prettyprint">
+ Reduce the set of matched elements to those that match the selector or pass the function&#39;s test.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>An existing jQuery object to match the current set of elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> result of jQuery .filter() method</li>
+</ul>
+
+<h2 id=".has(selector)">.has(selector)</h2>
+
+<p><code class="prettyprint">
+ Reduce the set of matched elements to those that have a descendant that matches the selector or DOM element.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/has/#has-selector"> http://api.jquery.com/has/#has-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .has() method</li>
+</ul>
+
+<h2 id=".has(elems)">.has(elems)</h2>
+
+<p><code class="prettyprint">
+ Reduce the set of matched elements to those that have a descendant that matches the selector or DOM element.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/has/#has-selector"> http://api.jquery.com/has/#has-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .has() method</li>
+</ul>
+
+<h2 id=".is(selector)">.is(selector)</h2>
+
+<p><code class="prettyprint">
+ Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/is/#is-selector"> http://api.jquery.com/is/#is-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .is() method</li>
+</ul>
+
+<h2 id=".is(elems)">.is(elems)</h2>
+
+<p><code class="prettyprint">
+ Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>An existing jQuery object to match the current set of elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/is/#is-jQuery-object"> http://api.jquery.com/is/#is-jQuery-object</a></li>
+<li><strong>returns:</strong> result of jQuery .is() method</li>
+</ul>
+
+<h2 id=".next()">.next()</h2>
+
+<p><code class="prettyprint">
+ Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/next/"> http://api.jquery.com/next/</a></li>
+<li><strong>returns:</strong> result of jQuery .next() method</li>
+</ul>
+
+<h2 id=".next(selector)">.next(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/next/#next-selector"> http://api.jquery.com/next/#next-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .next() method</li>
+</ul>
+
+<h2 id=".next(elems)">.next(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the immediately following sibling of each element in the set of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/next/#next-selector"> http://api.jquery.com/next/#next-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .next() method</li>
+</ul>
+
+<h2 id=".nextall()">.nextAll()</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextAll/"> http://api.jquery.com/nextAll/</a></li>
+<li><strong>returns:</strong> result of jQuery .nextAll() method</li>
+</ul>
+
+<h2 id=".nextall(selector)">.nextAll(selector)</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextAll/#nextAll-selector"> http://api.jquery.com/nextAll/#nextAll-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .nextAll() method</li>
+</ul>
+
+<h2 id=".nextall(elems)">.nextAll(elems)</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextAll/#nextAll-selector"> http://api.jquery.com/nextAll/#nextAll-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .nextAll() method</li>
+</ul>
+
+<h2 id=".nextuntil(selector)">.nextUntil(selector)</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to indicate where to stop matching following sibling elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextUntil/#nextUntil-selector-filter"> http://api.jquery.com/nextUntil/#nextUntil-selector-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .nextUntil() method</li>
+</ul>
+
+<h2 id=".nextuntil(selectorfilter)">.nextUntil(selectorfilter)</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to indicate where to stop matching following sibling elements.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextUntil/#nextUntil-selector-filter"> http://api.jquery.com/nextUntil/#nextUntil-selector-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .nextUntil() method</li>
+</ul>
+
+<h2 id=".nextuntil(elems)">.nextUntil(elems)</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A DOM node or jQuery object indicating where to stop matching following sibling elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextUntil/#nextUntil-element-filter"> http://api.jquery.com/nextUntil/#nextUntil-element-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .nextUntil() method</li>
+</ul>
+
+<h2 id=".nextuntil(elemsfilter)">.nextUntil(elemsfilter)</h2>
+
+<p><code class="prettyprint">
+ Get all following siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object passed.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A DOM node or jQuery object indicating where to stop matching following sibling elements.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/nextUntil/#nextUntil-element-filter"> http://api.jquery.com/nextUntil/#nextUntil-element-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .nextUntil() method</li>
+</ul>
+
+<h2 id=".not(selector)">.not(selector)</h2>
+
+<p><code class="prettyprint">
+ Remove elements from the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/not/#not-selector"> http://api.jquery.com/not/#not-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .not() method</li>
+</ul>
+
+<h2 id=".not(elems)">.not(elems)</h2>
+
+<p><code class="prettyprint">
+ Remove elements from the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>An existing jQuery object to match the current set of elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/not/#not-jQuery-object"> http://api.jquery.com/not/#not-jQuery-object</a></li>
+<li><strong>returns:</strong> result of jQuery .not() method</li>
+</ul>
+
+<h2 id=".offsetparent()">.offsetParent()</h2>
+
+<p><code class="prettyprint">
+ Get the closest ancestor element that is positioned.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/offsetParent/"> http://api.jquery.com/offsetParent/</a></li>
+<li><strong>returns:</strong> result of jQuery .offsetParent() method</li>
+</ul>
+
+<h2 id=".parent()">.parent()</h2>
+
+<p><code class="prettyprint">
+ Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parent/"> http://api.jquery.com/parent/</a></li>
+<li><strong>returns:</strong> result of jQuery .parent() method</li>
+</ul>
+
+<h2 id=".parent(selector)">.parent(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parent/#parent-selector"> http://api.jquery.com/parent/#parent-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .parent() method</li>
+</ul>
+
+<h2 id=".parent(elems)">.parent(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the parent of each element in the current set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parent/#parent-selector"> http://api.jquery.com/parent/#parent-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .parent() method</li>
+</ul>
+
+<h2 id=".parents()">.parents()</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parents/"> http://api.jquery.com/parents/</a></li>
+<li><strong>returns:</strong> result of jQuery .parents() method</li>
+</ul>
+
+<h2 id=".parents(selector)">.parents(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parents/#parents-selector"> http://api.jquery.com/parents/#parents-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .parents() method</li>
+</ul>
+
+<h2 id=".parents(elems)">.parents(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parents/#parents-selector"> http://api.jquery.com/parents/#parents-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .parents() method</li>
+</ul>
+
+<h2 id=".parentsuntil(selector)">.parentsUntil(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to indicate where to stop matching ancestor elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parentsUntil/#parentsUntil-selector-filter"> http://api.jquery.com/parentsUntil/#parentsUntil-selector-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .parentsUntil() method</li>
+</ul>
+
+<h2 id=".parentsuntil(selectorfilter)">.parentsUntil(selectorfilter)</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to indicate where to stop matching ancestor elements.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parentsUntil/#parentsUntil-selector-filter"> http://api.jquery.com/parentsUntil/#parentsUntil-selector-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .parentsUntil() method</li>
+</ul>
+
+<h2 id=".parentsuntil(elems)">.parentsUntil(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A DOM node or jQuery object indicating where to stop matching ancestor elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parentsUntil/#parentsUntil-element-filter"> http://api.jquery.com/parentsUntil/#parentsUntil-element-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .parentsUntil() method</li>
+</ul>
+
+<h2 id=".parentsuntil(elemsfilter)">.parentsUntil(elemsfilter)</h2>
+
+<p><code class="prettyprint">
+ Get the ancestors of each element in the current set of matched elements, up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A DOM node or jQuery object indicating where to stop matching ancestor elements.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/parentsUntil/#parentsUntil-element-filter"> http://api.jquery.com/parentsUntil/#parentsUntil-element-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .parentsUntil() method</li>
+</ul>
+
+<h2 id=".prev()">.prev()</h2>
+
+<p><code class="prettyprint">
+ Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prev/"> http://api.jquery.com/prev/</a></li>
+<li><strong>returns:</strong> result of jQuery .prev() method</li>
+</ul>
+
+<h2 id=".prev(selector)">.prev(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prev/#prev-selector"> http://api.jquery.com/prev/#prev-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .prev() method</li>
+</ul>
+
+<h2 id=".prev(elems)">.prev(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the immediately preceding sibling of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prev/#prev-selector"> http://api.jquery.com/prev/#prev-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .prev() method</li>
+</ul>
+
+<h2 id=".prevall()">.prevAll()</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevAll/"> http://api.jquery.com/prevAll/</a></li>
+<li><strong>returns:</strong> result of jQuery .prevAll() method</li>
+</ul>
+
+<h2 id=".prevall(selector)">.prevAll(selector)</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevAll/#prevAll-selector"> http://api.jquery.com/prevAll/#prevAll-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .prevAll() method</li>
+</ul>
+
+<h2 id=".prevall(elems)">.prevAll(elems)</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevAll/#prevAll-selector"> http://api.jquery.com/prevAll/#prevAll-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .prevAll() method</li>
+</ul>
+
+<h2 id=".prevuntil(selector)">.prevUntil(selector)</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to indicate where to stop matching preceding sibling elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevUntil/#prevUntil-selector-filter"> http://api.jquery.com/prevUntil/#prevUntil-selector-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .prevUntil() method</li>
+</ul>
+
+<h2 id=".prevuntil(selectorfilter)">.prevUntil(selectorfilter)</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to indicate where to stop matching preceding sibling elements.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevUntil/#prevUntil-selector-filter"> http://api.jquery.com/prevUntil/#prevUntil-selector-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .prevUntil() method</li>
+</ul>
+
+<h2 id=".prevuntil(elems)">.prevUntil(elems)</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A DOM node or jQuery object indicating where to stop matching preceding sibling elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevUntil/#prevUntil-element-filter"> http://api.jquery.com/prevUntil/#prevUntil-element-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .prevUntil() method</li>
+</ul>
+
+<h2 id=".prevuntil(elemsfilter)">.prevUntil(elemsfilter)</h2>
+
+<p><code class="prettyprint">
+ Get all preceding siblings of each element up to but not including the element matched by the selector, DOM node, or jQuery object.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A DOM node or jQuery object indicating where to stop matching preceding sibling elements.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/prevUntil/#prevUntil-element-filter"> http://api.jquery.com/prevUntil/#prevUntil-element-filter</a></li>
+<li><strong>returns:</strong> result of jQuery .prevUntil() method</li>
+</ul>
+
+<h2 id=".siblings()">.siblings()</h2>
+
+<p><code class="prettyprint">
+ Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/siblings/"> http://api.jquery.com/siblings/</a></li>
+<li><strong>returns:</strong> result of jQuery .siblings() method</li>
+</ul>
+
+<h2 id=".siblings(selector)">.siblings(selector)</h2>
+
+<p><code class="prettyprint">
+ Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>selector</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/siblings/#siblings-selector"> http://api.jquery.com/siblings/#siblings-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .siblings() method</li>
+</ul>
+
+<h2 id=".siblings(elems)">.siblings(elems)</h2>
+
+<p><code class="prettyprint">
+ Get the siblings of each element in the set of matched elements, optionally filtered by a selector.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>A string containing a selector expression to match elements against.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/siblings/#siblings-selector"> http://api.jquery.com/siblings/#siblings-selector</a></li>
+<li><strong>returns:</strong> result of jQuery .siblings() method</li>
+</ul>
+
+<h2 id=".slice(start)">.slice(start)</h2>
+
+<p><code class="prettyprint">
+ Reduce the set of matched elements to a subset specified by a range of indices.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start</td>
+<td>An integer indicating the 0-based position at which the elements begin to be selected. If negative, it indicates an offset from the end of the set.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/slice/#slice-start-end"> http://api.jquery.com/slice/#slice-start-end</a></li>
+<li><strong>returns:</strong> result of jQuery .slice() method</li>
+</ul>
+
+<h2 id=".slice(startend)">.slice(startend)</h2>
+
+<p><code class="prettyprint">
+ Reduce the set of matched elements to a subset specified by a range of indices.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start</td>
+<td>An integer indicating the 0-based position at which the elements begin to be selected. If negative, it indicates an offset from the end of the set.</td>
+</tr>
+<tr>
+<td>end</td>
+<td>An integer indicating the 0-based position at which the elements stop being selected. If negative, it indicates an offset from the end of the set. If omitted, the range continues until the end of the set.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/slice/#slice-start-end"> http://api.jquery.com/slice/#slice-start-end</a></li>
+<li><strong>returns:</strong> result of jQuery .slice() method</li>
+</ul>
+
+<h2 id=".hasclass(cssclass)">.hasClass(cssClass)</h2>
+
+<p><code class="prettyprint">
+ Determine whether any of the matched elements are assigned the given class.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>cssClass</td>
+<td>The class name to search for.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>see:</strong> <a href="http://api.jquery.com/hasClass/#hasClass-className"> http://api.jquery.com/hasClass/#hasClass-className</a></li>
+<li><strong>returns:</strong> result of jQuery .hasClass() method</li>
+</ul>
+
+          <h1 id="conditionalwebelements">ConditionalWebElements</h1>
+
+<h2 id=".and(selector)">.and(selector)</h2>
+
+<h2 id=".or(selector)">.or(selector)</h2>
+
+<h2 id=".then(filter)">.then(filter)</h2>
+
+<h2 id=".when(filter)">.when(filter)</h2>
+
+<h2 id=".unless(filter)">.unless(filter)</h2>
+
+          <h1 id="extensionswebelements">ExtensionsWebElements</h1>
+
+<h2 id=".withlabel(label)">.withLabel(label)</h2>
+
+<p>`<p>Filters elements that have a label with the given text. That means that
+ returned elements have the same <code>id</code> than the <code>for</code>
+ attribute of the <code>label</code> tag.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;:text&quot;).withLabel(&quot;Username&quot;)</pre></p>
+
+<p>evaluates <code>#username</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <label for="username">Username</label>
+ <input type="text" id="username" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>label</td>
+<td>the label text</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withattr(name)">.withAttr(name)</h2>
+
+<p>`<p>Filters elements that have an attribute.</p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;img&quot;).withAttr(&quot;alt&quot;)</pre></p>
+
+<p>evaluates <code>#image2</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <img id="image1" src="image1.gif" />
+ <img id="image2" src="image2.gif" alt="Image 2" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>the attribute name</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withattr(namevalue)">.withAttr(namevalue)</h2>
+
+<p>`<p>Filters elements that have an attribute with a given value.</p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;img&quot;).withAttr(&quot;alt&quot;, &quot;Image 1&quot;)</pre></p>
+
+<p>evaluates <code>#image1</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <img id="image1" src="image1.gif" alt="Image 1" />
+ <img id="image2" src="image2.gif" alt="Image 2" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>the attribute name</td>
+</tr>
+<tr>
+<td>value</td>
+<td>the attribute value</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withcss(name)">.withCss(name)</h2>
+
+<p>`<p>Filters elements that have a style property.</p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;img&quot;).withCss(&quot;display&quot;)</pre></p>
+
+<p>evaluates <code>#image2</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <img id="image1" src="image1.gif" />
+ <img id="image2" src="image2.gif" style="display: block" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>the style property name</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withcss(namevalue)">.withCss(namevalue)</h2>
+
+<p>`<p>Filters elements that have a style property with a given value.</p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;img&quot;).withAttr(&quot;display&quot;, &quot;block&quot;)</pre></p>
+
+<p>evaluates <code>#image1</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <img id="image1" src="image1.gif" style="display: block" />
+ <img id="image2" src="image2.gif" style="display: none" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>the style property name</td>
+</tr>
+<tr>
+<td>value</td>
+<td>the style property value</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withvalue(value)">.withValue(value)</h2>
+
+<p>`<p>Filters elements that have a <code>value</code> attribute with a given value.
+ This is very useful in input elements.</p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;:button&quot;).withValue(&quot;Proceed&quot;)</pre></p>
+
+<p>evaluates <code>#button</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <input id="button" type="button" value="Proceed" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>value</td>
+<td>the value for attribute <code>value</code></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withname(name)">.withName(name)</h2>
+
+<p>`<p>Filters elements that have a <code>name</code> attribute with a given value.
+ This is very useful in form input elements.</p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;:password&quot;).withName(&quot;pass&quot;)</pre></p>
+
+<p>evaluates <code>#password</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <input id="password" type="password" name="pass" />
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>the value for attribute <code>name</code></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withtext(text)">.withText(text)</h2>
+
+<p>`<p>Filters elements which have a specified text.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).withText(&quot;Hello&quot;)</pre></p>
+
+<p>evaluates <code>#sometext</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="sometext">Hello</span>
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>the text to match</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".withvisibletext(text)">.withVisibleText(text)</h2>
+
+<p>`<p>Filters elements which have a specified visible text.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).withVisibleText(&quot;Hello&quot;)</pre></p>
+
+<p>evaluates <code>#sometext</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="sometext">Hello</span>
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>the text to match</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".containingtext(text)">.containingText(text)</h2>
+
+<p>`<p>Filters elements which have a specified text as a substring.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).containingText(&quot;Hello&quot;)</pre></p>
+
+<p>evaluates <code>#sometext</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="sometext">Hello World</span>
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>the text to match</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".containingvisibletext(text)">.containingVisibleText(text)</h2>
+
+<p>`<p>Filters elements which have a specified visible text as a substring.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).containingVisibleText(&quot;Hello&quot;)</pre></p>
+
+<p>evaluates <code>#sometext</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="sometext">Hello World</span>
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>the text to match</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".matchingtext(regex)">.matchingText(regex)</h2>
+
+<p>`<p>Filters elements which have text that matches the specified regular
+ expression.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).matchingText(&quot;.* World&quot;)</pre></p>
+
+<p>evaluates <code>#sometext</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="sometext">Hello World</span>
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>regex</td>
+<td>the regex</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".matchingvisibletext(regex)">.matchingVisibleText(regex)</h2>
+
+<p>`<p>Filters elements which have visible text that matches the specified regular
+ expression.</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).matchingVisibleText(&quot;.* World&quot;)</pre></p>
+
+<p>evaluates <code>#sometext</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="sometext">Hello World</span>
+ }
+ </pre>`</p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>regex</td>
+<td>the regex</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".visible()">.visible()</h2>
+
+<p>`<p>Filters elements tht are visible. Visibility is computed using
+ <code>:visible</code> CSS selector, as in {@code $(this).filter(&ldquo;:visible&rdquo;) }</p></p>
+
+<p><p>Example:</p></p>
+
+<p><pre>wd.find(&quot;span&quot;).visible()</pre></p>
+
+<p>evaluates <code>#span2</code> in the following scenario:</p>
+
+<p><pre>
+ {@code
+ <span id="span1" style="display: none">Hello World</span>
+ <span id="span2">Hello World</span>
+ }
+ </pre>`</p>
+
+<ul>
+<li><strong>returns:</strong> filtered {@link WebElements}</li>
+</ul>
+
+<h2 id=".displayed()">.displayed()</h2>
+
+<h2 id=".selected()">.selected()</h2>
+
+<h2 id=".visibletext()">.visibleText()</h2>
+
+<h2 id=".vals()">.vals()</h2>
+
+<p><code class="prettyprint">Get the values from the set of matched elements.</code></p>
+
+<ul>
+<li><strong>returns:</strong> an array with the value of each matched element, in the same order.</li>
+</ul>
+
+<h2 id=".attrs(attributename)">.attrs(attributeName)</h2>
+
+<p><code class="prettyprint">Get the values of a specific attribute from the set of matched elements.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>attributeName</td>
+<td>The name of the attribute to get.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> an array with the attribute value from each matched element, in the same order.</li>
+</ul>
+
+          <h1 id="evalwebelements">EvalWebElements</h1>
+
+<h2 id=".eval(script)">.eval(script)</h2>
+
+<h2 id=".evalwebelements(script)">.evalWebElements(script)</h2>
+
+          <h1 id="targetlocatorwebelements">TargetLocatorWebElements</h1>
+
+<h2 id=".frames()">.frames()</h2>
+
+<h2 id=".windows()">.windows()</h2>
+
+<h2 id=".root()">.root()</h2>
+
+          <h1 id="positionwebelements">PositionWebElements</h1>
+
+<h2 id=".above(expr)">.above(expr)</h2>
+
+<p><code class="prettyprint">Returns elements above this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".leftof(expr)">.leftOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the left this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".below(expr)">.below(expr)</h2>
+
+<p><code class="prettyprint">Returns elements below this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".rightof(expr)">.rightOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the right of this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".overlaps(expr)">.overlaps(expr)</h2>
+
+<p><code class="prettyprint">Overlaps.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expr</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> the t</li>
+</ul>
+
+          <h1 id="interactionperformer">InteractionPerformer</h1>
+
+<h2 id=".with(listeners)">.with(listeners)</h2>
+
+<p><code class="prettyprint">With.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>listeners</td>
+<td>the listeners</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> the interaction performer</li>
+</ul>
+
+<h2 id=".perform(interaction)">.perform(interaction)</h2>
+
+<p><code class="prettyprint">Perform.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>interaction</td>
+<td>the interaction</td>
+</tr>
+</tbody></table>
+
+<h2 id=".performandwait(interaction)">.performAndWait(interaction)</h2>
+
+<p><code class="prettyprint">Perform.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>interaction</td>
+<td>the interaction</td>
+</tr>
+</tbody></table>
+
+<h2 id=".get(elementsurl)">.get(elementsurl)</h2>
+
+<h2 id=".submit(elements)">.submit(elements)</h2>
+
+<p><code class="prettyprint">Submit.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".select(elemstext)">.select(elemstext)</h2>
+
+<p><code class="prettyprint">Select.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+<tr>
+<td>text</td>
+<td>the text</td>
+</tr>
+</tbody></table>
+
+<h2 id=".selectval(elemsval)">.selectVal(elemsval)</h2>
+
+<p><code class="prettyprint">Select val.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+<tr>
+<td>val</td>
+<td>the val</td>
+</tr>
+</tbody></table>
+
+<h2 id=".selectall(elems)">.selectAll(elems)</h2>
+
+<p><code class="prettyprint">Select all.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+</tbody></table>
+
+<h2 id=".waituntilclosed(elems)">.waitUntilClosed(elems)</h2>
+
+<p><code class="prettyprint">Wait until closed.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+</tbody></table>
+
+<h2 id=".close(elements)">.close(elements)</h2>
+
+<h2 id=".scrollintoview(elements)">.scrollIntoView(elements)</h2>
+
+          <h1 id="mouseinteractionperformer">MouseInteractionPerformer</h1>
+
+<h2 id=".clickandhold(elements)">.clickAndHold(elements)</h2>
+
+<p><code class="prettyprint">Click and hold.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".clickandhold(elementsoffset)">.clickAndHold(elementsoffset)</h2>
+
+<h2 id=".release(elements)">.release(elements)</h2>
+
+<h2 id=".release(elementsoffset)">.release(elementsoffset)</h2>
+
+<h2 id=".click(elements)">.click(elements)</h2>
+
+<p><code class="prettyprint">Click.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".click(elementsoffset)">.click(elementsoffset)</h2>
+
+<h2 id=".doubleclick(elements)">.doubleClick(elements)</h2>
+
+<p><code class="prettyprint">Double click.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".doubleclick(elementsoffset)">.doubleClick(elementsoffset)</h2>
+
+<h2 id=".moveto(elements)">.moveTo(elements)</h2>
+
+<p><code class="prettyprint">Move to element.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".moveto(elementsoffset)">.moveTo(elementsoffset)</h2>
+
+<h2 id=".contextclick(elements)">.contextClick(elements)</h2>
+
+<p><code class="prettyprint">Context click.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".contextclick(elementsoffset)">.contextClick(elementsoffset)</h2>
+
+<h2 id=".draganddrop(sourcetarget)">.dragAndDrop(sourcetarget)</h2>
+
+<p><code class="prettyprint">Drag and drop.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>source</td>
+<td>the source</td>
+</tr>
+<tr>
+<td>target</td>
+<td>the target</td>
+</tr>
+</tbody></table>
+
+<h2 id=".clickall(elements)">.clickAll(elements)</h2>
+
+<p><code class="prettyprint">Click all.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elements</td>
+<td>the elements</td>
+</tr>
+</tbody></table>
+
+<h2 id=".clickall(elementsoffset)">.clickAll(elementsoffset)</h2>
+
+<h2 id=".check(elements)">.check(elements)</h2>
+
+<h2 id=".uncheck(elements)">.uncheck(elements)</h2>
+
+<h2 id=".deselect(elemstext)">.deselect(elemstext)</h2>
+
+<p><code class="prettyprint">Deselect.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+<tr>
+<td>text</td>
+<td>the text</td>
+</tr>
+</tbody></table>
+
+<h2 id=".deselectval(elemsval)">.deselectVal(elemsval)</h2>
+
+<p><code class="prettyprint">Deselect val.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+<tr>
+<td>val</td>
+<td>the val</td>
+</tr>
+</tbody></table>
+
+<h2 id=".deselectall(elems)">.deselectAll(elems)</h2>
+
+<p><code class="prettyprint">Deselect all.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>elems</td>
+<td>the elems</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="minium">minium</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

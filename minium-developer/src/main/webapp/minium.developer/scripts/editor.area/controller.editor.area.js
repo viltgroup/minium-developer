@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function($rootScope, $scope, $log, $timeout, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaController', function( $scope, $q,$log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
         //is the actual file selected
         //every time we move to other tab 
@@ -32,12 +32,11 @@ angular.module('minium.developer')
         $scope.loadFile = function(props) {
             //create an empty file
             var promise = FileLoader.loadFile(props, editors);
+            var deferred = $q.defer();
 
             console.log(promise)
-
             promise.then(function(result) {
                 //success handler
-                console.log(result)
                 var newEditor = result;
                 console.log(newEditor)
                 $scope.activeSession = newEditor.instance;
@@ -45,11 +44,13 @@ angular.module('minium.developer')
                 $scope.selected.item = newEditor.selected;
                 $scope.activeID = newEditor.id;
                 $scope.mode = newEditor.mode;
-
+                deferred.resolve(newEditor);
             }, function(errorPayload) {
                 //the promise was rejected
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
+                deferred.reject(newEditor);
             });
+            return deferred.promise;
         };
 
 
@@ -68,6 +69,7 @@ angular.module('minium.developer')
         //try to close tab one by one
         window.addEventListener("beforeunload", function(e) {
             var confirmationMessage = GENERAL_CONFIG.UNSAVED_MSG;
+                
             if (editors.areDirty()) {
                 (e || window.event).returnValue = confirmationMessage; //Gecko + IE
                 return confirmationMessage; //Webkit, Safari, Chrome
@@ -81,14 +83,39 @@ angular.module('minium.developer')
                     event.preventDefault();
                 }
             }
-
-
         });
-
 
         //TEMPORARY SOLUTION - NEDD TO PUT IN directive
         $(window).on('resize', function() {
             editors.resizeEditors();
         });
+
+
+        /**
+         * LAUNCH Webdriver selector Modal
+         */
+        $scope.setWebDriverMsg = function(value) {
+            $scope.webDriverError = value;
+        }
+
+        $scope.webDriverError = false;
+        $scope.openModalWebDriverSelect = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+                controller: "WebDriversController",
+                size: size,
+                resolve: {
+                    error: function() {
+                        return $scope.webDriverError;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(value) {
+                $scope.setWebDriverMsg(value);
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
 
     });

@@ -15,13 +15,13 @@ import minium.actions.debug.DebugInteractable;
 import minium.cucumber.config.ConfigProperties;
 import minium.developer.internal.webelements.SelectorGadgetWebElements;
 import minium.script.js.JsEngine;
-import minium.script.js.JsWebDriverFactory;
+import minium.script.js.JsBrowserFactory;
 import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.JsFunctionWebElements;
 import minium.script.rhinojs.RhinoEngine;
 import minium.script.rhinojs.RhinoProperties;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.script.rhinojs.RhinoWebDriverFactory;
+import minium.script.rhinojs.RhinoBrowserFactory;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.WebLocator;
 import minium.web.config.WebDriverFactory;
@@ -34,6 +34,8 @@ import minium.web.internal.actions.WebDebugInteractionPerformer;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.bind.PropertiesConfigurationFactory;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -45,11 +47,15 @@ import org.springframework.core.io.FileSystemResource;
 
 import com.google.common.base.Preconditions;
 
-public class AbstractProjectContext implements DisposableBean {
+public class AbstractProjectContext implements InitializingBean, DisposableBean {
 
     protected final File projectDir;
-    protected final File resourcesDir;
-    protected final ConfigurableApplicationContext applicationContext;
+    @Autowired
+    protected ConfigurableApplicationContext applicationContext;
+    @Autowired
+    private DriverServicesProperties driverServices;
+
+    protected File resourcesDir;
     private JsEngine jsEngine;
     private WebDriverProperties webDriverProperties;
     private ConfigProperties configProperties;
@@ -57,9 +63,12 @@ public class AbstractProjectContext implements DisposableBean {
     private WebDriver webDriver;
     private WebLocator<DefaultWebElements> by;
 
-    public AbstractProjectContext(DriverServicesProperties driverServices, File projectDir, ConfigurableApplicationContext applicationContext) throws Exception {
+    public AbstractProjectContext(File projectDir) {
         this.projectDir = projectDir;
-        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
         this.resourcesDir = new File(projectDir, "src/test/resources");
         this.propertySources = loadConfiguration();
         this.webDriverProperties = getAppConfigBean("minium.webdriver", WebDriverProperties.class);
@@ -106,7 +115,7 @@ public class AbstractProjectContext implements DisposableBean {
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
-        JsWebDriverFactory browsers = new RhinoWebDriverFactory(rhinoEngine);
+        JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine);
         new MiniumJsEngineAdapter(by, browsers).adapt(rhinoEngine);
         rhinoEngine.putJson("config", configProperties.toJson());
         return rhinoEngine;

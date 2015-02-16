@@ -8,10 +8,8 @@ import minium.web.config.services.DriverServicesProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.core.MessageSendingOperations;
 
 @Configuration
 @EnableConfigurationProperties
@@ -37,8 +35,8 @@ public class ProjectContextConfiguration {
 
     @Autowired
     @Bean
-    public CucumberProjectContext cucumberProjectContext(DriverServicesProperties driverServices, ProjectProperties projConfiguration, ConfigurableApplicationContext applicationContext, MessageSendingOperations<String> messagingTemplate) throws Exception {
-        return new CucumberProjectContext(driverServices, projConfiguration.getDir(), applicationContext, messagingTemplate);
+    public CucumberProjectContext cucumberProjectContext(ProjectProperties projConfiguration) throws Exception {
+        return new CucumberProjectContext(projConfiguration.getDir());
     }
 
 }

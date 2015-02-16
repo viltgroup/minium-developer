@@ -26,10 +26,12 @@
                ">
             <accordion-heading>
                 <!-- HEADER -->
-                <i ng-if="!isPassed(element.status)" class="danger fa fa-bug "></i>
+
+                <icon-item status="step.status"></icon-item>
+                {{step.status}}
                 <strong>{{step.rawName}}</strong>
                 <span>Line {{step.line}}</span>
-                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+                <i class="pull-right glyphicon" ng-class="{'fa-chevron-down': status.open, ' chevron-right': !status.open}"></i>
             </accordion-heading>
             <!-- CONTENT -->
             <table class="table table-primary table-list table-striped table-condensed">
@@ -40,13 +42,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr> 
-                    {{step}}
+                    <tr>
                         <td style="">
-                            <p ng-class="{'danger' : !isPassed(step.status),'success' : isPassed(step.status)}"> {{step.rawName}}
+                            <p>
+                                {{step.rawName}}
                             </p>
                             <!-- TABLES ROW -->
-                            <pre ng-if="!isPassed(step.status)"> {{step.errorMessage}}</pre>
+                            <pre ng-if="step.errorMessage !== null"> {{step.errorMessage}}</pre>
                         </td>
                         <td style="">
                             <!-- <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="!isPassed(step.status)"/> -->
@@ -55,9 +57,14 @@
                     </tr>
                 </tbody>
             </table>
+
         </accordion-group>
     </accordion>
 
+    <span ng-repeat="snippet in snippetsForUndefinedSteps track by $index">
+         <pre class="prettyprint lang-js" style="white-space: pre;">{{snippet}} </pre>
+    </span>
+    
     <div class="row">
         <h5>
                List of features
@@ -84,7 +91,7 @@
             </div>
          </div>
          </h5>
-      </div>
-        <div class="modal-footer">
-            <button class="btn btn-warning" ng-click="cancel()">Close</button>
-        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Close</button>
+    </div>

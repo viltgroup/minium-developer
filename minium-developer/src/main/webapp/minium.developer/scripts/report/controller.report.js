@@ -6,7 +6,10 @@ angular.module('minium.developer')
         $scope.faillingSteps = featureReport.notPassingsteps;
 
         $scope.resultsSummary = featureReport.resultsSummary;
+
+        $scope.snippetsForUndefinedSteps = featureReport.snippetsForUndefinedSteps;
         
+        console.log(featureReport);
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };

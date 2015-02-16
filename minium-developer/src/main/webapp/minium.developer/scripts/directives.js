@@ -123,11 +123,16 @@ angular.module('miniumDeveloper.directives', [])
             $scope.getName = function(option) {
                 return option[$scope.name];
             }
+
+            $scope.getIcon = function(option) {
+                return option['icon'];
+            }
         },
         template: "<button type='button' class='btn btn-{{suffix}}' " +
             "ng-class='{active: isActive(option)}'" +
             "ng-repeat='option in options' " +
-            "ng-click='activate(option, $event)'><i class='icon-{{getName(option)}}'></i>{{getName(option)}} " +
+            "ng-click='activate(option, $event)'><i class='{{getIcon(option)}} gl-lg'></i><br>" +
+            "{{getName(option)}} " +
             "</button>"
     };
 })
@@ -195,8 +200,8 @@ angular.module('miniumDeveloper.directives', [])
 
 /**
  * To go to a state without notify
- * On open a modal with ui-sref the 
- * parent state reload. With this we 
+ * On open a modal with ui-sref the
+ * parent state reload. With this we
  * can avoid that
  **/
 .directive('modal', function($state) {
@@ -237,6 +242,55 @@ angular.module('miniumDeveloper.directives', [])
 
             });
 
+        }
+    };
+})
+
+.directive('iconItem', function($compile) {
+
+     var statuses = {
+        passed: 'PASSED',
+        failed: 'FAILED',
+        undefined: 'UNDEFINED',
+        skipped: 'SKIPPED'
+    };
+
+
+    var successTemplate = '<i class="success fa fa-check-square "></i>';
+    var errorTemplate = '<i class="danger fa fa-bug "></i>';
+    var undefinedTemplate = '<i class="warning fa fa-exclamation-triangle "></i>';
+
+    var getStepResult = function(status) {
+        var template = '';
+        switch (status) {
+            case statuses.passed:
+                template = successTemplate;
+                break;
+            case statuses.failed:
+                template = errorTemplate;
+                break;
+            case statuses.skipped:
+                template = undefinedTemplate;
+                break;
+            case statuses.undefined:
+                template = undefinedTemplate;
+                break;
+        }
+
+        return template;
+    }
+
+
+    var linker = function(scope, element, attrs) {
+        element.html(getStepResult(scope.status)).show();
+        $compile(element.contents())(scope);
+    }
+
+    return {
+        restrict: "E",
+        link: linker,
+        scope: {
+            status: '='
         }
     };
 });

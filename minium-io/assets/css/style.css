@@ -26,7 +26,7 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 40px;
 }
 h1 {
-    padding-top: 30px;
+    padding-top: 5px;
     color: #fff;
     font-weight: 800;
 }
@@ -451,6 +451,11 @@ footer img {
     }
 }
 
+.pad-right {
+    padding-left: 100px;
+    padding-right: 50px;
+}
+
 #docsFrame {
     display: block;
     /* iframes are inline by default */
@@ -462,4 +467,8 @@ footer img {
     width: 100%;
     height: 100%;
     padding-top: 70px;
+}
+
+li {
+    margin: 0 0 8px 0;
 }

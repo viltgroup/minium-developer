@@ -11,24 +11,21 @@ import static minium.web.internal.WebModules.positionModule;
 
 import java.io.File;
 
-import minium.actions.debug.DebugInteractable;
+import minium.Elements;
 import minium.cucumber.config.ConfigProperties;
-import minium.developer.internal.webelements.SelectorGadgetWebElements;
-import minium.script.js.JsEngine;
 import minium.script.js.JsBrowserFactory;
+import minium.script.js.JsEngine;
 import minium.script.js.MiniumJsEngineAdapter;
-import minium.script.rhinojs.JsFunctionWebElements;
+import minium.script.rhinojs.RhinoBrowserFactory;
 import minium.script.rhinojs.RhinoEngine;
 import minium.script.rhinojs.RhinoProperties;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.script.rhinojs.RhinoBrowserFactory;
 import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.WebLocator;
+import minium.web.actions.Browser;
+import minium.web.actions.WebDriverBrowser;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.WebDriverProperties;
 import minium.web.config.services.DriverServicesProperties;
-import minium.web.internal.WebElementsFactory;
-import minium.web.internal.WebElementsFactory.Builder;
 import minium.web.internal.WebModule;
 import minium.web.internal.actions.WebDebugInteractionPerformer;
 
@@ -61,7 +58,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     private ConfigProperties configProperties;
     private PropertySources propertySources;
     private WebDriver webDriver;
-    private WebLocator<DefaultWebElements> by;
+    private Browser<DefaultWebElements> browser;
 
     public AbstractProjectContext(File projectDir) {
         this.projectDir = projectDir;
@@ -74,12 +71,12 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         this.webDriverProperties = getAppConfigBean("minium.webdriver", WebDriverProperties.class);
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);
         this.webDriver = new WebDriverFactory(driverServices).create(webDriverProperties);
-        this.by = new WebLocator<>(createElementsFactory().createRoot(), DefaultWebElements.class, JsFunctionWebElements.class, DebugInteractable.class, SelectorGadgetWebElements.class);
+        this.browser = new WebDriverBrowser<>(webDriver, DefaultWebElements.class, createWebModule());
         this.jsEngine = createJsEngine();
     }
 
-    public WebLocator<DefaultWebElements> by() {
-        return by;
+    public Elements root() {
+        return browser.locator().root();
     }
 
     public Object eval(Evaluation evaluation) {
@@ -100,9 +97,8 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
 
     @Override
     public void destroy() throws Exception {
-        by.release();
         jsEngine.destroy();
-        webDriver.quit();
+        browser.quit();
     }
 
     public String toString(Object obj) {
@@ -116,7 +112,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         rhinoProperties.setRequire(require);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
         JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine);
-        new MiniumJsEngineAdapter(by, browsers).adapt(rhinoEngine);
+        new MiniumJsEngineAdapter(browser, browsers).adapt(rhinoEngine);
         rhinoEngine.putJson("config", configProperties.toJson());
         return rhinoEngine;
     }
@@ -150,13 +146,6 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     protected WebModule createWebModule() {
         WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
         return combine(baseModule(webDriver), positionModule(), conditionalModule(), interactableModule(performer), rhinoModule(), debugModule(performer), selectorGadgetModule());
-    }
-
-    protected WebElementsFactory<DefaultWebElements> createElementsFactory() {
-        WebModule webModule = createWebModule();
-        Builder<DefaultWebElements> builder = new WebElementsFactory.Builder<>();
-        webModule.configure(builder);
-        return builder.build();
     }
 
 }

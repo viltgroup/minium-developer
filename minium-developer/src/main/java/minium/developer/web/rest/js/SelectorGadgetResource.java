@@ -85,6 +85,6 @@ public class SelectorGadgetResource {
 	}
 
 	protected SelectorGadgetWebElements getSelectorGadgetWebElements() {
-		return projectContext.by().root().as(SelectorGadgetWebElements.class);
+		return projectContext.root().as(SelectorGadgetWebElements.class);
 	}
 }

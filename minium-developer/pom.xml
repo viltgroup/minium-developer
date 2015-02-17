@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <artifactId>minium-tools</artifactId>
-        <groupId>minium.tools</groupId>
+        <groupId>io.vilt.minium.tools</groupId>
         <version>2.0.0-SNAPSHOT</version>
-        <relativePath />
     </parent>
 
     <artifactId>minium-developer</artifactId>
-    <packaging>jar</packaging>
-
     <name>Minium Developer</name>
 
     <properties>
@@ -37,18 +33,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.vilt-group.minium</groupId>
-            <artifactId>cucumber-reporting</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.vilt.minium</groupId>
             <artifactId>minium-cucumber</artifactId>
         </dependency>
@@ -57,8 +41,20 @@
             <artifactId>minium-script-rhinojs</artifactId>
         </dependency>
         <dependency>
-            <groupId>minium.tools</groupId>
+            <groupId>io.vilt.minium.tools</groupId>
+            <artifactId>minium-cucumber-reporting</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.vilt.minium.tools</groupId>
             <artifactId>minium-tools-fs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -110,6 +106,13 @@
                 <excludes>
                     <exclude>**/*.xml</exclude>
                 </excludes>
+            </resource>
+            <resource>
+                <targetPath>static</targetPath>
+                <directory>src/main/webapp</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
             </resource>
         </resources>
         <finalName>${project.artifactId}</finalName>
@@ -214,12 +217,12 @@
                 <configuration>
                     <rules>
                         <requireMavenVersion>
-							<message>You are running an older version of Maven. JHipster
+                            <message>You are running an older version of Maven. JHipster
 								requires at least Maven 3.0</message>
                             <version>[3.0.0,)</version>
                         </requireMavenVersion>
                         <requireJavaVersion>
-							<message>You are running an older version of Java. JHipster
+                            <message>You are running an older version of Java. JHipster
 								requires at least JDK ${java.version}</message>
                             <version>[${java.version}.0,)</version>
                         </requireJavaVersion>
@@ -246,19 +249,40 @@
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>${sonar-maven-plugin.version}</version>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-scripts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                        <configuration>
+                            <includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
+                            <assembleDirectory>${project.build.directory}/${project.build.finalName}</assembleDirectory>
+                            <extraJvmArguments>-Xms128m -Xmx256m</extraJvmArguments>
+                            <repositoryLayout>flat</repositoryLayout>
+                            <repositoryName>lib</repositoryName>
+                            <useWildcardClassPath>true</useWildcardClassPath>
+                            <!-- Generate bin scripts for windows and unix by default -->
+                            <platforms>
+                                <platform>windows</platform>
+                                <platform>unix</platform>
+                            </platforms>
+                            <programs>
+                                <program>
+                                    <mainClass>minium.developer.Application</mainClass>
+                                    <name>minium-developer</name>
+                                </program>
+                            </programs>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-					<jvmArguments>-Djava.rmi.server.hostname=localhost -Xdebug
-						-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
-                    <arguments>
-                        <argument>--spring.profiles.active=dev</argument>
-                    </arguments>
-                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
@@ -315,16 +339,16 @@
                         <artifactId>yeoman-maven-plugin</artifactId>
                         <version>0.2</version>
                         <executions>
-							<execution>
-								<id>run-grunt</id>
-								<phase>generate-resources</phase>
-								<goals>
-									<goal>build</goal>
-								</goals>
-								<configuration>
-									<gruntBuildArgs>--force</gruntBuildArgs>
-								</configuration>
-							</execution>
+                            <execution>
+                                <id>run-grunt</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                                <configuration>
+                                    <gruntBuildArgs>--force</gruntBuildArgs>
+                                </configuration>
+                            </execution>
                         </executions>
                         <configuration>
                             <yeomanProjectDirectory>${project.basedir}</yeomanProjectDirectory>
@@ -347,15 +371,6 @@
                             </filesets>
                         </configuration>
                     </plugin>
-                    <plugin>
-                        <groupId>org.springframework.boot</groupId>
-                        <artifactId>spring-boot-maven-plugin</artifactId>
-                        <configuration>
-                            <arguments>
-                                <argument>--spring.profiles.active=prod</argument>
-                            </arguments>
-                        </configuration>
-                    </plugin>
                 </plugins>
             </build>
             <properties>
@@ -369,7 +384,7 @@
                 </dependency>
             </dependencies>
         </profile>
-		<!-- We only run launch4j if we're in a windows machine or if we run it 
+        <!-- We only run launch4j if we're in a windows machine or if we run it 
 			with this profile explicitly. Note: running launch4j in *nix / mac environments 
 			requires ia32-libs -->
         <profile>

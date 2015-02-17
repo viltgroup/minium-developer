@@ -9,7 +9,7 @@
 		<version>2.0.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>minium.tools</groupId>
+	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-tools</artifactId>
 	<packaging>pom</packaging>
 
@@ -22,24 +22,38 @@
         <javax.inject.version>1</javax.inject.version>
         <json-path.version>1.2.0</json-path.version>
         <joda-time.version>2.7</joda-time.version>
+        
+        <!-- Selenium drivers -->
+        <chromedriver.version>2.14</chromedriver.version>
+        <phantomjs.version>2.0.0</phantomjs.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+       		<dependency>
+				<groupId>io.vilt.minium</groupId>
+				<artifactId>minium-automator</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
-				<groupId>minium.tools</groupId>
+				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-tools-fs</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+	        <dependency>
+	            <groupId>io.vilt.minium.tools</groupId>
+	            <artifactId>minium-cucumber-reporting</artifactId>
+				<version>${project.version}</version>
+	        </dependency>
+			<dependency>
+				<groupId>io.vilt.minium.tools</groupId>
+				<artifactId>minium-developer</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
 				<version>${commons-io.version}</version>
-			</dependency>
-			<dependency>
-			    <groupId>com.vilt-group.minium</groupId>
-			    <artifactId>cucumber-reporting</artifactId>
-			    <version>${cucumber-reporting.version}</version>
 			</dependency>
 			<dependency>
 	            <groupId>javax.inject</groupId>
@@ -57,6 +71,8 @@
 	<modules>
 		<module>minium-developer</module>
 		<module>minium-tools-fs</module>
+		<module>minium-cucumber-reporting</module>
+		<module>minium-tools-bundle</module>
 	</modules>
 
 	<build>
@@ -85,6 +101,11 @@
 						</execution>
 					</executions>
 				</plugin>
+				<plugin>
+				    <groupId>com.googlecode.maven-download-plugin</groupId>
+				    <artifactId>download-maven-plugin</artifactId>
+				    <version>1.2.1</version>
+			    </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>

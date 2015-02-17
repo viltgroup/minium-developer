@@ -1,5 +1,0 @@
-minium:
-  driverservices:
-    chrome:
-      driverExecutable: C:/Tools/Minium/drivers/chromedriver.exe
-      port:             9515

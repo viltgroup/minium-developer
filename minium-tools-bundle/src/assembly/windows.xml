@@ -15,6 +15,7 @@
 			<outputDirectory></outputDirectory>
 			<includes>
 				<include>bin/*.bat</include>
+				<include>config/**</include>
 				<include>lib/**</include>
 				<include>${project.build.finalName}.exe</include>
 			</includes>

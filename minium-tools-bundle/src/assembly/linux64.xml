@@ -16,6 +16,7 @@
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
+				<include>config/**</include>
 				<include>bin/**</include>
 			</includes>
 			<excludes>

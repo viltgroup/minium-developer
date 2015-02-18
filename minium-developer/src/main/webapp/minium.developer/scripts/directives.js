@@ -128,7 +128,7 @@ angular.module('miniumDeveloper.directives', [])
                 return option['icon'];
             }
         },
-        template: "<button type='button' class='btn btn-{{suffix}}' " +
+        template: "<button type='button' class='btn btn-default' " +
             "ng-class='{active: isActive(option)}'" +
             "ng-repeat='option in options' " +
             "ng-click='activate(option, $event)'><i class='{{getIcon(option)}} gl-lg'></i><br>" +

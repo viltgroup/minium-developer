@@ -3,11 +3,11 @@ angular.module('minium.developer')
     .controller('WebDriversController', function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory, error, GENERAL_CONFIG) {
 
         if (error) {
-
             $scope.error = true;
             $scope.errorMessage = GENERAL_CONFIG.WEBDRIVER.NOTLAUNCHED;
+            error = undefined;
         }
-
+        
 
         $scope.browsers = {
             "Chrome": {
@@ -33,12 +33,12 @@ angular.module('minium.developer')
             "Safari": {
                 displayName: "Safari",
                 shortDisplayName: "Safari",
-                icon: "icon-safari"
+                icon: "icon-compass"
             },
             "PhantomJS": {
                 displayName: "PhantomJS",
                 shortDisplayName: "PhantomJS",
-                icon: "icon-"
+                icon: "icon-globe"
             }
 
         };
@@ -57,7 +57,7 @@ angular.module('minium.developer')
             id: 4,
             name: "Opera"
         }];
-        $scope.selectBrowser = 1;
+        $scope.selectBrowser ;
 
         $scope.idProperty = "shortDisplayName";
         $scope.nameProperty = "displayName";
@@ -75,13 +75,14 @@ angular.module('minium.developer')
         $scope.createWebDriver = function() {
             var config = {
                 desiredCapabilities : {
-                    browserName : "chrome"
+                    browserName : $scope.selectBrowser
                 }
             };
+            
             WebDriverFactory.create(config).success(function() {
-                toastr.success("Created");
+                toastr.success("Created a WebDriver");
+                $scope.$close(false);
             }).error(function(data) {
-                alert(JSON.stringify(data));
                 toastr.error('Could not create a new WebDriver!!');
             });
         }

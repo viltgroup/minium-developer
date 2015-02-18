@@ -794,8 +794,14 @@ treecontrol.tree-classic li .tree-selected {
     border-color: #367fa9;
 }
 
+/*.btn-default.active:hover, .open>.dropdown-toggle.btn-default:hover{
+    color: red;
+    background-color: #3c8dbc;
+    border-color: #367fa9;
+}*/
 /* Glyphicon sizes */
 
 .gl-lg {
-    font-size: 48px;
+    font-size: 38px;
 }
+

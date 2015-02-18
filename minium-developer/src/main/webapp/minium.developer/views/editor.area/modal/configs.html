@@ -10,9 +10,10 @@
         <form class="" name="newLogForm">
             <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
         </form>
+
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="createWebDriver()">Create new WebDriver</button>
+    <button class="btn btn-primary" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined">Create new WebDriver</button>
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>

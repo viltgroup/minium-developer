@@ -29,6 +29,18 @@
       "css": "ie",
       "code": 59395,
       "src": "fontelico"
+    },
+    {
+      "uid": "a6a5b2ea227f86157ba54ae543785161",
+      "css": "compass",
+      "code": 59397,
+      "src": "meteocons"
+    },
+    {
+      "uid": "117d7f4e196f826847929c6550734615",
+      "css": "globe",
+      "code": 59396,
+      "src": "mfglabs"
     }
   ]
 }

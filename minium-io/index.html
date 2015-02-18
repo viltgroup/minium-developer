@@ -150,10 +150,11 @@
 <h2>Minium Core</h2>
 
 <p>You may be thinking: big deal, there are several other tools for browser automation... That&apos;s true, but:</p>
+<div class="pull-right pad-right" ><img src="images/minium-can.png" height="360px"><center><h3>Minium Can!</h3></center></div>
 <div class=container data-scrollreveal="enter left and move 100px, wait 0.5s">
 
 <p class=subtitle>can those tools access another window (for instance, popup windows) in a easy way? Minium can!</p>
-<div class="pull-right pad-right" ><img src="images/minium-can.png" height="360px"><center><h3>Minium Can!</h3></center></div>
+
 <pre class="prettyprint lang-js"> // ALL opened windows to find a text field with label "Username", and fill it with a value
 usernameFld = $(":root").windows().find(":text").withLabel("Username");     </pre>
 <p class=subtitle>can those tools easily access iframes? Minium can!</p>
@@ -167,7 +168,7 @@ label      = $("label").withText("Outbound *");
 input      = $("input").below(label).first();
 datePicker = $("img.ui-datepicker-trigger").rightOf(input).first();
             </pre>
-<br>
+<div class='space-top'></div>
 <h2>Minium Developer</h2>
 <p>Minium Developer is an IDE that runs from your browser. It has a familiar interface and you can create and run test cases from the same console. Other features include:</p>
 <p></p>
@@ -182,11 +183,9 @@ datePicker = $("img.ui-datepicker-trigger").rightOf(input).first();
 <li><i class="fa-li fa fa-check-square"></i>Visually select the elements you want to interact with using the <em>Selector Gadget</em></li>
 <li><i class="fa-li fa fa-check-square"></i>Optimize the process of test creation with templates, snippets and auto complete</li>
 </ul>
-<br>
+<div class='space-top'></div>
 <a href="images/minium-dev1-big.png"><img class="pull-left" src="images/minium-dev1.png" alt="Minium Developer console screenshot"></a>
 <a href="images/minium-dev2-big.png"><img class="pull-right" src="images/minium-dev2.png" alt="Minium Developer console screenshot"></a>
-<br>
-<br>
 </div>
 </div>
 </div>

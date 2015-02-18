@@ -1,13 +1,13 @@
 package net.masterthought.cucumber;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Sequences;
 import net.masterthought.cucumber.json.Element;
 import net.masterthought.cucumber.json.Step;
 import net.masterthought.cucumber.util.Util;
 
-import com.google.common.collect.FluentIterable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TagObject {
 
@@ -123,13 +123,13 @@ public class TagObject {
         return statuses;
     }
 
-    public FluentIterable<Element> getElements() {
+    public Sequence<Element> getElements() {
         populateElements();
-        return FluentIterable.from(elements);
+        return Sequences.sequence(elements);
     }
 
     public Util.Status getStatus() {
-        FluentIterable<Util.Status> results = getElements().transform(Element.functions.status());
+        Sequence<Util.Status> results = getElements().map(Element.functions.status());
         return results.contains(Util.Status.FAILED) ? Util.Status.FAILED : Util.Status.PASSED;
     }
 

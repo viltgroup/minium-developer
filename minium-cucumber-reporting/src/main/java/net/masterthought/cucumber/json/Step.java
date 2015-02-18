@@ -1,19 +1,18 @@
 package net.masterthought.cucumber.json;
 
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static com.googlecode.totallylazy.Option.option;
+import static org.apache.commons.lang.StringUtils.EMPTY;
 
 import java.util.List;
 import java.util.UUID;
 
 import net.masterthought.cucumber.util.Util;
 
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
 import com.google.gson.internal.LinkedTreeMap;
+import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Sequences;
+import com.googlecode.totallylazy.predicates.LogicalPredicate;
 
 public class Step {
 
@@ -27,7 +26,7 @@ public class Step {
     private String[] output;
     private DocString doc_string;
     private String errorMessage;
-
+    
 
     public Step() {
 
@@ -42,7 +41,7 @@ public class Step {
     }
 
     public String getOutput() {
-        List<String> outputList = FluentIterable.from(ImmutableList.copyOf(Optional.fromNullable(output).or(new String[]{}))).toList();
+        List<String> outputList = Sequences.sequence(option(output).getOrElse(new String[]{})).realise().toList();
         return Joiner.on("").skipNulls().join(outputList);
     }
 
@@ -107,7 +106,7 @@ public class Step {
         return name;
     }
     /**
-     *
+     * 
      * @return
      */
     public String getName() {
@@ -157,7 +156,7 @@ public class Step {
                 Util.closeDiv() +
                 Util.closeDiv();
     }
-
+    
     /**
      * Parse the error Message
      * @param errorMessage
@@ -168,7 +167,7 @@ public class Step {
     	String upToNCharacters = formatError(errorMessage).substring(0, 300);
 		return upToNCharacters;
     }
-
+    
     private String formatError(String errorMessage) {
         String result = errorMessage;
         if (errorMessage != null && !errorMessage.isEmpty()) {
@@ -203,7 +202,7 @@ public class Step {
 
 
     public static String mimeEncodeEmbededImage(Object image) {
-        return "data:image/png;base64," + ((LinkedTreeMap<?, ?>) image).get("data");
+        return "data:image/png;base64," + ((LinkedTreeMap) image).get("data");
 
     }
 
@@ -212,10 +211,10 @@ public class Step {
     }
 
     public static class functions {
-        public static Function<Step, Util.Status> status() {
-            return new Function<Step, Util.Status>() {
+        public static Function1<Step, Util.Status> status() {
+            return new Function1<Step, Util.Status>() {
                 @Override
-                public Util.Status apply(Step step) {
+                public Util.Status call(Step step) throws Exception {
                     return step.getStatus();
                 }
             };
@@ -224,20 +223,20 @@ public class Step {
 
     public static class predicates {
 
-        public static Predicate<Step> hasStatus(final Util.Status status) {
-            return new Predicate<Step>() {
+        public static LogicalPredicate<Step> hasStatus(final Util.Status status) {
+            return new LogicalPredicate<Step>() {
                 @Override
-                public boolean apply(Step step) {
+                public boolean matches(Step step) {
                     return step.getStatus().equals(status);
                 }
             };
         }
 
 
-        public static Function<Step, Util.Status> status() {
-            return new Function<Step, Util.Status>() {
+        public static Function1<Step, Util.Status> status() {
+            return new Function1<Step, Util.Status>() {
                 @Override
-                public Util.Status apply(Step step) {
+                public Util.Status call(Step step) throws Exception {
                     return step.getStatus();
                 }
             };

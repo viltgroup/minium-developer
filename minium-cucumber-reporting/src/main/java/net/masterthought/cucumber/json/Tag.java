@@ -1,6 +1,6 @@
 package net.masterthought.cucumber.json;
 
-import com.google.common.base.Function;
+import com.googlecode.totallylazy.Function1;
 
 public class Tag {
 
@@ -16,10 +16,10 @@ public class Tag {
 
     public static class functions {
 
-        public static Function<Tag, String> getName() {
-            return new Function<Tag, String>() {
+        public static Function1<Tag, String> getName() {
+            return new Function1<Tag, String>() {
                 @Override
-                public String apply(Tag tag) {
+                public String call(Tag tag) throws Exception {
                     return tag.getName();
                 }
             };

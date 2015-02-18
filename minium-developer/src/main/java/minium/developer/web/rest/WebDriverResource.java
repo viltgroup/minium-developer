@@ -22,10 +22,10 @@ public class WebDriverResource {
     @Autowired
     protected DelegatorWebDriver delegatorWebDriver;
 
-	@RequestMapping(value = "/isLaunched", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
+	@RequestMapping(value = "/isLaunched", method = RequestMethod.GET)
 	@ResponseBody
 	public boolean isLaunched() {
-	    return delegatorWebDriver.getDelegate() != null;
+	    return delegatorWebDriver.isValid();
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)

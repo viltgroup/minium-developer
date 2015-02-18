@@ -1,14 +1,5 @@
 package minium.developer.project;
 
-import static minium.developer.internal.webelements.SelectorGadgetWebModules.selectorGadgetModule;
-import static minium.script.rhinojs.RhinoWebModules.rhinoModule;
-import static minium.web.internal.WebModules.baseModule;
-import static minium.web.internal.WebModules.combine;
-import static minium.web.internal.WebModules.conditionalModule;
-import static minium.web.internal.WebModules.debugModule;
-import static minium.web.internal.WebModules.interactableModule;
-import static minium.web.internal.WebModules.positionModule;
-
 import java.io.File;
 
 import minium.Elements;
@@ -22,20 +13,16 @@ import minium.script.rhinojs.RhinoProperties;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.Browser;
-import minium.web.actions.WebDriverBrowser;
 import minium.web.config.WebDriverFactory;
-import minium.web.config.WebDriverProperties;
 import minium.web.config.services.DriverServicesProperties;
-import minium.web.internal.WebModule;
-import minium.web.internal.actions.WebDebugInteractionPerformer;
 
-import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.bind.PropertiesConfigurationFactory;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
@@ -47,18 +34,20 @@ import com.google.common.base.Preconditions;
 public class AbstractProjectContext implements InitializingBean, DisposableBean {
 
     protected final File projectDir;
+    protected File resourcesDir;
+    private JsEngine jsEngine;
+    private ConfigProperties configProperties;
+    private PropertySources propertySources;
+
+    @Lazy
+    @Autowired
+    private Browser<DefaultWebElements> browser;
     @Autowired
     protected ConfigurableApplicationContext applicationContext;
     @Autowired
     private DriverServicesProperties driverServices;
-
-    protected File resourcesDir;
-    private JsEngine jsEngine;
-    private WebDriverProperties webDriverProperties;
-    private ConfigProperties configProperties;
-    private PropertySources propertySources;
-    private WebDriver webDriver;
-    private Browser<DefaultWebElements> browser;
+    @Autowired
+    private WebDriverFactory webDriverFactory;
 
     public AbstractProjectContext(File projectDir) {
         this.projectDir = projectDir;
@@ -68,10 +57,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     public void afterPropertiesSet() throws Exception {
         this.resourcesDir = new File(projectDir, "src/test/resources");
         this.propertySources = loadConfiguration();
-        this.webDriverProperties = getAppConfigBean("minium.webdriver", WebDriverProperties.class);
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);
-        this.webDriver = new WebDriverFactory(driverServices).create(webDriverProperties);
-        this.browser = new WebDriverBrowser<>(webDriver, DefaultWebElements.class, createWebModule());
         this.jsEngine = createJsEngine();
     }
 
@@ -141,11 +127,6 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         placeholderConfigurer.postProcessBeanFactory(applicationContext.getBeanFactory());
         PropertySources appliedPropertySources = placeholderConfigurer.getAppliedPropertySources();
         return appliedPropertySources;
-    }
-
-    protected WebModule createWebModule() {
-        WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
-        return combine(baseModule(webDriver), positionModule(), conditionalModule(), interactableModule(performer), rhinoModule(), debugModule(performer), selectorGadgetModule());
     }
 
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab) {
+miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -302,7 +302,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //Activate selector gadget
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.activateSelectorGadget = function(editor) {
-        activateSelectorGadget(editor);
+        activateSelectorGadget(editor, this.scope);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -310,7 +310,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //Evaluate Expression
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.evaluate = function(editor) {
-        evaluate(editor);
+        evaluate(editor, this.scope);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -474,7 +474,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         win: "Ctrl-Enter",
                         mac: "Command-Enter"
                     },
-                    exec: evaluate,
+                    exec: function(env) {
+                        evaluate(env, _this.scope);
+                    },
                     readOnly: false // should not apply in readOnly mode
                 });
                 editor.commands.addCommand({
@@ -483,7 +485,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         win: "Ctrl-Shift-C",
                         mac: "Command-Shift-C"
                     },
-                    exec: activateSelectorGadget,
+                    exec: function(env) {
+                        activateSelectorGadget(env, _this.scope);
+                    },
                     readOnly: false // should not apply in readOnly mode
                 });
                 break;
@@ -718,49 +722,67 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     };
 
     // from minium app
-    function evaluate(editor) {
-        var range = editor.getSelectionRange();
-        var session = editor.getSession();
+    function evaluate(editor, that) {
 
-        var line = range.start.row;
-        var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
+        /*
+         * check if a webdriver if launched
+         */
+        WebDriverFactory.isCreated().success(function(data) {
+            var range = editor.getSelectionRange();
+            var session = editor.getSession();
 
-        var request = EvalService.eval({
-                expr: code,
-                lineno: line + 1
-            })
-            .success(function(data) {
-                if (data.size >= 0) {
-                    toastr.success(data.size + " matching web elements");
-                } else {
-                    toastr.success(data.value ? _.escape(data.value) : "No value");
-                }
-            })
-            .error(function(exception) {
-                console.error("Evaluation failed", exception);
-                toastr.warning(exception.message);
-                if (exception.lineNumber >= 0 && !exception.sourceName) {
-                    var errors = [{
-                        row: exception.lineNumber - 1,
-                        column: 0,
-                        text: exception.message,
-                        type: "error"
-                    }];
-                    editor.getSession().setAnnotations(errors);
-                }
-            });
+            var line = range.start.row;
+            var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
+
+            var request = EvalService.eval({
+                    expr: code,
+                    lineno: line + 1
+                })
+                .success(function(data) {
+                    if (data.size >= 0) {
+                        toastr.success(data.size + " matching web elements");
+                    } else {
+                        toastr.success(data.value ? _.escape(data.value) : "No value");
+                    }
+                })
+                .error(function(exception) {
+                    console.error("Evaluation failed", exception);
+                    toastr.warning(exception.message);
+                    if (exception.lineNumber >= 0 && !exception.sourceName) {
+                        var errors = [{
+                            row: exception.lineNumber - 1,
+                            column: 0,
+                            text: exception.message,
+                            type: "error"
+                        }];
+                        editor.getSession().setAnnotations(errors);
+                    }
+                });
+        }).
+        error(function(data) {
+            that.setWebDriverMsg(true);
+            that.openModalWebDriverSelect();
+        });
+
     };
 
-    function activateSelectorGadget(editor) {
-        var modalInstance = $modal.open({
-            templateUrl: 'selectorGadgetModal.html',
-            controller: 'SelectorGadgetCtrl',
-            resolve: {
-                editor: function() {
-                    return editor;
+    function activateSelectorGadget(editor,that) {
+
+        WebDriverFactory.isCreated().success(function(data) {
+            var modalInstance = $modal.open({
+                templateUrl: 'selectorGadgetModal.html',
+                controller: 'SelectorGadgetCtrl',
+                resolve: {
+                    editor: function() {
+                        return editor;
+                    }
                 }
-            }
+            });
+        }).error(function(data) {
+            that.setWebDriverMsg(true);
+            that.openModalWebDriverSelect();
         });
+
     };
 
     function launchCucumber(editor, scope) {

@@ -26,7 +26,7 @@
       </span>
     </a>
     <div class="tocify-wrapper">
-      <a href="http://vilt.io"><img src="images/logo.png" /></a>
+      <img src="images/logo.png" />
         <div class="lang-selector">
               <a href="#" data-language-name="minium">minium</a>
         </div>
@@ -47,7 +47,7 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
-          <h1 id="basicwebelements">BasicWebElements</h1>
+          <h1 id="elements">Elements</h1>
 
 <h2 id=".find(elems)">.find(elems)</h2>
 
@@ -1239,7 +1239,109 @@
 <li><strong>returns:</strong> result of jQuery .hasClass() method</li>
 </ul>
 
-          <h1 id="conditionalwebelements">ConditionalWebElements</h1>
+<h2 id=".above(expr)">.above(expr)</h2>
+
+<p><code class="prettyprint">Returns elements above this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".leftof(expr)">.leftOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the left this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".below(expr)">.below(expr)</h2>
+
+<p><code class="prettyprint">Returns elements below this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".rightof(expr)">.rightOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the right of this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".overlaps(expr)">.overlaps(expr)</h2>
+
+<p><code class="prettyprint">Overlaps.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expr</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> the t</li>
+</ul>
+
+<h2 id=".eval(script)">.eval(script)</h2>
+
+<h2 id=".evalwebelements(script)">.evalWebElements(script)</h2>
 
 <h2 id=".and(selector)">.and(selector)</h2>
 
@@ -1251,7 +1353,11 @@
 
 <h2 id=".unless(filter)">.unless(filter)</h2>
 
-          <h1 id="extensionswebelements">ExtensionsWebElements</h1>
+<h2 id=".frames()">.frames()</h2>
+
+<h2 id=".windows()">.windows()</h2>
+
+<h2 id=".root()">.root()</h2>
 
 <h2 id=".withlabel(label)">.withLabel(label)</h2>
 
@@ -1744,463 +1850,65 @@
 <li><strong>returns:</strong> an array with the attribute value from each matched element, in the same order.</li>
 </ul>
 
-          <h1 id="evalwebelements">EvalWebElements</h1>
+          <h1 id="interactions">Interactions</h1>
 
-<h2 id=".eval(script)">.eval(script)</h2>
+<h2 id=".close()">.close()</h2>
 
-<h2 id=".evalwebelements(script)">.evalWebElements(script)</h2>
-
-          <h1 id="targetlocatorwebelements">TargetLocatorWebElements</h1>
-
-<h2 id=".frames()">.frames()</h2>
-
-<h2 id=".windows()">.windows()</h2>
-
-<h2 id=".root()">.root()</h2>
-
-          <h1 id="positionwebelements">PositionWebElements</h1>
-
-<h2 id=".above(expr)">.above(expr)</h2>
-
-<p><code class="prettyprint">Returns elements above this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".leftof(expr)">.leftOf(expr)</h2>
-
-<p><code class="prettyprint">Returns elements at the left this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".below(expr)">.below(expr)</h2>
-
-<p><code class="prettyprint">Returns elements below this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".rightof(expr)">.rightOf(expr)</h2>
-
-<p><code class="prettyprint">Returns elements at the right of this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".overlaps(expr)">.overlaps(expr)</h2>
-
-<p><code class="prettyprint">Overlaps.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expr</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> the t</li>
-</ul>
-
-          <h1 id="interactionperformer">InteractionPerformer</h1>
-
-<h2 id=".with(listeners)">.with(listeners)</h2>
-
-<p><code class="prettyprint">With.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>listeners</td>
-<td>the listeners</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> the interaction performer</li>
-</ul>
-
-<h2 id=".perform(interaction)">.perform(interaction)</h2>
-
-<p><code class="prettyprint">Perform.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>interaction</td>
-<td>the interaction</td>
-</tr>
-</tbody></table>
-
-<h2 id=".performandwait(interaction)">.performAndWait(interaction)</h2>
-
-<p><code class="prettyprint">Perform.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>interaction</td>
-<td>the interaction</td>
-</tr>
-</tbody></table>
-
-<h2 id=".get(elementsurl)">.get(elementsurl)</h2>
-
-<h2 id=".submit(elements)">.submit(elements)</h2>
-
-<p><code class="prettyprint">Submit.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".select(elemstext)">.select(elemstext)</h2>
-
-<p><code class="prettyprint">Select.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-<tr>
-<td>text</td>
-<td>the text</td>
-</tr>
-</tbody></table>
-
-<h2 id=".selectval(elemsval)">.selectVal(elemsval)</h2>
-
-<p><code class="prettyprint">Select val.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-<tr>
-<td>val</td>
-<td>the val</td>
-</tr>
-</tbody></table>
-
-<h2 id=".selectall(elems)">.selectAll(elems)</h2>
-
-<p><code class="prettyprint">Select all.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-</tbody></table>
-
-<h2 id=".waituntilclosed(elems)">.waitUntilClosed(elems)</h2>
-
-<p><code class="prettyprint">Wait until closed.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-</tbody></table>
-
-<h2 id=".close(elements)">.close(elements)</h2>
-
-<h2 id=".scrollintoview(elements)">.scrollIntoView(elements)</h2>
-
-          <h1 id="mouseinteractionperformer">MouseInteractionPerformer</h1>
-
-<h2 id=".clickandhold(elements)">.clickAndHold(elements)</h2>
-
-<p><code class="prettyprint">Click and hold.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".clickandhold(elementsoffset)">.clickAndHold(elementsoffset)</h2>
-
-<h2 id=".release(elements)">.release(elements)</h2>
-
-<h2 id=".release(elementsoffset)">.release(elementsoffset)</h2>
-
-<h2 id=".click(elements)">.click(elements)</h2>
-
-<p><code class="prettyprint">Click.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".click(elementsoffset)">.click(elementsoffset)</h2>
-
-<h2 id=".doubleclick(elements)">.doubleClick(elements)</h2>
-
-<p><code class="prettyprint">Double click.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".doubleclick(elementsoffset)">.doubleClick(elementsoffset)</h2>
-
-<h2 id=".moveto(elements)">.moveTo(elements)</h2>
-
-<p><code class="prettyprint">Move to element.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".moveto(elementsoffset)">.moveTo(elementsoffset)</h2>
-
-<h2 id=".contextclick(elements)">.contextClick(elements)</h2>
-
-<p><code class="prettyprint">Context click.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".contextclick(elementsoffset)">.contextClick(elementsoffset)</h2>
-
-<h2 id=".draganddrop(sourcetarget)">.dragAndDrop(sourcetarget)</h2>
-
-<p><code class="prettyprint">Drag and drop.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>source</td>
-<td>the source</td>
-</tr>
-<tr>
-<td>target</td>
-<td>the target</td>
-</tr>
-</tbody></table>
-
-<h2 id=".clickall(elements)">.clickAll(elements)</h2>
-
-<p><code class="prettyprint">Click all.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elements</td>
-<td>the elements</td>
-</tr>
-</tbody></table>
-
-<h2 id=".clickall(elementsoffset)">.clickAll(elementsoffset)</h2>
-
-<h2 id=".check(elements)">.check(elements)</h2>
-
-<h2 id=".uncheck(elements)">.uncheck(elements)</h2>
-
-<h2 id=".deselect(elemstext)">.deselect(elemstext)</h2>
-
-<p><code class="prettyprint">Deselect.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-<tr>
-<td>text</td>
-<td>the text</td>
-</tr>
-</tbody></table>
-
-<h2 id=".deselectval(elemsval)">.deselectVal(elemsval)</h2>
-
-<p><code class="prettyprint">Deselect val.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-<tr>
-<td>val</td>
-<td>the val</td>
-</tr>
-</tbody></table>
-
-<h2 id=".deselectall(elems)">.deselectAll(elems)</h2>
-
-<p><code class="prettyprint">Deselect all.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>elems</td>
-<td>the elems</td>
-</tr>
-</tbody></table>
+<h2 id=".scrollintoview()">.scrollIntoView()</h2>
+
+<h2 id=".clear()">.clear()</h2>
+
+<h2 id=".submit()">.submit()</h2>
+
+<h2 id=".keydown(keys)">.keyDown(keys)</h2>
+
+<h2 id=".keyup(keys)">.keyUp(keys)</h2>
+
+<h2 id=".sendkeys(keys)">.sendKeys(keys)</h2>
+
+<h2 id=".clickandhold()">.clickAndHold()</h2>
+
+<h2 id=".clickandhold(offset)">.clickAndHold(offset)</h2>
+
+<h2 id=".release()">.release()</h2>
+
+<h2 id=".release(offset)">.release(offset)</h2>
+
+<h2 id=".click()">.click()</h2>
+
+<h2 id=".doubleclick()">.doubleClick()</h2>
+
+<h2 id=".moveto()">.moveTo()</h2>
+
+<h2 id=".moveto(offset)">.moveTo(offset)</h2>
+
+<h2 id=".contextclick()">.contextClick()</h2>
+
+<h2 id=".draganddrop(target)">.dragAndDrop(target)</h2>
+
+<h2 id=".clickall()">.clickAll()</h2>
+
+<h2 id=".type(text)">.type(text)</h2>
+
+<h2 id=".fill(text)">.fill(text)</h2>
+
+<h2 id=".check()">.check()</h2>
+
+<h2 id=".uncheck()">.uncheck()</h2>
+
+<h2 id=".select(text)">.select(text)</h2>
+
+<h2 id=".deselect(text)">.deselect(text)</h2>
+
+<h2 id=".selectval(text)">.selectVal(text)</h2>
+
+<h2 id=".deselectval(text)">.deselectVal(text)</h2>
+
+<h2 id=".selectall()">.selectAll()</h2>
+
+<h2 id=".deselectall()">.deselectAll()</h2>
+
+<h2 id=".waituntilclosed()">.waitUntilClosed()</h2>
 
       </div>
       <div class="dark-box">

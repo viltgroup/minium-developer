@@ -6,6 +6,8 @@ import minium.web.config.WebDriverProperties;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,22 +18,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/app/rest/webdrivers")
 public class WebDriverResource {
 
-    @Autowired
-    protected WebDriverFactory webDriverFactory;
+	@Autowired
+	protected WebDriverFactory webDriverFactory;
 
-    @Autowired
-    protected DelegatorWebDriver delegatorWebDriver;
+	@Autowired
+	protected DelegatorWebDriver delegatorWebDriver;
 
-	@RequestMapping(value = "/isLaunched", method = RequestMethod.GET)
+	@RequestMapping(value = "/isLaunched", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
 	@ResponseBody
-	public boolean isLaunched() {
-	    return delegatorWebDriver.isValid();
+	public ResponseEntity<String> isLaunched() {
+		boolean webDriver = delegatorWebDriver.isValid();
+		if (!webDriver) {
+			return new ResponseEntity<String>("No Webdriver", HttpStatus.PRECONDITION_FAILED);
+		} else {
+			return new ResponseEntity<String>("Ok", HttpStatus.OK);
+		}
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
 	public void create(@RequestBody WebDriverProperties webDriverProperties) {
-	    WebDriver webDriver = webDriverFactory.create(webDriverProperties);
-	    delegatorWebDriver.setDelegate(webDriver);
+		WebDriver webDriver = webDriverFactory.create(webDriverProperties);
+		delegatorWebDriver.setDelegate(webDriver);
 	}
 }

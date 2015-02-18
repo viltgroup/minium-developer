@@ -107,7 +107,7 @@ angular.module('minium.developer')
             $scope.loadFile($stateParams.path);
             // alert(editors.getIdFromRelativeUri($stateParams.path));
             // tabLoader();
-            
+
         } else {
             // tabLoader();
             $scope.loadFile("");
@@ -306,6 +306,7 @@ angular.module('minium.developer')
                 // when the response is available
                 //put a lock in test execution
                 launchTest(launchParams);
+                $scope.setWebDriverMsg(false);
             }).
             error(function(data, status, headers, config) {
                 // called asynchronously if an error occurs

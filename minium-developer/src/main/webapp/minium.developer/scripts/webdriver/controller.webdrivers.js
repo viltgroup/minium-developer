@@ -1,7 +1,7 @@
 'use strict';
 angular.module('minium.developer')
-    .controller('WebDriversController', function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory, error,GENERAL_CONFIG) {
-        
+    .controller('WebDriversController', function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory, error, GENERAL_CONFIG) {
+
         if (error) {
 
             $scope.error = true;
@@ -29,6 +29,16 @@ angular.module('minium.developer')
                 displayName: "Opera",
                 shortDisplayName: "Opera",
                 icon: "icon-opera"
+            },
+            "Safari": {
+                displayName: "Safari",
+                shortDisplayName: "Safari",
+                icon: "icon-safari"
+            },
+            "PhantomJS": {
+                displayName: "PhantomJS",
+                shortDisplayName: "PhantomJS",
+                icon: "icon-"
             }
 
         };
@@ -63,7 +73,12 @@ angular.module('minium.developer')
         };
 
         $scope.createWebDriver = function() {
-            WebDriverFactory.create("wd", "Chrome").success(function() {
+            var config = {
+                desiredCapabilities : {
+                    browserName : "chrome"
+                }
+            };
+            WebDriverFactory.create(config).success(function() {
                 toastr.success("Created");
             }).error(function(data) {
                 alert(JSON.stringify(data));

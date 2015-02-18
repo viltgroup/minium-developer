@@ -1,7 +1,7 @@
 package minium.developer.internal.webelements;
 
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebModule;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebElementsFactory.Builder;
 
 public class SelectorGadgetWebModules {
 

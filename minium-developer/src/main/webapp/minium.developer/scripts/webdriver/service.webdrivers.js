@@ -2,27 +2,15 @@
 
 miniumDeveloper.factory('WebDriverFactory', function($http) {
     return {
-        create: function(varName, type) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
-                type: type
-            });
+        create: function(config) {
+            return $http.post("/app/rest/webdrivers/create", { config: config });
         },
-        quit: function(varName) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/quit")
+        quit: function() {
+            return $http.post("/app/rest/webdrivers/quit");
         },
         isCreated: function(){
-            return $http.get("/app/rest/webDrivers/is_launched")
+            return $http.get("/app/rest/webdrivers/isLaunched");
         }
     };
 });
 
-miniumDeveloper.factory('RemoteWebDriverFactory', function($http) {
-    return {
-        create: function(type, url) {
-            return $http.post("/app/rest/webDrivers/" + varName + "/create", {
-                type: type,
-                remoteUrl: url
-            })
-        }
-    };
-});

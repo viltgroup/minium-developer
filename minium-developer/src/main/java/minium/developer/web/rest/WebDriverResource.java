@@ -1,32 +1,37 @@
 package minium.developer.web.rest;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import minium.web.DelegatorWebDriver;
+import minium.web.config.WebDriverFactory;
+import minium.web.config.WebDriverProperties;
+
+import org.openqa.selenium.WebDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/app/rest/webDrivers")
+@RequestMapping("/app/rest/webdrivers")
 public class WebDriverResource {
 
-	@RequestMapping(value = "/is_launched", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
+    @Autowired
+    protected WebDriverFactory webDriverFactory;
+
+    @Autowired
+    protected DelegatorWebDriver delegatorWebDriver;
+
+	@RequestMapping(value = "/isLaunched", method = RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<String> isLaunched() {
-		boolean webDriver = true;
-		if (!webDriver) {
-			return new ResponseEntity<String>("No Webdriver", HttpStatus.PRECONDITION_FAILED);
-		} else {
-			return new ResponseEntity<String>("Ok", HttpStatus.OK);
-		}
+	public boolean isLaunched() {
+	    return delegatorWebDriver.isValid();
 	}
 
-	@RequestMapping(value = "/{var}/create")
+	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public void create(@PathVariable String var, @RequestParam("type") String type, @RequestParam(value = "remoteUrl", required = false) String remoteUrl) {
-		//TODO
+	public void create(@RequestBody WebDriverProperties webDriverProperties) {
+	    WebDriver webDriver = webDriverFactory.create(webDriverProperties);
+	    delegatorWebDriver.setDelegate(webDriver);
 	}
 }

@@ -1,30 +1,18 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Browsers</h4>
+</div>
 <div class="modal-body">
     <div class="panel-body">
         <div class="alert alert-error alert-warning" ng-show="error">
             <i class="fa fa-warning"></i>{{errorMessage}}
         </div>
         <form class="" name="newLogForm">
-
-            <div class="form-group">
-<!-- 
-                <div class="radio radio-info radio-inline" ng-repeat="browser in browsers_radio">
-                    <input type="radio" id="{{browser.name}}" value="{{browser.name}}" name="radioInline" checked="">
-                    <label for="{{browser.name}}"> {{browser.name}} </label>
-                </div> -->
-
-                <div class="media">
-                    <div class="pull-left">
-                        <label class="control-label" for="log_name">Browsers</label>
-                    </div>
-                    <div class="media-body">
-                        <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
-                    </div>
-                </div>
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
         </form>
-        </div>
     </div>
-    <div class="modal-footer">
-
-        <button class="btn btn-primary" ng-click="createWebDriver()">Create new WebDriver</button>
-        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
-    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="createWebDriver()">Create new WebDriver</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

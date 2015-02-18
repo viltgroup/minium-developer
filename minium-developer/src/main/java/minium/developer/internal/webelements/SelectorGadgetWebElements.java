@@ -16,8 +16,8 @@
 package minium.developer.internal.webelements;
 
 import minium.web.WebElements;
-import minium.web.WebElementsFactory.Builder;
-import minium.web.WebModule;
+import minium.web.internal.WebModule;
+import minium.web.internal.WebElementsFactory.Builder;
 
 public interface SelectorGadgetWebElements extends WebElements {
 

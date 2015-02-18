@@ -9,7 +9,8 @@ var parseVersionFromPomXml = function() {
     var version;
     var pomXml = fs.readFileSync('pom.xml', "utf8");
     parseString(pomXml, function (err, result){
-        version = result.project.version[0];
+        // version may not be set in pom.xml project, it can be inherited from parent pom  
+        version = result.project.version ? result.project.version[0] : result.project.parent[0].version[0];
     });
     return version;
 };
@@ -92,7 +93,7 @@ module.exports = function (grunt) {
         },
         connect: {
             proxies: [
-		{
+                {
                     context: '/app',
                     host: 'localhost',
                     port: 8080,
@@ -168,7 +169,7 @@ module.exports = function (grunt) {
                     base: [
                         '.tmp',
                         'src/main/webapp',
-			'src/main/webapp/minium-developer'
+                        'src/main/webapp/minium-developer'
                     ],
                     middleware: function (connect) {
                         return [

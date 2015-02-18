@@ -19,7 +19,7 @@
 }
 .full {
     /** Setting height is also important, otherwise editor wont showup**/
-    
+
     width: 100%;
     height: 100%;
 }
@@ -108,7 +108,7 @@
 .skin-blue .left-side {
     /* background-color: #34495E;
     color: #ECF0F1;*/
-    
+
     background: #f4f4f4;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -118,7 +118,7 @@
 .info {
     padding: 5px 5px 0px;
     /*margin-left: 450px;*/
-    
+
     width: 100%;
 }
 body > div > .header .logo {
@@ -261,11 +261,11 @@ body > div > .header .logo {
 .close-tab {
     float: right
 }
-/*#tabs .scroller { 
-    overflow: auto; 
-} 
-#tabs ul { 
-    width: 1660px; 
+/*#tabs .scroller {
+    overflow: auto;
+}
+#tabs ul {
+    width: 1660px;
 }*/
 /**
  * BLOCK LIST
@@ -291,7 +291,7 @@ body > div > .header .logo {
 .info {
     margin-left: 450px;
     /*padding: 15px 15px 0px;*/
-    
+
     width: 60%;
 }
 .hiddenRow {
@@ -347,7 +347,7 @@ body > div > .header .logo {
     margin: 0;
     border: 0 none;
     /*padding: 15px 15px 15px 20px;*/
-    
+
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;
@@ -638,7 +638,7 @@ treecontrol.tree-classic li .tree-selected {
 
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
     /*border: 1px solid #aaaaaa;*/
-    
+
     background: #ccc;
     font-weight: normal;
     color: #212121;
@@ -651,7 +651,7 @@ treecontrol.tree-classic li .tree-selected {
 }
 .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
     /*border: 1px solid transparent;*/
-    
+
     background: #dadada;
     font-weight: normal;
     color: #212121;
@@ -792,4 +792,10 @@ treecontrol.tree-classic li .tree-selected {
     color: #eee;
     background-color: #3c8dbc;
     border-color: #367fa9;
+}
+
+/* Glyphicon sizes */
+
+.gl-lg {
+    font-size: 48px;
 }

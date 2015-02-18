@@ -1,0 +1,1 @@
+Code from https://github.com/masterthought/cucumber-reporting and adapted to use latest versions of Guava.

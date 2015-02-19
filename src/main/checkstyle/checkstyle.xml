@@ -177,13 +177,11 @@
         <property name="format" value="\s+$" />
         <property name="message" value="Line has trailing spaces." />
     </module>
-    <!-- 
     <module name="Header">
         <property name="fileExtensions" value="java" />
         <property name="severity" value="error" />
         <property name="headerFile" value="${checkstyle.config.dir}/LICENSE.txt" />
     </module>
-     -->
     <module name="SuppressionFilter">
         <property name="file" value="${checkstyle.config.dir}/suppressions.xml" />
     </module>

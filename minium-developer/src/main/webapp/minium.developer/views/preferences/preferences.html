@@ -1,0 +1,51 @@
+<div class="modal-content">
+    <form name="editorPreferencesForm" role="form" ng-submit="editorPreferencesForm.$valid &amp;&amp; submit()" novalidate="" class="ng-pristine ng-valid ng-valid-required">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Editor Preferences</h4>
+        </div>
+        <div class="modal-body">
+            <div class="form-group" ng-class="{ 'has-error' : editorPreferencesForm.fontSize.$dirty &amp;&amp; editorPreferencesForm.fontSize.$invalid}">
+                <label for="editor-font-size">Font size</label>
+                <div class="input-group">
+                    <input id="editor-font-size" name="fontSize" ng-model="model.fontSize" type="number" class="form-control ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" placeholder="Enter font size" min="8" max="48" required="">
+                    <span class="input-group-addon">px</span>
+                </div>
+                <span class="help-block ng-hide" ng-show="editorPreferencesForm.fontSize.$dirty &amp;&amp; editorPreferencesForm.fontSize.$error.required">Required field.</span>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : editorPreferencesForm.theme.$dirty &amp;&amp; editorPreferencesForm.theme.$invalid}">
+                <label for="editor-theme">Theme</label>
+                <select id="editor-theme" name="theme" ng-model="model.theme" class="form-control" required>
+                    <optgroup label="Bright">
+                        <option ng-repeat="(themeName, theme) in themes.BRIGHT" value="{{theme}}" ng-selected='model.theme === theme'>{{themeName}}</option>
+                    </optgroup>
+
+                    <optgroup label="Dark">
+                        <option ng-repeat="(themeName, theme) in themes.DARK" value="{{theme}}" ng-selected='model.theme === theme'>{{themeName}}</option>
+                    </optgroup>
+
+                </select>
+                <span class="help-block ng-hide" ng-show="editorPreferencesForm.theme.$dirty &amp;&amp; editorPreferencesForm.theme.$error.required">Required field.</span>
+            </div>
+
+            <div class="form-group form-inline" ng-class="{ 'has-error' : editorPreferencesForm.tabSize.$dirty &amp;&amp; editorPreferencesForm.tabSize.$invalid}">
+                <label for="editor-tab-size">Tab size</label>
+                <div class="input-group">
+                    <input id="editor-tab-size" name="tabSize" ng-model="model.tabSize" type="number" class="form-control ng-pristine ng-valid-number ng-valid-max ng-valid-min ng-valid ng-valid-required" placeholder="Enter tab size" min="1" max="8" required="">
+                    <span class="input-group-addon">
+                <input id="editor-soft-tabs" name="softTabs" ng-model="model.softTabs" type="checkbox" value="true" class="ng-pristine ng-valid"> Soft tabs
+              </span>
+                </div>
+                <span class="help-block ng-hide" ng-show="editorPreferencesForm.tabSize.$dirty &amp;&amp; editorPreferencesForm.tabSize.$error.required">Required field.</span>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
+
+            <button type="submit" class="btn btn-primary" ng-disabled="editorPreferencesForm.$invalid">Save changes</button>
+
+            <button type="button" class="btn btn-default pull-left" ng-click="reset()">Reset default</button>
+        </div>
+    </form>
+</div>

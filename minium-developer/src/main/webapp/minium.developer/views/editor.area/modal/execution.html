@@ -1,0 +1,27 @@
+<div class="modal-body">
+    <span ng-show="image == undifined">Image not available!</span>
+    <img src="{{image}}" ng-show="image != undifined" />
+
+    <br>
+    <br>
+
+    <button data-toggle="dropdown" class="btn btn-primary pull-right" type="button" ng-click="takeScreenShot()">
+        <i class="fa fa-camera"></i> Take Screenshot
+    </button>
+    <div class="bar-loading">
+        <i class="sphere"></i>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <p><i class="fa fa-info-circle"></i> Number of Tests: {{tests.total}}</p>
+            <p><i class="fa fa-check-square"></i> Pass Tests: {{tests.passed}}</p>
+            <p><i class="fa fa-bug"></i> Failures:
+                <code style="white-space:wrap;">{{tests.failing}}</code>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

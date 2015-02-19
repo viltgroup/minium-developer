@@ -1,7 +1,0 @@
-name,description,id,repository_type,repository_url
-cp-e2e-test,Project Example for CP,100,GIT,git@artemis.vilt-group.com:engineering/minium-pupino.git
-pupino-jenkins-test,Example,101,GIT,git@artemis.vilt-group.com:engineering/minium-pupino.git
-my-cp-test,another Project,102,GIT,git@artemis.vilt-group.com:engineering/minium-pupino.git
-server,test building builds,103,GIT,git@artemis.vilt-group.com:engineering/minium-pupino.git
-cp-tests,Another tests,104,GIT,git@artemis.vilt-group.com:raphael.rodrigues/cp-test.git
-mpay-e2e-cgd-tests,mpay CGD,105,GIT,git@artemis.vilt-group.com:rui.figueira/mpay.git

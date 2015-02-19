@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Browsers</h4>
+</div>
+<div class="modal-body">
+    <div class="panel-body">
+        <div class="alert alert-error alert-warning" ng-show="error">
+            <i class="fa fa-warning"></i>{{errorMessage}}
+        </div>
+        <form class="" name="newLogForm">
+            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
+        </form>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined">Create new WebDriver</button>
+    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+</div>

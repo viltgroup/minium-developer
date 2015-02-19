@@ -1,0 +1,38 @@
+<!-- Right side column. Contains the navbar and content of the page -->
+<aside class="right-side">
+    <!-- Content Header (Page header) -->
+    <section class="container-fluid">
+        <div ui-view="toolBar"></div>
+        <!-- /.navbar-collapse -->
+    </section>
+    <!-- Main content -->
+
+    <div ui-view="treeNav"></div>
+
+    <section class="content container container-editor full ">
+        <div ui-view="view1"></div>
+    </section>
+
+    <!-- <div ng-controller="NavbarController">
+        <div ng-include="'minium.developer/views/editor.area/partials/tree-nav.html'"></div>
+    </div> -->
+
+
+
+</aside>
+
+
+
+<script type="text/ng-template" id="selectorGadgetModal.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Pick elements with Selector Gadget</h4>
+    </div>
+    <div class="modal-body">
+        <p>Pick elements with Selector Gadget to generate a CSS selector expression.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
+        <button type="submit" class="btn btn-primary" ng-click="accept()">Accept</button>
+    </div>
+</script>

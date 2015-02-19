@@ -10,8 +10,6 @@ angular.module('minium.developer')
     $scope.fileName = "";
 
     var parentScope = MiniumEditor.getScope();
-
-    //console.log(parentScope)
     
     if (parentScope.selectedNode !== "" && parentScope.selectedNode.type !== "FILE") {
         $scope.fs.current = parentScope.selectedNode;

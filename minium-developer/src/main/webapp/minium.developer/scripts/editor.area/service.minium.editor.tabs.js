@@ -182,12 +182,11 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         this.settings = angular.extend(settings);
         this.editors.forEach(function(item) {
             var editor = item.instance;
-            //console.log(editor)
             editorPreferences.setEditorSettings(editor, settings);
         });
 
         editorPreferences.storeEditorPreferences(this.settings);
-        //console.log(this.settings);
+
     }
 
     /////////////////////////////////////////////////////////////////
@@ -344,7 +343,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.storeOpenTabs = function() {
-        //console.log("storeOpenTabs")
         openTab.store(this.editors);
     };
 
@@ -373,7 +371,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isDirty = function(id) {
-        //console.log(id)
         var elem = $("#save_" + id);
         //console.log(elem.attr('class'))
             //check if the element is dirty
@@ -425,7 +422,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                 }
                 self.settings.fontSize = curSize;
                 self.setSettings(self.settings);
-                //console.log(curSize);
 
                 event.preventDefault();
             }
@@ -500,7 +496,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         mac: "Ctrl+Enter"
                     },
                     exec: function(env) {
-                        //console.log(_this.scope);
                         launchCucumber(env, _this.scope);
                     },
                     readOnly: false // should not apply in readOnly mode
@@ -605,7 +600,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             return;
         }
         item.content = editor.getSession().getValue();
-        // console.log(editor);
 
         item.$save(function() {
 
@@ -636,7 +630,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
 
     function updateContent(item, editor, that, tabUniqueId) {
-        //console.log(item)
         var fileName = item.fileProps.name || "";
 
         var _this = that;

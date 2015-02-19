@@ -34,7 +34,6 @@ angular.module('minium.developer')
             var promise = FileLoader.loadFile(props, editors);
             var deferred = $q.defer();
 
-            //console.log(promise)
             promise.then(function(result) {
                 //success handler
                 var newEditor = result;

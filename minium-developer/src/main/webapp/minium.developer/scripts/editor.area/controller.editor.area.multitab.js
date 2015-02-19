@@ -346,13 +346,11 @@ angular.module('minium.developer')
 
                 //if execution was stopped there's no need to execute the block
                 if (executionWasStopped == true) return;
-                //console.log(data)
+
                     //check if the data is valid
                 if (data === undefined || data === "") {
                     $scope.stopLaunch();
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
-                
-
                     return;
                 }
 

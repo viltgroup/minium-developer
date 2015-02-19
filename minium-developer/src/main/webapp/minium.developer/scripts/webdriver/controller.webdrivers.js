@@ -9,8 +9,6 @@ angular.module('minium.developer')
         }
 
 
-
-
         $scope.browsers = {
             "Chrome": {
                 displayName: "Chrome",
@@ -20,6 +18,7 @@ angular.module('minium.developer')
             "Firefox": {
                 displayName: "Firefox",
                 shortDisplayName: "firefox",
+
                 icon: "icon-firefox"
             },
             "InternetExplorer": {
@@ -46,9 +45,9 @@ angular.module('minium.developer')
         };
 
 
-
         $scope.selectBrowser;
         $scope.isProcessing = false;
+
         $scope.idProperty = "shortDisplayName";
         $scope.nameProperty = "displayName";
         $scope.bootstrapSuffix = "default";
@@ -79,6 +78,7 @@ angular.module('minium.developer')
 
             }).error(function(data) {
                 creatingWebDriver.stop();
+
                 toastr.error('Could not create a new WebDriver!!');
             });
         }

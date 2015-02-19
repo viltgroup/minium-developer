@@ -8,6 +8,7 @@
                 Not Run
                 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
         <button id="runningTest" class="btn btn-warning ladda-button disabled  btn-xs" data-style="expand-right">
+
             <span class="fa fa-gears"></span>
             <span id="status">
                      Not Running
@@ -26,6 +27,7 @@
         <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
         </progressbar>
  -->
+
         </span>
 
         <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openModalExecution('lg')">

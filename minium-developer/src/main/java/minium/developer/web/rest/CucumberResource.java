@@ -26,11 +26,10 @@ public class CucumberResource {
 	@Autowired
 	private CucumberProjectContext projectContext;
 
-	@RequestMapping(value = "/launch", method = RequestMethod.POST,produces = "application/json")
+	@RequestMapping(value = "/launch", method = RequestMethod.POST)
 	@ResponseBody
 	public Feature launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws IOException {
-		Feature f = projectContext.launchCucumber(launchInfo, request.getSession().getId());
-		return f;
+		return projectContext.launchCucumber(launchInfo, request.getSession().getId());
 	}
 
 	@RequestMapping(value = "/snippets", method = RequestMethod.GET)

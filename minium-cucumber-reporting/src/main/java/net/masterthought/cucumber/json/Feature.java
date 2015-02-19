@@ -3,14 +3,15 @@ package net.masterthought.cucumber.json;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.masterthought.cucumber.ReportBuilder;
 import net.masterthought.cucumber.util.Util;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
+import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Sequences;
 
 public class Feature {
 
@@ -39,8 +40,8 @@ public class Feature {
         this.jsonFile = json;
     }
 
-    public FluentIterable<Element> getElements() {
-        return FluentIterable.from(ImmutableList.copyOf(elements));
+    public Sequence<Element> getElements() {
+        return Sequences.sequence(elements).realise();
     }
 
     public String getFileName() {
@@ -54,8 +55,13 @@ public class Feature {
         List<String> sublist = matches.subList(1, matches.size());
 
         matches = (sublist.size() == 0) ? matches : sublist;
-        String fileName = Joiner.on("-").join(matches);
+        String fileName = Joiner.on("-").join(matches); 
 
+        //If we spect to have parallel executions, we add 
+        if(ReportBuilder.isParallel() && jsonFile!=""){
+            if(jsonFile.split("_").length >1)
+                fileName = fileName + "-"+ (jsonFile.split("_")[0]).substring(0,jsonFile.split("_")[0].length());
+        }
         fileName = fileName + ".html";
         return fileName;
     }
@@ -68,12 +74,12 @@ public class Feature {
         return Util.itemExists(tags);
     }
 
-    public FluentIterable<String> getTagList() {
-        return getTags().transform(Tag.functions.getName());
+    public Sequence<String> getTagList() {
+        return getTags().map(Tag.functions.getName());
     }
 
-    public FluentIterable<Tag> getTags() {
-        return FluentIterable.from(ImmutableList.copyOf(tags));
+    public Sequence<Tag> getTags() {
+        return Sequences.sequence(tags).realise();
     }
 
     public String getTagsList() {
@@ -86,7 +92,7 @@ public class Feature {
     }
 
     public Util.Status getStatus() {
-        FluentIterable<Util.Status> results = getElements().transform(Element.functions.status());
+        Sequence<Util.Status> results = getElements().map(Element.functions.status());
         return results.contains(Util.Status.FAILED) ? Util.Status.FAILED : Util.Status.PASSED;
     }
 
@@ -183,7 +189,7 @@ public class Feature {
             for (Element element : elements) {
                 calculateScenarioStats(passedScenarios, failedScenarios, element);
                 if (Util.hasSteps(element)) {
-                    FluentIterable<Step> steps = element.getSteps();
+                    Sequence<Step> steps = element.getSteps();
                     for (Step step : steps) {
                         allSteps.add(step);
                         Util.Status stepStatus = step.getStatus();

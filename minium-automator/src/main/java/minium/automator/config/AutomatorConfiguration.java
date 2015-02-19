@@ -2,16 +2,20 @@ package minium.automator.config;
 
 import minium.automator.Application;
 import minium.automator.runners.RhinoScriptCommandLineRunner;
+import minium.script.rhinojs.RhinoConfiguration;
 import minium.script.rhinojs.RhinoProperties;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.config.WebDriverProperties;
+import minium.web.config.WebElementsConfiguration;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.openqa.selenium.remote.CapabilityType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.PropertyPlaceholderAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 @Configuration
+@Import({ WebElementsConfiguration.class, RhinoConfiguration.class, PropertyPlaceholderAutoConfiguration.class })
 public class AutomatorConfiguration {
 
     private static AutomatorProperties automatorProperties = new AutomatorProperties();
@@ -85,4 +90,5 @@ public class AutomatorConfiguration {
         }
         return showHelp || showVersion ? null : automatorProperties;
     }
+
 }

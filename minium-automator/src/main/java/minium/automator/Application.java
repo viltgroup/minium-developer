@@ -2,20 +2,16 @@ package minium.automator;
 
 import minium.automator.config.AutomatorConfiguration;
 import minium.automator.config.AutomatorProperties;
-import minium.script.rhinojs.RhinoConfiguration;
-import minium.web.config.WebElementsConfiguration;
 
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@EnableAutoConfiguration
-@Import({ WebElementsConfiguration.class, RhinoConfiguration.class, AutomatorConfiguration.class })
+@Import(AutomatorConfiguration.class)
 public class Application {
 
     private static final class SimpleExitCodeGenerator implements ExitCodeGenerator {
@@ -43,6 +39,7 @@ public class Application {
         try {
             context = new SpringApplicationBuilder(Application.class)
                 .showBanner(false)
+                .web(false)
                 .build()
                 .run(args);
         } catch (Exception e) {

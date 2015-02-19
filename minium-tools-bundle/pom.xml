@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.vilt.minium.tools</groupId>
 		<artifactId>minium-tools</artifactId>
-		<version>2.0.0-SNAPSHOT</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>minium-tools-bundle</artifactId>
@@ -23,7 +23,6 @@
 	</dependencies>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -36,7 +35,8 @@
 							<goal>assemble</goal>
 						</goals>
 						<configuration>
-							<includeConfigurationDirectoryInClasspath>false</includeConfigurationDirectoryInClasspath>
+							<configurationDirectory>config</configurationDirectory>
+							<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
 							<assembleDirectory>${project.build.directory}/${project.build.finalName}</assembleDirectory>
 							<extraJvmArguments>-Xms128m -Xmx256m</extraJvmArguments>
 							<repositoryLayout>flat</repositoryLayout>
@@ -57,6 +57,26 @@
 									<name>minium-automator</name>
 								</program>
 							</programs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-config</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>		
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
@@ -165,7 +185,7 @@
 									<goal>wget</goal>
 								</goals>
 								<configuration>
-									<url>https://chromedriver.storage.googleapis.com/${chromedriver.version}/chromedriver_linux32.zip</url>
+									<url>https://chromedriver.storage.googleapis.com/${chromedriver.version}/chromedriver_mac32.zip</url>
 									<unpack>true</unpack>
 									<outputDirectory>${project.build.directory}/${project.build.finalName}/macosx/drivers</outputDirectory>
 								</configuration>

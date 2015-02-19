@@ -1,22 +1,22 @@
 package net.masterthought.cucumber.json;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.googlecode.totallylazy.Function1;
+import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Sequences;
 
 import net.masterthought.cucumber.ConfigurationOptions;
 import net.masterthought.cucumber.util.Util;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.googlecode.totallylazy.Option.option;
 
 public class Element {
 
     private String name;
-    @SuppressWarnings("unused")
     private String description;
     private String keyword;
     private Step[] steps;
@@ -26,18 +26,18 @@ public class Element {
 
     }
 
-    public FluentIterable<Step> getSteps() {
-        return FluentIterable.from(ImmutableList.copyOf(Optional.fromNullable(steps).or(new Step[]{})));
+    public Sequence<Step> getSteps() {
+        return Sequences.sequence(option(steps).getOrElse(new Step[]{})).realise();
     }
 
-    public FluentIterable<Tag> getTags() {
-        return FluentIterable.from(ImmutableList.copyOf(Optional.fromNullable(tags).or(new Tag[]{})));
+    public Sequence<Tag> getTags() {
+        return Sequences.sequence(option(tags).getOrElse(new Tag[]{})).realise();
     }
 
     public Util.Status getStatus() {
     	// can be optimized to retrieve only the count of elements and not the all list
         int results = getSteps().filter(Step.predicates.hasStatus(Util.Status.FAILED)).size();
-
+        
         if (results == 0 && ConfigurationOptions.skippedFailsBuild()) {
         	results = getSteps().filter(Step.predicates.hasStatus(Util.Status.SKIPPED)).size();
         }
@@ -45,7 +45,7 @@ public class Element {
         if (results == 0 && ConfigurationOptions.undefinedFailsBuild()) {
         	results = getSteps().filter(Step.predicates.hasStatus(Util.Status.UNDEFINED)).size();
         }
-
+        
         return results == 0 ? Util.Status.PASSED : Util.Status.FAILED;
     }
 
@@ -71,7 +71,7 @@ public class Element {
         return Util.itemExists(contentString) ? Util.result(getStatus()) + StringUtils.join(contentString.toArray(), " ") + Util.closeDiv() : "";
     }
 
-    public FluentIterable<String> getTagList() {
+    public Sequence<String> getTagList() {
         return processTags();
     }
 
@@ -79,8 +79,8 @@ public class Element {
         return Util.itemExists(tags);
     }
 
-    private FluentIterable<String> processTags() {
-        return getTags().transform(Tag.functions.getName());
+    private Sequence<String> processTags() {
+        return getTags().map(Tag.functions.getName());
     }
 
     public String getTagsList() {
@@ -93,10 +93,10 @@ public class Element {
     }
 
     public static class functions {
-        public static Function<Element, Util.Status> status() {
-            return new Function<Element, Util.Status>() {
+        public static Function1<Element, Util.Status> status() {
+            return new Function1<Element, Util.Status>() {
                 @Override
-                public Util.Status apply(Element element) {
+                public Util.Status call(Element element) throws Exception {
                     return element.getStatus();
                 }
             };

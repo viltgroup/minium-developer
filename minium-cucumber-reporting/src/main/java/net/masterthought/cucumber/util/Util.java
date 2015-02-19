@@ -1,26 +1,19 @@
 package net.masterthought.cucumber.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.googlecode.totallylazy.Sequence;
 import net.masterthought.cucumber.ScenarioTag;
-import net.masterthought.cucumber.json.Element;
-import net.masterthought.cucumber.json.Feature;
-import net.masterthought.cucumber.json.Step;
-import net.masterthought.cucumber.json.Tag;
-
+import net.masterthought.cucumber.json.*;
 import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
-import com.google.common.collect.FluentIterable;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Util {
 
@@ -28,7 +21,6 @@ public class Util {
         PASSED, FAILED, SKIPPED, UNDEFINED, MISSING, PENDING
     }
 
-    @SuppressWarnings("serial")
     public static Map<String, Status> resultMap = new HashMap<String, Status>() {{
         put("passed", Util.Status.PASSED);
         put("failed", Util.Status.FAILED);
@@ -87,7 +79,7 @@ public class Util {
         return listItem.size() != 0;
     }
 
-    public static boolean itemExists(FluentIterable<Element> sequence) {
+    public static boolean itemExists(Sequence<Element> sequence) {
         return sequence.size() != 0;
     }
 

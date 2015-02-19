@@ -635,8 +635,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var _this = that;
 
         var mode = EditorFactory.setMode(fileName, editor);
-
-        switch (_this.mode) {
+        
+        switch (mode) {
             case _this.modeEnum.FEATURE:
                 setDocumentValue(item, editor, tabUniqueId);
                 _this.mode = mode;

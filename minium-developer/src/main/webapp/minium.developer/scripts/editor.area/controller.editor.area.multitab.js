@@ -101,7 +101,6 @@ angular.module('minium.developer')
 
         if ($stateParams.path) {
             $scope.loadFile($stateParams.path);
-            // alert(editors.getIdFromRelativeUri($stateParams.path));
             // tabLoader();
 
         } else {
@@ -154,7 +153,6 @@ angular.module('minium.developer')
             //3- subscribe to a websocket with the sessionID fetched
             // TODO: Need a better solution
             SessionID.sessionId().then(function(data) {
-                //alert("sdsd")
                 session_id = data;
 
                 stompClient.connect({}, function(frame) {
@@ -515,12 +513,5 @@ angular.module('minium.developer')
             return true;
         }
 
-
-
-        // $(document).bind('contextmenu', function (e) {
-        //     // Do something
-        //     alert("sdsd")
-        //      e.preventDefault();
-        // });
 
     });

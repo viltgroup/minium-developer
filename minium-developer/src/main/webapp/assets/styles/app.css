@@ -19,7 +19,7 @@
 }
 .full {
     /** Setting height is also important, otherwise editor wont showup**/
-
+    
     width: 100%;
     height: 100%;
 }
@@ -108,7 +108,6 @@
 .skin-blue .left-side {
     /* background-color: #34495E;
     color: #ECF0F1;*/
-
     background: #f4f4f4;
     box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
@@ -118,7 +117,7 @@
 .info {
     padding: 5px 5px 0px;
     /*margin-left: 450px;*/
-
+    
     width: 100%;
 }
 body > div > .header .logo {
@@ -291,7 +290,7 @@ body > div > .header .logo {
 .info {
     margin-left: 450px;
     /*padding: 15px 15px 0px;*/
-
+    
     width: 60%;
 }
 .hiddenRow {
@@ -347,7 +346,7 @@ body > div > .header .logo {
     margin: 0;
     border: 0 none;
     /*padding: 15px 15px 15px 20px;*/
-
+    
     text-decoration: none;
     font-size: 13px;
     font-weight: 600;
@@ -788,7 +787,9 @@ treecontrol.tree-classic li .tree-selected {
 }
 */
 
- .btn-default.active, .open>.dropdown-toggle.btn-default {
+
+.btn-default.active, .open>.dropdown-toggle.btn-default {
+
     color: #eee;
     background-color: #3c8dbc;
     border-color: #367fa9;
@@ -805,3 +806,21 @@ treecontrol.tree-classic li .tree-selected {
     font-size: 38px;
 }
 
+.ladda-button {
+    background: #666;
+    border: 0;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+}
+.ladda-button-sm {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+}

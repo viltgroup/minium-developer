@@ -14,6 +14,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined">Create new WebDriver</button>
+
+    <button class="btn btn-primary ladda-button" id="createWebDriver" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined || isProcessing === true" data-style="expand-right">Create new WebDriver</button>
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>

@@ -20,7 +20,6 @@ angular.module('minium.developer')
         
         //change for every 
         toastr.success(GENERAL_CONFIG.SUCCESS_MSG.PREFERENCES)
-        
     };
 
     $scope.reset = function(){

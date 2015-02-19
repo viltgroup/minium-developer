@@ -133,7 +133,6 @@ angular.module('minium.developer')
         // Initialize functions
         //
         //////////////////////////////////////////////////////////////////
-        console.debug($scope.fs.current)
         asyncLoad($scope.fs.current);
 
     });

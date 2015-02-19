@@ -1,0 +1,7 @@
+
+.icon-firefox:before { content: '\e800'; } /* '' */
+.icon-chrome:before { content: '\e801'; } /* '' */
+.icon-opera:before { content: '\e802'; } /* '' */
+.icon-ie:before { content: '\e803'; } /* '' */
+.icon-globe:before { content: '\e804'; } /* '' */
+.icon-compass:before { content: '\e805'; } /* '' */

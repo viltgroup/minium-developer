@@ -1,0 +1,17 @@
+'use strict';
+
+describe('Controllers Tests ', function () {
+
+    beforeEach(module('miniumdevApp'));
+
+    describe('EditorAreaMultiController', function () {
+        var $scope;
+
+
+ 
+
+        it('should have a scope', function () {
+            expect(true).toBeTruthy();
+        });
+    });
+});

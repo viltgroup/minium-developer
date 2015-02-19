@@ -1,0 +1,164 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Minium Developer</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css assets/styles/vendor.css -->
+    <link rel="stylesheet" href="assets/styles/bootstrap.css">
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css" />
+    <link rel="stylesheet" href="bower_components/nvd3/src/nv.d3.css" />
+    <!-- <link rel="stylesheet" href="bower_components/ladda/dist/ladda.min.css" /> -->
+    <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
+    <link rel="stylesheet" href="bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css assets/styles/main.css -->
+
+    <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css" />
+    <link rel="stylesheet" href="bower_components/jqueryui/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="assets/styles/theme.css" />
+    <link rel="stylesheet" href="assets/styles/fontello/css/fontello.css" />
+    <!-- TODO : resolve without this backdrop dont appear -->
+    <!-- endbuild -->
+    <link rel="shortcut icon" type="image/png" href="assets/images/minium_logo.ico" />
+</head>
+
+<body class="skin-blue" ng-app="miniumdevApp">
+    <!--[if lt IE 10]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+    <div ui-view="navbar" ng-cloak=""></div>
+    <div ui-view="sidebar" ng-cloak=""></div>
+    <div class="full" ui-view="content"></div>
+
+    <!-- Google Analytics: uncomment and change UA-XXXXX-X to be your site's ID.
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>-->
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/modernizr/modernizr.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/stomp-websocket/lib/stomp.min.js"></script>
+    <script src="bower_components/sockjs-client/dist/sockjs.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+    <script src="bower_components/angular-translate-loader-partial/angular-translate-loader-partial.js"></script>
+    <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+    <script src="bower_components/angular-cache-buster/angular-cache-buster.js"></script>
+    <script src="bower_components/angular-bootstrap-show-errors/src/showErrors.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/nv.d3.js"></script>
+    <script src="bower_components/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+    <script src="bower_components/angular-ui-ace/ui-ace.js"></script>
+    <script src="bower_components/lodash/lodash.js"></script>
+    <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/spin.js/spin.js"></script>
+    <script src="bower_components/ladda/dist/ladda.min.js"></script>
+    <script src="bower_components/toastr/toastr.js"></script>
+    <script src="bower_components/sockjs/sockjs.js"></script>
+    <script src="bower_components/jqueryui/jquery-ui.js"></script>
+    <script src="bower_components/angular-bindonce/bindonce.js"></script>
+    <script src="bower_components/angular-tree-control/angular-tree-control.js"></script>
+    <script src="bower_components/angular-timer/dist/angular-timer.js"></script>
+    <script src="bower_components/jquery.splitter/js/jquery.splitter-0.14.0.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+    
+    <!-- JSON Path not being included -->
+    <script src="bower_components/jsonpath/lib/jsonpath.js"></script>
+
+    <!-- Ace editor -->
+    <!-- build:js({.tmp,src/main/webapp}) scripts/app.js -->
+    <script src="bower_components/ace-builds/src/ace.js"></script>
+    <script src="bower_components/ace-builds/src/ext-language_tools.js"></script>
+    <script src="scripts/app/app.js"></script>
+    <script src="scripts/app/app.constants.js"></script>
+    <script src="scripts/components/form/form.directive.js"></script>
+    <script src="scripts/components/language/language.service.js"></script>
+    <script src="scripts/components/language/language.controller.js"></script>
+    <script src="scripts/components/navbar/navbar.directive.js"></script>
+    <script src="scripts/components/navbar/navbar.controller.js"></script>
+    <script src="scripts/components/util/truncate.filter.js"></script>
+    <script src="scripts/components/util/base64.service.js"></script>
+    <script src="scripts/app/entities/entity.js"></script>
+    <script src="scripts/app/error/error.js"></script>
+    <script src="scripts/app/main/main.js"></script>
+    <script src="scripts/app/main/main.controller.js"></script>
+    <script src="scripts/components/tracker/tracker.service.js"></script>
+
+    <!-- Ace editor -->
+    <script src="minium.developer/ext/ace/gherkin.js"></script>
+    <script src="minium.developer/ext/ace/lexer.js"></script>
+
+    <!-- MINIUM DEVELOPER -->
+    <script src="minium.developer/scripts/app.js"></script>
+    <script src="minium.developer/scripts/services.js"></script>
+    <script src="minium.developer/scripts/filters.js"></script>
+    <script src="minium.developer/scripts/directives.js"></script>
+    <script src="minium.developer/scripts/config.js"></script>
+
+    <!-- File open/new -->
+    <script src="minium.developer/scripts/file/service.file.system.js"></script>
+    <script src="minium.developer/scripts/file/controller.file.js"></script>
+    <script src="minium.developer/scripts/file/controller.open.file.js"></script>
+    <script src="minium.developer/scripts/file/controller.new.file.js"></script>
+    <!-- Tree Nav -->
+    <script src="minium.developer/scripts/tree.nav/controller.tree.nav.js"></script>
+    <!-- Editor Area -->
+    <script src="minium.developer/scripts/editor.area/controller.editor.area.js"></script>
+    <script src="minium.developer/scripts/editor.area/controller.editor.area.multitab.js"></script>
+    <script src="minium.developer/scripts/editor.area/controller.editor.area.backends.js"></script>
+    <script src="minium.developer/scripts/editor.area/router.editor.area.js"></script>
+    <script src="minium.developer/scripts/editor.area/service.minium.editor.tabs.js"></script>
+
+    <script src="minium.developer/scripts/webdriver/controller.webdrivers.js"></script>
+    <script src="minium.developer/scripts/webdriver/service.webdrivers.js"></script>
+    <!-- Selector gadget -->
+    <script src="minium.developer/scripts/selector.gadget/controller.selector.gadget.js"></script>
+
+    <!-- Minium Developer Preferences -->
+    <script src="minium.developer/scripts/preferences/controller.preferences.js"></script>
+    
+    <script src="minium.developer/scripts/report/controller.report.js"></script>
+    <script src="minium.developer/scripts/execution/controller.execution.js"></script>
+
+
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="assets/styles/app.css" />
+</body>
+
+</html>

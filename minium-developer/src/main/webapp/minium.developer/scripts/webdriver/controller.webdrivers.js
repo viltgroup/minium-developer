@@ -7,58 +7,48 @@ angular.module('minium.developer')
             $scope.errorMessage = GENERAL_CONFIG.WEBDRIVER.NOTLAUNCHED;
             error = undefined;
         }
-        
+
+
+
 
         $scope.browsers = {
             "Chrome": {
                 displayName: "Chrome",
-                shortDisplayName: "Chrome",
+                shortDisplayName: "chrome",
                 icon: "icon-chrome"
             },
             "Firefox": {
                 displayName: "Firefox",
-                shortDisplayName: "Firefox",
+                shortDisplayName: "firefox",
                 icon: "icon-firefox"
             },
             "InternetExplorer": {
                 displayName: "Internet Explorer",
-                shortDisplayName: "IE",
+                shortDisplayName: "internet explorer",
                 icon: "icon-ie"
             },
             "Opera": {
                 displayName: "Opera",
-                shortDisplayName: "Opera",
+                shortDisplayName: "opera",
                 icon: "icon-opera"
             },
             "Safari": {
                 displayName: "Safari",
-                shortDisplayName: "Safari",
+                shortDisplayName: "safari",
                 icon: "icon-compass"
             },
             "PhantomJS": {
                 displayName: "PhantomJS",
-                shortDisplayName: "PhantomJS",
+                shortDisplayName: "phantomjs",
                 icon: "icon-globe"
             }
 
         };
 
 
-        $scope.browsers_radio = [{
-            id: 1,
-            name: "Firefox"
-        }, {
-            id: 2,
-            name: "Chrome"
-        }, {
-            id: 3,
-            name: "IE"
-        }, {
-            id: 4,
-            name: "Opera"
-        }];
-        $scope.selectBrowser ;
 
+        $scope.selectBrowser;
+        $scope.isProcessing = false;
         $scope.idProperty = "shortDisplayName";
         $scope.nameProperty = "displayName";
         $scope.bootstrapSuffix = "default";
@@ -73,16 +63,22 @@ angular.module('minium.developer')
         };
 
         $scope.createWebDriver = function() {
+            //functions needed to be here
+            var creatingWebDriver = Ladda.create(document.querySelector('#createWebDriver'));
+            $scope.isProcessing = true;
+            creatingWebDriver.start();
             var config = {
-                desiredCapabilities : {
-                    browserName : $scope.selectBrowser
+                desiredCapabilities: {
+                    browserName: $scope.selectBrowser
                 }
             };
-            
+
             WebDriverFactory.create(config).success(function() {
                 toastr.success("Created a WebDriver");
                 $scope.$close(false);
+
             }).error(function(data) {
+                creatingWebDriver.stop();
                 toastr.error('Could not create a new WebDriver!!');
             });
         }

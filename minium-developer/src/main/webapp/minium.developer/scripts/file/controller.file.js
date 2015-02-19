@@ -25,7 +25,7 @@ angular.module('minium.developer')
             });
         });
         $scope.fs.current.children =  node.children;
-        console.log(node)
+        //console.log(node)
     };
 
     $scope.loadParent = function() {

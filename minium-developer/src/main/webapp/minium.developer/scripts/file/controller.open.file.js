@@ -13,7 +13,7 @@ angular.module('minium.developer')
     //to the parent scope with modalProvider
     var parentScope = MiniumEditor.getScope();
     
-    console.log(parentScope)
+    //console.log(parentScope)
     $scope.form = {};
 
     $scope.type = $stateParams.type | '';

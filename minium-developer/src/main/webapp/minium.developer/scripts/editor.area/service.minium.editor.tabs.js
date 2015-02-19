@@ -61,7 +61,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.addInstance = function(fileContent, num) {
 
-        console.log('add a tab with an ace editor instance' + JSON.stringify(fileContent));
+        //console.log('add a tab with an ace editor instance' + JSON.stringify(fileContent));
 
         // the panel id is a timestamp plus a random number from 0 to 10000
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
@@ -113,7 +113,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     // Return from the all the instances of the editor
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.getEditors = function() {
-        console.log(this.editors)
         return this.editors;
     }
 
@@ -183,12 +182,12 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         this.settings = angular.extend(settings);
         this.editors.forEach(function(item) {
             var editor = item.instance;
-            console.log(editor)
+            //console.log(editor)
             editorPreferences.setEditorSettings(editor, settings);
         });
 
         editorPreferences.storeEditorPreferences(this.settings);
-        console.log(this.settings);
+        //console.log(this.settings);
     }
 
     /////////////////////////////////////////////////////////////////
@@ -345,7 +344,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.storeOpenTabs = function() {
-        console.log("storeOpenTabs")
+        //console.log("storeOpenTabs")
         openTab.store(this.editors);
     };
 
@@ -374,9 +373,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isDirty = function(id) {
-        console.log(id)
+        //console.log(id)
         var elem = $("#save_" + id);
-        console.log(elem.attr('class'))
+        //console.log(elem.attr('class'))
             //check if the element is dirty
         if (elem.hasClass("hide")) {
             return false; //the element is not dirty
@@ -426,7 +425,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                 }
                 self.settings.fontSize = curSize;
                 self.setSettings(self.settings);
-                console.log(curSize);
+                //console.log(curSize);
 
                 event.preventDefault();
             }
@@ -501,7 +500,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         mac: "Ctrl+Enter"
                     },
                     exec: function(env) {
-                        console.log(_this.scope);
+                        //console.log(_this.scope);
                         launchCucumber(env, _this.scope);
                     },
                     readOnly: false // should not apply in readOnly mode
@@ -546,7 +545,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                 sender: "editor|cli"
             },
             exec: function(env) {
-                console.log("open file")
+                //console.log("open file")
             },
             readOnly: false // should not apply in readOnly mode
         });
@@ -606,7 +605,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             return;
         }
         item.content = editor.getSession().getValue();
-        console.log(editor);
+        // console.log(editor);
 
         item.$save(function() {
 
@@ -619,7 +618,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         }, function(response) {
             var data = response.data;
 
-            console.log(response)
+            // console.log(response)
 
             toastr.error(data.message, "The file contains " + data.exception)
         });
@@ -637,7 +636,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
 
     function updateContent(item, editor, that, tabUniqueId) {
-        console.log(item)
+        //console.log(item)
         var fileName = item.fileProps.name || "";
 
         var _this = that;
@@ -674,7 +673,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         session.setUndoManager(new UndoManager());
 
         editor.setSession(session);
-        console.log(session)
+        //console.log(session)
             // editor.setSession(ace.createEditSession(item.content))
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
@@ -791,7 +790,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
         var selectedItem = scope.selected.item;
         if (!selectedItem) return;
-        console.log(editor);
+        //console.log(editor);
 
         var lines = [];
         var range;
@@ -805,7 +804,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             line: lines.reverse(),
             fileProps: selectedItem.fileProps
         };
-        console.log(launchParams)
+        //console.log(launchParams)
             //launch the execution
         scope.launch(launchParams);
     };

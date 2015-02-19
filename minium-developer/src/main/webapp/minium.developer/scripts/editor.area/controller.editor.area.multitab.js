@@ -91,10 +91,6 @@ angular.module('minium.developer')
             }
         });
 
-        $scope.getSession = function() {
-            console.log($scope.selected.item)
-        }
-
         var tabLoader = function() {
             var openTabs = openTab.load();
             var i = 0;
@@ -350,12 +346,13 @@ angular.module('minium.developer')
 
                 //if execution was stopped there's no need to execute the block
                 if (executionWasStopped == true) return;
-
-                console.log(data)
+                //console.log(data)
                     //check if the data is valid
                 if (data === undefined || data === "") {
                     $scope.stopLaunch();
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
+                
+
                     return;
                 }
 

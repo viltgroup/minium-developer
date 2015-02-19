@@ -14,7 +14,7 @@
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
 			<outputDirectory></outputDirectory>
 			<includes>
-				<include>bin/*.bat</include>
+				<include>bin/**</include>
 				<include>config/**</include>
 				<include>lib/**</include>
 				<include>${project.build.finalName}.exe</include>

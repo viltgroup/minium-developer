@@ -16,9 +16,9 @@ var GherkinHighlightRules = function() {
         token : "keyword",
         regex : "Feature:|Background:|Scenario:|Scenario\ Outline:|Examples:|Given|When|Then|And|But|" +
         		// spanish
-        		"Característica:|Antecedentes:|Escenario:|Esquema\ del\ escenario:|Ejemplos:|Dado|Dada|Dados|Dadas|Cuando|Entonces|Y|Pero|" +
+        		//"Característica:|Antecedentes:|Escenario:|Esquema\ del\ escenario:|Ejemplos:|Dado|Dada|Dados|Dadas|Cuando|Entonces|Y|Pero|" +
         		// portuguese
-        		"Funcionalidade:|Característica:|Caracteristica:|Contexto:|Cenário de Fundo:|Cenario de Fundo:|Fundo:|Cenário:|Cenario:|Esquema\ do\ Cenário:|Esquema\ do\ Cenario:|Delineação\ do\ Cenário:|Delineacao\ do\ Cenario:|Exemplos:|Cenários:|Cenarios:|Dado|Dada|Dados|Dadas|Quando|Então|Entao|E|Mas|" +
+        		//"Funcionalidade:|Característica:|Caracteristica:|Contexto:|Cenário de Fundo:|Cenario de Fundo:|Fundo:|Cenário:|Cenario:|Esquema\ do\ Cenário:|Esquema\ do\ Cenario:|Delineação\ do\ Cenário:|Delineacao\ do\ Cenario:|Exemplos:|Cenários:|Cenarios:|Dado|Dada|Dados|Dadas|Quando|Então|Entao|E|Mas|" +
         		"\\*",
       }, {
             token : "string",           // multi line """ string start
@@ -74,7 +74,7 @@ var GherkinHighlightRules = function() {
             next  : "start"
         }],
     };
-    
+
 }
 
 oop.inherits(GherkinHighlightRules, TextHighlightRules);
@@ -96,16 +96,16 @@ oop.inherits(Mode, TextMode);
 (function() {
     this.lineCommentStart = "#";
     this.$id = "ace/mode/gherkin";
-    
+
     this.getNextLineIndent = function(state, line, tab) {
         var indent = this.$getIndent(line);
         var space2 = "  ";
 
         var tokenizedLine = this.getTokenizer().getLineTokens(line, state);
         var tokens = tokenizedLine.tokens;
-        
+
         console.log(state)
-        
+
         if(line.match("[ ]*\\|")) {
             indent += "| ";
         }
@@ -113,7 +113,7 @@ oop.inherits(Mode, TextMode);
         if (tokens.length && tokens[tokens.length-1].type == "comment") {
             return indent;
         }
-        
+
 
         if (state == "start") {
             if (line.match("Scenario:|Feature:|Scenario\ Outline:|Background:")) {
@@ -122,9 +122,9 @@ oop.inherits(Mode, TextMode);
               indent += space2;
             } else if(line.match("\\*.+")) {
               indent += "* ";
-            } 
+            }
         }
-        
+
 
         return indent;
     };

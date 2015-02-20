@@ -4,7 +4,7 @@ import java.io.File;
 
 public class ProjectProperties {
 
-    private File dir;
+    private File dir = new File(".");
     private File resourcesDir;
 
     public void setDir(File dir) {

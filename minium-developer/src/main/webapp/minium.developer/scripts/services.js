@@ -3,7 +3,6 @@
 miniumDeveloper.factory('launcherService', function($http) {
     return {
         launch: function(params) {
-            console.debug(JSON.stringify(params));
             return $http.post("/app/rest/launch", params);
         },
         dotcucumber: function() {
@@ -156,7 +155,6 @@ miniumDeveloper.factory('FeatureFacade', function() {
      * Constructor
      */
     function FeatureFacade(data, snippetsForUndefinedSteps) {
-        console.debug(data);
         this.feature = data;
         this.snippetsForUndefinedSteps = snippetsForUndefinedSteps;
         var elements = this.process(data);
@@ -188,7 +186,6 @@ miniumDeveloper.factory('FeatureFacade', function() {
             runTime: totalDuration / 1000000.0
         }
 
-        console.debug(this.notPassingsteps);
     };
 
     /**
@@ -216,8 +213,7 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
     var all = [];
 
     this.loadFile = function(props, editors) {
-        console.debug(props)
-            //load the file and create a new editor instance with the file loaded
+        //load the file and create a new editor instance with the file loaded
         var newEditor = {};
         var result = editors.isOpen(props);
         var deferred = $q.defer();
@@ -240,7 +236,6 @@ miniumDeveloper.service('FileLoader', function($q, FS) {
         } else {
 
             var path = props.relativeUri || props;
-            console.debug(path);
             FS.get({
                 path: path
             }, function(fileContent) {
@@ -315,8 +310,6 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
         tabsElement.tabs('refresh');
 
         var tabIndex = $('#tabs ul li').index($('#panel_nav_' + tabUniqueId));
-
-        console.log('tabIndex: ' + tabIndex);
 
         // activate the new panel
         tabsElement.tabs('option', 'active', tabIndex);
@@ -396,19 +389,19 @@ miniumDeveloper.service('openTab', function($cookieStore) {
             reltivepaths.push(editor.relativeUri);
         });
 
-        //meter nomes de cookie em configs
-        $cookieStore.put("openTabs", reltivepaths, {
-            expires: 365 * 5
+        $.cookie('openTabs', reltivepaths, {
+            expires: 7
         });
 
-        console.debug(reltivepaths)
         console.debug("cookie stored")
     };
 
     this.load = function() {
-        var openTabs = $cookieStore.get("openTabs");
-        return openTabs ? openTabs : [];
+        var openTabs = $.cookie('openTabs');
+        var paths = openTabs !== undefined ? openTabs.split(",") : [];
+        return paths;
     }
+
 });
 
 // This module creates and append the new elements create for new tabs
@@ -509,7 +502,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         //he complete the scenario with a step
         var snippets = SnippetsProvider.all();
 
-        console.log(snippets)
         snippetManager.register(snippets, "gherkin");
 
 
@@ -538,7 +530,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
                 }
             })
             .error(function(exception) {
-                console.error("Evaluation failed", exception);
                 toastr.warning(exception.message);
                 if (exception.lineNumber >= 0 && !exception.sourceName) {
                     var errors = [{
@@ -583,8 +574,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         session.setUndoManager(new UndoManager());
 
         editor.setSession(session);
-        console.log(session)
-            // editor.setSession(ace.createEditSession(item.content))
+        // editor.setSession(ace.createEditSession(item.content))
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
     }

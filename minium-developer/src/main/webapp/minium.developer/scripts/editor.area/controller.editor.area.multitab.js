@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $q, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval, $q, $cookieStore, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -39,8 +39,6 @@ angular.module('minium.developer')
             $scope.testExecuting = false;
         }
 
-
-
         /**
          * Initialize tabs
          */
@@ -51,13 +49,11 @@ angular.module('minium.developer')
                 var editor = editors.getSession(tabId);
 
                 if (editor !== null) {
-                    //console.log(editor)
                     $scope.activeSession = editor.instance;
                     $scope.selected.item = editor.selected;
                     $scope.activeID = editor.id;
                     $scope.activeSession.focus();
 
-                    //console.log($scope.selected.item)
                     //set the mode
                     $scope.mode = editor.mode;
                     $state.go("global.editorarea.sub", {
@@ -73,7 +69,6 @@ angular.module('minium.developer')
 
         // close icon: removing the tab on click
         tabs.delegate("span.ui-icon-close", "click", function() {
-            //console.log($(this).parent());
             var tabUniqueId = $(this).parent().attr('data-id');
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
@@ -91,18 +86,19 @@ angular.module('minium.developer')
             }
         });
 
+        var promises = [];
         var tabLoader = function() {
             var openTabs = openTab.load();
-            var i = 0;
-            for (var i = 0; i < openTabs.length; i++) {
+            var i;
+            for (i = 0; i < openTabs.length; i++) {
                 $scope.loadFile(openTabs[i]);
             }
         }
 
         if ($stateParams.path) {
             $scope.loadFile($stateParams.path);
-            // tabLoader();
-
+            tabLoader();
+            
         } else {
             // tabLoader();
             $scope.loadFile("");
@@ -183,7 +179,6 @@ angular.module('minium.developer')
                     var range = ace.require('ace/range').Range;
 
                     stompClient.subscribe("/cucumber/" + session_id, function(message) {
-                        //console.log(message.body);
                         var step = JSON.parse(message.body);
                         var markerId;
                         switch (step.status) {
@@ -345,7 +340,7 @@ angular.module('minium.developer')
                 //if execution was stopped there's no need to execute the block
                 if (executionWasStopped == true) return;
 
-                    //check if the data is valid
+                //check if the data is valid
                 if (data === undefined || data === "") {
                     $scope.stopLaunch();
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
@@ -358,7 +353,6 @@ angular.module('minium.developer')
 
                 $scope.resultsSummary = feature.resultsSummary;
 
-                console.debug(feature.resultsSummary);
                 //refactor all this logic
                 //URGENT NEED TO PUT THIS ON A MODEL
                 //CANT BE IN A CONTROLLER
@@ -513,5 +507,9 @@ angular.module('minium.developer')
             return true;
         }
 
+
+        $scope.checkCookie = function() {
+            console.debug($cookieStore.get("openTabs"))
+        }
 
     });

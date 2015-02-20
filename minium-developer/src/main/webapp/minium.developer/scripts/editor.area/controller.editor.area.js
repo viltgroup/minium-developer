@@ -37,7 +37,6 @@ angular.module('minium.developer')
             promise.then(function(result) {
                 //success handler
                 var newEditor = result;
-                console.log(newEditor)
                 $scope.activeSession = newEditor.instance;
                 $scope.activeSession.focus();
                 $scope.selected.item = newEditor.selected;
@@ -99,7 +98,8 @@ angular.module('minium.developer')
 
         $scope.webDriverError = false;
         $scope.openModalWebDriverSelect = function(size) {
-            var modalInstance = $modal.open({
+            var modalIn
+            stance = $modal.open({
                 templateUrl: "minium.developer/views/editor.area/modal/configs.html",
                 controller: "WebDriversController",
                 size: size,

@@ -1,27 +1,29 @@
 package minium.automator.runners;
 
 import minium.automator.config.AutomatorProperties;
-import minium.script.js.JsVariablePostProcessor;
+import minium.script.js.JsBrowserFactory;
+import minium.script.js.MiniumJsEngineAdapter;
 import minium.script.rhinojs.RhinoEngine;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.Browser;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.ApplicationContext;
 
 public class RhinoScriptCommandLineRunner implements CommandLineRunner {
 
     @Autowired
     private RhinoEngine rhinoEngine;
     @Autowired
-    private JsVariablePostProcessor jsVariablePostProcessor;
-    @Autowired
     private AutomatorProperties properties;
     @Autowired
-    private ApplicationContext context;
+    private Browser<DefaultWebElements> browser;
+    @Autowired
+    private JsBrowserFactory factory;
 
     @Override
     public void run(String... args) throws Exception {
-        jsVariablePostProcessor.populateEngine(rhinoEngine);
+        new MiniumJsEngineAdapter(browser, factory).adapt(rhinoEngine);
         if (properties.getScript() != null) {
             rhinoEngine.eval(properties.getScript(), 1);
         }

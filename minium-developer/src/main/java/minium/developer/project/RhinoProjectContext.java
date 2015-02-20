@@ -5,7 +5,7 @@ import java.io.File;
 public class RhinoProjectContext extends AbstractProjectContext {
 
     public RhinoProjectContext(File projectDir) throws Exception {
-        super(projectDir);
+        super(projectDir, projectDir);
     }
 
 }

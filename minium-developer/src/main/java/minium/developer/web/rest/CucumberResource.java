@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/app/rest")
 public class CucumberResource {
 
-	@Autowired
+	@Autowired(required = false)
 	private CucumberProjectContext projectContext;
 
 	@RequestMapping(value = "/launch", method = RequestMethod.POST)

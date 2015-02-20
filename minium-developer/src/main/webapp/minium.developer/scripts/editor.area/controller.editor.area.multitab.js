@@ -53,7 +53,7 @@ angular.module('minium.developer')
                     $scope.selected.item = editor.selected;
                     $scope.activeID = editor.id;
                     $scope.activeSession.focus();
-
+                    
                     //set the mode
                     $scope.mode = editor.mode;
                     $state.go("global.editorarea.sub", {

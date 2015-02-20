@@ -107,7 +107,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             mode: this.mode,
             selected: fileContent
         }
-
+        
     }
 
     /////////////////////////////////////////////////////////////////

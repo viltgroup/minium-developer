@@ -1,8 +1,5 @@
 'use strict';
 
-
-
-
 miniumDeveloper
     .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
 

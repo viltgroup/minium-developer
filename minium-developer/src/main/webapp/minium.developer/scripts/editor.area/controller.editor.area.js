@@ -88,7 +88,6 @@ angular.module('minium.developer')
             editors.resizeEditors();
         });
 
-
         /**
          * LAUNCH Webdriver selector Modal
          */
@@ -96,10 +95,10 @@ angular.module('minium.developer')
             $scope.webDriverError = value;
         }
 
-        $scope.webDriverError = false;
-        $scope.openModalWebDriverSelect = function(size) {
-            var modalIn
-            stance = $modal.open({
+        
+       $scope.webDriverError = false;
+       $scope.openModalWebDriverSelect = function(size) {
+            var modalInstance = $modal.open({
                 templateUrl: "minium.developer/views/editor.area/modal/configs.html",
                 controller: "WebDriversController",
                 size: size,

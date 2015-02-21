@@ -278,8 +278,9 @@ angular.module('minium.developer')
 
         var annotations = [];
         var executionWasStopped;
+        var reLaunchParams;
         $scope.launch = function(launchParams) {
-
+            reLaunchParams = launchParams;
             $scope.launchTestSession = $scope.activeSession;
             //check if the test already executing
             if ($scope.testExecuting == true) {
@@ -304,6 +305,7 @@ angular.module('minium.developer')
                 //now the modal wil be launch with an error message
                 $scope.setWebDriverMsg(true);
                 $scope.openModalWebDriverSelect();
+                relaunch = true;
             });
         }
 
@@ -469,6 +471,31 @@ angular.module('minium.developer')
             });
         };
 
+
+        
+        var relaunch = false;
+        
+        $scope.openModalWebDriverSelect = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+                controller: "WebDriversController",
+                size: size,
+                resolve: {
+                    error: function() {
+                        return $scope.webDriverError;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(value) {
+                $scope.setWebDriverMsg(value);
+                if(relaunch){
+                    launchTest(reLaunchParams);
+                }
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
 
         //////////////////////////////////////////////////////////////////
         // EVENT HANDLER  CTLR + P 

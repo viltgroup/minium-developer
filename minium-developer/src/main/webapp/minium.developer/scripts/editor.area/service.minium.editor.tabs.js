@@ -107,7 +107,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             mode: this.mode,
             selected: fileContent
         }
-        
+
     }
 
     /////////////////////////////////////////////////////////////////
@@ -252,8 +252,13 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
-        var containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - 150;
+        var containerHeight
+        if ($(window).width() >= 768) {
+            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - 150;
+        } else {
+            var containerHeight = $(window).height() - $('.navbar').height() - 150;
 
+        }
         $.each(this.editors, function(i, obj) {
             var panel = "#editor_" + obj.id;
             $(panel).css({
@@ -375,7 +380,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isDirty = function(id) {
         var elem = $("#save_" + id);
-            //check if the element is dirty
+        //check if the element is dirty
         if (elem.hasClass("hide")) {
             return false; //the element is not dirty
         } else {
@@ -636,7 +641,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var _this = that;
 
         var mode = EditorFactory.setMode(fileName, editor);
-        
+
         switch (mode) {
             case _this.modeEnum.FEATURE:
                 setDocumentValue(item, editor, tabUniqueId);
@@ -667,7 +672,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         session.setUndoManager(new UndoManager());
 
         editor.setSession(session);
-            // editor.setSession(ace.createEditSession(item.content))
+        // editor.setSession(ace.createEditSession(item.content))
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
     }
@@ -757,7 +762,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
     };
 
-    function activateSelectorGadget(editor,that) {
+    function activateSelectorGadget(editor, that) {
 
         WebDriverFactory.isCreated().success(function(data) {
             var modalInstance = $modal.open({
@@ -795,7 +800,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             line: lines.reverse(),
             fileProps: selectedItem.fileProps
         };
-            //launch the execution
+        //launch the execution
         scope.launch(launchParams);
     };
 

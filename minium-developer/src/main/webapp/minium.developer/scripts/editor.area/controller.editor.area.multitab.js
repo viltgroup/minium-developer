@@ -89,8 +89,7 @@ angular.module('minium.developer')
         var promises = [];
         var tabLoader = function() {
             var openTabs = openTab.load();
-            var i;
-            for (i = 0; i < openTabs.length; i++) {
+            for (var i = 0; i < openTabs.length; i++) {
                 $scope.loadFile(openTabs[i]);
             }
         }

@@ -28,7 +28,13 @@ angular.module('minium.developer')
         //service is shared by controllers
         var editors = MiniumEditor;
 
-        //load the file and create a new editor instance with the file loaded
+
+        /////////////////////////////////////////////////////////////////
+        //
+        // load the file and create a new editor instance with the file loaded
+        //
+        /////////////////////////////////////////////////////////////////
+        
         $scope.loadFile = function(props) {
             //create an empty file
             var promise = FileLoader.loadFile(props, editors);
@@ -95,7 +101,7 @@ angular.module('minium.developer')
             $scope.webDriverError = value;
         }
 
-        
+
        $scope.webDriverError = false;
        $scope.openModalWebDriverSelect = function(size) {
             var modalInstance = $modal.open({

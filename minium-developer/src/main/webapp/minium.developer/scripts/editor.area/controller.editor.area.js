@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function( $scope, $q,$log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaController', function($scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
 
         //is the actual file selected
         //every time we move to other tab 
         //this value is being update
+
+        
         $scope.selected = {};
         $scope.selectedNode = "";
 
@@ -19,8 +21,9 @@ angular.module('minium.developer')
         //store the active instance of the editor
         $scope.activeSession = null;
         //store the editor where the test are launched 
+        //to know where we can mark the result of the tests
         $scope.launchTestSession = null;
-
+        //store the ID of the active editor
         $scope.activeID = null;
 
         //init the minium editor 
@@ -34,7 +37,7 @@ angular.module('minium.developer')
         // load the file and create a new editor instance with the file loaded
         //
         /////////////////////////////////////////////////////////////////
-        
+
         $scope.loadFile = function(props) {
             //create an empty file
             var promise = FileLoader.loadFile(props, editors);
@@ -43,11 +46,7 @@ angular.module('minium.developer')
             promise.then(function(result) {
                 //success handler
                 var newEditor = result;
-                $scope.activeSession = newEditor.instance;
-                $scope.activeSession.focus();
-                $scope.selected.item = newEditor.selected;
-                $scope.activeID = newEditor.id;
-                $scope.mode = newEditor.mode;
+                $scope.setActiveEditor(newEditor);
                 deferred.resolve(newEditor);
             }, function(errorPayload) {
                 //the promise was rejected
@@ -57,6 +56,22 @@ angular.module('minium.developer')
             return deferred.promise;
         };
 
+        $scope.setActiveEditor = function(editor) {
+            $scope.activeSession = editor.instance;
+            $scope.selected.item = editor.selected;
+            $scope.activeID = editor.id;
+            $scope.activeSession.focus();
+            $scope.mode = editor.mode;
+
+            //set state
+            $state.go("global.editorarea.sub", {
+                path: editor.relativeUri
+            }, {
+                location: 'replace', //  update url and replace
+                inherit: false,
+                notify: false
+            });
+        }
 
         /////////////////////////////////////////////////////////////////
         //
@@ -73,7 +88,7 @@ angular.module('minium.developer')
         //try to close tab one by one
         window.addEventListener("beforeunload", function(e) {
             var confirmationMessage = GENERAL_CONFIG.UNSAVED_MSG;
-                
+
             if (editors.areDirty()) {
                 (e || window.event).returnValue = confirmationMessage; //Gecko + IE
                 return confirmationMessage; //Webkit, Safari, Chrome
@@ -102,8 +117,8 @@ angular.module('minium.developer')
         }
 
 
-       $scope.webDriverError = false;
-       $scope.openModalWebDriverSelect = function(size) {
+        $scope.webDriverError = false;
+        $scope.openModalWebDriverSelect = function(size) {
             var modalInstance = $modal.open({
                 templateUrl: "minium.developer/views/editor.area/modal/configs.html",
                 controller: "WebDriversController",

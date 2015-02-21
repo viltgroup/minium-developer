@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $q, $cookieStore, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -42,27 +42,13 @@ angular.module('minium.developer')
         /**
          * Initialize tabs
          */
-
         var tabs = $('#tabs').tabs({
             beforeActivate: function(event, ui) {
                 var tabId = ui.newPanel.attr('data-tab-id');
                 var editor = editors.getSession(tabId);
 
                 if (editor !== null) {
-                    $scope.activeSession = editor.instance;
-                    $scope.selected.item = editor.selected;
-                    $scope.activeID = editor.id;
-                    $scope.activeSession.focus();
-                    
-                    //set the mode
-                    $scope.mode = editor.mode;
-                    $state.go("global.editorarea.sub", {
-                        path: editor.relativeUri
-                    }, {
-                        location: 'replace', //  update url and replace
-                        inherit: false,
-                        notify: false
-                    });
+                    $scope.setActiveEditor(editor);
                 }
             }
         });
@@ -86,7 +72,10 @@ angular.module('minium.developer')
             }
         });
 
-        var promises = [];
+        /**
+         * Load the tab from the cookie
+         * 
+         */
         var tabLoader = function() {
             var openTabs = openTab.load();
             for (var i = 0; i < openTabs.length; i++) {
@@ -97,7 +86,7 @@ angular.module('minium.developer')
         if ($stateParams.path) {
             $scope.loadFile($stateParams.path);
             tabLoader();
-            
+
         } else {
             // tabLoader();
             $scope.loadFile("");
@@ -109,6 +98,7 @@ angular.module('minium.developer')
             editors.getEditors();
         }
 
+        //set the theme of the editor
         $scope.setTheme = function(themeName) {
             editors.setTheme($scope.activeSession, themeName);
         }
@@ -286,7 +276,6 @@ angular.module('minium.developer')
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_EXECUTING);
                 return;
             }
-
             /*
              * check if a webdriver if launched
              */
@@ -431,12 +420,6 @@ angular.module('minium.developer')
             }
         }
 
-        $('#miniumOnDrugs').click(function() {
-            $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');
-            $(".navbar-brand").css('background-color', '#367fa9');
-            $(".navbar-brand").css('color', '#f9f9f9');
-        });
-
         //////////////////////////////////////////////////////////////////
         //
         // Modals Open
@@ -471,9 +454,9 @@ angular.module('minium.developer')
         };
 
 
-        
+
         var relaunch = false;
-        
+
         $scope.openModalWebDriverSelect = function(size) {
             var modalInstance = $modal.open({
                 templateUrl: "minium.developer/views/editor.area/modal/configs.html",
@@ -488,7 +471,7 @@ angular.module('minium.developer')
 
             modalInstance.result.then(function(value) {
                 $scope.setWebDriverMsg(value);
-                if(relaunch){
+                if (relaunch) {
                     launchTest(reLaunchParams);
                 }
             }, function() {
@@ -531,11 +514,6 @@ angular.module('minium.developer')
             }
 
             return true;
-        }
-
-
-        $scope.checkCookie = function() {
-            console.debug($cookieStore.get("openTabs"))
         }
 
     });

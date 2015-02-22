@@ -1,36 +1,32 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function($scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaController', function($scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, TabLoader, SessionID, GENERAL_CONFIG) {
 
         //is the actual file selected
         //every time we move to other tab 
         //this value is being update
 
-        
-        $scope.selected = {};
-        $scope.selectedNode = "";
+        //this object store all information about the active nodes
+        //can put it in a class
+        $scope.active = {
+            selected: {},
+            selectedNode: "",
+            session: null, //store the active instance of the editor
+            mode: "", //mode of the open file
+            activeID: null //store the ID of the active editor
+        }
 
         $scope.resultsSummary = {};
-
         //init variables
         $scope.testExecuting = false;
-        //mode of the open file
-        $scope.mode = "";
-
-        //store the active instance of the editor
-        $scope.activeSession = null;
         //store the editor where the test are launched 
         //to know where we can mark the result of the tests
         $scope.launchTestSession = null;
-        //store the ID of the active editor
-        $scope.activeID = null;
-
         //init the minium editor 
         //that manage editor and tabs
         //service is shared by controllers
         var editors = MiniumEditor;
-
 
         /////////////////////////////////////////////////////////////////
         //
@@ -40,7 +36,7 @@ angular.module('minium.developer')
 
         $scope.loadFile = function(props) {
             //create an empty file
-            var promise = FileLoader.loadFile(props, editors);
+            var promise = TabLoader.loadFile(props, editors);
             var deferred = $q.defer();
 
             promise.then(function(result) {
@@ -57,11 +53,24 @@ angular.module('minium.developer')
         };
 
         $scope.setActiveEditor = function(editor) {
-            $scope.activeSession = editor.instance;
-            $scope.selected.item = editor.selected;
-            $scope.activeID = editor.id;
-            $scope.activeSession.focus();
-            $scope.mode = editor.mode;
+            $scope.active = {
+                session: editor.instance,
+                selected: {
+                    item: editor.selected
+                },
+                activeID: editor.id,
+                mode: editor.mode
+            }
+            $scope.active.session.focus();
+
+            //ace editor dont update the editor until a click or set a the cursor
+            //so i need to get a solution
+            var pos = editor.instance.selection.getCursor();
+            pos.column += 1;
+            editor.instance.moveCursorToPosition(pos);
+            pos.column -= 1;
+            editor.instance.moveCursorToPosition(pos);
+
 
             //set state
             $state.go("global.editorarea.sub", {

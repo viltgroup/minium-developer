@@ -1,5 +1,7 @@
-
-// This module creates and append the new elements create for new tabs
+/**
+ * This module creates and append the new elements in DOM for new tabs
+ * 
+ */
 miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider) {
 
 

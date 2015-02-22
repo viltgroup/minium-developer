@@ -1,5 +1,7 @@
-
-// this service load and store preferences from cookies
+/**
+ * This service load and store preferences from cookies
+ *
+ */
 miniumDeveloper.factory('editorPreferences', function($cookieStore) {
     var EditorPreferences = {};
 
@@ -14,7 +16,6 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
         editorPreferences = editorPreferences ? JSON.parse(editorPreferences) : {};
         return _.defaults(editorPreferences, defaultsSettings);
     };
-
 
     EditorPreferences.storeEditorPreferences = function(settings) {
 
@@ -40,4 +41,3 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
     return EditorPreferences;
 
 });
-

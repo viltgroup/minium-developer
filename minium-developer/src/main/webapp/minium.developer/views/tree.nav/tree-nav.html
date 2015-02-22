@@ -1,46 +1,57 @@
+<!-- search form -->
+<!-- /.search form -->
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul>
 
-    <!-- search form -->
-    <!-- /.search form -->
-    <!-- sidebar menu: : style can be found in sidebar.less -->
-    <ul>
+    <li class="tree-panel">
+        <ul class="list-inline">
+            <li class="dropdown">
+                <a href title="Refresh folders" ng-click="refresh()">
+                    <i class="fa fa-refresh"></i>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href title="Set Theme" ng-click="collapseAll()">
+                    <i class="fa fa-minus-square-o"></i>
+                </a>
+            </li>
 
-        <li class="tree-panel">
-            <ul class="list-inline">
-                <li class="dropdown">
-                    <a href title="Save" ng-click="saveFile()">
-                        <i class="fa fa-save"></i>
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a href title="Set Theme" ng-click="collapseAll()">
-                        <i class="fa fa-minus-square-o"></i>
-                    </a>
-                </li>
-
-                <li class="dropdown">
-                    <a href title="Search File" modal state='global.editorarea.sub.open'>
-                        <i class="fa fa-search"></i>
-                    </a>
-                </li>
-
-
-                <li class="pull-right">
-                    <a href title="New file" modal state="global.editorarea.sub.newFile">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                </li>
+            <li class="dropdown">
+                <a href title="Search File" modal state='global.editorarea.sub.open'>
+                    <i class="fa fa-search"></i>
+                </a>
+            </li>
 
 
-            </ul>
-        </li>
-    </ul>
+            <li class="pull-right">
+                <a href title="New file" modal state="global.editorarea.sub.newFile">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </li>
+
+
+        </ul>
+    </li>
+</ul>
 
 <!-- /.sidebar -->
 <!-- /.content -->
-<div id="tree-bar" class="editor">
+<div id="tree-bar" class="tree-bar">
     <ul class="treeview-menu" style="display: block;text-transform: initial;">
         <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
             <span style="color: {{getColor(node)}}"> {{node.name}}</span>
         </treecontrol>
+    </ul>
+</div>
+
+<div id="context-menu2" style="position: absolute; z-index: 9999; top: 443px; left: 268px;" class="">
+    <ul class="dropdown-menu" role="menu">
+        <li><a tabindex="-1" ng-click="open()">Open</a>
+        </li>
+        <li><a tabindex="-1">Rename</a>
+        </li>
+        <li class="divider"></li>
+        <li><a tabindex="-1">Delete</a>
+        </li>
     </ul>
 </div>

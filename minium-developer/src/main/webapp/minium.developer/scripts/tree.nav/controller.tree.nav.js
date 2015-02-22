@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function( $scope, $state, FS, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, FS, GENERAL_CONFIG) {
 
         /**
          *   Tree view  controller
@@ -57,13 +57,12 @@ angular.module('minium.developer')
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
 
-            $scope.selectedNode = node;
-            //console.log($scope.selectedNode)
+            $scope.active.selectedNode = node;
             if (node.type == "FILE") {
-                $scope.loadFile($scope.selectedNode.relativeUri);
-                
+                $scope.loadFile($scope.active.selectedNode.relativeUri);
+
                 $state.go("global.editorarea.sub", {
-                    path: $scope.selectedNode.relativeUri
+                    path: $scope.active.selectedNode.relativeUri
                 }, {
                     location: 'replace', //  update url and replace
                     inherit: false,
@@ -128,11 +127,53 @@ angular.module('minium.developer')
             }
         }
 
+
+        $scope.refresh = function() {
+            // alert($scope.fs.current)
+            firstLoad = true;
+            $scope.dataForTheTree = [];
+            asyncLoad($scope.fs.current);
+        }
+
         //////////////////////////////////////////////////////////////////
         //
         // Initialize functions
         //
         //////////////////////////////////////////////////////////////////
         asyncLoad($scope.fs.current);
+
+
+        //////////////////////////////////////////////////////////////////
+        //
+        // CONTEXT MENU
+        //
+        //////////////////////////////////////////////////////////////////
+        $('.tree-bar').contextmenu({
+            target: '#context-menu2',
+            before: function(e) {
+                // This function is optional.
+                // Here we use it to stop the event if the user clicks a span
+
+                if (e.target.tagName == 'SPAN') {
+                    e.preventDefault();
+                    // alert($(e.target).text());
+                    return true;
+                }
+
+            }
+        });
+
+        //fucntion of context menu
+        $scope.open = function() {
+            //TODO
+        }
+
+        $scope.delete = function() {
+            //TODO
+        }
+
+        $scope.rename = function() {
+            //TODO
+        }
 
     });

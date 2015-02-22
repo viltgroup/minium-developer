@@ -20,7 +20,6 @@
             <span >Summary Report</span>
         </button>
 
-
         <!-- <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
                 <span style="color:black; white-space:nowrap;">{{testsExecuted}} / {{cenas}}</span>
 
@@ -39,7 +38,7 @@
     <br>
 
     <div class="btn-group ">
-        <a class="btn  btn-default" title="Save file" ng-click="saveFile()">
+        <a id="cenas" class="btn  btn-default" title="Save file" ng-click="saveFile()">
             <span class="fa  fa-save"></span>
         </a>
         <a class="btn  btn-default" title="Add Editor"  ng-click="addEmptyTab()">
@@ -47,21 +46,21 @@
         </a>
     </div>
     <div class="btn-group ">
-        <a class="btn  btn-default" title="Interface Selector Gadget" ng-show="mode === 'JS'" ng-click="activateSelectorGadget()">
+        <a class="btn  btn-default" title="Interface Selector Gadget" ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
             <span class="fa  fa-hand-o-up"></span> Selector Gadget
         </a>
-        <a class="btn  btn-default" title="Evaluator" ng-show="mode === 'JS'" ng-click="evaluate()">
+        <a class="btn  btn-default" title="Evaluator" ng-show="active.mode === 'JS'" ng-click="evaluate()">
             <span class="fa  fa-binoculars"></span> Evaluate
         </a>
     </div>
     <div class="btn-group">
-        <a class="btn btn-primary " title="Run test from cursor" ng-show=" (mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+        <a class="btn btn-primary " title="Run test from cursor" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
             <span class="fa  fa-play"></span> Run Test
         </a>
-        <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(mode === 'FEATURE')" ng-disabled="testExecuting">
+        <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
             <span class="fa  fa-list"></span> Run All
         </a>
-        <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (mode !== 'JS')">
+        <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (active.mode !== 'JS')">
             <span class="fa fa-ban"></span>
         </a>
     </div>

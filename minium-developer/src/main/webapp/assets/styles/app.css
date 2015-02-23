@@ -821,4 +821,13 @@ treecontrol.tree-classic li .tree-selected {
     font-size: 12px;
     line-height: 1.5;
 }
+#navbar {
+    margin-left: 50px
+}
+
+.skin-blue .navbar .dropdown-menu > li > a.disabled {
+    color: #999;
+    cursor: default;
+    background-color: white;
+}
 

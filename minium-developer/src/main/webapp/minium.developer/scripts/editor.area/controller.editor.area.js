@@ -63,6 +63,7 @@ angular.module('minium.developer')
             }
             $scope.active.session.focus();
 
+            console.log($scope.active);
             //ace editor dont update the editor until a click or set a the cursor
             //so i need to get a solution
             var pos = editor.instance.selection.getCursor();
@@ -82,6 +83,33 @@ angular.module('minium.developer')
             });
         }
 
+         /**
+         * Save the file of active session
+         *
+         */
+        $scope.saveFile = function() {
+            console.log($scope.active.session);
+            editors.saveFile($scope.active.session);
+        }
+
+        /**
+         * Open Selector Gadget
+         *
+         */
+        $scope.activateSelectorGadget = function() {
+            if ($scope.active.mode == editors.modeEnum.JS) {
+                editors.activateSelectorGadget($scope.active.session);
+            }
+        }
+
+        /**
+         * Evaluate Expression
+         */
+        $scope.evaluate = function() {
+            if ($scope.active.mode == editors.modeEnum.JS) {
+                editors.evaluate($scope.active.session);
+            }
+        }
         /////////////////////////////////////////////////////////////////
         //
         // EVENTS HANDLERS

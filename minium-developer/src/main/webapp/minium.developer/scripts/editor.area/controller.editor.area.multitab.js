@@ -185,32 +185,7 @@ angular.module('minium.developer')
             });
         };
 
-        /**
-         * Save the file of active session
-         *
-         */
-        $scope.saveFile = function() {
-            editors.saveFile($scope.active.session);
-        }
-
-        /**
-         * Open Selector Gadget
-         *
-         */
-        $scope.activateSelectorGadget = function() {
-            if ($scope.active.mode == editors.modeEnum.JS) {
-                editors.activateSelectorGadget($scope.active.session);
-            }
-        }
-
-        /**
-         * Evaluate Expression
-         */
-        $scope.evaluate = function() {
-            if ($scope.active.mode == editors.modeEnum.JS) {
-                editors.evaluate($scope.active.session);
-            }
-        }
+       
 
         /**
          * Clean the scope of the engine

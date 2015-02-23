@@ -103,3 +103,29 @@ miniumDeveloper.service('SessionID', function($http, $q) {
         }
     };
 });
+
+miniumDeveloper.factory('sharedModel', function() {
+    var sharedModel = {
+            active : {
+            selected: {},
+            selectedNode: "",
+            session: null, //store the active instance of the editor
+            mode: "", //mode of the open file
+            activeID: null //store the ID of the active editor
+        }
+    };
+
+    sharedModel.updateValue = function(newVal) {
+        alert('sharedModel')
+        sharedModel = {
+            active : {
+            selected: newVal.selected,
+            selectedNode: newVal.selectedNode,
+            session: newVal.session, //store the active instance of the editor
+            mode: newVal.mode, //mode of the open file
+            activeID: newVal.activeID //store the ID of the active editor
+        }
+        }
+    };
+    return sharedModel;
+});

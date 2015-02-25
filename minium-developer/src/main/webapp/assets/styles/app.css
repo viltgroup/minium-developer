@@ -567,6 +567,10 @@ treecontrol.tree-classic li .tree-selected {
     background-color: #ccc;
     border-radius: 3px;
 }
+
+.tree-elem:hover {
+    background-color: #ccc;
+}
 /**
  * Show More/Less for show&hide very long text
  */
@@ -824,10 +828,8 @@ treecontrol.tree-classic li .tree-selected {
 #navbar {
     margin-left: 50px
 }
-
 .skin-blue .navbar .dropdown-menu > li > a.disabled {
     color: #999;
     cursor: default;
     background-color: white;
 }
-

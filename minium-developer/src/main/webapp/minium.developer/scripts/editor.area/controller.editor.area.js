@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function($scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, TabLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaController', function($rootScope, $scope, $q, myService, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, TabLoader, SessionID, GENERAL_CONFIG) {
 
         //is the actual file selected
         //every time we move to other tab 
@@ -9,13 +9,17 @@ angular.module('minium.developer')
 
         //this object store all information about the active nodes
         //can put it in a class
-        $scope.active = {
+        $rootScope.active = {
             selected: {},
             selectedNode: "",
             session: null, //store the active instance of the editor
             mode: "", //mode of the open file
             activeID: null //store the ID of the active editor
         }
+
+        $scope.updateObject = myService.updateObject;
+        $scope.myService = myService;
+        $scope.mySharedObject = myService.mySharedObject;
 
         $scope.resultsSummary = {};
         //init variables
@@ -47,13 +51,13 @@ angular.module('minium.developer')
             }, function(errorPayload) {
                 //the promise was rejected
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
-                deferred.reject(newEditor);
+                deferred.reject();
             });
             return deferred.promise;
         };
 
         $scope.setActiveEditor = function(editor) {
-            $scope.active = {
+            $rootScope.active = {
                 session: editor.instance,
                 selected: {
                     item: editor.selected
@@ -61,9 +65,9 @@ angular.module('minium.developer')
                 activeID: editor.id,
                 mode: editor.mode
             }
-            $scope.active.session.focus();
+            $rootScope.active.session.focus();
 
-            console.log($scope.active);
+            console.log($rootScope.active);
             //ace editor dont update the editor until a click or set a the cursor
             //so i need to get a solution
             var pos = editor.instance.selection.getCursor();
@@ -83,22 +87,30 @@ angular.module('minium.developer')
             });
         }
 
-         /**
+        /**
          * Save the file of active session
          *
          */
         $scope.saveFile = function() {
-            console.log($scope.active.session);
-            editors.saveFile($scope.active.session);
+            console.log($rootScope.active.session);
+            editors.saveFile($rootScope.active.session);
         }
+
+        /**
+         * Launch test
+         */
+        $scope.launchCucumber = function() {
+            editors.launchCucumber($rootScope.active.session);
+        }
+
 
         /**
          * Open Selector Gadget
          *
          */
         $scope.activateSelectorGadget = function() {
-            if ($scope.active.mode == editors.modeEnum.JS) {
-                editors.activateSelectorGadget($scope.active.session);
+            if ($rootScope.active.mode == editors.modeEnum.JS) {
+                editors.activateSelectorGadget($rootScope.active.session);
             }
         }
 
@@ -106,10 +118,11 @@ angular.module('minium.developer')
          * Evaluate Expression
          */
         $scope.evaluate = function() {
-            if ($scope.active.mode == editors.modeEnum.JS) {
-                editors.evaluate($scope.active.session);
+            if ($rootScope.active.mode == editors.modeEnum.JS) {
+                editors.evaluate($rootScope.active.session);
             }
         }
+
         /////////////////////////////////////////////////////////////////
         //
         // EVENTS HANDLERS

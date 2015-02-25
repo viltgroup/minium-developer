@@ -25,42 +25,40 @@ angular.module('minium.developer')
         /**
          * Initialize tabs
          */
-        var cenas;
-        var i = 1;
         var tabs = $('#tabs').tabs({
             beforeActivate: function(event, ui) {
                 var tabId = ui.newPanel.attr('data-tab-id');
                 var editor = editors.getSession(tabId);
-                if (i == 1)
-                    cenas = tabId;
-                i = 0;
-                cenas = tabId;
                 if (editor !== null) {
                     $scope.setActiveEditor(editor);
                 }
             }
         });
-
+        
         /**
          * close icon: removing the tab on click
          */
         tabs.delegate("span.ui-icon-close", "click", function() {
-            var tabUniqueId = $(this).parent().attr('data-id');
+            closeTab($(this));
+        });
+
+        var closeTab = function(elem) {
+            var tabUniqueId = elem.parent().attr('data-id');
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
                 //the editor is dirty so check if the user 
                 var answer = confirm(GENERAL_CONFIG.UNSAVED_MSG);
                 if (answer) {
-                    editors.closeTab(tabUniqueId, tabs, $(this));
+                    editors.closeTab(tabUniqueId, tabs, elem);
                 }
             } else {
-                editors.closeTab(tabUniqueId, tabs, $(this));
+                editors.closeTab(tabUniqueId, tabs, elem);
             }
 
             if (editors.size() == 0) {
                 $scope.addEmptyTab();
             }
-        });
+        }
 
         /**
          * Load the tab from the cookie
@@ -71,14 +69,17 @@ angular.module('minium.developer')
             for (var i = 0; i < openTabs.length; i++) {
                 $scope.loadFile(openTabs[i]);
             }
+            return openTabs;
         }
 
         if ($stateParams.path) {
             tabLoader();
             $scope.loadFile($stateParams.path);
         } else {
-            tabLoader();
-            $scope.loadFile("");
+            var openTabs = tabLoader();
+            //if theres no open tabs, open one
+            // if (openTabs.size() === 0)
+                $scope.loadFile("");
         }
 
         //create an empty editor
@@ -185,7 +186,7 @@ angular.module('minium.developer')
             });
         };
 
-       
+
 
         /**
          * Clean the scope of the engine
@@ -194,22 +195,8 @@ angular.module('minium.developer')
             EvalService.clean();
         }
 
-        /**
-         * LAUnch test
-         */
-        $scope.launchCucumber = function() {
-            editors.launchCucumber($scope.active.session);
-        }
 
-        //functions used in the 2 modules
-        $scope.isEmptyObject = function(obj) {
 
-            if (obj.length && obj.length > 0)
-                return false;
-
-            if (obj.length === 0)
-                return true;
-        }
 
         $scope.launchAll = function() {
             //if no file is selected
@@ -416,7 +403,5 @@ angular.module('minium.developer')
 
             return true;
         }
-
-        
 
     });

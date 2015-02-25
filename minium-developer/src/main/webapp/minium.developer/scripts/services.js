@@ -104,6 +104,22 @@ miniumDeveloper.service('SessionID', function($http, $q) {
     };
 });
 
+
+miniumDeveloper.factory('myService', function() {
+  var myService = {
+    mySharedObject:{
+        myText:'abc'
+    },
+    updateObject: function() {
+        console.log('function called');
+        myService.mySharedObject.myText = 'def';
+        console.log(this);
+    }
+  };
+  return myService;
+});
+
+
 miniumDeveloper.factory('sharedModel', function() {
     var sharedModel = {
             active : {

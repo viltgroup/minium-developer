@@ -39,19 +39,43 @@
 <div id="tree-bar" class="tree-bar">
     <ul class="treeview-menu" style="display: block;text-transform: initial;">
         <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
-            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
+            <span class="tree-elem" data-relative-uri="{{node.relativeUri}}" data-type="{{node.type}}">
+                {{node.name}}
+            </span>
         </treecontrol>
     </ul>
 </div>
 
+<p>{{dataForTheTree[2]}}</p>
+
+
+<!-- <h1>Expanded</h1> {{expandedNodes}} -->
+
 <div id="context-menu2" style="position: absolute; z-index: 9999; top: 443px; left: 268px;" class="">
     <ul class="dropdown-menu" role="menu">
-        <li><a tabindex="-1" ng-click="open()">Open</a>
+        <li>
+
+            <a href tabindex="-1" ng-click="open()"><i class="fa fa-file"></i>Open</a>
         </li>
-        <li><a tabindex="-1">Rename</a>
+        <li>
+            <a href tabindex="-1" ng-click="newFolder()"><i class="fa fa-folder-o"></i>New Folder</a>
         </li>
+         <li>
+            <a href tabindex="-1" ng-click="newFile()"><i class="fa fa-file"></i>New File</a>
+        </li>
+        
+        <li>
+            <a href tabindex="-1" ng-click="rename()"><i class="fa fa-pencil"></i>Rename</a>
+        </li>
+
+        <li>
+            <a href tabindex="-1" ng-click="renameFolder()"><i class="fa fa-pencil"></i>Rename Folder</a>
+        </li>
+
+
         <li class="divider"></li>
-        <li><a tabindex="-1">Delete</a>
+        <li>
+            <a href tabindex="-1" ng-click="delete()"><i class="fa fa-trash-o danger"></i><span class="danger">Delete</span></a>
         </li>
     </ul>
 </div>

@@ -16,6 +16,9 @@ public class AutomatorProperties {
     @Option(name = "-m", aliases = "--module-paths", metaVar = "MODULE_PATHS")
     private String[] modulePaths;
 
+    @Option(name = "-d", aliases = "--dir", metaVar = "DIR")
+    private File dir;
+
     @Option(name = "-h", aliases = "--help", usage = "display this help and exit")
     private boolean help;
 
@@ -34,6 +37,10 @@ public class AutomatorProperties {
     }
 
     public File getFile() {
+        if (file == null && dir != null) {
+            File file = new File(dir, "main.js");
+            return file.exists() ? file : null;
+        }
         return file;
     }
 
@@ -41,7 +48,19 @@ public class AutomatorProperties {
         this.file = file;
     }
 
+    public File getDir() {
+        return dir;
+    }
+
+    public void setDir(File dir) {
+        this.dir = dir;
+    }
+
     public String[] getModulePaths() {
+        if (modulePaths == null && dir != null) {
+            File moduleDir = new File(dir, "modules");
+            return moduleDir.exists() ? new String[] { moduleDir.getAbsolutePath() } : null;
+        }
         return modulePaths;
     }
 

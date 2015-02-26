@@ -86,7 +86,8 @@ public class AutomatorConfiguration {
             System.err.println("minium-automator [options...] arguments...");
             parser.printUsage(System.err);
             System.err.println();
-            System.err.println("  Example: minium-automator --browser phantomjs --file main.js \"user = { name : 'minium', password : 'xxxxxxxx' }\"");
+            System.err.println("  Example: minium-automator --browser chrome --file main.js \"user = { name : 'minium', password : 'xxxxxxxx' }\"");
+            System.err.println("           minium-automator --browser firefox --dir minium-task");
         }
         return showHelp || showVersion ? null : automatorProperties;
     }

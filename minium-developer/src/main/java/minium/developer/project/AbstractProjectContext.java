@@ -29,8 +29,6 @@ import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.PropertySources;
 import org.springframework.core.io.FileSystemResource;
 
-import com.google.common.base.Preconditions;
-
 public class AbstractProjectContext implements InitializingBean, DisposableBean {
 
     protected final File projectDir;
@@ -49,13 +47,13 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     @Autowired
     private WebDriverFactory webDriverFactory;
 
-    public AbstractProjectContext(File projectDir) {
+    public AbstractProjectContext(File projectDir, File resourcesDir) {
         this.projectDir = projectDir;
+        this.resourcesDir = resourcesDir;
     }
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.resourcesDir = new File(projectDir, "src/test/resources");
         this.propertySources = loadConfiguration();
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);
         this.jsEngine = createJsEngine();
@@ -104,12 +102,13 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     }
 
     protected PropertySources loadConfiguration() throws Exception {
-        File appConfigFile = new File(resourcesDir, "config/application.yml");
-        Preconditions.checkState(appConfigFile.exists() && appConfigFile.isFile());
-        YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
-        PropertySource<?> source = loader.load("application.yml", new FileSystemResource(appConfigFile), null);
         MutablePropertySources propertySources = new MutablePropertySources();
-        propertySources.addFirst(source);
+        File appConfigFile = new File(resourcesDir, "config/application.yml");
+        if (appConfigFile.exists() && appConfigFile.isFile()) {
+            YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
+            PropertySource<?> source = loader.load("application.yml", new FileSystemResource(appConfigFile), null);
+            propertySources.addFirst(source);
+        }
         return applyPlaceholderReplacements(propertySources);
     }
 

@@ -8,9 +8,6 @@ import static minium.web.internal.WebModules.conditionalModule;
 import static minium.web.internal.WebModules.debugModule;
 import static minium.web.internal.WebModules.interactableModule;
 import static minium.web.internal.WebModules.positionModule;
-
-import java.io.File;
-
 import minium.tools.fs.service.FileSystemService;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.DelegatorWebDriver;
@@ -19,7 +16,6 @@ import minium.web.actions.WebDriverBrowser;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.services.DriverServicesProperties;
 import minium.web.internal.WebModule;
-import minium.web.internal.actions.WebDebugInteractionPerformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -35,7 +31,7 @@ public class ProjectContextConfiguration {
     @Bean
     @Autowired
     public FileSystemService fileSystemService(ProjectProperties projectConfiguration) {
-        return new FileSystemService(new File(projectConfiguration.getDir(), "src/test/resources"));
+        return new FileSystemService(projectConfiguration.getResourcesDir());
     }
 
     @Bean
@@ -52,8 +48,12 @@ public class ProjectContextConfiguration {
 
     @Autowired
     @Bean
-    public CucumberProjectContext cucumberProjectContext(ProjectProperties projConfiguration) throws Exception {
-        return new CucumberProjectContext(projConfiguration.getDir());
+    public AbstractProjectContext projectContext(ProjectProperties projConfiguration) throws Exception {
+        if (projConfiguration.isCucumberProject()) {
+            return new CucumberProjectContext(projConfiguration.getDir());
+        } else {
+            return new RhinoProjectContext(projConfiguration.getDir());
+        }
     }
 
     @Autowired
@@ -76,7 +76,6 @@ public class ProjectContextConfiguration {
     }
 
     protected WebModule createWebModule(DelegatorWebDriver delegatorWebDriver) {
-        WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
-        return combine(baseModule(delegatorWebDriver), positionModule(), conditionalModule(), interactableModule(performer), rhinoModule(), debugModule(performer), selectorGadgetModule());
+        return combine(baseModule(delegatorWebDriver), positionModule(), conditionalModule(), interactableModule(), rhinoModule(), debugModule(), selectorGadgetModule());
     }
 }

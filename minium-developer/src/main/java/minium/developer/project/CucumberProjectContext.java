@@ -56,7 +56,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
     private RhinoEngine cucumberEngine;
 
     public CucumberProjectContext(File projectDir) throws Exception {
-        super(projectDir);
+        super(projectDir, new File(projectDir, "src/test/resources"));
     }
 
     @Override

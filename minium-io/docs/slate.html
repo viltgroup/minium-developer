@@ -13,7 +13,7 @@
 
       <script>
         $(function() {
-          setupLanguages(["minium"]);
+          setupLanguages(["javascript"]);
         });
       </script>
   </head>
@@ -28,7 +28,7 @@
     <div class="tocify-wrapper">
       <img src="images/logo.png" />
         <div class="lang-selector">
-              <a href="#" data-language-name="minium">minium</a>
+              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -37,7 +37,7 @@
       <div id="toc">
       </div>
         <ul class="toc-footer">
-            <li><a href='http://minium.io'>minium.io</a></li>
+            <li><a href='http://minium.vilt.io'>minium.io</a></li>
             <li><a href='https://github.com/viltgroup/minium'>Github</a></li>
             <li><a href='http://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
         </ul>
@@ -47,7 +47,273 @@
       <div class="content">
         <h1 id="introduction">Introduction</h1>
 
+<h2 id="setup">Setup</h2>
+
+<h3 id="before-you-start">Before you start</h3>
+
+<p>Ensure that the following software is installed:</p>
+
+<ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java JDK 1.7+</a> (<strong>required</strong>)
+
+<ul>
+<li>Don&rsquo;t forget to set <code class="prettyprint">JAVA_HOME</code> environment variable </li>
+</ul></li>
+<li><a href="https://www.google.com/intl/en/chrome/browser/">Google Chrome</a> (<strong>required</strong>)</li>
+</ul>
+
+<h3 id="to-install-and-run-minium-app,-just-follow-these-instructions:">To install and run Minium App, just follow these instructions:</h3>
+
+<ul>
+<li>Download one of the following compressed files:
+
+<ul>
+<li><a href="https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.6/minium-app-0.9.6-bin.zip">Zip archive</a></li>
+<li><a href="https://oss.sonatype.org/content/repositories/releases/com/vilt-group/minium/minium-app/0.9.6/minium-app-0.9.6-bin.tar.gz">Compressed tarball archive</a></li>
+</ul></li>
+<li>Uncompress it in some folder (e.g. <code class="prettyprint">c:\Tools\minium-app</code>)</li>
+<li>By default, Selenium (and therefore Minium) can run Firefox out of the box. For other browsers, you will need specific drivers. Just download the ones you want to use (see links below) and place the corresponding executable files in <code class="prettyprint">drivers</code> folder:
+
+<ul>
+<li><a href="#">Chrome Driver</a></li>
+<li><a href="https://code.google.com/p/selenium/downloads/list">IE Driver Server</a></li>
+<li><a href="http://phantomjs.org/download.html">PhantomJS</a></li>
+</ul></li>
+<li>To launch Minium, just run one of the following executables:
+
+<ul>
+<li><code class="prettyprint">minium-app.exe</code> (in windows)</li>
+<li><code class="prettyprint">bin\minium-app.bat</code> (also in windows, but this way you can see the stdout)</li>
+<li><code class="prettyprint">bin\minium-app</code> (linux or mac)</li>
+</ul></li>
+</ul>
+
+<h2 id="build-minium">Build Minium</h2>
+
+<p>Building Minium is not complicated. Ensure that the following software is installed:</p>
+
+<ul>
+<li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java JDK 1.6+</a> (required)
+
+<ul>
+<li>Don&rsquo;t forget to set <code class="prettyprint">JAVA_HOME</code> environment variable </li>
+</ul></li>
+<li><a href="http://maven.apache.org/download.cgi">Maven 3</a></li>
+</ul>
+
+<p>Then, just clone Minium git repository and use Maven to build it:</p>
+<pre><code class="highlight shell">git clone git://github.com/viltgroup/minium.git
+<span class="nb">cd </span>minium
+mvn install -DskipTests
+</code></pre>
+
+<p><strong>Note:</strong> if you really want to run the tests, then make sure you have <a href="http://phantomjs.org/download.html">PhantomJS</a> installed and available in the <code class="prettyprint">PATH</code> environment variable. Then just replace <code class="prettyprint">mvn install -DskipTests</code> by <code class="prettyprint">mvn install</code>.</p>
+
+<h2 id="example">Example</h2>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'minium/keys'</span><span class="p">);</span>
+
+<span class="nx">browser</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"http://www.google.com/ncr"</span><span class="p">);</span>
+
+<span class="nx">searchbox</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">":text"</span><span class="p">).</span><span class="nx">withName</span><span class="p">(</span><span class="s2">"q"</span><span class="p">);</span>
+<span class="nx">searchbox</span><span class="p">.</span><span class="nx">highlight</span><span class="p">();</span>
+
+<span class="nx">searchbox</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="s2">"minion"</span><span class="p">);</span>
+
+<span class="nx">searchbox</span><span class="p">.</span><span class="nx">sendKeys</span><span class="p">(</span> <span class="nx">keys</span><span class="p">.</span><span class="nx">ENTER</span> <span class="p">);</span>
+
+<span class="nx">wikipediaResult</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"h3 a"</span><span class="p">).</span><span class="nx">withText</span><span class="p">(</span><span class="s2">"Minion - Wikipedia, the free encyclopedia"</span><span class="p">);</span>
+<span class="nx">wikipediaResult</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span>
+
+<span class="nx">firstParagraph</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"#mw-content-text p"</span><span class="p">).</span><span class="nx">first</span><span class="p">();</span>
+<span class="nx">firstParagraph</span><span class="p">.</span><span class="nx">highlight</span><span class="p">();</span>
+</code></pre>
+
+<h2 id="minium-+-cucumber">Minium + Cucumber</h2>
+
+<p>Minium can be integrated with Cucumber (Behaviour Driven Development). You can write your tests using cucumber.</p>
+
+<h3 id="step-1---writings-scenarios">Step 1 - writings scenarios</h3>
+<pre><code class="highlight gherkin"><span class="c"># language: en</span>
+<span class="c"># ------------------------------------------------------------------------------</span>
+<span class="kd">Feature</span><span class="p">:</span> Search results in Google
+
+  <span class="kn">Scenario</span><span class="p">:</span> Search something in google
+    <span class="err">Given I'm at http</span><span class="p">:</span><span class="err">//www.google.com/ncr</span>
+    <span class="nf">When</span> I search for minium github
+    <span class="err">Then a link for https</span><span class="p">:</span><span class="err">//github.com/viltgroup/minium</span> <span class="err">is</span> <span class="err">displayed</span>
+
+  <span class="kn">Scenario Outline</span><span class="p">:</span> Search something in google (results in a JSON file)
+    <span class="err">Given I'm at http</span><span class="p">:</span><span class="err">//www.google.com/ncr</span>
+    <span class="nf">When</span> I search for 
+    <span class="nf">Then</span> links corresponding to  are displayed
+
+    <span class="nn">Examples</span><span class="p">:</span> 
+      <span class="p">|</span> <span class="nv">search_query</span>  <span class="p">|</span>
+      <span class="p">|</span> <span class="n">Minium</span> <span class="n">Github</span> <span class="p">|</span>
+      <span class="p">|</span> <span class="n">Selenium</span>      <span class="p">|</span>
+</code></pre>
+
+<h3 id="step-2---writing-steps">Step 2 - writing steps</h3>
+
+<p>The code to run the scenarios above.</p>
+<pre><code class="highlight javascript"><span class="kd">var</span> <span class="nx">$</span>       <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"minium"</span><span class="p">),</span>
+<span class="nx">browser</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">browser</span><span class="p">,</span>
+<span class="nx">expect</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"expect-webelements"</span><span class="p">),</span>
+<span class="nx">_</span>       <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"lodash"</span><span class="p">);</span>
+
+<span class="nx">Given</span><span class="p">(</span><span class="sr">/^I'm at </span><span class="se">(</span><span class="sr">.*</span><span class="se">)</span><span class="sr">$/</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">url</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">browser</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">When</span><span class="p">(</span><span class="sr">/^I search for </span><span class="se">(</span><span class="sr">.*</span><span class="se">)</span><span class="sr">$/</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">query</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">searchbox</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">":input"</span><span class="p">).</span><span class="nx">withName</span><span class="p">(</span><span class="s2">"q"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">button</span>    <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"button"</span><span class="p">).</span><span class="nx">withAttr</span><span class="p">(</span><span class="s2">"aria-label"</span><span class="p">,</span> <span class="s2">"Google Search"</span><span class="p">);</span>
+
+  <span class="nx">searchbox</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="nx">query</span><span class="p">);</span>
+  <span class="nx">button</span><span class="p">.</span><span class="nx">click</span><span class="p">();</span>
+<span class="p">});</span>
+
+<span class="nx">Then</span><span class="p">(</span><span class="sr">/^a link for </span><span class="se">(</span><span class="sr">.*</span><span class="se">)</span><span class="sr"> is displayed$/</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">linkUrl</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">links</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"a"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">link</span>  <span class="o">=</span> <span class="nx">links</span><span class="p">.</span><span class="nx">withAttr</span><span class="p">(</span><span class="s2">"data-href"</span><span class="p">,</span> <span class="nx">linkUrl</span><span class="p">).</span><span class="nx">add</span><span class="p">(</span><span class="nx">links</span><span class="p">.</span><span class="nx">withAttr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">,</span> <span class="nx">linkUrl</span><span class="p">));</span>
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">link</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nx">Then</span><span class="p">(</span><span class="sr">/^links corresponding to </span><span class="se">(</span><span class="sr">.*</span><span class="se">)</span><span class="sr"> are displayed$/</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">query</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">links</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">"a"</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">linkUrls</span> <span class="o">=</span> <span class="nx">config</span><span class="p">.</span><span class="nx">searches</span><span class="p">[</span><span class="nx">query</span><span class="p">];</span>
+
+  <span class="nx">expect</span><span class="p">(</span><span class="nx">linkUrls</span><span class="p">).</span><span class="nx">not</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">empty</span><span class="p">();</span>
+
+  <span class="nx">_</span><span class="p">(</span><span class="nx">linkUrls</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">linkUrl</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nx">links</span><span class="p">.</span><span class="nx">withAttr</span><span class="p">(</span><span class="s2">"data-href"</span><span class="p">,</span> <span class="nx">linkUrl</span><span class="p">).</span><span class="nx">add</span><span class="p">(</span><span class="nx">links</span><span class="p">.</span><span class="nx">withAttr</span><span class="p">(</span><span class="s2">"href"</span><span class="p">,</span> <span class="nx">linkUrl</span><span class="p">));</span>
+    <span class="nx">expect</span><span class="p">(</span><span class="nx">link</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">size</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+  <span class="p">});</span>
+
+<span class="p">});</span>
+</code></pre>
+
+<h2 id="selector-gadget">Selector gadget</h2>
+
+<p>You can visually select the elements you want minium to interact with.</p>
+
+<h2 id="evaluate-expressions">Evaluate expressions</h2>
+
+<h2 id="multiple-browsers">Multiple Browsers</h2>
+
+<p>You can open multiple browsers where you can run your code.</p>
+
           <h1 id="elements">Elements</h1>
+
+<h2 id=".eval(script)">.eval(script)</h2>
+
+<h2 id=".evalwebelements(script)">.evalWebElements(script)</h2>
+
+<h2 id=".frames()">.frames()</h2>
+
+<h2 id=".windows()">.windows()</h2>
+
+<h2 id=".root()">.root()</h2>
+
+<h2 id=".above(expr)">.above(expr)</h2>
+
+<p><code class="prettyprint">Returns elements above this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".leftof(expr)">.leftOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the left this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".below(expr)">.below(expr)</h2>
+
+<p><code class="prettyprint">Returns elements below this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".rightof(expr)">.rightOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the right of this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".overlaps(expr)">.overlaps(expr)</h2>
+
+<p><code class="prettyprint">Overlaps.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expr</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> the t</li>
+</ul>
 
 <h2 id=".find(elems)">.find(elems)</h2>
 
@@ -1239,110 +1505,6 @@
 <li><strong>returns:</strong> result of jQuery .hasClass() method</li>
 </ul>
 
-<h2 id=".above(expr)">.above(expr)</h2>
-
-<p><code class="prettyprint">Returns elements above this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".leftof(expr)">.leftOf(expr)</h2>
-
-<p><code class="prettyprint">Returns elements at the left this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".below(expr)">.below(expr)</h2>
-
-<p><code class="prettyprint">Returns elements below this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".rightof(expr)">.rightOf(expr)</h2>
-
-<p><code class="prettyprint">Returns elements at the right of this element that match the expression.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expression to use for matching elements.</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> elements</li>
-</ul>
-
-<h2 id=".overlaps(expr)">.overlaps(expr)</h2>
-
-<p><code class="prettyprint">Overlaps.</code></p>
-
-<table><thead>
-<tr>
-<th>Parameter</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>expr</td>
-<td>the expr</td>
-</tr>
-</tbody></table>
-
-<ul>
-<li><strong>returns:</strong> the t</li>
-</ul>
-
-<h2 id=".eval(script)">.eval(script)</h2>
-
-<h2 id=".evalwebelements(script)">.evalWebElements(script)</h2>
-
 <h2 id=".and(selector)">.and(selector)</h2>
 
 <h2 id=".or(selector)">.or(selector)</h2>
@@ -1353,17 +1515,33 @@
 
 <h2 id=".unless(filter)">.unless(filter)</h2>
 
-<h2 id=".frames()">.frames()</h2>
+<h1 id="&lt;&lt;&lt;&lt;&lt;&lt;&lt;-head">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD</h1>
 
-<h2 id=".windows()">.windows()</h2>
+<h2 id=".eval(script)">.eval(script)</h2>
 
-<h2 id=".root()">.root()</h2>
+<h2 id=".evalwebelements(script)">.evalWebElements(script)</h2>
+
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>8298147f8f850eff46692a5aae067f7fb38fd0cd</p>
 
 <h2 id=".withlabel(label)">.withLabel(label)</h2>
 
 <p>`<p>Filters elements that have a label with the given text. That means that
  returned elements have the same <code>id</code> than the <code>for</code>
  attribute of the <code>label</code> tag.</p></p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 
 <p><p>Example:</p></p>
 
@@ -1850,6 +2028,112 @@
 <li><strong>returns:</strong> an array with the attribute value from each matched element, in the same order.</li>
 </ul>
 
+<h2 id=".above(expr)">.above(expr)</h2>
+
+<p><code class="prettyprint">Returns elements above this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".leftof(expr)">.leftOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the left this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".below(expr)">.below(expr)</h2>
+
+<p><code class="prettyprint">Returns elements below this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".rightof(expr)">.rightOf(expr)</h2>
+
+<p><code class="prettyprint">Returns elements at the right of this element that match the expression.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expression to use for matching elements.</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> elements</li>
+</ul>
+
+<h2 id=".overlaps(expr)">.overlaps(expr)</h2>
+
+<p><code class="prettyprint">Overlaps.</code></p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expr</td>
+<td>the expr</td>
+</tr>
+</tbody></table>
+
+<ul>
+<li><strong>returns:</strong> the t</li>
+</ul>
+
+<h2 id=".frames()">.frames()</h2>
+
+<h2 id=".windows()">.windows()</h2>
+
+<h2 id=".root()">.root()</h2>
+
           <h1 id="interactions">Interactions</h1>
 
 <h2 id=".close()">.close()</h2>
@@ -1910,10 +2194,28 @@
 
 <h2 id=".waituntilclosed()">.waitUntilClosed()</h2>
 
+<h2 id=".waitforexistence()">.waitForExistence()</h2>
+
+<h2 id=".waitforexistence(waitingpreset)">.waitForExistence(waitingPreset)</h2>
+
+<h2 id=".waitforunexistence()">.waitForUnexistence()</h2>
+
+<h2 id=".waitforunexistence(waitingpreset)">.waitForUnexistence(waitingPreset)</h2>
+
+<h2 id=".checkforexistence()">.checkForExistence()</h2>
+
+<h2 id=".checkforexistence(waitingpreset)">.checkForExistence(waitingPreset)</h2>
+
+<h2 id=".checkforunexistence()">.checkForUnexistence()</h2>
+
+<h2 id=".checkforunexistence(waitingpreset)">.checkForUnexistence(waitingPreset)</h2>
+
+<h2 id=".waittime(timetimeunit)">.waitTime(timetimeUnit)</h2>
+
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="minium">minium</a>
+                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>

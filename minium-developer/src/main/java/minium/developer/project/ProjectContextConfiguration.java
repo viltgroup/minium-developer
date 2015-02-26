@@ -16,7 +16,6 @@ import minium.web.actions.WebDriverBrowser;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.services.DriverServicesProperties;
 import minium.web.internal.WebModule;
-import minium.web.internal.actions.WebDebugInteractionPerformer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -77,7 +76,6 @@ public class ProjectContextConfiguration {
     }
 
     protected WebModule createWebModule(DelegatorWebDriver delegatorWebDriver) {
-        WebDebugInteractionPerformer performer = new WebDebugInteractionPerformer();
-        return combine(baseModule(delegatorWebDriver), positionModule(), conditionalModule(), interactableModule(performer), rhinoModule(), debugModule(performer), selectorGadgetModule());
+        return combine(baseModule(delegatorWebDriver), positionModule(), conditionalModule(), interactableModule(), rhinoModule(), debugModule(), selectorGadgetModule());
     }
 }

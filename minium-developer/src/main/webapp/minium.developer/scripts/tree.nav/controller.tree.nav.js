@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, FS, TreeNav, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, GENERAL_CONFIG) {
 
         /**
          *   Tree view  controller
@@ -32,6 +32,7 @@ angular.module('minium.developer')
                 _.each(node.children, function(item) {
                     // tree navigation needs a label property
                     item.label = item.name;
+
                     if (firstLoad) {
                         $scope.dataForTheTree.push(item);
                     }
@@ -78,6 +79,10 @@ angular.module('minium.developer')
 
         };
 
+        $scope.right = function(node){
+            alert(node)
+        }
+        
         $scope.showToggle = function(node, expanded) {
             //console.log(node.children)
             $scope.loadChildren(node);
@@ -187,195 +192,32 @@ angular.module('minium.developer')
         });
 
 
-
-
-
-        $scope.newFolder = function(relativeUri, name) {
-            var relativeUri = relativeUriContextClick;
-            var name = "newFolder"
-            var newElem = {
-                label: name,
-                lastModified: 1422905820000,
-                name: name,
-                relativeUri: relativeUri + name + "/",
-                size: 349,
-                type: "DIR",
-                uri: "http://localhost:9000/fs/" + relativeUri + name,
-                children: []
-            };
-
-            var obj = TreeNav.getParentElement(relativeUri, $scope.dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
-
-            //add the new element to the tree
-            elem.push(newElem);
-        }
-
-
-        function find(array, relativeUri) {
-            if (typeof array != 'undefined') {
-                for (var i = 0; i < array.length; i++) {
-                    if (array[i].relativeUri == relativeUri) return [relativeUri];
-                    var a = find(array[i].children, relativeUri);
-                    if (a != null) {
-                        a.unshift(array[i].relativeUri);
-                        return a;
+        $scope.open = function(operation) {
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'EditTreeNavController',
+                size: 'sm',
+                resolve: {
+                    relativeUriContextClick: function() {
+                        return relativeUriContextClick;
+                    },
+                    dataForTheTree:function() {
+                        return $scope.dataForTheTree;
+                    },
+                    operation: function(){
+                        return operation;
                     }
                 }
-            }
-            return null;
-        }
+            });
 
-        //fucntion of context menu
-        $scope.open = function() {
-            // //TODO
-            var elem = "config";
-            var child = "application.yml";
-            // alert(JSONPath({
-            //     json: $scope.dataForTheTree,
-            //     path: "$..*[name='as.js']"
-            // }));
+            modalInstance.result.then(function(selectedItem) {
+                $scope.selected = selectedItem;
+                alert( + selectedItem)
+            }, function() {
+                // $log.info('Modal dismissed at: ' + new Date());
 
-            var aux = $scope.dataForTheTree;
-            var node;
-            for (var i = 0; i < aux.length; i++) {
-                if (aux[i].name == elem) {
-                    console.log(aux[i].children)
-                    node = aux[i];
-                    break;
-                }
-            }
-            var children = $scope.dataForTheTree[i].children;
-            var childNode;
-            for (var y = 0; y < children.length; y++) {
-                if (children[y].name === child) {
-                    childNode = children[y];
-                    break;
-                }
-            }
-            alert(JSON.stringify(childNode))
-
-            $scope.dataForTheTree[i].children.splice(y, 1);
-            var newElem = {
-                label: "newFile.yml",
-                lastModified: 1422905820000,
-                name: "newFile.yml",
-                relativeUri: "config/applicatio(another%20copy)sdasdsad.yml",
-                size: 349,
-                type: "FILE",
-                uri: "http://localhost:9000/fs/config/applicatio(another%20copy)sdasdsad.yml"
-            };
-            $scope.dataForTheTree[i].children.push(newElem);
-
-            //create in file system the file
-
-        }
-
-        $scope.delete = function() {
-            //TODO
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
-            if (result == true) {
-                //Logic to delete the item
-                //get element
-                //remove element
-                var relativeUri = relativeUriContextClick;
-                alert(relativeUri)
-                var obj = TreeNav.getElement(relativeUri, $scope.dataForTheTree);
-                var elem = obj.element;
-                var pos = obj.pos;
-                    // alert(JSON.stringify(elem))
-                elem.splice(pos, 1);
-            }
-        }
-
-        $scope.newFile = function() {
-            //TODO
-            //get the element
-            //create a file in file system
-            //add teh new element from server in tree
-
-            var relativeUri = relativeUriContextClick;
-            var name = "newFile"
-            var newElem = {
-                label: name,
-                lastModified: 1422905820000,
-                name: name,
-                relativeUri: relativeUri + name + "/",
-                size: 349,
-                type: "FILE",
-                uri: "http://localhost:9000/fs/" + relativeUri + name,
-                children: []
-            };
-
-            var obj = TreeNav.getParentElement(relativeUri, $scope.dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
-
-            if (elem.children == undefined)
-                elem.children = [];
-            //add the new element to the tree
-
-            elem.push(newElem);
-            // elem.push(newElem);
-
-            // alert(JSON.stringify(elem))
-            //alert(find($scope.dataForTheTree, relativeUri));
-
-        }
-
-        $scope.rename = function() {
-            //TODO
-            //get the element
-            //change in serve
-            //remove the changed element
-            //add renamed element from server
-            alert(relativeUriContextClick)
-            var relativeUri = relativeUriContextClick;
-            var name = "renamed.yml"
-            var newElem = {
-                label: name,
-                lastModified: 1422905820000,
-                name: name,
-                relativeUri: "config/" + name + "/",
-                size: 349,
-                type: "FILE",
-                uri: "http://localhost:9000/fs/" + "config/" + name,
-                children: []
-            };
-
-            var obj = TreeNav.getElement(relativeUri, $scope.dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
-            alert(pos)
-                // alert(JSON.stringify(elem))
-            elem.splice(pos, 1);
-            alert(JSON.stringify(elem))
-
-            elem.push(newElem);
-
-        }
-
-
-        $scope.renameFolder = function() {
-            //TODO
-            //get the element
-            //change in serve
-            //remove the changed element
-            //add renamed element from server
-            alert(relativeUriContextClick)
-            var obj = TreeNav.getNode(relativeUriContextClick, $scope.dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
-            alert(elem)
-            $scope.loadChildren(elem);
-        }
-
-
-        $scope.getInfo = function() {
-            //TODO
-            //get the info form the server
-        }
+            });
+        };
 
 
     });

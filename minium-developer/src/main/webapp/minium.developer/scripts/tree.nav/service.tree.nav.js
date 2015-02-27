@@ -43,7 +43,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 var childNode;
                 for (var y = 0; y < children.length; y++) {
                     if (children[y].name === value) {
-                        alert(y + " " + children[y].name + " " + value)
+                        // alert(y + " " + children[y].name + " " + value)
                         childNode = children[y];
                         pos = y;
                         break;
@@ -102,7 +102,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 var childNode;
                 for (var y = 0; y < children.length; y++) {
                     if (children[y].name === value) {
-                        alert(y + " " + children[y].name + " " + value)
+                        // alert(y + " " + children[y].name + " " + value)
                             // childNode = children[y];
                         pos = y;
                         break;
@@ -118,7 +118,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
             });
 
         } else { //first level
-            alert(relativeUri)
+            // alert(relativeUri)
             var level = unescape(relativeUri);
             var aux = treeData;
             var node, pos;
@@ -178,7 +178,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
             var childNode;
             for (var y = 0; y < children.length; y++) {
                 if (children[y].name === value) {
-                    alert(y + " " + children[y].name + " " + value)
+                    // alert(y + " " + children[y].name + " " + value)
                     childNode = children[y];
                     pos = y;
                     break;

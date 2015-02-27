@@ -252,11 +252,12 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
+        var margin = 120;
         var containerHeight
         if ($(window).width() >= 768) {
-            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - 150;
+            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;
         } else {
-            var containerHeight = $(window).height() - $('.navbar').height() - 150;
+            var containerHeight = $(window).height() - $('.navbar').height() - margin;
         }
         $.each(this.editors, function(i, obj) {
             var panel = "#editor_" + obj.id;

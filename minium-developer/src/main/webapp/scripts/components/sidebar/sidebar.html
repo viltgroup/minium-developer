@@ -4,41 +4,12 @@
     <aside class="left-side sidebar-offcanvas" id="sidebar">
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-            <!-- search form -->
-            <form action="#" method="get" class="sidebar-form">
-                <div class="input-group">
-                    <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="form.searchQuery" ng-change="search()" />
-                    <span class="input-group-btn">
-                        <button type='button' class="btn btn-flat">
-                            <i class="fa fa-search" ></i>
-                        </button>
-                    </span>
-                </div>
-            </form>
-
-            <div class="list-group">
-                <a ng-repeat="item in results | orderBy : 'uri' | limitTo: 5" ng-click="select(item)" class="list-group-item">
-                    <h4 class="list-group-item-heading">{{item.name}}</h4>
-                    <p class="list-group-item-text nowrap hideoverflow">{{item.relativeUri | unescape}}</p>
-                </a>
+        <div class="cont-sidebar" >
+           
+           
             </div>
-            <!-- /.search form -->
-            <!-- sidebar menu: : style can be found in sidebar.less -->
-            <!-- <ul class="sidebar-menu">
-
-                <li >
-                    <a ui-sref="global.editorarea.sub">
-                        <i class="fa fa-pencil"></i>
-                        <span>Editor</span>
-                    </a>
-                </li>
-
-            </ul> -->
-
-            <span>
-                <!-- as a Dom element -->
-                
-            </span>
+       
         </section>
         <!-- /.sidebar -->
     </aside>
+</div>

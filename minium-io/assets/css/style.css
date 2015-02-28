@@ -8,20 +8,28 @@
     IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
    
     ========================================================  */
+
 /* ===========================================================
    GENERAL STYLESHEET BY BYINARY THEME    
    ============================================================*/
-html,body {
+
+html,
+body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     color: #000;
     line-height: 16px;
     font-weight: 400;
-     height: 100%;
+    height: 100%;
     margin: 0;
     /* Reset default margin on the body element */
 }
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: 'Open Sans', sans-serif;
     line-height: 40px;
 }
@@ -30,8 +38,23 @@ h1 {
     color: #fff;
     font-weight: 800;
 }
+h2 {
+    text-align: center;
+    padding-bottom: 20px;
+    font-size: 40px;
+}
+h2.border {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    font-size: 40px;
+    border-bottom: 1px solid;
+}
 h5 {
     padding-bottom: 30px;
+}
+img {
+    margin: 0 auto;
 }
 .text-center {
     text-align: center;
@@ -42,12 +65,16 @@ h5 {
 .main-low-margin {
     margin-top: 55px;
 }
-a, a:hover {
+a,
+a:hover {
     text-decoration: none;
 }
 p {
     line-height: 30px;
     margin-bottom: 23px;
+}
+p.mail {
+    margin-top: -30px;
 }
 .img-margin-product {
     margin-top: 30px;
@@ -176,12 +203,9 @@ p {
     background: #000;
     border-color: #000;
 }
-
 .navbar-docs {
     height: 100%;
 }
-
-
 .navbar-inverse .navbar-brand {
     color: #fff;
     font-weight: bolder;
@@ -203,40 +227,21 @@ section {
     padding: 0;
     overflow: hidden;
 }
-section:nth-of-type(1) {
-    background: #FAFAFA;
-    height: 550px;
-}
-section:nth-of-type(2) {
-    background: #FAFAFA;
-    height: 300px;
-}
-/*#testimonials > div:nth-of-type(1) {
-    background: url(../img/2.jpg) 50% 0 no-repeat fixed;
-    height: 300px;
-    position: absolute;
+.testimonials {
+    background: url(../img/helix-nebula.jpg) 50% 0 no-repeat;
+    height: auto;
+    min-height:550px;
+    clear: both;
     width: 100%;
-}*/
-#testimonials > div:nth-of-type(1) {
-    background: url(../img/helix-nebula.jpg) 50% 0 no-repeat fixed;
-    height: 550px;
-    position: absolute;
-    width: 100%;
-    background-size: 100%;
+    padding-bottom: 30px;
+    position: relative;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
 }
-section article {
-    position: absolute;
-    left: 80px;
-    width: 100%;
-    z-index: 4;
-    color: #fff;
-    font-size: 20px!important;
-    padding: 20px;
-}
-section article span {
-    line-height: 40px!important;
-    font-weight: 600!important;
-}
+
+
 /* ==========================================================================
    FOOTER SECTION
    ========================================================================== */
@@ -249,6 +254,7 @@ section article span {
 /* ==========================================================================
    MINIUM CSS
    ========================================================================== */
+
 /* ==========================================================================
    NAV BAR HEADER
    ========================================================================== */
@@ -267,65 +273,91 @@ section article span {
     color: black;
 }
 .navbar-nav.navbar-right li a {
-    color: #000000;
+    color: #2c2c2c;
     font-size: 15px;
 }
 .navbar-nav.navbar-right li a:hover {
     color: #FB7537;
-     background: #fff;
+    background: #fff;
 }
-.navbar-inverse .navbar-nav > .active > a,.navbar-inverse .navbar-nav > .active > a:hover {
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover {
     color: #FB7537;
     background: #fff;
 }
-
-.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover{
+.navbar-inverse .navbar-nav>.active>a,
+.navbar-inverse .navbar-nav>.active>a:focus,
+.navbar-inverse .navbar-nav>.active>a:hover {
     color: #FB7537;
     background: #fff;
 }
-.text-primary{
+.navbar-inverse .navbar-nav>li>a:focus,
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #2c2c2c;
+    background-color: transparent;
+}
+.text-primary {
     color: #FB7537;
 }
-
 .jumbotron {
     background: #FB7537;
-    padding: 80px 0px 0px 0px;
+    padding: 100px 0px 0px 0px;
+    margin: 0;
     clear: both;
-    margin: 70px 0px 0px 0px;
     color: #000000;
+}
+.jumbotron h1 {
+    text-align: center;
+}
+.jumbotron h3 {
+    padding: 20px 0px;
+}
+.jumbotron video {
+    margin: 40px auto -3px auto;
 }
 .jumbotron img {
     float: right;
     margin-top: -220px;
 }
-.jumbotron .btn-primary {
-    margin: 0px 6%;
+.jumbotron a.btn.btn-primary {
+    margin: 3% 43%;
 }
 .btn-primary {
     color: #ffffff;
-    background-color: #000000;
-    border-color: #000000;
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
 }
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
     color: #ffffff;
-    background-color: #232120;
-    border-color: #232120;
+    background-color: #2c2c2c;
+    border-color: #2c2c2c;
 }
 .about {
-    background: #EFEFEF;
-    padding: 40px 0px;
+    background: #f1f1f1;
+    padding: 40px 0px 0px 0px;
 }
 .about p {
     line-height: 30px;
-    font-size: 14px;
+    font-size: 15px;
 }
 .about span.highlight {
-    background: #232120;
+    background: #2c2c2c;
     color: #FFFFFF;
     padding: 0px 4px;
 }
+.about h3 {
+    padding: 20px 0px;
+}
+
+.services{
+    min-height:400px;
+}
 .features {
-    background: #232120;
+    background: #2c2c2c;
     color: #FFFFFF;
     font-weight: 300;
     padding: 40px 0px;
@@ -342,7 +374,7 @@ section article span {
 }
 .testimonials {
     color: white;
-     text-align: center;
+    text-align: center;
 }
 .testimonials h3 {
     font-size: 28px;
@@ -350,13 +382,32 @@ section article span {
     text-align: center;
     line-height: 80px;
 }
-.bg-primary{
+.bg-primary {
     padding: 50px 0;
     background: #FB7537;
     color: white;
 }
+.bg-gray {
+    padding: 50px 0;
+    background: #4C4C4C;
+    color: white;
+}
+.bg-light-gray {
+    padding: 50px 0;
+    background: #f1f1f1;
+    color: #2c2c2c;
+}
+.bg-light-gray hr.small {
+    color: #2c2c2c;
+}
+.bg-primary hr.small {
+    color: #2c2c2c;
+}
+.bg-gray hr.small {
+    color: #ffffff;
+}
 footer {
-    background: #232120;
+    background: #2c2c2c;
     clear: both;
     bottom: 0px;
     position: relative;
@@ -404,10 +455,11 @@ footer img {
             color: black;
         }
         .navbar-nav.navbar-right li a {
-            color: #000000;
+            color: #2c2c2c;
             font-size: 13px;
         }
-        .container > .navbar-header, .container > .navbar-collapse {
+        .container > .navbar-header,
+        .container > .navbar-collapse {
             margin-right: 0px;
             margin-left: 0px;
         }
@@ -418,11 +470,13 @@ footer img {
             margin: 20px auto;
             width: 50%;
         }
+        .jumbotron a.btn.btn-primary {
+            margin: 3% 0%;
+        }
         .features.video {
             position: relative;
-            padding-bottom: 56.25%;
+            padding-bottom: 0%;
             /* 16:9 */
-            
             padding-top: 25px;
             height: 0
         }
@@ -433,14 +487,18 @@ footer img {
             height: 100%;
         }
         .btn-primary {
-            color: #232120;
-            background-color: #EFEFEF;
-            border-color: #EFEFEF;
+            color: #ffffff;
+            background-color: #2c2c2c;
+            border-color: #2c2c2c;
         }
-        .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
-            color: #232120;
-            background-color: #E9E9E9;
-            border-color: #E9E9E9;
+        .btn-primary:hover,
+        .btn-primary:focus,
+        .btn-primary:active,
+        .btn-primary.active,
+        .open .dropdown-toggle.btn-primary {
+            color: #ffffff;
+            background-color: #2c2c2c;
+            border-color: #2c2c2c;
         }
         .jumbotron img {
             width: 95%;
@@ -450,25 +508,82 @@ footer img {
         }
     }
 }
-
 .pad-right {
     padding-left: 100px;
     padding-right: 50px;
 }
-
 #docsFrame {
     display: block;
     /* iframes are inline by default */
-    
     background: #000;
     border: none;
     /* Reset default border */
-    
     width: 100%;
     height: 100%;
     padding-top: 79px;
 }
-
 li {
     margin: 0 0 8px 0;
+}
+.com {
+    color: #FA601A;
+}
+.navbar-toggle {
+    position: relative;
+    float: right;
+    padding: 9px 10px;
+    margin-top: 8px;
+    margin-right: 15px;
+    margin-bottom: 8px;
+    background-color: #2c2c2c;
+    background-image: none;
+    border: 1px solid #2c2c2c;
+    border-radius: 4px;
+}
+
+
+/* ==========================================================================
+   PARALLAX STYLES
+   ========================================================================== */
+
+section {
+    position: relative;
+    width: 100% !important;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+section:nth-of-type(1) {
+    background: #FAFAFA;
+    height: 550px;
+}
+section:nth-of-type(2) {
+    background: #FAFAFA;
+    height: 300px;
+}
+/*#testimonials > div:nth-of-type(1) {
+    background: url(../img/2.jpg) 50% 0 no-repeat fixed;
+    height: 300px;
+    position: absolute;
+    width: 100%;
+}*/
+#testimonials > div:nth-of-type(1) {
+    background: url(../img/helix-nebula.jpg) 50% 0 no-repeat fixed;
+    height: 550px;
+    position: absolute;
+    width: 100%;
+    background-size: 100%;
+}
+section article {
+    position: absolute;
+    left: 80px;
+    width: 100%;
+    z-index: 4;
+    color: #fff;
+    font-size: 20px!important;
+    padding: 20px;
+}
+section article span {
+    line-height: 40px!important;
+    font-weight: 600!important;
 }

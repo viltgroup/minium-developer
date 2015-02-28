@@ -1,8 +1,5 @@
 'use strict';
 
-
-
-
 miniumDeveloper
     .config(function($stateProvider, $httpProvider, $translateProvider, modalStateProvider, $urlRouterProvider, $urlMatcherFactoryProvider) {
 
@@ -36,6 +33,10 @@ miniumDeveloper
                     'content@': {
                         templateUrl: "minium.developer/views/editor.area/index.html",
                         controller: 'EditorAreaController'
+                    },
+                    'navbar@': {
+                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
+                        controller: 'NavbarController'
                     }
                 }
             })
@@ -50,9 +51,9 @@ miniumDeveloper
                         controller: "TreeNavController",
                         templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
                     },
-                    'toolBar@global.editorarea': {
-                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
-                    }
+                    // 'toolBar@global.editorarea': {
+                    //     templateUrl: 'minium.developer/views/toolbar/toolbar.html',
+                    // }
                 }
             });
 

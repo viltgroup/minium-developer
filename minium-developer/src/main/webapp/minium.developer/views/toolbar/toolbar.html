@@ -1,144 +1,161 @@
-<!-- Collect the nav links, forms, and other content for toggling -->
-<div class="collapse navbar-collapse" id="toolbar">
-    <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a class="dropdown-toggle"  data-toggle="dropdown" href="javascript:;"> File <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a modal state="global.editorarea.newFile">
-                        <i class="fa fa-file"></i>
-                        <span class="ladda-label">Create File</span>
-                    </a>
+<header class="header">
+    <a href="#/editor" class="logo navbar-brand">
+      
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href class="navbar-btn sidebar-toggle" sidebar-toggle="active" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
+
+        <div class="collapse navbar-collapse" id="navbar">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"> File <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a modal state="global.editorarea.sub.newFile">
+                                <i class="fa fa-file"></i>
+                                <span class="ladda-label">Create File</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href title="Save file" ng-click="saveFile()">
+                                <span class="fa  fa-save"></span>
+                                <span class="ladda-label">Save</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href title="Add Editor" ng-click="addEmptyTab()">
+                                <span class="fa fa-plus"></span>
+                                <span class="ladda-label">Add Editor</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
-                <li>
-                    <a href title="Save file" ng-click="saveFile()">
-                        <span class="fa  fa-save"></span>
-                        <span class="ladda-label">Save</span>
-                    </a>
-                </li>
+                <!-- RUN options -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">Run <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-class="{'disabled': (active.mode === 'JS')}">
+                            <a href ng-click="launchCucumber()" title="Run all tests" a-disabled="(active.mode === 'JS')">
 
-                <li>
-                    <a href title="Add Editor" ng-click="addEmptyTab()">
-                        <span class="fa fa-plus"></span>
-                        <span class="ladda-label">Add Editor</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <!-- RUN options -->
-        <li class="dropdown">
-            <a class="dropdown-toggle"  data-toggle="dropdown" href="javascript:;">Run <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li ng-class="{'disabled': (mode === 'JS')}">
-                    <a href ng-click="launchCucumber()" title="Run all tests" a-disabled="(mode === 'JS')">
-
-                        <span class="fa  fa-play"></span>
-                        <span class="ladda-label">Run</span>
-                    </a>
-                </li>
+                                <span class="fa  fa-play"></span>
+                                <span class="ladda-label">Run</span>
+                            </a>
+                        </li>
 
 
-                <li ng-class="{'disabled': (mode === 'JS')}">
-                    <a href a-disabled="(mode === 'JS')" ng-click="launchAll()" title="Run all tests">
-                        <span class="fa  fa-list"></span>
-                        <span class="ladda-label">Run All</span>
-                    </a>
-                </li>
+                        <li ng-class="{'disabled': (active.mode === 'JS')}">
+                            <a href a-disabled="(active.mode === 'JS')" ng-click="launchAll()" title="Run all tests">
+                                <span class="fa  fa-list"></span>
+                                <span class="ladda-label">Run All</span>
+                            </a>
+                        </li>
 
-                <li ng-class="{'disabled':((testExecuting == false) && (mode !== 'JS') )}">
-                    <a href a-disabled="((testExecuting == false) && (mode !== 'JS') )" ng-click="stopLaunch()" title="Run all tests">
-                        <span class="fa  fa-ban danger"></span>
-                        <span class="ladda-label">Stop</span>
-                    </a>
-                </li>
+                        <li ng-class="{'disabled':((testExecuting == false) && (active.mode !== 'JS') )}">
+                            <a href a-disabled="((testExecuting == false) && (active.mode !== 'JS') )" ng-click="stopLaunch()" title="Run all tests">
+                                <span class="fa  fa-ban danger"></span>
+                                <span class="ladda-label">Stop</span>
+                            </a>
+                        </li>
 
 
-                <li class="divider"></li>
-                <li ng-class="{'disabled': (mode !== 'JS')}">
-                    <a href title="Interface Selector Gadget" a-disabled="(mode !== 'JS')" ng-click="activateSelectorGadget()">
-                        <span class="fa  fa-hand-o-up"></span>
-                        <span class="ladda-label">Selector Gadget</span>
-                    </a>
-                </li>
+                        <li class="divider"></li>
+                        <li ng-class="{'disabled': (active.mode !== 'JS')}">
+                            <a href title="Interface Selector Gadget" a-disabled="(active.mode !== 'JS')" ng-click="activateSelectorGadget()">
+                                <span class="fa  fa-hand-o-up"></span>
+                                <span class="ladda-label">Selector Gadget</span>
+                            </a>
+                        </li>
 
-                <li ng-class="{'disabled': (mode !== 'JS')}">
-                    <a href title="Evaluator" a-disabled="(mode !== 'JS')" ng-click="evaluate()">
-                        <span class="fa  fa-binoculars"></span>
-                        <span class="ladda-label">Evaluate</span>
-                    </a>
+                        <li ng-class="{'disabled': (active.mode !== 'JS')}">
+                            <a href title="Evaluator" a-disabled="(active.mode !== 'JS')" ng-click="evaluate()">
+                                <span class="fa  fa-binoculars"></span>
+                                <span class="ladda-label">Evaluate</span>
+                            </a>
+                        </li>
+
+
+                        <li ng-class="{'disabled': (active.mode !== 'JS')}">
+                            <a href title="Evaluator" a-disabled="(active.mode !== 'JS')" ng-click="cleanScriptEngineScope()">
+                                <span class="fa fa-trash"></span>
+                                <span class="ladda-label">Clean Scope</span>
+                            </a>
+                        </li>
+
+                    </ul>
                 </li>
 
 
-                <li ng-class="{'disabled': (mode !== 'JS')}">
-                    <a href title="Evaluator" a-disabled="(mode !== 'JS')" ng-click="cleanScriptEngineScope()">
-                        <span class="fa fa-trash"></span>
-                        <span class="ladda-label">Clean Scope</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-
-
-        <!-- OTHER ACTIONS -->
-        <li class="dropdown">
-            <a class="dropdown-toggle"  data-toggle="dropdown" href="javascript:;">Other actions <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-                <li>
-                    <a href ng-click="openModalWebDriverSelect()">
-                        <span class="fa fa-list"></span>
-                        <span class="ladda-label">Launch Browser</span>
-                    </a>
-                </li>
-                <!-- <li>
+                <!-- OTHER ACTIONS -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">Other actions <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href ng-click="openModalWebDriverSelect()">
+                                <span class="fa fa-list"></span>
+                                <span class="ladda-label">Launch Browser</span>
+                            </a>
+                        </li>
+                        <!-- <li>
                     <a href modal state="global.editorarea.sub.registerBackend">
                         <span class="fa fa-cloud-download"></span>
                         <span class="ladda-label">Register Backend</span>
                     </a>
                 </li> -->
-                <li>
-                    <a href modal state="global.editorarea.sub.help">
-                        <span class="fa fa-info-circle"></span>
-                        <span class="ladda-label">Help</span>
-                    </a>
+                        <li>
+                            <a href modal state="global.editorarea.sub.help">
+                                <span class="fa fa-info-circle"></span>
+                                <span class="ladda-label">Help</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-show="hasBreakPoints" ng-click="clearMarkers()">
+                                <i class="fa fa-arrow-circle-o-down"></i>
+                                <span class="ladda-label">Clear Markers</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
-                <li>
-                    <a ng-show="hasBreakPoints" ng-click="clearMarkers()">
-                        <i class="fa fa-arrow-circle-o-down"></i>
-                        <span class="ladda-label">Clear Markers</span>
-                    </a>
-                </li>
-            </ul>
-        </li>
 
-        <li class="dropdown ">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
-                <span>
+                <li class="dropdown ">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                        <span>
                     <span class="hidden-tablet">
                          Preferences
                     </span>
-                    <b class="caret"></b>
-                </span>
-            </a>
-            <ul class="dropdown-menu">
-                <li>
-                    <a href modal state="global.editorarea.sub.preferences">
-                        <i class="fa fa-arrow-circle-o-down"></i>
-                        <span class="ladda-label">Preferences</span>
+                        <b class="caret"></b>
+                        </span>
                     </a>
-                </li>
-                <!--  <li ng-switch-when="true">
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href modal state="global.editorarea.sub.preferences">
+                                <i class="fa fa-arrow-circle-o-down"></i>
+                                <span class="ladda-label">Preferences</span>
+                            </a>
+                        </li>
+                        <!--  <li ng-switch-when="true">
                             <a href="#/build">
                                 <span class="glyphicon glyphicon-asterisk"></span>&nbsp;build</a>
                         </li> -->
-                <!-- JHipster will add entities to the menu here -->
+                        <!-- JHipster will add entities to the menu here -->
+                    </ul>
+                </li>
+
+
+
             </ul>
-        </li>
+
+        </div>
 
 
 
-    </ul>
-
-</div>
+    </nav>
+</header>

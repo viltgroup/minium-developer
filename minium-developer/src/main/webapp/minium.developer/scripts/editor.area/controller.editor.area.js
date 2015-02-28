@@ -1,57 +1,127 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function( $scope, $q,$log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, FileLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaController', function($rootScope, $scope, $q, myService, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, TabLoader, SessionID, GENERAL_CONFIG) {
 
         //is the actual file selected
         //every time we move to other tab 
         //this value is being update
-        $scope.selected = {};
-        $scope.selectedNode = "";
+
+        //this object store all information about the active nodes
+        //can put it in a class
+        $rootScope.active = {
+            selected: {},
+            selectedNode: "",
+            session: null, //store the active instance of the editor
+            mode: "", //mode of the open file
+            activeID: null //store the ID of the active editor
+        }
+
+        $scope.updateObject = myService.updateObject;
+        $scope.myService = myService;
+        $scope.mySharedObject = myService.mySharedObject;
 
         $scope.resultsSummary = {};
-
         //init variables
         $scope.testExecuting = false;
-        //mode of the open file
-        $scope.mode = "";
-
-        //store the active instance of the editor
-        $scope.activeSession = null;
         //store the editor where the test are launched 
+        //to know where we can mark the result of the tests
         $scope.launchTestSession = null;
-
-        $scope.activeID = null;
-
         //init the minium editor 
         //that manage editor and tabs
         //service is shared by controllers
         var editors = MiniumEditor;
 
-        //load the file and create a new editor instance with the file loaded
+        /////////////////////////////////////////////////////////////////
+        //
+        // load the file and create a new editor instance with the file loaded
+        //
+        /////////////////////////////////////////////////////////////////
+
         $scope.loadFile = function(props) {
             //create an empty file
-            var promise = FileLoader.loadFile(props, editors);
+            var promise = TabLoader.loadFile(props, editors);
             var deferred = $q.defer();
 
             promise.then(function(result) {
                 //success handler
                 var newEditor = result;
-                console.log(newEditor)
-                $scope.activeSession = newEditor.instance;
-                $scope.activeSession.focus();
-                $scope.selected.item = newEditor.selected;
-                $scope.activeID = newEditor.id;
-                $scope.mode = newEditor.mode;
+                $scope.setActiveEditor(newEditor);
                 deferred.resolve(newEditor);
             }, function(errorPayload) {
                 //the promise was rejected
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
-                deferred.reject(newEditor);
+                deferred.reject();
             });
             return deferred.promise;
         };
 
+        $scope.setActiveEditor = function(editor) {
+            $rootScope.active = {
+                session: editor.instance,
+                selected: {
+                    item: editor.selected
+                },
+                activeID: editor.id,
+                mode: editor.mode
+            }
+            $rootScope.active.session.focus();
+
+            console.log($rootScope.active);
+            //ace editor dont update the editor until a click or set a the cursor
+            //so i need to get a solution
+            var pos = editor.instance.selection.getCursor();
+            pos.column += 1;
+            editor.instance.moveCursorToPosition(pos);
+            pos.column -= 1;
+            editor.instance.moveCursorToPosition(pos);
+
+
+            //set state
+            $state.go("global.editorarea.sub", {
+                path: editor.relativeUri
+            }, {
+                location: 'replace', //  update url and replace
+                inherit: false,
+                notify: false
+            });
+        }
+
+        /**
+         * Save the file of active session
+         *
+         */
+        $scope.saveFile = function() {
+            console.log($rootScope.active.session);
+            editors.saveFile($rootScope.active.session);
+        }
+
+        /**
+         * Launch test
+         */
+        $scope.launchCucumber = function() {
+            editors.launchCucumber($rootScope.active.session);
+        }
+
+
+        /**
+         * Open Selector Gadget
+         *
+         */
+        $scope.activateSelectorGadget = function() {
+            if ($rootScope.active.mode == editors.modeEnum.JS) {
+                editors.activateSelectorGadget($rootScope.active.session);
+            }
+        }
+
+        /**
+         * Evaluate Expression
+         */
+        $scope.evaluate = function() {
+            if ($rootScope.active.mode == editors.modeEnum.JS) {
+                editors.evaluate($rootScope.active.session);
+            }
+        }
 
         /////////////////////////////////////////////////////////////////
         //
@@ -68,7 +138,7 @@ angular.module('minium.developer')
         //try to close tab one by one
         window.addEventListener("beforeunload", function(e) {
             var confirmationMessage = GENERAL_CONFIG.UNSAVED_MSG;
-                
+
             if (editors.areDirty()) {
                 (e || window.event).returnValue = confirmationMessage; //Gecko + IE
                 return confirmationMessage; //Webkit, Safari, Chrome
@@ -89,13 +159,13 @@ angular.module('minium.developer')
             editors.resizeEditors();
         });
 
-
         /**
          * LAUNCH Webdriver selector Modal
          */
         $scope.setWebDriverMsg = function(value) {
             $scope.webDriverError = value;
         }
+
 
         $scope.webDriverError = false;
         $scope.openModalWebDriverSelect = function(size) {

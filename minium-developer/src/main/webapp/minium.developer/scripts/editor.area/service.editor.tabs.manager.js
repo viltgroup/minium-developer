@@ -16,6 +16,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         // Public properties, assigned to the instance ('this')
         // list of editors
         this.editors = [];
+        this.paths = [];
         //scope
         this.scope = scope;
 
@@ -92,7 +93,10 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             selected: fileContent
         });
 
-        this.storeOpenTabs();
+        this.paths.push(fileProps.relativeUri)
+        console.log("added tab " + this.paths)
+
+        openTab.store(this.editors);
 
         this.resizeEditors();
 
@@ -210,7 +214,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var isOpen = false;
         var id = null;
 
-        console.debug(this.editors);
         $.each(this.editors, function(i, obj) {
 
             if (obj.relativeUri == relativeUri) {
@@ -249,8 +252,13 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
-        var containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - 150;
-
+        var margin = 120;
+        var containerHeight
+        if ($(window).width() >= 768) {
+            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;
+        } else {
+            var containerHeight = $(window).height() - $('.navbar').height() - margin;
+        }
         $.each(this.editors, function(i, obj) {
             var panel = "#editor_" + obj.id;
             $(panel).css({
@@ -372,8 +380,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.isDirty = function(id) {
         var elem = $("#save_" + id);
-        //console.log(elem.attr('class'))
-            //check if the element is dirty
+        //check if the element is dirty
         if (elem.hasClass("hide")) {
             return false; //the element is not dirty
         } else {
@@ -460,6 +467,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     function specificHandlers(fileName, editor, that) {
 
         var _this = that;
+        
         switch (_this.mode) {
 
             case _this.modeEnum.JS:
@@ -593,7 +601,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         //flag for the even listener don't mark as dirty the editor 
         _this.ignore = true;
 
-        var item = _this.scope.selected.item;
+        var item = _this.scope.active.selected.item;
         //if its an untitled tab
         if (item == "") {
             createNewFile(editor, that);
@@ -612,7 +620,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         }, function(response) {
             var data = response.data;
 
-            // console.log(response)
 
             toastr.error(data.message, "The file contains " + data.exception)
         });
@@ -635,7 +642,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var _this = that;
 
         var mode = EditorFactory.setMode(fileName, editor);
-        
+
         switch (mode) {
             case _this.modeEnum.FEATURE:
                 setDocumentValue(item, editor, tabUniqueId);
@@ -666,8 +673,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         session.setUndoManager(new UndoManager());
 
         editor.setSession(session);
-        //console.log(session)
-            // editor.setSession(ace.createEditSession(item.content))
+        // editor.setSession(ace.createEditSession(item.content))
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
     }
@@ -738,7 +744,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                     }
                 })
                 .error(function(exception) {
-                    console.error("Evaluation failed", exception);
                     toastr.warning(exception.message);
                     if (exception.lineNumber >= 0 && !exception.sourceName) {
                         var errors = [{
@@ -758,7 +763,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
     };
 
-    function activateSelectorGadget(editor,that) {
+    function activateSelectorGadget(editor, that) {
 
         WebDriverFactory.isCreated().success(function(data) {
             var modalInstance = $modal.open({
@@ -781,9 +786,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
         var scope = scope;
 
-        var selectedItem = scope.selected.item;
+        var selectedItem = scope.active.selected.item;
         if (!selectedItem) return;
-        //console.log(editor);
 
         var lines = [];
         var range;
@@ -797,8 +801,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             line: lines.reverse(),
             fileProps: selectedItem.fileProps
         };
-        //console.log(launchParams)
-            //launch the execution
+        //launch the execution
         scope.launch(launchParams);
     };
 

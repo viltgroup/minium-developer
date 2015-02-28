@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function( $scope, $state, FS, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, GENERAL_CONFIG) {
 
         /**
          *   Tree view  controller
@@ -32,6 +32,7 @@ angular.module('minium.developer')
                 _.each(node.children, function(item) {
                     // tree navigation needs a label property
                     item.label = item.name;
+
                     if (firstLoad) {
                         $scope.dataForTheTree.push(item);
                     }
@@ -57,13 +58,13 @@ angular.module('minium.developer')
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
 
-            $scope.selectedNode = node;
-            //console.log($scope.selectedNode)
+            $scope.active.selectedNode = node;
+
             if (node.type == "FILE") {
-                $scope.loadFile($scope.selectedNode.relativeUri);
-                
+                $scope.loadFile($scope.active.selectedNode.relativeUri);
+
                 $state.go("global.editorarea.sub", {
-                    path: $scope.selectedNode.relativeUri
+                    path: $scope.active.selectedNode.relativeUri
                 }, {
                     location: 'replace', //  update url and replace
                     inherit: false,
@@ -78,6 +79,10 @@ angular.module('minium.developer')
 
         };
 
+        $scope.right = function(node){
+            alert(node)
+        }
+        
         $scope.showToggle = function(node, expanded) {
             //console.log(node.children)
             $scope.loadChildren(node);
@@ -128,11 +133,91 @@ angular.module('minium.developer')
             }
         }
 
+
+        $scope.refresh = function() {
+            // alert($scope.fs.current)
+            firstLoad = true;
+            $scope.dataForTheTree = [];
+            asyncLoad($scope.fs.current);
+        }
+
         //////////////////////////////////////////////////////////////////
         //
         // Initialize functions
         //
         //////////////////////////////////////////////////////////////////
         asyncLoad($scope.fs.current);
+
+
+        //////////////////////////////////////////////////////////////////
+        //
+        // CONTEXT MENU
+        //
+        //////////////////////////////////////////////////////////////////
+        var actualElem;
+        //to know the type of the element where we click
+        $scope.clickedType;
+        var relativeUriContextClick;
+        $('.tree-bar').contextmenu({
+            target: '#context-menu2',
+            before: function(e) {
+                relativeUriContextClick = undefined;
+                var clickedElem = $(e.target);
+                // alert("dsd")
+                e.preventDefault();
+                // alert($(e.target).text().split(' ').join(''));
+                console.log($(e.target).text().replace(/\s+/g, ' '));
+                actualElem = $(e.target).text().replace(/\s+/g, ' ');
+
+                // alert($(e.target).data("type"))
+                // return true;
+                // This function is optional.
+                // Here we use it to stop the event if the user clicks a span
+
+                if (clickedElem.data("type") == 'DIR') {
+                    $scope.clickedType = "DIR"
+
+                } else {
+                    $scope.clickedType = "FILE"
+                }
+                if (clickedElem.data('relative-uri') !== undefined) {
+
+                    relativeUriContextClick = clickedElem.data('relative-uri');
+                    e.preventDefault();
+                    return true;
+
+                }
+
+            }
+        });
+
+
+        $scope.open = function(operation) {
+            var modalInstance = $modal.open({
+                templateUrl: 'myModalContent.html',
+                controller: 'EditTreeNavController',
+                size: 'sm',
+                resolve: {
+                    relativeUriContextClick: function() {
+                        return relativeUriContextClick;
+                    },
+                    dataForTheTree:function() {
+                        return $scope.dataForTheTree;
+                    },
+                    operation: function(){
+                        return operation;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(selectedItem) {
+                $scope.selected = selectedItem;
+                alert( + selectedItem)
+            }, function() {
+                // $log.info('Modal dismissed at: ' + new Date());
+
+            });
+        };
+
 
     });

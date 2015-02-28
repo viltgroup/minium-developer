@@ -52,6 +52,7 @@ module.exports = function (grunt) {
                     'src/main/webapp/**/*.json',
                     '{.tmp/,}src/main/webapp/assets/styles/**/*.css',
                     '{.tmp/,}src/main/webapp/scripts/**/*.js',
+		    '{.tmp/,}src/main/webapp/minium.developer/**/*.*',
                     'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
@@ -95,7 +96,7 @@ module.exports = function (grunt) {
             proxies: [
                 {
                     context: '/app',
-                    host: 'localhost',
+                    host: '192.168.16.127',
                     port: 8080,
                     https: false,
                     changeOrigin: false

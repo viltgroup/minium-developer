@@ -1,46 +1,96 @@
+<!-- search form -->
+<!-- /.search form -->
+<!-- sidebar menu: : style can be found in sidebar.less -->
+<ul>
 
-    <!-- search form -->
-    <!-- /.search form -->
-    <!-- sidebar menu: : style can be found in sidebar.less -->
-    <ul>
+    <li class="tree-panel">
+        <ul class="list-inline">
+            <li class="dropdown">
+                <a href title="Refresh folders" ng-click="refresh()">
+                    <i class="fa fa-refresh"></i>
+                </a>
+            </li>
+            <li class="dropdown">
+                <a href title="Set Theme" ng-click="collapseAll()">
+                    <i class="fa fa-minus-square-o"></i>
+                </a>
+            </li>
 
-        <li class="tree-panel">
-            <ul class="list-inline">
-                <li class="dropdown">
-                    <a href title="Save" ng-click="saveFile()">
-                        <i class="fa fa-save"></i>
-                    </a>
-                </li>
-                <li class="dropdown">
-                    <a href title="Set Theme" ng-click="collapseAll()">
-                        <i class="fa fa-minus-square-o"></i>
-                    </a>
-                </li>
-
-                <li class="dropdown">
-                    <a href title="Search File" modal state='global.editorarea.sub.open'>
-                        <i class="fa fa-search"></i>
-                    </a>
-                </li>
-
-
-                <li class="pull-right">
-                    <a href title="New file" modal state="global.editorarea.sub.newFile">
-                        <i class="fa fa-plus"></i>
-                    </a>
-                </li>
+            <li class="dropdown">
+                <a href title="Search File" modal state='global.editorarea.sub.open'>
+                    <i class="fa fa-search"></i>
+                </a>
+            </li>
 
 
-            </ul>
-        </li>
-    </ul>
+            <li class="pull-right">
+                <a href title="New file" modal state="global.editorarea.sub.newFile">
+                    <i class="fa fa-plus"></i>
+                </a>
+            </li>
+
+
+        </ul>
+    </li>
+</ul>
+
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title"></h3>
+    </div>
+    <div class="modal-body">
+        <p>Name:</p>
+        <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem">
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Update</button>
+        <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+</script>
+
 
 <!-- /.sidebar -->
 <!-- /.content -->
-<div id="tree-bar" class="editor">
+<div id="tree-bar" class="tree-bar">
     <ul class="treeview-menu" style="display: block;text-transform: initial;">
-        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected">
-            <span style="color: {{getColor(node)}}"> {{node.name}}</span>
+        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected" on-right-click="right(node)">
+            <span class="tree-elem" data-relative-uri="{{node.relativeUri}}" data-type="{{node.type}}">
+                {{node.name}}
+            </span>
         </treecontrol>
+    </ul>
+</div>
+
+
+
+<!-- <h1>Expanded</h1> {{expandedNodes}} -->
+
+<div id="context-menu2" style="position: absolute; z-index: 9999; top: 443px; left: 268px;" class="">
+    <ul class="dropdown-menu" role="menu">
+        <li>
+
+            <a href tabindex="-1" ng-click="open('open')"><i class="fa fa-file"></i>Open</a>
+        </li>
+        <li>
+            <a href tabindex="-1" ng-click="open('newFolder')"><i class="fa fa-folder-o"></i>New Folder</a>
+        </li>
+        <li>
+            <a href tabindex="-1" ng-click="open('newFile')"><i class="fa fa-file"></i>New File</a>
+        </li>
+
+        <li>
+            <a href tabindex="-1" ng-click="open('rename')"><i class="fa fa-pencil"></i>Rename</a>
+        </li>
+
+        <li>
+            <a href tabindex="-1" ng-click="open('renameFolder')"><i class="fa fa-pencil"></i>Rename Folder</a>
+        </li>
+
+
+        <li class="divider"></li>
+        <li>
+            <a href tabindex="-1" ng-click="open('delete')"><i class="fa fa-trash-o danger"></i><span class="danger">Delete</span></a>
+        </li>
     </ul>
 </div>

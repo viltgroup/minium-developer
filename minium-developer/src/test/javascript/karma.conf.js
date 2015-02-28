@@ -48,6 +48,8 @@ module.exports = function (config) {
             'main/webapp/bower_components/angular-timer/dist/angular-timer.js',
             'main/webapp/bower_components/jquery.splitter/js/jquery.splitter-0.14.0.js',
             'main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+            'main/webapp/bower_components/jquery.cookie/jquery.cookie.js',
+            'main/webapp/bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',

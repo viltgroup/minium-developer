@@ -1,111 +1,85 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $q, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
         editors.init($scope);
 
-        //functions needed to be here
-        var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
 
+
+        /**
+         * Clear marker in lines of editor
+         *
+         */
         $scope.clearMarkers = function() {
-            $scope.activeSession.getSession().clearBreakpoints();
-            $scope.activeSession.getSession().setAnnotations([]);
+            $scope.active.session.getSession().clearBreakpoints();
+            $scope.active.session.getSession().setAnnotations([]);
         }
-
-        //stops a launch execution
-        $scope.stopLaunch = function() {
-            launcherService.stop().success(function() {
-                $scope.onFinishTestExecution();
-                $scope.executionWasStopped = true;
-                //toastr.warning("Test was stopped!!")
-            });
-        };
-
-        //executed after the test execution
-        //chnage the flag of execution test
-        $scope.onFinishTestExecution = function(annotations) {
-            //stop button NEED TO INSERT
-            runningTest.stop();
-            if (annotations)
-                $scope.launchTestSession.getSession().setAnnotations(annotations);
-            //remove the lock in test execution
-            $scope.testExecuting = false;
-        }
-
-
 
         /**
          * Initialize tabs
          */
-
         var tabs = $('#tabs').tabs({
             beforeActivate: function(event, ui) {
                 var tabId = ui.newPanel.attr('data-tab-id');
                 var editor = editors.getSession(tabId);
-
                 if (editor !== null) {
-                    //console.log(editor)
-                    $scope.activeSession = editor.instance;
-                    $scope.selected.item = editor.selected;
-                    $scope.activeID = editor.id;
-                    $scope.activeSession.focus();
-
-                    //console.log($scope.selected.item)
-                    //set the mode
-                    $scope.mode = editor.mode;
-                    $state.go("global.editorarea.sub", {
-                        path: editor.relativeUri
-                    }, {
-                        location: 'replace', //  update url and replace
-                        inherit: false,
-                        notify: false
-                    });
+                    $scope.setActiveEditor(editor);
                 }
             }
         });
-
-        // close icon: removing the tab on click
+        
+        /**
+         * close icon: removing the tab on click
+         */
         tabs.delegate("span.ui-icon-close", "click", function() {
-            //console.log($(this).parent());
-            var tabUniqueId = $(this).parent().attr('data-id');
+            closeTab($(this));
+        });
+
+        var closeTab = function(elem) {
+            var tabUniqueId = elem.parent().attr('data-id');
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
                 //the editor is dirty so check if the user 
                 var answer = confirm(GENERAL_CONFIG.UNSAVED_MSG);
                 if (answer) {
-                    editors.closeTab(tabUniqueId, tabs, $(this));
+                    editors.closeTab(tabUniqueId, tabs, elem);
                 }
             } else {
-                editors.closeTab(tabUniqueId, tabs, $(this));
+                editors.closeTab(tabUniqueId, tabs, elem);
             }
 
             if (editors.size() == 0) {
                 $scope.addEmptyTab();
             }
-        });
+        }
 
+        /**
+         * Load the tab from the cookie
+         *
+         */
         var tabLoader = function() {
             var openTabs = openTab.load();
-            var i = 0;
             for (var i = 0; i < openTabs.length; i++) {
                 $scope.loadFile(openTabs[i]);
             }
+            return openTabs;
         }
 
         if ($stateParams.path) {
+            tabLoader();
             $scope.loadFile($stateParams.path);
-            // tabLoader();
-
         } else {
-            // tabLoader();
-            $scope.loadFile("");
+            var openTabs = tabLoader();
+            //if theres no open tabs, open one
+            // if (openTabs.size() === 0)
+                $scope.loadFile("");
         }
 
         //create an empty editor
@@ -114,8 +88,9 @@ angular.module('minium.developer')
             editors.getEditors();
         }
 
+        //set the theme of the editor
         $scope.setTheme = function(themeName) {
-            editors.setTheme($scope.activeSession, themeName);
+            editors.setTheme($scope.active.session, themeName);
         }
 
         /**
@@ -141,7 +116,7 @@ angular.module('minium.developer')
 
             isAlreadySubscribed = true;
 
-            var session_id = $scope.readCookie("JSESSIONID");
+            var session_id;
             var socket = new SockJS("/app/ws");
             var stompClient = Stomp.over(socket);
 
@@ -183,26 +158,20 @@ angular.module('minium.developer')
                     var range = ace.require('ace/range').Range;
 
                     stompClient.subscribe("/cucumber/" + session_id, function(message) {
-                        //console.log(message.body);
                         var step = JSON.parse(message.body);
                         var markerId;
                         switch (step.status) {
                             case "failed":
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
-                                // markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "error_line", "fullLine");
                                 break;
                             case "passed":
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
-                                //markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 1000), "success_line", "fullLine");
                                 break;
                             case "executing":
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
-                                // markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 5), "executing_line", "line");
-                                //breakpoint(step.line - 1);
                                 break;
                             case "undefined":
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
-                                //markerId = $scope.activeSession.session.addMarker(new range(step.line - 1, 0, step.line - 1, 2), "undefined_line", "line");
                                 break;
                             case "snippet":
                                 snippetsForUndefinedSteps.push(step.name);
@@ -217,32 +186,7 @@ angular.module('minium.developer')
             });
         };
 
-        /**
-         * Save the file of active session
-         *
-         */
-        $scope.saveFile = function() {
-            editors.saveFile($scope.activeSession);
-        }
 
-        /**
-         * Open Selector Gadget
-         *
-         */
-        $scope.activateSelectorGadget = function() {
-            if ($scope.mode == editors.modeEnum.JS) {
-                editors.activateSelectorGadget($scope.activeSession);
-            }
-        }
-
-        /**
-         * Evaluate Expression
-         */
-        $scope.evaluate = function() {
-            if ($scope.mode == editors.modeEnum.JS) {
-                editors.evaluate($scope.activeSession);
-            }
-        }
 
         /**
          * Clean the scope of the engine
@@ -251,31 +195,16 @@ angular.module('minium.developer')
             EvalService.clean();
         }
 
-        /**
-         * LAUnch test
-         */
-        $scope.launchCucumber = function() {
-            editors.launchCucumber($scope.activeSession);
-        }
 
-        //functions used in the 2 modules
-        $scope.isEmptyObject = function(obj) {
 
-            if (obj.length && obj.length > 0)
-                return false;
 
-            if (obj.length === 0)
-                return true;
-        }
-
-        var feature;
         $scope.launchAll = function() {
             //if no file is selected
-            if ($scope.selected.item === undefined)
+            if ($scope.active.selected.item === undefined)
                 return;
 
             var launchParams = {
-                fileProps: $scope.selected.item.fileProps
+                fileProps: $scope.active.selected.item.fileProps
             };
 
             $scope.launch(launchParams);
@@ -283,15 +212,15 @@ angular.module('minium.developer')
 
         var annotations = [];
         var executionWasStopped;
+        var reLaunchParams;
         $scope.launch = function(launchParams) {
-
-            $scope.launchTestSession = $scope.activeSession;
+            reLaunchParams = launchParams;
+            $scope.launchTestSession = $scope.active.session;
             //check if the test already executing
             if ($scope.testExecuting == true) {
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_EXECUTING);
                 return;
             }
-
             /*
              * check if a webdriver if launched
              */
@@ -309,6 +238,7 @@ angular.module('minium.developer')
                 //now the modal wil be launch with an error message
                 $scope.setWebDriverMsg(true);
                 $scope.openModalWebDriverSelect();
+                relaunch = true;
             });
         }
 
@@ -317,6 +247,12 @@ angular.module('minium.developer')
          * @param  {[type]} launchParams [description]
          *
          */
+
+        $scope.stopLaunch = function() {
+            cumcumberLauncher.stopLaunch();
+        }
+
+        var feature;
         var launchTest = function(launchParams) {
 
             $scope.testExecuting = true;
@@ -327,11 +263,9 @@ angular.module('minium.developer')
             $scope.tests.total;
             $scope.testsExecuted = 0;
             $scope.isFailing = false;
-
-            toastr.success(GENERAL_CONFIG.MSG.TEST_STARTED);
-            runningTest.start();
             $scope.tests = {};
 
+            toastr.success(GENERAL_CONFIG.MSG.TEST_STARTED);
             // clear markers
             $scope.clearMarkers();
 
@@ -340,70 +274,19 @@ angular.module('minium.developer')
             snippetsForUndefinedSteps = [];
 
             $("#status").removeClass().addClass("").html("Running");
-            launcherService.launch(launchParams).success(function(data) {
 
-                //if execution was stopped there's no need to execute the block
-                if (executionWasStopped == true) return;
-
-                    //check if the data is valid
-                if (data === undefined || data === "") {
-                    $scope.stopLaunch();
-                    toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
-                    return;
-                }
-
-                feature = new FeatureFacade(data, snippetsForUndefinedSteps);
-
-                $scope.faillingSteps = feature.notPassingsteps;
-
-                $scope.resultsSummary = feature.resultsSummary;
-
-                console.debug(feature.resultsSummary);
-                //refactor all this logic
-                //URGENT NEED TO PUT THIS ON A MODEL
-                //CANT BE IN A CONTROLLER
-                annotations = _.map($scope.faillingSteps, function(step) {
-                    var result = step.status;
-                    var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
-                    var lines = msg;
-
-                    return {
-                        row: step.line - 1,
-                        text: msg,
-                        type: (result === 'FAILED' ? 'error' : 'warning')
-                    };
-                });
-
-                if (annotations.length > 0) {
-                    toastr.warning(GENERAL_CONFIG.TEST.FAILING);
-                    $("#runningTest").removeClass("btn-warning").addClass("btn-danger");
-                    $("#status").removeClass().addClass("").html("Failing");
-                } else {
-                    if ($scope.resultsSummary.runCount == 0) {
-                        //no test were run
-                        $("#status").removeClass().addClass("").html(GENERAL_CONFIG.TEST.NOT_EXECUTED);
-                        toastr.error("No test executed");
-                    } else {
-                        $("#runningTest").removeClass("btn-warning").addClass("btn-success");
-
-                        $("#status").removeClass().addClass("").html("Passed");
-                        toastr.success(GENERAL_CONFIG.TEST.PASS);
-                    }
-
-                    annotations.push({
-                        row: launchParams.line,
-                        text: GENERAL_CONFIG.TEST.EXECUTED_PASSED,
-                        type: 'info'
+            /*
+            Cucumber launcher to launch the test
+             */
+            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession)
+                .then(function(data) {
+                        feature = data.feature;
+                        $scope.faillingSteps = data.faillingSteps;
+                        $scope.resultsSummary = data.resultsSummary;
+                    },
+                    function(data) {
+                        console.log(data + 'failed')
                     });
-
-                }
-
-                $scope.onFinishTestExecution(annotations);
-
-            }).error(function() {
-                $scope.stopLaunch();
-                toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
-            });
         }
 
         /**
@@ -435,12 +318,6 @@ angular.module('minium.developer')
                 checkIfRunning = undefined;
             }
         }
-
-        $('#miniumOnDrugs').click(function() {
-            $(".navbar-brand").css('background', 'url(images/minium_loader.gif) no-repeat left center');
-            $(".navbar-brand").css('background-color', '#367fa9');
-            $(".navbar-brand").css('color', '#f9f9f9');
-        });
 
         //////////////////////////////////////////////////////////////////
         //
@@ -476,6 +353,31 @@ angular.module('minium.developer')
         };
 
 
+
+        var relaunch = false;
+
+        $scope.openModalWebDriverSelect = function(size) {
+            var modalInstance = $modal.open({
+                templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+                controller: "WebDriversController",
+                size: size,
+                resolve: {
+                    error: function() {
+                        return $scope.webDriverError;
+                    }
+                }
+            });
+
+            modalInstance.result.then(function(value) {
+                $scope.setWebDriverMsg(value);
+                if (relaunch) {
+                    launchTest(reLaunchParams);
+                }
+            }, function() {
+                $log.info('Modal dismissed at: ' + new Date());
+            });
+        };
+
         //////////////////////////////////////////////////////////////////
         // EVENT HANDLER  CTLR + P 
         // to Search a file
@@ -492,17 +394,6 @@ angular.module('minium.developer')
         }, false);
 
 
-        $scope.readCookie = function(name) {
-            var nameEQ = name + "=";
-            var ca = document.cookie.split(';');
-            for (var i = 0; i < ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
-        }
-
         //functions used in the 2 modules
         $scope.isEmpty = function(obj) {
             for (var prop in obj) {
@@ -512,6 +403,5 @@ angular.module('minium.developer')
 
             return true;
         }
-
 
     });

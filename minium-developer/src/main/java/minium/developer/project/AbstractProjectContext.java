@@ -60,7 +60,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     }
 
     public Elements root() {
-        return browser.locator().root();
+        return browser.root();
     }
 
     public Object eval(Evaluation evaluation) {

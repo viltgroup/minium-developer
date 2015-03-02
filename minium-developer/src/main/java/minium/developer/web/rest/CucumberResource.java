@@ -29,7 +29,7 @@ public class CucumberResource {
 
 	@RequestMapping(value = "/launch", method = RequestMethod.POST)
 	@ResponseBody
-	public Feature launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws IOException {
+	public Feature launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws Exception {
 	    if (projectContext == null) return null;
 		return projectContext.launchCucumber(launchInfo, request.getSession().getId());
 	}

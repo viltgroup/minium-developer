@@ -60,13 +60,14 @@ public class CucumberProjectContext extends AbstractProjectContext {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
-        super.afterPropertiesSet();
+    protected void refreshConfiguration() throws Exception {
+        super.refreshConfiguration();
         this.projectCucumberProperties = getAppConfigBean("minium.cucumber", CucumberProperties.class);
     }
 
+    public Feature launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {
+        refreshConfiguration();
 
-    public Feature launchCucumber(LaunchInfo launchInfo, final String sessionId) throws IOException {
         URI file = launchInfo.getFileProps().getRelativeUri();
 
         File featureFile = new File(resourcesDir, file.getPath());
@@ -139,12 +140,6 @@ public class CucumberProjectContext extends AbstractProjectContext {
                 }
             }
         });
-    }
-
-    @Override
-    public Object eval(Evaluation evaluation) {
-        // TODO
-        return super.eval(evaluation);
     }
 
     @Override

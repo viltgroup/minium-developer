@@ -54,16 +54,24 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        refreshConfiguration();
+        this.jsEngine = createJsEngine();
+    }
+
+    protected void refreshConfiguration() throws Exception {
         this.propertySources = loadConfiguration();
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);
-        this.jsEngine = createJsEngine();
+        if (jsEngine != null) {
+            jsEngine.putJson("config", configProperties.toJson());
+        }
     }
 
     public Elements root() {
         return browser.root();
     }
 
-    public Object eval(Evaluation evaluation) {
+    public Object eval(Evaluation evaluation) throws Exception {
+        refreshConfiguration();
         return jsEngine.eval(evaluation.getExpression(), evaluation.getLineNumber());
     }
 

@@ -1,75 +1,94 @@
 var _ = require("lodash"),
     cucumberutils = require("cucumber/utils");
 
-Given(/^I am at section "(.*?)"$/, function(section) {
-   browser.get(config.baseUrl);
-   var menu = $(".sidebar-menu li").withText(section);
-   menu.click();
-});
+var resetTheme = function(){
+  browser.get("http://localhost:8080/");
 
-When(/^I am in toolbar "(.*?)"$/, function(arg1) {
   var toolbar = $("#toolbar");
   var option = toolbar.find("ul li .dropdown-toggle").withText("Preferences");
-  var menuOption = toolbar.find(".dropdown-menu span").withText("Preferences");
-  var op = $("select").withLabel("Theme");
-  var save = $(".btn").withText("Save changes");
-  var editor = $(".ace_editor");
-  
   option.click();
+  
+  var menuOption = toolbar.find(".dropdown-menu span").withText("Preferences");
   menuOption.click();
-  op.select("Chrome");
-  save.click();
   
-  //check for theme in browser
-  expect(editor.filter(".ace-monokai")).not.to.be.empty();
+  var resetBtn = $(".btn").withText("Reset default");
+  resetBtn.click();
+};
+
+Given(/^I am at editor$/, function() {
+   browser.get("http://localhost:8080/");
 });
 
-Given(/^I click on toolbar "(.*?)"$/, function(arg1) {
+
+Given(/^I am at modal "(.*?)"$/, function(modal) {
+  var toolbar = $("#toolbar");
+  var option = toolbar.find("ul li .dropdown-toggle").withText(modal);
+  option.click();
   
+  var menuOption = toolbar.find(".dropdown-menu span").withText(modal);
+  menuOption.click();
 });
 
-Then(/^I should see a notification with "(.*?)" and text "(.*?)"$/, function(type,text) {
-  var notification = $(".toast").find("toast-"+type).withText(text);
+
+Then(/^I should see a notification with text "(.*?)" and with type "(.*?)"$/, function(text,type) {
+  var notification = $(".toast-"+type).withText(text);
   expect(notification).not.to.be.empty();
 });
 
-Then(/^the editor should have the class "(.*?)"$/, function() {
+
+Then(/^the editor should have theme "(.*?)"$/, function(arg) {
+  var editor = $(".ace-"+ arg.toLowerCase());
   
+  expect(editor).not.to.be.empty();
+});
+
+Then(/^I reset theme$/, function() {
+  resetTheme();
+});
+
+
+Then(/^the editor should have font size "(.*?)"$/, function(size) {
+  var editor = $(".ace_editor");
+  editor.withCss("font-size",size + "px");
+  expect(editor).not.to.be.empty();
+});
+
+
+When(/^I click on button "(.*?)"$/, function(text) {
+  var btn = $(".btn").withText(text);
+  btn.click();
 });
 
 When(/^I fill:$/, function(datatable) {
-  var objs = cucumberutils.asObjects(datatable);
-  objs.forEach(function (obj, i) {
-    simBase.find("input");
-    for (var colName in obj) {
-      var label = simBase.find(".full-group-label").withText(colName);
-      var fieldInput = simBase.find("div.full-box").below(label).eq(i).find("input, textarea, option");
-      var val = obj[colName];
-      if (fieldInput.is(":radio")) {
-        check(fieldInput.withLabel(val));
-      } else if (fieldInput.is("select")) {
-        select(fieldInput, val);
-      } else {
-        fill(fieldInput, val);
+    
+    var objs = cucumberutils.asObjects(datatable);
+    var inputs;
+    objs.forEach(function (obj, i) {
+      inputs = $("input,select");
+      for (var colName in obj) {
+        var fieldInput = inputs.withLabel(colName);
+        var val = obj[colName];
+        if (fieldInput.is(":radio")) {
+          fieldInput.withLabel(val).check();
+        } else if (fieldInput.is("select")) {
+          fieldInput.select(val);
+        } else {
+          fieldInput.fill(val);
+        }
       }
-    }
-  });
+    });
+    
 });
 
 When(/^I click on button "(.*?)"$/, function(btnName, option) {
   var treeBar = $("#tree-bar");
   var folder = treeBar.find("li").withText("features");
-  folder.find(".tree-label").click();
+  folder.find(".tree-label").click()
 });
 
-Then(/^I see the folder sorted in alphabetical order$/, function() {
-  var treeBar = $("#tree-bar");
-  var folders = treeBar.find("li");
-  
-  _(folders).forEach(function (folder) {
-    folder.find(".tree-label").click();
-    var link = links.withAttr("data-href", linkUrl).add(links.withAttr("href", linkUrl));
-    folder.find(".tree-label").click();
-    expect(link).to.have.size(1);
-  });
+
+Then(/^I reset theme$/, function() {
+  resetTheme();
 });
+
+

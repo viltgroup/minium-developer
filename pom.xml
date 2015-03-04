@@ -75,6 +75,7 @@
 		<module>minium-tools-fs</module>
 		<module>minium-cucumber-reporting</module>
 		<module>minium-tools-bundle</module>
+		<module>minium-developer-e2e-tests</module>
 	</modules>
 
 	<build>

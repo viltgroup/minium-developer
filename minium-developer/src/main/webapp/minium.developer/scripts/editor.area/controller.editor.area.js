@@ -187,4 +187,13 @@ angular.module('minium.developer')
             });
         };
 
+        /**
+         * Clear marker in lines of editor
+         *
+         */
+        $scope.clearMarkers = function() {
+            $scope.active.session.getSession().clearBreakpoints();
+            $scope.active.session.getSession().setAnnotations([]);
+        }
+
     });

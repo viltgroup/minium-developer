@@ -1,31 +1,179 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree,operation) {
+    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileFactory, GENERAL_CONFIG) {
 
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
         var operation = operation;
-        $scope.newFolder = function(relativeUri, name) {
+        var nodeName = nodeName;
+        $scope.selectedItem = "";
+
+
+        $scope.ok = function() {
+            // alert(operation + " " + $scope.selectedItem);
+            switch (operation) {
+                case 'newFolder':
+                    $scope.newFolder();
+                    break;
+                case 'newFile':
+                    $scope.newFile();
+                    break;
+                case 'rename':
+                    $scope.rename();
+                    break;
+                case 'renameFolder':
+                    $scope.renameFolder();
+                    break;
+            }
+        };
+
+        $scope.rename = function(selectedItem) {
+            //TODO
+            //get the element
+            //change in serve
+            //remove the changed element
+            //add renamed element from server
+            // alert(relativeUriContextClick)
             var relativeUri = relativeUriContextClick;
-            var name = "newFolder"
-            var newElem = {
-                label: name,
-                lastModified: 1422905820000,
-                name: name,
-                relativeUri: relativeUri + name + "/",
-                size: 349,
-                type: "DIR",
-                uri: "http://localhost:9000/fs/" + relativeUri + name,
-                children: []
-            };
 
-            var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
+            // alert(relativeUriContextClick)
+            var newFile = $scope.selectedItem;
+            var split = relativeUriContextClick.split("/");
 
-            //add the new element to the tree
-            elem.push(newElem);
+            //if fisrt level rename
+            if (split.length > 1) {
+                split.splice(split.length - 1, 1);
+                var newPath = split.join("/") + "/" + newFile;
+            } else {
+                var newPath = newFile;
+            }
+
+
+            // alert(split + " NP " + newPath);
+            var obj = {
+                oldName: relativeUriContextClick,
+                newName: newPath
+            }
+            JSON.stringify(obj)
+            FileFactory.rename(obj).success(function(data) {
+
+                var newElem = data;
+                // alert(JSON.stringify(newElem));
+
+                var obj = TreeNav.getNode(relativeUri, dataForTheTree);
+                var elem = obj.element;
+                var pos = obj.pos;
+                // alert(JSON.stringify(elem))
+
+                elem.children.splice(pos - 1, 1);
+
+                elem.children.push(newElem);
+            }).error(function(data) {
+                toastr.error("Error " + data);
+            });
+        }
+
+        //fucntion of context menu
+        $scope.open = function() {
+            // alert(relativeUriContextClick)
+            var newFile = $scope.selectedItem;
+            var newPath = relativeUriContextClick + newFile;
+            FileFactory.create(newPath).success(function(data) {
+                toastr.success("Created file " + newPath);
+            }).error(function(data) {
+                toastr.error("Error " + data);
+            });
+
+
+        }
+
+        $scope.delete = function() {
+            //TODO
+            // var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
+            // if (result == true) {
+            //Logic to delete the item
+            //get element
+            //remove element
+            var relativeUri = relativeUriContextClick;
+            // alert(relativeUri)
+            FileFactory.delete(relativeUri).success(function(data) {
+
+                var obj = TreeNav.getParentElement2(relativeUri, dataForTheTree);
+                var elem = obj.element;
+                var pos = obj.pos;
+                // alert(JSON.stringify(elem) + " POS " + pos)
+
+                elem.splice(pos, 1);
+
+                toastr.success("File " + relativeUri + " deleted");
+                $modalInstance.close();
+            }).error(function(data) {
+                toastr.error("Error " + data);
+                $modalInstance.close();
+            });
+
+        }
+
+        $scope.deleteDirectory = function() {
+            //TODO
+            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
+            if (result == true) {
+                //Logic to delete the item
+                //get element
+                //remove element
+                var relativeUri = relativeUriContextClick;
+                // alert(relativeUri)
+                FileFactory.deleteDirectory(relativeUri).success(function(data) {
+
+                    var obj = TreeNav.getParentElement2(relativeUri, dataForTheTree);
+                    var elem = obj.element;
+                    var pos = obj.pos;
+                    // alert(JSON.stringify(elem) + " POS " + pos)
+
+                    elem.splice(pos, 1);
+
+                    toastr.success("File " + relativeUri + " deleted");
+                    $modalInstance.close();
+                }).error(function(data) {
+                    toastr.error("Error " + data);
+                    $modalInstance.close();
+                });
+
+            } else {
+                $modalInstance.close();
+            }
+
+        }
+
+
+        $scope.newFolder = function(relativeUri, name) {
+
+            var relativeUri = relativeUriContextClick;
+
+            var newFolder = $scope.selectedItem;
+
+            var newPath = relativeUriContextClick + newFolder;
+            // alert(newPath)
+            FileFactory.createFolder(newPath).success(function(data) {
+
+                var newElem = data;
+                // alert(JSON.stringify(newElem));
+
+                var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                var elem = obj.element;
+                var pos = obj.pos;
+
+                //add the new element to the tree
+                elem.push(newElem);
+                toastr.success("Created file " + newPath);
+                $modalInstance.close();
+
+            }).error(function(data) {
+                toastr.error("Error " + data);
+            });
+
+
         }
 
 
@@ -43,96 +191,43 @@ angular.module('minium.developer')
             return null;
         }
 
-        //fucntion of context menu
-        $scope.open = function() {
-            // //TODO
-            var elem = "config";
-            var child = "application.yml";
-            // alert(JSONPath({
-            //     json: $scope.dataForTheTree,
-            //     path: "$..*[name='as.js']"
-            // }));
 
-            var aux = dataForTheTree;
-            var node;
-            for (var i = 0; i < aux.length; i++) {
-                if (aux[i].name == elem) {
-                    console.log(aux[i].children)
-                    node = aux[i];
-                    break;
-                }
-            }
-            var children = dataForTheTree[i].children;
-            var childNode;
-            for (var y = 0; y < children.length; y++) {
-                if (children[y].name === child) {
-                    childNode = children[y];
-                    break;
-                }
-            }
-            alert(JSON.stringify(childNode))
 
-            dataForTheTree[i].children.splice(y, 1);
-            var newElem = {
-                label: "newFile.yml",
-                lastModified: 1422905820000,
-                name: "newFile.yml",
-                relativeUri: "config/applicatio(another%20copy)sdasdsad.yml",
-                size: 349,
-                type: "FILE",
-                uri: "http://localhost:9000/fs/config/applicatio(another%20copy)sdasdsad.yml"
-            };
-            dataForTheTree[i].children.push(newElem);
 
-            //create in file system the file
-
-        }
-
-        $scope.delete = function() {
-            //TODO
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
-            if (result == true) {
-                //Logic to delete the item
-                //get element
-                //remove element
-                var relativeUri = relativeUriContextClick;
-                alert(relativeUri)
-                var obj = TreeNav.getElement(relativeUri, dataForTheTree);
-                var elem = obj.element;
-                var pos = obj.pos;
-                // alert(JSON.stringify(elem))
-                elem.splice(pos, 1);
-            }
-        }
 
         $scope.newFile = function() {
             //TODO
             //get the element
             //create a file in file system
             //add teh new element from server in tree
-
             var relativeUri = relativeUriContextClick;
-            var name = "newFile"
-            var newElem = {
-                label: name,
-                lastModified: 1422905820000,
-                name: name,
-                relativeUri: relativeUri + name + "/",
-                size: 349,
-                type: "FILE",
-                uri: "http://localhost:9000/fs/" + relativeUri + name,
-                children: []
-            };
 
-            var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
+            var newFile = $scope.selectedItem;
 
-            if (elem.children == undefined)
-                elem.children = [];
-            //add the new element to the tree
+            var newPath = relativeUriContextClick + newFile;
+            // alert(newPath)
+            FileFactory.create(newPath).success(function(data) {
 
-            elem.push(newElem);
+                var newElem = data;
+                // alert(JSON.stringify(newElem));
+
+                var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                var elem = obj.element;
+                var pos = obj.pos;
+
+                if (elem.children == undefined)
+                    elem.children = [];
+                //add the new element to the tree
+
+                elem.push(newElem);
+                toastr.success("Created file " + newPath);
+                $modalInstance.close();
+
+            }).error(function(data) {
+                toastr.error("Error " + data);
+            });
+
+
             // elem.push(newElem);
 
             // alert(JSON.stringify(elem))
@@ -140,40 +235,7 @@ angular.module('minium.developer')
 
         }
 
-        $scope.rename = function() {
-            //TODO
-            //get the element
-            //change in serve
-            //remove the changed element
-            //add renamed element from server
-            // alert(relativeUriContextClick)
-            var relativeUri = relativeUriContextClick;
-            var name = "renamed.yml"
-            var newElem = {
-                label: name,
-                lastModified: 1422905820000,
-                name: name,
-                relativeUri: "config/" + name + "/",
-                size: 349,
-                type: "FILE",
-                uri: "http://localhost:9000/fs/" + "config/" + name,
-                children: []
-            };
 
-            var obj = TreeNav.getElement(relativeUri, dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
-            // alert(JSON.stringify(elem))
-            elem.splice(pos, 1);
-            // alert(JSON.stringify(elem))
-            var promise = $scope.open(elem, newElem);
-
-            // promise.then(function() {
-            //     elem.push(newElem);
-            // });
-
-
-        }
 
 
         $scope.renameFolder = function() {
@@ -183,7 +245,7 @@ angular.module('minium.developer')
             //remove the changed element
             //add renamed element from server
             alert(relativeUriContextClick)
-            var obj = TreeNav.getNode(relativeUriContextClick,dataForTheTree);
+            var obj = TreeNav.getNode(relativeUriContextClick, dataForTheTree);
             var elem = obj.element;
             var pos = obj.pos;
             // alert(elem)
@@ -196,15 +258,18 @@ angular.module('minium.developer')
             //get the info form the server
         }
 
-
-        
-        $scope.ok = function() {
-            alert(operation);
-            // $modalInstance.close($scope.selected.item);
-        };
-
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
+
+
+        // initializations
+        if (operation === 'rename' || operation === 'renameFolder') {
+            $scope.selectedItem = nodeName;
+        } else if (operation === 'delete') {
+            $scope.delete();
+        } else if (operation === 'deleteDirectory') {
+            $scope.deleteDirectory();
+        }
 
     });

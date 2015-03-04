@@ -11,7 +11,7 @@ miniumDeveloper.factory('FS', function($resource) {
             },
             isArray: true
         },
-        search: {   
+        search: {
             method: 'GET',
             params: {
                 action: "search"
@@ -24,7 +24,19 @@ miniumDeveloper.factory('FS', function($resource) {
 miniumDeveloper.factory('FileFactory', function($resource, $http) {
     return {
         create: function(path) {
-            return $http.post('/app/rest/fs/new',path );
+            return $http.post('/app/rest/fs/new', path);
         },
+        createFolder: function(path) {
+            return $http.post('/app/rest/fs/new/folder', path);
+        },
+        rename: function(object) {
+            return $http.post('/app/rest/fs/rename', JSON.stringify(object));
+        },
+        delete: function(path) {
+            return $http.put('/app/rest/fs/delete', path);
+        },
+        deleteDirectory: function(path) {
+            return $http.put('/app/rest/fs/delete/directory', path);
+        }
     };
 });

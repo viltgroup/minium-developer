@@ -2,7 +2,7 @@
 miniumDeveloper.service('TabLoader', function($q, FS) {
 
     var all = [];
-
+    
     /**
      * Load a file and check if the is already open on a tab
      * @param  {[type]} file    the property file

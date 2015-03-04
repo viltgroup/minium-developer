@@ -28,10 +28,10 @@
                 <!-- HEADER -->
 
                 <icon-item status="step.status"></icon-item>
-                {{step.status}}
+
                 <strong>{{step.rawName}}</strong>
                 <span>Line {{step.line}}</span>
-                <i class="pull-right glyphicon" ng-class="{'fa-chevron-down': status.open, ' chevron-right': !status.open}"></i>
+                <i class="pull-right fa " ng-class="{'fa-chevron-down': status.open, ' fa-chevron-right': !status.open}"></i>
             </accordion-heading>
             <!-- CONTENT -->
             <table class="table table-primary table-list table-striped table-condensed">
@@ -64,10 +64,10 @@
     <span ng-repeat="snippet in snippetsForUndefinedSteps track by $index">
          <pre class="prettyprint lang-js" style="white-space: pre;">{{snippet}} </pre>
     </span>
-    
-    <div class="row">
-        <h5>
-               List of features
+
+    <div class="row" style="margin-left: 100px;">
+        <h4>
+               
                <span class="fa-stack">
                <em class="fa fa-circle fa-stack-2x text-primary"></em>
                <em class="fa fa-rocket fa-stack-1x fa-inverse text-white"></em>
@@ -88,10 +88,21 @@
                <em class="fa fa-warning fa-stack-1x fa-inverse text-white"></em>
                </span>
                <strong>{{resultsSummary.skipped}} Skipped</strong>
-            </div>
-         </div>
-         </h5>
+               </h4>
     </div>
+
+
+    <accordion>
+        <accordion-group heading="Show chart" is-open="false">
+            <nvd3-pie-chart data="exampleData" id="donutLabelsOutsideExample" width="450" height="300" x="xFunction()" y="yFunction()" donut="true" showLabels="true" donutLabelsOutside="true" color="colorFunction()" legendColor="colorFunction()">
+                <svg></svg>
+            </nvd3-pie-chart>
+        </accordion-group>
+    </accordion>
+
+
+
+
     <div class="modal-footer">
         <button class="btn btn-warning" ng-click="cancel()">Close</button>
     </div>

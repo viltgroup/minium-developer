@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval,$timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -11,17 +11,7 @@ angular.module('minium.developer')
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
-
-
-        /**
-         * Clear marker in lines of editor
-         *
-         */
-        $scope.clearMarkers = function() {
-            $scope.active.session.getSession().clearBreakpoints();
-            $scope.active.session.getSession().setAnnotations([]);
-        }
-
+        
         /**
          * Initialize tabs
          */
@@ -74,7 +64,9 @@ angular.module('minium.developer')
 
         if ($stateParams.path) {
             tabLoader();
+            //wait for every files load
             $scope.loadFile($stateParams.path);
+            // setTimeout(, 5000);
         } else {
             var openTabs = tabLoader();
             //if theres no open tabs, open one

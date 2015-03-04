@@ -467,7 +467,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     function specificHandlers(fileName, editor, that) {
 
         var _this = that;
-        
+
         switch (_this.mode) {
 
             case _this.modeEnum.JS:
@@ -740,7 +740,13 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                     if (data.size >= 0) {
                         toastr.success(data.size + " matching web elements");
                     } else {
-                        toastr.success(data.value ? _.escape(data.value) : "No value");
+                        //undefined is not user friendly 
+                        //so when an undefined come we 
+                        if (_.escape(data.value) === "undefined") {
+                            toastr.success("OK (" + _.escape(data.value) + ")" );
+                        } else {
+                            toastr.success(data.value ? _.escape(data.value) : "No value");
+                        }
                     }
                 })
                 .error(function(exception) {

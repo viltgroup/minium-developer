@@ -12,7 +12,7 @@ var miniumDeveloper = angular.module('minium.developer', [
     'ui.bootstrap',
     'ui.bootstrap.showErrors',
     'treeControl',
-    'pasvaz.bindonce',
+    'nvd3ChartDirectives',
     'miniumDeveloper.filters',
     'miniumDeveloper.directives',
     'miniumDeveloper.config'

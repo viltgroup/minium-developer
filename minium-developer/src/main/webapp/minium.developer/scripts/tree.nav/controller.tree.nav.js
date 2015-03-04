@@ -57,7 +57,6 @@ angular.module('minium.developer')
         $scope.expandedNodes = [];
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
-
             $scope.active.selectedNode = node;
 
             if (node.type == "FILE") {
@@ -79,10 +78,10 @@ angular.module('minium.developer')
 
         };
 
-        $scope.right = function(node){
+        $scope.right = function(node) {
             alert(node)
         }
-        
+
         $scope.showToggle = function(node, expanded) {
             //console.log(node.children)
             $scope.loadChildren(node);
@@ -99,7 +98,7 @@ angular.module('minium.developer')
                 iExpanded: "a3",
                 iCollapsed: "a4",
                 iLeaf: "a5",
-                isFeature: "a2",
+                iFeature: "feature-node",
                 label: "a6",
                 labelSelected: "a8"
             },
@@ -109,11 +108,12 @@ angular.module('minium.developer')
                 else
                     return true;
             },
-            isFeature: function(node) {
-                if (node.type === "DIR")
-                    return false;
-                else
+            isJS: function(node) {
+                if (/\.js$/.test(node.name))
                     return true;
+                else
+                    return false;
+
             },
             dirSelectable: false
         };
@@ -133,6 +133,9 @@ angular.module('minium.developer')
             }
         }
 
+        $scope.type = function(type) {
+
+        }
 
         $scope.refresh = function() {
             // alert($scope.fs.current)
@@ -156,8 +159,9 @@ angular.module('minium.developer')
         //////////////////////////////////////////////////////////////////
         var actualElem;
         //to know the type of the element where we click
-        $scope.clickedType;
+        $scope.clickedType = "FILE";
         var relativeUriContextClick;
+        var nodeName;
         $('.tree-bar').contextmenu({
             target: '#context-menu2',
             before: function(e) {
@@ -173,16 +177,16 @@ angular.module('minium.developer')
                 // return true;
                 // This function is optional.
                 // Here we use it to stop the event if the user clicks a span
-
                 if (clickedElem.data("type") == 'DIR') {
                     $scope.clickedType = "DIR"
-
                 } else {
                     $scope.clickedType = "FILE"
                 }
+                $scope.$apply();
+                
                 if (clickedElem.data('relative-uri') !== undefined) {
-
                     relativeUriContextClick = clickedElem.data('relative-uri');
+                    nodeName = clickedElem.data('name');
                     e.preventDefault();
                     return true;
 
@@ -201,18 +205,21 @@ angular.module('minium.developer')
                     relativeUriContextClick: function() {
                         return relativeUriContextClick;
                     },
-                    dataForTheTree:function() {
+                    dataForTheTree: function() {
                         return $scope.dataForTheTree;
                     },
-                    operation: function(){
+                    operation: function() {
                         return operation;
+                    },
+                    nodeName: function(){
+                        return nodeName;
                     }
                 }
             });
 
             modalInstance.result.then(function(selectedItem) {
                 $scope.selected = selectedItem;
-                alert( + selectedItem)
+                // alert(selectedItem)
             }, function() {
                 // $log.info('Modal dismissed at: ' + new Date());
 

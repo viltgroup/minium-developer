@@ -69,11 +69,13 @@
 }
 .ace_dark .ace_gutter-cell.ace_info {
     background-image: url("../images/icons/info.png");
+    background-repeat: no-repeat;
     background-color: #3498DB;
     color: #ffffff;
 }
 .ace_gutter-cell.ace_warning {
     background-image: url("../images/icons/warning.png");
+    background-repeat: no-repeat;
     background-position: 2px center;
     background-color: #F5D76E;
     color: #334554;
@@ -503,6 +505,10 @@ treecontrol.tree-classic li.tree-expanded i {
 treecontrol.tree-classic li.tree-leaf i {
     padding: 6px 10px 0px 10px;
     background: url("/assets/images/icons/file.png") no-repeat bottom left;
+}
+treecontrol.tree-classic li.feature-node i {
+    padding: 6px 10px 0px 10px;
+    background: url("/assets/images/icons/js.png") no-repeat bottom left;
 }
 treecontrol ul {
     cursor: pointer;
@@ -1071,4 +1077,7 @@ a.list-group-item:focus {
     }
 }
 
-
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}

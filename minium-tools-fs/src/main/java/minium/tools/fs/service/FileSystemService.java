@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 
 import minium.tools.fs.domain.AutoFormatter;
 import minium.tools.fs.domain.FileContent;
+import minium.tools.fs.domain.FileDTO;
 import minium.tools.fs.domain.FileProps;
 import minium.tools.fs.web.rest.IllegalOperationException;
 import minium.tools.fs.web.rest.ResourceConflictException;
@@ -27,8 +28,6 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -87,15 +86,37 @@ public class FileSystemService {
 		return extractFileContent(baseUrl, file);
 	}
 
-	public ResponseEntity<String> create(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
+	public FileProps create(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
 		File file = getFile(path);
 		if (file.exists()) {
-			return new ResponseEntity<String>("Not Created", HttpStatus.PRECONDITION_FAILED);
+			return null;
 		} else {
 			file.createNewFile();
 			LOGGER.info("Created new file {}", path);
-			return new ResponseEntity<String>("Created", HttpStatus.OK);
+			return extractFileProps(baseUrl, file);
 		}
+	}
+
+	public FileProps createFolder(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
+		File theDir = getFile(path);
+		FileProps props = null;
+		// if the directory does not exist, create it
+		if (!theDir.exists()) {
+			boolean result = false;
+
+			try {
+				theDir.mkdir();
+				result = true;
+			} catch (SecurityException se) {
+				// handle it
+			}
+			if (result) {
+				LOGGER.info("Created new fodler {}", path);
+				props = extractFileProps(baseUrl, theDir);
+			}
+		}
+
+		return props;
 	}
 
 	public void delete(String path) throws IOException {
@@ -104,6 +125,37 @@ public class FileSystemService {
 			throw new ResourceNotFoundException();
 		if (!file.delete())
 			new IllegalOperationException();
+	}
+
+	public void deleteDirectory(String path) throws IOException {
+		File directory = getFile(path);
+
+		if (!directory.exists())
+			throw new ResourceNotFoundException();
+		if (!directory.delete())
+			new IllegalOperationException();
+
+		try {
+			recursiveDelete(directory);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public FileProps renameFile(String baseUrl, FileDTO fileDTO) throws IOException {
+		File file = getFile(fileDTO.getOldName());
+		File newFile = new File(baseDir, fileDTO.getNewName());
+		FileProps props = null;
+		if (!file.exists())
+			throw new ResourceNotFoundException();
+
+		boolean success = file.renameTo(newFile);
+
+		if (success) {
+			// File was successfully renamed
+			props = extractFileProps(baseUrl, newFile);
+		}
+		return props;
 	}
 
 	public FileContent save(String baseUrl, @RequestBody FileContent fileContent) throws IOException {
@@ -182,5 +234,33 @@ public class FileSystemService {
 		fileProps.setType(file.isFile() ? FileProps.Type.FILE : FileProps.Type.DIR);
 		fileProps.setLastModified(new Date(file.lastModified()));
 		return fileProps;
+	}
+
+	public void recursiveDelete(File file) throws IOException {
+		if (file.isDirectory()) {
+			// directory is empty, then delete it
+			if (file.list().length == 0) {
+				file.delete();
+				LOGGER.info("Directory is deleted : " + file.getAbsolutePath());
+			} else {
+				// list all the directory contents
+				String files[] = file.list();
+				for (String temp : files) {
+					// construct the file structure
+					File fileDelete = new File(file, temp);
+					// recursive delete
+					recursiveDelete(fileDelete);
+				}
+				// check the directory again, if empty then delete it
+				if (file.list().length == 0) {
+					file.delete();
+					LOGGER.info("Directory is deleted : " + file.getAbsolutePath());
+				}
+			}
+		} else {
+			// if file, then delete it
+			file.delete();
+			LOGGER.info("File is deleted : " + file.getAbsolutePath());
+		}
 	}
 }

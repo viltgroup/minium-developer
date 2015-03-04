@@ -7,4 +7,13 @@ angular.module('miniumdevApp')
         $controller('EditorAreaController', {
             $scope: $scope
         });
+
+                /**
+         * Clear marker in lines of editor
+         *
+         */
+        $scope.clearMarkers = function() {
+            $scope.active.session.getSession().clearBreakpoints();
+            $scope.active.session.getSession().setAnnotations([]);
+        }
     });

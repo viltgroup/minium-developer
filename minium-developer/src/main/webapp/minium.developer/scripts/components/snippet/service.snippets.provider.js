@@ -39,7 +39,7 @@ miniumDeveloper.factory('SnippetsProvider', function() {
                 name: "Escenari",
                 trigger: "esc",
                 content: [
-                    "Escenari: ${1:Pequeña descripción aquí}",
+                    "Escenari: ${1:Petita descripció aquí}",
                     "  Donat ${2:algo}",
                     "  Quan ${3:algo}"
                 ].join("\n")
@@ -47,7 +47,7 @@ miniumDeveloper.factory('SnippetsProvider', function() {
                 name: "Esquema de l'escenari",
                 trigger: "sco",
                 content: [
-                    "Esquema de l'escenari: ${1:Pequeña descripción aquí}",
+                    "Esquema de l'escenari: ${1:Petita descripció aquí}",
                     "  Donat ${2:algo}",
                     "  Examples:",
                     "  | ${3:attr1} | ${4:attr2} |"
@@ -56,38 +56,31 @@ miniumDeveloper.factory('SnippetsProvider', function() {
                 name: "Funcionalitat",
                 trigger: "func",
                 content: [
-                    "Funcionalitat: ${1:Pequeña descripción aquí}                                                                                                                                                                                                                                                              ",
+                    "Funcionalitat: ${1:Petita descripció aquí}                                                                                                                                                                                                                                                              ",
                     " ",
-                    "  Escenari: ${2:Pequeña descripción aquí}",
-                    "    Donat ${3:something}"
-                ].join("\n")
-            }, {
-                name: "estoy",
-                trigger: "estoy",
-                content: [
-                 "estoy en la sección \"${1:Pequeña descripción aquí}\" ",
-                 ""
+                    "  Escenari: ${2:Petita descripció aquí}",
+                    "    Donat ${3:algo}"
                 ].join("\n")
             },
             {
-                name: "estoy",
-                trigger: "estoy",
+                name: "estic",
+                trigger: "estic",
                 content: [
-                 "estoy en la sección \"${1:seccion}\" "
+                 "estic a la secció \"${1:seccion}\" "
                 ].join("\n")
             },
             {
-                name: "anado",
-                trigger: "ana",
+                name: "afegeixo",
+                trigger: "afegeixo",
                 content: [
-                 "añado ${1:cantidad} regalos con título \"${2:titulo}\" "
+                 "afegeixo ${1:quantidad} regals amb títol \"${2:títol}\" "
                 ].join("\n")
             },
             {
                 name: "total",
                 trigger: "to",
                 content: [
-                 "el total de puntos es ${1:total-puntos} "
+                 "el total de punts és ${1:total-punts} "
                 ].join("\n")
             }
 

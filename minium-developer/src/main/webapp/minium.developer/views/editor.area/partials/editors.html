@@ -2,22 +2,29 @@
 <div class="btn-toolbar top-bar" role="toolbar">
     <div class="col-md-7 pull-right">
         <br>
-        <i class="fa fa-info-circle"></i>
-        <span >Status</span>:
+
         <!-- <span class="label label-default" id="status">
                 Not Run
                 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-        <button id="runningTest" class="btn btn-warning ladda-button disabled  btn-xs" data-style="expand-right">
-
+        <button id="runningTest" class="btn btn-warning ladda-button disabled  btn-xs" data-size="xs" data-style="expand-right">
             <span class="fa fa-gears"></span>
             <span id="status">
                      Not Running
                      </span>
         </button>
 
-        <button type="button" class="btn btn-primary" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)" >
+        <a href="#" id="tail" class="log-tail" data-ember-action="1351">
+            <span class="tail-status"></span>
+        </a>
+
+
+        <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (active.mode !== 'JS')">
+            <span class="fa fa-ban"></span>
+        </a>
+
+        <button type="button" class="btn btn-primary" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)">
             <span class="fa  fa-bar-chart"></span>
-            <span >Summary Report</span>
+            <span>Summary Report</span>
         </button>
 
         <!-- <span class="col-sm-2 pull-left " ng-show="testExecuting == true">
@@ -26,11 +33,11 @@
         <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / cenas" style="height: 10px;">
         </progressbar>
  -->
-        <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openModalExecution('lg')">
+       <!--  <button data-toggle="dropdown" class="btn btn-success" type="button" ng-hide="testExecuting == false" ng-click="openModalExecution('lg')">
             <i class="fa fa-arrow-circle-o-down"></i>
-            <span >See Execution</span>
+            <span>See Execution</span>
         </button>
-
+ -->
         <!--button group -->
     </div>
     <br>
@@ -58,10 +65,8 @@
         <a class="btn btn-default" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
             <span class="fa  fa-list"></span> Run All
         </a>
-        <a class="btn  btn-danger" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (active.mode !== 'JS')">
-            <span class="fa fa-ban"></span>
-        </a>
     </div>
+
     <br>
     <br>
 </div>
@@ -75,3 +80,5 @@
     <!-- <a href="#" id="left-button"><i class="fa fa-arrow-circle-left"/></a> -->
     <!-- </div> -->
 </div>
+
+

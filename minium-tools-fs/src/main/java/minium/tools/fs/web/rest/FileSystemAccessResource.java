@@ -7,12 +7,14 @@ import java.util.Set;
 
 import minium.tools.fs.domain.AutoFormatter;
 import minium.tools.fs.domain.FileContent;
+import minium.tools.fs.domain.FileDTO;
 import minium.tools.fs.domain.FileProps;
 import minium.tools.fs.service.FileSystemService;
 import minium.tools.fs.web.method.support.AntPath;
 import minium.tools.fs.web.method.support.BaseURL;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
@@ -52,12 +54,6 @@ public class FileSystemAccessResource {
         return service.getFileContent(baseUrl, path);
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
-    @ResponseBody
-    public ResponseEntity<String> create(@BaseURL String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
-        return service.create(baseUrl, path);
-    }
-
     @RequestMapping(value = "/**", method = RequestMethod.DELETE)
     @ResponseBody
     public void delete(@AntPath("path") String path) throws IOException {
@@ -80,4 +76,71 @@ public class FileSystemAccessResource {
     public String handleException(Throwable exception) {
     	return exception.getMessage();
     }
+    
+    /**
+     * CRUD Operation File
+     */
+    
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<FileProps> create(@BaseURL String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
+    	FileProps props = service.create(baseUrl, path);
+    	if (props == null) {
+			return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
+		} else {
+			return new ResponseEntity<FileProps>(props, HttpStatus.OK);
+		}
+    }
+    
+    
+    @RequestMapping(value = "/new/folder", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<FileProps> createFolder(@BaseURL String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
+    	FileProps props = service.createFolder(baseUrl, path);
+    	if (props == null) {
+			return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
+		} else {
+			return new ResponseEntity<FileProps>(props, HttpStatus.OK);
+		}
+    }
+    
+    @RequestMapping(value = "/rename", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<FileProps> rename(@BaseURL String baseUrl,@RequestBody FileDTO fileDTO) throws IOException, URISyntaxException {
+    	FileProps props = service.renameFile(baseUrl,fileDTO);
+    	if (props == null) {
+			return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
+		} else {
+			return new ResponseEntity<FileProps>(props, HttpStatus.OK);
+		}
+    }
+    
+    
+    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
+    @ResponseBody
+    public void delete(@BaseURL String baseUrl, @RequestBody String path) {
+    	try {
+			service.delete(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
+    
+    @RequestMapping(value = "/delete/directory", method = RequestMethod.PUT)
+    @ResponseBody
+    public void deleteDirectory(@BaseURL String baseUrl, @RequestBody String path) {
+    	try {
+			service.deleteDirectory(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+
+    
+    
+    
+    
 }

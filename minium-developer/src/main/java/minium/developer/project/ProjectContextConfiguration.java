@@ -23,6 +23,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.web.context.WebApplicationContext;
 
 @Configuration
 @EnableConfigurationProperties
@@ -30,6 +33,7 @@ public class ProjectContextConfiguration {
 
     @Bean
     @Autowired
+    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public FileSystemService fileSystemService(ProjectProperties projectConfiguration) {
         return new FileSystemService(projectConfiguration.getResourcesDir());
     }
@@ -48,6 +52,7 @@ public class ProjectContextConfiguration {
 
     @Autowired
     @Bean
+    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
     public AbstractProjectContext projectContext(ProjectProperties projConfiguration) throws Exception {
         if (projConfiguration.isCucumberProject()) {
             return new CucumberProjectContext(projConfiguration.getDir());

@@ -686,7 +686,7 @@ treecontrol.tree-classic li .tree-selected {
 }
 #tree-bar {
     position: absolute;
-    margin-left: -260px;
+    margin-left: -270px;
     height: auto;
     width: 260px;
     overflow: auto;

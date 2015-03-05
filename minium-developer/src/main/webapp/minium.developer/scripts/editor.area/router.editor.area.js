@@ -103,4 +103,15 @@ miniumDeveloper
             templateUrl: 'minium.developer/views/preferences/preferences.html',
             controller: 'PreferencesController'
         });
+
+        //projects
+        modalStateProvider.state('global.editorarea.sub.newProject', {
+            templateUrl: 'minium.developer/views/project/new.project.html',
+            controller: 'ProjectController'
+        });
+
+        modalStateProvider.state('global.editorarea.sub.importProject', {
+            templateUrl: 'minium.developer/views/project/import.project.html',
+            controller: 'ImportProjectController'
+        });
     })

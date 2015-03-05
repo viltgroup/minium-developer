@@ -115,7 +115,6 @@ public class FileSystemService {
 				props = extractFileProps(baseUrl, theDir);
 			}
 		}
-
 		return props;
 	}
 
@@ -192,6 +191,15 @@ public class FileSystemService {
 		}
 
 		return fileProps;
+	}
+
+	public boolean dirExists(String path) {
+		boolean dirExists = false;
+		File f = new File(path);
+		if (f.exists() && f.isDirectory()) {
+			dirExists = true;
+		}
+		return dirExists;
 	}
 
 	protected void maybeAutoFormat(FileContent fileContent) {

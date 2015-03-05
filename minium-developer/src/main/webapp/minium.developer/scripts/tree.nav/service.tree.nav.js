@@ -4,16 +4,30 @@
 miniumDeveloper.factory('TreeNav', function($http, $q) {
     var TreeNav = {};
 
-    TreeNav.getParentElement = function(relativeUri, treeData) {
+
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get element from the tree data
+    //
+    /////////////////////////////////////////////////////////////////
+    TreeNav.getElement = function(relativeUri, treeData) {
         //do the split to get the level of depth
         var levels = relativeUri.split("/");
         //remove the last element
         //if got more than one element
         //for instance if it is a file on the first level
-        if (levels.length >= 1){
+        if (levels.length >= 1) {
             levels.splice(levels.length - 1, 1);
         }
 
+        //insert in the fisrt level
+        if (levels.length == 0) {
+            var elem = treeData;
+            return {
+                element: elem,
+                pos: 0
+            }
+        }
         //get the first level
         var aux = treeData;
         var node, pos;
@@ -26,7 +40,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 break;
             }
         }
-       
+
         if (node.type === "FILE") {
             //no need for the rest of the code
             //beacause its a file form the first level
@@ -68,23 +82,46 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
     }
 
 
-    TreeNav.getParentElement2 = function(relativeUri, treeData) {
+    /////////////////////////////////////////////////////////////////
+    //
+    // Get the parent element of an element
+    //
+    // return {elem} : parent element
+    //          {pos} : position on the array of children of the parent
+    /////////////////////////////////////////////////////////////////
+    TreeNav.getParentElement = function(relativeUri, treeData) {
         //if it is a folder
         //config/folder1/subfolder/
         var lastChar = relativeUri.charAt(relativeUri.length - 1);
-        if(lastChar == "/")
-             relativeUri = relativeUri.substring(0, relativeUri.length -1);
+        if (lastChar == "/")
+            relativeUri = relativeUri.substring(0, relativeUri.length - 1);
         //do the split to get the level of depth
         var levels = relativeUri.split("/");
 
         //remove the last element
         //if got more than one element
         //for instance if it is a file on the first level
-        if (levels.length > 1){
-            var selectedItem = levels[levels.length -1 ];
+        if (levels.length > 1) {
+            var selectedItem = levels[levels.length - 1];
             levels.splice(levels.length - 1, 1);
         }
 
+        //insert in the fisrt level
+        if (levels.length == 1) {
+            var elem = treeData;
+            for (var i = 0; i < elem.length; i++) {
+                // alert("LAST ONE " + elem[i].name)
+                if (elem[i].name === selectedItem) {
+                    pos = i;
+                    // alert("FOUND "  +elem[i].name + " "+ i);
+                    break;
+                }
+            }
+            return {
+                element: elem,
+                pos: pos
+            }
+        }
         //get the first level
         var aux = treeData;
         var node, pos;
@@ -97,7 +134,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 break;
             }
         }
-       
+
         if (node.type === "FILE") {
             //no need for the rest of the code
             //beacause its a file form the first level
@@ -122,16 +159,16 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
 
                 elem = childNode.children;
 
-                for(var i = 0; i < elem.length ; i++){
-                    alert("LAST ONE " + elem[i].name)
+                for (var i = 0; i < elem.length; i++) {
+                    // alert("LAST ONE " + elem[i].name)
                     if (elem[i].name === selectedItem) {
                         pos = i;
-                        alert("FOUND "  +elem[i].name + " "+ i);
+                        // alert("FOUND "  +elem[i].name + " "+ i);
                         break;
                     }
                 }
                 //console.debug(elem);
-                alert(JSON.stringify(elem[pos]))
+                // alert(JSON.stringify(elem[pos]))
             });
 
             if (elem.children == undefined)
@@ -146,7 +183,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
 
     }
 
-    TreeNav.getElement = function(relativeUri, treeData) {
+    TreeNav.getElement1 = function(relativeUri, treeData) {
 
         if (relativeUri.indexOf("/") > -1) {
             var levels = relativeUri.split("/");
@@ -182,7 +219,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 for (var y = 0; y < children.length; y++) {
                     if (children[y].name === value) {
                         // alert(y + " " + children[y].name + " " + value)
-                            // childNode = children[y];
+                        // childNode = children[y];
                         pos = y;
                         break;
                     }
@@ -264,7 +301,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 }
             }
 
-             elem = childNode;
+            elem = childNode;
             //console.debug(elem);
             // alert(JSON.stringify(elem))
 

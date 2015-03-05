@@ -83,4 +83,9 @@ filter('split', function() {
         // do some bounds checking here to ensure it has that index
         return input.split(splitChar)[splitIndex];
     }
-});;
+})
+.filter("sanitize", ['$sce', function($sce) {
+  return function(htmlCode){
+    return $sce.trustAsHtml(htmlCode);
+  }
+}]);

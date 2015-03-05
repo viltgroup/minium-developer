@@ -3,12 +3,11 @@
 angular.module('minium.developer')
     .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, GENERAL_CONFIG) {
 
-        /**
-         *   Tree view  controller
-         */
 
         //data for the tree
         $scope.dataForTheTree = [];
+
+
         //current file selected
         $scope.fs = {
             current: {}
@@ -34,7 +33,10 @@ angular.module('minium.developer')
                     item.label = item.name;
 
                     if (firstLoad) {
-                        $scope.dataForTheTree.push(item);
+                        // alert(JSON.stringify($scope.dataForTheTree))
+                        $scope.dataForTheTree[0].children.push(item);
+                        $scope.expandedNodes.push($scope.dataForTheTree[0]);
+                        // console.log($scope.expandedNodes)
                     }
                 });
                 firstLoad = false;
@@ -73,7 +75,6 @@ angular.module('minium.developer')
                 $scope.loadChildren(node);
                 //expand the node
                 $scope.expandedNodes.push(node)
-
             }
 
         };
@@ -141,14 +142,36 @@ angular.module('minium.developer')
             // alert($scope.fs.current)
             firstLoad = true;
             $scope.dataForTheTree = [];
+            addProjectToTree();
             asyncLoad($scope.fs.current);
         }
+
+        
+        var addProjectToTree = function() {
+            $scope.dataForTheTree.push({
+                "name": "project",
+                "type": "DIR",
+                "label": "project",
+                "project": true,
+                "children": []
+            });
+
+            $scope.dataForTheTree.push({
+                "name": "project2",
+                "type": "DIR",
+                "label": "project2",
+                "project": true,
+                "children": []
+            });
+        }
+
 
         //////////////////////////////////////////////////////////////////
         //
         // Initialize functions
         //
         //////////////////////////////////////////////////////////////////
+        addProjectToTree();
         asyncLoad($scope.fs.current);
 
 
@@ -167,29 +190,31 @@ angular.module('minium.developer')
             before: function(e) {
                 relativeUriContextClick = undefined;
                 var clickedElem = $(e.target);
-                // alert("dsd")
                 e.preventDefault();
-                // alert($(e.target).text().split(' ').join(''));
-                console.log($(e.target).text().replace(/\s+/g, ' '));
-                actualElem = $(e.target).text().replace(/\s+/g, ' ');
 
                 // alert($(e.target).data("type"))
                 // return true;
                 // This function is optional.
                 // Here we use it to stop the event if the user clicks a span
                 if (clickedElem.data("type") == 'DIR') {
-                    $scope.clickedType = "DIR"
-                } else {
+                    if (clickedElem.data("project") === true) {
+                        $scope.clickedType = "PROJECT"
+                    } else {
+                        $scope.clickedType = "DIR"
+                    }
+                } else if (clickedElem.data("type") == "FILE") {
                     $scope.clickedType = "FILE"
+                } else {
+
                 }
+
                 $scope.$apply();
-                
+
                 if (clickedElem.data('relative-uri') !== undefined) {
                     relativeUriContextClick = clickedElem.data('relative-uri');
                     nodeName = clickedElem.data('name');
                     e.preventDefault();
                     return true;
-
                 }
 
             }
@@ -198,7 +223,7 @@ angular.module('minium.developer')
 
         $scope.open = function(operation) {
             var modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html',
+                templateUrl: 'minium.developer/views/tree.nav/modal.tree.nav.html',
                 controller: 'EditTreeNavController',
                 size: 'sm',
                 resolve: {
@@ -206,13 +231,16 @@ angular.module('minium.developer')
                         return relativeUriContextClick;
                     },
                     dataForTheTree: function() {
-                        return $scope.dataForTheTree;
+                        return $scope.dataForTheTree[0].children;
                     },
                     operation: function() {
                         return operation;
                     },
-                    nodeName: function(){
+                    nodeName: function() {
                         return nodeName;
+                    },
+                    laodFile: function() {
+                        return $scope.load
                     }
                 }
             });

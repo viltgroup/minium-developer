@@ -5,16 +5,17 @@ angular.module('minium.developer')
 
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
-        var operation = operation;
+        $scope.operation = operation;
         var nodeName = nodeName;
         $scope.selectedItem = "";
-
+        $scope.elemClick = relativeUriContextClick;
 
         $scope.ok = function() {
             // alert(operation + " " + $scope.selectedItem);
-            switch (operation) {
+            switch ($scope.operation) {
                 case 'newFolder':
                     $scope.newFolder();
+
                     break;
                 case 'newFile':
                     $scope.newFile();
@@ -37,7 +38,6 @@ angular.module('minium.developer')
             // alert(relativeUriContextClick)
             var relativeUri = relativeUriContextClick;
 
-            // alert(relativeUriContextClick)
             var newFile = $scope.selectedItem;
             var split = relativeUriContextClick.split("/");
 
@@ -49,69 +49,58 @@ angular.module('minium.developer')
                 var newPath = newFile;
             }
 
-
-            // alert(split + " NP " + newPath);
+            
             var obj = {
                 oldName: relativeUriContextClick,
                 newName: newPath
             }
-            JSON.stringify(obj)
+
+            alert(obj.oldName + " NP " + obj.newName);
+            // JSON.stringify(obj)
             FileFactory.rename(obj).success(function(data) {
 
                 var newElem = data;
-                // alert(JSON.stringify(newElem));
 
-                var obj = TreeNav.getNode(relativeUri, dataForTheTree);
+                var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
-                // alert(JSON.stringify(elem))
-
-                elem.children.splice(pos - 1, 1);
-
-                elem.children.push(newElem);
-            }).error(function(data) {
-                toastr.error("Error " + data);
-            });
-        }
-
-        //fucntion of context menu
-        $scope.open = function() {
-            // alert(relativeUriContextClick)
-            var newFile = $scope.selectedItem;
-            var newPath = relativeUriContextClick + newFile;
-            FileFactory.create(newPath).success(function(data) {
-                toastr.success("Created file " + newPath);
-            }).error(function(data) {
-                toastr.error("Error " + data);
-            });
-
-
-        }
-
-        $scope.delete = function() {
-            //TODO
-            // var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
-            // if (result == true) {
-            //Logic to delete the item
-            //get element
-            //remove element
-            var relativeUri = relativeUriContextClick;
-            // alert(relativeUri)
-            FileFactory.delete(relativeUri).success(function(data) {
-
-                var obj = TreeNav.getParentElement2(relativeUri, dataForTheTree);
-                var elem = obj.element;
-                var pos = obj.pos;
-                // alert(JSON.stringify(elem) + " POS " + pos)
-
-                elem.splice(pos, 1);
-
+                alert(JSON.stringify(elem) + " POS " + pos)
+                console.log(JSON.stringify(elem[pos]));
+                //elem.splice(pos, 1);
+                
+                elem[pos] = newElem;
                 toastr.success("File " + relativeUri + " deleted");
                 $modalInstance.close();
             }).error(function(data) {
                 toastr.error("Error " + data);
-                $modalInstance.close();
             });
+        }
+
+        $scope.delete = function() {
+            //TODO
+            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
+            if (result == true) {
+                //Logic to delete the item
+                //get element
+                //remove element
+                var relativeUri = relativeUriContextClick;
+                // alert(relativeUri)
+                FileFactory.delete(relativeUri).success(function(data) {
+
+                    var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                    var elem = obj.element;
+                    var pos = obj.pos;
+                    // alert(JSON.stringify(elem) + " POS " + pos)
+
+                    elem.splice(pos, 1);
+
+                    toastr.success("File " + relativeUri + " deleted");
+                    $modalInstance.close();
+                }).error(function(data) {
+                    toastr.error("Error " + data);
+                    $modalInstance.close();
+                });
+            }
 
         }
 
@@ -126,7 +115,7 @@ angular.module('minium.developer')
                 // alert(relativeUri)
                 FileFactory.deleteDirectory(relativeUri).success(function(data) {
 
-                    var obj = TreeNav.getParentElement2(relativeUri, dataForTheTree);
+                    var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
                     var elem = obj.element;
                     var pos = obj.pos;
                     // alert(JSON.stringify(elem) + " POS " + pos)
@@ -154,13 +143,13 @@ angular.module('minium.developer')
             var newFolder = $scope.selectedItem;
 
             var newPath = relativeUriContextClick + newFolder;
-            // alert(newPath)
+
             FileFactory.createFolder(newPath).success(function(data) {
 
                 var newElem = data;
                 // alert(JSON.stringify(newElem));
 
-                var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                var obj = TreeNav.getElement(relativeUri, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
 
@@ -175,25 +164,6 @@ angular.module('minium.developer')
 
 
         }
-
-
-        function find(array, relativeUri) {
-            if (typeof array != 'undefined') {
-                for (var i = 0; i < array.length; i++) {
-                    if (array[i].relativeUri == relativeUri) return [relativeUri];
-                    var a = find(array[i].children, relativeUri);
-                    if (a != null) {
-                        a.unshift(array[i].relativeUri);
-                        return a;
-                    }
-                }
-            }
-            return null;
-        }
-
-
-
-
 
         $scope.newFile = function() {
             //TODO
@@ -211,7 +181,7 @@ angular.module('minium.developer')
                 var newElem = data;
                 // alert(JSON.stringify(newElem));
 
-                var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                var obj = TreeNav.getElement(relativeUri, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
 
@@ -235,20 +205,19 @@ angular.module('minium.developer')
 
         }
 
-
-
-
         $scope.renameFolder = function() {
             //TODO
             //get the element
             //change in serve
             //remove the changed element
             //add renamed element from server
-            alert(relativeUriContextClick)
+             alert(relativeUriContextClick)
+
             var obj = TreeNav.getNode(relativeUriContextClick, dataForTheTree);
             var elem = obj.element;
             var pos = obj.pos;
-            // alert(elem)
+            alert(JSON.stringify(elem));
+            // return;
             $scope.loadChildren(elem);
         }
 
@@ -264,11 +233,11 @@ angular.module('minium.developer')
 
 
         // initializations
-        if (operation === 'rename' || operation === 'renameFolder') {
+        if ($scope.operation === 'rename' || $scope.operation === 'renameFolder') {
             $scope.selectedItem = nodeName;
-        } else if (operation === 'delete') {
+        } else if ($scope.operation === 'delete') {
             $scope.delete();
-        } else if (operation === 'deleteDirectory') {
+        } else if ($scope.operation === 'deleteDirectory') {
             $scope.deleteDirectory();
         }
 

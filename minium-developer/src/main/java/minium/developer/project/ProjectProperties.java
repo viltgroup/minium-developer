@@ -27,4 +27,9 @@ public class ProjectProperties {
         // TODO for now, just checks if pom.xml exists
         return new File(dir, "pom.xml").exists();
     }
+
+    public boolean isAutomatorProject() {
+        // TODO for now, just checks if main.js exists
+        return new File(dir, "main.js").exists();
+    }
 }

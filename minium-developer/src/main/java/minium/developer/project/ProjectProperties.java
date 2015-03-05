@@ -23,6 +23,10 @@ public class ProjectProperties {
         return resourcesDir == null && isCucumberProject() ? new File(dir, "src/test/resources") : dir;
     }
 
+    public String getProjectName() {
+        return dir.getName();
+    }
+
     public boolean isCucumberProject() {
         // TODO for now, just checks if pom.xml exists
         return new File(dir, "pom.xml").exists();

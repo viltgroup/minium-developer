@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval,$timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
+    .controller('EditorAreaMultiTabController', function($scope, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -11,7 +11,7 @@ angular.module('minium.developer')
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
-        
+
         /**
          * Initialize tabs
          */
@@ -24,7 +24,7 @@ angular.module('minium.developer')
                 }
             }
         });
-        
+
         /**
          * close icon: removing the tab on click
          */
@@ -71,7 +71,7 @@ angular.module('minium.developer')
             var openTabs = tabLoader();
             //if theres no open tabs, open one
             // if (openTabs.size() === 0)
-                $scope.loadFile("");
+            $scope.loadFile("");
         }
 
         //create an empty editor
@@ -187,9 +187,6 @@ angular.module('minium.developer')
             EvalService.clean();
         }
 
-
-
-
         $scope.launchAll = function() {
             //if no file is selected
             if ($scope.active.selected.item === undefined)
@@ -272,13 +269,12 @@ angular.module('minium.developer')
              */
             cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession)
                 .then(function(data) {
-                        feature = data.feature;
-                        $scope.faillingSteps = data.faillingSteps;
-                        $scope.resultsSummary = data.resultsSummary;
-                    },
-                    function(data) {
-                        console.log(data + 'failed')
-                    });
+                    feature = data.feature;
+                    $scope.faillingSteps = data.faillingSteps;
+                    $scope.resultsSummary = data.resultsSummary;
+                }, function(data) {
+                    console.log(data + 'failed')
+                });
         }
 
         /**

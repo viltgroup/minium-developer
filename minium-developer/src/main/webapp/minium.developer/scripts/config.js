@@ -8,7 +8,8 @@
                 TEST_EXECUTING: "A test is already running!!",
                 FILE_NOT_FOUND: 'The file was not found!!',
                 TEST_ERROR: "Oops, something went wrong.",
-                SOCKET_CONNECT: "It was not possible to connect to the socket!!"
+                SOCKET_CONNECT: "It was not possible to connect to the socket!!",
+                NO_PROJECT_DEFINED: "No project defined!! Please define a project!"
             },
             TEST: {
                 FAILING: "Test didn't pass!!",
@@ -26,7 +27,6 @@
             FILE_SYSTEM: {
                 DELETE: 'Are you sure you want to delete this item?'
             }
-
         },
         THEMES: {
             BRIGHT: {

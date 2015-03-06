@@ -64,9 +64,12 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                     }
                 }
 
+                if (childNode.children === undefined)
+                    childNode.children = [];
+
                 elem = childNode.children;
                 //console.debug(elem);
-                alert(JSON.stringify(elem))
+                // alert(JSON.stringify(elem))
             });
 
             // if (elem.children == undefined)
@@ -101,13 +104,13 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
         //remove the last element
         //if got more than one element
         //for instance if it is a file on the first level
-        if (levels.length > 1) {
+        if (levels.length >= 1) {
             var selectedItem = levels[levels.length - 1];
             levels.splice(levels.length - 1, 1);
         }
 
         //insert in the fisrt level
-        if (levels.length == 1) {
+        if (levels.length == 0) {
             var elem = treeData;
             for (var i = 0; i < elem.length; i++) {
                 // alert("LAST ONE " + elem[i].name)
@@ -157,19 +160,23 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                     }
                 }
 
-                elem = childNode.children;
+                if (childNode.children === undefined)
+                    childNode.children = [];
 
-                for (var i = 0; i < elem.length; i++) {
-                    // alert("LAST ONE " + elem[i].name)
-                    if (elem[i].name === selectedItem) {
-                        pos = i;
-                        // alert("FOUND "  +elem[i].name + " "+ i);
-                        break;
-                    }
-                }
+                elem = childNode.children;
                 //console.debug(elem);
                 // alert(JSON.stringify(elem[pos]))
             });
+
+            //found the position of the element
+            for (var i = 0; i < elem.length; i++) {
+                // alert("LAST ONE " + elem[i].name)
+                if (elem[i].name === selectedItem) {
+                    pos = i;
+                    // alert("FOUND "  +elem[i].name + " "+ i);
+                    break;
+                }
+            }
 
             if (elem.children == undefined)
                 elem.children = [];

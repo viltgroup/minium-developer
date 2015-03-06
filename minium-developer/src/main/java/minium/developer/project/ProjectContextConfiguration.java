@@ -18,6 +18,7 @@ import minium.web.config.services.DriverServicesProperties;
 import minium.web.internal.WebModule;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -53,11 +54,18 @@ public class ProjectContextConfiguration {
     @Autowired
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+    public Workspace workspace(ProjectProperties projConfiguration) throws Exception {
+        return new Workspace(projectContext(projConfiguration));
+    }
+
+    @Autowired
+    @Bean
+    @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public AbstractProjectContext projectContext(ProjectProperties projConfiguration) throws Exception {
         if (projConfiguration.isCucumberProject()) {
-            return new CucumberProjectContext(projConfiguration.getDir());
+            return new CucumberProjectContext(projConfiguration);
         } else {
-            return new RhinoProjectContext(projConfiguration.getDir());
+            return new RhinoProjectContext(projConfiguration);
         }
     }
 

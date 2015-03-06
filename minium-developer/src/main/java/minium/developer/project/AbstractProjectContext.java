@@ -13,8 +13,6 @@ import minium.script.rhinojs.RhinoProperties;
 import minium.script.rhinojs.RhinoProperties.RequireProperties;
 import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.Browser;
-import minium.web.config.WebDriverFactory;
-import minium.web.config.services.DriverServicesProperties;
 
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -37,19 +35,16 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     private ConfigProperties configProperties;
     private PropertySources propertySources;
 
+    @Autowired
+    private ConfigurableApplicationContext applicationContext;
+
     @Lazy
     @Autowired
     private Browser<DefaultWebElements> browser;
-    @Autowired
-    protected ConfigurableApplicationContext applicationContext;
-    @Autowired
-    private DriverServicesProperties driverServices;
-    @Autowired
-    private WebDriverFactory webDriverFactory;
 
-    public AbstractProjectContext(File projectDir, File resourcesDir) {
-        this.projectDir = projectDir;
-        this.resourcesDir = resourcesDir;
+    public AbstractProjectContext(ProjectProperties projConfiguration) throws Exception {
+        this.projectDir = projConfiguration.getDir();
+        this.resourcesDir = projConfiguration.getResourcesDir();
     }
 
     @Override
@@ -80,17 +75,16 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     }
 
     public boolean isRunning() {
-        return jsEngine.isRunning();
+        return jsEngine == null ? false : jsEngine.isRunning();
     }
 
     public void cancel() {
-        jsEngine.cancel();
+        if (jsEngine != null) jsEngine.cancel();
     }
 
     @Override
     public void destroy() throws Exception {
-        jsEngine.destroy();
-        browser.quit();
+        if (jsEngine != null) jsEngine.destroy();
     }
 
     public String toString(Object obj) {

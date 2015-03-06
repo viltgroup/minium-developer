@@ -22,6 +22,7 @@ import minium.FreezableElements;
 import minium.actions.debug.DebugInteractable;
 import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.Evaluation;
+import minium.developer.project.Workspace;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.common.base.Preconditions;
+
 @Controller
 @RequestMapping("/app/rest/js")
 public class EvalResource {
@@ -38,13 +41,13 @@ public class EvalResource {
     private static final Logger logger = LoggerFactory.getLogger(EvalResource.class);
 
     @Autowired
-    private AbstractProjectContext projectContext;
+    private Workspace workspace;
 
     @RequestMapping(value = "/eval")
     @ResponseBody
     public EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
         try {
-            Object result = projectContext.eval(new Evaluation(expression, null, lineNumber));
+            Object result = getProjectContext().eval(new Evaluation(expression, null, lineNumber));
             if (result instanceof Elements) {
                 Elements elements = (Elements) result;
                 boolean canHighlight = elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
@@ -57,7 +60,7 @@ public class EvalResource {
                 }
                 return new EvalResult(expression, totalCount);
             } else {
-                return new EvalResult(projectContext.toString(result));
+                return new EvalResult(getProjectContext().toString(result));
             }
         } catch (Exception e) {
             logger.error("Evaluation of {} failed", expression, e);
@@ -68,19 +71,19 @@ public class EvalResource {
     @RequestMapping(value = "/stacktrace")
     @ResponseBody
     public StackTraceElement[] stacktrace() {
-        return projectContext.getExecutionStackTrace();
+        return getProjectContext().getExecutionStackTrace();
     }
 
     @RequestMapping(value = "/cancel")
     @ResponseBody
     public void cancel() {
-        projectContext.cancel();
+        getProjectContext().cancel();
     }
 
     @RequestMapping(value = "/isRunning")
     @ResponseBody
     public boolean isRunning() {
-        return projectContext.isRunning();
+        return getProjectContext().isRunning();
     }
 
     /**
@@ -90,5 +93,9 @@ public class EvalResource {
     public synchronized void clean() {
         //TODO
     	logger.info("clean Done");
+    }
+
+    protected AbstractProjectContext getProjectContext() {
+        return Preconditions.checkNotNull(workspace.getActiveProject());
     }
 }

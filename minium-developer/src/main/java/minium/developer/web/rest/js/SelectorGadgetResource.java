@@ -20,6 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import minium.developer.internal.webelements.SelectorGadgetWebElements;
 import minium.developer.project.AbstractProjectContext;
+import minium.developer.project.Workspace;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.google.common.base.Preconditions;
 
 @Controller
 @RequestMapping("/app/rest/js/selectorGadget")
@@ -38,7 +41,7 @@ public class SelectorGadgetResource {
 	private boolean activated = false;
 
     @Autowired
-    private AbstractProjectContext projectContext;
+    private Workspace workspace;
 
 	@RequestMapping(value = "/activate", method = { POST, GET })
 	public ResponseEntity<Void> activate() throws Exception {
@@ -85,6 +88,7 @@ public class SelectorGadgetResource {
 	}
 
 	protected SelectorGadgetWebElements getSelectorGadgetWebElements() {
-		return projectContext.root().as(SelectorGadgetWebElements.class);
+		AbstractProjectContext activeProject = Preconditions.checkNotNull(workspace.getActiveProject());
+        return activeProject.root().as(SelectorGadgetWebElements.class);
 	}
 }

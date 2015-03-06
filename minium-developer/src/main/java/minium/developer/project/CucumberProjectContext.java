@@ -52,11 +52,12 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
     @Autowired
     private MessageSendingOperations<String> messagingTemplate;
+
     private CucumberProperties projectCucumberProperties;
     private RhinoEngine cucumberEngine;
 
-    public CucumberProjectContext(File projectDir) throws Exception {
-        super(projectDir, new File(projectDir, "src/test/resources"));
+    public CucumberProjectContext(ProjectProperties projConfiguration) throws Exception {
+        super(projConfiguration);
     }
 
     @Override
@@ -239,8 +240,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 				StepDTO stepDTO = new StepDTO(snippet, 0, "", "snippet");
 				messagingTemplate.convertAndSend("/cucumber/" + sessionId, stepDTO);
 				LOGGER.info("SNIPPETS {}", snippet);
-}
-
+			}
 		}
 	}
 }

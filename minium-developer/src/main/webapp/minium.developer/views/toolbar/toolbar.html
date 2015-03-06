@@ -1,6 +1,6 @@
 <header class="header">
     <a href="#/editor" class="logo navbar-brand">
-      
+
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top" role="navigation">
@@ -30,13 +30,15 @@
                             </a>
                         </li>
 
-                        <li>
-                            <a href title="Add Editor" ng-click="addEmptyTab()">
-                                <span class="fa fa-plus"></span>
-                                <span class="ladda-label">Add Editor</span>
-                            </a>
-                        </li>
+                    </ul>
 
+
+                </li>
+
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"> Project <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
 
                         <li>
                             <a href title="New project" modal state="global.editorarea.sub.newProject">
@@ -48,17 +50,13 @@
                         <li>
                             <a href title="import project" modal state="global.editorarea.sub.importProject">
                                 <span class="fa fa-download"></span>
-                                <span class="ladda-label">Import Project</span>
+                                <span class="ladda-label">Open Project</span>
                             </a>
                         </li>
-
-
-
                     </ul>
 
-                    
-                </li>
 
+                </li>
                 <!-- RUN options -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">Run <span class="caret"></span></a>

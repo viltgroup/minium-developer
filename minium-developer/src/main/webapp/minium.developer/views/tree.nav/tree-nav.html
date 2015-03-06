@@ -29,7 +29,6 @@
                 </a>
             </li>
 
-
         </ul>
     </li>
 </ul>
@@ -40,10 +39,10 @@
 <!-- /.content -->
 <div id="tree-bar" class="tree-bar">
     <ul class="treeview-menu" style="display: block;text-transform: initial;">
-        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected"  tree-menu-model="menuModel" on-click-menu="clickMenu(node, item)">
+        <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected" tree-menu-model="menuModel" on-click-menu="clickMenu(node, item)">
             <span class="tree-elem" data-name="{{node.name}}" data-relative-uri="{{node.relativeUri}}" data-type="{{node.type}}" data-project="{{node.project}}">
                 {{node.name}} 
-            </span> 
+            </span>
         </treecontrol>
     </ul>
 </div>
@@ -57,11 +56,11 @@
         <li ng-show="clickedType == 'DIR' || clickedType == 'PROJECT'">
             <a href tabindex="-1" ng-click="open('newFolder')"><i class="fa fa-folder-o"></i>New Folder</a>
         </li>
-        <li  ng-show="clickedType == 'DIR' || clickedType == 'PROJECT'">
+        <li ng-show="clickedType == 'DIR' || clickedType == 'PROJECT'">
             <a href tabindex="-1" ng-click="open('newFile')"><i class="fa fa-file"></i>New File</a>
         </li>
 
-        <li  ng-show="clickedType == 'FILE'">
+        <li ng-show="clickedType == 'FILE'">
             <a href tabindex="-1" ng-click="open('rename')"><i class="fa fa-pencil"></i>Rename</a>
         </li>
 

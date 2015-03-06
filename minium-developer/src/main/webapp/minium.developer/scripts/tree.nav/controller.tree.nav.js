@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, ProjectFactory, GENERAL_CONFIG) {
 
 
         //data for the tree
@@ -60,7 +60,6 @@ angular.module('minium.developer')
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
             $scope.active.selectedNode = node;
-
             if (node.type == "FILE") {
                 $scope.loadFile($scope.active.selectedNode.relativeUri);
 
@@ -78,10 +77,6 @@ angular.module('minium.developer')
             }
 
         };
-
-        $scope.right = function(node) {
-            alert(node)
-        }
 
         $scope.showToggle = function(node, expanded) {
             //console.log(node.children)
@@ -133,10 +128,10 @@ angular.module('minium.developer')
                 return 0;
             }
         }
-
         $scope.type = function(type) {
 
         }
+
 
         $scope.refresh = function() {
             // alert($scope.fs.current)
@@ -146,7 +141,7 @@ angular.module('minium.developer')
             asyncLoad($scope.fs.current);
         }
 
-        
+
         var addProjectToTree = function() {
             $scope.dataForTheTree.push({
                 "name": "project",
@@ -156,15 +151,28 @@ angular.module('minium.developer')
                 "children": []
             });
 
-            $scope.dataForTheTree.push({
-                "name": "project2",
-                "type": "DIR",
-                "label": "project2",
-                "project": true,
-                "children": []
-            });
+            // $scope.dataForTheTree.push({
+            //     "name": "project2",
+            //     "type": "DIR",
+            //     "label": "project2",
+            //     "project": true,
+            //     "children": []
+            // });
         }
 
+        var checkIfHasProject = function() {
+            var hasProject = false;
+            ProjectFactory.hasProject().success(function(data) {
+                if (data == true)
+                    hasProject = true;
+                else
+                    toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
+            }).error(function(data, status) {
+                console.error('Project error', status, data);
+            });
+
+            return hasProject;
+        }
 
         //////////////////////////////////////////////////////////////////
         //
@@ -174,6 +182,7 @@ angular.module('minium.developer')
         addProjectToTree();
         asyncLoad($scope.fs.current);
 
+        checkIfHasProject();
 
         //////////////////////////////////////////////////////////////////
         //
@@ -191,7 +200,6 @@ angular.module('minium.developer')
                 relativeUriContextClick = undefined;
                 var clickedElem = $(e.target);
                 e.preventDefault();
-
                 // alert($(e.target).data("type"))
                 // return true;
                 // This function is optional.
@@ -204,8 +212,6 @@ angular.module('minium.developer')
                     }
                 } else if (clickedElem.data("type") == "FILE") {
                     $scope.clickedType = "FILE"
-                } else {
-
                 }
 
                 $scope.$apply();
@@ -216,7 +222,6 @@ angular.module('minium.developer')
                     e.preventDefault();
                     return true;
                 }
-
             }
         });
 

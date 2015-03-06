@@ -252,7 +252,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
-        var margin = 120;
+        var margin = 100;
         var containerHeight
         if ($(window).width() >= 768) {
             containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;

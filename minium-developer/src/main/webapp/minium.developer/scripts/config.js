@@ -26,6 +26,9 @@
             },
             FILE_SYSTEM: {
                 DELETE: 'Are you sure you want to delete this item?'
+            },
+            POPOVER:{
+                DIRECTORY_INPUT: "Put the path where you want to create the project!"
             }
         },
         THEMES: {

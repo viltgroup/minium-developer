@@ -22,6 +22,8 @@ angular.module('minium.developer')
             projectType: ''
         }
 
+        $scope.popoverDirectoryInput = GENERAL_CONFIG.POPOVER.DIRECTORY_INPUT
+
 
         //////////////////////////////////////////////////////////////////
         // Functions
@@ -43,7 +45,7 @@ angular.module('minium.developer')
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = '';
                     $scope.msg.projectType = '';
-                } else if (data !== 'No project here') {
+                } else if (data !== 'No project here' && data !== 'Not valid') {
                     //dir is valid but no projects
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.success;

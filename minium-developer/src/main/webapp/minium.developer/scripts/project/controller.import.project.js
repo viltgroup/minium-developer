@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ImportProjectController', function($scope,$location, $modalInstance, GENERAL_CONFIG, ProjectFactory) {
+    .controller('ImportProjectController', function($scope,$window, $modalInstance, GENERAL_CONFIG, ProjectFactory) {
 
 
         //////////////////////////////////////////////////////////////////
@@ -64,7 +64,7 @@ angular.module('minium.developer')
         $scope.importProject = function(){
             ProjectFactory.import($scope.path).success(function(data) {
                 $.removeCookie('openTabs'); // remove the tab with the open tabs
-                $location.path("/editor/")
+                $window.location.reload();
             }).error(function(data, status) {
                 console.error('Repos error', status, data);
             });

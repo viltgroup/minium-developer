@@ -29,9 +29,8 @@ public class ProjectResource {
 
 	@RequestMapping(value = "/project/new", method = RequestMethod.POST)
 	@ResponseBody
-	public void create(@RequestBody ProjectDTO project) throws Exception {
-		
-		projectService.createProject(project);
+	public void create(@RequestBody ProjectDTO project,HttpSession session) throws Exception {
+		projectService.createProject(projectProperties, project, session);
 	}
 	
 	@RequestMapping(value = "/project/valid", method = RequestMethod.POST,produces = "text/plain; charset=utf-8")
@@ -48,7 +47,7 @@ public class ProjectResource {
 	@RequestMapping(value = "/project/import", method = RequestMethod.POST,produces = "text/plain; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<String> importProject(@RequestBody String path,HttpSession session) throws IOException {	    
-		projectService.importProject(projectProperties,path,session);
+		projectService.openProject(projectProperties,path,session);
 		return new ResponseEntity<String>("Ok", HttpStatus.OK);
 	}
 	

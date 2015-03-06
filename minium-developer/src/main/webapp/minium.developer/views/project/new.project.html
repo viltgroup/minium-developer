@@ -8,7 +8,7 @@
             <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.directory.$invalid && !projectForm.directory.$pristine || (isValid == false), 'has-success' : isValid }">
                 <label class="col-sm-2 control-label" for="textinput">Project Directory</label>
                 <div class="col-sm-10">
-                    <input type="text" ng-model="project.directory" name="directory" required placeholder="Project Directory" class="form-control" ng-keyup="validate($event)"/>
+                    <input type="text" ng-model="project.directory" name="directory" required placeholder="Project Directory" class="form-control" ng-keyup="validate($event)" popover="{{popoverDirectoryInput}}" popover-trigger="focus" class="form-control" />
                     <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine" class="help-block">The name is required.</p>
                      <span class="fa fa-circle-o-notch fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
                     <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>

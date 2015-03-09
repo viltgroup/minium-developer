@@ -1,3 +1,8 @@
+/**
+ * Manage all the editor and tabs
+ * Create, close, set settings 
+ *
+ */
 'use strict';
 
 miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {

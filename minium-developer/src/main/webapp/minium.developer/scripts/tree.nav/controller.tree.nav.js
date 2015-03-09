@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, ProjectFactory, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, $cookieStore, $window, FS, TreeNav, ProjectFactory, ProjectService, GENERAL_CONFIG) {
 
 
         //data for the tree
@@ -25,6 +25,7 @@ angular.module('minium.developer')
                 path: node.relativeUri || ""
             };
 
+            // alert(JSON.stringify(node))
             node.children = FS.list(params, function() {
                 //sort the child by name
                 node.children.sort(predicatBy("name"))
@@ -54,11 +55,10 @@ angular.module('minium.developer')
             // item.childrenLoaded = true;
         };
 
-
-
         $scope.expandedNodes = [];
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
+
             $scope.active.selectedNode = node;
             if (node.type == "FILE") {
                 $scope.loadFile($scope.active.selectedNode.relativeUri);
@@ -75,7 +75,6 @@ angular.module('minium.developer')
                 //expand the node
                 $scope.expandedNodes.push(node)
             }
-
         };
 
         $scope.showToggle = function(node, expanded) {
@@ -128,10 +127,6 @@ angular.module('minium.developer')
                 return 0;
             }
         }
-        $scope.type = function(type) {
-
-        }
-
 
         $scope.refresh = function() {
             // alert($scope.fs.current)
@@ -140,7 +135,6 @@ angular.module('minium.developer')
             addProjectToTree();
             asyncLoad($scope.fs.current);
         }
-
 
         var addProjectToTree = function() {
             $scope.dataForTheTree.push({
@@ -152,26 +146,36 @@ angular.module('minium.developer')
             });
 
             // $scope.dataForTheTree.push({
-            //     "name": "project2",
+            //     "name": "miniumDev",
             //     "type": "DIR",
             //     "label": "project2",
             //     "project": true,
+            //     "relativeUri": "/home/raphael/workspace/minium-tools/minium-developer-e2e-tests/",
             //     "children": []
             // });
         }
 
-        var checkIfHasProject = function() {
-            var hasProject = false;
+        //put this in a service in order to re use
+        $scope.importProject = function(path) {
+            ProjectService.open(path);
+        }
+
+        //refactor put in a service
+        var hasProject = false;
+        var loadProject = function() {
             ProjectFactory.hasProject().success(function(data) {
-                if (data == true)
+                if (data == true) {
                     hasProject = true;
-                else
+                } else if ($cookieStore.get('project') != 'undefined') {
+                    // alert("cookas")
+                    $scope.importProject($cookieStore.get('project'));
+                } else {
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
+                        // $state.go('global.editorarea.sub.importProject');
+                }
             }).error(function(data, status) {
                 console.error('Project error', status, data);
             });
-
-            return hasProject;
         }
 
         //////////////////////////////////////////////////////////////////
@@ -180,10 +184,10 @@ angular.module('minium.developer')
         //
         //////////////////////////////////////////////////////////////////
         addProjectToTree();
+
         asyncLoad($scope.fs.current);
 
-        checkIfHasProject();
-
+        loadProject();
         //////////////////////////////////////////////////////////////////
         //
         // CONTEXT MENU
@@ -244,8 +248,8 @@ angular.module('minium.developer')
                     nodeName: function() {
                         return nodeName;
                     },
-                    laodFile: function() {
-                        return $scope.load
+                    scope: function() {
+                        return $scope;
                     }
                 }
             });
@@ -258,6 +262,5 @@ angular.module('minium.developer')
 
             });
         };
-
 
     });

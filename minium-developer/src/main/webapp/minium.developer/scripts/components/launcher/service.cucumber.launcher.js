@@ -1,4 +1,8 @@
-
+/**
+ * Responsable to launch a cucumber test 
+ * And process the result of execution
+ *
+ */
 miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, FeatureFacade, GENERAL_CONFIG) {
 
     //functions needed to be here

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('NewFileController', function($scope, $modalInstance, $state, $controller, $stateParams, $log, $location, FS, FileFactory, launcherService, MiniumEditor) {
+    .controller('NewFileController', function($scope, $modalInstance, $state, $controller, $stateParams, $log, $location, FS, FileManager, launcherService, MiniumEditor) {
 
         //extends the fileController
         $controller('FileController', {
@@ -22,7 +22,7 @@ angular.module('minium.developer')
         $scope.createFile = function(fileName, path) {
             var fs = $scope.fs.current.relativeUri || "";
             
-            FileFactory.create(fs + fileName).success(function(data) {
+            FileManager.create(fs + fileName).success(function(data) {
                 //$scope.asyncLoad($scope.fs.current);
                 toastr.success("Created file " + $scope.fileName);
                 $scope.fileName = "";

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileFactory, GENERAL_CONFIG) {
+    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileManager,scope, GENERAL_CONFIG) {
 
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
@@ -9,6 +9,7 @@ angular.module('minium.developer')
         var nodeName = nodeName;
         $scope.selectedItem = "";
         $scope.elemClick = relativeUriContextClick;
+        var scope = scope;
 
         $scope.ok = function() {
             // alert(operation + " " + $scope.selectedItem);
@@ -57,7 +58,7 @@ angular.module('minium.developer')
 
             alert(obj.oldName + " NP " + obj.newName);
             // JSON.stringify(obj)
-            FileFactory.rename(obj).success(function(data) {
+            FileManager.rename(obj).success(function(data) {
 
                 var newElem = data;
 
@@ -85,7 +86,7 @@ angular.module('minium.developer')
                 //remove element
                 var relativeUri = relativeUriContextClick;
                 // alert(relativeUri)
-                FileFactory.delete(relativeUri).success(function(data) {
+                FileManager.delete(relativeUri).success(function(data) {
 
                     var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
                     var elem = obj.element;
@@ -113,7 +114,7 @@ angular.module('minium.developer')
                 //remove element
                 var relativeUri = relativeUriContextClick;
                 // alert(relativeUri)
-                FileFactory.deleteDirectory(relativeUri).success(function(data) {
+                FileManager.deleteDirectory(relativeUri).success(function(data) {
 
                     var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
                     var elem = obj.element;
@@ -144,7 +145,7 @@ angular.module('minium.developer')
 
             var newPath = relativeUriContextClick + newFolder;
 
-            FileFactory.createFolder(newPath).success(function(data) {
+            FileManager.createFolder(newPath).success(function(data) {
 
                 var newElem = data;
                 // alert(JSON.stringify(newElem));
@@ -176,7 +177,7 @@ angular.module('minium.developer')
 
             var newPath = relativeUriContextClick + newFile;
             // alert(newPath)
-            FileFactory.create(newPath).success(function(data) {
+            FileManager.create(newPath).success(function(data) {
 
                 var newElem = data;
                 // alert(JSON.stringify(newElem));
@@ -218,13 +219,7 @@ angular.module('minium.developer')
             var pos = obj.pos;
             alert(JSON.stringify(elem));
             // return;
-            $scope.loadChildren(elem);
-        }
-
-
-        $scope.getInfo = function() {
-            //TODO
-            //get the info form the server
+            scope.loadChildren(elem);
         }
 
         $scope.cancel = function() {

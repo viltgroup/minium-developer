@@ -1,5 +1,5 @@
 /**
- * This service load and store preferences from cookies
+ * Service to load and store preferences in cookies
  *
  */
 miniumDeveloper.factory('editorPreferences', function($cookieStore) {

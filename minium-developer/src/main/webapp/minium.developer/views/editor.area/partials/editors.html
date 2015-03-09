@@ -12,6 +12,7 @@ $('#summary-report').click(function() {
 
     $('.running-data').hide();
 });
+
 </script>
 
 <div class="running-data">
@@ -31,21 +32,11 @@ $('#summary-report').click(function() {
             </li>
         </ul>
     </div>
-
     <!-- end div .stack -->
 
     <!-- <span class="label label-default" id="status">
                 Not Run
                 </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-
-
-    <a href="#" id="tail" class="log-tail" data-ember-action="1351">
-        <span class="tail-status"></span>
-    </a>
-
-
-
-
 </div>
 <div class="btn-toolbar top-bar" role="toolbar">
     <div class="row">
@@ -75,6 +66,9 @@ $('#summary-report').click(function() {
                     <i class="fa fa-list-alt"></i> Run All
                 </a>
             </div>
+
+            <a class="btn-floating blue" id="summary-report" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
+            </a>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('miniumdevApp')
-    .controller('NavbarController', function($rootScope,$scope, $location, $controller, sharedModel, myService) {
+    .controller('NavbarController', function($rootScope,$scope, $location, $controller) {
 
         // extends the EditorAreaController
         $controller('EditorAreaController', {

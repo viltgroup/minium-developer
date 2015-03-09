@@ -52,6 +52,9 @@ angular.module('minium.developer')
         $scope.nameProperty = "displayName";
         $scope.bootstrapSuffix = "default";
 
+        $scope.remoteWebDriverUrl = "";
+        $scope.useRemoteWebDriver = false;
+        $scope.toggleText = 'Use remote webdriver';
         $scope.ok = function() {
             $scope.$close(true);
         };
@@ -61,24 +64,38 @@ angular.module('minium.developer')
             $scope.$dismiss();
         };
 
+        $scope.setRemoteWebDriver = function() {
+            $scope.useRemoteWebDriver = !$scope.userRemoteWebDriver;
+            $scope.toggleText = $scope.userRemoteWebDriver ? 'Use local webdriver' : 'Use remote webdriver';
+        }
+
         $scope.createWebDriver = function() {
             //functions needed to be here
             var creatingWebDriver = Ladda.create(document.querySelector('#createWebDriver'));
             $scope.isProcessing = true;
             creatingWebDriver.start();
-            var config = {
-                desiredCapabilities: {
-                    browserName: $scope.selectBrowser
-                }
-            };
+            var config = {};
+            if ($scope.useRemoteWebDriver) {
+                config = {
+                    url: $scope.remoteWebDriverUrl,
+                    desiredCapabilities: {
+                        browserName: $scope.selectBrowser
+                    }
+                };
+            } else {
+                config = {
+                    desiredCapabilities: {
+                        browserName: $scope.selectBrowser
+                    }
+                };
+
+            }
 
             WebDriverFactory.create(config).success(function() {
                 toastr.success("Created a WebDriver");
                 $scope.$close(false);
-
             }).error(function(data) {
                 creatingWebDriver.stop();
-
                 toastr.error('Could not create a new WebDriver!!');
             });
         }

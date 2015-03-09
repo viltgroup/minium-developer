@@ -1,4 +1,8 @@
-
+/**
+ * Load the file and create new tabs
+ * When we want to open a new file, the logic is here
+ *
+ */
 miniumDeveloper.service('TabLoader', function($q, FS) {
 
     var all = [];

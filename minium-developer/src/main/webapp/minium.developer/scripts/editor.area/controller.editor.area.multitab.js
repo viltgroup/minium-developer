@@ -163,6 +163,7 @@ angular.module('minium.developer')
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
                                 break;
                             case "undefined":
+                            alert("undefined")
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
                                 break;
                             case "snippet":
@@ -269,6 +270,7 @@ angular.module('minium.developer')
              */
             cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession)
                 .then(function(data) {
+                    console.log(data.feature);
                     feature = data.feature;
                     $scope.faillingSteps = data.faillingSteps;
                     $scope.resultsSummary = data.resultsSummary;
@@ -346,7 +348,7 @@ angular.module('minium.developer')
 
         $scope.openModalWebDriverSelect = function(size) {
             var modalInstance = $modal.open({
-                templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+                templateUrl: "minium.developer/views/webdriver/launch.webdriver.html",
                 controller: "WebDriversController",
                 size: size,
                 resolve: {

@@ -1,6 +1,9 @@
 'use strict';
 
-// This module creates and append the new elements create for new tabs
+/**
+ * Get elements and positions of the treenav
+ *
+ */
 miniumDeveloper.factory('TreeNav', function($http, $q) {
     var TreeNav = {};
 
@@ -98,18 +101,18 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
         var lastChar = relativeUri.charAt(relativeUri.length - 1);
         if (lastChar == "/")
             relativeUri = relativeUri.substring(0, relativeUri.length - 1);
+
         //do the split to get the level of depth
         var levels = relativeUri.split("/");
-
-        //remove the last element
-        //if got more than one element
-        //for instance if it is a file on the first level
+        //remove the last element since we want the parent
+        //store the value of last element
+        //if got more than one element , for instance if it is a file on the first level
         if (levels.length >= 1) {
             var selectedItem = levels[levels.length - 1];
             levels.splice(levels.length - 1, 1);
         }
 
-        //insert in the fisrt level
+        //if we want the parent in the fisrt level element
         if (levels.length == 0) {
             var elem = treeData;
             for (var i = 0; i < elem.length; i++) {
@@ -125,7 +128,8 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 pos: pos
             }
         }
-        //get the first level
+
+        //get the first level and position of the element
         var aux = treeData;
         var node, pos;
         for (var i = 0; i < aux.length; i++) {
@@ -145,10 +149,12 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
         } else {
             var elem = node.children;
 
+            //remove the first level element
             levels.splice(0, 1);
+
+            //go into the level
             levels.forEach(function(value, i) {
                 console.debug('START %d: %s', i, value);
-                //add to the
                 console.debug(elem);
                 var children = elem;
                 var childNode;
@@ -168,7 +174,7 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
                 // alert(JSON.stringify(elem[pos]))
             });
 
-            //found the position of the element
+            //found the position of the element in the parent folder
             for (var i = 0; i < elem.length; i++) {
                 // alert("LAST ONE " + elem[i].name)
                 if (elem[i].name === selectedItem) {
@@ -190,80 +196,6 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
 
     }
 
-    TreeNav.getElement1 = function(relativeUri, treeData) {
-
-        if (relativeUri.indexOf("/") > -1) {
-            var levels = relativeUri.split("/");
-            //remove the last element
-            //if got more than one element
-            //for instance if it is a file on the first level
-            // if (levels.length >= 1)
-            //     levels.splice(levels.length - 1, 1);
-
-            //get the first level
-            var aux = treeData;
-            var node, pos;
-            for (var i = 0; i < aux.length; i++) {
-                var level = unescape(levels[0])
-                if (aux[i].name == level) {
-                    console.log(aux[i].children)
-                    node = aux[i];
-                    pos = i;
-                    break;
-                }
-            }
-            var elem;
-
-            elem = node.children;
-
-            levels.splice(0, 1);
-            levels.forEach(function(value, i) {
-                console.debug('START %d: %s', i, value);
-                //add to the
-                console.debug(elem);
-                var children = elem;
-                var childNode;
-                for (var y = 0; y < children.length; y++) {
-                    if (children[y].name === value) {
-                        // alert(y + " " + children[y].name + " " + value)
-                        // childNode = children[y];
-                        pos = y;
-                        break;
-                    }
-                }
-
-                // elem = childNode.children;
-                //console.debug(elem);
-                // alert(JSON.stringify(elem))
-
-                if (elem.children == undefined)
-                    elem.children = [];
-            });
-
-        } else { //first level
-            // alert(relativeUri)
-            var level = unescape(relativeUri);
-            var aux = treeData;
-            var node, pos;
-            for (var i = 0; i < aux.length; i++) {
-                if (aux[i].name == level) {
-                    console.log(aux[i].children)
-                        // node = aux[i];
-                    pos = i;
-                    break;
-                }
-            }
-
-            var elem = treeData;
-        }
-
-        return {
-            element: elem,
-            pos: pos
-        }
-
-
-    }
 
     //get node of folders
     TreeNav.getNode = function(relativeUri, treeData) {
@@ -309,11 +241,6 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
             }
 
             elem = childNode;
-            //console.debug(elem);
-            // alert(JSON.stringify(elem))
-
-            // if (elem.children == undefined)
-            //     elem.children = [];
         });
 
 

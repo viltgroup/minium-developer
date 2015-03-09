@@ -1,4 +1,7 @@
-// this service load and store open tabs from cookies
+/**
+ * This service load and store open tabs from cookies
+ *
+ */
 miniumDeveloper.service('openTab', function() {
 
     this.store = function(editors) {

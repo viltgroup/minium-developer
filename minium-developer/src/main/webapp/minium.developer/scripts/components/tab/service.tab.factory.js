@@ -1,5 +1,9 @@
-// This module creates and append the new elements create for new tabs
+/**
+ * This module creates and append the new elements create for new tabs
+ *
+ */
 miniumDeveloper.factory('TabFactory', function($http, $q) {
+    //settings
     var tabFactory = {
         height: '700',
     };

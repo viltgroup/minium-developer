@@ -70,11 +70,11 @@ miniumDeveloper
                 controller: "OpenFileController"
             });
 
-        modalStateProvider
-            .state('global.editorarea.sub.results', {
-                templateUrl: "minium.developer/views/editor.area/modal/launch.html",
-                controller: "LaunchController"
-            })
+        // modalStateProvider
+        //     .state('global.editorarea.sub.results', {
+        //         templateUrl: "minium.developer/views/editor.area/modal/launch.html",
+        //         // controller: "LaunchController"
+        //     })
 
         //configuration to execute the file
         // modalStateProvider.state('global.editorarea.sub.configs', {

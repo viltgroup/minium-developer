@@ -16,6 +16,12 @@ angular.module('minium.developer')
             error: '<span class="fa fa-remove" style="color:#FF0004;"></span> There\'s already a project"'
         }
 
+        //possible modes of a project after validation
+        var projectEnum = {
+            NOT_VALID: 'Not valid',
+            NO_PROJECT: 'No project here'
+        };
+
         $scope.msg = {
             directory: '',
             project: '',
@@ -23,6 +29,7 @@ angular.module('minium.developer')
         }
 
         $scope.popoverDirectoryInput = GENERAL_CONFIG.POPOVER.DIRECTORY_INPUT
+
 
 
         //////////////////////////////////////////////////////////////////
@@ -39,13 +46,13 @@ angular.module('minium.developer')
         $scope.validate = function(e) {
             $scope.validatingProject = true;
             ProjectFactory.isValid($scope.project.directory).success(function(data) {
-                if (data !== 'Not valid' && data === 'No project here') {
+                if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
                     //dir is good and theres a project
                     $scope.isValid = true;
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = '';
                     $scope.msg.projectType = '';
-                } else if (data !== 'No project here' && data !== 'Not valid') {
+                } else if (data !== projectEnum.NO_PROJECT && data !== projectEnum.NOT_VALID) {
                     //dir is valid but no projects
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.success;

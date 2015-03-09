@@ -1,7 +1,4 @@
-var expect = require("expect-webelements");
-var _      = require("lodash");
-var utils  = require("cucumber/utils");
-var Class  = require("class").Class;
+
 var editorPage   = require("pages/EditorPage");
 
 var page = new Page();

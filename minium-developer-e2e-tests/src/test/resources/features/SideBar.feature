@@ -1,32 +1,16 @@
-Feature: Test tabs of editor
+Feature: Side Bar features
 
   Background: 
     Given I am at editor
-    And I have opened the following files:
-      | features > EditorTabs.features |
-      | features > Preferences.feature |
-      | steps > steps.js               |
 
-  Scenario: Open a file already open in tabs
-    When I open the file "features > EditorTabs.features"
-    Then the number of open tabs should be 3
+  Scenario: Test Menus
+    Given The side bar is not hiden
+    Then I see the folders sorted in alphabetical order
 
-  Scenario: Test url
-    When I open the file "steps > editor.tabs.steps.js"
-    Then the url should contain "steps/editor.tabs.steps.js"
+  Scenario: Little description here
+    When I click on the collapse button
+    Then The navigation tree bar is colapsed
 
-  Scenario: Change tabs
-    When I go to tab "EditorTabs.feature"
-    Then the url should contain "features/EditorTabs.feature"
-    When I go to tab "Preferences.feature"
-    Then the url should contain "features/Preferences.feature"
-
-  Scenario: Check if dirty
-    When I go to tab "Preferences.feature"
-    And I write in editor "Testing"
-    Then the tab should be dirty
-
-  Scenario: Close tab
-    When I open the file "steps > editor.tabs.steps.js"
-    When I close the tab "editor.tabs.steps.js"
-    Then the url shouldn't contain "steps/editor.tabs.steps.js"
+  Scenario: refresh
+    When I refresh the navigation bar
+    Then The navigation tree bar is colapsed

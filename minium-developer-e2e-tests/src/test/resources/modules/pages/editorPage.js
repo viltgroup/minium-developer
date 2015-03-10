@@ -190,6 +190,93 @@ var EditorPage = {
   },
   //tree anel is on the side bar
   //with icons
+  
+  checkSideBarOrder : function(){
+   // var elements = $("#tree-bar").find("treecontrol").children().children();
+    var elements = this.getFirstLevelTreeBar();
+    var ordered = this.checkElementsOrder(elements);
+    return ordered;
+  },
+  
+  checkElementsOrder : function(elements){
+    elements = $("#tree-bar").find("treecontrol").children().children().eq(4).children().eq(3).children().children();
+    var folderOrderA = [], folderOrderB = [];
+    var fileOrderA = [], fileOrderB = [];
+    
+    var i=0, size=elements.size(), ordered=true;
+    while(ordered && i<size){
+      var elem = elements.eq(i);
+      var name = elem.children().eq(2).text();
+      
+      if(elem.is(".tree-leaf")){
+        fileOrderA.push(name);
+        fileOrderB.push(name);
+      }else{
+        if(elem.is(".tree-collapsed"))
+          elem.click();
+        folderOrderA.push(name);
+        folderOrderB.push(name);
+        var elemChildren = elem.children().eq(3).children().children();
+        if(elemChildren.length>0)
+          ordered = this.checkElementsOrder(elemChildren);
+      }
+      i++;
+    }
+    if(ordered){
+      folderOrderA.sort();
+      fileOrderA.sort();
+      i=0; size=folderOrderA.length;
+      while(i<size && ordered){
+        if(folderOrderA[i]!==folderOrderB[i])
+          ordered=false;
+        i++;
+      }
+      i=0; size=fileOrderA.length;
+      while(i<size && ordered){
+        if(fileOrderA[i]!==fileOrderB[i])
+          ordered=false;
+        i++;
+      }
+    }
+    return ordered;
+    
+    /*
+    _.each(elements, function (elem) {
+      var name = elem.children().eq(2).text();
+      
+      if(elem.is(".tree-leaf")){
+        fileOrderA.push(name);
+        fileOrderB.push(name);
+      }else{
+        if(elem.is(".tree-collapsed"))
+          elem.click();
+        folderOrderA.push(name);
+        folderOrderB.push(name);
+        this.checkFolderOrder(elem);
+      }
+    });
+    
+    
+    folderOrderA.sort();
+    fileOrderA.sort();
+    var ordered = true, i=0, size=folderOrderA.length;
+    while(i<size && ordered){
+      if(folderOrderA[i]!==folderOrderB[i])
+        ordered=false;
+      i++;
+    }
+    i=0; size=fileOrderA.length;
+    while(i<size && ordered){
+      if(fileOrderA[i]!==fileOrderB[i])
+        ordered=false;
+      i++;
+    }
+    
+    expect(ordered).to.be.equal(true);
+    return ordered;
+    */  
+  },
+  
   getTreePaneElem : function(title){
     return $(".tree-panel a").withAttr("title",title);
   },

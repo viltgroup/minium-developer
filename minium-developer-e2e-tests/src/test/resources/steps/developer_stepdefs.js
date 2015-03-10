@@ -73,7 +73,7 @@ Then(/^I reset theme$/, function() {
 Given(/^I am at editor$/, function() {
   var tabs = $(".ui-tabs-panel");
   if(tabs===null || tabs.size()<=0){
-    browser.get(config.baseUrl);
+    browser.get(config.editor);
     tabs = $(".ui-tabs-panel");
   }
   expect(tabs).not.to.be.empty();
@@ -88,7 +88,7 @@ Given(/^I have (\d+) open tabs$/, function(numTabs) {
   expect(p.numOfTabs()).to.be.equal(parseInt(numTabs));
 });
 
-Given(/^the file "(.*?)" is not open$/, function(fileName) {
+Given(/^the file "(.*?)" is close$/, function(fileName) {
   var tab = p.getTabs().find("li a").withName(fileName);
   expect(tab).to.be.empty();
 });
@@ -223,7 +223,7 @@ Given(/^The folder \(or file\) "(.*?)" does not exists$/, function(nav) {
 
 
 
-Given(/^Exists a folder "(.*?)"$/, function(nav) {
+Given(/^Exists a folder \(or file\) "(.*?)"$/, function(nav) {
   var parts = nav.split(">");
     
   var treeBar = p.getTreeBar();
@@ -293,6 +293,47 @@ When(/^I refresh the navigation bar$/, function() {
   $(".fa-refresh").click();
 });
 
+When(/^I create a new file "(.*?)"$/, function(nav) {
+  var parts = nav.split(">");
+    
+  var treeFolders = p.getTreeBar();
+  var folders = treeFolders.find("li");
+  
+  _.each(parts, function (part,i) {
+      elem = folders.find("span").withText(part);
+      if(elem.closest("li").is(".tree-collapsed"))
+        elem.click();
+      if( i == parts.length - 2){
+        elem.contextClick()
+        var btnNewFolder = $("#context-menu2").find("a").withText("New File");
+        btnNewFolder.click();
+        var wind = $(".modal-content");
+        wind.find(".ng-invalid-required").fill(parts[parts.length-1]);
+        wind.find(".btn-primary").click();
+        return true;
+      }
+  });
+});
+
+When(/^I delete the file "(.*?)"$/, function(nav) {
+  var parts = nav.split(">");
+    
+  var treeFolders = p.getTreeBar();
+  var folders = treeFolders.find("li");
+  
+  _.each(parts, function (part,i) {
+      elem = folders.find("span").withText(part);
+      if(elem.closest("li").is(".tree-collapsed"))
+        elem.click();
+      if( i == parts.length - 1){
+        elem.contextClick()
+        var btnNewFolder = $("#context-menu2").find("a").withText("Delete");
+        btnNewFolder.click();
+        return true;
+      }
+  });
+});
+
 
 
 Then(/^I see the folders sorted in alphabetical order$/, function() {
@@ -316,7 +357,28 @@ Then(/^I see the folders sorted in alphabetical order$/, function() {
   expect(ordered).to.be.equal(true);
 });
 
-Then(/^I should see the folder "(.*?)" in the navigation tree$/, function(nav) {
+Then(/^I see the files sorted in alphabetical order$/, function() {
+  var elems = p.getFirstLevelTreeBar();
+  var names = [], namesO = [];
+  for(var i = 0; i < elems.size(); i++){
+    var elem = elems.eq(i);
+    if(elem.is(".tree-leaf")){
+      var n = elem.children().eq(2).text();
+      names.push(n);
+      namesO.push(n);
+    }
+  }
+  namesO.sort();
+  var ordered = true, j=0, size=namesO.length;
+  while(j<size && ordered){
+    if(namesO[i]!==names[i])
+      ordered=false;
+    j++;
+  }
+  expect(ordered).to.be.equal(true);
+});
+
+Then(/^I should see the folder \(or file\) "(.*?)" in the navigation tree$/, function(nav) {
   var parts = nav.split(">");
     
   var treeBar = p.getTreeBar();
@@ -334,7 +396,7 @@ Then(/^I should see the folder "(.*?)" in the navigation tree$/, function(nav) {
   expect(exists).to.be.equal(true);
 });
 
-Then(/^I should not see the folder "(.*?)" in the navigation tree$/, function(nav) {
+Then(/^I should not see the folder \(or file\) "(.*?)" in the navigation tree$/, function(nav) {
   var parts = nav.split(">");
     
   var treeBar = p.getTreeBar();
@@ -368,19 +430,81 @@ Then(/^The navigation tree bar is colapsed$/, function() {
 
 
 
+/*RUN*/
+
+When(/^I select the scenario number (\d+) in the feature "(.*?)"$/, function(line, fileName) {
+  var tab = p.goToTab(fileName);
+  var linesTests = tab.find(".ace_text-layer").find(".ace_keyword").withText("Scenario:").closest("div");
+  var test = linesTests.eq(line-1);
+  test.click();
+});
+
+When(/^I click on toolbar "(.*?)"$/, function(nav) {
+  nav = "Other actions > Launch Browser"
+  var parts = nav.split(">");
+  var btn = $(".dropdown-toggle").withText(parts[0]);
+  btn.click();
+  var btnS =  $(".ladda-label").withText(parts[1]);
+  btnS.click();
+});
+
+When(/^I choose the browser "(.*?)"$/, function(browserName) {
+  browserName="Chrome "
+  var browsers = $(".modal-content").find("form").withName("newLogForm").find("button");
+  var browserBtn = browsers.withText(browserName);
+  browserBtn.click();
+  $("#createWebDriver").click();
+});
+
+
+
+Then(/^I can see all the available browsers$/, function() {
+  var win = $(".modal-content");
+  var browsers = win.find("form").withName("newLogForm");
+  expect(browsers).not.to.be.empty();
+});
+ 
+Then(/^The folders and files are sorted in alphabetical order$/, function() {
+  var ordered = p.checkSideBarOrder();
+  expect(ordered).to.be.equal(true);
+});
+
+Then(/^I should see a new browser window$/, function() {
+  var newWin = browser.root();
+  expect(newWin).not.to.be.empty();
+});
 
 
 
 
 
 
+var writeCode = function(code, selected) {
+  var editor = ace.edit($(this).attr("id"));
+  var session = editor.getSession();
+  var position = editor.getCursorPosition();
+  var selection = editor.getSelection(); 
+  selection.clearSelection();
+  session.insert(position, code);
+  if (selected) {
+    var Range = ace.require('ace/range').Range;
+    var endPosition = editor.getCursorPosition();
+    selection.addRange(new Range(
+        position.row, 
+        position.column,
+        endPosition.row,
+        endPosition.column
+    ));
+  } else {
+    position = editor.getCursorPosition();
+    selection.clearSelection();
+    editor.moveCursorToPosition(position);
+  }
+};
 
-
-
-
-
-
-
-
+var focus = function() {
+  var editor = ace.edit($(this).attr("id"));
+  editor.focus();
+};
 
 

@@ -14,7 +14,7 @@ Feature: Tab features
 
   Scenario: number of open tabs
     Given I have 1 open tabs
-    And the file "teste.js" is not open
+    And the file "teste.js" is close
     When I open the file "testes > teste.js"
     Then I should see 2 open tabs
 
@@ -42,12 +42,6 @@ Feature: Tab features
   Scenario: feature file buttons
     When I open the file "testes > teste.feature"
     Then I should see the buttons for the type "feature"
-
-  Scenario: start test
-    Given The file "teste.feature" is open
-    When I go to the tab "teste.feature"
-    When I click on button "Run Test"
-    Then I should see a notification with text "Test Started..." and with type "success"
 
   Scenario: close all tabs
     When I close all tabs

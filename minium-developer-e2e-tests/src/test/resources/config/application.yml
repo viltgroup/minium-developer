@@ -9,3 +9,4 @@ minium:
 # Configuration that can be injected in your tests
   config:
     baseUrl: http://localhost:8080/
+    editor: http://localhost:8080/#/editor/

@@ -1,6 +1,7 @@
 package minium.developer.browser;
 
 import java.awt.Desktop;
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.URI;
 
@@ -24,7 +25,7 @@ public class BrowserLauncher {
 
         if (contextPath == null) contextPath = "";
 
-        if (port >= 0 && Desktop.isDesktopSupported()) {
+        if (port >= 0 && !GraphicsEnvironment.isHeadless()) {
             String url = String.format("http://localhost:%d%s#/editor/", port, contextPath);
             try {
                 Desktop.getDesktop().browse(URI.create(url));

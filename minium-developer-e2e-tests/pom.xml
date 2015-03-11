@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -24,7 +25,7 @@
 		<!-- cucumber 1.20 doesn't seem to support 4.12 yet -->
 		<junit.version>4.11</junit.version>
 		
-		<failsafe.skip.tests>false</failsafe.skip.tests>
+		<skip.minium.tests>true</skip.minium.tests>
 	</properties>
 
 	<dependencies>
@@ -63,7 +64,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
-					<skipTests>${failsafe.skip.tests}</skipTests>
+					<skipTests>${skip.minium.tests}</skipTests>
 				</configuration>
 				<executions>
 					<execution>
@@ -76,6 +77,18 @@
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>minium-tests</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<skip.minium.tests>false</skip.minium.tests>
+			</properties>
+		</profile>
+	</profiles>
 
 	<repositories>
 		<repository>

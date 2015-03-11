@@ -307,7 +307,8 @@
                                     <goal>build</goal>
                                 </goals>
                                 <configuration>
-                                    <gruntBuildArgs>--force</gruntBuildArgs>
+                               		<skipTests>true</skipTests>
+                                    <gruntBuildArgs>build --force</gruntBuildArgs>
                                 </configuration>
                             </execution>
                         </executions>

@@ -307,8 +307,8 @@
                                     <goal>build</goal>
                                 </goals>
                                 <configuration>
-                               		<skipTests>true</skipTests>
-                                    <gruntBuildArgs>build --force</gruntBuildArgs>
+                                    <skipTests>true</skipTests>
+                                    <gruntBuildArgs>build --force --no-color</gruntBuildArgs>
                                 </configuration>
                             </execution>
                         </executions>

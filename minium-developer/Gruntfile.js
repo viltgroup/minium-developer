@@ -75,7 +75,7 @@ module.exports = function (grunt) {
         wiredep: {
             app: {
                 src: ['src/main/webapp/index.html'],
-                exclude: [/angular-i18n/, /swagger-ui/]
+                exclude: [/angular-i18n/, /swagger-ui/, /momentjs/]
             },
             test: {
                 src: 'src/test/javascript/karma.conf.js',

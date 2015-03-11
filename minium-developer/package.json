@@ -46,7 +46,8 @@
     "time-grunt": "1.0.0",
     "wiredep": "2.2.2",
     "xml2js": "0.4.4",
-    "zeparser": "0.0.7"
+    "zeparser": "0.0.7",
+    "grunt-license-bower": "^1.0.1"
   },
   "engines": {
     "node": ">=0.10.0"

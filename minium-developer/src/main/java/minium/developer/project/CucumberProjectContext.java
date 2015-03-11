@@ -209,6 +209,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
                             listenerReporter.add(cucumberLiveReporter);
 							RuntimeBuilder runtimeBuilder = new RuntimeBuilder().withArgs(cucumberProperties.getOptions().toArgs())
 									.withResourceLoader(resourceLoader).withPlugins(cucumberLiveReporter, listenerReporter).withBackends(allBackends);
+
                             Runtime runtime = runtimeBuilder.build();
                             runtime.run();
 							// send snippets of undefined steps to the client

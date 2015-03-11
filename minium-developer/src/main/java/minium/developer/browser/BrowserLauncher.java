@@ -1,10 +1,10 @@
 package minium.developer.browser;
 
 import java.awt.Desktop;
-import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.URI;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class BrowserLauncher {
 
         if (contextPath == null) contextPath = "";
 
-        if (port >= 0 && !GraphicsEnvironment.isHeadless()) {
+        if (port >= 0 && !SystemUtils.isJavaAwtHeadless()) {
             String url = String.format("http://localhost:%d%s#/editor/", port, contextPath);
             try {
                 Desktop.getDesktop().browse(URI.create(url));

@@ -9,7 +9,7 @@ var parseVersionFromPomXml = function() {
     var version;
     var pomXml = fs.readFileSync('pom.xml', "utf8");
     parseString(pomXml, function (err, result){
-        // version may not be set in pom.xml project, it can be inherited from parent pom  
+        // version may not be set in pom.xml project, it can be inherited from parent pom
         version = result.project.version ? result.project.version[0] : result.project.parent[0].version[0];
     });
     return version;
@@ -22,8 +22,11 @@ var useminAutoprefixer = {
 };
 
 module.exports = function (grunt) {
+
     require('load-grunt-tasks')(grunt);
     require('time-grunt')(grunt);
+
+    grunt.loadNpmTasks('grunt-license-bower');
 
     grunt.initConfig({
         yeoman: {
@@ -483,6 +486,14 @@ module.exports = function (grunt) {
                     VERSION: parseVersionFromPomXml()
                 }
             }
+        },
+        license: {
+            generate: {
+                options : {
+                    directory: 'src/main/webapp/bower_components',
+                    output: 'target/LICENSES'
+                }
+            }
         }
     });
 
@@ -524,8 +535,9 @@ module.exports = function (grunt) {
         'autoprefixer',
         'uglify',
         'rev',
-        'usemin',
-        'htmlmin'
+        // for now, let's skip this
+        // 'usemin',
+        //'htmlmin',
     ]);
 
     grunt.registerTask('buildHeroku', [

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ImportProjectController', function($scope,$window, $modalInstance, GENERAL_CONFIG,ProjectService) {
+    .controller('ImportProjectController', function($scope, $window, $modalInstance, $cookieStore, GENERAL_CONFIG, ProjectService, ProjectFactory) {
 
 
         //////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ angular.module('minium.developer')
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = projectMsgTemplate.success;
                     $scope.msg.projectType = "Type of project: " + data;
-                } else if (data  === 'No project here') {
+                } else if (data === 'No project here') {
                     //dir is valid but no projects
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.success;
@@ -62,8 +62,9 @@ angular.module('minium.developer')
         }
 
         //put this in a service in order to re user
-        $scope.importProject = function(path){
+        $scope.importProject = function(path) {
             ProjectService.open(path);
+            $cookieStore.put('project', path);
         }
 
 

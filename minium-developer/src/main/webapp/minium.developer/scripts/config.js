@@ -18,7 +18,8 @@
                 EXECUTED_PASSED: "Test Executed and Pass"
             },
             SUCCESS_MSG: {
-                PREFERENCES: "Preferences updated with success"
+                PREFERENCES: "Preferences updated with success",
+                BREAKPOINTS_CLEARED: "Markers cleared"
             },
             UNSAVED_MSG: 'If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?',
             WEBDRIVER: {
@@ -28,7 +29,7 @@
                 DELETE: 'Are you sure you want to delete this item?'
             },
             POPOVER:{
-                DIRECTORY_INPUT: "Put the path where you want to create the project!"
+                DIRECTORY_INPUT: "Put the parent path where you want to create the project!"
             }
         },
         THEMES: {

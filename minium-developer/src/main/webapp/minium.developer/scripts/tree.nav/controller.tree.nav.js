@@ -32,9 +32,7 @@ angular.module('minium.developer')
                 _.each(node.children, function(item) {
                     // tree navigation needs a label property
                     item.label = item.name;
-
-                    if (firstLoad) {
-                        // alert(JSON.stringify($scope.dataForTheTree))
+                    if (firstLoad && $scope.hasProject) {
                         $scope.dataForTheTree[0].children.push(item);
                         $scope.expandedNodes.push($scope.dataForTheTree[0]);
                         // console.log($scope.expandedNodes)
@@ -132,27 +130,21 @@ angular.module('minium.developer')
             // alert($scope.fs.current)
             firstLoad = true;
             $scope.dataForTheTree = [];
-            addProjectToTree();
+            $scope.expandedNodes = [];
+            addProjectToTree(projectName);
             asyncLoad($scope.fs.current);
         }
 
-        var addProjectToTree = function() {
-            $scope.dataForTheTree.push({
-                "name": "project",
-                "type": "DIR",
-                "label": "project",
-                "project": true,
-                "children": []
-            });
-
-            // $scope.dataForTheTree.push({
-            //     "name": "miniumDev",
-            //     "type": "DIR",
-            //     "label": "project2",
-            //     "project": true,
-            //     "relativeUri": "/home/raphael/workspace/minium-tools/minium-developer-e2e-tests/",
-            //     "children": []
-            // });
+        var addProjectToTree = function(projectName) {
+            if ($scope.hasProject) {
+                $scope.dataForTheTree.push({
+                    "name": projectName,
+                    "type": "DIR",
+                    "label": "project",
+                    "project": true,
+                    "children": []
+                });
+            }
         }
 
         //put this in a service in order to re use
@@ -160,21 +152,28 @@ angular.module('minium.developer')
             ProjectService.open(path);
         }
 
+        $scope.openProject = function() {
+            $state.go('global.editorarea.sub.importProject');
+        }
+
         //refactor put in a service
-        var hasProject = false;
+        $scope.hasProject = false;
+        var projectName;
         var loadProject = function() {
             ProjectFactory.hasProject().success(function(data) {
-                if (data == true) {
-                    hasProject = true;
-                } else if ($cookieStore.get('project') != 'undefined') {
-                    // alert("cookas")
+                if (data !== '') {
+                    $scope.hasProject = true;
+                    projectName = data;
+                } else if ($cookieStore.get('project') != undefined) {
                     $scope.importProject($cookieStore.get('project'));
                 } else {
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
-                        // $state.go('global.editorarea.sub.importProject');
+                        //$state.go('global.editorarea.sub.importProject');
                 }
+                addProjectToTree(projectName);
+                asyncLoad($scope.fs.current);
             }).error(function(data, status) {
-                console.error('Project error', status, data);
+                toastr.error(data)
             });
         }
 
@@ -183,11 +182,8 @@ angular.module('minium.developer')
         // Initialize functions
         //
         //////////////////////////////////////////////////////////////////
-        addProjectToTree();
-
-        asyncLoad($scope.fs.current);
-
         loadProject();
+
         //////////////////////////////////////////////////////////////////
         //
         // CONTEXT MENU

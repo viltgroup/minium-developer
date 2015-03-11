@@ -11,13 +11,13 @@
                 </a>
             </li>
             <li class="dropdown">
-                <a href title="Set Theme" ng-click="collapseAll()">
+                <a href title="Collapse all" ng-click="collapseAll()">
                     <i class="fa fa-minus-square-o"></i>
                 </a>
             </li>
 
             <li class="dropdown">
-                <a href title="Search File" modal state='global.editorarea.sub.open'>
+                <a href title="Search File (Ctrl + P)" modal state='global.editorarea.sub.open'>
                     <i class="fa fa-search"></i>
                 </a>
             </li>
@@ -45,6 +45,12 @@
             </span>
         </treecontrol>
     </ul>
+    <span style="margin-left:50px;" ng-hide="hasProject" ng-cloak>
+        No project defined
+        <a class="" href title="open project" modal state="global.editorarea.sub.importProject">
+            <span class="ladda-label">open a project</span>
+        </a>
+    </span>
 </div>
 
 
@@ -74,7 +80,6 @@
         <li ng-show="clickedType == 'DIR'">
             <a href tabindex="-1" ng-click="open('deleteDirectory')"><i class="fa fa-trash-o danger"></i><span class="danger">Delete Folder</span></a>
         </li>
-
 
         <li ng-show="clickedType == 'FILE'">
             <a href tabindex="-1" ng-click="open('delete')"><i class="fa fa-trash-o danger"></i><span class="danger">Delete</span></a>

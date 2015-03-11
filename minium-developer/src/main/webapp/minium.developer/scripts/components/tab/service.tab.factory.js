@@ -9,7 +9,7 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
     };
 
     tabFactory.createTab = function(tabUniqueId, fileProps) {
-        var fileName = fileProps.name || "untitled";
+        var fileName = fileProps.name || "console";
 
         var tabsElement = $('#tabs');
         var tabsUlElement = tabsElement.find('ul');

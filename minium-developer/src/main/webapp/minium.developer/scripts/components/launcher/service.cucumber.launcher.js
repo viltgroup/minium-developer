@@ -1,5 +1,5 @@
 /**
- * Responsable to launch a cucumber test 
+ * Responsable to launch a cucumber test
  * And process the result of execution
  *
  */
@@ -8,7 +8,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
     //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
-   
+
 
     this.launch = function(launchParams, executionWasStopped, snippetsForUndefinedSteps, faillingSteps, resultsSummary, launchTestSession) {
         var def = $q.defer();
@@ -46,35 +46,33 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                     type: (result === 'FAILED' ? 'error' : 'warning')
                 };
             });
-
+             
             if (annotations.length > 0) {
                 toastr.warning(GENERAL_CONFIG.TEST.FAILING);
-                $("#runningTest").removeClass("btn-warning").addClass("btn-danger");
+                $("#runningTest").parent("a").removeClass("green").addClass("red");
                 $("#status").removeClass().addClass("").html("Failing");
             } else {
                 if (resultsSummary.runCount == 0) {
                     //no test were run
                     $("#status").removeClass().addClass("").html(GENERAL_CONFIG.TEST.NOT_EXECUTED);
-                    toastr.error("No test executed");
+                    toastr.error(GENERAL_CONFIG.TEST.NOT_EXECUTED);
                 } else {
-                    $("#runningTest").removeClass("btn-warning").addClass("btn-success");
-
+                    $("#runningTest").parent("a").removeClass("red").addClass("green");
                     $("#status").removeClass().addClass("").html("Passed");
                     toastr.success(GENERAL_CONFIG.TEST.PASS);
+
+                    annotations.push({
+                        row: launchParams.line - 1,
+                        text: GENERAL_CONFIG.TEST.EXECUTED_PASSED,
+                        type: 'info'
+                    });
                 }
-
-                annotations.push({
-                    row: launchParams.line,
-                    text: GENERAL_CONFIG.TEST.EXECUTED_PASSED,
-                    type: 'info'
-                });
-
             }
 
             onFinishTestExecution(annotations, launchTestSession);
 
             data = {
-                feature : feature,
+                feature: feature,
                 faillingSteps: faillingSteps,
                 resultsSummary: resultsSummary
             };
@@ -91,13 +89,13 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
     };
 
 
-    
-    this.stopLaunch = function(){
+
+    this.stopLaunch = function() {
         stopLaunch();
-       
-        
+
+
     }
-    
+
     //executed after the test execution
     //chnage the flag of execution test
     var onFinishTestExecution = function(annotations, launchTestSession) {
@@ -107,15 +105,15 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             launchTestSession.getSession().setAnnotations(annotations);
         //remove the lock in test execution
         //$scope.testExecuting = false;
-         
-         $('.running-data').hide();
+
+        // $('.running-data').hide();
     };
 
-     //stops a launch execution
+    //stops a launch execution
     var stopLaunch = function() {
         launcherService.stop().success(function() {
             onFinishTestExecution();
-          
+
         });
     };
 

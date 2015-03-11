@@ -16,7 +16,7 @@ angular.module('minium.developer')
             mode: "", //mode of the open file
             activeID: null //store the ID of the active editor
         }
-        
+
         $scope.resultsSummary = {};
         //init variables
         $scope.testExecuting = false;
@@ -58,12 +58,19 @@ angular.module('minium.developer')
                 selected: {
                     item: editor.selected
                 },
+                selectedNode: editor.selected.fileProps,
                 activeID: editor.id,
                 mode: editor.mode
             }
+            
+            console.log($rootScope.active);
+            //if the file is not found
+            if ($rootScope.active.session === undefined){
+                return;
+            }
+
             $rootScope.active.session.focus();
 
-            console.log($rootScope.active);
             //ace editor dont update the editor until a click or set a the cursor
             //so i need to get a solution
             var pos = editor.instance.selection.getCursor();

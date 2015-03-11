@@ -21,7 +21,7 @@ filter('durationInMinutes', function() {
 }).
 filter('durationMilliseconds', function() {
     return function(time) {
-        return moment.duration(time,"milliseconds").humanize();
+        return moment.duration(time, "milliseconds").humanize();
     };
 }).
 filter('humanizeDate', function() {
@@ -84,8 +84,9 @@ filter('split', function() {
         return input.split(splitChar)[splitIndex];
     }
 })
+
 .filter("sanitize", ['$sce', function($sce) {
-  return function(htmlCode){
-    return $sce.trustAsHtml(htmlCode);
-  }
+    return function(htmlCode) {
+        return $sce.trustAsHtml(htmlCode);
+    }
 }]);

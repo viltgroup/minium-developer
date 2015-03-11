@@ -37,18 +37,18 @@
             <table class="table table-primary table-list table-striped table-condensed">
                 <thead>
                     <tr>
-                        <th>Step</th>
+                        <th>Error message</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="">
-                            <p>
-                                {{step.rawName}}
-                            </p>
+                        <td ng-if="step.errorMessage !== null">
+                        <p >{{step.errorMessage}}</p>
                             <!-- TABLES ROW -->
-                            <pre ng-if="step.errorMessage !== null"> {{step.errorMessage}}</pre>
+                          <!--   <pre ng-if="step.errorMessage !== null" style="white-space: pre-wrap;"> 
+                              {{step.errorMessage}}
+                              </pre> -->
                         </td>
                         <td style="">
                             <!-- <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="!isPassed(step.status)"/> -->

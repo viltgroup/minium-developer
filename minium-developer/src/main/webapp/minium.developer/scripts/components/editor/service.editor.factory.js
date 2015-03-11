@@ -1,6 +1,6 @@
 /**
  * Creates and initialize an editor instance
- * 
+ *
  */
 miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider) {
 
@@ -21,7 +21,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
 
-        var fileName = fileProps.name || "";
+        var fileName = fileProps.name || "console";
         //create a new session and set the content
         setAceContent(fileContent, editor);
 
@@ -58,7 +58,11 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
             editor.getSession().setMode("ace/mode/yaml");
             mode = modeEnum.YAML;
         }
-
+        //if untitled file
+        if (fileName === 'console') {
+            editor.getSession().setMode("ace/mode/javascript");
+            mode = modeEnum.JS;
+        }
         return mode;
     }
 

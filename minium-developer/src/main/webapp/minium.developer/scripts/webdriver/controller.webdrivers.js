@@ -64,9 +64,10 @@ angular.module('minium.developer')
             $scope.$dismiss();
         };
 
+
         $scope.setRemoteWebDriver = function() {
-            $scope.useRemoteWebDriver = !$scope.userRemoteWebDriver;
-            $scope.toggleText = $scope.userRemoteWebDriver ? 'Use local webdriver' : 'Use remote webdriver';
+            $scope.useRemoteWebDriver = !$scope.useRemoteWebDriver;
+            $scope.toggleText = $scope.useRemoteWebDriver ? 'Use local webdriver' : 'Use remote webdriver';
         }
 
         $scope.createWebDriver = function() {
@@ -88,7 +89,6 @@ angular.module('minium.developer')
                         browserName: $scope.selectBrowser
                     }
                 };
-
             }
 
             WebDriverFactory.create(config).success(function() {

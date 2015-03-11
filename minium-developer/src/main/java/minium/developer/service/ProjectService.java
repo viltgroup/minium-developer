@@ -2,33 +2,40 @@ package minium.developer.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import minium.developer.project.ProjectProperties;
+import minium.developer.project.templates.AutomatorTemplate;
+import minium.developer.project.templates.CucumberProject;
+import minium.developer.project.templates.ProjectTemplate;
 import minium.developer.web.rest.dto.ProjectDTO;
 import minium.tools.fs.service.FileSystemService;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProjectService {
-	// create a property file
-	String automatorTemplateDir = "/home/raphael/workspace/templates/automator";
-	String cucumberTemplateDir = "/home/raphael/workspace/templates/cucumber";
+
+	private static final String CUCUMBER_PROJECT = "cucumber";
+	private static final String AUTOMATOR_PROJECT = "automator";
 
 	@Autowired
 	private FileSystemService fileSystemservice;
 
+	private ProjectTemplate projectTemplate;
+
 	public void createProject(ProjectProperties projectProperties, ProjectDTO project, HttpSession session) throws IOException {
-		// TODO create the file structure
 		// create
-		createAutomatorProject(project);
-		openProject(projectProperties,getPath(project),session);
+		String projectType = project.getType();
+		if (projectType.equals(CUCUMBER_PROJECT)) {
+			createCucumberProject(project);
+		} else {
+			createAutomatorProject(project);
+		}
+		openProject(projectProperties, getPath(project), session);
+
 	}
 
 	public boolean isValid(String path) {
@@ -36,13 +43,13 @@ public class ProjectService {
 	}
 
 	public String typeOfProject(String path) {
-		// TODO refactor put in ENUM
+		// TODO refactor
 		// remove hardcoded strings
 		String project;
 		if (isCucumberProject(path)) {
-			project = "Cucumber";
+			project = CUCUMBER_PROJECT;
 		} else if (isAutomatorProject(path)) {
-			project = "Automator";
+			project = AUTOMATOR_PROJECT;
 		} else {
 			project = "No project here";
 		}
@@ -50,10 +57,17 @@ public class ProjectService {
 		return project;
 	}
 
-	public void openProject(ProjectProperties projectProperties, String path, HttpSession session) {
+	public boolean openProject(ProjectProperties projectProperties, String path, HttpSession session) {
+		boolean validProject = false;
 		session.invalidate();
 		File f = new File(path);
-		projectProperties.setDir(f);
+		if(f.exists()){
+			projectProperties.setDir(f);
+			validProject = true;
+		}
+		
+		return validProject;
+		
 	}
 
 	public boolean hasProject(ProjectProperties projectProperties) {
@@ -65,20 +79,24 @@ public class ProjectService {
 		return hasProject;
 	}
 
-	// TODO:create a service for this methods
-	protected boolean createAutomatorProject(ProjectDTO project) throws IOException {
-		// create the parent folder
-		String path = createParentDir(project.getDirectory(), project.getName());
-		File templateDir = new File(automatorTemplateDir);
-		File destDir = new File(path);
-		FileUtils.copyDirectory(templateDir, destDir);
-		return false;
+	public String getProjectName(ProjectProperties projectProperties) {
+		File file = projectProperties.getDir();
+		String parent = file.getPath();
+		String projectName = parent.substring(parent.lastIndexOf("/") + 1);
+		return projectName;
 	}
 
-	protected String createParentDir(String directory, String projectName) throws IOException {
-		File f = new File(directory, projectName);
-		FileUtils.forceMkdir(f);
-		return f.getPath();
+	/**
+	 * Create an automator project
+	 * 
+	 * @param project
+	 * @return
+	 * @throws IOException
+	 */
+	protected boolean createAutomatorProject(ProjectDTO project) throws IOException {
+		projectTemplate = new AutomatorTemplate(project);
+		projectTemplate.buildProject();
+		return true;
 	}
 
 	/**
@@ -89,61 +107,9 @@ public class ProjectService {
 	 * @throws IOException
 	 */
 	protected boolean createCucumberProject(ProjectDTO project) throws IOException {
-		// create the parent folder
-		String path = createParentDir(project.getDirectory(), project.getName());
-
-		File templateDir = new File(cucumberTemplateDir);
-		File destDir = new File(path);
-		FileUtils.copyDirectory(templateDir, destDir);
-		// to change the pom.xml
-
-		// to change the folder of src/main/groupId/
-		// to change the File name of src/main/groupId/ArtifactIdIT.java
-
-		// create the file of src/test/resources/FeatureFileName.feature
-		// create the file of src/test/resources/stepFileName.js
+		projectTemplate = new CucumberProject(project);
+		projectTemplate.buildProject();
 		return true;
-
-	}
-
-	/**
-	 * Create the structure of the file "manually"
-	 * 
-	 * @param project
-	 * @throws IOException
-	 */
-	protected void createStruture(ProjectDTO project) throws IOException {
-		File f = new File(project.getDirectory(), project.getName());
-		// create the father folder
-		FileUtils.forceMkdir(f);
-		String path = f.getPath();
-
-		// create pom.xml
-		f = new File(path, "pom.xml");
-		f.createNewFile();
-
-		// create src/test/java
-		f = new File(path, "src/test/java");
-		FileUtils.forceMkdir(f);
-
-		// create src/test/resources
-		f = new File(path, "src/test/resources");
-		FileUtils.forceMkdir(f);
-		path = f.getPath();
-		// create src/test/resources/config
-		// create src/test/resources/features
-		// create src/test/resources/modules
-		// create src/test/resources/steps
-		List<String> resources = new ArrayList<String>();
-		resources.add("config");
-		resources.add("features");
-		resources.add("modules");
-		resources.add("config");
-
-		for (String folder : resources) {
-			f = new File(path, folder);
-			FileUtils.forceMkdir(f);
-		}
 	}
 
 	protected boolean isCucumberProject(String dir) {
@@ -155,8 +121,8 @@ public class ProjectService {
 		// TODO for now, just checks if main.js exists
 		return new File(dir, "main.js").exists();
 	}
-	
-	protected String getPath(ProjectDTO project){
+
+	protected String getPath(ProjectDTO project) {
 		File f = new File(project.getDirectory(), project.getName());
 		return f.getPath();
 	}

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileManager,scope, GENERAL_CONFIG) {
+    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileManager, scope, GENERAL_CONFIG) {
 
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
@@ -16,7 +16,6 @@ angular.module('minium.developer')
             switch ($scope.operation) {
                 case 'newFolder':
                     $scope.newFolder();
-
                     break;
                 case 'newFile':
                     $scope.newFile();
@@ -25,18 +24,12 @@ angular.module('minium.developer')
                     $scope.rename();
                     break;
                 case 'renameFolder':
-                    $scope.renameFolder();
+                    //$scope.renameFolder();
                     break;
             }
         };
 
         $scope.rename = function(selectedItem) {
-            //TODO
-            //get the element
-            //change in serve
-            //remove the changed element
-            //add renamed element from server
-            // alert(relativeUriContextClick)
             var relativeUri = relativeUriContextClick;
 
             var newFile = $scope.selectedItem;
@@ -50,9 +43,10 @@ angular.module('minium.developer')
                 var newPath = newFile;
             }
 
-            
+            //need decodeURIComponent 
+            // because the relativeUriContextClick comes like this ("john%20doe")
             var obj = {
-                oldName: relativeUriContextClick,
+                oldName: decodeURIComponent(relativeUriContextClick),
                 newName: newPath
             }
 
@@ -68,7 +62,7 @@ angular.module('minium.developer')
                 alert(JSON.stringify(elem) + " POS " + pos)
                 console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
-                
+
                 elem[pos] = newElem;
                 toastr.success("File " + relativeUri + " deleted");
                 $modalInstance.close();
@@ -84,7 +78,7 @@ angular.module('minium.developer')
                 //Logic to delete the item
                 //get element
                 //remove element
-                var relativeUri = relativeUriContextClick;
+                var relativeUri = decodeURIComponent(relativeUriContextClick);
                 // alert(relativeUri)
                 FileManager.delete(relativeUri).success(function(data) {
 
@@ -112,7 +106,7 @@ angular.module('minium.developer')
                 //Logic to delete the item
                 //get element
                 //remove element
-                var relativeUri = relativeUriContextClick;
+                var relativeUri = decodeURIComponent(relativeUriContextClick);
                 // alert(relativeUri)
                 FileManager.deleteDirectory(relativeUri).success(function(data) {
 
@@ -170,7 +164,7 @@ angular.module('minium.developer')
             //TODO
             //get the element
             //create a file in file system
-            //add teh new element from server in tree
+            //add the new element from server in tree
             var relativeUri = relativeUriContextClick;
 
             var newFile = $scope.selectedItem;
@@ -198,28 +192,37 @@ angular.module('minium.developer')
                 toastr.error("Error " + data);
             });
 
-
-            // elem.push(newElem);
-
-            // alert(JSON.stringify(elem))
-            //alert(find($scope.dataForTheTree, relativeUri));
-
         }
 
         $scope.renameFolder = function() {
-            //TODO
-            //get the element
-            //change in serve
-            //remove the changed element
-            //add renamed element from server
-             alert(relativeUriContextClick)
 
-            var obj = TreeNav.getNode(relativeUriContextClick, dataForTheTree);
-            var elem = obj.element;
-            var pos = obj.pos;
-            alert(JSON.stringify(elem));
-            // return;
-            scope.loadChildren(elem);
+            alert(relativeUriContextClick)
+            var newFile = $scope.selectedItem;
+
+            var obj = {
+                oldName: relativeUriContextClick,
+                newName: newFile
+            }
+
+            FileManager.rename(obj).success(function(data) {
+
+                var newElem = data;
+
+                var obj = TreeNav.getParentElement(relativeUriContextClick, dataForTheTree);
+                var elem = obj.element;
+                var pos = obj.pos;
+                alert(JSON.stringify(elem) + " POS " + pos)
+                console.log(JSON.stringify(elem[pos]));
+                //elem.splice(pos, 1);
+
+                elem[pos] = newElem;
+                toastr.success("File " + relativeUriContextClick + " deleted");
+                scope.loadChildren(elem);
+                $modalInstance.close();
+            }).error(function(data) {
+                toastr.error("Error " + data);
+            });
+
         }
 
         $scope.cancel = function() {

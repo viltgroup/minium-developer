@@ -29,10 +29,7 @@
                                 <span class="ladda-label">Save</span>
                             </a>
                         </li>
-
                     </ul>
-
-
                 </li>
 
 
@@ -43,7 +40,7 @@
                         <li>
                             <a href title="New project" modal state="global.editorarea.sub.newProject">
                                 <span class="fa fa-plus"></span>
-                                <span class="ladda-label">Add Project</span>
+                                <span class="ladda-label">Create Project</span>
                             </a>
                         </li>
 
@@ -77,8 +74,8 @@
                             </a>
                         </li>
 
-                        <li ng-class="{'disabled':((testExecuting == false) && (active.mode !== 'JS') )}">
-                            <a href a-disabled="((testExecuting == false) && (active.mode !== 'JS') )" ng-click="stopLaunch()" title="Run all tests">
+                        <li ng-class="{'disabled':((testExecuting == false) && (active.mode === 'JS') )}">
+                            <a href a-disabled="((testExecuting == false) && (active.mode === 'JS'))" ng-click="stopLaunch()" title="Run all tests">
                                 <span class="fa  fa-ban danger"></span>
                                 <span class="ladda-label">Stop</span>
                             </a>
@@ -99,15 +96,6 @@
                                 <span class="ladda-label">Evaluate</span>
                             </a>
                         </li>
-
-
-                        <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href title="Evaluator" a-disabled="(active.mode !== 'JS')" ng-click="cleanScriptEngineScope()">
-                                <span class="fa fa-trash"></span>
-                                <span class="ladda-label">Clean Scope</span>
-                            </a>
-                        </li>
-
                     </ul>
                 </li>
 
@@ -136,7 +124,7 @@
                         </li>
                         <li>
                             <a href ng-click="clearMarkers()">
-                                <i class="fa fa-arrow-circle-o-down"></i>
+                                <i class="fa fa-eraser"></i>
                                 <span class="ladda-label">Clear Markers</span>
                             </a>
                         </li>

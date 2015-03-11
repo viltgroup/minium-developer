@@ -88,6 +88,15 @@
 				<skip.minium.tests>false</skip.minium.tests>
 			</properties>
 		</profile>
+		<profile>
+			<id>styx-ci</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>styx-ci</spring.profiles.active>
+			</properties>
+		</profile>
 	</profiles>
 
 	<repositories>

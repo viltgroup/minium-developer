@@ -42,10 +42,18 @@
 			<build>
 				<resources>
 					<resource>
-						<directory>src/main/resources</directory>
+						<filtering>true</filtering>
+						<directory>src/main/resources/mkdocs</directory>
 						<includes>
-							<include>mkdocs.yml</include>
+							<include>mkdocs.xml</include>
 						</includes>
+						<targetPath>${project.build.directory}/mkdocs</targetPath>
+					</resource>
+					<resource>
+						<directory>src/main/resources/mkdocs</directory>
+						<excludes>
+							<exclude>mkdocs.xml</exclude>
+						</excludes>
 						<targetPath>${project.build.directory}/mkdocs</targetPath>
 					</resource>
 					<resource>
@@ -57,6 +65,33 @@
 					</resource>
 				</resources>
 				<plugins>
+			    	<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>unpack</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>io.vilt.minium</groupId>
+											<artifactId>minium-docs</artifactId>
+											<version>${project.version}</version>
+											<type>jar</type>
+											<overWrite>false</overWrite>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+											<includes>mkdocs/**/*</includes>
+											<excludes>mkdocs/mkdocs.yml</excludes>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
                     <plugin>
                         <groupId>com.github.trecloux</groupId>
                         <artifactId>yeoman-maven-plugin</artifactId>

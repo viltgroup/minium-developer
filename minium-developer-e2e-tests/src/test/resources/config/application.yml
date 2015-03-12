@@ -1,16 +1,3 @@
-# Web Drivers
-
-minium:
-  webdriver:
-    desiredCapabilities:
-      browserName: chrome
-    window:
-      maximized: true
-
-# Configuration that can be injected in your tests
-  config:
-    baseUrl: http://localhost:8080/
-
 ---
 spring:
   profiles: styx-ci
@@ -26,3 +13,4 @@ minium:
 # Configuration that can be injected in your tests
   config:
     baseUrl: http://styx:8080/
+    editor: http://lw255:8080/#/editor/

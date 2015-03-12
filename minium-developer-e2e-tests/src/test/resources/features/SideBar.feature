@@ -1,32 +1,27 @@
-Feature: Test tabs of editor
+Feature: Side Bar features
 
   Background: 
     Given I am at editor
-    And I have opened the following files:
-      | features > EditorTabs.features |
-      | features > Preferences.feature |
-      | steps > steps.js               |
 
-  Scenario: Open a file already open in tabs
-    When I open the file "features > EditorTabs.features"
-    Then the number of open tabs should be 3
+  Scenario: Test folders order
+    Given The side bar is not hiden
+    Then I see the folders sorted in alphabetical order
 
-  Scenario: Test url
-    When I open the file "steps > editor.tabs.steps.js"
-    Then the url should contain "steps/editor.tabs.steps.js"
+  Scenario: collapse navigation bar
+    When I click on the collapse button
+    Then The navigation tree bar is colapsed
 
-  Scenario: Change tabs
-    When I go to tab "EditorTabs.feature"
-    Then the url should contain "features/EditorTabs.feature"
-    When I go to tab "Preferences.feature"
-    Then the url should contain "features/Preferences.feature"
+  Scenario: files order after creating
+    Given The folder (or file) "testes > newFile" does not exists
+    When I create a new file "testes > newFile"
+    Then The folders and files are sorted in alphabetical order
 
-  Scenario: Check if dirty
-    When I go to tab "Preferences.feature"
-    And I write in editor "Testing"
-    Then the tab should be dirty
+  Scenario: files order after creating and refresh
+    Given The folder (or file) "testes > newFile" does not exists
+    When I create a new file "testes > newFile"
+    And I refresh
+    Then The folders and files are sorted in alphabetical order
 
-  Scenario: Close tab
-    When I open the file "steps > editor.tabs.steps.js"
-    When I close the tab "editor.tabs.steps.js"
-    Then the url shouldn't contain "steps/editor.tabs.steps.js"
+  Scenario: refresh navigation bar
+    When I refresh the navigation bar
+    Then The navigation tree bar is colapsed

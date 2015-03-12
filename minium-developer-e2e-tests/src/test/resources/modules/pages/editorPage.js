@@ -1,4 +1,3 @@
-var expect = require("expect-webelements");
 var _      = require("lodash");
 
 var EditorPage = {
@@ -52,18 +51,19 @@ var EditorPage = {
   },
   
   openFile :function(nav){
-    var treeBar = $(wd,"#tree-bar");
-    var treeElems = treeBar.find("li .tree-label");
     var parts = nav.split(">");
-    var elem;
-    _.each(parts, function (part) {
-      elem = treeElems.withText(part);
-      
-      if (checkNotEmpty(elem) && elem.parent().is(":not(.tree-expanded)")) {
-        elem.click();
-      }
-    });
     
+    var treeBar = $("#tree-bar");
+    var folders = treeBar.find("li");
+
+    var elem, i;
+    _.each(parts, function (part,i) {
+      elem = folders.find("span").withText(part);
+      if(elem.closest("li").is(".tree-collapsed"))
+        elem.click();
+      if(i == parts.length - 1)
+        elem.click();
+    });
   },
   
   numOfTabs: function(){
@@ -72,6 +72,7 @@ var EditorPage = {
   },
   
   closeTab: function(tabName){
+    var tabName="developer_stepdefs.js";
     var tabs = this.getTabs();
     var tab = tabs.find("li a").withName(tabName);
     var closeBtn = tab.parent().find(".ui-icon-close");
@@ -79,8 +80,9 @@ var EditorPage = {
   },
   
   //insert text in editor
-  insert : function(){
-   
+  insert : function(fileName,text){
+    var tab = p.goToTab(fileName);
+    tab.find("textarea.ace_text-input").sendKeys(text);
   },
   
   searchAndOpenFile : function(fileName){
@@ -98,7 +100,7 @@ var EditorPage = {
     var parts = nav.split(">");
     
     var newFileBtn = this.getTreePaneElem("New file");
-    var table =  wd.find("table").visible();
+    var table =  $("table").visible();
     var rows = table.find("tr").not(":has(th)");
     var elem;
     
@@ -151,13 +153,14 @@ var EditorPage = {
     }
     var btn;
     _.each(buttons, function (button) {
-      btn = wd.find(".btn").withText(button);
+      btn = $(".btn").withText(button);
       expect(btn).not.to.be.empty();
     });
   },
   
+  //succes(green),danger(red),warning(yellow)
   expectNotificationMessages : function(type,text){
-    var notification = $(wd).find(".toast-"+type).withText(text);
+    var notification = $(".toast-"+type).withText(text);
     expect(notification).not.to.be.empty();
   },
   
@@ -187,8 +190,104 @@ var EditorPage = {
   },
   //tree anel is on the side bar
   //with icons
+  
+  checkSideBarOrder : function(){
+   // var elements = $("#tree-bar").find("treecontrol").children().children();
+    var elements = this.getFirstLevelTreeBar();
+    var ordered = this.checkElementsOrder(elements);
+    return ordered;
+  },
+  
+  checkElementsOrder : function(elements){
+    elements = $("#tree-bar").find("treecontrol").children().children().eq(4).children().eq(3).children().children();
+    var folderOrderA = [], folderOrderB = [];
+    var fileOrderA = [], fileOrderB = [];
+    
+    var i=0, size=elements.size(), ordered=true;
+    while(ordered && i<size){
+      var elem = elements.eq(i);
+      var name = elem.children().eq(2).text();
+      
+      if(elem.is(".tree-leaf")){
+        fileOrderA.push(name);
+        fileOrderB.push(name);
+      }else{
+        if(elem.is(".tree-collapsed"))
+          elem.click();
+        folderOrderA.push(name);
+        folderOrderB.push(name);
+        var elemChildren = elem.children().eq(3).children().children();
+        if(elemChildren.length>0)
+          ordered = this.checkElementsOrder(elemChildren);
+      }
+      i++;
+    }
+    if(ordered){
+      folderOrderA.sort();
+      fileOrderA.sort();
+      i=0; size=folderOrderA.length;
+      while(i<size && ordered){
+        if(folderOrderA[i]!==folderOrderB[i])
+          ordered=false;
+        i++;
+      }
+      i=0; size=fileOrderA.length;
+      while(i<size && ordered){
+        if(fileOrderA[i]!==fileOrderB[i])
+          ordered=false;
+        i++;
+      }
+    }
+    return ordered;
+    
+    /*
+    _.each(elements, function (elem) {
+      var name = elem.children().eq(2).text();
+      
+      if(elem.is(".tree-leaf")){
+        fileOrderA.push(name);
+        fileOrderB.push(name);
+      }else{
+        if(elem.is(".tree-collapsed"))
+          elem.click();
+        folderOrderA.push(name);
+        folderOrderB.push(name);
+        this.checkFolderOrder(elem);
+      }
+    });
+    
+    
+    folderOrderA.sort();
+    fileOrderA.sort();
+    var ordered = true, i=0, size=folderOrderA.length;
+    while(i<size && ordered){
+      if(folderOrderA[i]!==folderOrderB[i])
+        ordered=false;
+      i++;
+    }
+    i=0; size=fileOrderA.length;
+    while(i<size && ordered){
+      if(fileOrderA[i]!==fileOrderB[i])
+        ordered=false;
+      i++;
+    }
+    
+    expect(ordered).to.be.equal(true);
+    return ordered;
+    */  
+  },
+  
   getTreePaneElem : function(title){
-    return wd.find(".tree-panel a").withAttr("title",title);
+    return $(".tree-panel a").withAttr("title",title);
+  },
+  
+  getTreeBar : function(){
+    return $("#tree-bar");
+  },
+  
+  getFirstLevelTreeBar : function(){
+    var treeBar = this.getTreeBar();
+    return treeBar.find("treecontrol").children().children();
   },
   
   getUrl : function(){
@@ -200,24 +299,5 @@ var EditorPage = {
   },
   
 };
-
-var p = EditorPage;
-//init page
-p.init("Preferences.feature");
-
-p.openFile("features > Preferences.feature");
-
-p.goToTab("Preferences.feature");
-
-p.closeTab("Preferences.feature");
-
-p.content();
-p.getGutterFailed();
-p.getGutters();
-
-p.searchAndOpenFile("stepdefs.js");
-
-p.isMarked(11,"failed");
-
 // export Page  
 module.exports = EditorPage;

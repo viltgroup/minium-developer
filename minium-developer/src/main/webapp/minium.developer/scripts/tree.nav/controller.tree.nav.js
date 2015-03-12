@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, $modal, $q, FS, TreeNav, ProjectFactory, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, $cookieStore, $window, FS, TreeNav, ProjectFactory, ProjectService, GENERAL_CONFIG) {
 
 
         //data for the tree
@@ -25,15 +25,14 @@ angular.module('minium.developer')
                 path: node.relativeUri || ""
             };
 
+            // alert(JSON.stringify(node))
             node.children = FS.list(params, function() {
                 //sort the child by name
                 node.children.sort(predicatBy("name"))
                 _.each(node.children, function(item) {
                     // tree navigation needs a label property
                     item.label = item.name;
-
-                    if (firstLoad) {
-                        // alert(JSON.stringify($scope.dataForTheTree))
+                    if (firstLoad && $scope.hasProject) {
                         $scope.dataForTheTree[0].children.push(item);
                         $scope.expandedNodes.push($scope.dataForTheTree[0]);
                         // console.log($scope.expandedNodes)
@@ -54,11 +53,10 @@ angular.module('minium.developer')
             // item.childrenLoaded = true;
         };
 
-
-
         $scope.expandedNodes = [];
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
+
             $scope.active.selectedNode = node;
             if (node.type == "FILE") {
                 $scope.loadFile($scope.active.selectedNode.relativeUri);
@@ -75,7 +73,6 @@ angular.module('minium.developer')
                 //expand the node
                 $scope.expandedNodes.push(node)
             }
-
         };
 
         $scope.showToggle = function(node, expanded) {
@@ -128,50 +125,56 @@ angular.module('minium.developer')
                 return 0;
             }
         }
-        $scope.type = function(type) {
-
-        }
-
 
         $scope.refresh = function() {
             // alert($scope.fs.current)
             firstLoad = true;
             $scope.dataForTheTree = [];
-            addProjectToTree();
+            $scope.expandedNodes = [];
+            addProjectToTree(projectName);
             asyncLoad($scope.fs.current);
         }
 
-
-        var addProjectToTree = function() {
-            $scope.dataForTheTree.push({
-                "name": "project",
-                "type": "DIR",
-                "label": "project",
-                "project": true,
-                "children": []
-            });
-
-            // $scope.dataForTheTree.push({
-            //     "name": "project2",
-            //     "type": "DIR",
-            //     "label": "project2",
-            //     "project": true,
-            //     "children": []
-            // });
+        var addProjectToTree = function(projectName) {
+            if ($scope.hasProject) {
+                $scope.dataForTheTree.push({
+                    "name": projectName,
+                    "type": "DIR",
+                    "label": "project",
+                    "project": true,
+                    "children": []
+                });
+            }
         }
 
-        var checkIfHasProject = function() {
-            var hasProject = false;
-            ProjectFactory.hasProject().success(function(data) {
-                if (data == true)
-                    hasProject = true;
-                else
-                    toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
-            }).error(function(data, status) {
-                console.error('Project error', status, data);
-            });
+        //put this in a service in order to re use
+        $scope.importProject = function(path) {
+            ProjectService.open(path);
+        }
 
-            return hasProject;
+        $scope.openProject = function() {
+            $state.go('global.editorarea.sub.importProject');
+        }
+
+        //refactor put in a service
+        $scope.hasProject = false;
+        var projectName;
+        var loadProject = function() {
+            ProjectFactory.hasProject().success(function(data) {
+                if (data !== '') {
+                    $scope.hasProject = true;
+                    projectName = data;
+                } else if ($cookieStore.get('project') != undefined) {
+                    $scope.importProject($cookieStore.get('project'));
+                } else {
+                    toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
+                        //$state.go('global.editorarea.sub.importProject');
+                }
+                addProjectToTree(projectName);
+                asyncLoad($scope.fs.current);
+            }).error(function(data, status) {
+                toastr.error(data)
+            });
         }
 
         //////////////////////////////////////////////////////////////////
@@ -179,10 +182,7 @@ angular.module('minium.developer')
         // Initialize functions
         //
         //////////////////////////////////////////////////////////////////
-        addProjectToTree();
-        asyncLoad($scope.fs.current);
-
-        checkIfHasProject();
+        loadProject();
 
         //////////////////////////////////////////////////////////////////
         //
@@ -244,8 +244,8 @@ angular.module('minium.developer')
                     nodeName: function() {
                         return nodeName;
                     },
-                    laodFile: function() {
-                        return $scope.load
+                    scope: function() {
+                        return $scope;
                     }
                 }
             });
@@ -258,6 +258,5 @@ angular.module('minium.developer')
 
             });
         };
-
 
     });

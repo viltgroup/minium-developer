@@ -1,17 +1,7 @@
 <!-- *************** BUTTON TOOLBAR ********************-->
 
 <script>
-$('#teste').click(function() {
-    $('.running-data').show();
-});
-$('#teste-out').click(function() {
-
-    $('.running-data').hide();
-});
-$('#summary-report').click(function() {
-
-    $('.running-data').hide();
-});
+$('.running-data').show();
 </script>
 
 <div class="running-data">
@@ -23,60 +13,54 @@ $('#summary-report').click(function() {
             </button>
         </a>
         <ul>
-            <li><a class="btn-floating green" id="teste-out" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (active.mode !== 'JS')"><span class="fa fa-ban"></span></a>
+            <li><a class="btn-floating" id="teste-out" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (active.mode !== 'JS')"><span class="fa fa-ban"></span></a>
             </li>
             <li>
                 <a class="btn-floating blue" id="summary-report" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
                 </a>
             </li>
+            <li>
+                <a class="btn-floating" id="clear markers" title="Clear editor markers" ng-click="clearMarkers()" ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
+                </a>
+            </li>
         </ul>
     </div>
-
     <!-- end div .stack -->
-
-    <!-- <span class="label label-default" id="status">
-                Not Run
-                </span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
-
-
-    <a href="#" id="tail" class="log-tail" data-ember-action="1351">
-        <span class="tail-status"></span>
-    </a>
-
-
-
-
 </div>
 <div class="btn-toolbar top-bar" role="toolbar">
     <div class="row">
 
         <div class="col-md-12">
-            <!-- <div class="btn-group">
-        <a id="cenas" class="btn  btn-default" title="Save file" ng-click="saveFile()">
-            <span class="fa  fa-save"></span>
-        </a>
-        <a class="btn  btn-default" title="Add Editor"  ng-click="addEmptyTab()">
-            <span class="fa fa-plus"></span>
-        </a>
-    </div> -->
             <div class="btn-group-sm">
-                <a class="btn  btn-default btn-sm" title="Interface Selector Gadget" ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
+                <a class="btn  btn-default btn-sm" title="Interface Selector Gadget (Ctrl+Shift+C) " ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
                     <span class="fa  fa-hand-o-up"></span> Selector Gadget
                 </a>
-                <a class="btn  btn-default btn-sm" title="Evaluator" ng-show="active.mode === 'JS'" ng-click="evaluate()">
+                <a class="btn  btn-default btn-sm" title="Evaluator (Ctrl + Enter)" ng-show="active.mode === 'JS'" ng-click="evaluate()">
                     <span class="fa  fa-binoculars"></span> Evaluate
                 </a>
-            </div>
-            <div class="btn-group-sm" id="teste">
-                <a class="btn btn-primary btn-sm " title="Run test from cursor" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+
+                <a class="btn btn-primary btn-sm " title="Run test from cursor (Ctrl + Enter)" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
                     <span class="fa  fa-play"></span> Run Test
                 </a>
                 <a class="btn btn-primary btn-sm" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
                     <i class="fa fa-list-alt"></i> Run All
                 </a>
+
+                <span class="col-sm-2 pull-right" ng-show="testExecuting">
+                    <span style="color:black; white-space:nowrap;">
+                        {{testsExecuted}} / {{totalTests}}
+                    </span>
+
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / totalTests" style="height: 10px;">
+                    </progressbar>
+                </span>
             </div>
+
         </div>
     </div>
+
+
+
 </div>
 <div id="tabs">
     <!-- <div class="scroller"> -->

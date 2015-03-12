@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function($rootScope, $scope, $q, myService, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, FileFactory, TabLoader, SessionID, GENERAL_CONFIG) {
+    .controller('EditorAreaController', function($rootScope, $scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, TabLoader, SessionID, GENERAL_CONFIG) {
 
         //is the actual file selected
         //every time we move to other tab 
@@ -16,10 +16,6 @@ angular.module('minium.developer')
             mode: "", //mode of the open file
             activeID: null //store the ID of the active editor
         }
-
-        $scope.updateObject = myService.updateObject;
-        $scope.myService = myService;
-        $scope.mySharedObject = myService.mySharedObject;
 
         $scope.resultsSummary = {};
         //init variables
@@ -62,12 +58,19 @@ angular.module('minium.developer')
                 selected: {
                     item: editor.selected
                 },
+                selectedNode: editor.selected.fileProps,
                 activeID: editor.id,
                 mode: editor.mode
             }
+            
+            console.log($rootScope.active);
+            //if the file is not found
+            if ($rootScope.active.session === undefined){
+                return;
+            }
+
             $rootScope.active.session.focus();
 
-            console.log($rootScope.active);
             //ace editor dont update the editor until a click or set a the cursor
             //so i need to get a solution
             var pos = editor.instance.selection.getCursor();
@@ -170,7 +173,7 @@ angular.module('minium.developer')
         $scope.webDriverError = false;
         $scope.openModalWebDriverSelect = function(size) {
             var modalInstance = $modal.open({
-                templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+                templateUrl: "minium.developer/views/webdriver/launch.webdriver.html",
                 controller: "WebDriversController",
                 size: size,
                 resolve: {

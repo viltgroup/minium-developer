@@ -1,11 +1,15 @@
-// This module creates and append the new elements create for new tabs
+/**
+ * This module creates and append the new elements create for new tabs
+ *
+ */
 miniumDeveloper.factory('TabFactory', function($http, $q) {
+    //settings
     var tabFactory = {
         height: '700',
     };
 
     tabFactory.createTab = function(tabUniqueId, fileProps) {
-        var fileName = fileProps.name || "untitled";
+        var fileName = fileProps.name || "console";
 
         var tabsElement = $('#tabs');
         var tabsUlElement = tabsElement.find('ul');

@@ -1,4 +1,8 @@
-
+/**
+ * Load the file and create new tabs
+ * When we want to open a new file, the logic is here
+ *
+ */
 miniumDeveloper.service('TabLoader', function($q, FS) {
 
     var all = [];
@@ -17,9 +21,13 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
 
         var emptyEditor = function() {
             //create an empty editor
-            newEditor = editors.addInstance("", 1);
+            var fileProps={
+                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved",
+                fileProps: ""
+            }
+            newEditor = editors.addInstance(fileProps, 1);
         }
-        
+
         if (file === "") {                              //if the is empty
             //create an empty editor
             emptyEditor();
@@ -55,7 +63,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
                 //error handler file dont found
                 //so create an empty editor
                 //emptyEditor();
-                deferred.resolve(newEditor);
+                deferred.reject(newEditor);
             });
 
         }

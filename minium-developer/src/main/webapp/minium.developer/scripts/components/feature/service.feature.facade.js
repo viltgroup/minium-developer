@@ -1,4 +1,8 @@
-
+/**
+ * Data coming from the result of an execution of a feature in cucumber
+ * Process the data to get some stats an summary
+ *
+ */
 miniumDeveloper.factory('FeatureFacade', function() {
     /**
      * Constructor
@@ -17,7 +21,8 @@ miniumDeveloper.factory('FeatureFacade', function() {
         var r = true;
         this.notPassingsteps = jsonPath.eval(data, "$..steps[?(@.status!='PASSED')]");
         var failingSteps = jsonPath.eval(data, "$..steps[?(@.status=='FAILED')]");
-        var skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
+        var skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='SKIPPED')]");
+        var undefinedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
         var passedSteps = jsonPath.eval(data, "$..steps[?(@.status=='PASSED')]");
         var durations = jsonPath.eval(data, "$..duration");
 
@@ -31,6 +36,7 @@ miniumDeveloper.factory('FeatureFacade', function() {
             passed: passedSteps.length,
             failures: failingSteps.length,
             skipped: skippedSteps.length,
+            undefined: undefinedSteps.length,
             notPassingsteps: this.notPassingsteps.length,
             runTime: totalDuration / 1000000.0
         }

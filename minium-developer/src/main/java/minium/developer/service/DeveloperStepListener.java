@@ -28,7 +28,7 @@ public class DeveloperStepListener implements StepListener {
 
     @Override
     public void afterStep(Step step, Result result) {
-        StepDTO stepDTO = new StepDTO(step.getName(), step.getLine(), uri, "passed");
+        StepDTO stepDTO = new StepDTO(step.getName(), step.getLine(), uri, result.getStatus());
         messagingTemplate.convertAndSend(socketPath, stepDTO);
     }
 
@@ -40,8 +40,8 @@ public class DeveloperStepListener implements StepListener {
 
     @Override
     public void failedStep(Step step, Throwable error) {
-        StepDTO stepDTO = new StepDTO(step.getName(), step.getLine(), uri, "failed");
-        messagingTemplate.convertAndSend(socketPath, stepDTO);
+//        StepDTO stepDTO = new StepDTO(step.getName(), step.getLine(), uri, "failed");
+//        messagingTemplate.convertAndSend(socketPath, stepDTO);
     }
 
 	@Override
@@ -52,7 +52,7 @@ public class DeveloperStepListener implements StepListener {
 
 	@Override
 	public void failedExampleStep(int line) {
-		StepDTO stepDTO = new StepDTO("", line , uri, "failed");
+		StepDTO stepDTO = new StepDTO("", line , uri, "failed_example");
         messagingTemplate.convertAndSend(socketPath, stepDTO);
 		
 	}

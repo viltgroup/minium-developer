@@ -8,7 +8,7 @@ angular.module('minium.developer')
         // INIT VARABLES
         //////////////////////////////////////////////////////////////////
         $scope.path = "";
-        $scope.isValid;
+        $scope.isValid = false;
         $scope.isValidPorject;
         $scope.validatingProject = false;
 

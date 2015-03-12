@@ -78,7 +78,6 @@ angular.module('minium.developer')
             pos.column -= 1;
             editor.instance.moveCursorToPosition(pos);
 
-
             //set state
             $state.go("global.editorarea.sub", {
                 path: editor.relativeUri

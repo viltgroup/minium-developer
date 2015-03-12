@@ -71,12 +71,9 @@ angular.module('minium.developer')
             //wait for every files load
             $scope.loadFile($stateParams.path);
             $scope.loadFile("");
-            // setTimeout(, 5000);
         } else {
-
             var openTabs = tabLoader();
-            // alert(openTabs)
-                //if theres no open tabs, open one
+            //if theres no open tabs, open one console
             if (openTabs === 0)
                 $scope.loadFile("");
         }
@@ -181,7 +178,6 @@ angular.module('minium.developer')
         };
 
 
-
         /**
          * Clean the scope of the engine
          */
@@ -245,8 +241,6 @@ angular.module('minium.developer')
 
         var feature;
         var launchTest = function(launchParams) {
-
-
 
             $scope.testExecuting = true;
 

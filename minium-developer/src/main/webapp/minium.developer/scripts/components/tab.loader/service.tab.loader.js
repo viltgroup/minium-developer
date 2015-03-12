@@ -27,7 +27,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
             }
             newEditor = editors.addInstance(fileProps, 1);
         }
-        
+
         if (file === "") {                              //if the is empty
             //create an empty editor
             emptyEditor();
@@ -61,11 +61,9 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
 
             }, function() {
                 //error handler file dont found
-                //so create an empty editor
-                // emptyEditor();
                 deferred.reject(newEditor);
             });
-            
+
         }
         return deferred.promise;
 

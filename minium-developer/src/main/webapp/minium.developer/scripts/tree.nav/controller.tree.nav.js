@@ -25,7 +25,6 @@ angular.module('minium.developer')
                 path: node.relativeUri || ""
             };
 
-            // alert(JSON.stringify(node))
             node.children = FS.list(params, function() {
                 //sort the child by name
                 node.children.sort(predicatBy("name"))
@@ -127,7 +126,6 @@ angular.module('minium.developer')
         }
 
         $scope.refresh = function() {
-            // alert($scope.fs.current)
             firstLoad = true;
             $scope.dataForTheTree = [];
             $scope.expandedNodes = [];
@@ -156,13 +154,6 @@ angular.module('minium.developer')
             $state.go('global.editorarea.sub.importProject');
         }
 
-        // var reltivepaths = [];
-        // reltivepaths.push("cedededconfig/application12.yml");
-        
-        // $.cookie('openTabs', reltivepaths, {
-        //     expires: 7
-        // });
-
         //refactor put in a service
         $scope.hasProject = false;
         var projectName;
@@ -176,10 +167,8 @@ angular.module('minium.developer')
                 } else {
                     $.removeCookie('openTabs');
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
-                    //remove all the open tab int the cookie 
-                    //because there's no project defined
-                    
-                        //$state.go('global.editorarea.sub.importProject');
+                        //remove all the open tab int the cookie 
+                        //because there's no project defined
                 }
                 addProjectToTree(projectName);
                 asyncLoad($scope.fs.current);
@@ -211,8 +200,6 @@ angular.module('minium.developer')
                 relativeUriContextClick = undefined;
                 var clickedElem = $(e.target);
                 e.preventDefault();
-                // alert($(e.target).data("type"))
-                // return true;
                 // This function is optional.
                 // Here we use it to stop the event if the user clicks a span
                 if (clickedElem.data("type") == 'DIR') {
@@ -263,11 +250,7 @@ angular.module('minium.developer')
 
             modalInstance.result.then(function(selectedItem) {
                 $scope.selected = selectedItem;
-                // alert(selectedItem)
-            }, function() {
-                // $log.info('Modal dismissed at: ' + new Date());
-
-            });
+            }, function() {});
         };
 
     });

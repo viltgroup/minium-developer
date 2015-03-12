@@ -5,8 +5,8 @@ Feature: Folders features
     And The side bar is not hiden
 
   Scenario: create new folder
-    Given The folder (or file) "testes > newFolder" does not exists
-    When I create a new folder "testes > newFolder"
+    Given folder "testes/newFolder" does not exist
+    When I create a new folder "testes/newFolder"
     Then I should see the folder (or file) "testes > newFolder" in the navigation tree
 
   Scenario: delete folder

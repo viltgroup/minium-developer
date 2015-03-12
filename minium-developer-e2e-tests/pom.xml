@@ -73,6 +73,14 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
+						<configuration>
+							<systemProperties>
+								<property>
+									<name>spring.profiles.active</name>
+									<value>${spring.profiles.active}</value>
+					            </property>
+							</systemProperties>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>

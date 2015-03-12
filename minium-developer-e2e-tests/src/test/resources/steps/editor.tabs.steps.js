@@ -33,10 +33,6 @@ When(/^I open the files "(.*?)"$/, function(nav) {
    file.click();
 });
 
-Then(/^I check if the url is "(.*?)"$/, function(url) {
-  browser.getCurrentUrl();
-});
-
 When(/^I go to the tab with name '(.*?)'$/, function(tabName) { 
     var tabs = $("#tabs");
     var tab = tabs.find("li a").withName(tabName);

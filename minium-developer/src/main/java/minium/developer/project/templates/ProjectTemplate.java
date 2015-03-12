@@ -9,7 +9,6 @@ import org.apache.commons.io.FileUtils;
 
 public abstract class ProjectTemplate {
 	
-
 	protected ProjectDTO project;
 	protected String path;
 	

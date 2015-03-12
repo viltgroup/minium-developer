@@ -67,6 +67,11 @@ angular.module('minium.developer')
             $cookieStore.put('project', path);
         }
 
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+            $scope.$dismiss();
+        };
+
 
 
     });

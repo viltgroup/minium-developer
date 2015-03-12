@@ -63,7 +63,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
                 //error handler file dont found
                 //so create an empty editor
                 //emptyEditor();
-                deferred.resolve(newEditor);
+                deferred.reject(newEditor);
             });
 
         }

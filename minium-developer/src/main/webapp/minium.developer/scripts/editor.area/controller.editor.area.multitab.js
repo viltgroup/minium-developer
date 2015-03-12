@@ -133,21 +133,6 @@ angular.module('minium.developer')
                         var body = message.body;
                         var testMessage = eval('(' + body + ')');
                         $scope.totalTests = message.body;
-                        // switch (testMessage.type) {
-                        //     case "total":
-                        //         $scope.cenas = testMessage.body;
-                        //         break;
-                        //     case "failing":
-                        //         $scope.tests.failing = $scope.tests.failing + "\n\n\n" + testMessage.body;
-                        //         $scope.isFailing = true;
-                        //         break;
-                        //     case "passed":
-                        //         $scope.testsExecuted = $scope.testsExecuted + 1;
-                        //         $scope.tests.passed = testMessage.body;
-                        //         //alert("tests.executed " + ($scope.testsExecuted ))
-                        //         break;
-                        //     default: //do nothing
-                        // }
                         $scope.$apply();
                     });
 

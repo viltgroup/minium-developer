@@ -26,25 +26,42 @@ public class ProjectService {
 
 	private ProjectTemplate projectTemplate;
 
-	public void createProject(ProjectProperties projectProperties, ProjectDTO project, HttpSession session) throws IOException {
+	public boolean createProject(ProjectProperties projectProperties, ProjectDTO project, HttpSession session) {
+		boolean isCreated = false;
+		// validate that the path don't exists
+		if (isValid(getPath(project))) {
+			// means that the directory exists
+			return false;
+		}
 		// create
 		String projectType = project.getType();
-		if (projectType.equals(CUCUMBER_PROJECT)) {
-			createCucumberProject(project);
-		} else {
-			createAutomatorProject(project);
+		try {
+			if (projectType.equals(CUCUMBER_PROJECT)) {
+				createCucumberProject(project);
+			} else {
+				createAutomatorProject(project);
+			}
+			openProject(projectProperties, getPath(project), session);
+			isCreated = true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		openProject(projectProperties, getPath(project), session);
-
+		return isCreated;
 	}
 
 	public boolean isValid(String path) {
 		return fileSystemservice.dirExists(path);
 	}
 
+	public boolean isParentValid(String path) {
+		File file = new File(path);
+		String parent = file.getParentFile().getAbsolutePath();
+		return this.isValid(parent);
+	}
+
 	public String typeOfProject(String path) {
 		// TODO refactor
-		// remove hardcoded strings
 		String project;
 		if (isCucumberProject(path)) {
 			project = CUCUMBER_PROJECT;
@@ -61,13 +78,13 @@ public class ProjectService {
 		boolean validProject = false;
 		session.invalidate();
 		File f = new File(path);
-		if(f.exists()){
+		if (f.exists()) {
 			projectProperties.setDir(f);
 			validProject = true;
 		}
-		
+
 		return validProject;
-		
+
 	}
 
 	public boolean hasProject(ProjectProperties projectProperties) {

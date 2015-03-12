@@ -30,15 +30,23 @@ miniumDeveloper.factory('ProjectFactory', function($http) {
 // this service load and store open tabs from cookies
 miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $location, $cookieStore) {
 
+    var reload = function(path) {
+        $.removeCookie('openTabs'); // remove the tab with the open tabs
+        $cookieStore.put('project', path)
+        $window.location.reload();
+    };
+
     this.open = function(path) {
         ProjectFactory.open(path).success(function(data) {
-            $.removeCookie('openTabs'); // remove the tab with the open tabs
-            $cookieStore.put('project',path)
-            $window.location.reload();
+            reload(path);
         }).error(function(data, status) {
             $cookieStore.remove('project')
             toastr.error(data)
         });
+    };
+
+    this.reload = function(path) {
+        reload(path);
     };
 
 

@@ -40,7 +40,7 @@
 <div id="tree-bar" class="tree-bar">
     <ul class="treeview-menu" style="display: block;text-transform: initial;">
         <treecontrol class="tree-classic" expanded-nodes="expandedNodes" tree-model="dataForTheTree" options="opts" ng-dblclick="db()" order-by="type" on-selection="showSelected(node)" on-node-toggle="showToggle(node, expanded)" selected-node="selected" tree-menu-model="menuModel" on-click-menu="clickMenu(node, item)">
-            <span class="tree-elem" data-name="{{node.name}}" data-relative-uri="{{node.relativeUri}}" data-type="{{node.type}}" data-project="{{node.project}}">
+            <span title="{{node.relativeUri}}" class="tree-elem" data-name="{{node.name}}" data-relative-uri="{{node.relativeUri}}" data-type="{{node.type}}" data-project="{{node.project}}">
                 {{node.name}} 
             </span>
         </treecontrol>

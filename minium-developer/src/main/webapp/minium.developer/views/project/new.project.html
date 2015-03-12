@@ -24,16 +24,16 @@
             <hr>
 
             <!-- Text input-->
-            <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.directory.$invalid && !projectForm.directory.$pristine || (isValid == false), 'has-success' : isValid }">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.directory.$invalid && !projectForm.directory.$pristine  }">
                 <label class="control-label" for="textinput">Parent Directory</label>
 
-                <input type="text" ng-model="project.directory" name="directory" required placeholder="Parent Directory" class="form-control" ng-keyup="validate($event)" popover="{{popoverDirectoryInput}}" popover-trigger="focus" class="form-control"  />
+                <input type="text" ng-model="project.directory" name="directory" required placeholder="Parent Directory" class="form-control" popover="{{popoverDirectoryInput}}" popover-trigger="focus" class="form-control" ng-keyup="validate($event)" />
 
                 <p ng-show="projectForm.directory.$error.required && !projectForm.directory.$pristine" class="help-block">Path is required</p>
 
-                <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine" class="help-block">Path not valid</p>
+                <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine && !projectForm.directory.$error.required" class="help-block">Path not valid</p>
 
-                <span class="fa fa-circle-o-notch fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
+
                 <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
 
 
@@ -41,22 +41,24 @@
 
 
             <!-- Text input-->
-            <div class="form-group" ng-class="{ 'has-error' : projectForm.name.$invalid && !projectForm.name.$pristine }">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.name.$invalid && !projectForm.name.$pristine || (isValid == false) , 'has-success' : isValid}">
                 <label class="control-label" for="textinput">Project Name</label>
 
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <span ng-show="project.name || project.directory">{{location}}</span>
+                        <span ng-show="project.name || project.directory">{{project.directory + "/"}}</span>
                     </div>
-                    <input type="text" ng-model="project.name" name="name" required placeholder="Project Name" class="form-control" ng-keyup="validateProjectName($event)" />
+                    <input type="text" ng-model="project.name" name="name" required placeholder="Project Name" class="form-control" ng-keyup="validate($event)" />
                 </div>
-                <p ng-show="projectForm.name.$invalid && !projectForm.name.$pristine" class="help-block">The name is required.</p>
+                <p ng-show="projectForm.name.$invalid && !projectForm.name.$pristine" class="help-block">Project name is required.</p>
+
+                <span class="fa fa-spinner  fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
 
             </div>
 
-            <div class="form-group info-labels">
+            <div class="form-group info-labels" ng-show="project.name">
                 <label class="control-label" for="textinput"></label>
-                <div ng-bind-html="msg.directory | sanitize">asasas</div>
+                <div ng-bind-html="msg.directory | sanitize"></div>
                 <div ng-bind-html="msg.project | sanitize"></div>
                 <div ng-bind-html="msg.projectType | sanitize"></div>
             </div>
@@ -87,7 +89,7 @@
                     <div class="form-group">
                         <label class=" control-label" for="textinput">Version</label>
 
-                        <input type="text" ng-model="project.version" name="version" required placeholder="Version" class="form-control">
+                        <input type="text" ng-model="project.version" name="version" required placeholder="Version" class="form-control" ng-init="project.version = '1.0.0-SNAPSHOT'">
                     </div>
                 </div>
             </div>
@@ -97,7 +99,7 @@
                 <label class="control-label" for="textinput">Feature file</label>
 
                 <div class="input-group">
-                    <input type="text" ng-model="project.featureFile"  ng-required="project.type === 'cucumber'"  name="featureFile" placeholder="Feature file name" class="form-control" />
+                    <input type="text" ng-model="project.featureFile" ng-required="project.type === 'cucumber'" name="featureFile" placeholder="Feature file name" class="form-control" />
                     <div class="input-group-addon">.feature</div>
                 </div>
 

@@ -29,8 +29,9 @@ public class ProjectResource {
 
 	@RequestMapping(value = "/project/new", method = RequestMethod.POST)
 	@ResponseBody
-	public void create(@RequestBody ProjectDTO project, HttpSession session) throws Exception {
-		projectService.createProject(projectProperties, project, session);
+	public boolean create(@RequestBody ProjectDTO project, HttpSession session) throws Exception {
+		boolean isCreated = projectService.createProject(projectProperties, project, session);
+		return isCreated;
 	}
 
 	@RequestMapping(value = "/project/valid", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
@@ -47,10 +48,15 @@ public class ProjectResource {
 	@RequestMapping(value = "/project/valid/name", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
 	@ResponseBody
 	public ResponseEntity<String> isValidName(@RequestBody String path) throws IOException, InterruptedException {
-		Boolean isValidDir = projectService.isValid(path);
-		String typeProject = "Valid";
+		Boolean isValidDir = projectService.isParentValid(path);
+		String typeProject = "Not valid";
 		if (isValidDir) {
-			typeProject = "File exists";
+			isValidDir = projectService.isValid(path);
+			if(isValidDir == true){
+				typeProject = projectService.typeOfProject(path);
+			}else{
+				typeProject = projectService.typeOfProject(path);
+			}
 		}
 		return new ResponseEntity<String>(typeProject, HttpStatus.OK);
 	}

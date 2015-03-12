@@ -32,32 +32,29 @@ $('.running-data').show();
 
         <div class="col-md-12">
             <div class="btn-group-sm">
-                <a class="btn  btn-default btn-sm" title="Interface Selector Gadget" ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
+                <a class="btn  btn-default btn-sm" title="Interface Selector Gadget (Ctrl+Shift+C) " ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
                     <span class="fa  fa-hand-o-up"></span> Selector Gadget
                 </a>
-                <a class="btn  btn-default btn-sm" title="Evaluator" ng-show="active.mode === 'JS'" ng-click="evaluate()">
+                <a class="btn  btn-default btn-sm" title="Evaluator (Ctrl + Enter)" ng-show="active.mode === 'JS'" ng-click="evaluate()">
                     <span class="fa  fa-binoculars"></span> Evaluate
                 </a>
-            </div>
-            <div class="btn-group-sm" id="teste">
-                <a class="btn btn-primary btn-sm " title="Run test from cursor" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+
+                <a class="btn btn-primary btn-sm " title="Run test from cursor (Ctrl + Enter)" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
                     <span class="fa  fa-play"></span> Run Test
                 </a>
                 <a class="btn btn-primary btn-sm" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
                     <i class="fa fa-list-alt"></i> Run All
                 </a>
 
-                <span class="col-sm-2 pull-right">
+                <span class="col-sm-2 pull-right" ng-show="testExecuting">
                     <span style="color:black; white-space:nowrap;">
                         {{testsExecuted}} / {{totalTests}}
                     </span>
 
-                <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / totalTests" style="height: 10px;">
-                </progressbar>
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / totalTests" style="height: 10px;">
+                    </progressbar>
                 </span>
             </div>
-
-
 
         </div>
     </div>

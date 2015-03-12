@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ProjectController', function($scope, $modalInstance, ProjectFactory, GENERAL_CONFIG) {
+    .controller('ProjectController', function($scope, $modalInstance, ProjectFactory,ProjectService, GENERAL_CONFIG) {
 
         $scope.project = {};
 
@@ -13,7 +13,7 @@ angular.module('minium.developer')
 
         var projectMsgTemplate = {
             success: '<span class="fa fa-check" style="color:green;"></span> Project exists',
-            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> There\'s already a project!!'
+            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> There\'s already a project in this path!!'
         }
 
         //possible modes of a project after validation
@@ -31,7 +31,7 @@ angular.module('minium.developer')
         }
 
         $scope.popoverDirectoryInput = GENERAL_CONFIG.POPOVER.DIRECTORY_INPUT
-        
+
         // $scope.myRegex = /^((\\|\/)[a-z0-9\s_@\-^!#$%&+={}\[\]]+)$/;
         $scope.myRegex = /^[a-z]:((\/|(\\?))[\w .]+)+\.xml$/i;
 
@@ -47,11 +47,19 @@ angular.module('minium.developer')
         }
 
         $scope.validate = function(e) {
-            $scope.validatingProject = true;
-            $scope.project.artifactId = $scope.project.name;
-            var path = $scope.project.directory;
 
-            ProjectFactory.isValid(path).success(function(data) {
+            $scope.validatingProject = true;
+            var name = $scope.project.name || "";
+
+            if (name === "") {
+                $scope.validatingProject = false;
+                return;
+            }
+            $scope.project.artifactId = name.replace(/\s+/g, '-');
+            var path = $scope.location;
+
+            ProjectFactory.isValidName(path).success(function(data) {
+                console.debug(data)
                 if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
                     //dir is good and theres a project
                     $scope.isValid = true;
@@ -74,7 +82,8 @@ angular.module('minium.developer')
                 }
                 $scope.validatingProject = false;
             }).error(function(data, status) {
-                console.error('Repos error', status, data);
+                $scope.isValid = false;
+                $scope.msg.directory = directoryMsgTemplate.error;
                 $scope.validatingProject = false;
             });
         }
@@ -106,6 +115,7 @@ angular.module('minium.developer')
                 $scope.validatingProject = false;
             });
         }
+
         $scope.$watchGroup(['project.directory', 'project.name'], function(newValues, oldValues, scope) {
             var projectName = $scope.project.name || "";
             var projectDirectory = $scope.project.directory || "";
@@ -118,10 +128,22 @@ angular.module('minium.developer')
                 return;
             }
             ProjectFactory.create($scope.project).success(function(data) {
-                alert(data)
+                if (data == true) {
+                    toastr.success("Project created");
+                    ProjectService.reload($scope.location);
+                } else {
+                    toastr.error("Not possible to create the project");
+                }
             }).error(function(data, status) {
-                console.error('Project error', status, data);
+                toastr.error("Not possible to create the project " + data.error);
             });
         }
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+            $scope.$dismiss();
+        };
+
+
         $scope.activate('automator');
     });

@@ -81,6 +81,12 @@
                             </a>
                         </li>
 
+                        <li>
+                            <a href ng-click="openModalWebDriverSelect()">
+                                <span class="fa fa-rocket"></span>
+                                <span class="ladda-label">Launch Browser</span>
+                            </a>
+                        </li>
 
                         <li class="divider"></li>
                         <li ng-class="{'disabled': (active.mode !== 'JS')}">
@@ -100,37 +106,7 @@
                 </li>
 
 
-                <!-- OTHER ACTIONS -->
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">Other actions <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a href ng-click="openModalWebDriverSelect()">
-                                <span class="fa fa-list"></span>
-                                <span class="ladda-label">Launch Browser</span>
-                            </a>
-                        </li>
-                        <!-- <li>
-                    <a href modal state="global.editorarea.sub.registerBackend">
-                        <span class="fa fa-cloud-download"></span>
-                        <span class="ladda-label">Register Backend</span>
-                    </a>
-                </li> -->
-                        <li>
-                            <a href modal state="global.editorarea.sub.help">
-                                <span class="fa fa-info-circle"></span>
-                                <span class="ladda-label">Help</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href ng-click="clearMarkers()">
-                                <i class="fa fa-eraser"></i>
-                                <span class="ladda-label">Clear Markers</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
+                <!-- Preferences -->
                 <li class="dropdown ">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span>
@@ -155,6 +131,37 @@
                     </ul>
                 </li>
 
+                <!-- OTHER ACTIONS -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">Help <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href modal state="global.editorarea.sub.help">
+                                <span class="fa fa-question-circle "></span>
+                                <span class="ladda-label">Help</span>
+                            </a>
+                        </li>
+
+
+                         <li>
+                            <a href ng-click="clearMarkers()">
+                                <i class="fa fa-eraser"></i>
+                                <span class="ladda-label">Clear Markers</span>
+                            </a>
+                        </li>
+
+
+                         <li>
+                            <a href modal state="global.editorarea.sub.version">
+                                <span class="fa fa-info-circle"></span>
+                                <span class="ladda-label">About</span>
+                            </a>
+                        </li>
+
+
+                       
+                    </ul>
+                </li>
 
 
             </ul>

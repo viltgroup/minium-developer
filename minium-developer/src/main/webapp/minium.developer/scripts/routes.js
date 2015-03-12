@@ -70,30 +70,24 @@ miniumDeveloper
                 controller: "OpenFileController"
             });
 
-        // modalStateProvider
-        //     .state('global.editorarea.sub.results', {
-        //         templateUrl: "minium.developer/views/editor.area/modal/launch.html",
-        //         // controller: "LaunchController"
-        //     })
-
-        //configuration to execute the file
-        // modalStateProvider.state('global.editorarea.sub.configs', {
-        //     templateUrl: "minium.developer/views/editor.area/modal/configs.html",
-        //     controller: "WebDriversController"
-        // });
-
         //register backend
         modalStateProvider.state('global.editorarea.sub.registerBackend', {
             templateUrl: "minium.developer/views/editor.area/modal/register-backend.html",
             controller: "BackendsController"
         });
 
-        //register backend
+        //help
         modalStateProvider.state('global.editorarea.sub.help', {
             templateUrl: "minium.developer/views/editor.area/modal/help.html"
         });
 
-         //register backend
+        //version
+        modalStateProvider.state('global.editorarea.sub.version', {
+            templateUrl: "minium.developer/views/version/version.html",
+            controller: "VersionController"
+        });
+
+         //report
         modalStateProvider.state('global.editorarea.sub.report', {
             templateUrl: "minium.developer/views/editor.area/modal/launch.html"
         });

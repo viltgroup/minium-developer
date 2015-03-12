@@ -45,12 +45,17 @@
             </span>
         </treecontrol>
     </ul>
-    <span style="margin-left:50px;" ng-hide="hasProject" ng-cloak>
+    <small style="margin-left:50px;" ng-hide="hasProject" ng-cloak>
         No project defined
         <a class="" href title="open project" modal state="global.editorarea.sub.importProject">
-            <span class="ladda-label">open a project</span>
+            <span class="ladda-label">open</span>
         </a>
-    </span>
+        or
+         <a class="" href title="open project" modal state="global.editorarea.sub.importProject">
+            <span class="ladda-label">create</span>
+        </a>
+        a project
+    </small>
 </div>
 
 

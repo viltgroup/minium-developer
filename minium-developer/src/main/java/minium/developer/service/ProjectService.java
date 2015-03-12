@@ -51,10 +51,12 @@ public class ProjectService {
 	}
 
 	public boolean isValid(String path) {
+		path = getPath(path);
 		return fileSystemservice.dirExists(path);
 	}
 
 	public boolean isParentValid(String path) {
+		path = getPath(path);
 		File file = new File(path);
 		String parent = file.getParentFile().getAbsolutePath();
 		return this.isValid(parent);
@@ -115,7 +117,8 @@ public class ProjectService {
 		projectTemplate.buildProject();
 		return true;
 	}
-
+	
+	
 	/**
 	 * Create a cucumber project
 	 * 
@@ -142,6 +145,15 @@ public class ProjectService {
 	protected String getPath(ProjectDTO project) {
 		File f = new File(project.getDirectory(), project.getName());
 		return f.getPath();
+	}
+	
+	/**
+	 * Replace the first element if it is ~ with the home path in unix
+	 * @param path - example (~/Documents/)
+	 * @return the absolute path - example( /home/user/Documents
+	 */
+	private String getPath(String path){
+		return path.replaceFirst("^~", System.getProperty("user.home"));
 	}
 
 }

@@ -1,4 +1,7 @@
-
+/**
+ * Provide Snippets for the step files (example: step.js)
+ *
+ */
 miniumDeveloper.factory('StepSnippetsProvider', function() {
 
     var KEYWORD = {

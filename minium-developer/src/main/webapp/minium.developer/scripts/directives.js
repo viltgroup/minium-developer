@@ -258,7 +258,8 @@ angular.module('miniumDeveloper.directives', [])
 
     var successTemplate = '<i class="success fa fa-check-square "></i>';
     var errorTemplate = '<i class="danger fa fa-bug "></i>';
-    var undefinedTemplate = '<i class="warning fa fa-exclamation-triangle "></i>';
+    var undefinedTemplate = '<i class="warning2 fa fa-exclamation-circle "></i>';
+    var skipped =   '<i class="warning fa  fa-exclamation-triangle "></i>';
 
     var getStepResult = function(status) {
         var template = '';
@@ -270,7 +271,7 @@ angular.module('miniumDeveloper.directives', [])
                 template = errorTemplate;
                 break;
             case statuses.skipped:
-                template = undefinedTemplate;
+                template = skipped;
                 break;
             case statuses.undefined:
                 template = undefinedTemplate;

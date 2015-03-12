@@ -1,3 +1,8 @@
+/**
+ * Manage all the editor and tabs
+ * Create, close, set settings 
+ *
+ */
 'use strict';
 
 miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
@@ -66,7 +71,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
         // the panel id is a timestamp plus a random number from 0 to 10000
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
-
+        
         var fileProps = fileContent.fileProps || "";
         //create the DOM elements
         TabFactory.createTab(tabUniqueId, fileProps);
@@ -252,7 +257,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
-        var margin = 120;
+        var margin = 100;
         var containerHeight
         if ($(window).width() >= 768) {
             containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;
@@ -764,6 +769,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         }).
         error(function(data) {
             that.setWebDriverMsg(true);
+            that.relaunchEval = true;
             that.openModalWebDriverSelect();
         });
 

@@ -25,6 +25,7 @@ public class ProjectDTO {
 		this.version = version;
 		this.featureFile = featureFile;
 		this.stepFile = stepFile;
+		
 	}
 	
 	public String getDirectory() {

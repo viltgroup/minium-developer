@@ -1,126 +1,128 @@
 <div class="panel-body">
 
-    <form name="projectForm" class="form-horizontal" novalidate>
+    <form name="projectForm" class="" novalidate>
 
         <fieldset>
 
+            <!-- Form Name -->
+            <legend>New project <strong>{{project.type}}</strong> </legend>
             <!-- Text input-->
-            <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.directory.$invalid && !projectForm.directory.$pristine || (isValid == false), 'has-success' : isValid }">
-                <label class="col-sm-2 control-label" for="textinput">Project Directory</label>
-                <div class="col-sm-10">
-                    <input type="text" ng-model="project.directory" name="directory" required placeholder="Project Directory" class="form-control" ng-keyup="validate($event)"/>
-                    <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine" class="help-block">The name is required.</p>
-                     <span class="fa fa-circle-o-notch fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
-                    <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
-                </div>
+            <div class="form-group">
+                <label class="control-label" for="textinput">Project type</label>
 
-            </div>
 
-             <div class="form-group info-labels" >
-               <label class="col-sm-2 control-label" for="textinput"></label>
-
-                <div class="col-sm-10">
-                <div ng-bind-html="msg.directory | sanitize"></div>
-                <div ng-bind-html="msg.project | sanitize"></div>
-                <div ng-bind-html="msg.projectType | sanitize"></div>
-
+                <div class="btn-group" data-toggle="buttons" style="margin-left:10%">
+                    <label class="btn btn-default" ng-click='activate("automator")' ng-class="{'active' : project.type == 'automator'}">
+                        <input type="radio" ng-model="project.type" value="automator" /> Automator Project
+                    </label>
+                    <label class="btn btn-default" ng-click='activate("cucumber")' ng-class="{'active' : project.type == 'cucumber'}">
+                        <input type="radio" ng-model="project.type" value="cucumber" ng-click='activate("cucumber")' /> Cucumber project
+                    </label>
                 </div>
 
             </div>
             <hr>
 
-            <!-- Form Name -->
-            <legend>New project {{project.type}}</legend>
             <!-- Text input-->
-            <div class="form-group" ng-class="{ 'has-error' : projectForm.name.$invalid && !projectForm.name.$pristine }">
-                <label class="col-sm-2 control-label" for="textinput">Project type</label>
-                <div class="col-sm-10">
-                    <div class="btn-group" data-toggle="buttons">
-                        <label class="btn btn-default" ng-click='activate("automator")' ng-class="{'active' : project.type == 'automator'}">
-                            <input type="radio" ng-model="project.type" value="automator" /> Automator Project
-                        </label>
-                        <label class="btn btn-default" ng-click='activate("cucumber")' ng-class="{'active' : project.type == 'cucumber'}">
-                            <input type="radio" ng-model="project.type" value="cucumber" ng-click='activate("cucumber")' /> Cucumber project
-                        </label>
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.directory.$invalid && !projectForm.directory.$pristine  }">
+                <label class="control-label" for="textinput">Parent Directory</label>
+
+                <input type="text" ng-model="project.directory" name="directory" required placeholder="Parent Directory" class="form-control" popover="{{popoverDirectoryInput}}" popover-trigger="focus" class="form-control" ng-keyup="validate($event)" />
+
+                <p ng-show="projectForm.directory.$error.required && !projectForm.directory.$pristine" class="help-block">Path is required</p>
+
+                <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine && !projectForm.directory.$error.required" class="help-block">Path not valid</p>
+
+
+                <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
+
+
+            </div>
+
+
+            <!-- Text input-->
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.name.$invalid && !projectForm.name.$pristine || (isValid == false) , 'has-success' : isValid}">
+                <label class="control-label" for="textinput">Project Name</label>
+
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <span ng-show="project.name || project.directory">{{project.directory + "/"}}</span>
                     </div>
+                    <input type="text" ng-model="project.name" name="name" required placeholder="Project Name" class="form-control" ng-keyup="validate($event)" />
                 </div>
-            </div>
+                <p ng-show="projectForm.name.$invalid && !projectForm.name.$pristine" class="help-block">Project name is required.</p>
 
-
-
-            <!-- Text input-->
-            <div class="form-group" ng-class="{ 'has-error' : projectForm.name.$invalid && !projectForm.name.$pristine }">
-                <label class="col-sm-2 control-label" for="textinput">Project Name</label>
-                <div class="col-sm-10">
-                    <input type="text" ng-model="project.name" name="name" required placeholder="Project Name" class="form-control" ng-keyup='project.artifactId = project.name' />
-                    <p ng-show="projectForm.name.$invalid && !projectForm.name.$pristine" class="help-block">The name is required.</p>
-                </div>
+                <span class="fa fa-spinner  fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
 
             </div>
 
-
+            <div class="form-group info-labels" ng-show="project.name">
+                <label class="control-label" for="textinput"></label>
+                <div ng-bind-html="msg.directory | sanitize"></div>
+                <div ng-bind-html="msg.project | sanitize"></div>
+                <div ng-bind-html="msg.projectType | sanitize"></div>
+            </div>
 
 
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="textinput">Articfact ID</label>
-                <div class="col-sm-10">
-                    <input type="text" ng-model="project.artifactId" name="artifactId" required="" placeholder="Articfact ID" class="form-control" />
-                </div>
-                <br />
-                <div ng-show="form.$submitted || form.uArtifactId.$touched">
-                    <span ng-show="form.uArtifactId.$error.required">Tell us the artifactId.</span>
-                    <span ng-show="form.uArtifactId.$error.artifactId">This is not a valid artifactId.</span>
-                </div>
-            </div>
+                <label class="control-label" for="textinput">Articfact ID</label>
 
+                <input type="text" ng-model="project.artifactId" name="artifactId" required placeholder="Articfact ID" class="form-control" readonly/>
 
-
-
-            <!-- Text input-->
-            <div class="form-group">
-                <label class="col-sm-2 control-label" for="textinput">Group ID</label>
-                <div class="col-sm-5">
-                    <input type="text" ng-model="project.groupId"  name="groupId" placeholder="groupId" class="form-control">
-                </div>
-
-                <label class="col-sm-2 control-label" for="textinput">Version</label>
-                <div class="col-sm-3">
-                    <input type="text" ng-model="project.version" name="version" placeholder="Version" class="form-control">
+                <div ng-show="form.$submitted || form.artifactId.$touched">
+                    <span ng-show="form.artifactId.$error.required">Tell us the artifactId.</span>
+                    <span ng-show="form.artifactId.$error.artifactId">This is not a valid artifactId.</span>
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-xs-6 col-md-6 pull-left">
+                    <div class="form-group">
+                        <label class=" control-label" for="textinput">Group ID</label>
 
-            <!-- Text input-->
-            <div class="form-group" ng-show="project.type == 'cucumber'">
-                <label class="col-sm-2 control-label" for="textinput">Feature file</label>
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        <input type="text" ng-model="project.featureFile" name="featureFile" required="" placeholder="Feature file name" class="form-control" />
-                        <div class="input-group-addon">.feature</div>
+                        <input type="text" ng-model="project.groupId" name="groupId" required placeholder="groupId" class="form-control">
+
                     </div>
+                </div>
+                <div class="col-xs-6 col-md-6 pull-right">
+                    <div class="form-group">
+                        <label class=" control-label" for="textinput">Version</label>
 
+                        <input type="text" ng-model="project.version" name="version" required placeholder="Version" class="form-control" ng-init="project.version = '1.0.0-SNAPSHOT'">
+                    </div>
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group" ng-show="project.type == 'cucumber'">
-                <label class="col-sm-2 control-label" for="textinput">Step file</label>
-                <div class="col-sm-10">
-                    <div class="input-group">
-                        <input type="text" ng-model="project.stepFile" name="stepFile" required="" placeholder="Step file name" class="form-control" />
-                        <div class="input-group-addon">.js</div>
-                    </div>
+                <label class="control-label" for="textinput">Feature file</label>
+
+                <div class="input-group">
+                    <input type="text" ng-model="project.featureFile" ng-required="project.type === 'cucumber'" name="featureFile" placeholder="Feature file name" class="form-control" />
+                    <div class="input-group-addon">.feature</div>
                 </div>
+
+            </div>
+
+            <!-- Text input-->
+            <div class="form-group" ng-show="project.type == 'cucumber'">
+                <label class="control-label" for="textinput">Step file</label>
+
+                <div class="input-group">
+                    <input type="text" ng-model="project.stepFile" name="stepFile" ng-required="project.type === 'cucumber'" placeholder="Step file name" class="form-control" />
+                    <div class="input-group-addon">.js</div>
+                </div>
+
             </div>
 
         </fieldset>
     </form>
 
+
+
 </div>
 <div class="modal-footer">
-
-
-    <button class="btn btn-primary" type="button" ng-click="submitForm()">Create</button>
+    <button class="btn btn-primary" type="button" ng-click="submitForm()" ng-disabled="projectForm.$error.required || projectForm.$invalid || !isValid ">Create</button>
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>

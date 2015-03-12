@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ImportProjectController', function($scope,$location, $modalInstance, GENERAL_CONFIG, ProjectFactory) {
+    .controller('ImportProjectController', function($scope, $window, $modalInstance, $cookieStore, GENERAL_CONFIG, ProjectService, ProjectFactory) {
 
 
         //////////////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ angular.module('minium.developer')
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = projectMsgTemplate.success;
                     $scope.msg.projectType = "Type of project: " + data;
-                } else if (data  === 'No project here') {
+                } else if (data === 'No project here') {
                     //dir is valid but no projects
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.success;
@@ -61,13 +61,17 @@ angular.module('minium.developer')
             });
         }
 
-        $scope.importProject = function(){
-            ProjectFactory.import($scope.path).success(function(data) {
-                $.removeCookie('openTabs'); // remove the tab with the open tabs
-                $location.path("/editor/")
-            }).error(function(data, status) {
-                console.error('Repos error', status, data);
-            });
+        //put this in a service in order to re user
+        $scope.importProject = function(path) {
+            ProjectService.open(path);
+            $cookieStore.put('project', path);
         }
+
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+            $scope.$dismiss();
+        };
+
+
 
     });

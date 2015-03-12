@@ -1,3 +1,7 @@
+/**
+ * Provide Cucumber snippets
+ *
+ */
 miniumDeveloper.factory('SnippetsProvider', function() {
     return {
         all: function() {

@@ -16,7 +16,7 @@ var GherkinHighlightRules = function() {
         token : "keyword",
         regex : "Feature:|Background:|Scenario:|Scenario\ Outline:|Examples:|Given|When|Then|And|But|" +
                 //catalan
-                // "Funcionalitat:|Antecedents:|Escenari:|Esquema\ de\ l'escenari:|Exemples:|Donat|Quan|Cal|I|Però" + 
+                "Funcionalitat:|Antecedents:|Escenari:|Esquema\ de\ l'escenari:|Exemples:|Donat|Quan|Cal|I|Però" + 
         		// spanish
         		//"Característica:|Antecedentes:|Escenario:|Esquema\ del\ escenario:|Ejemplos:|Dado|Dada|Dados|Dadas|Cuando|Entonces|Y|Pero|" +
         		// portuguese

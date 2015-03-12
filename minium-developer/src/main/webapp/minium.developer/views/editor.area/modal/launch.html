@@ -29,7 +29,7 @@
 
                 <icon-item status="step.status"></icon-item>
 
-                <strong>{{step.rawName}}</strong>
+                <strong title="Step {{step.status}}">{{step.rawName}}</strong>
                 <span>Line {{step.line}}</span>
                 <i class="pull-right fa " ng-class="{'fa-chevron-down': status.open, ' fa-chevron-right': !status.open}"></i>
             </accordion-heading>
@@ -37,18 +37,18 @@
             <table class="table table-primary table-list table-striped table-condensed">
                 <thead>
                     <tr>
-                        <th>Step</th>
+                        <th>Error message</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td style="">
-                            <p>
-                                {{step.rawName}}
-                            </p>
+                        <td ng-if="step.errorMessage !== null">
+                        <p >{{step.errorMessage}}</p>
                             <!-- TABLES ROW -->
-                            <pre ng-if="step.errorMessage !== null"> {{step.errorMessage}}</pre>
+                          <!--   <pre ng-if="step.errorMessage !== null" style="white-space: pre-wrap;"> 
+                              {{step.errorMessage}}
+                              </pre> -->
                         </td>
                         <td style="">
                             <!-- <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="!isPassed(step.status)"/> -->
@@ -88,6 +88,11 @@
                <em class="fa fa-warning fa-stack-1x fa-inverse text-white"></em>
                </span>
                <strong>{{resultsSummary.skipped}} Skipped</strong>
+               <span class="fa-stack">
+               <em class="fa fa-circle fa-stack-2x text-warning2"></em>
+               <em class="fa fa-exclamation fa-stack-1x fa-inverse text-white"></em>
+               </span>
+               <strong>{{resultsSummary.undefined}} Undefined</strong>
                </h4>
     </div>
 

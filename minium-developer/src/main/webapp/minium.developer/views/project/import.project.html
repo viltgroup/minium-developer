@@ -10,7 +10,7 @@
                 <label class="col-sm-2 control-label" for="textinput">Project Directory</label>
 
                 <div class="col-sm-10">
-                    <input type="text" ng-model="path" name="dir" required placeholder="Project Directory" class="form-control" ng-keyup="validate($event)"/>
+                    <input type="text" ng-model="path" name="dir" required placeholder="Project Directory" class="form-control" ng-keyup="validate($event)" />
                     <p ng-show="path.$invalid && !path.$pristine" class="help-block">The name is required.</p>
 
                     <span class="fa fa-circle-o-notch fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
@@ -19,16 +19,15 @@
 
             </div>
 
-            <div class="form-group info-labels" >
-               <label class="col-sm-2 control-label" for="textinput"></label>
+            <div class="form-group info-labels">
+                <label class="col-sm-2 control-label" for="textinput"></label>
 
                 <div class="col-sm-10">
-                <div ng-bind-html="msg.directory | sanitize"></div>
-                <div ng-bind-html="msg.project | sanitize"></div>
-                <div ng-bind-html="msg.projectType | sanitize"></div>
+                    <div ng-bind-html="msg.directory | sanitize"></div>
+                    <div ng-bind-html="msg.project | sanitize"></div>
+                    <div ng-bind-html="msg.projectType | sanitize"></div>
 
                 </div>
-
             </div>
 
 
@@ -36,7 +35,7 @@
 <div class="modal-footer">
 
 
-    <button class="btn btn-primary" type="button" ng-click="importProject()">Open</button>
+    <button class="btn btn-primary" type="button" ng-click="importProject(path)" ng-disabled="path === undefined || isValid === false">Open</button>
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>
 </fieldset>

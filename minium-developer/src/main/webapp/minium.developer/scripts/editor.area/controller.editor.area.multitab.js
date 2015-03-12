@@ -59,19 +59,21 @@ angular.module('minium.developer')
             for (var i = 0; i < openTabs.length; i++) {
                 $scope.loadFile(openTabs[i]);
             }
-            return openTabs;
+            return i;
         }
 
         if ($stateParams.path) {
             tabLoader();
             //wait for every files load
             $scope.loadFile($stateParams.path);
+            $scope.loadFile("");
             // setTimeout(, 5000);
         } else {
+
             var openTabs = tabLoader();
             //if theres no open tabs, open one
-            // if (openTabs.size() === 0)
-            $scope.loadFile("");
+            if (openTabs === 0)
+                $scope.loadFile("");
         }
 
         //create an empty editor
@@ -89,7 +91,8 @@ angular.module('minium.developer')
          * WEBSOCKETS
          */
         $scope.tests = {};
-        $scope.cenas = 0;
+        $scope.totalTests = 0;
+        $scope.testsExecuted = 0;
         $scope.resetTotal = function() {
             //init values for live results
             $scope.tests.total;
@@ -119,6 +122,7 @@ angular.module('minium.developer')
             //2- wait for the response 
             //3- subscribe to a websocket with the sessionID fetched
             // TODO: Need a better solution
+
             SessionID.sessionId().then(function(data) {
                 session_id = data;
 
@@ -128,22 +132,7 @@ angular.module('minium.developer')
                     stompClient.subscribe("/tests/" + session_id, function(message) {
                         var body = message.body;
                         var testMessage = eval('(' + body + ')');
-
-                        switch (testMessage.type) {
-                            case "total":
-                                $scope.cenas = testMessage.body;
-                                break;
-                            case "failing":
-                                $scope.tests.failing = $scope.tests.failing + "\n\n\n" + testMessage.body;
-                                $scope.isFailing = true;
-                                break;
-                            case "passed":
-                                $scope.testsExecuted = $scope.testsExecuted + 1;
-                                $scope.tests.passed = testMessage.body;
-                                //alert("tests.executed " + ($scope.testsExecuted ))
-                                break;
-                            default: //do nothing
-                        }
+                        $scope.totalTests = message.body;
                         $scope.$apply();
                     });
 
@@ -152,11 +141,15 @@ angular.module('minium.developer')
                     stompClient.subscribe("/cucumber/" + session_id, function(message) {
                         var step = JSON.parse(message.body);
                         var markerId;
+
                         switch (step.status) {
                             case "failed":
+                                $scope.testsExecuted = $scope.testsExecuted + 1;
+                                $scope.isFailing = true;
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
                                 break;
                             case "passed":
+                                $scope.testsExecuted = $scope.testsExecuted + 1;
                                 editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
                                 break;
                             case "executing":
@@ -168,8 +161,12 @@ angular.module('minium.developer')
                             case "snippet":
                                 snippetsForUndefinedSteps.push(step.name);
                                 break;
+                            case "failed_example":
+                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                                break;
                             default: //do nothing
                         }
+                        $scope.$apply();
                     });
                 });
             }, function(errorPayload) {
@@ -244,6 +241,8 @@ angular.module('minium.developer')
         var feature;
         var launchTest = function(launchParams) {
 
+
+
             $scope.testExecuting = true;
 
             startCheckIfRunning();
@@ -269,6 +268,7 @@ angular.module('minium.developer')
              */
             cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession)
                 .then(function(data) {
+                    console.log(data.feature);
                     feature = data.feature;
                     $scope.faillingSteps = data.faillingSteps;
                     $scope.resultsSummary = data.resultsSummary;
@@ -343,10 +343,10 @@ angular.module('minium.developer')
 
 
         var relaunch = false;
-
+        $scope.relaunchEval = false;
         $scope.openModalWebDriverSelect = function(size) {
             var modalInstance = $modal.open({
-                templateUrl: "minium.developer/views/editor.area/modal/configs.html",
+                templateUrl: "minium.developer/views/webdriver/launch.webdriver.html",
                 controller: "WebDriversController",
                 size: size,
                 resolve: {
@@ -360,6 +360,9 @@ angular.module('minium.developer')
                 $scope.setWebDriverMsg(value);
                 if (relaunch) {
                     launchTest(reLaunchParams);
+                } else if ($scope.relaunchEval) {
+                    editors.evaluate($scope.active.session);
+                    $scope.relaunchEval = false;
                 }
             }, function() {
                 $log.info('Modal dismissed at: ' + new Date());

@@ -79,12 +79,14 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     }
 
     public void cancel() {
-        if (jsEngine != null) jsEngine.cancel();
+        if (jsEngine != null)
+            jsEngine.cancel();
     }
 
     @Override
     public void destroy() throws Exception {
-        if (jsEngine != null) jsEngine.destroy();
+        if (jsEngine != null)
+            jsEngine.destroy();
     }
 
     public String toString(Object obj) {
@@ -109,7 +111,8 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         if (appConfigFile.exists() && appConfigFile.isFile()) {
             YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
             PropertySource<?> source = loader.load("application.yml", new FileSystemResource(appConfigFile), null);
-            propertySources.addFirst(source);
+            if (source != null)
+                propertySources.addFirst(source);
         }
         return applyPlaceholderReplacements(propertySources);
     }

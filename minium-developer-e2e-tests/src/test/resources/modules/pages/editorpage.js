@@ -49,21 +49,26 @@ var EditorPage = {
      var base = $(id);
      return base;
   },
-  
-  openFile :function(nav){
-    var parts = nav.split(">");
+    
+  getFile : function(nav) {
+    var parts = nav.split("/");
     
     var treeBar = $("#tree-bar");
     var folders = treeBar.find("li");
 
-    var elem, i;
-    _.each(parts, function (part,i) {
+    var elem;
+    parts.forEach(function (part) {
       elem = folders.find("span").withText(part);
-      if(elem.closest("li").is(".tree-collapsed"))
+      if (treeBar.then(elem).closest("li").immediately().waitForExistence().is(".tree-collapsed")) {
         elem.click();
-      if(i == parts.length - 1)
-        elem.click();
+      }
     });
+    
+    return elem;
+  },
+  
+  openFile : function(nav) {
+    getFile(nav).click();
   },
   
   numOfTabs: function(){

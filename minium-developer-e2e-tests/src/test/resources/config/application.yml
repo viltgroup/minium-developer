@@ -1,3 +1,18 @@
+minium:
+  webdriver:
+    desiredCapabilities:
+      browserName: chrome
+    window:
+      maximized: true
+
+  cucumber:
+    options:
+      tags:
+        - "@runit"
+
+  config:
+    baseUrl: http://lw255:8080/
+
 ---
 spring:
   profiles: styx-ci
@@ -12,5 +27,5 @@ minium:
 
 # Configuration that can be injected in your tests
   config:
-    baseUrl: http://styx:8080/
-    editor: http://lw255:8080/#/editor/
+    baseUrl: http://lw255:8080/
+    remoteWebDriverUrl: ${minium.webdriver.url}

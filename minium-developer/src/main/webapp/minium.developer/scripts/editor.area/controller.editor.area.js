@@ -46,7 +46,6 @@ angular.module('minium.developer')
                 deferred.resolve(newEditor);
             }, function(errorPayload) {
                 //the promise was rejected
-                toastr.error(GENERAL_CONFIG.ERROR_MSG.FILE_NOT_FOUND)
                 deferred.reject();
             });
             return deferred.promise;
@@ -78,7 +77,6 @@ angular.module('minium.developer')
             editor.instance.moveCursorToPosition(pos);
             pos.column -= 1;
             editor.instance.moveCursorToPosition(pos);
-
 
             //set state
             $state.go("global.editorarea.sub", {

@@ -83,8 +83,8 @@ miniumDeveloper
 
         //version
         modalStateProvider.state('global.editorarea.sub.version', {
-            templateUrl: "minium.developer/views/version/version.html",
-            controller: "VersionController"
+            templateUrl: "minium.developer/views/about/about.html",
+            controller: "AboutController"
         });
 
          //report

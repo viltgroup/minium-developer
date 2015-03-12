@@ -56,10 +56,14 @@ angular.module('minium.developer')
          */
         var tabLoader = function() {
             var openTabs = openTab.load();
+            var numTabs = 0;
             for (var i = 0; i < openTabs.length; i++) {
-                $scope.loadFile(openTabs[i]);
+                var promise = $scope.loadFile(openTabs[i]);
+                promise.then(function(result) {
+                    numTabs++;
+                });
             }
-            return i;
+            return numTabs;
         }
 
         if ($stateParams.path) {
@@ -71,7 +75,8 @@ angular.module('minium.developer')
         } else {
 
             var openTabs = tabLoader();
-            //if theres no open tabs, open one
+            // alert(openTabs)
+                //if theres no open tabs, open one
             if (openTabs === 0)
                 $scope.loadFile("");
         }

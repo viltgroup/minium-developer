@@ -156,6 +156,13 @@ angular.module('minium.developer')
             $state.go('global.editorarea.sub.importProject');
         }
 
+        // var reltivepaths = [];
+        // reltivepaths.push("cedededconfig/application12.yml");
+        
+        // $.cookie('openTabs', reltivepaths, {
+        //     expires: 7
+        // });
+
         //refactor put in a service
         $scope.hasProject = false;
         var projectName;
@@ -167,7 +174,11 @@ angular.module('minium.developer')
                 } else if ($cookieStore.get('project') != undefined) {
                     $scope.importProject($cookieStore.get('project'));
                 } else {
+                    $.removeCookie('openTabs');
                     toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
+                    //remove all the open tab int the cookie 
+                    //because there's no project defined
+                    
                         //$state.go('global.editorarea.sub.importProject');
                 }
                 addProjectToTree(projectName);

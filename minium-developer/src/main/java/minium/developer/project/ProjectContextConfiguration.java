@@ -17,6 +17,8 @@ import minium.web.config.WebDriverFactory;
 import minium.web.config.services.DriverServicesProperties;
 import minium.web.internal.WebModule;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -31,6 +33,8 @@ import org.springframework.web.context.WebApplicationContext;
 @Configuration
 @EnableConfigurationProperties
 public class ProjectContextConfiguration {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProjectContextConfiguration.class);
 
     @Bean
     @Autowired
@@ -63,10 +67,14 @@ public class ProjectContextConfiguration {
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public AbstractProjectContext projectContext(ProjectProperties projConfiguration) throws Exception {
         if (projConfiguration.isCucumberProject()) {
+            LOGGER.info("Project at {} is a cucumber project", projConfiguration.getDir());
             return new CucumberProjectContext(projConfiguration);
-        } else {
+        } else if (projConfiguration.isAutomatorProject()) {
+            LOGGER.info("Project at {} is a rhino project", projConfiguration.getDir());
             return new RhinoProjectContext(projConfiguration);
         }
+        LOGGER.warn("Project at {} is not a valid project", projConfiguration.getDir());
+        return null;
     }
 
     @Autowired

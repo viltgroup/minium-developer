@@ -107,7 +107,7 @@ public class ProjectService {
 	public String getProjectName(ProjectProperties projectProperties) {
 		File file = projectProperties.getDir();
 		String parent = file.getPath();
-		String projectName = parent.substring(parent.lastIndexOf("/") + 1);
+		String projectName = parent.substring(parent.lastIndexOf(File.separator) + 1);
 		return projectName;
 	}
 

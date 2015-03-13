@@ -20,9 +20,8 @@ angular.module('minium.developer')
         //
         //////////////////////////////////////////////////////////////////
         var asyncLoad = function(node) {
-
             var params = {
-                path: node.relativeUri || ""
+                path: decodeURIComponent(node.relativeUri || "")
             };
 
             node.children = FS.list(params, function() {
@@ -58,7 +57,7 @@ angular.module('minium.developer')
 
             $scope.active.selectedNode = node;
             if (node.type == "FILE") {
-                $scope.loadFile($scope.active.selectedNode.relativeUri);
+                $scope.loadFile(decodeURIComponent($scope.active.selectedNode.relativeUri));
 
                 $state.go("global.editorarea.sub", {
                     path: $scope.active.selectedNode.relativeUri

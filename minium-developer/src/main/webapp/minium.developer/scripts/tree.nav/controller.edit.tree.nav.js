@@ -8,7 +8,7 @@ angular.module('minium.developer')
         $scope.operation = operation;
         var nodeName = nodeName;
         $scope.selectedItem = "";
-        $scope.elemClick = relativeUriContextClick;
+        $scope.elemClick = decodeURIComponent(relativeUriContextClick);
         var scope = scope;
 
         $scope.ok = function() {
@@ -133,11 +133,11 @@ angular.module('minium.developer')
 
         $scope.newFolder = function(relativeUri, name) {
 
-            var relativeUri = relativeUriContextClick;
+            var relativeUri = decodeURIComponent(relativeUriContextClick);
 
             var newFolder = $scope.selectedItem;
 
-            var newPath = relativeUriContextClick + newFolder;
+            var newPath = relativeUri + newFolder;
 
             FileManager.createFolder(newPath).success(function(data) {
 
@@ -165,12 +165,12 @@ angular.module('minium.developer')
             //get the element
             //create a file in file system
             //add the new element from server in tree
-            var relativeUri = relativeUriContextClick;
+            var relativeUri = decodeURIComponent(relativeUriContextClick);
 
             var newFile = $scope.selectedItem;
 
-            var newPath = relativeUriContextClick + newFile;
-            // alert(newPath)
+            var newPath = relativeUri + newFile;
+             alert(newPath)
             FileManager.create(newPath).success(function(data) {
 
                 var newElem = data;

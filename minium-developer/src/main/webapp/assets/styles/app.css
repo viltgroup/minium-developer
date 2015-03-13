@@ -494,6 +494,23 @@ div.inline {
 .skin-blue .sidebar > .sidebar-menu > li > a {
     margin-right: 0px;
 }
+
+/**
+ * TREE VIEW with folder navigation
+ */
+#tree-bar {
+    position: absolute;
+    margin-left: -260px;
+    height: auto;
+    width: 260px;
+    overflow: auto;
+    margin-top: 0px;
+    background: #34495E;
+    color: #ffffff;
+    overflow-y: auto;
+    max-height: 60%;
+    z-index:10;
+}
 .tree-label {
     color: #ffffff;
     vertical-align: middle;
@@ -520,7 +537,7 @@ treecontrol ul {
     -webkit-font-smoothing: antialiased;
 }
 treecontrol li {
-    padding: 8px 0px 2px 20px;
+    padding: 8px 0px 2px 10px;
 }
 treecontrol.tree-classic li .tree-selected {
     background-color: #ffffff;
@@ -678,16 +695,8 @@ treecontrol.tree-classic li .tree-selected {
 .cont-sidebar {
     position: relative;
 }
-#tree-bar {
-    position: absolute;
-    margin-left: -260px;
-    height: auto;
-    width: 260px;
-    overflow: auto;
-    margin-top: 0px;
-    background: #34495E;
-    color: #ffffff;
-}
+
+
 .skin-blue .navbar .dropdown-menu > li > a {
     color: #34495E;
 }

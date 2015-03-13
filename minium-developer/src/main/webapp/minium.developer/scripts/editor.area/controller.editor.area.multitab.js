@@ -314,7 +314,7 @@ angular.module('minium.developer')
         $scope.openModalReport = function(size) {
 
             var modalInstance = $modal.open({
-                templateUrl: 'minium.developer/views/editor.area/modal/launch.html',
+                templateUrl: 'minium.developer/views/report/report.html',
                 controller: 'ReportController',
                 size: size,
                 resolve: {

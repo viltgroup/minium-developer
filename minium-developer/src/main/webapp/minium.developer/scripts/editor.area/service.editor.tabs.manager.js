@@ -1,6 +1,6 @@
 /**
  * Manage all the editor and tabs
- * Create, close, set settings 
+ * Create, close, set settings
  *
  */
 'use strict';
@@ -71,7 +71,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
         // the panel id is a timestamp plus a random number from 0 to 10000
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
-        
+
         var fileProps = fileContent.fileProps || "";
         //create the DOM elements
         TabFactory.createTab(tabUniqueId, fileProps);
@@ -726,11 +726,17 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
     // from minium app
     function evaluate(editor, that) {
+        //functions needed to be here
+        var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
         /*
          * check if a webdriver if launched
          */
         WebDriverFactory.isCreated().success(function(data) {
+            //start tests
+            runningTest.start();
+            that.testExecuting = true;
+
             var range = editor.getSelectionRange();
             var session = editor.getSession();
 
@@ -748,11 +754,12 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         //undefined is not user friendly 
                         //so when an undefined come we 
                         if (_.escape(data.value) === "undefined") {
-                            toastr.success("OK (" + _.escape(data.value) + ")" );
+                            toastr.success("OK (" + _.escape(data.value) + ")");
                         } else {
                             toastr.success(data.value ? _.escape(data.value) : "No value");
                         }
                     }
+                    stopExecutionBtn(runningTest,that);
                 })
                 .error(function(exception) {
                     toastr.warning(exception.message);
@@ -765,12 +772,16 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         }];
                         editor.getSession().setAnnotations(errors);
                     }
+                    stopExecutionBtn(runningTest,that);
+
                 });
         }).
         error(function(data) {
             that.setWebDriverMsg(true);
             that.relaunchEval = true;
             that.openModalWebDriverSelect();
+            stopExecutionBtn(runningTest,that);
+
         });
 
     };
@@ -793,6 +804,13 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         });
 
     };
+    /**
+    * Stops the ladda buton
+    */
+    function stopExecutionBtn(runningTest,that) {
+        runningTest.stop();
+        that.testExecuting = false;
+    }
 
     function launchCucumber(editor, scope) {
 

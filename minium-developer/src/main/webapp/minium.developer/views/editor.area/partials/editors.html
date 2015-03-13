@@ -13,7 +13,7 @@ $('.running-data').show();
             </button>
         </a>
         <ul>
-            <li><a class="btn-floating" id="teste-out" title="Stop Test" ng-click="stopLaunch()" ng-show="testExecuting != false && (active.mode !== 'JS')"><span class="fa fa-ban"></span></a>
+            <li><a class="btn-floating" id="teste-out" title="Stop Test" ng-click="stopLaunch()" ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
             </li>
             <li>
                 <a class="btn-floating blue" id="summary-report" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
@@ -46,7 +46,7 @@ $('.running-data').show();
                     <i class="fa fa-list-alt"></i> Run All
                 </a>
 
-                <span class="col-sm-2 pull-right" ng-show="testExecuting">
+                <span class="col-sm-2 pull-right" ng-show="testExecuting && active.mode !== 'JS'">
                     <span style="color:black; white-space:nowrap;">
                         {{testsExecuted}} / {{totalTests}}
                     </span>

@@ -80,7 +80,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             def.resolve(data);
 
         }).error(function() {
-            this.stopLaunch();
+            stopLaunch();
             toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
             def.reject();
         });

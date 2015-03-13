@@ -11,7 +11,8 @@ minium:
         - "@runit"
 
   config:
-    baseUrl: http://lw255:8080/
+    baseUrl: http://localhost:10080/
+    tempDir: "d:/Temp"
 
 ---
 spring:

@@ -73,9 +73,9 @@
                                 <span class="ladda-label">Run All</span>
                             </a>
                         </li>
-
-                        <li ng-class="{'disabled':((testExecuting == false) && (active.mode === 'JS') )}">
-                            <a href a-disabled="((testExecuting == false) && (active.mode === 'JS'))" ng-click="stopLaunch()" title="Run all tests">
+                        
+                        <li ng-class="{'disabled':((testExecuting == false))}">
+                            <a href a-disabled="((testExecuting == false))" ng-click="stopLaunch()" title="Run all tests">
                                 <span class="fa  fa-ban danger"></span>
                                 <span class="ladda-label">Stop</span>
                             </a>

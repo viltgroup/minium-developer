@@ -80,7 +80,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             def.resolve(data);
 
         }).error(function() {
-            this.stopLaunch();
+            stopLaunch();
             toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
             def.reject();
         });
@@ -92,8 +92,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
 
     this.stopLaunch = function() {
         stopLaunch();
-
-
     }
 
     //executed after the test execution
@@ -103,10 +101,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
         runningTest.stop();
         if (annotations)
             launchTestSession.getSession().setAnnotations(annotations);
-        //remove the lock in test execution
-        //$scope.testExecuting = false;
-
-        // $('.running-data').hide();
     };
 
     //stops a launch execution

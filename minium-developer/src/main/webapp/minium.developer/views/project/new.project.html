@@ -65,10 +65,10 @@
 
 
             <!-- Text input-->
-            <div class="form-group">
+            <div class="form-group" ng-show="project.type == 'cucumber'">
                 <label class="control-label" for="textinput">Articfact ID</label>
 
-                <input type="text" ng-model="project.artifactId" name="artifactId" required placeholder="Articfact ID" class="form-control" readonly/>
+                <input type="text" ng-model="project.artifactId" name="artifactId" ng-required="project.type === 'cucumber'" placeholder="Articfact ID" class="form-control" readonly/>
 
                 <div ng-show="form.$submitted || form.artifactId.$touched">
                     <span ng-show="form.artifactId.$error.required">Tell us the artifactId.</span>
@@ -77,19 +77,19 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-6 col-md-6 pull-left">
+                <div class="col-xs-6 col-md-6 pull-left"  ng-show="project.type == 'cucumber'">
                     <div class="form-group">
                         <label class=" control-label" for="textinput">Group ID</label>
 
-                        <input type="text" ng-model="project.groupId" name="groupId" required placeholder="groupId" class="form-control">
+                        <input type="text" ng-model="project.groupId" name="groupId" ng-required="project.type === 'cucumber'" placeholder="groupId" class="form-control">
 
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-6 pull-right">
+                <div class="col-xs-6 col-md-6 pull-right"  ng-show="project.type == 'cucumber'">
                     <div class="form-group">
                         <label class=" control-label" for="textinput">Version</label>
 
-                        <input type="text" ng-model="project.version" name="version" required placeholder="Version" class="form-control" ng-init="project.version = '1.0.0-SNAPSHOT'">
+                        <input type="text" ng-model="project.version" name="version" ng-required="project.type === 'cucumber'" placeholder="Version" class="form-control" ng-init="project.version = '1.0.0-SNAPSHOT'">
                     </div>
                 </div>
             </div>

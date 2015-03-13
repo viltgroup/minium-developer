@@ -2,6 +2,8 @@ package minium.developer.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpSession;
 
@@ -33,7 +35,9 @@ public class ProjectService {
 			// means that the directory exists
 			return false;
 		}
-		// create
+		// normalize the path
+		String path = getPath(project.getDirectory());
+		project.setDirectory(path);
 		String projectType = project.getType();
 		try {
 			if (projectType.equals(CUCUMBER_PROJECT)) {
@@ -65,6 +69,7 @@ public class ProjectService {
 	public String typeOfProject(String path) {
 		// TODO refactor
 		String project;
+		path = getPath(path);
 		if (isCucumberProject(path)) {
 			project = CUCUMBER_PROJECT;
 		} else if (isAutomatorProject(path)) {
@@ -79,6 +84,7 @@ public class ProjectService {
 	public boolean openProject(ProjectProperties projectProperties, String path, HttpSession session) {
 		boolean validProject = false;
 		session.invalidate();
+		path = getPath(path);
 		File f = new File(path);
 		if (f.exists()) {
 			projectProperties.setDir(f);
@@ -101,7 +107,7 @@ public class ProjectService {
 	public String getProjectName(ProjectProperties projectProperties) {
 		File file = projectProperties.getDir();
 		String parent = file.getPath();
-		String projectName = parent.substring(parent.lastIndexOf("/") + 1);
+		String projectName = parent.substring(parent.lastIndexOf(File.separator) + 1);
 		return projectName;
 	}
 
@@ -153,7 +159,13 @@ public class ProjectService {
 	 * @return the absolute path - example( /home/user/Documents
 	 */
 	private String getPath(String path){
-		return path.replaceFirst("^~", System.getProperty("user.home"));
+	  path = path.replaceFirst("^~", System.getProperty("user.home"));
+	  if (path.startsWith("." + File.separator)) {
+		  Path currentRelativePath = Paths.get("");
+		  String s = currentRelativePath.toAbsolutePath().toString();
+		  path = path.replaceFirst("^.", s);
+		}
+	  return path;
 	}
 
 }

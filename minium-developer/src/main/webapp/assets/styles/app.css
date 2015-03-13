@@ -3,6 +3,7 @@
   templates compile.  The !important is important given that there may be 
   other selectors that are more specific or come later and might alter display.  
  */
+
 .container-editor .ui-tabs .ui-tabs-panel {
     padding: 1em 0em 0em 1.4em;
 }
@@ -90,6 +91,10 @@
     background-position: 2px center;
     background-color: #F5D76E;
     color: #334554;
+}
+.ace_search_field {
+    background-color: #eee;
+    color: black;
 }
 .error_line {
     position: absolute;
@@ -489,6 +494,23 @@ div.inline {
 .skin-blue .sidebar > .sidebar-menu > li > a {
     margin-right: 0px;
 }
+
+/**
+ * TREE VIEW with folder navigation
+ */
+#tree-bar {
+    position: absolute;
+    margin-left: -260px;
+    height: auto;
+    width: 260px;
+    overflow: auto;
+    margin-top: 0px;
+    background: #34495E;
+    color: #ffffff;
+    overflow-y: auto;
+    max-height: 60%;
+    z-index:10;
+}
 .tree-label {
     color: #ffffff;
     vertical-align: middle;
@@ -515,7 +537,7 @@ treecontrol ul {
     -webkit-font-smoothing: antialiased;
 }
 treecontrol li {
-    padding: 8px 0px 2px 20px;
+    padding: 8px 0px 2px 10px;
 }
 treecontrol.tree-classic li .tree-selected {
     background-color: #ffffff;
@@ -673,16 +695,8 @@ treecontrol.tree-classic li .tree-selected {
 .cont-sidebar {
     position: relative;
 }
-#tree-bar {
-    position: absolute;
-    margin-left: -260px;
-    height: auto;
-    width: 260px;
-    overflow: auto;
-    margin-top: 0px;
-    background: #34495E;
-    color: #ffffff;
-}
+
+
 .skin-blue .navbar .dropdown-menu > li > a {
     color: #34495E;
 }
@@ -764,16 +778,6 @@ treecontrol.tree-classic li .tree-selected {
     -khtml-opacity: 0.5;
     opacity: 0.5;
 }
-.running-data {
-    width: 450px;
-    height: 50px;
-    position: absolute;
-    top: 30%;
-    left: 40%;
-    display: none;
-    z-index: 999;
-    padding: 2%;
-}
 .ladda-button:hover {
     border-color: transparent;
     background-color: transparent;
@@ -781,7 +785,6 @@ treecontrol.tree-classic li .tree-selected {
 .ladda-button {
     background: transparent;
 }
-
 /*
 * Need to put :not(.my-ladda-btn) because since the we change the ladda button css
 * for a specific button the "normal" or default ladda btn will be affected
@@ -879,8 +882,8 @@ treecontrol.tree-classic li .tree-selected {
 .red {
     background-color: #E74C3C !important;
 }
-.blue{
-     background-color: #3c8dbc !important;
+.blue {
+    background-color: #3c8dbc !important;
 }
 .green {
     background-color: #00a65a!important;

@@ -6,4 +6,5 @@ pages:
   - ['tools/minium-developer.md', 'Tools']
   - ['tools/minium-automator.md', 'Tools']
 site_dir: '${static.docs.dir}'
-theme: readthedocs
+theme: ''
+theme_dir: 'readthedocs-minium'

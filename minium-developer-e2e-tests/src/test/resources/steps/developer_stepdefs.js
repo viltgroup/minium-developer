@@ -1,6 +1,6 @@
 var _ = require("lodash"),
     cucumberutils = require("cucumber/utils"),
-    editorPage   = require("pages/editorPage");
+    editorPage   = require("pages/editorpage");
 
 var p = editorPage;
 
@@ -17,6 +17,10 @@ var resetTheme = function(){
   var resetBtn = $(".btn").withText("Reset default");
   resetBtn.click();
 };
+
+Given(/^I'm at Minium Developer$/, function() {
+  browser.get(config.baseUrl);
+});
 
 Given(/^I am at modal "(.*?)"$/, function(modal) {
   var toolbar = $("#toolbar");
@@ -48,9 +52,9 @@ When(/^I fill:$/, function(datatable) {
       for (var colName in obj) {
         var fieldInput = inputs.withLabel(colName);
         var val = obj[colName];
-        if (fieldInput.is(":radio")) {
+        if (fieldInput.waitForExistence().is(":radio")) {
           fieldInput.withLabel(val).check();
-        } else if (fieldInput.is("select")) {
+        } else if (fieldInput.waitForExistence().is("select")) {
           fieldInput.select(val);
         } else {
           fieldInput.fill(val);
@@ -72,9 +76,8 @@ Then(/^I reset theme$/, function() {
 
 Given(/^I am at editor$/, function() {
   var tabs = $(".ui-tabs-panel");
-  if(tabs===null || tabs.size()<=0){
-    browser.get(config.editor);
-    tabs = $(".ui-tabs-panel");
+  if (tabs.immediately().checkForUnexistence()) {
+    browser.get(config.baseUrl);
   }
   expect(tabs).not.to.be.empty();
 });
@@ -203,25 +206,10 @@ Given(/^The side bar is not hiden$/, function() {
   expect(hiden).to.be.empty();
 });
 
-Given(/^The folder \(or file\) "(.*?)" does not exists$/, function(nav) {
-  var parts = nav.split(">");
-    
-  var treeBar = p.getTreeBar();
-  var folders = treeBar.find("li");
-  var exists = false;
-  _.each(parts, function (part,i) {
-      elem = folders.find("span").withText(part);
-      if(elem.size()>1 && elem.closest("li").is(".tree-collapsed"))
-        elem.click();
-      if( i == parts.length - 1){
-        if(elem.size()===1)
-          exists=true;
-      }
-  });
-  expect(exists).to.be.equal(false);
+Given(/^(?:folder|file) "(.*?)" does not exist$/, function(path) {
+  var fileElem = p.getFile(path);
+  expect(fileElem).not.to.be.empty();
 });
-
-
 
 Given(/^Exists a folder \(or file\) "(.*?)"$/, function(nav) {
   var parts = nav.split(">");
@@ -244,7 +232,7 @@ Given(/^Exists a folder \(or file\) "(.*?)"$/, function(nav) {
 
 
 When(/^I create a new folder "(.*?)"$/, function(nav) {
-  var parts = nav.split(">");
+  var parts = nav.split("/");
     
   var treeFolders = p.getTreeBar();
   var folders = treeFolders.find("li");
@@ -440,12 +428,12 @@ When(/^I select the scenario number (\d+) in the feature "(.*?)"$/, function(lin
 });
 
 When(/^I click on toolbar "(.*?)"$/, function(nav) {
-  nav = "Other actions > Launch Browser"
   var parts = nav.split(">");
-  var btn = $(".dropdown-toggle").withText(parts[0]);
-  btn.click();
-  var btnS =  $(".ladda-label").withText(parts[1]);
-  btnS.click();
+  var btnMenu = $(".dropdown-toggle").withText(parts[0]);
+  var btnSubMenu =  $(".ladda-label").withText(parts[1]);
+  
+  btnMenu.click();
+  btnSubMenu.click();
 });
 
 When(/^I choose the browser "(.*?)"$/, function(browserName) {

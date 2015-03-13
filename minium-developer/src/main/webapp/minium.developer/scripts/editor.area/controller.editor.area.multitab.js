@@ -56,10 +56,14 @@ angular.module('minium.developer')
          */
         var tabLoader = function() {
             var openTabs = openTab.load();
+            var numTabs = 0;
             for (var i = 0; i < openTabs.length; i++) {
-                $scope.loadFile(openTabs[i]);
+                var promise = $scope.loadFile(openTabs[i]);
+                promise.then(function(result) {
+                    numTabs++;
+                });
             }
-            return i;
+            return numTabs;
         }
 
         if ($stateParams.path) {
@@ -67,11 +71,9 @@ angular.module('minium.developer')
             //wait for every files load
             $scope.loadFile($stateParams.path);
             $scope.loadFile("");
-            // setTimeout(, 5000);
         } else {
-
             var openTabs = tabLoader();
-            //if theres no open tabs, open one
+            //if theres no open tabs, open one console
             if (openTabs === 0)
                 $scope.loadFile("");
         }
@@ -176,7 +178,6 @@ angular.module('minium.developer')
         };
 
 
-
         /**
          * Clean the scope of the engine
          */
@@ -240,8 +241,6 @@ angular.module('minium.developer')
 
         var feature;
         var launchTest = function(launchParams) {
-
-
 
             $scope.testExecuting = true;
 

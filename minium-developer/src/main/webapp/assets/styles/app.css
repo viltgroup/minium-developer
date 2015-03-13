@@ -3,6 +3,7 @@
   templates compile.  The !important is important given that there may be 
   other selectors that are more specific or come later and might alter display.  
  */
+
 .container-editor .ui-tabs .ui-tabs-panel {
     padding: 1em 0em 0em 1.4em;
 }
@@ -90,6 +91,10 @@
     background-position: 2px center;
     background-color: #F5D76E;
     color: #334554;
+}
+.ace_search_field {
+    background-color: #eee;
+    color: black;
 }
 .error_line {
     position: absolute;
@@ -781,7 +786,6 @@ treecontrol.tree-classic li .tree-selected {
 .ladda-button {
     background: transparent;
 }
-
 /*
 * Need to put :not(.my-ladda-btn) because since the we change the ladda button css
 * for a specific button the "normal" or default ladda btn will be affected
@@ -879,8 +883,8 @@ treecontrol.tree-classic li .tree-selected {
 .red {
     background-color: #E74C3C !important;
 }
-.blue{
-     background-color: #3c8dbc !important;
+.blue {
+    background-color: #3c8dbc !important;
 }
 .green {
     background-color: #00a65a!important;

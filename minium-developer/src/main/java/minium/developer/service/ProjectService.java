@@ -67,6 +67,7 @@ public class ProjectService {
 	public String typeOfProject(String path) {
 		// TODO refactor
 		String project;
+		path = getPath(path);
 		if (isCucumberProject(path)) {
 			project = CUCUMBER_PROJECT;
 		} else if (isAutomatorProject(path)) {
@@ -81,6 +82,7 @@ public class ProjectService {
 	public boolean openProject(ProjectProperties projectProperties, String path, HttpSession session) {
 		boolean validProject = false;
 		session.invalidate();
+		path = getPath(path);
 		File f = new File(path);
 		if (f.exists()) {
 			projectProperties.setDir(f);

@@ -2,6 +2,8 @@ package minium.developer.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.servlet.http.HttpSession;
 
@@ -153,7 +155,13 @@ public class ProjectService {
 	 * @return the absolute path - example( /home/user/Documents
 	 */
 	private String getPath(String path){
-		return path.replaceFirst("^~", System.getProperty("user.home"));
+	  path = path.replaceFirst("^~", System.getProperty("user.home"));
+	  if (path.startsWith("." + File.separator)) {
+		  Path currentRelativePath = Paths.get("");
+		  String s = currentRelativePath.toAbsolutePath().toString();
+		  path = path.replaceFirst("^.", s);
+		}
+	  return path;
 	}
 
 }

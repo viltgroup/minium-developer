@@ -3,9 +3,12 @@
 </div>
 <div class="modal-body">
     <p>Name:</p>
-    <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem" required>
+     <form name="signInForm" >
+    <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem" required autofocus>
+    </form>
 </div>
+
 <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="ok()" ng-disabled="selectedItem.length==0">Update</button>
+    <button class="btn btn-primary" ng-click="ok()" ng-disabled="signInForm.$invalid">Update</button>
     <button class="btn btn-default" ng-click="cancel()">Cancel</button>
 </div>

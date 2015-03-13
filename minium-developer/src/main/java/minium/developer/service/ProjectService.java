@@ -35,7 +35,9 @@ public class ProjectService {
 			// means that the directory exists
 			return false;
 		}
-		// create
+		// normalize the path
+		String path = getPath(project.getDirectory());
+		project.setDirectory(path);
 		String projectType = project.getType();
 		try {
 			if (projectType.equals(CUCUMBER_PROJECT)) {

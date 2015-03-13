@@ -1,4 +1,0 @@
-/* TEAM */
-	Rui Figueira
-	Raphael Rodrigues
-	Mário Lameiras

@@ -29,18 +29,29 @@ miniumDeveloper.factory('ProjectFactory', function($http) {
 
 // this service load and store open tabs from cookies
 miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $location, $cookieStore) {
+    //todo put in config.js
+    var OPEN_TABS_COOKIES = 'openTabs';
+    var LAST_PROJECTS_COOKIES = 'lastProjects';
+    var PROJECT_COOKIE = 'project';
 
     var reload = function(path) {
-        $.removeCookie('openTabs'); // remove the tab with the open tabs
-        $cookieStore.put('project', path)
+        $.removeCookie(OPEN_TABS_COOKIES); // remove the tab with the open tabs
+        $cookieStore.put(PROJECT_COOKIE, path)
         $window.location.reload();
     };
 
+    var getOpenProjects = function(){
+        var projects = $cookieStore.get(LAST_PROJECTS_COOKIES);
+        return projects;
+
+    }
+
     this.open = function(path) {
         ProjectFactory.open(path).success(function(data) {
+            $cookieStore.put(PROJECT_COOKIE, path);
             reload(path);
         }).error(function(data, status) {
-            $cookieStore.remove('project')
+            $cookieStore.remove(PROJECT_COOKIE)
             toastr.error(data)
         });
     };
@@ -48,6 +59,22 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     this.reload = function(path) {
         reload(path);
     };
+
+    /*
+    store the last open projects in a cookie
+    */
+    this.storeOpenProjects = function(path){
+        var projects = getOpenProjects();
+        projects.push(path);
+        $cookieStore.put(LAST_PROJECTS_COOKIES,_.uniq(projects).slice(-4));
+    }
+
+    /*
+    store the last open projects from a cookie
+    */
+    this.getOpenProjects = function(path){
+        return getOpenProjects();
+    }
 
 
 });

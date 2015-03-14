@@ -31,7 +31,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
         if (file === "") {                              //if the is empty
             //create an empty editor
             emptyEditor();
-            deferred.resolve(newEditor);
+            deferred.reject(newEditor);
         } else if (result.isOpen) {                    //if a tab is already open
             var id = result.id;
             //tab is already open

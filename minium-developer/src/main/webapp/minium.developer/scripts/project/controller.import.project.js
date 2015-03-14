@@ -61,10 +61,11 @@ angular.module('minium.developer')
             });
         }
 
+        
         //put this in a service in order to re user
         $scope.importProject = function(path) {
+            ProjectService.storeOpenProjects(path);
             ProjectService.open(path);
-            $cookieStore.put('project', path);
         }
 
         $scope.cancel = function() {
@@ -72,6 +73,13 @@ angular.module('minium.developer')
             $scope.$dismiss();
         };
 
+        $scope.select = function(project){
+            $scope.path = project;
+            $scope.validate();
+        }
 
+
+        //initializations
+        $scope.lastProjects = ProjectService.getOpenProjects();
 
     });

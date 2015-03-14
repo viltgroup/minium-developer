@@ -220,8 +220,8 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var id = null;
 
         $.each(this.editors, function(i, obj) {
-
-            if (obj.relativeUri == relativeUri) {
+            alert(obj.relativeUri +" " + relativeUri);
+            if (decodeURIComponent(obj.relativeUri) == relativeUri) {
                 id = obj.id;
                 isOpen = true;
             }

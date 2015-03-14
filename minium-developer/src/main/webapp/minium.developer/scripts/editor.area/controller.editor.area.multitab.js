@@ -7,6 +7,9 @@ angular.module('minium.developer')
         var editors = MiniumEditor;
         editors.init($scope);
 
+        $scope.dynamicTooltip = 'Hello, World!';
+        $scope.dynamicTooltipText = 'dynamic';
+        $scope.htmlTooltip = 'I\'ve been made <b>bold</b>!';
 
         //to know when the execution was stopped
         //inicialize a false

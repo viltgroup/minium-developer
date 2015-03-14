@@ -6,6 +6,7 @@ angular.module('minium.developer')
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
         $scope.operation = operation;
+        $scope.operationName = "";
         var nodeName = nodeName;
         $scope.selectedItem = "";
         $scope.elemClick = decodeURIComponent(relativeUriContextClick);
@@ -16,15 +17,19 @@ angular.module('minium.developer')
             switch ($scope.operation) {
                 case 'newFolder':
                     $scope.newFolder();
+                    $scope.operationName = "New Folder";
                     break;
                 case 'newFile':
                     $scope.newFile();
+                    $scope.operationName = "New File";
                     break;
                 case 'rename':
                     $scope.rename();
+                    $scope.operationName = "Rename File";
                     break;
                 case 'renameFolder':
                     $scope.renameFolder();
+                    $scope.operationName = "Rename Folder";
                     break;
             }
         };
@@ -170,7 +175,7 @@ angular.module('minium.developer')
             var newFile = $scope.selectedItem;
 
             var newPath = relativeUri + newFile;
-             alert(newPath)
+            alert(newPath)
             FileManager.create(newPath).success(function(data) {
 
                 var newElem = data;
@@ -200,7 +205,7 @@ angular.module('minium.developer')
             var split = relativeUriContextClick.split("/");
 
             alert(split)
-            //if fisrt level rename
+                //if fisrt level rename
             if (split.length > 1) {
                 split.splice(split.length - 1, 1);
                 split.splice(split.length - 1, 1);
@@ -240,13 +245,32 @@ angular.module('minium.developer')
         };
 
 
-        // initializations
-        if ($scope.operation === 'rename' || $scope.operation === 'renameFolder') {
-            $scope.selectedItem = nodeName;
-        } else if ($scope.operation === 'delete') {
-            $scope.delete();
-        } else if ($scope.operation === 'deleteDirectory') {
-            $scope.deleteDirectory();
+        var init = function() {
+
+            switch ($scope.operation) {
+                case 'newFolder':
+                    $scope.operationName = "New Folder";
+                    break;
+                case 'newFile':
+                    $scope.operationName = "New File";
+                    break;
+                case 'rename':
+                    $scope.selectedItem = nodeName;
+                    $scope.operationName = "Rename File";
+                    break;
+                case 'renameFolder':
+                    $scope.selectedItem = nodeName;
+                    $scope.operationName = "Rename Folder";
+                    break;
+                case 'delete':
+                    $scope.delete();
+                    break;
+                case 'deleteDirectory':
+                    $scope.deleteDirectory();
+                    break;
+            }
         }
+
+        init();
 
     });

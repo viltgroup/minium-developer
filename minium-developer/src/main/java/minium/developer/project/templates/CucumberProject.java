@@ -85,7 +85,7 @@ public class CucumberProject extends ProjectTemplate {
 
 		// copy the file modules/cucumber/utils.js
 		fileModules = new File(file, "modules");
-		copyResource("/templates/cucumber-project/modules/loadash.js", fileModules, "loadash.js");
+		copyResource("/templates/cucumber-project/modules/lodash.js", fileModules, "lodash.js");
 
 		// create the modules/cucumber folder
 		fileModules = new File(file, "modules/cucumber");

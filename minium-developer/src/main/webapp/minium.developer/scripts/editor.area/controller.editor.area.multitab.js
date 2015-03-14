@@ -84,7 +84,6 @@ angular.module('minium.developer')
         //create an empty editor
         $scope.addEmptyTab = function() {
             $scope.loadFile("");
-            editors.getEditors();
         }
 
         //set the theme of the editor

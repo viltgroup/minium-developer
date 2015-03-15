@@ -28,9 +28,10 @@
                 <strong title="Step {{step.status}}">{{step.rawName}}</strong>
                 <span>Line {{step.line}}</span>
                 <i class="pull-right fa " ng-class="{'fa-chevron-down': status.open, ' fa-chevron-right': !status.open}"></i>
+                 <small style="margin-left:10px;">Step {{step.status}}</small>
             </accordion-heading>
             <!-- CONTENT -->
-            <table class="table table-primary table-list table-striped table-condensed">
+            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.errorMessage">
                 <thead>
                     <tr>
                         <th>Error message</th>
@@ -39,7 +40,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td ng-if="step.errorMessage !== null">
+                        <td >
                         <p >{{step.errorMessage}}</p>
                             <!-- TABLES ROW -->
                           <!--   <pre ng-if="step.errorMessage !== null" style="white-space: pre-wrap;"> 
@@ -95,13 +96,13 @@
     </div>
 
 
-    <accordion>
+    <!-- <accordion>
         <accordion-group heading="Show chart" is-open="false">
             <nvd3-pie-chart data="exampleData" id="donutLabelsOutsideExample" width="450" height="300" x="xFunction()" y="yFunction()" donut="true" showLabels="true" donutLabelsOutside="true" color="colorFunction()" legendColor="colorFunction()">
                 <svg></svg>
             </nvd3-pie-chart>
         </accordion-group>
-    </accordion>
+    </accordion> -->
 
 
 

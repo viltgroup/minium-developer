@@ -3,7 +3,6 @@
 angular.module('minium.developer')
     .controller('TreeNavController', function($scope, $state, $modal, $q, $cookieStore, $window, FS, TreeNav, ProjectFactory, ProjectService, GENERAL_CONFIG) {
 
-
         //data for the tree
         $scope.dataForTheTree = [];
 

@@ -35,7 +35,7 @@ angular.module('minium.developer')
         /////////////////////////////////////////////////////////////////
 
         $scope.loadFile = function(props) {
-            //create an empty file
+            //load the file
             var promise = TabLoader.loadFile(props, editors);
             var deferred = $q.defer();
 
@@ -51,6 +51,10 @@ angular.module('minium.developer')
             return deferred.promise;
         };
 
+        /*
+        * Set the editor as active
+        * We always keep the the reference of the active(selected/open) editor
+        */ 
         $scope.setActiveEditor = function(editor) {
             $rootScope.active = {
                 session: editor.instance,

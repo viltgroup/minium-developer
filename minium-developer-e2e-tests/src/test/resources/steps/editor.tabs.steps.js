@@ -1,5 +1,5 @@
 var _ = require("lodash"),
-    cucumberutils = require("cucumber/utils");
+    interpolator = require("utils/interpolator");
 
 
 When(/^I open the files "(.*?)"$/, function(nav) {

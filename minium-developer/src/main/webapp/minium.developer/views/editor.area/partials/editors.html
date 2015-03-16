@@ -13,14 +13,14 @@ $('.running-data').show();
             </button>
         </a>
         <ul>
-            <li><a class="btn-floating" id="teste-out" title="Stop Test" ng-click="stopLaunch()" ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
+            <li><a tooltip-placement="left" tooltip="Stop Test" class="btn-floating" id="teste-out"  ng-click="stopLaunch()" ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
             </li>
             <li>
-                <a class="btn-floating blue" id="summary-report" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
+                <a tooltip-placement="left" tooltip="Report" class="btn-floating blue" id="summary-report" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
                 </a>
             </li>
             <li>
-                <a class="btn-floating" id="clear markers" title="Clear editor markers" ng-click="clearMarkers()" ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
+                <a tooltip-placement="left" tooltip="Clear editor markers" class="btn-floating" id="clear markers"  ng-click="clearMarkers()" ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
                 </a>
             </li>
         </ul>

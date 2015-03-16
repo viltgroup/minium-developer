@@ -20,7 +20,7 @@ miniumDeveloper.service('openTab', function() {
 
     this.load = function() {
         var openTabs = $.cookie('openTabs');
-        var paths = openTabs !== undefined ? openTabs.split(",") : [];
+        var paths = (openTabs !== undefined && openTabs !== "") ? openTabs.split(",") : [];
         return paths;
     }
 

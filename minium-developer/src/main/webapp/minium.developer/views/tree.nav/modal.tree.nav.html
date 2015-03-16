@@ -1,10 +1,12 @@
 <div class="modal-header">
-    <h5 class="modal-title">{{operation}} in {{elemClick}}</h5>
+    <strong class="pull-left primary-font"> <span class="fa fa-info-circle"> {{operationName}}</strong>
+    <small class="pull-right text-muted">
+    <span class="fa fa-pencil-square-o"></span>{{elemClick}}</small>
 </div>
 <div class="modal-body">
     <p>Name:</p>
-     <form name="signInForm" >
-    <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem" required autofocus>
+    <form name="signInForm">
+        <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem" required autofocus>
     </form>
 </div>
 

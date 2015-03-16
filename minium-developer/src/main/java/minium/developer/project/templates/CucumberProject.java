@@ -20,6 +20,12 @@ import freemarker.template.TemplateException;
 
 public class CucumberProject extends ProjectTemplate {
 
+	private static final String UTILS_JS = "utils.js";
+	private static final String LODASH_JS = "lodash.js";
+	private static final String APPLICATION_YML = "application.yml";
+	private static final String LOGBACK_XML = "logback.xml";
+	private static final String POM_XML = "pom.xml";
+
 	public CucumberProject(ProjectDTO project) {
 		super(project);
 	}
@@ -37,22 +43,21 @@ public class CucumberProject extends ProjectTemplate {
 
 		// change the pom.xml
 		buildPom(path);
-		
+
 		// to change the folder of src/main/groupId/
 		String mainPath = path + "/src/test/java";
 		String groupId = project.getGroupId().replaceAll("\\.", "\\/");
 		File f = new File(mainPath, groupId);
 		FileUtils.forceMkdir(f);
-		
-		//create files related to cucumber (features and steps)
+
+		// create files related to cucumber (features and steps)
 		buildCucumberFiles();
-		
+
 		// to change the File name of src/test/groupId/ArtifactIdIT.java
 		buildTestClass(f);
 
 	}
 
-	
 	private void createStructure(String destPath) throws IOException {
 		File file;
 
@@ -77,27 +82,28 @@ public class CucumberProject extends ProjectTemplate {
 
 		// copy logback.xml into "src/test/resources"
 		File fileModules = new File(file, "");
-		copyResource("/templates/cucumber-project/logback.xml", fileModules, "logback.xml");
+		copyResource("/templates/cucumber-project/" + LOGBACK_XML, fileModules, LOGBACK_XML);
 
 		// copy application.yml config/application.yml
 		fileModules = new File(file, "config");
-		copyResource("/templates/cucumber-project/application.yml", fileModules, "application.yml");
+		copyResource("/templates/cucumber-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
 
 		// copy the file modules/cucumber/utils.js
 		fileModules = new File(file, "modules");
-		copyResource("/templates/cucumber-project/modules/loadash.js", fileModules, "loadash.js");
+		copyResource("/templates/cucumber-project/modules/" + LODASH_JS, fileModules, LODASH_JS);
 
 		// create the modules/cucumber folder
 		fileModules = new File(file, "modules/cucumber");
 		FileUtils.forceMkdir(fileModules);
 		// copy the file modules/cucumber/utils.js
-		copyResource("/templates/cucumber-project/modules/cucumber/utils.js", fileModules, "utils.js");
+		copyResource("/templates/cucumber-project/modules/cucumber/" + UTILS_JS, fileModules, UTILS_JS);
 
 	}
 
 	private void buildPom(String path) {
-		File newFile = new File(path, "pom.xml");
+		File newFile = new File(path, POM_XML);
 
+		@SuppressWarnings("deprecation")
 		Configuration cfg = new Configuration();
 		cfg.setClassForTemplateLoading(this.getClass(), "/");
 		try {
@@ -144,7 +150,7 @@ public class CucumberProject extends ProjectTemplate {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void buildCucumberFiles() throws IOException {
 		// src/test/resources/features/FeatureFileName.feature
 		String resourcesPath = path + "/src/test/resources/";

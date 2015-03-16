@@ -1,8 +1,3 @@
-var $       = require("minium"),
-browser = $.browser,
-expect  = require("expect-webelements"),
-_       = require("lodash");
-
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);
 });
@@ -27,9 +22,8 @@ Then(/^links corresponding to (.*) are displayed$/, function (query) {
 
   expect(linkUrls).not.to.be.empty();
 
-  _(linkUrls).forEach(function (linkUrl) {
+  linkUrls.forEach(function (linkUrl) {
     var link = links.withAttr("data-href", linkUrl).add(links.withAttr("href", linkUrl));
     expect(link).to.have.size(1);
   });
-
 });

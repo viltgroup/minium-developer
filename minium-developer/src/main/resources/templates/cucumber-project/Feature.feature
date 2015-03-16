@@ -9,8 +9,8 @@ Feature: Search results in Google
 
   Scenario Outline: Search something in google (results in a JSON file)
     Given I'm at http://www.google.com/ncr
-    When I search for 
-    Then links corresponding to  are displayed
+    When I search for <search_query>
+    Then links corresponding to <search_query> are displayed
 
     Examples: 
       | search_query  |

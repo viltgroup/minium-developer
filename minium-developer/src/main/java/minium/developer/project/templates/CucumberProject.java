@@ -10,9 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import minium.developer.utils.Utils;
 import minium.developer.web.rest.dto.ProjectDTO;
+import minium.web.WebElements;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.context.ApplicationContext;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -114,6 +117,15 @@ public class CucumberProject extends ProjectTemplate {
 			data.put("groupId", project.getGroupId());
 			data.put("artifactId", project.getArtifactId());
 			data.put("version", project.getVersion());
+			
+			//minium version
+			String tmp = WebElements.class.getPackage().getImplementationVersion();
+			String miniumVersion = tmp != null ? tmp : "1.0.0-SNAPSHOT" ;
+			data.put("minium.version", miniumVersion);
+			
+			//spring version
+			String springVersion = ApplicationContext.class.getPackage().getImplementationVersion();
+			data.put("spring.version", springVersion);
 
 			Writer out = new OutputStreamWriter(new FileOutputStream(newFile));
 			template.process(data, out);
@@ -126,7 +138,8 @@ public class CucumberProject extends ProjectTemplate {
 	}
 
 	private void buildTestClass(File f) {
-		String className = Character.toUpperCase(project.getArtifactId().charAt(0)) + project.getArtifactId().substring(1) + "TestIT";
+		
+		String className = Utils.toClassName(project.getArtifactId()) + "IT";
 		String fileName = className + ".java";
 
 		File newFile = new File(f, fileName);

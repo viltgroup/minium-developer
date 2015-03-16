@@ -612,8 +612,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             return;
         }
         item.content = editor.getSession().getValue();
-        //clean markers
-        editor.getSession().clearBreakpoints();
+
         item.$save(function() {
 
             var tabUniqueId = getEditorID(editor);
@@ -621,8 +620,11 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                 //setAceContent(item, editor);
             toastr.success("File saved")
             markAsDirty(tabUniqueId, false);
-            
+
         }, function(response) {
+            //clean markers
+            editor.getSession().clearBreakpoints();
+            
             var data = response.data;
             //get the first number on the string && hightlightLine the
             var line = data.message.match(/\d+/) || 0;
@@ -761,7 +763,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                             toastr.success(data.value ? _.escape(data.value) : "No value");
                         }
                     }
-                    stopExecutionBtn(runningTest,that);
+                    stopExecutionBtn(runningTest, that);
                 })
                 .error(function(exception) {
                     toastr.warning(exception.message);
@@ -774,7 +776,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         }];
                         editor.getSession().setAnnotations(errors);
                     }
-                    stopExecutionBtn(runningTest,that);
+                    stopExecutionBtn(runningTest, that);
 
                 });
         }).
@@ -782,7 +784,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             that.setWebDriverMsg(true);
             that.relaunchEval = true;
             that.openModalWebDriverSelect();
-            stopExecutionBtn(runningTest,that);
+            stopExecutionBtn(runningTest, that);
 
         });
 
@@ -807,9 +809,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
     };
     /**
-    * Stops the ladda buton
-    */
-    function stopExecutionBtn(runningTest,that) {
+     * Stops the ladda buton
+     */
+    function stopExecutionBtn(runningTest, that) {
         runningTest.stop();
         that.testExecuting = false;
     }

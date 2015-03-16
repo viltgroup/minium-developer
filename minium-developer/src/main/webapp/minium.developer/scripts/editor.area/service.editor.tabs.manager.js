@@ -619,11 +619,15 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             updateContent(item, editor, _this, tabUniqueId)
                 //setAceContent(item, editor);
             toastr.success("File saved")
-            markAsDirty(tabUniqueId, false)
+            markAsDirty(tabUniqueId, false);
 
         }, function(response) {
+            //clean markers
+            editor.getSession().clearBreakpoints();
             var data = response.data;
-
+            //get the first number on the string && hightlightLine the
+            var line = data.message.match(/\d+/) || 0;
+            _this.hightlightLine((line - 1), editor, "failed");
 
             toastr.error(data.message, "The file contains " + data.exception)
         });
@@ -758,7 +762,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                             toastr.success(data.value ? _.escape(data.value) : "No value");
                         }
                     }
-                    stopExecutionBtn(runningTest,that);
+                    stopExecutionBtn(runningTest, that);
                 })
                 .error(function(exception) {
                     toastr.warning(exception.message);
@@ -771,7 +775,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
                         }];
                         editor.getSession().setAnnotations(errors);
                     }
-                    stopExecutionBtn(runningTest,that);
+                    stopExecutionBtn(runningTest, that);
 
                 });
         }).
@@ -779,7 +783,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             that.setWebDriverMsg(true);
             that.relaunchEval = true;
             that.openModalWebDriverSelect();
-            stopExecutionBtn(runningTest,that);
+            stopExecutionBtn(runningTest, that);
 
         });
 
@@ -804,9 +808,9 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
     };
     /**
-    * Stops the ladda buton
-    */
-    function stopExecutionBtn(runningTest,that) {
+     * Stops the ladda buton
+     */
+    function stopExecutionBtn(runningTest, that) {
         runningTest.stop();
         that.testExecuting = false;
     }

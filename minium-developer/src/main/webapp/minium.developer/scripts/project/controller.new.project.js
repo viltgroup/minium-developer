@@ -31,10 +31,7 @@ angular.module('minium.developer')
         }
 
         $scope.popoverDirectoryInput = GENERAL_CONFIG.POPOVER.DIRECTORY_INPUT
-
-        // $scope.myRegex = /^((\\|\/)[a-z0-9\s_@\-^!#$%&+={}\[\]]+)$/;
-        $scope.myRegex = /^[a-z]:((\/|(\\?))[\w .]+)+\.xml$/i;
-
+        
         //////////////////////////////////////////////////////////////////
         // Functions
         //////////////////////////////////////////////////////////////////
@@ -45,49 +42,6 @@ angular.module('minium.developer')
         $scope.activate = function(value) {
             $scope.project.type = value;
         }
-
-        $scope.validate = function(e) {
-
-            $scope.validatingProject = true;
-            var name = $scope.project.name || "";
-
-            if (name === "") {
-                $scope.validatingProject = false;
-                return;
-            }
-            $scope.project.artifactId = name.replace(/\s+/g, '-');
-            var path = $scope.location;
-
-            ProjectFactory.isValidName(path).success(function(data) {
-                console.debug(data)
-                if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
-                    //dir is good and theres a project
-                    $scope.isValid = true;
-                    $scope.msg.directory = directoryMsgTemplate.success;
-                    $scope.msg.project = '';
-                    $scope.msg.projectType = '';
-                } else if (data !== projectEnum.NO_PROJECT && data !== projectEnum.NOT_VALID) {
-                    //dir is valid but no projects
-                    $scope.isValid = false;
-                    $scope.msg.directory = directoryMsgTemplate.success;
-                    $scope.msg.project = projectMsgTemplate.error;
-                    $scope.msg.projectType = '';
-
-                } else {
-                    //dir is worng and theres no project
-                    $scope.isValid = false;
-                    $scope.msg.directory = directoryMsgTemplate.error;
-                    $scope.msg.project = '';
-                    $scope.msg.projectType = '';
-                }
-                $scope.validatingProject = false;
-            }).error(function(data, status) {
-                $scope.isValid = false;
-                $scope.msg.directory = directoryMsgTemplate.error;
-                $scope.validatingProject = false;
-            });
-        }
-
 
         $scope.validateProjectName = function(e) {
             $scope.validatingProject = true;
@@ -130,6 +84,7 @@ angular.module('minium.developer')
             ProjectFactory.create($scope.project).success(function(data) {
                 if (data == true) {
                     toastr.success("Project created");
+                    ProjectService.storeOpenProjects($scope.location);
                     ProjectService.reload($scope.location);
                 } else {
                     toastr.error("Not possible to create the project");

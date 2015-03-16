@@ -46,7 +46,7 @@
 
                 <div class="input-group">
                     <div class="input-group-addon">
-                        <span ng-show="project.name || project.directory">{{project.directory + "/"}}</span>
+                        <span ng-show="project.name || project.directory">{{project.directory}}</span>
                     </div>
                     <input type="text" ng-model="project.name" name="name" required placeholder="Project Name" class="form-control" ng-keyup="validate($event)" />
                 </div>

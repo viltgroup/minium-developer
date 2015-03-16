@@ -624,7 +624,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         }, function(response) {
             //clean markers
             editor.getSession().clearBreakpoints();
-            
             var data = response.data;
             //get the first number on the string && hightlightLine the
             var line = data.message.match(/\d+/) || 0;

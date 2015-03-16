@@ -1,4 +1,5 @@
-var files = require("files");
+var files = require("files"),
+    editors = require("editors");
 
 Given(/^(?:folder|file) "(.*?)" does not exist$/, function(path) {
   var file = files.byPath(path);
@@ -39,4 +40,17 @@ Then(/^I should see (?:folder|file) "(.*?)"$/, function(path) {
 
 Then(/^I should not see (?:folder|file) "(.*?)"$/, function(path) {
   expect(files.byPath(path)).to.not.exist();
+});
+
+Given(/^file "(.*?)" is open$/, function(fileName) {
+  expect(editors.byPath(path)).to.exist();
+});
+
+Given(/^file "(.*?)" is closed$/, function(fileName) {
+  editors.close(path);
+});
+
+When(/^I open file "(.*?)"$/, function(path) { 
+  files.openFile(path);
+  expect(editors.byPath(path)).to.exist();
 });

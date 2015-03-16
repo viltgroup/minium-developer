@@ -24,7 +24,7 @@ Given(/^project "(.*?)" exists$/, function(projName) {
 
 Given(/^the active project is "(.*?)"$/, function (projName) {
   projName = interpolator.evaluate(projName);
-  if (files.root().withText(projName)) return;
+  if (files.root().waitForExistence().withText(projName).checkForExistence("immediate")) return;
   
   if (!projects.openProject(tempDir() + "/" + projName)) {
     // project does not exist

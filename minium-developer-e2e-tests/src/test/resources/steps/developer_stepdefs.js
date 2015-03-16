@@ -82,18 +82,9 @@ Given(/^I am at editor$/, function() {
   expect(tabs).not.to.exist();
 });
 
-Given(/^The file "(.*?)" is open$/, function(fileName) {
-  var tab = p.getTabs().find("li a").withName(fileName);
-  expect(tab).not.to.exist();
-});
 
 Given(/^I have (\d+) open tabs$/, function(numTabs) {
   expect(p.numOfTabs()).to.be.equal(parseInt(numTabs));
-});
-
-Given(/^the file "(.*?)" is close$/, function(fileName) {
-  var tab = p.getTabs().find("li a").withName(fileName);
-  expect(tab).to.exist();
 });
 
 
@@ -101,12 +92,6 @@ Given(/^I have a dirty file "(.*?)"$/, function(tabName) {
   var openTabs = $(".ui-tabs-nav li a");
   var tabText = openTabs.withText(tabName);
   expect(tabText).not.to.beto.exist();
-});
-
-
-
-When(/^I open the file "(.*?)"$/, function(fileName) { 
-  p.openFile(fileName);
 });
 
 When(/^I close the tab "(.*?)"$/, function(tabName) {
@@ -183,8 +168,8 @@ Then(/^I should see the buttons for the type "(.*?)"$/, function(type) {
   p.checkVisibleButton(type);
 });
 
-Then(/^I should see a notification with text "(.*?)" and with type "(.*?)"$/, function(text,type) {
-  p.expectNotificationMessages(type,text);
+Then(/^I should see a (success|warning) notification with text "(.*?)"$/, function(type, text) {
+  p.expectNotificationMessages(type, text);
 });
 
 Then(/^There is only one open tab named 'untitled'$/, function() {

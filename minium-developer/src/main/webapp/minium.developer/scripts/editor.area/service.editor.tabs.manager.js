@@ -220,7 +220,6 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         var id = null;
 
         $.each(this.editors, function(i, obj) {
-            alert(obj.relativeUri +" " + relativeUri);
             if (decodeURIComponent(obj.relativeUri) == relativeUri) {
                 id = obj.id;
                 isOpen = true;
@@ -613,18 +612,21 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             return;
         }
         item.content = editor.getSession().getValue();
-
+        //clean markers
+        editor.getSession().clearBreakpoints();
         item.$save(function() {
 
             var tabUniqueId = getEditorID(editor);
             updateContent(item, editor, _this, tabUniqueId)
                 //setAceContent(item, editor);
             toastr.success("File saved")
-            markAsDirty(tabUniqueId, false)
-
+            markAsDirty(tabUniqueId, false);
+            
         }, function(response) {
             var data = response.data;
-
+            //get the first number on the string && hightlightLine the
+            var line = data.message.match(/\d+/) || 0;
+            _this.hightlightLine((line - 1), editor, "failed");
 
             toastr.error(data.message, "The file contains " + data.exception)
         });

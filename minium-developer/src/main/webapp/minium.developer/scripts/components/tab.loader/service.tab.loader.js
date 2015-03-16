@@ -39,7 +39,6 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
             var index = $('#tabs a[href="' + tab + '"]').parent().index();
             $("#tabs").tabs("option", "active", index);
         } else {                                      //if theres no tab opened with this file
-
             var path = file.relativeUri || file;
 
             //get the file

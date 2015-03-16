@@ -164,7 +164,7 @@ public class Step {
      */
     private String parseErrorMessage(String errorMessage){
     	//for now get the first 100 char
-    	String upToNCharacters = formatError(errorMessage).substring(0, 300);
+    	String upToNCharacters = formatError(errorMessage);
 		return upToNCharacters;
     }
     

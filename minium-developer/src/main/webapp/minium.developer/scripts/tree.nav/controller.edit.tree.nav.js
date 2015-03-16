@@ -55,7 +55,7 @@ angular.module('minium.developer')
                 newName: newPath
             }
 
-            alert(obj.oldName + " NP " + obj.newName);
+            // alert(obj.oldName + " NP " + obj.newName);
             // JSON.stringify(obj)
             FileManager.rename(obj).success(function(data) {
 
@@ -64,7 +64,7 @@ angular.module('minium.developer')
                 var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
-                alert(JSON.stringify(elem) + " POS " + pos)
+                // alert(JSON.stringify(elem) + " POS " + pos)
                 console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
 
@@ -78,7 +78,7 @@ angular.module('minium.developer')
 
         $scope.delete = function() {
             //TODO
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
+            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE + "\n" + $scope.elemClick);
             if (result == true) {
                 //Logic to delete the item
                 //get element
@@ -101,12 +101,12 @@ angular.module('minium.developer')
                     $modalInstance.close();
                 });
             }
-
+            $modalInstance.dismiss('cancel');
         }
 
         $scope.deleteDirectory = function() {
             //TODO
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
+            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE + "\n" + $scope.elemClick);
             if (result == true) {
                 //Logic to delete the item
                 //get element
@@ -130,7 +130,7 @@ angular.module('minium.developer')
                 });
 
             } else {
-                $modalInstance.close();
+               $modalInstance.dismiss('cancel');
             }
 
         }
@@ -175,7 +175,7 @@ angular.module('minium.developer')
             var newFile = $scope.selectedItem;
 
             var newPath = relativeUri + newFile;
-            alert(newPath)
+            // alert(newPath)
             FileManager.create(newPath).success(function(data) {
 
                 var newElem = data;
@@ -204,7 +204,7 @@ angular.module('minium.developer')
             var newFile = $scope.selectedItem;
             var split = relativeUriContextClick.split("/");
 
-            alert(split)
+            // alert(split)
                 //if fisrt level rename
             if (split.length > 1) {
                 split.splice(split.length - 1, 1);
@@ -219,7 +219,7 @@ angular.module('minium.developer')
                 oldName: relativeUriContextClick,
                 newName: newPath
             }
-            alert(newPath)
+            //alert(newPath)
             FileManager.rename(obj).success(function(data) {
 
                 var newElem = data;
@@ -227,7 +227,7 @@ angular.module('minium.developer')
                 var obj = TreeNav.getParentElement(relativeUriContextClick, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
-                alert(JSON.stringify(elem) + " POS " + pos)
+                // alert(JSON.stringify(elem) + " POS " + pos)
                 console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
                 elem[pos] = newElem;
@@ -264,13 +264,14 @@ angular.module('minium.developer')
                     break;
                 case 'delete':
                     $scope.delete();
+                    $modalInstance.dismiss('cancel');
                     break;
                 case 'deleteDirectory':
                     $scope.deleteDirectory();
+                    $modalInstance.dismiss('cancel');
                     break;
             }
         }
 
         init();
-
     });

@@ -508,7 +508,7 @@ div.inline {
     background: #34495E;
     color: #ffffff;
     overflow-y: auto;
-    max-height: 80%;
+    max-height: 90%;
     z-index:10;
 }
 .tree-label {

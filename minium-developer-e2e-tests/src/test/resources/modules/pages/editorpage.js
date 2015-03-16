@@ -159,14 +159,14 @@ var EditorPage = {
     var btn;
     _.each(buttons, function (button) {
       btn = $(".btn").withText(button);
-      expect(btn).not.to.be.empty();
+      expect(btn).to.exist();
     });
   },
   
   //succes(green),danger(red),warning(yellow)
   expectNotificationMessages : function(type,text){
     var notification = $(".toast-"+type).withText(text);
-    expect(notification).not.to.be.empty();
+    expect(notification).to.exist();
   },
   
   /*

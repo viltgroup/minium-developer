@@ -34,18 +34,18 @@ Given(/^I am at modal "(.*?)"$/, function(modal) {
 Then(/^the editor should have theme "(.*?)"$/, function(arg) {
   var editor = $(".ace-"+ arg.toLowerCase());
   
-  expect(editor).not.to.be.empty();
+  expect(editor).to.exist();
 });
 
 Then(/^the editor should have font size "(.*?)"$/, function(size) {
   var editor = $(".ace_editor");
   editor.withCss("font-size",size + "px");
-  expect(editor).not.to.be.empty();
+  expect(editor).not.to.exist();
 });
 
 When(/^I fill:$/, function(datatable) {
     
-    var objs = cucumberutils.asObjects(datatable);
+    var objs = datatable.hashes();
     var inputs;
     objs.forEach(function (obj, i) {
       inputs = $("input,select");
@@ -79,12 +79,12 @@ Given(/^I am at editor$/, function() {
   if (tabs.immediately().checkForUnexistence()) {
     browser.get(config.baseUrl);
   }
-  expect(tabs).not.to.be.empty();
+  expect(tabs).not.to.exist();
 });
 
 Given(/^The file "(.*?)" is open$/, function(fileName) {
   var tab = p.getTabs().find("li a").withName(fileName);
-  expect(tab).not.to.be.empty();
+  expect(tab).not.to.exist();
 });
 
 Given(/^I have (\d+) open tabs$/, function(numTabs) {
@@ -93,14 +93,14 @@ Given(/^I have (\d+) open tabs$/, function(numTabs) {
 
 Given(/^the file "(.*?)" is close$/, function(fileName) {
   var tab = p.getTabs().find("li a").withName(fileName);
-  expect(tab).to.be.empty();
+  expect(tab).to.exist();
 });
 
 
 Given(/^I have a dirty file "(.*?)"$/, function(tabName) {
   var openTabs = $(".ui-tabs-nav li a");
   var tabText = openTabs.withText(tabName);
-  expect(tabText).not.to.be.empty();
+  expect(tabText).not.to.beto.exist();
 });
 
 
@@ -153,12 +153,12 @@ When(/^I close all tabs$/, function() {
 
 Then(/^I should see the tab "(.*?)"$/, function(tabName) {
   var tab = p.getTabs().find("li a").withName(tabName);
-  expect(tab).not.to.be.empty();
+  expect(tab).not.to.exist();
 });
 
 Then(/^I should not see the tab "(.*?)"$/, function(tabName) {
   var tab = p.getTabs().find("li a").withName(tabName);
-  expect(tab).to.be.empty();
+  expect(tab).to.exist();
 });
 
 Then(/^I should see (\d+) open tabs$/, function(numTabs) {
@@ -176,7 +176,7 @@ Then(/^I should have a dirty page$/, function() {
 Then(/^I should see the dirty file named "(.*?)"$/, function(tabName) {
   var openTabs = $(".ui-tabs-nav li a");
   var tabText = openTabs.withText(tabName);
-  expect(tabText).not.to.be.empty();
+  expect(tabText).not.to.exist();
 });
 
 Then(/^I should see the buttons for the type "(.*?)"$/, function(type) {
@@ -203,7 +203,7 @@ Then(/^There is only one open tab named 'untitled'$/, function() {
 
 Given(/^The side bar is not hiden$/, function() {
   var hiden = $(".full").find(".strech");
-  expect(hiden).to.be.empty();
+  expect(hiden).to.exist();
 });
 
 
@@ -383,7 +383,7 @@ When(/^I choose the browser "(.*?)"$/, function(browserName) {
 Then(/^I can see all the available browsers$/, function() {
   var win = $(".modal-content");
   var browsers = win.find("form").withName("newLogForm");
-  expect(browsers).not.to.be.empty();
+  expect(browsers).not.to.exist();
 });
  
 Then(/^The folders and files are sorted in alphabetical order$/, function() {
@@ -393,7 +393,7 @@ Then(/^The folders and files are sorted in alphabetical order$/, function() {
 
 Then(/^I should see a new browser window$/, function() {
   var newWin = browser.root();
-  expect(newWin).not.to.be.empty();
+  expect(newWin).not.to.exist();
 });
 
 

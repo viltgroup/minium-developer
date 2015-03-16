@@ -1,6 +1,6 @@
 <div class="panel-body">
 
-    <form name="projectForm" class="form-horizontal" ng-submit="submitForm()" novalidate>
+    <form name="projectForm" class="form-horizontal" ng-submit="importProject(path)" novalidate>
 
         <fieldset>
             <!-- Form Name -->
@@ -37,10 +37,11 @@
                     <p class="list-group-item-text nowrap hideoverflow">{{project}}</p>
                 </a>
             </div>
-</div>
-<div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="importProject(path)" ng-disabled="path == undefined || path == '' || isValid !== true">Open</button>
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" ng-disabled="path == undefined || path == '' || isValid !== true">Open</button>
+                <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            </div>
 </div>
 </fieldset>
 </form>

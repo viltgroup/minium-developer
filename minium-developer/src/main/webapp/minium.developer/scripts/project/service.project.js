@@ -46,9 +46,16 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
 
     }
 
+    var storeOpenProjects = function(path){
+        var projects = getOpenProjects() || [];
+        projects.push(path);
+        $cookieStore.put(LAST_PROJECTS_COOKIES,_.uniq(projects).slice(-4));
+    }
+
     this.open = function(path) {
         ProjectFactory.open(path).success(function(data) {
             $cookieStore.put(PROJECT_COOKIE, path);
+            storeOpenProjects(path);
             reload(path);
         }).error(function(data, status) {
             $cookieStore.remove(PROJECT_COOKIE)
@@ -64,9 +71,7 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     store the last open projects in a cookie
     */
     this.storeOpenProjects = function(path){
-        var projects = getOpenProjects() || [];
-        projects.push(path);
-        $cookieStore.put(LAST_PROJECTS_COOKIES,_.uniq(projects).slice(-4));
+        storeOpenProjects(path);
     }
 
     /*

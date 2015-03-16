@@ -32,6 +32,9 @@ angular.module('minium.developer')
         // Functions
         //////////////////////////////////////////////////////////////////
         $scope.validate = function(e) {
+             if(!$scope.path){
+                return;
+            }
             $scope.validatingProject = true;
             ProjectFactory.isValid($scope.path).success(function(data) {
                 if (data !== 'Not valid' && data !== 'No project here') {
@@ -64,7 +67,9 @@ angular.module('minium.developer')
         
         //put this in a service in order to re user
         $scope.importProject = function(path) {
-            ProjectService.storeOpenProjects(path);
+            if(!path){
+                return;
+            }
             ProjectService.open(path);
         }
 

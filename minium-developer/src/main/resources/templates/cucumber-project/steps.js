@@ -1,7 +1,5 @@
-var $       = require("minium"),
-browser = $.browser,
-expect  = require("expect-webelements"),
-_       = require("lodash");
+var _ = require("lodash"),
+    cucumberutils = require("cucumber/utils");
 
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);

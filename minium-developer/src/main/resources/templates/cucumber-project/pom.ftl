@@ -18,9 +18,9 @@
 	<properties>
 		<java.version>1.7</java.version>
 
-		<minium.version>${minium.version}</minium.version>
+		<minium.version>${miniumVersion}</minium.version>
 		<selenium.version>2.45.0</selenium.version>
-		<spring.version>${spring.version}</spring.version>
+		<spring.version>${springVersion}</spring.version>
 		<!-- cucumber 1.20 doesn't seem to support 4.12 yet -->
 		<junit.version>4.11</junit.version>
 		

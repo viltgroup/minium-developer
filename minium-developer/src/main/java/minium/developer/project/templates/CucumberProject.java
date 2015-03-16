@@ -121,11 +121,11 @@ public class CucumberProject extends ProjectTemplate {
 			//minium version
 			String tmp = WebElements.class.getPackage().getImplementationVersion();
 			String miniumVersion = tmp != null ? tmp : "1.0.0-SNAPSHOT" ;
-			data.put("minium.version", miniumVersion);
+			data.put("miniumVersion", miniumVersion);
 			
 			//spring version
 			String springVersion = ApplicationContext.class.getPackage().getImplementationVersion();
-			data.put("spring.version", springVersion);
+			data.put("springVersion", springVersion);
 
 			Writer out = new OutputStreamWriter(new FileOutputStream(newFile));
 			template.process(data, out);

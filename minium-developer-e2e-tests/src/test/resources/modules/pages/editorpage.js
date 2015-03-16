@@ -164,7 +164,7 @@ var EditorPage = {
   },
   
   //succes(green),danger(red),warning(yellow)
-  expectNotificationMessages : function(type,text){
+  expectNotificationMessages : function(type, text){
     var notification = $(".toast-"+type).withText(text);
     expect(notification).to.exist();
   },

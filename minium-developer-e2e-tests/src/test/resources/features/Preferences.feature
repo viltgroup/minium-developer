@@ -10,7 +10,7 @@ Feature: Editor Preferences
       | Theme   |
       | <theme> |
     And I click on button "Save changes"
-    Then I should see a notification with text "Preferences updated with success" and with type "success"
+    Then I should see a success notification with text "Preferences updated with success"
     And the editor should have theme "<theme>"
 
     Examples: 

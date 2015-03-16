@@ -9,23 +9,22 @@ var files = {
   },
   
   root : function () {
-    return files.tree().find("li").first().find("span");
+    return files.tree().find("li").first().find("> div > span");
   },
   
   byPath : function(path) {
     var parts = _.filter(path.split("/"));
     
-    var tree = files.tree();
-
-    var elem;
-    for (var i = 0; i < parts.length; i++) {
+    var root = elem = files.root().withText(parts[0]);
+    for (var i = 1; i < parts.length; i++) {
       var part = parts[i];
-      elem = tree.find("span").withText(part);
-      if (tree.waitForExistence().then(elem).checkForExistence("immediate")) {
+      elem = root.closest("li").find("> treeitem > ul > li > div > span").withText(part);
+      if (root.waitForExistence().then(elem).checkForExistence("immediate")) {
         if (elem.closest("li").is(".tree-collapsed")) elem.click();
       } else {
         break;
       }
+      root = elem;
     }
     
     return elem;
@@ -54,7 +53,15 @@ var files = {
     var parts = _.filter(path.split("/"));
     
     var parentPath = parts.slice(0, parts.length - 1).join("/");
-    var parentElem = files.byPath(parentPath); 
+    var parentElem = files.byPath(parentPath);
+    
+    if (files.root().waitForExistence().then(parentElem).checkForUnexistence("immediate")) {
+      console.log("Creating parent folder", parentPath);
+      files.createFolder(parentPath);
+      // forces navigation until parentPath is reached
+      parentElem = files.byPath(parentPath);
+    }
+    
     var btnNewFolder = base.find("#context-menu2").find("a").withText("New " + (type === "folder" ? "Folder" : "File"));
     
     parentElem.contextClick();

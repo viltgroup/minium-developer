@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, $modal, $q, $cookieStore, $window, FS, TreeNav, ProjectFactory, ProjectService, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, $cookieStore, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager, GENERAL_CONFIG) {
 
         //data for the tree
         $scope.dataForTheTree = [];
@@ -250,5 +250,68 @@ angular.module('minium.developer')
                 $scope.selected = selectedItem;
             }, function() {});
         };
+
+        //////////////////////////////////////////////////////////////////
+        //
+        // Delete operation don't need a modal
+        //
+        //////////////////////////////////////////////////////////////////
+        $scope.delete = function() {
+            //TODO
+
+            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE + "\n" + decodeURIComponent(relativeUriContextClick));
+            if (result == true) {
+                var dataForTheTree = $scope.dataForTheTree[0].children;
+                //Logic to delete the item
+                //get element
+                //remove element
+                var relativeUri = decodeURIComponent(relativeUriContextClick);
+                FileManager.delete(relativeUri).success(function(data) {
+
+                    var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                    var elem = obj.element;
+                    var pos = obj.pos;
+
+                    elem.splice(pos, 1);
+
+                    toastr.success("File " + relativeUri + " deleted");
+                    // $modalInstance.close();
+                }).error(function(data) {
+                    toastr.error("Error " + data);
+                    // $modalInstance.close();
+                });
+            }
+        }
+
+        $scope.deleteDirectory = function() {
+            //TODO
+            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE + "\n" + decodeURIComponent(relativeUriContextClick));
+            if (result == true) {
+                var dataForTheTree = $scope.dataForTheTree[0].children;
+
+                //Logic to delete the item
+                //get element
+                //remove element
+                var relativeUri = decodeURIComponent(relativeUriContextClick);
+                FileManager.deleteDirectory(relativeUri).success(function(data) {
+
+                    var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                    var elem = obj.element;
+                    var pos = obj.pos;
+
+                    elem.splice(pos, 1);
+
+                    toastr.success("File " + relativeUri + " deleted");
+                    // $modalInstance.close();
+                }).error(function(data) {
+                    toastr.error("Error " + data);
+                    // $modalInstance.close();
+                });
+
+            } else {
+                // $modalInstance.close();
+            }
+
+        }
 
     });

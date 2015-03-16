@@ -1,5 +1,5 @@
 var _ = require("lodash"),
-    cucumberutils = require("cucumber/utils"),
+    interpolator = require("utils/interpolator"),
     editorPage   = require("pages/editorpage");
 
 var p = editorPage;
@@ -34,18 +34,18 @@ Given(/^I am at modal "(.*?)"$/, function(modal) {
 Then(/^the editor should have theme "(.*?)"$/, function(arg) {
   var editor = $(".ace-"+ arg.toLowerCase());
   
-  expect(editor).not.to.be.empty();
+  expect(editor).to.exist();
 });
 
 Then(/^the editor should have font size "(.*?)"$/, function(size) {
   var editor = $(".ace_editor");
   editor.withCss("font-size",size + "px");
-  expect(editor).not.to.be.empty();
+  expect(editor).not.to.exist();
 });
 
 When(/^I fill:$/, function(datatable) {
     
-    var objs = cucumberutils.asObjects(datatable);
+    var objs = datatable.hashes();
     var inputs;
     objs.forEach(function (obj, i) {
       inputs = $("input,select");
@@ -79,12 +79,12 @@ Given(/^I am at editor$/, function() {
   if (tabs.immediately().checkForUnexistence()) {
     browser.get(config.baseUrl);
   }
-  expect(tabs).not.to.be.empty();
+  expect(tabs).not.to.exist();
 });
 
 Given(/^The file "(.*?)" is open$/, function(fileName) {
   var tab = p.getTabs().find("li a").withName(fileName);
-  expect(tab).not.to.be.empty();
+  expect(tab).not.to.exist();
 });
 
 Given(/^I have (\d+) open tabs$/, function(numTabs) {
@@ -93,14 +93,14 @@ Given(/^I have (\d+) open tabs$/, function(numTabs) {
 
 Given(/^the file "(.*?)" is close$/, function(fileName) {
   var tab = p.getTabs().find("li a").withName(fileName);
-  expect(tab).to.be.empty();
+  expect(tab).to.exist();
 });
 
 
 Given(/^I have a dirty file "(.*?)"$/, function(tabName) {
   var openTabs = $(".ui-tabs-nav li a");
   var tabText = openTabs.withText(tabName);
-  expect(tabText).not.to.be.empty();
+  expect(tabText).not.to.beto.exist();
 });
 
 
@@ -153,12 +153,12 @@ When(/^I close all tabs$/, function() {
 
 Then(/^I should see the tab "(.*?)"$/, function(tabName) {
   var tab = p.getTabs().find("li a").withName(tabName);
-  expect(tab).not.to.be.empty();
+  expect(tab).not.to.exist();
 });
 
 Then(/^I should not see the tab "(.*?)"$/, function(tabName) {
   var tab = p.getTabs().find("li a").withName(tabName);
-  expect(tab).to.be.empty();
+  expect(tab).to.exist();
 });
 
 Then(/^I should see (\d+) open tabs$/, function(numTabs) {
@@ -176,7 +176,7 @@ Then(/^I should have a dirty page$/, function() {
 Then(/^I should see the dirty file named "(.*?)"$/, function(tabName) {
   var openTabs = $(".ui-tabs-nav li a");
   var tabText = openTabs.withText(tabName);
-  expect(tabText).not.to.be.empty();
+  expect(tabText).not.to.exist();
 });
 
 Then(/^I should see the buttons for the type "(.*?)"$/, function(type) {
@@ -203,75 +203,9 @@ Then(/^There is only one open tab named 'untitled'$/, function() {
 
 Given(/^The side bar is not hiden$/, function() {
   var hiden = $(".full").find(".strech");
-  expect(hiden).to.be.empty();
+  expect(hiden).to.exist();
 });
 
-Given(/^(?:folder|file) "(.*?)" does not exist$/, function(path) {
-  var fileElem = p.getFile(path);
-  expect(fileElem).not.to.be.empty();
-});
-
-Given(/^Exists a folder \(or file\) "(.*?)"$/, function(nav) {
-  var parts = nav.split(">");
-    
-  var treeBar = p.getTreeBar();
-  var folders = treeBar.find("li");
-  var exists = false;
-  _.each(parts, function (part,i) {
-      elem = folders.find("span").withText(part);
-      if(elem.size()>1 && elem.closest("li").is(".tree-collapsed"))
-        elem.click();
-      if( i == parts.length - 1){
-        if(elem.size()===1)
-          exists=true;
-      }
-  });
-  expect(exists).to.be.equal(true);
-});
-
-
-
-When(/^I create a new folder "(.*?)"$/, function(nav) {
-  var parts = nav.split("/");
-    
-  var treeFolders = p.getTreeBar();
-  var folders = treeFolders.find("li");
-  
-  _.each(parts, function (part,i) {
-      elem = folders.find("span").withText(part);
-      if(elem.closest("li").is(".tree-collapsed"))
-        elem.click();
-      if( i == parts.length - 2){
-        elem.contextClick()
-        var btnNewFolder = $("#context-menu2").find("a").withText("New Folder");
-        btnNewFolder.click();
-        var wind = $(".modal-content");
-        wind.find(".ng-invalid-required").fill(parts[parts.length-1]);
-        wind.find(".btn-primary").click();
-        return true;
-      }
-  });
-});
-
-When(/^I delete the folder "(.*?)"$/, function(nav) {
-  var parts = nav.split(">");
-    
-  var treeFolders = p.getTreeBar();
-  var folders = treeFolders.find("li");
-  
-  _.each(parts, function (part,i) {
-      elem = folders.find("span").withText(part);
-      if(elem.closest("li").is(".tree-collapsed"))
-        elem.click();
-      if( i == parts.length - 1){
-        elem.contextClick()
-        var btnNewFolder = $("#context-menu2").find("a").withText("Delete Folder");
-        btnNewFolder.click();
-        return true;
-      }
-  });
-  $("div").alert().accept();
-});
 
 When(/^I click on the collapse button$/, function() {
   $(".fa-minus-square-o").click();
@@ -449,7 +383,7 @@ When(/^I choose the browser "(.*?)"$/, function(browserName) {
 Then(/^I can see all the available browsers$/, function() {
   var win = $(".modal-content");
   var browsers = win.find("form").withName("newLogForm");
-  expect(browsers).not.to.be.empty();
+  expect(browsers).not.to.exist();
 });
  
 Then(/^The folders and files are sorted in alphabetical order$/, function() {
@@ -459,7 +393,7 @@ Then(/^The folders and files are sorted in alphabetical order$/, function() {
 
 Then(/^I should see a new browser window$/, function() {
   var newWin = browser.root();
-  expect(newWin).not.to.be.empty();
+  expect(newWin).not.to.exist();
 });
 
 

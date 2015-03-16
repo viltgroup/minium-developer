@@ -14,5 +14,6 @@ Feature: Editor Preferences
     And the editor should have theme "<theme>"
 
     Examples: 
-      | theme  |
-      | Chrome |
+      | theme    |
+      | Chrome   |
+      | Twilight |

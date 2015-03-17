@@ -2,19 +2,21 @@ var base = require("base"),
     files = require("files");
 
 var AceEditorProxy = function (editorElem) {
+  this.elem = editorElem;
+  
   var that = this;
   
   // function names to proxy
   var aceFnNames = [
     "getValue",
     "setValue",
-    "selectAll"
+    "selectAll",
+    "moveCursorTo"
   ];
   
   aceFnNames.forEach(function (fnName) {
     // create a proxy function
     that[fnName] = function () {
-      console.log("proxy method for", fnName);
       editorElem.apply(function () {
         var args = Array.prototype.slice.call(arguments);
         // get first argument (fnName)
@@ -26,6 +28,11 @@ var AceEditorProxy = function (editorElem) {
     };
   });
 };
+
+AceEditorProxy.prototype.gutterCells = function (filter) {
+  var gutterCells = this.elem.find(".ace_gutter-cell");
+  return filter ? gutterCells.filter("." + filter) : gutterCells; 
+}
 
 var editors = {
   

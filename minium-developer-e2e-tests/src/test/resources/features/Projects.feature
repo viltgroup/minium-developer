@@ -32,7 +32,6 @@ Feature: Manage Minium Projects
     Then the active project should be "minium-cucumber-${timestamp}"
     And I should see the following files:
       | minium-cucumber-${timestamp}/config/application.yml      |
-      | minium-cucumber-${timestamp}/logback.xml                 |
-      | minium-cucumber-${timestamp}/modules/lodash.js           |
+      | minium-cucumber-${timestamp}/logback-test.xml            |
       | minium-cucumber-${timestamp}/steps/my-steps.js           |
       | minium-cucumber-${timestamp}/features/my-feature.feature |

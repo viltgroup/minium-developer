@@ -39,6 +39,19 @@ Given(/^the active project is "(.*?)"$/, function (projName) {
   }
 });
 
+Given(/^the following project is active:$/, function (datatable) {
+  var fields = _.merge({ "Parent Directory" : tempDir() }, datatable.rowsHash());
+  fields = interpolator.evaluate(fields);
+  
+  var projName = fields["Project Name"];
+  if (files.root().checkForExistence("fast") && files.root().withText(projName).checkForExistence("immediate")) return;
+
+  if (!projects.openProject(tempDir() + "/" + projName)) {
+    projects.createProject(fields);
+  }
+});
+
+
 When(/^I (?:try to )?create the following project:$/, function (datatable) {
   var fields = _.merge({ "Parent Directory" : tempDir() }, datatable.rowsHash());
   projects.createProject(interpolator.evaluate(fields));

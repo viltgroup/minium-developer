@@ -22,18 +22,14 @@ var stableForClickListener = new JavaAdapter(Packages.minium.actions.internal.De
 });
 
 browser.configure()
-  .waitingPreset("fast")
-    .timeout(1, timeUnits.SECONDS)
-  .done()
+  .waitingPreset("fast").timeout(1, timeUnits.SECONDS).done()
+  .waitingPreset("very-slow").timeout(30, timeUnits.SECONDS).interval(1, timeUnits.SECONDS).done()
   .interactionListeners()
     .clear()
     .add(minium.interactionListeners.onUnhandledAlert().accept().thenRetry())
     .add(minium.interactionListeners.onStaleElementReference().thenRetry())
     .add(stableForClickListener);
 
-var base = $(":root").unless(".modal-backdrop").add(".modal-dialog").applyWebElements(function () {
-  // if any animation is in progress, return empty set
-  return jQuery(":animated").length > 0 ? $() : $(this);
-});
+var base = $(":root").unless(".modal-backdrop").add(".modal-dialog");
 
 if (typeof module !== 'undefined') module.exports = base;

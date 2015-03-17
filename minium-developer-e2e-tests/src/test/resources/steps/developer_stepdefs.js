@@ -26,3 +26,8 @@ Given(/^a browser is already launched$/, function () {
   
   developer.launchBrowser(config.defaultBrowser);
 });
+
+When(/^I wait until the test is completed$/, function () {
+  var floatLoading = $(".running-data .ladda-spinner [role=progressbar]");
+  floatLoading.waitForUnexistence("very-slow");
+});

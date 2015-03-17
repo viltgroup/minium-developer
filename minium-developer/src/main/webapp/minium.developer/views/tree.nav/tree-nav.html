@@ -80,11 +80,11 @@
         <li class="divider" ng-show="clickedType == 'DIR' || clickedType == 'FILE'"></li>
 
         <li ng-show="clickedType == 'DIR'">
-            <a href tabindex="-1" ng-click="open('deleteDirectory')"><i class="fa fa-trash-o danger"></i><span class="danger">Delete Folder</span></a>
+            <a href tabindex="-1" ng-click="deleteDirectory()"><i class="fa fa-trash-o danger"></i><span class="danger">Delete Folder</span></a>
         </li>
 
         <li ng-show="clickedType == 'FILE'">
-            <a href tabindex="-1" ng-click="open('delete')"><i class="fa fa-trash-o danger"></i><span class="danger">Delete</span></a>
+            <a href tabindex="-1" ng-click="delete()"><i class="fa fa-trash-o danger"></i><span class="danger">Delete</span></a>
         </li>
     </ul>
 </div>

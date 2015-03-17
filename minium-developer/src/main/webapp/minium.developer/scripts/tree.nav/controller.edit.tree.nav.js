@@ -74,28 +74,28 @@ angular.module('minium.developer')
 
         $scope.delete = function() {
             //TODO
+
             var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
             if (result == true) {
-                //Logic to delete the item
-                //get element
-                //remove element
-                var relativeUri = decodeURIComponent(relativeUriContextClick);
-                FileManager.delete(relativeUri).success(function(data) {
+                // //Logic to delete the item
+                // //get element
+                // //remove element
+                // var relativeUri = decodeURIComponent(relativeUriContextClick);
+                // FileManager.delete(relativeUri).success(function(data) {
 
-                    var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
-                    var elem = obj.element;
-                    var pos = obj.pos;
+                //     var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
+                //     var elem = obj.element;
+                //     var pos = obj.pos;
 
-                    elem.splice(pos, 1);
+                //     elem.splice(pos, 1);
 
-                    toastr.success("File " + relativeUri + " deleted");
-                    $modalInstance.close();
-                }).error(function(data) {
-                    toastr.error("Error " + data);
-                    $modalInstance.close();
-                });
-            }
-
+                //     toastr.success("File " + relativeUri + " deleted");
+                //     $modalInstance.close();
+                // }).error(function(data) {
+                //     toastr.error("Error " + data);
+                //     $modalInstance.close();
+                // });
+            } 
         }
 
         $scope.deleteDirectory = function() {
@@ -193,7 +193,7 @@ angular.module('minium.developer')
             var newFile = $scope.selectedItem;
             var split = relativeUriContextClick.split("/");
 
-                //if fisrt level rename
+            //if fisrt level rename
             if (split.length > 1) {
                 split.splice(split.length - 1, 1);
                 split.splice(split.length - 1, 1);
@@ -253,6 +253,7 @@ angular.module('minium.developer')
                     break;
                 case 'deleteDirectory':
                     $scope.deleteDirectory();
+
                     break;
             }
         }

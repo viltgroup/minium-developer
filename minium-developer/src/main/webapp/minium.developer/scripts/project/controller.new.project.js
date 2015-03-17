@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ProjectController', function($scope, $modalInstance, ProjectFactory,ProjectService, GENERAL_CONFIG) {
+    .controller('ProjectController', function($scope, $modalInstance, ProjectFactory, ProjectService, GENERAL_CONFIG) {
 
         $scope.project = {};
 
@@ -31,7 +31,18 @@ angular.module('minium.developer')
         }
 
         $scope.popoverDirectoryInput = GENERAL_CONFIG.POPOVER.DIRECTORY_INPUT
-        
+
+        $scope.isValidJavaPackageName = function() {
+
+            if (!isValidGroupId($scope.project.groupId)) {
+                $scope.projectForm.groupId.$setValidity("default1", false);
+                return false;
+            } else {
+                $scope.projectForm.groupId.$setValidity("default1", true);
+                return true; // valid
+            }
+        }
+
         //////////////////////////////////////////////////////////////////
         // Functions
         //////////////////////////////////////////////////////////////////
@@ -43,29 +54,61 @@ angular.module('minium.developer')
             $scope.project.type = value;
         }
 
-        $scope.validateProjectName = function(e) {
+        var isValidProjectName = function(projectName) {
+            return /^[a-zA-Z0-9_-]*$/.test(projectName);
+        }
+
+        var isValidGroupId = function(groupId) {
+            return /^([a-z_]{1}[a-z0-9_]*(\.[a-z_]{1}[a-z0-9_]*)*)$/i.test(groupId);
+        }
+
+        $scope.validate = function(e) {
+
+            var str = $scope.project.name;
+            if (isValidProjectName(str) == false) {
+                $scope.isValid = false;
+                $scope.msg.directory = '';
+                $scope.msg.project = 'Your project name contains illegal characters.';
+                $scope.msg.projectType = '';
+                return;
+            }
+
             $scope.validatingProject = true;
-            $scope.project.artifactId = $scope.project.name;
-            var path = $scope.location
+            var name = $scope.project.name || "";
+
+            if (name === "" ) {
+                $scope.validatingProject = false;
+                return;
+            }
+            $scope.project.artifactId = name.replace(/\s+/g, '-');
+            var path = $scope.location;
 
             ProjectFactory.isValidName(path).success(function(data) {
-                if (data === projectEnum.VALID) {
+                console.debug(data)
+                if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
                     //dir is good and theres a project
                     $scope.isValid = true;
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = '';
                     $scope.msg.projectType = '';
-                } else if (data === projectEnum.FILE_EXISTS) {
+                } else if (data !== projectEnum.NO_PROJECT && data !== projectEnum.NOT_VALID) {
                     //dir is valid but no projects
                     $scope.isValid = false;
-                    $scope.msg.directory = '';
+                    $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = projectMsgTemplate.error;
                     $scope.msg.projectType = '';
 
+                } else {
+                    //dir is worng and theres no project
+                    $scope.isValid = false;
+                    $scope.msg.directory = directoryMsgTemplate.error;
+                    $scope.msg.project = '';
+                    $scope.msg.projectType = '';
                 }
                 $scope.validatingProject = false;
             }).error(function(data, status) {
-                console.error('Repos error', status, data);
+                $scope.isValid = false;
+                $scope.msg.directory = directoryMsgTemplate.error;
                 $scope.validatingProject = false;
             });
         }
@@ -77,7 +120,7 @@ angular.module('minium.developer')
         });
 
         $scope.submitForm = function() {
-            if (!$scope.isValid) {
+            if (!$scope.projectForm.$valid || !$scope.isValid || !isValidProjectName($scope.project.name)) {
                 toastr.error("Form is invalid");
                 return;
             }
@@ -90,7 +133,7 @@ angular.module('minium.developer')
                     toastr.error("Not possible to create the project");
                 }
             }).error(function(data, status) {
-                toastr.error("Not possible to create the project " + data.error);
+                toastr.error("Not possible to create the project!");
             });
         }
 

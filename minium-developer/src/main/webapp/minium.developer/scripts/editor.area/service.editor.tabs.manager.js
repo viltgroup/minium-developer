@@ -99,8 +99,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         });
 
         this.paths.push(fileProps.relativeUri)
-        console.log("added tab " + this.paths)
-
+        
         openTab.store(this.editors);
 
         this.resizeEditors();

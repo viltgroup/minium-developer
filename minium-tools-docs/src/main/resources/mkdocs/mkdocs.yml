@@ -8,3 +8,4 @@ pages:
 site_dir: '${static.docs.dir}'
 theme: ''
 theme_dir: 'readthedocs-minium'
+

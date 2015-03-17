@@ -1,32 +1,38 @@
-#Minium Developer
-
 ## Create a new project
 
-You can create 2 types of project:
-* Automator: 
-* Cucumber: If you want to use cucumber + minium. It will create a base project, with a feature   and his step definitions ready to execute.
+* Go to **Project** < **Create Project**
+* **Select** the type of project that you want to create
+* **Fill** the form
+* Click on **Create**
 
-* Go to Project < Create Project
-* Select the type of project that you want to create
-* Fill the form
-* Click on Create
+
+You can create two types of project:
+
+### Automator
+Creates a simple project to automate tasks using Minium.
+
+### Cucumber
+Creates a base project, with a feature and his step definitions ready to execute.
+
 
 After the project creation you will see the project open in the sidebar.
 
 ## Open Project
 If you already have a project in your filesystem you can open it.
-Go to Project < Open Project and put the location of your project in the filesytem.
 
-![minium-developer1](/resources/assets/minium-dev-cucumber.png "Minium developer")
-![minium-developer2](/resources/assets/minium-dev-exec.png "Minium developer")
-![minium-developer3](/resources/assets/minium-dev-js.png "Minium developer")
+* Go to **Project** < **Open Project** 
+* **Fill** the location of your project in the filesytem.
 
-### Launch a webdriver
+![minium-developer1](/assets/minium-dev-cucumber.png "Minium developer")
+![minium-developer2](/assets/minium-dev-exec.png "Minium developer")
+![minium-developer3](/assets/minium-dev-js.png "Minium developer")
+
+## Launch a webdriver
 You can create new webdrivers where you will execute your tests or run your code.
 
-* Go to Run < Launch Browser
-* Select the webdriver
-* Create a new webdriver
+* Go to **Run** < **Launch Browser**
+* **Select** the webdriver
+* Click on the button **Create a new webdriver**
 
 ## Status Button
 The floating button in the bottom right corner give you feedback when the test is being executed.
@@ -41,9 +47,7 @@ You have the possibility of cancel a test execution.
 ###Clear markers
 Clean the markers in the present editor.
 
-## Others
-
-###Console tab
+##Console tab
 Minium Developer provides you a console where you can put javascript expressions that you don't want to put in your test files. It works like a helper for your javascript code, you can evaluate expressions and select elements.
 
 ##Features
@@ -67,5 +71,4 @@ You can evaluate your expressions in javascript. For example, if you want to eva
 
 ###Search file (Ctrl + P)
 Search and open files 
-
 

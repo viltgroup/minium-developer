@@ -60,12 +60,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                     $("#runningTest").parent("a").removeClass("red").addClass("green");
                     $("#status").removeClass().addClass("").html("Passed");
                     toastr.success(GENERAL_CONFIG.TEST.PASS);
-
-                    annotations.push({
-                        row: launchParams.line - 1,
-                        text: GENERAL_CONFIG.TEST.EXECUTED_PASSED,
-                        type: 'info'
-                    });
                 }
             }
 

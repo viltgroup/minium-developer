@@ -1,0 +1,36 @@
+minium:
+  webdriver:
+    desiredCapabilities:
+      browserName: chrome
+    window:
+      maximized: true
+
+  cucumber:
+    options:
+      tags:
+        - "@runit"
+
+  config:
+    baseUrl: http://localhost:8080/
+    defaultBrowser: 
+      browserName: Chrome
+
+---
+spring:
+  profiles: styx-ci
+
+minium:
+  webdriver:
+    url: http://styx:4444/wd/hub
+    desiredCapabilities:
+      browserName: chrome
+    window:
+      maximized: true
+
+# Configuration that can be injected in your tests
+  config:
+    baseUrl: http://lw255:8080/
+    remoteWebDriverUrl: ${minium.webdriver.url}
+    defaultBrowser: 
+      browserName: Chrome
+      url: ${minium.webdriver.url}

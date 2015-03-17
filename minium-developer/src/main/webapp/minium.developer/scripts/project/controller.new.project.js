@@ -55,7 +55,7 @@ angular.module('minium.developer')
         }
 
         var isValidProjectName = function(projectName) {
-            return /^[a-zA-Z0-9_-]*$/.test(projectName);
+            return /^[a-zA-Z0-9\._-]*$/.test(projectName);
         }
 
         var isValidGroupId = function(groupId) {

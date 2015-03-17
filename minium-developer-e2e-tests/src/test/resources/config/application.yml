@@ -11,7 +11,7 @@ minium:
         - "@runit"
 
   config:
-    baseUrl: http://localhost:8080/
+    baseUrl: http://localhost:8080
     defaultBrowser: 
       browserName: Chrome
 
@@ -29,8 +29,9 @@ minium:
 
 # Configuration that can be injected in your tests
   config:
-    baseUrl: http://lw255:8080/
+    baseUrl: http://lw255:8089
     remoteWebDriverUrl: ${minium.webdriver.url}
+    tempDir: /tmp
     defaultBrowser: 
       browserName: Chrome
       url: ${minium.webdriver.url}

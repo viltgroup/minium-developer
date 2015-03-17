@@ -3,6 +3,7 @@ Feature: Run features
   Background: 
     Given I'm at Minium Developer
     And the active project is "minium-cucumber-test"
+    And a browser is already launched
 
   Scenario: Run all tests (button 'Run Test', first line selected)
     When I open file "minium-cucumber-test/features/my-feature.feature"
@@ -16,7 +17,7 @@ Feature: Run features
 
   Scenario: Run one test (button 'Run Test')
     When I open file "minium-cucumber-test/features/my-feature.feature"
-    And I select the scenario number 2 in the feature "teste.feature"
+    And I set the cursor at line 5
     And I click on button "Run Test"
     Then I should see a success notification with text "Test Started..."
     And I should see a success notification with text "Test Pass with Sucess"

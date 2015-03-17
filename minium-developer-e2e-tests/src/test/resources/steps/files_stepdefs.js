@@ -43,7 +43,7 @@ Then(/^I should not see (?:folder|file) "(.*?)"$/, function(path) {
 });
 
 Given(/^file "(.*?)" is open$/, function(fileName) {
-  expect(editors.byPath(path)).to.exist();
+  expect(editors.byPath(path)).not.to.be(null);
 });
 
 Given(/^file "(.*?)" is closed$/, function(fileName) {
@@ -52,5 +52,5 @@ Given(/^file "(.*?)" is closed$/, function(fileName) {
 
 When(/^I open file "(.*?)"$/, function(path) { 
   files.openFile(path);
-  expect(editors.byPath(path)).to.exist();
+  expect(editors.byPath(path)).not.to.be(null);
 });

@@ -20,10 +20,8 @@ import freemarker.template.TemplateException;
 
 public class CucumberProject extends ProjectTemplate {
 
-	private static final String UTILS_JS = "utils.js";
-	private static final String LODASH_JS = "lodash.js";
 	private static final String APPLICATION_YML = "application.yml";
-	private static final String LOGBACK_XML = "logback.xml";
+	private static final String LOGBACK_XML = "logback-test.xml";
 	private static final String POM_XML = "pom.xml";
 
 	public CucumberProject(ProjectDTO project) {
@@ -87,17 +85,6 @@ public class CucumberProject extends ProjectTemplate {
 		// copy application.yml config/application.yml
 		fileModules = new File(file, "config");
 		copyResource("/templates/cucumber-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
-
-		// copy the file modules/cucumber/utils.js
-		fileModules = new File(file, "modules");
-		copyResource("/templates/cucumber-project/modules/" + LODASH_JS, fileModules, LODASH_JS);
-
-		// create the modules/cucumber folder
-		fileModules = new File(file, "modules/cucumber");
-		FileUtils.forceMkdir(fileModules);
-		// copy the file modules/cucumber/utils.js
-		copyResource("/templates/cucumber-project/modules/cucumber/" + UTILS_JS, fileModules, UTILS_JS);
-
 	}
 
 	private void buildPom(String path) {

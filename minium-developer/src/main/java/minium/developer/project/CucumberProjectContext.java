@@ -45,6 +45,7 @@ import cucumber.runtime.RuntimeOptions;
 import cucumber.runtime.StepDefinition;
 import cucumber.runtime.io.MultiLoader;
 import cucumber.runtime.io.ResourceLoader;
+import cucumber.runtime.model.CucumberBackground;
 import cucumber.runtime.model.CucumberExamples;
 import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberScenario;
@@ -218,10 +219,10 @@ public class CucumberProjectContext extends AbstractProjectContext {
 							Runtime runtime = runtimeBuilder.build();
 							RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
 							List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
-							
+
 							//send to the client the total number of test to execute
 							sendTotalSteps(cucumberFeatures,sessionId);
-							
+
 							runtime.run();
 
 							// send snippets of undefined steps to the client
@@ -233,27 +234,28 @@ public class CucumberProjectContext extends AbstractProjectContext {
 					}
 				}
 
-				
+
 			});
 		} finally {
 			cucumberEngine = null;
 		}
 	}
-	
+
 	private void sendTotalSteps(List<CucumberFeature> cucumberFeatures,String sessionId) {
 		int numberOfTestCases = 0;
 		for (final CucumberFeature cucumberFeature : cucumberFeatures) {
 			int numSteps = 0;
 			for (final CucumberTagStatement cucumberTagStatement : cucumberFeature.getFeatureElements()) {
 				if (cucumberTagStatement instanceof CucumberScenario) {
-					numberOfTestCases+= cucumberTagStatement.getSteps().size();
-					numberOfTestCases+= ((CucumberScenario) cucumberTagStatement).getCucumberBackground().getSteps().size();
-					((CucumberScenario) cucumberTagStatement).getCucumberBackground().getSteps().size();
+				    CucumberBackground cucumberBackground = ((CucumberScenario) cucumberTagStatement).getCucumberBackground();
+					numberOfTestCases += cucumberTagStatement.getSteps().size();
+                    numberOfTestCases += cucumberBackground == null ? 0 : cucumberBackground.getSteps().size();
 				} else if (cucumberTagStatement instanceof CucumberScenarioOutline) {
 					for (final CucumberExamples cucumberExamples : ((CucumberScenarioOutline) cucumberTagStatement).getCucumberExamplesList()) {
 						for(final CucumberScenario cucumberScenario: cucumberExamples.createExampleScenarios()){
-							numSteps += cucumberScenario.getCucumberBackground().getSteps().size();
+							CucumberBackground cucumberBackground = cucumberScenario.getCucumberBackground();
 							numSteps += cucumberScenario.getSteps().size();
+							numSteps += cucumberBackground == null ? 0 : cucumberBackground.getSteps().size();
 						}
 					}
 					numberOfTestCases = numSteps;
@@ -262,7 +264,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 		}
 		messagingTemplate.convertAndSend("/tests/" + sessionId, numberOfTestCases);
 	}
-	
+
 	protected List<Backend> getAllBackends(Context cx, Scriptable scope, ResourceLoader resourceLoader, CucumberProperties cucumberProperties)
 			throws IOException {
 		MiniumBackend miniumBackend = new MiniumBackend(resourceLoader, cx, scope);

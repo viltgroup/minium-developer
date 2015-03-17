@@ -24,7 +24,8 @@ Given(/^project "(.*?)" exists$/, function(projName) {
 
 Given(/^the active project is "(.*?)"$/, function (projName) {
   projName = interpolator.evaluate(projName);
-  if (files.root().waitForExistence().withText(projName).checkForExistence("immediate")) return;
+  
+  if (files.root().checkForExistence("fast") && files.root().withText(projName).checkForExistence("immediate")) return;
   
   if (!projects.openProject(tempDir() + "/" + projName)) {
     // project does not exist
@@ -37,6 +38,19 @@ Given(/^the active project is "(.*?)"$/, function (projName) {
     expect(files.root()).to.have.text(projName);
   }
 });
+
+Given(/^the following project is active:$/, function (datatable) {
+  var fields = _.merge({ "Parent Directory" : tempDir() }, datatable.rowsHash());
+  fields = interpolator.evaluate(fields);
+  
+  var projName = fields["Project Name"];
+  if (files.root().checkForExistence("fast") && files.root().withText(projName).checkForExistence("immediate")) return;
+
+  if (!projects.openProject(tempDir() + "/" + projName)) {
+    projects.createProject(fields);
+  }
+});
+
 
 When(/^I (?:try to )?create the following project:$/, function (datatable) {
   var fields = _.merge({ "Parent Directory" : tempDir() }, datatable.rowsHash());

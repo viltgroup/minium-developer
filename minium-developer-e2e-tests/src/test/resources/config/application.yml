@@ -12,6 +12,8 @@ minium:
 
   config:
     baseUrl: http://localhost:8080/
+    defaultBrowser: 
+      browserName: Chrome
 
 ---
 spring:
@@ -29,3 +31,6 @@ minium:
   config:
     baseUrl: http://lw255:8080/
     remoteWebDriverUrl: ${minium.webdriver.url}
+    defaultBrowser: 
+      browserName: Chrome
+      url: ${minium.webdriver.url}

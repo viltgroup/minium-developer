@@ -1,6 +1,7 @@
 package minium.developer.project;
 
 import java.io.File;
+import java.util.Map;
 
 import minium.Elements;
 import minium.cucumber.config.ConfigProperties;
@@ -25,6 +26,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.PropertySources;
+import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.core.io.FileSystemResource;
 
 public class AbstractProjectContext implements InitializingBean, DisposableBean {
@@ -105,14 +107,17 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         return rhinoEngine;
     }
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected PropertySources loadConfiguration() throws Exception {
         MutablePropertySources propertySources = new MutablePropertySources();
+        propertySources.addLast(new SystemEnvironmentPropertySource("systemProperties", (Map) System.getProperties()));
         File appConfigFile = new File(resourcesDir, "config/application.yml");
         if (appConfigFile.exists() && appConfigFile.isFile()) {
             YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
             PropertySource<?> source = loader.load("application.yml", new FileSystemResource(appConfigFile), null);
-            if (source != null)
+            if (source != null) {
                 propertySources.addFirst(source);
+            }
         }
         return applyPlaceholderReplacements(propertySources);
     }

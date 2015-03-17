@@ -78,5 +78,26 @@ public class GenaratedClassNameTest {
 		String result = Utils.toClassName(className);
 		assertEquals("CamelCaseASDDDAs", result);
 	}
-
+	
+	@Test
+	public void testWithDots() {
+		String className = "project.name.test";
+		String result = Utils.toClassName(className);
+		assertEquals("ProjectNameTest", result);
+	}
+	
+	@Test
+	public void testWithDotsAndOtherChars() {
+		String className = "project.name.testNew.Things_return-new";
+		String result = Utils.toClassName(className);
+		assertEquals("ProjectNameTestNewThingsReturnNew", result);
+	}
+	
+	
+	@Test
+	public void testMultipleDots() {
+		String className = "project.....name.....testNew.....Things_....return-....new";
+		String result = Utils.toClassName(className);
+		assertEquals("ProjectNameTestNewThingsReturnNew", result);
+	}
 }

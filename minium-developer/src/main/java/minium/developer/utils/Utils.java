@@ -8,10 +8,15 @@ public final class Utils {
 	public static String toClassName(String name) {
 		String result = splitUpperCaseIntoSpace(name);
 		result = splitUnderscoreIntoSpace(result);
+		result = splitDotsIntoSpace(result);
 		result = replaceSpacesWithLowerHyphen(result);
 		result = toCamelCase(result);
 		return result;
     }
+	
+	public static String splitDotsIntoSpace(String str){
+		return str.replaceAll("(.)(\\.+)", "$1 ");
+	}
 	
 	public static String splitUpperCaseIntoSpace(String str) {
 		String[] r = str.split("(?=\\p{Upper})");

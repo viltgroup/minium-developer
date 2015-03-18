@@ -24,8 +24,59 @@ For a quick start head to [Minium homepage](http://minium.vilt.io/#start). If yo
 Check the [Minium documentation](http://minium.vilt.io/docs/) for a complete list of allowed methods and some simple examples.
 
 
-Building Minium
+Building Minium Developer
 ============
+
+```bash
+git clone https://github.com/viltgroup/minium-tools.git
+cd minium-tools
+mvn install -DskipTests
+```
+
+Launch Minium Developer
+============
+```bash
+git clone https://github.com/viltgroup/minium-tools.git
+cd minium-tools/minium-developer
+bower install
+mvn spring-boot:run
+```
+
+Minium in 5 minutes
+============
+## Dowload Minium Developer
+
+Dowload from [github](https://github.com/viltgroup/minium-tools/releases) your platform minium-tools
+
+##Run Minium Developer
+
+* Uncompress it in some folder (e.g. c:\Tools\minium-developer)
+
+* To launch Minium Developer, just run one of the following executables:
+  * minium-developer.exe (in windows)
+  * bin\minium-developer.bat (also in windows, but this way you can see the stdout)
+  * bin\minium-developer (linux or mac)
+
+* A new windows with minium developer should open
+
+## Create a new **Cucumber project**
+
+* Go to **Project** < **Create Project**
+* **Select** Cucumber project
+* **Fill** the form with:
+    * Parent Directory:  parent path where you want to put your project (e.g /home/user/workspace, c:\Tools\ )
+    * Project Name :  `minium-developer-test`
+    * Group ID :  `com.minium`
+    * Feature file :  `MyFeature`
+    * Step file : `my.steps`
+* Click on **Create**
+
+## Open a feature & Run it
+* Open the file `features/MyFeature.feature` (the project structure is on the left sidebar)
+* Click on button **Run All**
+* Select **Chrome** webdriver and click on button **Create new webdriver**
+
+The test execution should start.Profit!
 
 
 License

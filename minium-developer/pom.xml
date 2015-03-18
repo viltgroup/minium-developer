@@ -5,7 +5,7 @@
     <parent>
         <artifactId>minium-tools</artifactId>
         <groupId>io.vilt.minium.tools</groupId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0-RC1</version>
     </parent>
 
     <artifactId>minium-developer</artifactId>

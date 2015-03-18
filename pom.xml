@@ -10,7 +10,7 @@
 
 	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-tools</artifactId>
-	<version>1.0.0-RC1</version>
+	<version>1.0.0-RC2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Tools</name>
@@ -19,7 +19,7 @@
 		<connection>scm:git:git://github.com/viltgroup/minium-tools.git</connection>
 		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium-tools.git</developerConnection>
 		<url>https://github.com/viltgroup/minium-tools</url>
-		<tag>minium-tools-1.0.0-RC1</tag>
+		<tag>master</tag>
   </scm>
 
 	<properties>

@@ -13,7 +13,7 @@
 
 	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-developer-e2e-tests</artifactId>
-	<version>1.0.0-RC1</version>
+	<version>1.0.0-RC2-SNAPSHOT</version>
 	<name>Minium Developer E2E Tests</name>
 	
 	<properties>
@@ -47,7 +47,7 @@
 		<dependency>
 			<groupId>io.vilt.minium</groupId>
 			<artifactId>minium-cucumber</artifactId>
-			<version>1.0.0-RC1</version>
+			<version>1.0.0-RC2-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -119,9 +119,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-
-  <scm>
-    <tag>minium-tools-1.0.0-RC1</tag>
-  </scm>
 </project>

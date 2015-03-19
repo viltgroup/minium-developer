@@ -1,6 +1,19 @@
-package net.masterthought.cucumber.json;
-
-import org.apache.commons.lang.StringEscapeUtils;
+/*
+ * Copyright (C) 2015 The Minium Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package minium.cucumber.report.domain;
 
 /**
  * Doc Strings are handy for specifying a larger piece of text. This is inspired from Python’s Docstring syntax.
@@ -14,10 +27,7 @@ public class DocString {
      */
     private String value;
 
-    /**
-     * ?
-     */
-    private String content_type;
+    private String contentType;
 
     /**
      * Line on which docstring occurs
@@ -33,25 +43,10 @@ public class DocString {
     }
 
     public String getContentType() {
-        return content_type;
+        return contentType;
     }
 
     public Integer getLine() {
         return line;
-    }
-
-    /**
-     * Returns getValue but escaped for HTML and to preserve whitespace
-     */
-    public String getEscapedValue() {
-        String html = StringEscapeUtils.escapeHtml(this.getValue());
-        return html.replaceAll("\n", "<br/>").replaceAll(" ", "&nbsp;");
-    }
-
-    /**
-     * @return Returns true if value has content
-     */
-    public boolean hasValue() {
-        return value != null && value.trim().length() > 0;
     }
 }

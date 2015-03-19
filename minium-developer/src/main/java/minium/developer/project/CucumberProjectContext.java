@@ -15,6 +15,8 @@ import minium.cucumber.config.CucumberProperties.OptionsProperties;
 import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
 import minium.cucumber.internal.RuntimeBuilder;
+import minium.cucumber.report.FeatureResults;
+import minium.cucumber.report.domain.Feature;
 import minium.cucumber.rest.RemoteBackend;
 import minium.cucumber.rest.SimpleGlue;
 import minium.developer.cucumber.reports.ReporterParser;
@@ -23,7 +25,6 @@ import minium.developer.web.rest.LaunchInfo;
 import minium.developer.web.rest.dto.StepDTO;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 import minium.script.rhinojs.RhinoEngine;
-import net.masterthought.cucumber.json.Feature;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.notification.StoppedByUserException;
@@ -72,7 +73,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 		this.projectCucumberProperties = getAppConfigBean("minium.cucumber", CucumberProperties.class);
 	}
 
-	public Feature launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {
+	public FeatureResults launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {
 		refreshConfiguration();
 
 		URI file = launchInfo.getFileProps().getRelativeUri();
@@ -103,19 +104,20 @@ public class CucumberProjectContext extends AbstractProjectContext {
 		}
 
 		String content = FileUtils.readFileToString(resultsFile);
-		Feature feature = null;
+		FeatureResults featureResult = null;
 		// check if the execution as results
 		// to present the result in the interface
 		if (!content.equals("")) {
 			ReporterParser reporterParser = new ReporterParser();
 			List<Feature> features = reporterParser.parseJsonResult(content);
 			if (features != null && !features.isEmpty()) {
-				feature = features.get(0);
-				feature.processSteps();
+			    Feature feature = features.get(0);
+				featureResult = new FeatureResults(feature);
+				featureResult.processSteps();
 			}
 		}
 
-		return feature;
+		return featureResult;
 	}
 
 	public List<StepDefinitionDTO> getStepDefinitions() {

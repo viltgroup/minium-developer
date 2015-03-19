@@ -20,31 +20,15 @@ miniumDeveloper.factory('FeatureFacade', function() {
     FeatureFacade.prototype.process = function(data) {
         var r = true;
 
-        var failingSteps = data.numberOfFailures;
-        var skippedSteps = data.numberOfSkipped;
-        var undefinedSteps = data.numberOfUndefined;
-        var passedSteps = data.numberOfPasses;
-        var durations = data.durationOfSteps;
-        this.notPassingsteps = failingSteps + skippedSteps + undefinedSteps;
-        
-        console.log(data.numberOfFailures)
-        
-        var totalDuration = 0;
-
-        $.each(durations, function() {
-            totalDuration += this;
-        });
-
         this.resultsSummary = {
-            runCount: passedSteps + this.notPassingsteps,
-            passed: passedSteps,
-            failures: failingSteps,
-            skipped: skippedSteps,
-            undefined: undefinedSteps,
-            notPassingsteps: this.notPassingsteps,
-            runTime: totalDuration / 1000000.0
+            runCount: data.numberOfPasses + this.notPassingsteps,
+            passed: data.numberOfPasses,
+            failures: data.numberOfFailures,
+            skipped: data.numberOfSkipped,
+            undefined: data.numberOfUndefined,
+            notPassingsteps: data.numberOfFailures + data.numberOfSkipped + data.numberOfUndefined,
+            runTime: data.durationOfSteps / 1000000.0
         }
-
     };
 
     /**

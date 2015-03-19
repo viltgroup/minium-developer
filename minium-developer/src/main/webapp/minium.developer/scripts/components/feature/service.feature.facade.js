@@ -21,7 +21,7 @@ miniumDeveloper.factory('FeatureFacade', function() {
         var r = true;
 
         this.resultsSummary = {
-            runCount: data.numberOfPasses + this.notPassingsteps,
+            runCount: data.numberOfSteps,
             passed: data.numberOfPasses,
             failures: data.numberOfFailures,
             skipped: data.numberOfSkipped,

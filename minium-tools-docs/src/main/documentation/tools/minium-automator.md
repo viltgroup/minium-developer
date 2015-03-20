@@ -1,4 +1,4 @@
-# Minium Developer
+# Minium Automator
 
 ## Usage
 

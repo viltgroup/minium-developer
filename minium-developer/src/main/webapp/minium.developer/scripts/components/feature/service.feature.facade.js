@@ -19,28 +19,16 @@ miniumDeveloper.factory('FeatureFacade', function() {
 
     FeatureFacade.prototype.process = function(data) {
         var r = true;
-        this.notPassingsteps = jsonPath.eval(data, "$..steps[?(@.status!='PASSED')]");
-        var failingSteps = jsonPath.eval(data, "$..steps[?(@.status=='FAILED')]");
-        var skippedSteps = jsonPath.eval(data, "$..steps[?(@.status=='SKIPPED')]");
-        var undefinedSteps = jsonPath.eval(data, "$..steps[?(@.status=='UNDEFINED')]");
-        var passedSteps = jsonPath.eval(data, "$..steps[?(@.status=='PASSED')]");
-        var durations = jsonPath.eval(data, "$..duration");
-
-        var totalDuration = 0;
-        $.each(durations, function() {
-            totalDuration += this;
-        });
 
         this.resultsSummary = {
-            runCount: passedSteps.length + this.notPassingsteps.length,
-            passed: passedSteps.length,
-            failures: failingSteps.length,
-            skipped: skippedSteps.length,
-            undefined: undefinedSteps.length,
-            notPassingsteps: this.notPassingsteps.length,
-            runTime: totalDuration / 1000000.0
+            runCount: data.numberOfSteps,
+            passed: data.numberOfPasses,
+            failures: data.numberOfFailures,
+            skipped: data.numberOfSkipped,
+            undefined: data.numberOfUndefined,
+            notPassingsteps: data.numberOfFailures + data.numberOfSkipped + data.numberOfUndefined,
+            runTime: data.durationOfSteps / 1000000.0
         }
-
     };
 
     /**

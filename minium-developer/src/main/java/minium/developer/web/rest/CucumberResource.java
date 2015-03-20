@@ -7,11 +7,11 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
+import minium.cucumber.report.FeatureResults;
 import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.CucumberProjectContext;
 import minium.developer.project.Workspace;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
-import net.masterthought.cucumber.json.Feature;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class CucumberResource {
 
 	@RequestMapping(value = "/launch", method = RequestMethod.POST)
 	@ResponseBody
-	public Feature launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws Exception {
+	public FeatureResults launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws Exception {
 	    if (getCucumberProjectContext() == null) return null;
 		return getCucumberProjectContext().launchCucumber(launchInfo, request.getSession().getId());
 	}

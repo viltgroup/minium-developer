@@ -2,7 +2,7 @@ package minium.developer.web.rest.dto;
 
 import java.util.List;
 
-import net.masterthought.cucumber.json.Element;
+import minium.cucumber.report.domain.Element;
 
 public class SummaryDTO {
 

@@ -50,5 +50,4 @@ public class Artifact {
     public String getContentType() {
         return contentType;
     }
-
 }

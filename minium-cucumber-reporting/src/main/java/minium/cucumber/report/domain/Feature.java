@@ -31,6 +31,7 @@ public class Feature {
     private List<Tag> tags = Lists.newArrayList();
     private String jsonFile = "";
     private Integer line;
+    private Status status;
 
     public Feature() {
     }
@@ -91,4 +92,17 @@ public class Feature {
         }
         return elementList.size();
     }
+
+    public Status getStatus() {
+        for (Element elem : elements) {
+            if (elem.getStatus() == Status.FAILED)
+                return Status.FAILED;
+            if (ConfigurationOptions.skippedFailsBuild() && elem.getStatus() == Status.SKIPPED)
+                return Status.FAILED;
+            if (ConfigurationOptions.undefinedFailsBuild() && elem.getStatus() == Status.UNDEFINED)
+                return Status.FAILED;
+        }
+        return Status.PASSED;
+    }
+
 }

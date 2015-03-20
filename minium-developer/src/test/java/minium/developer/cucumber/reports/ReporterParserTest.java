@@ -78,4 +78,14 @@ public class ReporterParserTest {
         // assertions
         assertEquals(step.getResult().getStatus(), Status.FAILED);
     }
+
+
+    @Test
+    public void testDeserializationOtherFile() throws IOException {
+        String content = IOUtils.toString(ReporterParserTest.class.getClassLoader().getResourceAsStream("results2.json"));
+        ReporterParser reporterParser = new ReporterParser();
+        List<Feature> features = reporterParser.parseJsonResult(content);
+        // assertions
+        assertThat(features, Matchers.hasSize(1));
+    }
 }

@@ -25,9 +25,9 @@ If you already have a project in your filesystem you can open it.
 * Go to `Project > Open Project`
 * Fill the location of your project in the filesytem.
 
-![minium-developer1](../img/minium-dev-cucumber.png "Minium developer")
-![minium-developer2](../img/minium-dev-exec.png "Minium developer")
-![minium-developer3](../img/minium-dev-js.png "Minium developer")
+![minium-developer1](tools/img/minium-dev-cucumber.png "Minium developer")
+![minium-developer2](tools/img/minium-dev-exec.png "Minium developer")
+![minium-developer3](tools/img/minium-dev-js.png "Minium developer")
 
 ## Launch a webdriver
 

@@ -1,0 +1,1021 @@
+[{
+    "id": "schedulesfile2",
+    "description": "",
+    "name": "SchedulesFile2",
+    "keyword": "Feature",
+    "line": 3,
+    "elements": [{
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 9059394643,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 1134027,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "schedulesfile2;test-depart-suggestions1",
+        "description": "",
+        "name": "Test depart suggestions1",
+        "keyword": "Scenario",
+        "line": 8,
+        "steps": [{
+            "result": {
+                "duration": 683546022,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Bra\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Bra",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            }
+        }, {
+            "result": {
+                "duration": 1208321961,
+                "status": "passed"
+            },
+            "name": "I should see a suggestion for \"Braga\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Braga",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            }
+        }],
+        "type": "scenario"
+    }],
+    "uri": "features/passengers/braga.feature",
+    "comments": [{
+        "value": "# language: en",
+        "line": 1
+    }, {
+        "value": "# ------------------------------------------------------------------------------",
+        "line": 2
+    }]
+}, {
+    "id": "otherschedules",
+    "description": "",
+    "name": "otherSchedules",
+    "keyword": "Feature",
+    "line": 3,
+    "elements": [{
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 3562564094,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 864072199,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "otherschedules;test-depart-suggestions;;2",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 14,
+        "steps": [{
+            "result": {
+                "duration": 3209248833,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Entr12\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Entr12",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5316448451,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException: Error: "
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"Entroncamento\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Entroncamento",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 5235970426,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 620318285,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "otherschedules;test-depart-suggestions;;3",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 15,
+        "steps": [{
+            "result": {
+                "duration": 1158700666,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Entr12\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Entr12",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5275896758,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException: Error: expected "
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"Lisboa - Entrecampos\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Lisboa - Entrecampos",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 6412531356,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 699076161,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "otherschedules;test-depart-suggestions;;4",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 16,
+        "steps": [{
+            "result": {
+                "duration": 922347450,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Or12\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Or12",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5269791638,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException: Error: expected $"
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"Oriente\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Oriente",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 5823113407,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 705465930,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "otherschedules;test-depart-suggestions;;5",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 17,
+        "steps": [{
+            "result": {
+                "duration": 1085699394,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Bra12\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Bra12",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5291487793,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException: Error: expected "
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"Braga\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Braga",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 4441369205,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 493643472,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "otherschedules;test-depart-suggestions;;6",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 18,
+        "steps": [{
+            "result": {
+                "duration": 1084938311,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"erro12\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "erro12",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5217625098,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException: Error: expecten"
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"asas\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "asas",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }],
+    "uri": "features/passengers/otherSchedules.feature",
+    "comments": [{
+        "value": "# language: en",
+        "line": 1
+    }, {
+        "value": "# ------------------------------------------------------------------------------",
+        "line": 2
+    }]
+}, {
+    "id": "schedules",
+    "description": "",
+    "name": "Schedules",
+    "keyword": "Feature",
+    "line": 3,
+    "elements": [{
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 4531506557,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 103107,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "schedules;test-depart-suggestions;;2",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 14,
+        "steps": [{
+            "result": {
+                "duration": 1216348171,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Entr\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Entr",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 1136048410,
+                "status": "passed"
+            },
+            "name": "I should see a suggestion for \"Entroncamento\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Entroncamento",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 3681872176,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.WrappedException: Wrapped org.openqa.selen"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 572675595,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "schedules;test-depart-suggestions;;3",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 15,
+        "steps": [{
+            "result": {
+                "status": "skipped"
+            },
+            "name": "I fill depart with \"Entr\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Entr",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "status": "skipped"
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"Lisboa - Entrecampos\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Lisboa - Entrecampos",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 4618062641,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 503098633,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "schedules;test-depart-suggestions;;4",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 16,
+        "steps": [{
+            "result": {
+                "duration": 1023063663,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Or\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Or",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5253974221,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException: Error: expected "
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"Oriente\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Oriente",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 5822552045,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 78070,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber screenshot_stepdefs.js: 1 "
+            }
+        }],
+        "id ": "schedules;test - depart - suggestions;;5 ",
+        "description ": "",
+        " name ": "Test depart suggestions ",
+        "keyword ": "Scenario Outline ",
+        "line ": 17,
+        "steps ": [{
+            "result ": {
+                "duration ": 586428571,
+                "status ": "passed "
+            },
+            "name ": "I fill depart with\"Bra\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Bra",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 1105142800,
+                "status": "passed"
+            },
+            "name": "I should see a suggestion for \"Braga\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Braga",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }, {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 4803560252,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 256260119,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "schedules;test-depart-suggestions;;6",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 18,
+        "steps": [{
+            "result": {
+                "duration": 526183663,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"erro\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "erro",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 5217080706,
+                "status": "failed",
+                "error_message": "org.mozilla.javascript.JavaScriptException:  "
+            },
+            "embeddings": [{
+                "mime_type": "image/png",
+                "data": ""
+            }],
+            "name": "I should see a suggestion for \"asas\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "asas",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }],
+    "uri": "features/passengers/schedules.feature",
+    "comments": [{
+        "value": "# language: en",
+        "line": 1
+    }, {
+        "value": "# ------------------------------------------------------------------------------",
+        "line": 2
+    }]
+}, {
+    "id": "search-no-sitezÃ£o-da-cp-Ã£o-Ã§cenas",
+    "description": "",
+    "name": "Search no sitezÃ£o da cp Ã£o Ã§cenas",
+    "keyword": "Feature",
+    "line": 3,
+    "elements": [{
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 5,
+        "steps": [{
+            "result": {
+                "duration": 3628979853,
+                "status": "passed"
+            },
+            "name": "I\u0027m in Passageiros \u003e Consultar horÃ¡rios",
+            "keyword": "Given ",
+            "line": 6,
+            "match": {
+                "arguments": [{
+                    "val": "Passageiros",
+                    "offset": 7
+                }, {
+                    "val": "Consultar horÃ¡rios",
+                    "offset": 21
+                }],
+                "location": "steps/cp_stepdefs.js:19"
+            }
+        }],
+        "type": "background"
+    }, {
+        "after": [{
+            "result": {
+                "duration": 79430,
+                "status": "passed"
+            },
+            "match": {
+                "location": "cucumber/runtime/minium/screenshot_stepdefs.js:1"
+            }
+        }],
+        "id": "search-no-sitezÃ£o-da-cp-Ã£o-Ã§cenas;test-depart-suggestions;;2",
+        "description": "",
+        "name": "Test depart suggestions",
+        "keyword": "Scenario Outline",
+        "line": 14,
+        "steps": [{
+            "result": {
+                "duration": 1717621735,
+                "status": "passed"
+            },
+            "name": "I fill depart with \"Entr\"",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+                "arguments": [{
+                    "val": "depart",
+                    "offset": 7
+                }, {
+                    "val": "Entr",
+                    "offset": 20
+                }],
+                "location": "steps/cp_stepdefs.js:32"
+            },
+            "matchedColumns": [0]
+        }, {
+            "result": {
+                "duration": 1111144252,
+                "status": "passed"
+            },
+            "name": "I should see a suggestion for \"Entroncamento\"",
+            "keyword": "Then ",
+            "line": 10,
+            "match": {
+                "arguments": [{
+                    "val": "Entroncamento",
+                    "offset": 31
+                }],
+                "location": "steps/cp_stepdefs.js:46"
+            },
+            "matchedColumns": [1]
+        }],
+        "type": "scenario"
+    }],
+    "uri": "features/passengers/search.feature",
+    "comments": [{
+        "value": "# language: en",
+        "line": 1
+    }, {
+        "value": "# ------------------------------------------------------------------------------",
+        "line": 2
+    }]
+}]

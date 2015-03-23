@@ -88,4 +88,22 @@ public class ReporterParserTest {
         // assertions
         assertThat(features, Matchers.hasSize(1));
     }
+
+    @Test
+    public void testDeserializationStrangeFile() throws IOException {
+        String content = IOUtils.toString(ReporterParserTest.class.getClassLoader().getResourceAsStream("results3.json"));
+        ReporterParser reporterParser = new ReporterParser();
+        List<Feature> features = reporterParser.parseJsonResult(content);
+        // assertions
+        assertThat(features, Matchers.hasSize(4));
+    }
+
+    @Test
+    public void testDeserializationBiggerFile() throws IOException {
+        String content = IOUtils.toString(ReporterParserTest.class.getClassLoader().getResourceAsStream("results4.json"));
+        ReporterParser reporterParser = new ReporterParser();
+        List<Feature> features = reporterParser.parseJsonResult(content);
+        // assertions
+        assertThat(features, Matchers.hasSize(3));
+    }
 }

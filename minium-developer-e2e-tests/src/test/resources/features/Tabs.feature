@@ -4,7 +4,7 @@ Feature: Tab features
     Given I am at editor
 
   Scenario: open tab
-    When I open the file "testes > teste.js"
+    When I open file "minium-test/testes/teste.js"
     Then I should see the tab "teste.js"
 
   Scenario: close tab
@@ -15,7 +15,7 @@ Feature: Tab features
   Scenario: number of open tabs
     Given I have 1 open tabs
     And the file "teste.js" is close
-    When I open the file "testes > teste.js"
+    When I open the file "minium-test/teste/teste.js"
     Then I should see 2 open tabs
 
   Scenario: number of tabs after refresh
@@ -24,7 +24,7 @@ Feature: Tab features
     Then I should see 2 open tabs
 
   Scenario: dirty files
-    When I open the file "testes > teste.js"
+    When I open file "minium-test/testes/teste.js"
     And I add to "teste.js" text "lalalala"
     Then I should have a dirty page
     And I should see the dirty file named "teste.js*"
@@ -36,13 +36,13 @@ Feature: Tab features
     Then I should see the tab "teste.js"
 
   Scenario: js file buttons
-    When I open the file "testes > teste.js"
+    When I open file "minium-test/testes/teste.js"
     Then I should see the buttons for the type "js"
 
   Scenario: feature file buttons
-    When I open the file "testes > teste.feature"
+    When I open file "minium-test/testes/teste.feature"
     Then I should see the buttons for the type "feature"
 
   Scenario: close all tabs
     When I close all tabs
-    Then There is only one open tab named 'untitled'
+    Then There ionly one open tab named 'untitled'

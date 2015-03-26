@@ -7,7 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
-import minium.cucumber.report.FeatureResults;
+import minium.cucumber.report.FeatureResult;
 import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.CucumberProjectContext;
 import minium.developer.project.Workspace;
@@ -31,7 +31,7 @@ public class CucumberResource {
 
 	@RequestMapping(value = "/launch", method = RequestMethod.POST)
 	@ResponseBody
-	public FeatureResults launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws Exception {
+	public FeatureResult launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws Exception {
 	    if (getCucumberProjectContext() == null) return null;
 		return getCucumberProjectContext().launchCucumber(launchInfo, request.getSession().getId());
 	}

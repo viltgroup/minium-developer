@@ -24,13 +24,13 @@ import minium.cucumber.report.domain.Step;
 
 import com.google.common.collect.Lists;
 
-public class FeatureResults {
+public class FeatureResult {
 
     private StepResults stepResults;
     private ScenarioResults scenarioResults;
     private Feature feature;
 
-    public FeatureResults(Feature feature) {
+    public FeatureResult(Feature feature) {
         this.setFeature(feature);
     }
 

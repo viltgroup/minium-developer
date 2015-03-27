@@ -16,11 +16,14 @@
 package minium.cucumber.report.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class Embedding {
 
     @JsonProperty("mime_type")
     private String mimeType;
+
+    @JsonDeserialize(using = GsonBase64Deserializer.class)
     private byte[] data;
 
     public String getMimeType() {
@@ -31,12 +34,11 @@ public class Embedding {
         return data;
     }
 
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
-
     public void setData(byte[] data) {
         this.data = data;
     }
 
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
 }

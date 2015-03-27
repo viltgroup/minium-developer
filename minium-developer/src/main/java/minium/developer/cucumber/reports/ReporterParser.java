@@ -29,14 +29,14 @@ public class ReporterParser {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
     }
-    
+
 	/**
 	 * Parse the results from the generated cucumber report
 	 * @param results
 	 * @return
-	 * @throws IOException 
-	 * @throws JsonMappingException 
-	 * @throws JsonParseException 
+	 * @throws IOException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
 	 * @throws JsonSyntaxException
 	 * @throws JsonIOException
 	 * @throws FileNotFoundException

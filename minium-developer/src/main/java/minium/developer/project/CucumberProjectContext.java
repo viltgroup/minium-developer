@@ -8,14 +8,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
-import minium.cucumber.ListenerReporter;
-import minium.cucumber.MiniumBackend;
 import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.OptionsProperties;
 import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
+import minium.cucumber.internal.ListenerReporter;
+import minium.cucumber.internal.MiniumBackend;
 import minium.cucumber.internal.RuntimeBuilder;
-import minium.cucumber.report.FeatureResults;
+import minium.cucumber.report.FeatureResult;
 import minium.cucumber.report.domain.Feature;
 import minium.cucumber.rest.RemoteBackend;
 import minium.cucumber.rest.SimpleGlue;
@@ -73,7 +73,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 		this.projectCucumberProperties = getAppConfigBean("minium.cucumber", CucumberProperties.class);
 	}
 
-	public FeatureResults launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {
+	public FeatureResult launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {
 		refreshConfiguration();
 
 		URI file = launchInfo.getFileProps().getRelativeUri();
@@ -104,7 +104,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 		}
 
 		String content = FileUtils.readFileToString(resultsFile);
-		FeatureResults featureResult = null;
+		FeatureResult featureResult = null;
 		// check if the execution as results
 		// to present the result in the interface
 		if (!content.equals("")) {
@@ -112,8 +112,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 			List<Feature> features = reporterParser.parseJsonResult(content);
 			if (features != null && !features.isEmpty()) {
 			    Feature feature = features.get(0);
-				featureResult = new FeatureResults(feature);
-				featureResult.processSteps();
+				featureResult = new FeatureResult(feature);
 			}
 		}
 

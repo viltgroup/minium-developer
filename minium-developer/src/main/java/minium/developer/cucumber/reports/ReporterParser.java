@@ -2,15 +2,12 @@ package minium.developer.cucumber.reports;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Feature;
-import minium.developer.web.rest.dto.SummaryDTO;
 
 import org.springframework.stereotype.Component;
 
@@ -54,34 +51,4 @@ public class ReporterParser {
 		}
 		return featuresMap;
 	}
-
-	public SummaryDTO getSummaryFromResult(String results) throws IOException {
-		SummaryDTO summary;
-		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;
-		List<Feature> features = parseJsonResult(results);
-		List<Element> elem  = new ArrayList<Element>();
-//		for (Feature f : features) {
-//			f.processSteps();
-//			totalScenarios   += f.getNumberOfScenarios();
-//			passingScenarios += f.getNumberOfScenariosPassed();
-//			failingScenarios += f.getNumberOfScenariosFailed();
-//		}
-		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios,elem);
-		return summary;
-	}
-
-	public SummaryDTO getSummaryFromFeatures(List<Feature> features) throws IOException {
-		SummaryDTO summary;
-		int totalScenarios = 0, passingScenarios = 0, failingScenarios = 0;
-		List<Element> elem  = new ArrayList<Element>();
-//		for (Feature f : features) {
-//			f.processSteps();
-//			totalScenarios   += f.getNumberOfScenarios();
-//			passingScenarios += f.getNumberOfScenariosPassed();
-//			failingScenarios += f.getNumberOfScenariosFailed();
-//		}
-		summary = new SummaryDTO(totalScenarios,passingScenarios,failingScenarios,elem);
-		return summary;
-	}
-
 }

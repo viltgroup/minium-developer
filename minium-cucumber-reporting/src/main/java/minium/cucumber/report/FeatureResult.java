@@ -24,14 +24,18 @@ import minium.cucumber.report.domain.Step;
 
 import com.google.common.collect.Lists;
 
-public class FeatureResults {
+public class FeatureResult {
 
     private StepResults stepResults;
     private ScenarioResults scenarioResults;
     private Feature feature;
 
-    public FeatureResults(Feature feature) {
+    public FeatureResult() {
+    }
+
+    public FeatureResult(Feature feature) {
         this.setFeature(feature);
+        this.processSteps();
     }
 
     public int getNumberOfSteps() {
@@ -74,7 +78,15 @@ public class FeatureResults {
         return scenarioResults.getNumberOfScenariosFailed();
     }
 
-    public void processSteps() {
+    public Feature getFeature() {
+        return feature;
+    }
+
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+    }
+
+    protected void processSteps() {
         List<Step> allSteps = Lists.newArrayList();
         List<Step> passedSteps = Lists.newArrayList();
         List<Step> failedSteps = Lists.newArrayList();
@@ -120,7 +132,7 @@ public class FeatureResults {
         stepResults = new StepResults(allSteps, passedSteps, failedSteps, skippedSteps, pendingSteps, missingSteps, undefinedSteps, totalDuration);
     }
 
-    private void calculateScenarioStats(List<Element> passedScenarios, List<Element> failedScenarios, Element element) {
+    protected void calculateScenarioStats(List<Element> passedScenarios, List<Element> failedScenarios, Element element) {
         if (!element.getKeyword().equals("Background")) {
             if (element.getStatus() == Status.PASSED) {
                 passedScenarios.add(element);
@@ -128,13 +140,5 @@ public class FeatureResults {
                 failedScenarios.add(element);
             }
         }
-    }
-
-    public Feature getFeature() {
-        return feature;
-    }
-
-    public void setFeature(Feature feature) {
-        this.feature = feature;
     }
 }

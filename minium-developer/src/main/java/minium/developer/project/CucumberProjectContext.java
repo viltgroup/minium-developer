@@ -113,7 +113,6 @@ public class CucumberProjectContext extends AbstractProjectContext {
 			if (features != null && !features.isEmpty()) {
 			    Feature feature = features.get(0);
 				featureResult = new FeatureResult(feature);
-				featureResult.processSteps();
 			}
 		}
 

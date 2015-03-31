@@ -1,4 +1,5 @@
-var timeUnits = require("minium/timeunits");
+var timeUnits = require("minium/timeunits")
+    _ = require("lodash");
 
 var stableForClickListener = new JavaAdapter(Packages.minium.actions.internal.DefaultInteractionListener, {
   onBeforeEvent : function (event) {
@@ -16,7 +17,7 @@ var stableForClickListener = new JavaAdapter(Packages.minium.actions.internal.De
         elem.waitTime(50, timeUnits.MILLISECONDS);
         prevPos = pos;
         pos = getPosition();
-      } while(!pos.equals(prevPos));
+      } while(!_.isEqual(pos, prevPos));
     }
   }
 });

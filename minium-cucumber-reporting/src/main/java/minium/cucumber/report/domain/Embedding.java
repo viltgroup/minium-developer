@@ -17,6 +17,7 @@ package minium.cucumber.report.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.hash.Hashing;
 
 public class Embedding {

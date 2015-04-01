@@ -15,25 +15,20 @@
  */
 package minium.cucumber.report.domain;
 
-import com.fasterxml.jackson.annotation.JsonView;
+import java.io.IOException;
 
-public class Tag {
+import org.apache.commons.codec.binary.Base64;
 
-    @JsonView(Views.Public.class)
-    private String name;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
 
-    public Tag(String name) {
-        this.name = name;
-    }
+public class GsonBase64Deserializer extends JsonDeserializer<byte[]> {
 
-    public Tag() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public byte[] deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException, JsonProcessingException {
+        String value = jsonParser.getValueAsString();
+        return Base64.decodeBase64(value);
     }
 }

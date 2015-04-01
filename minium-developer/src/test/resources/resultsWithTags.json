@@ -1,0 +1,2862 @@
+[
+  {
+    "id": "folders-features",
+    "tags": [
+      {
+        "name": "@runit",
+        "line": 1
+      }
+    ],
+    "description": "",
+    "name": "Folders features",
+    "keyword": "Feature",
+    "line": 2,
+    "elements": [
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 2350961567,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 2694028186,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 422480,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;create-new-folder;;2",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 26669811,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Create new folder",
+        "keyword": "Scenario Outline",
+        "line": 15,
+        "steps": [
+          {
+            "result": {
+              "duration": 3842152047,
+              "status": "passed"
+            },
+            "name": "folder \"minium-test/newFolder\" does not exist",
+            "keyword": "Given ",
+            "line": 9,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder",
+                  "offset": 8
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:4"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 1725161023,
+              "status": "passed"
+            },
+            "name": "I create folder \"minium-test/newFolder\"",
+            "keyword": "When ",
+            "line": 10,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder",
+                  "offset": 17
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:25"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 1546372321,
+              "status": "passed"
+            },
+            "name": "I should see folder \"minium-test/newFolder\"",
+            "keyword": "Then ",
+            "line": 11,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder",
+                  "offset": 21
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:37"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 601280098,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 246769793,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 81161,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;create-new-folder;;3",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 323923,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Create new folder",
+        "keyword": "Scenario Outline",
+        "line": 16,
+        "steps": [
+          {
+            "result": {
+              "duration": 1690898995,
+              "status": "passed"
+            },
+            "name": "folder \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1\" does not exist",
+            "keyword": "Given ",
+            "line": 9,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1",
+                  "offset": 8
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:4"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 10578091629,
+              "status": "passed"
+            },
+            "name": "I create folder \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1\"",
+            "keyword": "When ",
+            "line": 10,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1",
+                  "offset": 17
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:25"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 2174732640,
+              "status": "passed"
+            },
+            "name": "I should see folder \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1\"",
+            "keyword": "Then ",
+            "line": 11,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1",
+                  "offset": 21
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:37"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 583750034,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 206613676,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 94237,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;delete-folder;;2",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 590827,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Delete folder",
+        "keyword": "Scenario Outline",
+        "line": 25,
+        "steps": [
+          {
+            "result": {
+              "duration": 3208663536,
+              "status": "passed"
+            },
+            "name": "folder \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1\" exists",
+            "keyword": "Given ",
+            "line": 19,
+            "match": {
+              "arguments": [
+                {
+                  "val": "folder",
+                  "offset": 0
+                },
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1",
+                  "offset": 8
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:11"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 2103236042,
+              "status": "passed"
+            },
+            "name": "I delete folder \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1\"",
+            "keyword": "When ",
+            "line": 20,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1",
+                  "offset": 17
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:33"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 769319306,
+              "status": "passed"
+            },
+            "name": "I should not see folder \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1\"",
+            "keyword": "Then ",
+            "line": 21,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/folder-1.1.1.1",
+                  "offset": 25
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:41"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 560455524,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 209532288,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 101290,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;delete-folder;;3",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 892390,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Delete folder",
+        "keyword": "Scenario Outline",
+        "line": 26,
+        "steps": [
+          {
+            "result": {
+              "duration": 1560986938,
+              "status": "passed"
+            },
+            "name": "folder \"minium-test/newFolder\" exists",
+            "keyword": "Given ",
+            "line": 19,
+            "match": {
+              "arguments": [
+                {
+                  "val": "folder",
+                  "offset": 0
+                },
+                {
+                  "val": "minium-test/newFolder",
+                  "offset": 8
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:11"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 689114661,
+              "status": "passed"
+            },
+            "name": "I delete folder \"minium-test/newFolder\"",
+            "keyword": "When ",
+            "line": 20,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder",
+                  "offset": 17
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:33"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 236527554,
+              "status": "passed"
+            },
+            "name": "I should not see folder \"minium-test/newFolder\"",
+            "keyword": "Then ",
+            "line": 21,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder",
+                  "offset": 25
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:41"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 408346296,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 411098726,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 85236,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;create-new-file;;2",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 628794,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Create new file",
+        "keyword": "Scenario Outline",
+        "line": 35,
+        "steps": [
+          {
+            "result": {
+              "duration": 1193547074,
+              "status": "passed"
+            },
+            "name": "file \"minium-test/newFile\" does not exist",
+            "keyword": "Given ",
+            "line": 29,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFile",
+                  "offset": 6
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:4"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 1018068949,
+              "status": "passed"
+            },
+            "name": "I create file \"minium-test/newFile\"",
+            "keyword": "When ",
+            "line": 30,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFile",
+                  "offset": 15
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:29"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 1239985229,
+              "status": "passed"
+            },
+            "name": "I should see file \"minium-test/newFile\"",
+            "keyword": "Then ",
+            "line": 31,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFile",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:37"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 573152975,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 210291500,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 93067,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;create-new-file;;3",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 760191,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Create new file",
+        "keyword": "Scenario Outline",
+        "line": 36,
+        "steps": [
+          {
+            "result": {
+              "duration": 1184854635,
+              "status": "passed"
+            },
+            "name": "file \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile\" does not exist",
+            "keyword": "Given ",
+            "line": 29,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile",
+                  "offset": 6
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:4"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 11085268127,
+              "status": "passed"
+            },
+            "name": "I create file \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile\"",
+            "keyword": "When ",
+            "line": 30,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile",
+                  "offset": 15
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:29"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 1733868763,
+              "status": "passed"
+            },
+            "name": "I should see file \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile\"",
+            "keyword": "Then ",
+            "line": 31,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:37"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 710638320,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 366661060,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 144360,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;delete-file;;2",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 780574,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "delete file",
+        "keyword": "Scenario Outline",
+        "line": 45,
+        "steps": [
+          {
+            "result": {
+              "duration": 2666576471,
+              "status": "passed"
+            },
+            "name": "file \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile\" exists",
+            "keyword": "Given ",
+            "line": 39,
+            "match": {
+              "arguments": [
+                {
+                  "val": "file",
+                  "offset": 0
+                },
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile",
+                  "offset": 6
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:11"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 1652595211,
+              "status": "passed"
+            },
+            "name": "I delete file \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile\"",
+            "keyword": "When ",
+            "line": 40,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile",
+                  "offset": 15
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:33"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 620281912,
+              "status": "passed"
+            },
+            "name": "I should not see file \"minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile\"",
+            "keyword": "Then ",
+            "line": 41,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFolder/folder-1/folder-1.1/folder-1.1.1/newFile",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:41"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 603771649,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 203150809,
+              "status": "passed"
+            },
+            "name": "the active project is \"minium-test\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:25"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 82324,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "folders-features;delete-file;;3",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 753800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "delete file",
+        "keyword": "Scenario Outline",
+        "line": 46,
+        "steps": [
+          {
+            "result": {
+              "duration": 1285341849,
+              "status": "passed"
+            },
+            "name": "file \"minium-test/newFile\" exists",
+            "keyword": "Given ",
+            "line": 39,
+            "match": {
+              "arguments": [
+                {
+                  "val": "file",
+                  "offset": 0
+                },
+                {
+                  "val": "minium-test/newFile",
+                  "offset": 6
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:11"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 728308721,
+              "status": "passed"
+            },
+            "name": "I delete file \"minium-test/newFile\"",
+            "keyword": "When ",
+            "line": 40,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFile",
+                  "offset": 15
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:33"
+            },
+            "matchedColumns": [
+              0
+            ]
+          },
+          {
+            "result": {
+              "duration": 212395966,
+              "status": "passed"
+            },
+            "name": "I should not see file \"minium-test/newFile\"",
+            "keyword": "Then ",
+            "line": 41,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test/newFile",
+                  "offset": 23
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:41"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "uri": "FolderFile.feature"
+  },
+  {
+    "id": "editor-preferences",
+    "tags": [
+      {
+        "name": "@runit",
+        "line": 1
+      }
+    ],
+    "description": "",
+    "name": "Editor Preferences",
+    "keyword": "Feature",
+    "line": 2,
+    "elements": [
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 585670184,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 630736484,
+              "status": "passed"
+            },
+            "name": "I click on toolbar \"Preferences \u003e Preferences\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Preferences \u003e Preferences",
+                  "offset": 20
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:345"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 80720,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "editor-preferences;test-theme;;2",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 662613,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Test theme",
+        "keyword": "Scenario Outline",
+        "line": 18,
+        "steps": [
+          {
+            "result": {
+              "duration": 517446991,
+              "status": "passed"
+            },
+            "name": "I fill:",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:42"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Theme"
+                ],
+                "line": 10
+              },
+              {
+                "cells": [
+                  "Chrome"
+                ],
+                "line": 11
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 226162479,
+              "status": "passed"
+            },
+            "name": "I click on button \"Save changes\"",
+            "keyword": "And ",
+            "line": 12,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Save changes",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:117"
+            }
+          },
+          {
+            "result": {
+              "duration": 58004804,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Preferences updated with success\"",
+            "keyword": "Then ",
+            "line": 13,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Preferences updated with success",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 52997156,
+              "status": "passed"
+            },
+            "name": "the editor should have theme \"Chrome\"",
+            "keyword": "And ",
+            "line": 14,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Chrome",
+                  "offset": 30
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:30"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 614759026,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 594152019,
+              "status": "passed"
+            },
+            "name": "I click on toolbar \"Preferences \u003e Preferences\"",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Preferences \u003e Preferences",
+                  "offset": 20
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:345"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 111326,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "editor-preferences;test-theme;;3",
+        "tags": [
+          {
+            "name": "@runit",
+            "line": 1
+          }
+        ],
+        "before": [
+          {
+            "result": {
+              "duration": 623374,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Test theme",
+        "keyword": "Scenario Outline",
+        "line": 19,
+        "steps": [
+          {
+            "result": {
+              "duration": 458654278,
+              "status": "passed"
+            },
+            "name": "I fill:",
+            "keyword": "When ",
+            "line": 9,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:42"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "rows": [
+              {
+                "cells": [
+                  "Theme"
+                ],
+                "line": 10
+              },
+              {
+                "cells": [
+                  "Twilight"
+                ],
+                "line": 11
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 236870548,
+              "status": "passed"
+            },
+            "name": "I click on button \"Save changes\"",
+            "keyword": "And ",
+            "line": 12,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Save changes",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:117"
+            }
+          },
+          {
+            "result": {
+              "duration": 57684687,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Preferences updated with success\"",
+            "keyword": "Then ",
+            "line": 13,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Preferences updated with success",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 51673443,
+              "status": "passed"
+            },
+            "name": "the editor should have theme \"Twilight\"",
+            "keyword": "And ",
+            "line": 14,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Twilight",
+                  "offset": 30
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:30"
+            },
+            "matchedColumns": [
+              0
+            ]
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "uri": "Preferences.feature"
+  },
+  {
+    "id": "manage-minium-projects",
+    "tags": [
+      {
+        "name": "@runit",
+        "line": 1
+      }
+    ],
+    "description": "",
+    "name": "Manage Minium Projects",
+    "keyword": "Feature",
+    "line": 2,
+    "elements": [
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 414574260,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 83553,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "manage-minium-projects;create-new-automator-project",
+        "before": [
+          {
+            "result": {
+              "duration": 672986,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Create new Automator project",
+        "keyword": "Scenario",
+        "line": 7,
+        "steps": [
+          {
+            "result": {
+              "duration": 3133681330,
+              "status": "passed"
+            },
+            "name": "I create the following project:",
+            "keyword": "When ",
+            "line": 8,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:55"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Automator Project"
+                ],
+                "line": 9
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-automator-${timestamp}"
+                ],
+                "line": 10
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 1199873362,
+              "status": "passed"
+            },
+            "name": "the active project should be \"minium-automator-${timestamp}\"",
+            "keyword": "Then ",
+            "line": 11,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-automator-${timestamp}",
+                  "offset": 30
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:60"
+            }
+          },
+          {
+            "result": {
+              "duration": 593558295,
+              "status": "passed"
+            },
+            "name": "I should see the following files:",
+            "keyword": "And ",
+            "line": 12,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:64"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "minium-automator-${timestamp}/modules"
+                ],
+                "line": 13
+              },
+              {
+                "cells": [
+                  "minium-automator-${timestamp}/main.js"
+                ],
+                "line": 14
+              }
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 398545446,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 39233,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "manage-minium-projects;creating-new-automator-project-fails-due-to-existing-project",
+        "before": [
+          {
+            "result": {
+              "duration": 715773,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Creating new Automator project fails due to existing project",
+        "keyword": "Scenario",
+        "line": 16,
+        "steps": [
+          {
+            "result": {
+              "duration": 1430201318,
+              "status": "passed"
+            },
+            "name": "project \"minium-test\" exists",
+            "keyword": "Given ",
+            "line": 17,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-test",
+                  "offset": 9
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:13"
+            }
+          },
+          {
+            "result": {
+              "duration": 3225058249,
+              "status": "passed"
+            },
+            "name": "I try to create the following project:",
+            "keyword": "When ",
+            "line": 18,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:55"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Automator Project"
+                ],
+                "line": 19
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-test"
+                ],
+                "line": 20
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 32707747,
+              "status": "passed"
+            },
+            "name": "I should see the following validation messages:",
+            "keyword": "Then ",
+            "line": 21,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:71"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project Name",
+                  "There\u0027s already a project in this path!!"
+                ],
+                "line": 22
+              }
+            ]
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 397961615,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 41173,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "manage-minium-projects;create-new-cucumber-project",
+        "before": [
+          {
+            "result": {
+              "duration": 315727,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Create new Cucumber project",
+        "keyword": "Scenario",
+        "line": 24,
+        "steps": [
+          {
+            "result": {
+              "duration": 3700325695,
+              "status": "passed"
+            },
+            "name": "I create the following project:",
+            "keyword": "When ",
+            "line": 25,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:55"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Cucumber project"
+                ],
+                "line": 26
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-cucumber-${timestamp}"
+                ],
+                "line": 27
+              },
+              {
+                "cells": [
+                  "Group ID",
+                  "io.vilt.minium.test"
+                ],
+                "line": 28
+              },
+              {
+                "cells": [
+                  "Version",
+                  "1.0.5-SNAPSHOT"
+                ],
+                "line": 29
+              },
+              {
+                "cells": [
+                  "Feature file",
+                  "my-feature"
+                ],
+                "line": 30
+              },
+              {
+                "cells": [
+                  "Step file",
+                  "my-steps"
+                ],
+                "line": 31
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 786634217,
+              "status": "passed"
+            },
+            "name": "the active project should be \"minium-cucumber-${timestamp}\"",
+            "keyword": "Then ",
+            "line": 32,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-cucumber-${timestamp}",
+                  "offset": 30
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:60"
+            }
+          },
+          {
+            "result": {
+              "duration": 1783452585,
+              "status": "passed"
+            },
+            "name": "I should see the following files:",
+            "keyword": "And ",
+            "line": 33,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:64"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "minium-cucumber-${timestamp}/config/application.yml"
+                ],
+                "line": 34
+              },
+              {
+                "cells": [
+                  "minium-cucumber-${timestamp}/logback-test.xml"
+                ],
+                "line": 35
+              },
+              {
+                "cells": [
+                  "minium-cucumber-${timestamp}/steps/my-steps.js"
+                ],
+                "line": 36
+              },
+              {
+                "cells": [
+                  "minium-cucumber-${timestamp}/features/my-feature.feature"
+                ],
+                "line": 37
+              }
+            ]
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "uri": "Projects.feature"
+  },
+  {
+    "id": "run-features",
+    "tags": [
+      {
+        "name": "@runit",
+        "line": 1
+      }
+    ],
+    "description": "",
+    "name": "Run features",
+    "keyword": "Feature",
+    "line": 2,
+    "elements": [
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 568628359,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 1446405521,
+              "status": "passed"
+            },
+            "name": "the following project is active:",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:42"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Cucumber project"
+                ],
+                "line": 7
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-cucumber-test"
+                ],
+                "line": 8
+              },
+              {
+                "cells": [
+                  "Group ID",
+                  "io.vilt.minium.test"
+                ],
+                "line": 9
+              },
+              {
+                "cells": [
+                  "Version",
+                  "1.0.5-SNAPSHOT"
+                ],
+                "line": 10
+              },
+              {
+                "cells": [
+                  "Feature file",
+                  "my-feature"
+                ],
+                "line": 11
+              },
+              {
+                "cells": [
+                  "Step file",
+                  "my-steps"
+                ],
+                "line": 12
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 11958037216,
+              "status": "passed"
+            },
+            "name": "a browser is already launched",
+            "keyword": "And ",
+            "line": 13,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:10"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 88377,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "run-features;run-all-tests-(button-\u0027run-test\u0027,-first-line-selected)",
+        "before": [
+          {
+            "result": {
+              "duration": 357305,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Run all tests (button \u0027Run Test\u0027, first line selected)",
+        "keyword": "Scenario",
+        "line": 15,
+        "steps": [
+          {
+            "result": {
+              "duration": 993647260,
+              "status": "passed"
+            },
+            "name": "I open file \"minium-cucumber-test/features/my-feature.feature\"",
+            "keyword": "When ",
+            "line": 16,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-cucumber-test/features/my-feature.feature",
+                  "offset": 13
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:53"
+            }
+          },
+          {
+            "result": {
+              "duration": 188017958,
+              "status": "passed"
+            },
+            "name": "I click on button \"Run Test\"",
+            "keyword": "And ",
+            "line": 17,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Run Test",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:117"
+            }
+          },
+          {
+            "result": {
+              "duration": 1067351414,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Test Started...\"",
+            "keyword": "Then ",
+            "line": 18,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Test Started...",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 17952622719,
+              "status": "passed"
+            },
+            "name": "I wait until the test is completed",
+            "keyword": "When ",
+            "line": 19,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:30"
+            }
+          },
+          {
+            "result": {
+              "duration": 43862020,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Test Pass with Sucess\"",
+            "keyword": "And ",
+            "line": 20,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Test Pass with Sucess",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 380351997,
+              "status": "passed"
+            },
+            "name": "only lines 6,7,8,11,12,13 should be marked as passed",
+            "keyword": "And ",
+            "line": 21,
+            "match": {
+              "arguments": [
+                {
+                  "val": "6,7,8,11,12,13",
+                  "offset": 11
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/editor_stepdefs.js:7"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 84688167,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 1447163020,
+              "status": "passed"
+            },
+            "name": "the following project is active:",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:42"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Cucumber project"
+                ],
+                "line": 7
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-cucumber-test"
+                ],
+                "line": 8
+              },
+              {
+                "cells": [
+                  "Group ID",
+                  "io.vilt.minium.test"
+                ],
+                "line": 9
+              },
+              {
+                "cells": [
+                  "Version",
+                  "1.0.5-SNAPSHOT"
+                ],
+                "line": 10
+              },
+              {
+                "cells": [
+                  "Feature file",
+                  "my-feature"
+                ],
+                "line": 11
+              },
+              {
+                "cells": [
+                  "Step file",
+                  "my-steps"
+                ],
+                "line": 12
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 1723689935,
+              "status": "passed"
+            },
+            "name": "a browser is already launched",
+            "keyword": "And ",
+            "line": 13,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:10"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 109630,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "run-features;run-all-tests-(button-\u0027run-all\u0027)",
+        "before": [
+          {
+            "result": {
+              "duration": 630427,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Run all tests (button \u0027Run All\u0027)",
+        "keyword": "Scenario",
+        "line": 23,
+        "steps": [
+          {
+            "result": {
+              "duration": 1037185796,
+              "status": "passed"
+            },
+            "name": "I open file \"minium-cucumber-test/features/my-feature.feature\"",
+            "keyword": "When ",
+            "line": 24,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-cucumber-test/features/my-feature.feature",
+                  "offset": 13
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:53"
+            }
+          },
+          {
+            "result": {
+              "duration": 226726604,
+              "status": "passed"
+            },
+            "name": "I click on button \"Run All\"",
+            "keyword": "And ",
+            "line": 25,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Run All",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:117"
+            }
+          },
+          {
+            "result": {
+              "duration": 64849017,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Test Started...\"",
+            "keyword": "Then ",
+            "line": 26,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Test Started...",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 10564859024,
+              "status": "passed"
+            },
+            "name": "I wait until the test is completed",
+            "keyword": "When ",
+            "line": 27,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:30"
+            }
+          },
+          {
+            "result": {
+              "duration": 37518919,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Test Pass with Sucess\"",
+            "keyword": "And ",
+            "line": 28,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Test Pass with Sucess",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 323651198,
+              "status": "passed"
+            },
+            "name": "only lines 6,7,8,11,12,13 should be marked as passed",
+            "keyword": "And ",
+            "line": 29,
+            "match": {
+              "arguments": [
+                {
+                  "val": "6,7,8,11,12,13",
+                  "offset": 11
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/editor_stepdefs.js:7"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 91431026,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 1240705139,
+              "status": "passed"
+            },
+            "name": "the following project is active:",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:42"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Cucumber project"
+                ],
+                "line": 7
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-cucumber-test"
+                ],
+                "line": 8
+              },
+              {
+                "cells": [
+                  "Group ID",
+                  "io.vilt.minium.test"
+                ],
+                "line": 9
+              },
+              {
+                "cells": [
+                  "Version",
+                  "1.0.5-SNAPSHOT"
+                ],
+                "line": 10
+              },
+              {
+                "cells": [
+                  "Feature file",
+                  "my-feature"
+                ],
+                "line": 11
+              },
+              {
+                "cells": [
+                  "Step file",
+                  "my-steps"
+                ],
+                "line": 12
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 1853382421,
+              "status": "passed"
+            },
+            "name": "a browser is already launched",
+            "keyword": "And ",
+            "line": 13,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:10"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 809143,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "run-features;run-one-test-(button-\u0027run-test\u0027)",
+        "before": [
+          {
+            "result": {
+              "duration": 1770030,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Run one test (button \u0027Run Test\u0027)",
+        "keyword": "Scenario",
+        "line": 31,
+        "steps": [
+          {
+            "result": {
+              "duration": 974067207,
+              "status": "passed"
+            },
+            "name": "I open file \"minium-cucumber-test/features/my-feature.feature\"",
+            "keyword": "When ",
+            "line": 32,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-cucumber-test/features/my-feature.feature",
+                  "offset": 13
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:53"
+            }
+          },
+          {
+            "result": {
+              "duration": 57211996,
+              "status": "passed"
+            },
+            "name": "I move the cursor to line 5",
+            "keyword": "And ",
+            "line": 33,
+            "match": {
+              "arguments": [
+                {
+                  "val": "5",
+                  "offset": 26
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/editor_stepdefs.js:3"
+            }
+          },
+          {
+            "result": {
+              "duration": 205910003,
+              "status": "passed"
+            },
+            "name": "I click on button \"Run Test\"",
+            "keyword": "And ",
+            "line": 34,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Run Test",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:117"
+            }
+          },
+          {
+            "result": {
+              "duration": 28861555,
+              "status": "passed"
+            },
+            "name": "I wait until the test is completed",
+            "keyword": "And ",
+            "line": 35,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:30"
+            }
+          },
+          {
+            "result": {
+              "duration": 3129227446,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Test Pass with Sucess\"",
+            "keyword": "And ",
+            "line": 36,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Test Pass with Sucess",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 209925594,
+              "status": "passed"
+            },
+            "name": "only lines 6,7,8 should be marked as passed",
+            "keyword": "And ",
+            "line": 37,
+            "match": {
+              "arguments": [
+                {
+                  "val": "6,7,8",
+                  "offset": 11
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/editor_stepdefs.js:7"
+            }
+          }
+        ],
+        "type": "scenario"
+      },
+      {
+        "description": "",
+        "name": "",
+        "keyword": "Background",
+        "line": 4,
+        "steps": [
+          {
+            "result": {
+              "duration": 110282907,
+              "status": "passed"
+            },
+            "name": "I\u0027m at Minium Developer",
+            "keyword": "Given ",
+            "line": 5,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:6"
+            }
+          },
+          {
+            "result": {
+              "duration": 1692268500,
+              "status": "passed"
+            },
+            "name": "the following project is active:",
+            "keyword": "And ",
+            "line": 6,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/project_stepdefs.js:42"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "Project type",
+                  "Cucumber project"
+                ],
+                "line": 7
+              },
+              {
+                "cells": [
+                  "Project Name",
+                  "minium-cucumber-test"
+                ],
+                "line": 8
+              },
+              {
+                "cells": [
+                  "Group ID",
+                  "io.vilt.minium.test"
+                ],
+                "line": 9
+              },
+              {
+                "cells": [
+                  "Version",
+                  "1.0.5-SNAPSHOT"
+                ],
+                "line": 10
+              },
+              {
+                "cells": [
+                  "Feature file",
+                  "my-feature"
+                ],
+                "line": 11
+              },
+              {
+                "cells": [
+                  "Step file",
+                  "my-steps"
+                ],
+                "line": 12
+              }
+            ]
+          },
+          {
+            "result": {
+              "duration": 1914439431,
+              "status": "passed"
+            },
+            "name": "a browser is already launched",
+            "keyword": "And ",
+            "line": 13,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:10"
+            }
+          }
+        ],
+        "type": "background"
+      },
+      {
+        "after": [
+          {
+            "result": {
+              "duration": 123060,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/.m2/repository/io/vilt/minium/minium-cucumber/1.0.0-SNAPSHOT/minium-cucumber-1.0.0-SNAPSHOT.jar!/minium/cucumber/internal/hooks/screenshot_stepdefs.js:1"
+            }
+          }
+        ],
+        "id": "run-features;run-one-scenario-outline-example-test-(button-\u0027run-test\u0027)",
+        "before": [
+          {
+            "result": {
+              "duration": 675347,
+              "status": "passed"
+            },
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/hooks.js:3"
+            }
+          }
+        ],
+        "description": "",
+        "name": "Run one scenario outline example test (button \u0027Run Test\u0027)",
+        "keyword": "Scenario",
+        "line": 39,
+        "steps": [
+          {
+            "result": {
+              "duration": 1095301497,
+              "status": "passed"
+            },
+            "name": "I open file \"minium-cucumber-test/features/my-feature.feature\"",
+            "keyword": "When ",
+            "line": 40,
+            "match": {
+              "arguments": [
+                {
+                  "val": "minium-cucumber-test/features/my-feature.feature",
+                  "offset": 13
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/files_stepdefs.js:53"
+            }
+          },
+          {
+            "result": {
+              "duration": 56551053,
+              "status": "passed"
+            },
+            "name": "I move the cursor to line 17",
+            "keyword": "And ",
+            "line": 41,
+            "match": {
+              "arguments": [
+                {
+                  "val": "17",
+                  "offset": 26
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/editor_stepdefs.js:3"
+            }
+          },
+          {
+            "result": {
+              "duration": 201329400,
+              "status": "passed"
+            },
+            "name": "I click on button \"Run Test\"",
+            "keyword": "And ",
+            "line": 42,
+            "match": {
+              "arguments": [
+                {
+                  "val": "Run Test",
+                  "offset": 19
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:117"
+            }
+          },
+          {
+            "result": {
+              "duration": 5278687126,
+              "status": "passed"
+            },
+            "name": "I wait until the test is completed",
+            "keyword": "And ",
+            "line": 43,
+            "match": {
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/developer_stepdefs.js:30"
+            }
+          },
+          {
+            "result": {
+              "duration": 34743771,
+              "status": "passed"
+            },
+            "name": "I should see a success notification with text \"Test Pass with Sucess\"",
+            "keyword": "And ",
+            "line": 44,
+            "match": {
+              "arguments": [
+                {
+                  "val": "success",
+                  "offset": 15
+                },
+                {
+                  "val": "Test Pass with Sucess",
+                  "offset": 47
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/old_developer_stepdefs.js:167"
+            }
+          },
+          {
+            "result": {
+              "duration": 168535132,
+              "status": "passed"
+            },
+            "name": "only lines 11,12,13 should be marked as passed",
+            "keyword": "And ",
+            "line": 45,
+            "match": {
+              "arguments": [
+                {
+                  "val": "11,12,13",
+                  "offset": 11
+                }
+              ],
+              "location": "/var/lib/jenkins/jobs/minium-developer-e2e/workspace/minium-developer-e2e-tests/src/test/resources/steps/editor_stepdefs.js:7"
+            }
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "uri": "Run.feature"
+  }
+]

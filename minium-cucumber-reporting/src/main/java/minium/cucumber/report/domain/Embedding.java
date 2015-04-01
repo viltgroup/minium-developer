@@ -26,6 +26,7 @@ public class Embedding {
     private String mimeType;
 
     @JsonView(Views.Full.class)
+    @JsonDeserialize(using = GsonBase64Deserializer.class)
     private byte[] data;
 
     @JsonView(Views.Public.class)

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-public class GsonBase64Deserializer extends JsonDeserializer<byte[]> {
+public class JsonBase64Deserializer extends JsonDeserializer<byte[]> {
 
     @Override
     public byte[] deserialize(JsonParser jsonParser, DeserializationContext context) throws IOException, JsonProcessingException {

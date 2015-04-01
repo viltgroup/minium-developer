@@ -17,19 +17,39 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
 public class Step {
 
+    @JsonView(Views.Public.class)
     private String name;
+
+    @JsonView(Views.Public.class)
     private String keyword;
+
+    @JsonView(Views.Public.class)
     private String line;
+
+    @JsonView(Views.Public.class)
     private Result result;
+
+    @JsonView(Views.Public.class)
     private List<Row> rows = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
     private Match match;
+
+    @JsonView(Views.Public.class)
     private List<Embedding> embeddings = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
     private List<String> output = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
     private DocString docString;
+
+    @JsonView(Views.Public.class)
     private String errorMessage;
 
     public Step() {

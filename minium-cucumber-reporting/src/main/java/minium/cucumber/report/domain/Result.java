@@ -16,14 +16,18 @@
 package minium.cucumber.report.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
 
 public class Result {
 
+    @JsonView(Views.Public.class)
     private Status status;
 
+    @JsonView(Views.Public.class)
     @JsonProperty("error_message")
     private String errorMessage;
 
+    @JsonView(Views.Public.class)
     private Long duration;
 
     public Result() {

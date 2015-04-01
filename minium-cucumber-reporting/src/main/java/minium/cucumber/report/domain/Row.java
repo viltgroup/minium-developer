@@ -17,10 +17,12 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
 public class Row {
 
+    @JsonView(Views.Public.class)
     private List<String> cells = Lists.newArrayList();
 
     public Row() {

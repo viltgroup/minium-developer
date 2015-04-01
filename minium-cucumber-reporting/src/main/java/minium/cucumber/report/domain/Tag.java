@@ -15,8 +15,11 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class Tag {
 
+    @JsonView(Views.Public.class)
     private String name;
 
     public Tag(String name) {

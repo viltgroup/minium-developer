@@ -18,19 +18,39 @@ package minium.cucumber.report.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
 public class Feature {
 
+    @JsonView(Views.Public.class)
     private String id;
+
+    @JsonView(Views.Public.class)
     private String name;
+
+    @JsonView(Views.Public.class)
     private String uri;
+
+    @JsonView(Views.Public.class)
     private String description;
+
+    @JsonView(Views.Public.class)
     private String keyword;
+
+    @JsonView(Views.Public.class)
     private List<Element> elements = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
     private List<Tag> tags = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
     private String jsonFile = "";
+
+    @JsonView(Views.Public.class)
     private Integer line;
+
+    @JsonView(Views.Public.class)
     private Status status;
 
     public Feature() {

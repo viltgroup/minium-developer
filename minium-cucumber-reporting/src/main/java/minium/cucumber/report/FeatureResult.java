@@ -21,13 +21,20 @@ import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Feature;
 import minium.cucumber.report.domain.Status;
 import minium.cucumber.report.domain.Step;
+import minium.cucumber.report.domain.Views;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
 public class FeatureResult {
 
+    @JsonView(Views.Public.class)
     private StepResults stepResults;
+
+    @JsonView(Views.Public.class)
     private ScenarioResults scenarioResults;
+
+    @JsonView(Views.Public.class)
     private Feature feature;
 
     public FeatureResult() {

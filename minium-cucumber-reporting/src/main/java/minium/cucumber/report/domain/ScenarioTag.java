@@ -15,9 +15,14 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class ScenarioTag {
 
+    @JsonView(Views.Public.class)
     private Element scenario;
+
+    @JsonView(Views.Public.class)
     private String parentFeatureUri;
 
     public ScenarioTag(Element scenario, String parentFeatureUri) {

@@ -15,6 +15,8 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * Doc Strings are handy for specifying a larger piece of text. This is inspired from Python’s Docstring syntax.
  *
@@ -22,12 +24,11 @@ package minium.cucumber.report.domain;
  */
 public class DocString {
 
-    /**
-     * The contents of the docstring
-     */
+    @JsonView(Views.Public.class)
     private String value;
 
-    private String contentType;
+    @JsonView(Views.Public.class)
+     private String contentType;
 
     /**
      * Line on which docstring occurs

@@ -17,11 +17,13 @@ package minium.cucumber.report.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.annotation.JsonView;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum Status {
     PASSED("passed"), FAILED("failed"), SKIPPED("skipped"), UNDEFINED("undefined"), MISSING("missing"), PENDING("pending");
 
+    @JsonView(Views.Public.class)
     private String name;
 
     Status(String name) {

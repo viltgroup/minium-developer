@@ -17,14 +17,24 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
 public class Element {
 
+    @JsonView(Views.Public.class)
     private String name;
+
+    @JsonView(Views.Public.class)
     private String description;
+
+    @JsonView(Views.Public.class)
     private String keyword;
+
+    @JsonView(Views.Public.class)
     private List<Step> steps = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
     private List<Tag> tags = Lists.newArrayList();
 
     public Element() {

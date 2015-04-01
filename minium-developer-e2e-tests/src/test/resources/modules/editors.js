@@ -23,7 +23,14 @@ var AceEditorProxy = function (editorElem) {
         var fnName = args.shift();
         var editor = ace.edit($(this).attr("id"));
         console.log("Calling", fnName, "with args", args);
-        return editor[fnName].apply(editor, args);
+        var result = editor[fnName].apply(editor, args);
+        if (result) {
+          try {
+            return JSON.stringify(result);
+          } catch (e) { 
+            // could not convert to JSON, oh well...
+          }
+        }
       }, [ fnName ].concat(Array.prototype.slice.call(arguments)));
     };
   });

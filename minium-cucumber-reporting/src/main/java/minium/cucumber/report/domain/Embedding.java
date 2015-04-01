@@ -16,12 +16,20 @@
 package minium.cucumber.report.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.hash.Hashing;
 
 public class Embedding {
 
+    @JsonView(Views.Public.class)
     @JsonProperty("mime_type")
     private String mimeType;
+
+    @JsonView(Views.Full.class)
     private byte[] data;
+
+    @JsonView(Views.Public.class)
+    private String sha1Hash;
 
     public String getMimeType() {
         return mimeType;
@@ -39,4 +47,10 @@ public class Embedding {
         this.data = data;
     }
 
+    public String getSha1Hash() {
+        if (sha1Hash == null && data != null) {
+            sha1Hash = Hashing.sha1().hashBytes(data).toString();
+        }
+        return sha1Hash;
+    }
 }

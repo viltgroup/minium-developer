@@ -15,8 +15,11 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 public class Match {
 
+    @JsonView(Views.Public.class)
     private String location;
 
     public Match() {

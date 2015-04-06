@@ -69,7 +69,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
 
     public Object eval(Evaluation evaluation) throws Exception {
         refreshConfiguration();
-        return jsEngine.eval(evaluation.getExpression(), evaluation.getLineNumber());
+        return jsEngine.eval(evaluation.getExpression(), evaluation.getFilePath(), evaluation.getLineNumber());
     }
 
     public StackTraceElement[] getExecutionStackTrace() {
@@ -100,6 +100,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         require.getModulePaths().add(new File(resourcesDir, "modules").toURI().toString());
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
+        rhinoProperties.setFilteredStackTraces(true);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
         JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine);
         new MiniumJsEngineAdapter(browser, browsers).adapt(rhinoEngine);

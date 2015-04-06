@@ -1,0 +1,6 @@
+server:
+  port: 8089
+  
+minium:
+  rhino:
+    filteredStackTraces: true

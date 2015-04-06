@@ -1,21 +1,10 @@
 miniumDeveloper.factory('EvalService', function($http) {
     return {
-        eval: function(params) {
-            return $http({
-                method: "POST",
-                url: '/app/rest/js/eval',
-                data: params ? $.param(params) : '',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded"
-                }
-            });
+        eval: function(evalOptions) {
+            return $http.post('/app/rest/js/eval', evalOptions);
         },
         clean: function() {
-            return $http({
-                method: "POST",
-                url: '/app/rest/js/clean'
-            });
+            return $http.post('/app/rest/js/clean');
         }
     };
 })
-

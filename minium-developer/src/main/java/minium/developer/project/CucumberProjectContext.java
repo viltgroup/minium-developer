@@ -193,7 +193,10 @@ public class CucumberProjectContext extends AbstractProjectContext {
 		OptionsProperties options = new OptionsProperties();
 		options.setFeatures(ImmutableList.<String> of(featurePath));
 		options.setPlugin(ImmutableList.of("json:" + resultsFile.getAbsolutePath()));
-		options.setGlue(ImmutableList.of(new File(resourcesDir, "steps").getAbsolutePath()));
+		List<String> glues = Lists.newArrayList(projectCucumberProperties.getOptions().getGlue());
+		int index = glues.indexOf("src/test/resources/steps");
+		if (index != -1) glues.set(index, new File(resourcesDir, "steps").getAbsolutePath());
+		options.setGlue(glues);
 		CucumberProperties cucumberProperties = new CucumberProperties();
 		cucumberProperties.setOptions(options);
 		cucumberProperties.setRemoteBackends(projectCucumberProperties.getRemoteBackends());

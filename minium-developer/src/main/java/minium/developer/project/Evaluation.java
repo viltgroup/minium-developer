@@ -2,7 +2,7 @@ package minium.developer.project;
 
 public class Evaluation {
 
-    private String fileName;
+    private String filePath;
     private String expression;
     private int lineNumber;
 
@@ -10,17 +10,17 @@ public class Evaluation {
     }
 
     public Evaluation(String expression, String fileName, int lineNumber) {
-        this.fileName = fileName;
+        this.filePath = fileName;
         this.expression = expression;
         this.lineNumber = lineNumber;
     }
 
-    public String getFileName() {
-        return fileName;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getExpression() {

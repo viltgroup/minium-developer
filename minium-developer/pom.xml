@@ -94,6 +94,7 @@
             <resource>
                 <directory>src/main/resources</directory>
                 <excludes>
+                    <exclude>config/application.yml</exclude>
                     <exclude>logback.xml</exclude>
                 </excludes>
             </resource>

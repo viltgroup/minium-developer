@@ -25,7 +25,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         //create a new session and set the content
         setAceContent(fileContent, editor);
 
-        //set mode 
+        //set mode
         var mode = this.setMode(fileName, editor);
 
         //change the settings of editor (themes, size, etc)
@@ -120,8 +120,8 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
 
         var request = EvalService.eval({
-                expr: code,
-                lineno: line + 1
+                expression: code,
+                lineNumber: line + 1
             })
             .success(function(data) {
                 if (data.size >= 0) {

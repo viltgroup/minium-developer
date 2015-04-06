@@ -28,8 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.common.base.Preconditions;
@@ -45,9 +45,9 @@ public class EvalResource {
 
     @RequestMapping(value = "/eval")
     @ResponseBody
-    public EvalResult eval(@RequestParam("expr") final String expression, @RequestParam(value = "lineno", defaultValue = "1") final int lineNumber) {
+    public EvalResult eval(@RequestBody Evaluation evaluation) {
         try {
-            Object result = getProjectContext().eval(new Evaluation(expression, null, lineNumber));
+            Object result = getProjectContext().eval(evaluation);
             if (result instanceof Elements) {
                 Elements elements = (Elements) result;
                 boolean canHighlight = elements.is(DebugInteractable.class) && elements.is(FreezableElements.class);
@@ -58,12 +58,12 @@ public class EvalResource {
                 if (totalCount > 0 && canHighlight) {
                     elements.as(DebugInteractable.class).highlight();
                 }
-                return new EvalResult(expression, totalCount);
+                return new EvalResult(evaluation.getExpression(), totalCount);
             } else {
                 return new EvalResult(getProjectContext().toString(result));
             }
         } catch (Exception e) {
-            logger.error("Evaluation of {} failed", expression, e);
+            logger.error("Evaluation of {} failed", evaluation.getExpression(), e);
             throw new EvalException(e);
         }
     }

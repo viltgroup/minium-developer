@@ -5,7 +5,7 @@
  */
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
+miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -86,7 +86,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
         var fileName = fileProps.name || "";
 
-        //ADD EVENT HANDLERS to the editor 
+        //ADD EVENT HANDLERS to the editor
         addEventListeners(editor, fileName, this);
 
         //add this instance to the list of editors instance
@@ -99,7 +99,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
         });
 
         this.paths.push(fileProps.relativeUri)
-        
+
         openTab.store(this.editors);
 
         this.resizeEditors();
@@ -275,7 +275,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     // Remove the session from ID
     //
-    // 
+    //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.deleteSession = function(id) {
         for (var i = this.editors.length - 1; i >= 0; i--) {
@@ -349,7 +349,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
 
     ////////////////////////////////////////////////////////////////
     //
-    // Store the open 
+    // Store the open
     //
     //
     /////////////////////////////////////////////////////////////////
@@ -397,7 +397,7 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.closeTab = function(id, tabs, element) {
-        //get the element 
+        //get the element
         var panelId = element.closest("li").remove().attr("aria-controls");
         $("#" + panelId).remove();
         tabs.tabs("refresh");
@@ -561,13 +561,13 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //
     // Create a listener to
     //  Every time an event is detected it will execute the event handler
-    //  that we define. 
-    //  When we save the file an event is triggered and the flag {ignore} 
+    //  that we define.
+    //  When we save the file an event is triggered and the flag {ignore}
     //  come as true to ignore this event and mark the editor as clean and
     //  put the flag {ignore} has false again
-    //  When other events are event triggered it will mark the editor as 
+    //  When other events are event triggered it will mark the editor as
     //  dirty
-    //  
+    //
     // Parameters:
     //   editor - instance of the editor
     //   that   - class variables
@@ -595,13 +595,13 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
     //  we mark the value ignore has true
     //  when we save the file we update the content of the editor and
     //  we don't reset the undo manager.
-    //  
+    //
     // Parameters:
     //   editor - instance of the editor
     //////////////////////////////////////////////////////////////////
     function saveFile(editor, that) {
         var _this = that;
-        //flag for the even listener don't mark as dirty the editor 
+        //flag for the even listener don't mark as dirty the editor
         _this.ignore = true;
 
         var item = _this.scope.active.selected.item;
@@ -746,15 +746,16 @@ miniumDeveloper.factory('MiniumEditor', function($modal, EvalService, TabFactory
             var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
 
             var request = EvalService.eval({
-                    expr: code,
-                    lineno: line + 1
+                    expression: code,
+                    filePath: $rootScope.active.selectedNode.relativeUri,
+                    lineNumber: line + 1
                 })
                 .success(function(data) {
                     if (data.size >= 0) {
                         toastr.success(data.size + " matching web elements");
                     } else {
-                        //undefined is not user friendly 
-                        //so when an undefined come we 
+                        //undefined is not user friendly
+                        //so when an undefined come we
                         if (_.escape(data.value) === "undefined") {
                             toastr.success("OK (" + _.escape(data.value) + ")");
                         } else {

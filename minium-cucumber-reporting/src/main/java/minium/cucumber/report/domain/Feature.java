@@ -38,7 +38,7 @@ public class Feature {
     @JsonView(Views.Public.class)
     private String keyword;
 
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Full.class)
     private List<Element> elements = Lists.newArrayList();
 
     @JsonView(Views.Public.class)

@@ -18,4 +18,5 @@ package minium.cucumber.report.domain;
 public class Views {
     public interface Public { }
     public interface Full { }
+    public interface Summary { }
 }

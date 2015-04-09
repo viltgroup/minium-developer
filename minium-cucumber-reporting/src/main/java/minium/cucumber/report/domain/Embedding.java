@@ -31,6 +31,7 @@ public class Embedding {
     private byte[] data;
 
     @JsonView(Views.Public.class)
+    @JsonProperty("sha1_hash")
     private String sha1Hash;
 
     public String getMimeType() {

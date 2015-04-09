@@ -18,16 +18,13 @@ package minium.cucumber.report;
 import java.util.List;
 
 import minium.cucumber.report.domain.Element;
-import minium.cucumber.report.domain.Views;
-
-import com.fasterxml.jackson.annotation.JsonView;
 
 public class ScenarioResults {
 
-    @JsonView(Views.Public.class)
+    // @JsonView(Views.Full.class)
     List<Element> passedScenarios;
 
-    @JsonView(Views.Public.class)
+    // @JsonView(Views.Full.class)
     List<Element> failedScenarios;
 
     public ScenarioResults(List<Element> passedScenarios, List<Element> failedScenarios) {

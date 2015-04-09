@@ -28,20 +28,29 @@ import com.google.common.collect.Lists;
 
 public class FeatureResult {
 
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Full.class)
     private StepResults stepResults;
 
-    @JsonView(Views.Public.class)
+    @JsonView(Views.Full.class)
     private ScenarioResults scenarioResults;
 
     @JsonView(Views.Public.class)
     private Feature feature;
+
+    @JsonView(Views.Public.class)
+    private String profile;
 
     public FeatureResult() {
     }
 
     public FeatureResult(Feature feature) {
         this.setFeature(feature);
+        this.processSteps();
+    }
+
+    public FeatureResult(Feature feature, String profile) {
+        this.setFeature(feature);
+        this.setProfile(profile);
         this.processSteps();
     }
 
@@ -147,5 +156,13 @@ public class FeatureResult {
                 failedScenarios.add(element);
             }
         }
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 }

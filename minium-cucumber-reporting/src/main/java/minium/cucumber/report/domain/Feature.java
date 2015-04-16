@@ -115,12 +115,8 @@ public class Feature {
 
     public Status getStatus() {
         for (Element elem : elements) {
-            if (elem.getStatus() == Status.FAILED)
-                return Status.FAILED;
-            if (ConfigurationOptions.skippedFailsBuild() && elem.getStatus() == Status.SKIPPED)
-                return Status.FAILED;
-            if (ConfigurationOptions.undefinedFailsBuild() && elem.getStatus() == Status.UNDEFINED)
-                return Status.FAILED;
+            if (elem.getStatus() != Status.PASSED)
+                return elem.getStatus();
         }
         return Status.PASSED;
     }

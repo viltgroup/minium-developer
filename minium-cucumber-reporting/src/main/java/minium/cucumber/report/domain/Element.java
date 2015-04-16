@@ -64,12 +64,8 @@ public class Element {
         // can be optimized to retrieve only the count of elements and not the
         // all list
         for (Step step : steps) {
-            if (step.getStatus() == Status.FAILED)
-                return Status.FAILED;
-            if (ConfigurationOptions.skippedFailsBuild() && step.getStatus() == Status.SKIPPED)
-                return Status.FAILED;
-            if (ConfigurationOptions.undefinedFailsBuild() && step.getStatus() == Status.UNDEFINED)
-                return Status.FAILED;
+            if (step.getStatus() != Status.PASSED)
+                return step.getStatus();
         }
         return Status.PASSED;
     }

@@ -94,6 +94,10 @@ public class FeatureResult {
         return scenarioResults.getNumberOfScenariosFailed();
     }
 
+    public int getNumberOfTotalScenarios() {
+        return scenarioResults.getNumberOfTotalScenarios();
+    }
+
     public Feature getFeature() {
         return feature;
     }
@@ -144,7 +148,7 @@ public class FeatureResult {
             }
         }
 
-        scenarioResults = new ScenarioResults(passedScenarios, failedScenarios);
+        scenarioResults = new ScenarioResults(feature.getElements().size(), passedScenarios.size(), failedScenarios.size());
         stepResults = new StepResults(allSteps, passedSteps, failedSteps, skippedSteps, pendingSteps, missingSteps, undefinedSteps, totalDuration);
     }
 

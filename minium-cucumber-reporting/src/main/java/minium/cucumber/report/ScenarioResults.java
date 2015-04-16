@@ -15,29 +15,27 @@
  */
 package minium.cucumber.report;
 
-import java.util.List;
-
-import minium.cucumber.report.domain.Element;
-
 public class ScenarioResults {
 
-    // @JsonView(Views.Full.class)
-    List<Element> passedScenarios;
+    private int numberOfTotalScenarios;
+    private int numberOfScenariosPassed;
+    private int numberOfScenariosFailed;
 
-    // @JsonView(Views.Full.class)
-    List<Element> failedScenarios;
-
-    public ScenarioResults(List<Element> passedScenarios, List<Element> failedScenarios) {
-        this.passedScenarios = passedScenarios;
-        this.failedScenarios = failedScenarios;
+    public ScenarioResults(int numberOfTotalScenarios, int numberOfScenariosPassed, int numberOfScenariosFailed) {
+        this.numberOfTotalScenarios = numberOfTotalScenarios;
+        this.numberOfScenariosPassed = numberOfScenariosPassed;
+        this.numberOfScenariosFailed = numberOfScenariosFailed;
     }
 
     public int getNumberOfScenariosPassed() {
-        return passedScenarios.size();
+        return numberOfScenariosPassed;
     }
 
     public int getNumberOfScenariosFailed() {
-        return failedScenarios.size();
+        return numberOfScenariosFailed;
     }
 
+    public int getNumberOfTotalScenarios() {
+        return numberOfTotalScenarios;
+    }
 }

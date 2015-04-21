@@ -114,12 +114,13 @@ public class FeatureResult {
         List<Step> undefinedSteps = Lists.newArrayList();
         List<Step> pendingSteps = Lists.newArrayList();
         List<Step> missingSteps = Lists.newArrayList();
+        List<Element> allScenarios = Lists.newArrayList();
         List<Element> passedScenarios = Lists.newArrayList();
         List<Element> failedScenarios = Lists.newArrayList();
         Long totalDuration = 0L;
 
         for (Element element : feature.getElements()) {
-            calculateScenarioStats(passedScenarios, failedScenarios, element);
+            calculateScenarioStats(allScenarios, passedScenarios, failedScenarios, element);
             for (Step step : element.getSteps()) {
                 allSteps.add(step);
                 switch (step.getStatus()) {
@@ -148,12 +149,13 @@ public class FeatureResult {
             }
         }
 
-        scenarioResults = new ScenarioResults(feature.getElements().size(), passedScenarios.size(), failedScenarios.size());
+        scenarioResults = new ScenarioResults(allScenarios.size(), passedScenarios.size(), failedScenarios.size());
         stepResults = new StepResults(allSteps, passedSteps, failedSteps, skippedSteps, pendingSteps, missingSteps, undefinedSteps, totalDuration);
     }
 
-    protected void calculateScenarioStats(List<Element> passedScenarios, List<Element> failedScenarios, Element element) {
+    protected void calculateScenarioStats(List<Element> allScenarios, List<Element> passedScenarios, List<Element> failedScenarios, Element element) {
         if (!element.getKeyword().equals("Background")) {
+            allScenarios.add(element);
             if (element.getStatus() == Status.PASSED) {
                 passedScenarios.add(element);
             } else if (element.getStatus() == Status.FAILED) {

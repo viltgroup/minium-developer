@@ -1,16 +1,13 @@
-var timeUnits = require("minium/timeunits"),
-    keys      = require("minium/keys"),
-    // your modules
-    //ChatBot   = require("bots/chatbot")
+browser.get("http://www.google.com/ncr");
+  
+// elements
+var searchbox = $(":input").withName("q");
+var button = $("button").withAttr("aria-label", "Google Search");
+var resultLinks = $("h3 a");
 
-browser.$(":root").configure()
-  .waitingPreset("fast")
-    .timeout(2, timeUnits.SECONDS);
+// interactions
+searchbox.fill(typeof query === 'undefined' ? "Minium VILT" : query);
+button.click();
+resultLinks.first().click();
 
-var browser = minium.newBrowser({
-  desiredCapabilities : { browserName : "chrome" }
-});
-
-browser.$(":root").configure()
-  .defaultTimeout(60, timeUnits.SECONDS);
-
+console.log("Current URL:", browser.getCurrentUrl());

@@ -1,7 +1,9 @@
 // Generated on 2015-02-03 using generator-jhipster 2.1.1
 'use strict';
 var fs = require('fs');
-var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
+// Rui: I needed to remove this, it was causing problems building, and it will be no longer
+// needed when we upgrade jhipster to the latest versions 
+// var proxySnippet = require('grunt-connect-proxy/lib/utils').proxyRequest;
 
 var parseString = require('xml2js').parseString;
 // Returns the second occurence of the version number
@@ -177,7 +179,8 @@ module.exports = function (grunt) {
                     ],
                     middleware: function (connect) {
                         return [
-                            proxySnippet,
+                        	// 
+                            null,
                             connect.static('.tmp'),
                             connect.static('src/main/webapp')
                         ];

@@ -13,7 +13,7 @@
 
 	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-developer-e2e-tests</artifactId>
-	<version>1.0.0-RC2-SNAPSHOT</version>
+	<version>1.0.0-RC2</version>
 	<name>Minium Developer E2E Tests</name>
 	
 	<properties>
@@ -119,4 +119,8 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
+  <scm>
+    <tag>minium-tools-1.0.0-RC2</tag>
+  </scm>
 </project>

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.vilt.minium</groupId>
 		<artifactId>minium-parent</artifactId>
-		<version>1.0.0-RC2</version>
+		<version>1.0.0-RC4</version>
 	</parent>
 
 	<groupId>io.vilt.minium.tools</groupId>
@@ -129,6 +129,11 @@
 		<repository>
 			<id>repo.bodar.com</id>
 			<url>http://repo.bodar.com</url>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 

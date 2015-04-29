@@ -84,6 +84,7 @@
 		<module>minium-tools-bundle</module>
 		<module>minium-developer-e2e-tests</module>
 		<module>minium-tools-docs</module>
+		<module>minium-tools-parent</module>
 	</modules>
 
 	<build>

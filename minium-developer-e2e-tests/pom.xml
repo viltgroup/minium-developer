@@ -19,7 +19,7 @@
 	<properties>
 		<java.version>1.7</java.version>
 
-		<minium.version>1.0.0-RC2-SNAPSHOT</minium.version>
+		<minium.version>1.0.0-RC4</minium.version>
 		<selenium.version>2.45.0</selenium.version>
 		<spring.version>4.1.5.RELEASE</spring.version>
 		<!-- cucumber 1.22 doesn't seem to support 4.12 yet -->

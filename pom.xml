@@ -10,7 +10,7 @@
 
 	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-tools</artifactId>
-	<version>1.0.0-R3-SNAPSHOT</version>
+	<version>1.0.0-R2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Tools</name>

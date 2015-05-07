@@ -44,7 +44,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
             softTabs: true,
             HighlightActiveLine: true,
             tabSize: 2,
-            resize: true
+            resize: true,
+            readOnly: false
         };
 
         //this settings can be loaded a cookie
@@ -258,10 +259,16 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
         var margin = 100;
         var containerHeight
         if ($(window).width() >= 768) {
-            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;
+            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin - 20;
         } else {
-            var containerHeight = $(window).height() - $('.navbar').height() - margin;
+            containerHeight = $(window).height() - $('.navbar').height() - margin - 20;
+
         }
+
+        if ($(".console-log").is(":visible")) {
+            containerHeight = containerHeight - 230;
+        }
+
         $.each(this.editors, function(i, obj) {
             var panel = "#editor_" + obj.id;
             $(panel).css({

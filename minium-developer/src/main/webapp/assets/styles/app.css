@@ -92,6 +92,14 @@
     background-color: #F5D76E;
     color: #334554;
 }
+.ace_gutter-cell.undefined.ace_info,.ace_gutter-cell.breakpoint.ace_info {
+  background-image: url("../images/icons/info.png");
+  background-repeat: no-repeat;
+  background-position: 2px center;
+  background-color: #F39C12;
+  color: #334554;
+}
+
 .ace_search_field {
     background-color: #eee;
     color: black;
@@ -1197,4 +1205,15 @@ a.list-group-item:hover, a.list-group-item:focus {
 
 .info-labels {
     margin-top: -15px;
+}
+
+
+/**
+Console editor CSS
+**/
+
+.ace_editor { height: 200px; }
+
+.console-log{
+    margin-left: 17px;
 }

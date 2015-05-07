@@ -369,7 +369,7 @@ angular.module('minium.developer')
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-
+        
         //////////////////////////////////////////////////////////////////
         // EVENT HANDLER  CTLR + P 
         // to Search a file

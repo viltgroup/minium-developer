@@ -36,8 +36,8 @@ miniumDeveloper.factory('SnippetsProvider', function() {
                 name: "background",
                 trigger: "back",
                 content: [
-                    "Background: ${1:Little description here}",
-                    "  Given ${2:something}"
+                    "Background:",
+                    "  Given ${1:something}"
                 ].join("\n")
             }, {
                 name: "Escenari",

@@ -25,28 +25,42 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
                 return;
             }
-
+            console.log(snippetsForUndefinedSteps);
+            
             var feature = new FeatureFacade(data, snippetsForUndefinedSteps);
 
             var faillingSteps = feature.notPassingsteps;
 
             var resultsSummary = feature.resultsSummary;
-
             //refactor all this logic
             //URGENT NEED TO PUT THIS ON A MODEL
             //CANT BE IN A CONTROLLER
+
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;
-                var msg = result === 'FAILED' ? step.errorMessage : 'Skipped';
+                var msg, type;
+                if(result === 'failed' ){
+                    msg = step.result.error_message;
+                    type = 'error';
+                }
+                else if(result === 'undefined' ){
+                    msg = 'Undefined. Can’t find a matching Step Definition';
+                    type = 'info';
+                }
+                else {
+                    msg = 'Skipped. Steps that follow undefined, pending or failed steps are never executed (even if there is a matching Step Definition)';
+                    type = 'warning';
+                }
+                
                 var lines = msg;
 
                 return {
                     row: step.line - 1,
                     text: msg,
-                    type: (result === 'FAILED' ? 'error' : 'warning')
+                    type: type
                 };
             });
-             
+            
             if (annotations.length > 0) {
                 toastr.warning(GENERAL_CONFIG.TEST.FAILING);
                 $("#runningTest").parent("a").removeClass("green").addClass("red");

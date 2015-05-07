@@ -8,9 +8,14 @@ miniumDeveloper.factory('FeatureFacade', function() {
      * Constructor
      */
     function FeatureFacade(data, snippetsForUndefinedSteps) {
-        this.feature = data;
+        this.feature = data.feature;
         this.snippetsForUndefinedSteps = snippetsForUndefinedSteps;
-        var elements = this.process(data);
+
+        this.notPassingsteps = this.feature.elements[0].steps.filter(function(featureResult) {
+            return featureResult.result.status !== "passed"
+        });
+        
+        this.process(data);
     }
 
     /**
@@ -19,7 +24,6 @@ miniumDeveloper.factory('FeatureFacade', function() {
 
     FeatureFacade.prototype.process = function(data) {
         var r = true;
-
         this.resultsSummary = {
             runCount: data.numberOfSteps,
             passed: data.numberOfPasses,

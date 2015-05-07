@@ -51,9 +51,10 @@ miniumDeveloper
                         controller: "TreeNavController",
                         templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
                     },
-                    // 'toolBar@global.editorarea': {
-                    //     templateUrl: 'minium.developer/views/toolbar/toolbar.html',
-                    // }
+                    'console@global.editorarea': {
+                         controller: "ConsoleController",
+                        templateUrl: 'minium.developer/views/console/console.html',
+                    }
                 }
             });
 
@@ -78,7 +79,9 @@ miniumDeveloper
 
         //help
         modalStateProvider.state('global.editorarea.sub.help', {
-            templateUrl: "minium.developer/views/editor.area/modal/help.html"
+            templateUrl: "minium.developer/views/editor.area/modal/help.html",
+            controller: "AboutController"
+            
         });
 
         //version

@@ -65,7 +65,7 @@ angular.module('minium.developer')
                 //elem.splice(pos, 1);
 
                 elem[pos] = newElem;
-                toastr.success("File " + relativeUri + " deleted");
+                toastr.success("File " + relativeUri + " renamed");
                 $modalInstance.close();
             }).error(function(data) {
                 toastr.error("Error " + data);
@@ -217,7 +217,7 @@ angular.module('minium.developer')
                 console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
                 elem[pos] = newElem;
-                toastr.success("File " + relativeUriContextClick + " deleted");
+                toastr.success("Folder " + relativeUriContextClick + " renamed ");
                 scope.loadChildren(elem[pos]);
                 $modalInstance.close();
             }).error(function(data) {

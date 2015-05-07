@@ -34,6 +34,7 @@ miniumDeveloper.factory('editorPreferences', function($cookieStore) {
         editor.getSession().setTabSize(settings.tabSize);
         editor.getSession().setUseSoftTabs(settings.softTabs);
         editor.setHighlightActiveLine(settings.HighlightActiveLine);
+        editor.setReadOnly(settings.readOnly);
         //to sroll
         editor.resize(settings.resize);
     }

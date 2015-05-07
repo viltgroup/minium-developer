@@ -73,7 +73,7 @@ public class ProjectResource {
 
 	@RequestMapping(value = "/project/hasProject", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
 	@ResponseBody
-	public String hasProject() throws IOException {
+	public String hasProject() throws IOException, InterruptedException {
 		boolean hasProject = projectService.hasProject(projectProperties);
 		String projectName = "";
 		if (hasProject) {

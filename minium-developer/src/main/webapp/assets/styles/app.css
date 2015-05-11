@@ -34,7 +34,7 @@
     white-space: nowrap;
 }
 .container {
-    width: auto !important;
+    /*width: auto !important;*/
 }
 .container-editor {
     padding: 0px 15px 0px 15px !important;

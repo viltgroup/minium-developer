@@ -7,10 +7,6 @@ angular.module('minium.developer')
         var editors = MiniumEditor;
         editors.init($scope);
 
-        $scope.dynamicTooltip = 'Hello, World!';
-        $scope.dynamicTooltipText = 'dynamic';
-        $scope.htmlTooltip = 'I\'ve been made <b>bold</b>!';
-
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
@@ -68,6 +64,10 @@ angular.module('minium.developer')
             }
             return numTabs;
         }
+
+        //////////////////////////////////////////////////////////////////
+        // INITIALIZATIONS
+        //////////////////////////////////////////////////////////////////
 
         if ($stateParams.path) {
             tabLoader();
@@ -178,7 +178,6 @@ angular.module('minium.developer')
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.SOCKET_CONNECT)
             });
         };
-
 
         /**
          * Clean the scope of the engine
@@ -341,8 +340,6 @@ angular.module('minium.developer')
             });
         };
 
-
-
         var relaunch = false;
         $scope.relaunchEval = false;
         $scope.openModalWebDriverSelect = function(size) {
@@ -369,7 +366,7 @@ angular.module('minium.developer')
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-        
+
         //////////////////////////////////////////////////////////////////
         // EVENT HANDLER  CTLR + P 
         // to Search a file
@@ -384,7 +381,6 @@ angular.module('minium.developer')
                 });
             }
         }, false);
-
 
         //functions used in the 2 modules
         $scope.isEmpty = function(obj) {

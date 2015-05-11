@@ -28,6 +28,9 @@ angular.module('minium.developer')
         //service is shared by controllers
         var editors = MiniumEditor;
 
+        if( $stateParams.line ){
+            $scope.line = $stateParams.line;
+        }
         /////////////////////////////////////////////////////////////////
         //
         // load the file and create a new editor instance with the file loaded

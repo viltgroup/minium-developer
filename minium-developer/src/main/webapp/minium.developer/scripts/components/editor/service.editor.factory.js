@@ -22,6 +22,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var editor = ace.edit('editor_' + tabUniqueId);
 
         var fileName = fileProps.name || "console";
+        
         //create a new session and set the content
         setAceContent(fileContent, editor);
 

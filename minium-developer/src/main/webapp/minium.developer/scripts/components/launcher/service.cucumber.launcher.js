@@ -8,8 +8,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
     //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
-
-
     this.launch = function(launchParams, executionWasStopped, snippetsForUndefinedSteps, faillingSteps, resultsSummary, launchTestSession) {
         var def = $q.defer();
 
@@ -26,7 +24,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                 return;
             }
             console.log(snippetsForUndefinedSteps);
-            
+
             var feature = new FeatureFacade(data, snippetsForUndefinedSteps);
 
             var faillingSteps = feature.notPassingsteps;
@@ -39,19 +37,17 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;
                 var msg, type;
-                if(result === 'failed' ){
+                if (result === 'failed') {
                     msg = step.result.error_message;
                     type = 'error';
-                }
-                else if(result === 'undefined' ){
+                } else if (result === 'undefined') {
                     msg = 'Undefined. Can’t find a matching Step Definition';
                     type = 'info';
-                }
-                else {
+                } else {
                     msg = 'Skipped. Steps that follow undefined, pending or failed steps are never executed (even if there is a matching Step Definition)';
                     type = 'warning';
                 }
-                
+
                 var lines = msg;
 
                 return {
@@ -60,7 +56,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                     type: type
                 };
             });
-            
+
             if (annotations.length > 0) {
                 toastr.warning(GENERAL_CONFIG.TEST.FAILING);
                 $("#runningTest").parent("a").removeClass("green").addClass("red");
@@ -76,6 +72,13 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                     toastr.success(GENERAL_CONFIG.TEST.PASS);
                 }
             }
+
+            toastr.info('<em class="fa fa-rocket"></em> <strong>' + feature.resultsSummary.runCount + ' Steps </strong><br>' +
+                '<em class="fa fa-check-square"></em> <strong>' + feature.resultsSummary.passed + ' Passing</strong><br>' +
+                '<em class="fa fa-bug"></em> <strong>' + feature.resultsSummary.failures + ' Failure</strong><br>' +
+                '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' Skipped</strong><br>' +
+                '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' Undefined</strong>');
+
 
             onFinishTestExecution(annotations, launchTestSession);
 
@@ -95,8 +98,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
 
         return def.promise;
     };
-
-
 
     this.stopLaunch = function() {
         stopLaunch();
@@ -118,6 +119,5 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
 
         });
     };
-
 
 });

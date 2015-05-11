@@ -467,9 +467,13 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
     function addEventListeners(editor, fileName, that) {
 
         specificHandlers(fileName, editor, that);
-        // add listener to input
-        listenerOnChange(editor, that)
-            //create event listeners (bind keys events)
+
+        if( fileName !== ""){
+             // add listener to input
+            listenerOnChange(editor, that)
+        }
+        
+        //create event listeners (bind keys events)
         bindKeys(editor, that);
 
     }

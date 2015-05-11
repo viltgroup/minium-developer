@@ -9,11 +9,11 @@ angular.module('minium.developer')
 
         $scope.snippetsForUndefinedSteps = featureReport.snippetsForUndefinedSteps;
 
-
         console.log($scope.resultsSummary);
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
+
         $scope.exampleData = [{
             key: "Passing",
             y: $scope.resultsSummary.passed
@@ -28,7 +28,6 @@ angular.module('minium.developer')
             y: 0
         }];
 
-
         //REFACTOR
         var colorArray = ['green', 'red', '#f39c12'];
         $scope.colorFunction = function() {
@@ -36,7 +35,6 @@ angular.module('minium.developer')
                 return colorArray[i];
             };
         }
-
 
         $scope.xFunction = function() {
             return function(d) {

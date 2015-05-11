@@ -23,6 +23,8 @@ import minium.actions.debug.DebugInteractable;
 import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.Evaluation;
 import minium.developer.project.Workspace;
+import minium.web.EvalWebElements;
+import minium.web.internal.actions.HighlightInteraction;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +58,8 @@ public class EvalResource {
                 }
                 int totalCount = elements.as(BasicElements.class).size();
                 if (totalCount > 0 && canHighlight) {
-                    elements.as(DebugInteractable.class).highlight();
+                    // we cannot call DebugInteractable because it would trigger listeners, which we don't wants
+                    elements.as(EvalWebElements.class).eval(HighlightInteraction.HIGHLIGHT_EVAL_EXPR);
                 }
                 return new EvalResult(evaluation.getExpression(), totalCount);
             } else {

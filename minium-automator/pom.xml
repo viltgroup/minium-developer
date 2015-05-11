@@ -3,8 +3,9 @@
 
 	<parent>
 		<groupId>io.vilt.minium.tools</groupId>
-		<artifactId>minium-tools</artifactId>
-		<version>1.0.0-RC2-SNAPSHOT</version>
+		<artifactId>minium-tools-parent</artifactId>
+		<version>1.0.1-SNAPSHOT</version>
+		<relativePath>../minium-tools-parent</relativePath>
 	</parent>
 
 	<artifactId>minium-automator</artifactId>

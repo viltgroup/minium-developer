@@ -5,21 +5,22 @@
 	<parent>
 		<groupId>io.vilt.minium</groupId>
 		<artifactId>minium-parent</artifactId>
-		<version>1.0.0-RC2-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-tools</artifactId>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Tools</name>
 	
 	<scm>
-		<connection>scm:git:git://github.com/viltgroup/minium-tools.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/viltgroup/minium-tools.git</developerConnection>
-		<url>https://github.com/viltgroup/minium-tools</url>
-		<tag>master</tag>
-  </scm>
+		<connection>scm:git:git@artemis.vilt-group.com:engineering/minium-tools.git</connection>
+		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering/minium-tools.git</developerConnection>
+		<url>https://artemis.vilt-group.com/engineering/minium-tools</url>
+		<tag>HEAD</tag>
+	</scm>
 
 	<properties>
 		<commons-io.version>2.4</commons-io.version>
@@ -40,22 +41,22 @@
        		<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-automator</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-tools-fs</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 	        <dependency>
 	            <groupId>io.vilt.minium.tools</groupId>
 	            <artifactId>minium-cucumber-reporting</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 	        </dependency>
 			<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-developer</artifactId>
-				<version>${project.version}</version>
+				<version>1.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
@@ -83,6 +84,7 @@
 		<module>minium-tools-bundle</module>
 		<module>minium-developer-e2e-tests</module>
 		<module>minium-tools-docs</module>
+		<module>minium-tools-parent</module>
 	</modules>
 
 	<build>
@@ -116,17 +118,6 @@
 				    <artifactId>download-maven-plugin</artifactId>
 				    <version>1.2.1</version>
 			    </plugin>
-			    <plugin>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.1</version>
-					<dependencies>
-						<dependency>
-							<groupId>org.apache.maven.scm</groupId>
-							<artifactId>maven-scm-provider-gitexe</artifactId>
-							<version>1.9.2</version>
-						</dependency>
-					</dependencies>
-				</plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
@@ -139,6 +130,11 @@
 		<repository>
 			<id>repo.bodar.com</id>
 			<url>http://repo.bodar.com</url>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 

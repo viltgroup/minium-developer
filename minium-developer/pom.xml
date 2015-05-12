@@ -3,9 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>minium-tools</artifactId>
+        <artifactId>minium-tools-parent</artifactId>
         <groupId>io.vilt.minium.tools</groupId>
-        <version>1.0.0-RC2-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
+        <relativePath>../minium-tools-parent</relativePath>
     </parent>
 
     <artifactId>minium-developer</artifactId>

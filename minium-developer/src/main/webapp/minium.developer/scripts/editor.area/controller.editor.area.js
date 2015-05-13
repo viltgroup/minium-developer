@@ -28,16 +28,15 @@ angular.module('minium.developer')
         //service is shared by controllers
         var editors = MiniumEditor;
 
-        if( $stateParams.line ){
-            $scope.line = $stateParams.line;
-        }
         /////////////////////////////////////////////////////////////////
         //
         // load the file and create a new editor instance with the file loaded
-        //
+        // props - file properties
+        // lineNo - num of line to go
         /////////////////////////////////////////////////////////////////
 
-        $scope.loadFile = function(props) {
+        $scope.loadFile = function(props,lineNo) {
+
             //load the file
             var promise = TabLoader.loadFile(props, editors);
             var deferred = $q.defer();
@@ -46,11 +45,14 @@ angular.module('minium.developer')
                 //success handler
                 var newEditor = result;
                 $scope.setActiveEditor(newEditor);
+                
                 deferred.resolve(newEditor);
             }, function(errorPayload) {
                 //the promise was rejected
                 deferred.reject();
+
             });
+
             return deferred.promise;
         };
 

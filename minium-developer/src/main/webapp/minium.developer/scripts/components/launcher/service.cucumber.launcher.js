@@ -33,6 +33,8 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             //refactor all this logic
             //URGENT NEED TO PUT THIS ON A MODEL
             //CANT BE IN A CONTROLLER
+            
+            console.debug(faillingSteps)
 
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;

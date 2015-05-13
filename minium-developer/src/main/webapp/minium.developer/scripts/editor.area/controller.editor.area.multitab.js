@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
+    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $q, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
@@ -54,26 +54,45 @@ angular.module('minium.developer')
          *
          */
         var tabLoader = function() {
+
+            var deferred = $q.defer();
+            var arrPromises = [];
+
             var openTabs = openTab.load();
             var numTabs = 0;
             for (var i = 0; i < openTabs.length; i++) {
-                var promise = $scope.loadFile(openTabs[i]);
-                promise.then(function(result) {
-                    numTabs++;
-                });
+                arrPromises[i] = $scope.loadFile(openTabs[i]);
             }
-            return numTabs;
+            $q.all(arrPromises).then(function() {
+                
+                var cenas = $scope.loadFile($stateParams.path, $scope.line).then(function(result) {
+                    if ($scope.line) {
+                        console.log($rootScope.active)
+                        $rootScope.active.session.gotoLine($scope.line);
+                    }
+                });
+                deferred.resolve();
+            })
+
+            return deferred.promise;
         }
 
         //////////////////////////////////////////////////////////////////
         // INITIALIZATIONS
         //////////////////////////////////////////////////////////////////
 
+        //check if any lineNo is on the request
+
         if ($stateParams.path) {
-            tabLoader();
-            //wait for every files load
-            $scope.loadFile($stateParams.path);
+            $scope.line;
+            if ($stateParams.line) {
+
+                $scope.line = $stateParams.line;
+            }
+            // alert($stateParams.path)
+            var promise = tabLoader();
             $scope.loadFile("");
+
         } else {
             var openTabs = tabLoader();
             //if theres no open tabs, open one console

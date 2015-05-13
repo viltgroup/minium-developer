@@ -10,11 +10,16 @@ miniumDeveloper.factory('FeatureFacade', function() {
     function FeatureFacade(data, snippetsForUndefinedSteps) {
         this.feature = data.feature;
         this.snippetsForUndefinedSteps = snippetsForUndefinedSteps;
-
-        this.notPassingsteps = this.feature.elements[0].steps.filter(function(featureResult) {
-            return featureResult.result.status !== "passed"
-        });
-        
+        this.notPassingsteps = [];
+        for (var i = 0; i < this.feature.elements.length; i++) {
+            var steps = this.feature.elements[i].steps;
+            for (var j = 0; j < steps.length; j++) {
+                var step = steps[j];
+                if (step.result.status !== "passed") {
+                    this.notPassingsteps.push(step);
+                }
+            }
+        }
         this.process(data);
     }
 

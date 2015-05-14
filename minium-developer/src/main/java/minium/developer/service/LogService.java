@@ -2,15 +2,16 @@ package minium.developer.service;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.MessageSendingOperations;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Throwables;
@@ -18,24 +19,28 @@ import com.google.common.base.Throwables;
 @Service
 public class LogService {
 
-    private final MessageSendingOperations<String> messagingTemplate;
+    @Component
+    public static class LogThread extends Thread {
 
-    @Autowired
-    public LogService(final MessageSendingOperations<String> messagingTemplate) {
-        this.messagingTemplate = messagingTemplate;
-    }
+        private File miniumDeveloperFile;
 
-    @PostConstruct
-    public void sendLog() throws FileNotFoundException  {
-        System.setOut(new PrintStream(new File("/tmp/output-file.txt")));
+        @Autowired
+        private MessageSendingOperations<String> messagingTemplate;
 
-        Thread logReader = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    FileReader fr = new FileReader("/tmp/output-file.txt");
-                    BufferedReader br = new BufferedReader(fr);
 
+        public LogThread() throws IOException {
+            this.miniumDeveloperFile = File.createTempFile("minium-developer", ".log");
+            this.setDaemon(true);
+        }
+
+        @Override
+        public void run() {
+
+            try {
+                System.setOut(new PrintStream(miniumDeveloperFile));
+
+                FileReader fr = new FileReader(miniumDeveloperFile);
+                try (BufferedReader br = new BufferedReader(fr)) {
                     while (true) {
                         String line = br.readLine();
                         if (line == null) {
@@ -44,14 +49,31 @@ public class LogService {
                             messagingTemplate.convertAndSend("/log", line);
                         }
                     }
-                } catch (InterruptedException | IOException e) {
-                    throw Throwables.propagate(e);
                 }
-
+            } catch (IOException e) {
+                throw Throwables.propagate(e);
+            } catch (InterruptedException e) {
+                // just quit
             }
+        }
 
-        };
-        logReader.setDaemon(true);
-        logReader.start();
+        @Override
+        @PreDestroy
+        public void destroy() {
+            this.interrupt();
+        }
+    }
+
+    private final LogThread logThread;
+
+    @Autowired
+    public LogService(LogThread logThread) {
+        this.logThread = logThread;
+    }
+
+    @PostConstruct
+    public void start() throws IOException {
+        logThread.setDaemon(true);
+        logThread.start();
     }
 }

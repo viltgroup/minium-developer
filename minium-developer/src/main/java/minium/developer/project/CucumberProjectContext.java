@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.concurrent.CancellationException;
 
 import minium.cucumber.config.CucumberProperties;
@@ -194,9 +195,12 @@ public class CucumberProjectContext extends AbstractProjectContext {
         options.setFeatures(ImmutableList.<String> of(featurePath));
         options.setPlugin(ImmutableList.of("json:" + resultsFile.getAbsolutePath()));
         List<String> glues = Lists.newArrayList(projectCucumberProperties.getOptions().getGlue());
-        int index = glues.indexOf("src/test/resources/steps");
-        if (index != -1)
-            glues.set(index, new File(resourcesDir, "steps").getAbsolutePath());
+        for (ListIterator<String> iterator = glues.listIterator(); iterator.hasNext();) {
+            String glue = iterator.next();
+            if (glue.startsWith("src/test/resources/")) {
+                iterator.set(new File(resourcesDir, glue.substring("src/test/resources/".length())).getAbsolutePath());
+            }
+        }
         options.setGlue(glues);
         CucumberProperties cucumberProperties = new CucumberProperties();
         cucumberProperties.setOptions(options);

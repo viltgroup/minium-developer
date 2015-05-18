@@ -27,7 +27,7 @@ angular.module('minium.developer')
         //that manage editor and tabs
         //service is shared by controllers
         var editors = MiniumEditor;
-
+        
         /////////////////////////////////////////////////////////////////
         //
         // load the file and create a new editor instance with the file loaded

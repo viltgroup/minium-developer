@@ -22,10 +22,12 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
         var emptyEditor = function() {
             //create an empty editor
             var fileProps = {
-                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved",
+                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved\n\n",
                 fileProps: ""
             }
             newEditor = editors.addInstance(fileProps, 1);
+            //go to line
+            newEditor.instance.gotoLine(4);
         }
 
         if (file === "") { //if the is empty

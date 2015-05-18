@@ -164,7 +164,7 @@ angular.module('minium.developer')
                     $scope.importProject($cookieStore.get('project'));
                 } else {
                     $.removeCookie('openTabs');
-                    toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
+                    toastr.info(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
                         //remove all the open tab int the cookie 
                         //because there's no project defined
                 }

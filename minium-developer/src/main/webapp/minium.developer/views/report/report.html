@@ -18,20 +18,20 @@
 <div class="modal-body">
     <!-- SCENARIOS -->
     <accordion close-others="oneAtATime">
-        <accordion-group is-open="status.open" ng-repeat="step in faillingSteps
+        <accordion-group is-open="status.open" ng-repeat="step in failingSteps
                ">
             <accordion-heading>
                 <!-- HEADER -->
 
                 <icon-item status="step.status"></icon-item>
 
-                <strong title="Step {{step.status}}">{{step.rawName}}</strong>
+                <strong title="Step {{step.status}}">{{step.name}}</strong>
                 <span>Line {{step.line}}</span>
                 <i class="pull-right fa " ng-class="{'fa-chevron-down': status.open, ' fa-chevron-right': !status.open}"></i>
                  <small style="margin-left:10px;">Step {{step.status}}</small>
             </accordion-heading>
             <!-- CONTENT -->
-            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.errorMessage">
+            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.result">
                 <thead>
                     <tr>
                         <th>Error message</th>
@@ -41,20 +41,16 @@
                 <tbody>
                     <tr>
                         <td >
-                        <p >{{step.errorMessage}}</p>
+                        <p >{{step.result.error_message}}</p>
                             <!-- TABLES ROW -->
                           <!--   <pre ng-if="step.errorMessage !== null" style="white-space: pre-wrap;"> 
                               {{step.errorMessage}}
                               </pre> -->
                         </td>
-                        <td style="">
-                            <!-- <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="!isPassed(step.status)"/> -->
-                            <!-- <p ng-bind-html="renderHtml(step.name)"></p>  -->
-                        </td>
                     </tr>
                 </tbody>
             </table>
-
+            <img src="data:{{step.embeddings[0].mime_type}};base64,{{step.embeddings[0].data}}" alt="" ng-if="step.embeddings[0]"/>
         </accordion-group>
     </accordion>
 
@@ -98,5 +94,5 @@
 
 
     <div class="modal-footer">
-        <button class="btn btn-warning" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="cancel()">Close</button>
     </div>

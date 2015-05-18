@@ -64,8 +64,8 @@ angular.module('minium.developer')
                 arrPromises[i] = $scope.loadFile(openTabs[i]);
             }
             $q.all(arrPromises).then(function() {
-                
-                var cenas = $scope.loadFile($stateParams.path, $scope.line).then(function(result) {
+
+                var promise = $scope.loadFile($stateParams.path, $scope.line).then(function(result) {
                     if ($scope.line) {
                         console.log($rootScope.active)
                         $rootScope.active.session.gotoLine($scope.line);

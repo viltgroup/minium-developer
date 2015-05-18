@@ -3,13 +3,13 @@
 angular.module('minium.developer')
     .controller('ReportController', function($scope, $modalInstance, featureReport) {
 
-        $scope.faillingSteps = featureReport.notPassingsteps;
+        $scope.failingSteps = featureReport.notPassingsteps;
 
         $scope.resultsSummary = featureReport.resultsSummary;
 
         $scope.snippetsForUndefinedSteps = featureReport.snippetsForUndefinedSteps;
 
-        console.log($scope.resultsSummary);
+        console.log($scope.failingSteps);
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };

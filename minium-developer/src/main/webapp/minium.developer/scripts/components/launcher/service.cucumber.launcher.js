@@ -40,7 +40,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                 var result = step.status;
                 var msg, type;
                 if (result === 'failed') {
-                    msg = step.result.error_message;
+                    msg = step.result.error_message.substring(0,500);
                     type = 'error';
                 } else if (result === 'undefined') {
                     msg = 'Undefined. Can’t find a matching Step Definition';

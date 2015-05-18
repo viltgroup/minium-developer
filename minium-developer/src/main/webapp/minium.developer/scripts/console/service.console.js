@@ -9,7 +9,7 @@ angular.module('minium.developer')
                 fontSize: 14,
                 printMargin: false,
                 highlightLine: true,
-                wrapMode: false,
+                wrapMode: true,
                 softTabs: true,
                 HighlightActiveLine: true,
                 tabSize: 2,

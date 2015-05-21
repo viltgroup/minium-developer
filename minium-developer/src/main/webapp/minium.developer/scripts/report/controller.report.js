@@ -3,17 +3,17 @@
 angular.module('minium.developer')
     .controller('ReportController', function($scope, $modalInstance, featureReport) {
 
-        $scope.faillingSteps = featureReport.notPassingsteps;
+        $scope.failingSteps = featureReport.notPassingsteps;
 
         $scope.resultsSummary = featureReport.resultsSummary;
 
         $scope.snippetsForUndefinedSteps = featureReport.snippetsForUndefinedSteps;
 
-
-        console.log($scope.resultsSummary);
+        console.log($scope.failingSteps);
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
         };
+
         $scope.exampleData = [{
             key: "Passing",
             y: $scope.resultsSummary.passed
@@ -28,7 +28,6 @@ angular.module('minium.developer')
             y: 0
         }];
 
-
         //REFACTOR
         var colorArray = ['green', 'red', '#f39c12'];
         $scope.colorFunction = function() {
@@ -36,7 +35,6 @@ angular.module('minium.developer')
                 return colorArray[i];
             };
         }
-
 
         $scope.xFunction = function() {
             return function(d) {

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, $modal, $q, $cookieStore, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager, GENERAL_CONFIG) {
+    .controller('TreeNavController', function($scope, $state, $modal, $q, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager, GENERAL_CONFIG) {
 
         //data for the tree
         $scope.dataForTheTree = [];
@@ -160,11 +160,11 @@ angular.module('minium.developer')
                 if (data !== '') {
                     $scope.hasProject = true;
                     projectName = data;
-                } else if ($cookieStore.get('project') != undefined) {
-                    $scope.importProject($cookieStore.get('project'));
+                } else if ($.cookie('project') != undefined) {
+                    $scope.importProject($.cookie('project'));
                 } else {
                     $.removeCookie('openTabs');
-                    toastr.error(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
+                    toastr.info(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
                         //remove all the open tab int the cookie 
                         //because there's no project defined
                 }

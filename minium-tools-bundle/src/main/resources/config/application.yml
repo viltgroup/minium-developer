@@ -1,2 +1,11 @@
 server:
   port: 8089
+
+logging:
+  path: ${app.home:.}/logs
+  file: ${logging.path}/minium-tools.log
+
+spring:
+  output:
+    ansi:
+      enabled: never

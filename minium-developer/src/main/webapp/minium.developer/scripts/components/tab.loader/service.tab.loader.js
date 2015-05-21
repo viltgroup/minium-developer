@@ -19,6 +19,8 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
         var result = editors.isOpen(file);
         var deferred = $q.defer();
 
+        
+        
         var emptyEditor = function() {
             //create an empty editor
             var fileProps = {

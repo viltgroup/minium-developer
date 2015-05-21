@@ -64,15 +64,16 @@ angular.module('minium.developer')
                 arrPromises[i] = $scope.loadFile(openTabs[i]);
             }
             $q.all(arrPromises).then(function() {
-
-                var promise = $scope.loadFile($stateParams.path, $scope.line).then(function(result) {
-                    if ($scope.line) {
-                        console.log($rootScope.active)
-                        $rootScope.active.session.gotoLine($scope.line);
-                    }
-                });
+                if ($stateParams.path) {
+                    var promise = $scope.loadFile($stateParams.path).then(function(result) {
+                        if ($stateParams.line) {
+                            console.log($rootScope.active)
+                            $rootScope.active.session.gotoLine($stateParams.line);
+                        }
+                    });
+                }
                 deferred.resolve();
-            })
+            });
 
             return deferred.promise;
         }
@@ -81,24 +82,14 @@ angular.module('minium.developer')
         // INITIALIZATIONS
         //////////////////////////////////////////////////////////////////
 
-        //check if any lineNo is on the request
-
-        if ($stateParams.path) {
-            $scope.line;
-            if ($stateParams.line) {
-
-                $scope.line = $stateParams.line;
-            }
-            // alert($stateParams.path)
+        var init = function() {
+            //open tabs
             var promise = tabLoader();
+            //open the console helper
             $scope.loadFile("");
-
-        } else {
-            var openTabs = tabLoader();
-            //if theres no open tabs, open one console
-            if (openTabs === 0)
-                $scope.loadFile("");
         }
+
+        init();
 
         //create an empty editor
         $scope.addEmptyTab = function() {

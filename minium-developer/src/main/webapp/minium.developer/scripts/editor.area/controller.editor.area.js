@@ -36,7 +36,7 @@ angular.module('minium.developer')
         /////////////////////////////////////////////////////////////////
 
         $scope.loadFile = function(props,lineNo) {
-
+            
             //load the file
             var promise = TabLoader.loadFile(props, editors);
             var deferred = $q.defer();

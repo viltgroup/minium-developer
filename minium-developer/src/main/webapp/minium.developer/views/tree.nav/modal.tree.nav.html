@@ -1,7 +1,7 @@
 <div class="modal-header">
     <strong class="pull-left primary-font"> 
-    		<span class="fa fa-info-circle"> </span>	
-    		{{operationName}}
+            <span class="fa fa-info-circle"> </span>    
+            {{operationName}}
     </strong>
     <small class="pull-right text-muted">
     <span class="fa fa-pencil-square-o"></span>{{elemClick}}</small>
@@ -12,7 +12,7 @@
         <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem" required autofocus>
         <div class="modal-footer">
             <button class="btn btn-primary" ng-disabled="signInForm.$invalid">Update</button>
-            <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
         </div>
 </div>
 </form>

@@ -1,9 +1,10 @@
 package minium.developer.service;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.io.PrintStream;
 
 import javax.annotation.PostConstruct;
@@ -22,29 +23,25 @@ public class LogService {
     @Component
     public static class LogThread extends Thread {
 
-        private File miniumDeveloperFile;
+        private PipedOutputStream out = new PipedOutputStream();
+        private PipedInputStream in = new PipedInputStream(out);
 
         @Autowired
         private MessageSendingOperations<String> messagingTemplate;
 
-
         public LogThread() throws IOException {
-            this.miniumDeveloperFile = File.createTempFile("minium-developer", ".log");
             this.setDaemon(true);
         }
 
         @Override
         public void run() {
-
             try {
-                System.setOut(new PrintStream(miniumDeveloperFile));
-
-                FileReader fr = new FileReader(miniumDeveloperFile);
-                try (BufferedReader br = new BufferedReader(fr)) {
+                System.setOut(new PrintStream(out));
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
                     while (true) {
                         String line = br.readLine();
                         if (line == null) {
-                            Thread.sleep(1 * 1000);
+                            return;
                         } else {
                             messagingTemplate.convertAndSend("/log", line);
                         }
@@ -52,8 +49,6 @@ public class LogService {
                 }
             } catch (IOException e) {
                 throw Throwables.propagate(e);
-            } catch (InterruptedException e) {
-                // just quit
             }
         }
 

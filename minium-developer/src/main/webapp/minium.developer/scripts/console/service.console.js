@@ -42,7 +42,7 @@ angular.module('minium.developer')
                 } else {
                     e.editor.session.setBreakpoint(row);
                     //add new button that go to the line
-                    var template = '<button type="button" id="breakpoint_' + row + '" class="btn btn-inverse active btn-xs" ng-click="gotoLine(' + (row + 1) + ',\'' + 'console-log' + '\')">Breakpoint L ' + (row + 1) + '</button>   ';
+                    var template = '<button type="button" id="breakpoint_' + row + '" class="btn btn-inverse active btn-xs" ng-click="gotoLine(' + (row + 1) + ',\'' + 'console-log' + '\')">Marker L ' + (row + 1) + '</button>   ';
                     var linkFn = $compile(template);
                     var content = linkFn(scope);
                     $("#breakpoints").append(content);

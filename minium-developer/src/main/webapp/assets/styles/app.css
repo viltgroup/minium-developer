@@ -618,19 +618,19 @@ div.inline {
     vertical-align: middle;
 }
 
-treecontrol.tree-classic li.tree-collapsed i {
+li.tree-collapsed i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/folder5.png") no-repeat bottom left;
+    background: url("/assets/images/icons/folder5.png") no-repeat bottom left!important;
 }
 
-treecontrol.tree-classic li.tree-expanded i {
+li.tree-expanded i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/folder99.png") no-repeat bottom left;
+    background: url("/assets/images/icons/folder99.png") no-repeat bottom left!important;
 }
 
 treecontrol.tree-classic li.tree-leaf i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/file.png") no-repeat bottom left;
+    background: url("/assets/images/icons/file.png") no-repeat bottom left!important;
 }
 
 treecontrol.tree-classic li.feature-node i {

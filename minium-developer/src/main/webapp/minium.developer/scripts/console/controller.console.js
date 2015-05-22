@@ -4,32 +4,18 @@
     angular.module('minium.developer')
         .controller('ConsoleController', ConsoleController);
 
-    ConsoleController.$inject = ['$scope', 'editorPreferences','MiniumEditor'];
+    ConsoleController.$inject = ['$scope', 'ConsoleLog'];
 
-    function ConsoleController($scope, editorPreferences,MiniumEditor) {
+    function ConsoleController($scope, ConsoleLog) {
         console.log("Console ");
+        //scope only needed for linkFn function
+        var c = new ConsoleLog($scope);
+        var editor = c.editor;
 
-        var editors = MiniumEditor;
-
-        var defaultSettings = {
-            theme: 'ace/theme/monokai',
-            fontSize: 14,
-            printMargin: false,
-            highlightLine: true,
-            wrapMode: false,
-            softTabs: true,
-            HighlightActiveLine: true,
-            tabSize: 2,
-            resize: true,
-            readOnly: true
-        };
-
-
-        var editor = ace.edit("console-log");
-        editorPreferences.setEditorSettings(editor, defaultSettings);
-        editor.getSession().setMode("batchfile")
         $scope.isLogVisible = true;
+        $scope.isActivePause = false;
         console.log(editor);
+
         $scope.aceLoaded = function(_editor) {
             // Editor part
             var _session = _editor.getSession();
@@ -44,24 +30,43 @@
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
 
-
         stompClient.connect({}, function(frame) {
 
             stompClient.subscribe("/log", function(message) {
-                console.log(message);
-                editor.insert(message.body + "\n");
-                editor.navigateLineEnd();
+
+                if ($scope.isActivePause == false) {
+                    console.log(message);
+                    editor.insert(message.body + "\n");
+                    editor.navigateLineEnd();
+                } else {
+                    $scope.pausedLog.push(message.body + "\n");
+                }
+
             });
 
-
         });
+
+        $scope.addPausedLines = function() {
+            angular.forEach($scope.pausedLog, function(data) {
+                editor.insert(data);
+            });
+            $scope.pausedLog = [];
+        }
+
+        $scope.clearLog = function() {
+            editor.getSession().setValue("");
+        };
+
+        $scope.gotoLine = function(lineNo, element) {
+            editor.gotoLine(lineNo);
+        };
 
         $scope.toggleEditor = function() {
             $scope.isLogVisible = !$scope.isLogVisible;
             $(".console-log").toggle();
             $(window).trigger('resize');
         }
-
+        $(window).trigger('resize');
 
     }
 })();

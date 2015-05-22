@@ -1,15 +1,11 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($scope, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
+    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $q, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
 
         //initialize the service to manage the instances
         var editors = MiniumEditor;
         editors.init($scope);
-
-        $scope.dynamicTooltip = 'Hello, World!';
-        $scope.dynamicTooltipText = 'dynamic';
-        $scope.htmlTooltip = 'I\'ve been made <b>bold</b>!';
 
         //to know when the execution was stopped
         //inicialize a false
@@ -58,28 +54,42 @@ angular.module('minium.developer')
          *
          */
         var tabLoader = function() {
+
+            var deferred = $q.defer();
+            var arrPromises = [];
+
             var openTabs = openTab.load();
             var numTabs = 0;
             for (var i = 0; i < openTabs.length; i++) {
-                var promise = $scope.loadFile(openTabs[i]);
-                promise.then(function(result) {
-                    numTabs++;
-                });
+                arrPromises[i] = $scope.loadFile(openTabs[i]);
             }
-            return numTabs;
+            $q.all(arrPromises).then(function() {
+                if ($stateParams.path) {
+                    var promise = $scope.loadFile($stateParams.path).then(function(result) {
+                        if ($stateParams.line) {
+                            console.log($rootScope.active)
+                            $rootScope.active.session.gotoLine($stateParams.line);
+                        }
+                    });
+                }
+                deferred.resolve();
+            });
+
+            return deferred.promise;
         }
 
-        if ($stateParams.path) {
-            tabLoader();
-            //wait for every files load
-            $scope.loadFile($stateParams.path);
+        //////////////////////////////////////////////////////////////////
+        // INITIALIZATIONS
+        //////////////////////////////////////////////////////////////////
+
+        var init = function() {
+            //open tabs
+            var promise = tabLoader();
+            //open the console helper
             $scope.loadFile("");
-        } else {
-            var openTabs = tabLoader();
-            //if theres no open tabs, open one console
-            if (openTabs === 0)
-                $scope.loadFile("");
         }
+
+        init();
 
         //create an empty editor
         $scope.addEmptyTab = function() {
@@ -178,7 +188,6 @@ angular.module('minium.developer')
                 toastr.error(GENERAL_CONFIG.ERROR_MSG.SOCKET_CONNECT)
             });
         };
-
 
         /**
          * Clean the scope of the engine
@@ -341,8 +350,6 @@ angular.module('minium.developer')
             });
         };
 
-
-
         var relaunch = false;
         $scope.relaunchEval = false;
         $scope.openModalWebDriverSelect = function(size) {
@@ -369,7 +376,7 @@ angular.module('minium.developer')
                 $log.info('Modal dismissed at: ' + new Date());
             });
         };
-        
+
         //////////////////////////////////////////////////////////////////
         // EVENT HANDLER  CTLR + P 
         // to Search a file
@@ -384,7 +391,6 @@ angular.module('minium.developer')
                 });
             }
         }, false);
-
 
         //functions used in the 2 modules
         $scope.isEmpty = function(obj) {

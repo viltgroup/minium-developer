@@ -3,6 +3,7 @@
 angular.module('minium.developer')
     .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileManager, scope, GENERAL_CONFIG) {
 
+
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
         $scope.operation = operation;

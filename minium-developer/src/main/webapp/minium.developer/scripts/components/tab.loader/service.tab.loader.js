@@ -6,7 +6,7 @@
 miniumDeveloper.service('TabLoader', function($q, FS) {
 
     var all = [];
-    
+
     /**
      * Load a file and check if the is already open on a tab
      * @param  {[type]} file    the property file
@@ -19,26 +19,33 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
         var result = editors.isOpen(file);
         var deferred = $q.defer();
 
+        
+        
         var emptyEditor = function() {
             //create an empty editor
-            var fileProps={
-                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved",
+            var fileProps = {
+                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved\n\n",
                 fileProps: ""
             }
             newEditor = editors.addInstance(fileProps, 1);
+            //go to line
+            newEditor.instance.gotoLine(4);
         }
 
-        if (file === "") {                              //if the is empty
+        if (file === "") { //if the is empty
             //create an empty editor
             emptyEditor();
             deferred.resolve(newEditor);
-        } else if (result.isOpen) {                    //if a tab is already open
+        } else if (result.isOpen) { //if a tab is already open
             var id = result.id;
             //tab is already open
             var tab = "#panel_" + id;
             var index = $('#tabs a[href="' + tab + '"]').parent().index();
             $("#tabs").tabs("option", "active", index);
-        } else {                                      //if theres no tab opened with this file
+            
+            newEditor = editors.getSession(id);
+            deferred.resolve(newEditor);
+        } else { //if theres no tab opened with this file
             var path = file.relativeUri || file;
 
             //get the file

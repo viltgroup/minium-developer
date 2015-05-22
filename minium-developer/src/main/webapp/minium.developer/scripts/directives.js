@@ -91,7 +91,6 @@ angular.module('miniumDeveloper.directives', [])
     };
 })
 
-
 .directive('radioButtonGroup', function() {
     return {
         restrict: 'E',
@@ -136,7 +135,6 @@ angular.module('miniumDeveloper.directives', [])
             "</button>"
     };
 })
-
 
 .directive('showTab', function() {
     return {
@@ -229,17 +227,17 @@ angular.module('miniumDeveloper.directives', [])
             var classToToggle = attr.sideBarToggle;
             element.bind('click', function(e) {
                 e.preventDefault();
-                 //If window is small enough, enable sidebar push menu
-        if ($(window).width() <= 992) {
-            $('.row-offcanvas').toggleClass('active');
-            $('.left-side').removeClass("collapse-left");
-            $(".right-side").removeClass("strech");
-            $('.row-offcanvas').toggleClass("relative");
-        } else {
-            //Else, enable content streching
-            $('.left-side').toggleClass("collapse-left");
-            $(".right-side").toggleClass("strech");
-        }
+                //If window is small enough, enable sidebar push menu
+                if ($(window).width() <= 992) {
+                    $('.row-offcanvas').toggleClass('active');
+                    $('.left-side').removeClass("collapse-left");
+                    $(".right-side").removeClass("strech");
+                    $('.row-offcanvas').toggleClass("relative");
+                } else {
+                    //Else, enable content streching
+                    $('.left-side').toggleClass("collapse-left");
+                    $(".right-side").toggleClass("strech");
+                }
 
             });
 
@@ -249,50 +247,74 @@ angular.module('miniumDeveloper.directives', [])
 
 .directive('iconItem', function($compile) {
 
-    var statuses = {
-        passed: 'PASSED',
-        failed: 'FAILED',
-        undefined: 'UNDEFINED',
-        skipped: 'SKIPPED'
-    };
+        var statuses = {
+            passed: 'PASSED',
+            failed: 'FAILED',
+            undefined: 'UNDEFINED',
+            skipped: 'SKIPPED'
+        };
 
+        var successTemplate = '<i class="success fa fa-check-square "></i>';
+        var errorTemplate = '<i class="danger fa fa-bug "></i>';
+        var undefinedTemplate = '<i class="warning2 fa fa-exclamation-circle "></i>';
+        var skipped = '<i class="warning fa  fa-exclamation-triangle "></i>';
 
-    var successTemplate = '<i class="success fa fa-check-square "></i>';
-    var errorTemplate = '<i class="danger fa fa-bug "></i>';
-    var undefinedTemplate = '<i class="warning2 fa fa-exclamation-circle "></i>';
-    var skipped =   '<i class="warning fa  fa-exclamation-triangle "></i>';
+        var getStepResult = function(status) {
+            var template = '';
+            switch (status) {
+                case statuses.passed:
+                    template = successTemplate;
+                    break;
+                case statuses.failed:
+                    template = errorTemplate;
+                    break;
+                case statuses.skipped:
+                    template = skipped;
+                    break;
+                case statuses.undefined:
+                    template = undefinedTemplate;
+                    break;
+            }
 
-    var getStepResult = function(status) {
-        var template = '';
-        switch (status) {
-            case statuses.passed:
-                template = successTemplate;
-                break;
-            case statuses.failed:
-                template = errorTemplate;
-                break;
-            case statuses.skipped:
-                template = skipped;
-                break;
-            case statuses.undefined:
-                template = undefinedTemplate;
-                break;
+            return template;
         }
 
-        return template;
-    }
-
-
-    var linker = function(scope, element, attrs) {
-        element.html(getStepResult(scope.status)).show();
-        $compile(element.contents())(scope);
-    }
-
-    return {
-        restrict: "E",
-        link: linker,
-        scope: {
-            status: '='
+        var linker = function(scope, element, attrs) {
+            element.html(getStepResult(scope.status)).show();
+            $compile(element.contents())(scope);
         }
-    };
-});
+
+        return {
+            restrict: "E",
+            link: linker,
+            scope: {
+                status: '='
+            }
+        };
+    })
+    .directive("pause", function() {
+        return {
+            restrict: "A",
+            scope: {
+                active: "=",
+                action: "&"
+            },
+            link: function(scope, elem, attr) {
+                elem.bind("click", function() {
+                    if ($(this).hasClass('active')) {
+                        scope.active = true;
+                        $(this).removeClass("active");
+                        $(this).html('<span class="glyphicon glyphicon-play"></span>Play');
+                        scope.$apply(scope.active);
+                    } else {
+                        scope.active = false;
+                        scope.$apply(scope.active);
+                        scope.$apply(scope.action);
+                        $(this).html('<span class="glyphicon glyphicon-pause"></span>Pause');
+                        $(this).addClass("active");
+                    }
+
+                });
+            }
+        }
+    });

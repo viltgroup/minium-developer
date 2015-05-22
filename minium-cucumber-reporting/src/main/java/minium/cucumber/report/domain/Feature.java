@@ -116,7 +116,7 @@ public class Feature {
     public Status getStatus() {
         for (Element elem : elements) {
             if (elem.getStatus() != Status.PASSED)
-                return elem.getStatus();
+                return Status.FAILED;
         }
         return Status.PASSED;
     }

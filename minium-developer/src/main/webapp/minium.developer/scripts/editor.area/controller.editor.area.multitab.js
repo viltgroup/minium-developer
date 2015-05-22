@@ -18,6 +18,7 @@ angular.module('minium.developer')
             beforeActivate: function(event, ui) {
                 var tabId = ui.newPanel.attr('data-tab-id');
                 var editor = editors.getSession(tabId);
+                console.log(editor)
                 if (editor !== null) {
                     $scope.setActiveEditor(editor);
                 }
@@ -83,10 +84,12 @@ angular.module('minium.developer')
         //////////////////////////////////////////////////////////////////
 
         var init = function() {
+            
             //open tabs
             var promise = tabLoader();
             //open the console helper
             $scope.loadFile("");
+            
         }
 
         init();

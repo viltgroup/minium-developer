@@ -17,7 +17,7 @@ minium:
 
 ---
 spring:
-  profiles: styx-ci
+  profiles: virtus
 
 # Configuration that can be injected in your tests
   config:

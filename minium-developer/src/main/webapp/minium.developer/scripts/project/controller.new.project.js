@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ProjectController', function($scope, $modalInstance, ProjectFactory, ProjectService, GENERAL_CONFIG) {
+    .controller('ProjectController', function($scope, $translate, $filter, $modalInstance, ProjectFactory, ProjectService) {
 
+        var $translate = $filter('translate');
         $scope.project = {};
 
-
         var directoryMsgTemplate = {
-            success: '<span class="fa fa-check" style="color:green;"></span> Directory is valid',
-            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> Directory invalid'
+            success: '<span class="fa fa-check" style="color:green;"></span>' + $translate("messages.valid_directory"),
+            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> ' + $translate("messages.invalid_directory")
         }
 
         var projectMsgTemplate = {
-            success: '<span class="fa fa-check" style="color:green;"></span> Project exists',
-            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> There\'s already a project in this path!!'
+            success: '<span class="fa fa-check" style="color:green;"></span> ' + $translate("messages.project_exists"),
+            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> ' + $translate("messages.no_project_exists")
         }
 
         //possible modes of a project after validation
@@ -30,7 +30,7 @@ angular.module('minium.developer')
             projectType: ''
         }
 
-        $scope.popoverDirectoryInput = GENERAL_CONFIG.POPOVER.DIRECTORY_INPUT
+        $scope.popoverDirectoryInput = $translate('messages.popover.directory_input');
 
         $scope.isValidJavaPackageName = function() {
 
@@ -68,7 +68,7 @@ angular.module('minium.developer')
             if (isValidProjectName(str) == false) {
                 $scope.isValid = false;
                 $scope.msg.directory = '';
-                $scope.msg.project = 'Your project name contains illegal characters.';
+                $scope.msg.project = $translate('illegal_chars');
                 $scope.msg.projectType = '';
                 return;
             }
@@ -76,7 +76,7 @@ angular.module('minium.developer')
             $scope.validatingProject = true;
             var name = $scope.project.name || "";
 
-            if (name === "" ) {
+            if (name === "") {
                 $scope.validatingProject = false;
                 return;
             }
@@ -121,19 +121,19 @@ angular.module('minium.developer')
 
         $scope.submitForm = function() {
             if (!$scope.projectForm.$valid || !$scope.isValid || !isValidProjectName($scope.project.name)) {
-                toastr.error("Form is invalid");
+                toastr.error($translate('form_invalid'));
                 return;
             }
             ProjectFactory.create($scope.project).success(function(data) {
                 if (data == true) {
-                    toastr.success("Project created");
+                    toastr.success($translate('messages.created'));
                     ProjectService.storeOpenProjects($scope.location);
                     ProjectService.reload($scope.location);
                 } else {
-                    toastr.error("Not possible to create the project");
+                    toastr.error($translate('messages.cannot_create_project'));
                 }
             }).error(function(data, status) {
-                toastr.error("Not possible to create the project!");
+                toastr.error($translate('messages.cannot_create_project'));
             });
         }
 

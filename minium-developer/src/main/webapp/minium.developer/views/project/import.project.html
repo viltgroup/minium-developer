@@ -4,14 +4,19 @@
 
         <fieldset>
             <!-- Form Name -->
-            <legend>Open project</legend>
+            <legend translate="project.form.open">Open project</legend>
+
             <!-- Text input-->
             <div class="form-group has-feedback" ng-class="{ 'has-error' : (projectForm.dir.$invalid && !projectForm.dir.$pristine ) || (isValid == false), 'has-success' : isValid }">
-                <label class="col-sm-2 control-label" for="textinput">Project Directory</label>
+                <label class="col-sm-2 control-label" for="textinput" translate="project.form.directory">
+                    Project Directory
+                </label>
 
                 <div class="col-sm-10">
-                    <input type="text" ng-model="path" name="dir" required placeholder="Project Directory" class="form-control" ng-keyup="validate($event)" />
-                    <p ng-show="path.$invalid && !path.$pristine" class="help-block">The name is required.</p>
+                    <input type="text" ng-model="path" name="dir" required placeholder="{{project.form.directory | translate}}" class="form-control" ng-keyup="validate($event)" />
+                    <p ng-show="path.$invalid && !path.$pristine" class="help-block" translate="messages.validate.directory.required">
+                        The name is required.
+                    </p>
 
                     <span class="fa fa-spinner fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
                     <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
@@ -31,7 +36,9 @@
             </div>
 
             <!-- Last open projects -->
-            <h4 ng-show="lastProjects">Latest projects</h4>
+            <h4 ng-show="lastProjects" translate="project.form.latest">
+                Latest projects
+            </h4>
             <div class="list-group">
                 <a ng-repeat="project in lastProjects" ng-click="select(project)" class="list-group-item search-results">
                     <p class="list-group-item-text nowrap hideoverflow">{{project}}</p>
@@ -39,8 +46,12 @@
             </div>
 
             <div class="modal-footer">
-                <button class="btn btn-primary" type="submit" ng-disabled="path == undefined || path == '' || isValid !== true">Open</button>
-                <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+                <button class="btn btn-primary" type="submit" ng-disabled="path == undefined || path == '' || isValid !== true" translate="entity.action.open">
+                    Open
+                </button>
+                <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">
+                    Cancel
+                </button>
             </div>
 </div>
 </fieldset>

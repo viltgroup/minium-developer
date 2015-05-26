@@ -1,17 +1,23 @@
 <div class="modal-header">
     <h4 class="modal-title">
-            Results
+            <span translate="report.results">Results</span>
             <!-- NG IF -->
             <span ng-if="resultsSummary.failures > 0">
             <span class="label label-danger ">
-            Failing <i class="fa fa-thumbs-down"></i>
+              <span translate="report.failing">
+                Failing
+              </span>
+               <i class="fa fa-thumbs-down"></i>
             </span>
             </span>
             <!-- NG IF -->
             <span ng-if="resultsSummary.failures == 0">
             <span class="label label-success">
-            Passing  <i class="fa fa-thumbs-up"></i>
-            </span>
+              <span translate="report.failure">
+                Passing
+              </span>
+                <i class="fa fa-thumbs-up"></i>
+              </span>
             </span>
          </h4>
 </div>
@@ -26,15 +32,19 @@
                 <icon-item status="step.status"></icon-item>
 
                 <strong title="Step {{step.status}}">{{step.name}}</strong>
-                <span>Line {{step.line}}</span>
+                <span>
+                <span translate="labels.line">Line </span>
+                {{step.line}}</span>
                 <i class="pull-right fa " ng-class="{'fa-chevron-down': status.open, ' fa-chevron-right': !status.open}"></i>
-                 <small style="margin-left:10px;">Step {{step.status}}</small>
+                 <small style="margin-left:10px;">
+                 <span translate="cucumber.step">Step </span>
+                 {{step.status}}</small>
             </accordion-heading>
             <!-- CONTENT -->
             <table class="table table-primary table-list table-striped table-condensed" ng-if="step.result">
                 <thead>
                     <tr>
-                        <th>Error message</th>
+                        <th translate="report.error.message">Error message</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
@@ -55,7 +65,9 @@
     </accordion>
 
     <!-- Snippets -->
-    <h4 ng-show="snippetsForUndefinedSteps.length > 0">Undefined steps</h4>
+    <h4 ng-show="snippetsForUndefinedSteps.length > 0" translate="reports.undefided.steps">
+      Undefined steps
+    </h4>
     <span ng-repeat="snippet in snippetsForUndefinedSteps track by $index">
          <pre class="prettyprint lang-js" style="white-space: pre;">{{snippet}} </pre>
     </span>
@@ -67,32 +79,44 @@
                <em class="fa fa-circle fa-stack-2x text-primary"></em>
                <em class="fa fa-rocket fa-stack-1x fa-inverse text-white"></em>
                </span>
-               <strong>{{resultsSummary.runCount}} Steps </strong>
+               <strong>{{resultsSummary.runCount}} 
+                  <span translate="report.steps">Steps</span>
+                </strong>
                <span class="fa-stack">
                <em class="fa fa-circle fa-stack-2x text-success"></em>
                <em class="fa fa-check-square fa-stack-1x fa-inverse text-white"></em>
                </span>
-               <strong>{{resultsSummary.passed}} Passing</strong>
+               <strong>{{resultsSummary.passed}} 
+                  <span translate="report.passing">Passing</span>
+               </strong>
                <span class="fa-stack">
                <em class="fa fa-circle fa-stack-2x text-danger"></em>
                <em class="fa fa-bug fa-stack-1x fa-inverse text-white"></em>
                </span>
-               <strong>{{resultsSummary.failures}} Failure</strong>
+               <strong>{{resultsSummary.failures}} 
+                  <span translate="report.failure">Failure</span>
+               </strong>
                <span class="fa-stack">
                <em class="fa fa-circle fa-stack-2x text-warning"></em>
                <em class="fa fa-warning fa-stack-1x fa-inverse text-white"></em>
                </span>
-               <strong>{{resultsSummary.skipped}} Skipped</strong>
+               <strong>{{resultsSummary.skipped}} 
+                  <span translate="report.skipped">Skipped</span>
+               </strong>
                <span class="fa-stack">
                <em class="fa fa-circle fa-stack-2x text-warning2"></em>
                <em class="fa fa-exclamation fa-stack-1x fa-inverse text-white"></em>
                </span>
-               <strong>{{resultsSummary.undefined}} Undefined</strong>
+               <strong>{{resultsSummary.undefined}} 
+                  <span translate="report.undefined">Undefined</span>
+               </strong>
                </h4>
     </div>
 
 
 
     <div class="modal-footer">
-        <button class="btn btn-primary" ng-click="cancel()">Close</button>
+        <button class="btn btn-primary" ng-click="cancel()" translate="entity.action.close">
+          Close
+        </button>
     </div>

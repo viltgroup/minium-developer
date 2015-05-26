@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditTreeNavController', function($scope, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileManager, scope, GENERAL_CONFIG) {
+    .controller('EditTreeNavController', function($scope, $translate, $filter, $modalInstance, TreeNav, relativeUriContextClick, dataForTheTree, operation, nodeName, FileManager, scope, GENERAL_CONFIG) {
 
-
+        var $translate = $filter('translate');
         var relativeUriContextClick = relativeUriContextClick;
         var dataForTheTree = dataForTheTree;
         $scope.operation = operation;
@@ -17,19 +17,19 @@ angular.module('minium.developer')
             switch ($scope.operation) {
                 case 'newFolder':
                     $scope.newFolder();
-                    $scope.operationName = "New Folder";
+                    $scope.operationName = $translate('operation.new_folder');
                     break;
                 case 'newFile':
                     $scope.newFile();
-                    $scope.operationName = "New File";
+                    $scope.operationName = $translate('operation.new_file');
                     break;
                 case 'rename':
                     $scope.rename();
-                    $scope.operationName = "Rename File";
+                    $scope.operationName = $translate('operation.rename_file');
                     break;
                 case 'renameFolder':
                     $scope.renameFolder();
-                    $scope.operationName = "Rename Folder";
+                    $scope.operationName = $translate('operation.rename_folder');
                     break;
             }
         };
@@ -66,37 +66,17 @@ angular.module('minium.developer')
                 //elem.splice(pos, 1);
 
                 elem[pos] = newElem;
-                toastr.success("File " + relativeUri + " renamed");
+
+                toastr.success($translate("messages.action", {
+                    type: 'File',
+                    relativeUri: relativeUri,
+                    action: 'renamed'
+                }));
+
                 $modalInstance.close();
             }).error(function(data) {
                 toastr.error("Error " + data);
             });
-        }
-
-        $scope.delete = function() {
-            //TODO
-
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE);
-            if (result == true) {
-                // //Logic to delete the item
-                // //get element
-                // //remove element
-                // var relativeUri = decodeURIComponent(relativeUriContextClick);
-                // FileManager.delete(relativeUri).success(function(data) {
-
-                //     var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
-                //     var elem = obj.element;
-                //     var pos = obj.pos;
-
-                //     elem.splice(pos, 1);
-
-                //     toastr.success("File " + relativeUri + " deleted");
-                //     $modalInstance.close();
-                // }).error(function(data) {
-                //     toastr.error("Error " + data);
-                //     $modalInstance.close();
-                // });
-            } 
         }
 
         $scope.deleteDirectory = function() {
@@ -115,7 +95,13 @@ angular.module('minium.developer')
 
                     elem.splice(pos, 1);
 
-                    toastr.success("File " + relativeUri + " deleted");
+
+                    toastr.success($translate("messages.action", {
+                        type: 'File',
+                        relativeUri: relativeUri,
+                        action: 'deleted'
+                    }));
+
                     $modalInstance.close();
                 }).error(function(data) {
                     toastr.error("Error " + data);
@@ -147,7 +133,9 @@ angular.module('minium.developer')
 
                 //add the new element to the tree
                 elem.push(newElem);
-                toastr.success("Created file " + newPath);
+                toastr.success($translate('messages.created_file', {
+                    newPath: newPath
+                }));
                 $modalInstance.close();
 
             }).error(function(data) {
@@ -180,7 +168,10 @@ angular.module('minium.developer')
                 //add the new element to the tree
 
                 elem.push(newElem);
-                toastr.success("Created file " + newPath);
+
+                toastr.success($translate('messages.created_file', {
+                    newPath: newPath
+                }));
                 $modalInstance.close();
 
             }).error(function(data) {
@@ -218,7 +209,12 @@ angular.module('minium.developer')
                 console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
                 elem[pos] = newElem;
-                toastr.success("Folder " + relativeUriContextClick + " renamed ");
+
+                toastr.success($translate("messages.action", {
+                    type: 'Folder',
+                    relativeUri: relativeUriContextClick,
+                    action: 'renamed'
+                }));
                 scope.loadChildren(elem[pos]);
                 $modalInstance.close();
             }).error(function(data) {
@@ -236,18 +232,18 @@ angular.module('minium.developer')
 
             switch ($scope.operation) {
                 case 'newFolder':
-                    $scope.operationName = "New Folder";
+                    $scope.operationName = $translate('operation.new_folder');
                     break;
                 case 'newFile':
-                    $scope.operationName = "New File";
+                    $scope.operationName = $translate('operation.new_file');
                     break;
                 case 'rename':
                     $scope.selectedItem = nodeName;
-                    $scope.operationName = "Rename File";
+                    $scope.operationName = $translate('operation.rename_file');
                     break;
                 case 'renameFolder':
                     $scope.selectedItem = nodeName;
-                    $scope.operationName = "Rename Folder";
+                    $scope.operationName = $translate('operation.rename_folder');
                     break;
                 case 'delete':
                     $scope.delete();

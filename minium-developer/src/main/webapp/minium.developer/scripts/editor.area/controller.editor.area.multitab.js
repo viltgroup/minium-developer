@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $q, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, GENERAL_CONFIG, WebDriverFactory, openTab, cumcumberLauncher) {
+    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $translate, $filter, $q, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, WebDriverFactory, openTab, cumcumberLauncher) {
 
+        var $translate = $filter('translate');
         //initialize the service to manage the instances
         var editors = MiniumEditor;
         editors.init($scope);
@@ -36,7 +37,7 @@ angular.module('minium.developer')
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
                 //the editor is dirty so check if the user 
-                var answer = confirm(GENERAL_CONFIG.UNSAVED_MSG);
+                var answer = confirm($translate('messages.files.unsaved'));
                 if (answer) {
                     editors.closeTab(tabUniqueId, tabs, elem);
                 }
@@ -185,7 +186,7 @@ angular.module('minium.developer')
                 });
             }, function(errorPayload) {
                 //the promise was rejected
-                toastr.error(GENERAL_CONFIG.ERROR_MSG.SOCKET_CONNECT)
+                toastr.error($translate('messages.error.socket_connect'))
             });
         };
 
@@ -216,7 +217,7 @@ angular.module('minium.developer')
             $scope.launchTestSession = $scope.active.session;
             //check if the test already executing
             if ($scope.testExecuting == true) {
-                toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_EXECUTING);
+                toastr.error($translate('messages.error.test_executing'));
                 return;
             }
             /*
@@ -263,7 +264,7 @@ angular.module('minium.developer')
             $scope.isFailing = false;
             $scope.tests = {};
 
-            toastr.success(GENERAL_CONFIG.MSG.TEST_STARTED);
+            toastr.success($translate('messages.info.test_started'));
             // clear markers
             $scope.clearMarkers();
 
@@ -372,8 +373,6 @@ angular.module('minium.developer')
                     editors.evaluate($scope.active.session);
                     $scope.relaunchEval = false;
                 }
-            }, function() {
-                $log.info('Modal dismissed at: ' + new Date());
             });
         };
 

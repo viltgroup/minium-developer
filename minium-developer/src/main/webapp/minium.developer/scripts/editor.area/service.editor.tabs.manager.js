@@ -5,7 +5,7 @@
  */
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
+miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter, $modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -24,6 +24,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
         this.paths = [];
         //scope
         this.scope = scope;
+
+        this.$translate = $filter('translate');
 
         //init the possible modes
         this.modeEnum = {
@@ -326,7 +328,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
     //Evaluate Expression
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.evaluate = function(editor) {
-        evaluate(editor, this.scope);
+        evaluate(editor, this.scope, this);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -468,11 +470,11 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
 
         specificHandlers(fileName, editor, that);
 
-        if( fileName !== ""){
-             // add listener to input
+        if (fileName !== "") {
+            // add listener to input
             listenerOnChange(editor, that)
         }
-        
+
         //create event listeners (bind keys events)
         bindKeys(editor, that);
 
@@ -492,7 +494,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
                         mac: "Command-Enter"
                     },
                     exec: function(env) {
-                        evaluate(env, _this.scope);
+                        evaluate(env, _this.scope, _this);
                     },
                     readOnly: false // should not apply in readOnly mode
                 });
@@ -628,7 +630,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
             var tabUniqueId = getEditorID(editor);
             updateContent(item, editor, _this, tabUniqueId)
                 //setAceContent(item, editor);
-            toastr.success("File saved")
+            toastr.success(_this.$translate('messages.files.saved'))
             markAsDirty(tabUniqueId, false);
 
         }, function(response) {
@@ -639,7 +641,9 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
             var line = data.message.match(/\d+/) || 0;
             _this.hightlightLine((line - 1), editor, "failed");
 
-            toastr.error(data.message, "The file contains " + data.exception)
+            toastr.error(data.message, _this.$translate('messages.files.error', {
+                data: data.exception
+            }))
         });
 
     };
@@ -738,7 +742,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
     };
 
     // from minium app
-    function evaluate(editor, that) {
+    function evaluate(editor, scope,that) {
         //functions needed to be here
         var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -748,7 +752,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
         WebDriverFactory.isCreated().success(function(data) {
             //start tests
             runningTest.start();
-            that.testExecuting = true;
+            scope.testExecuting = true;
 
             var range = editor.getSelectionRange();
             var session = editor.getSession();
@@ -763,17 +767,19 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
                 })
                 .success(function(data) {
                     if (data.size >= 0) {
-                        toastr.success(data.size + " matching web elements");
+                        toastr.success(that.$translate('evaluator.matching', {
+                            data: data.size
+                        }));
                     } else {
                         //undefined is not user friendly
                         //so when an undefined come we
                         if (_.escape(data.value) === "undefined") {
                             toastr.success("OK (" + _.escape(data.value) + ")");
                         } else {
-                            toastr.success(data.value ? _.escape(data.value) : "No value");
+                            toastr.success(data.value ? _.escape(data.value) : that.$translate('evaluator.no_value'));
                         }
                     }
-                    stopExecutionBtn(runningTest, that);
+                    stopExecutionBtn(runningTest, scope);
                 })
                 .error(function(exception) {
                     toastr.warning(exception.message);
@@ -786,15 +792,15 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $modal, EvalService
                         }];
                         editor.getSession().setAnnotations(errors);
                     }
-                    stopExecutionBtn(runningTest, that);
+                    stopExecutionBtn(runningTest, scope);
 
                 });
         }).
         error(function(data) {
-            that.setWebDriverMsg(true);
-            that.relaunchEval = true;
-            that.openModalWebDriverSelect();
-            stopExecutionBtn(runningTest, that);
+            scope.setWebDriverMsg(true);
+            scope.relaunchEval = true;
+            scope.openModalWebDriverSelect();
+            stopExecutionBtn(runningTest, scope);
 
         });
 

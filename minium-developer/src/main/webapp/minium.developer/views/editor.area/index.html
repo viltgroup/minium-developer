@@ -16,12 +16,6 @@
         <div ui-view="console" id="log"></div>
     </section>
 
-    <!-- <div ng-controller="NavbarController">
-        <div ng-include="'minium.developer/views/editor.area/partials/tree-nav.html'"></div>
-    </div> -->
-
-
-
 </aside>
 
 
@@ -29,13 +23,13 @@
 <script type="text/ng-template" id="selectorGadgetModal.html">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Pick elements with Selector Gadget</h4>
+        <h4 class="modal-title" translate="labels.selector.gadget">Pick elements with Selector Gadget</h4>
     </div>
     <div class="modal-body">
-        <p>Pick elements with Selector Gadget to generate a CSS selector expression.</p>
+        <p translate="labels.selector.gadget.text">Pick elements with Selector Gadget to generate a CSS selector expression.</p>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">Close</button>
-        <button type="submit" class="btn btn-primary" ng-click="accept()">Accept</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()" translate="entity.action.close">Close</button>
+        <button type="submit" class="btn btn-primary" ng-click="accept()" translate="entity.action.accept">Accept</button>
     </div>
 </script>

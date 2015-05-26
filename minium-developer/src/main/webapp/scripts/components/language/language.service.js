@@ -28,6 +28,9 @@ angular.module('miniumdevApp')
  */
     .constant('LANGUAGES', [
         'en', 'fr'
+        ,'ca'
+        ,'pt-br'
+        ,'es'
         //JHipster will add new languages here
     ]
 );

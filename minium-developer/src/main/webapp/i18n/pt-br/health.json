@@ -1,0 +1,20 @@
+{
+    "health": {
+        "title": "Estado do Sistema",
+        "refresh.button": "Atualizar",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "diskSpace": "Disk space",
+            "mail": "Email",
+            "db": "Banco de dados"
+        },
+        "table": {
+            "service": "Nome do Serviço",
+            "status": "Estado"
+        },
+        "status": {
+            "UP": "UP",
+            "DOWN": "DOWN"
+        }
+    }
+}

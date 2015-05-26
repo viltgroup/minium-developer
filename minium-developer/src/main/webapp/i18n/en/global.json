@@ -46,7 +46,7 @@
                 "register": "You don't have an account yet? <a href=\"#/register\">Register a new account</a>"
             },
             "error": {
-                "dontmatch" : "The password and its confirmation do not match!"
+                "dontmatch": "The password and its confirmation do not match!"
             },
             "validate": {
                 "newpassword": {
@@ -76,7 +76,14 @@
             "delete": "Delete",
             "edit": "Edit",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "close": "Close",
+            "create": "Create",
+            "ok": "OK",
+            "accept": "Accept",
+            "open": "Open",
+            "update":"Update",
+            "reset":"Reset default"
         },
         "detail": {
             "field": "Field",
@@ -85,6 +92,14 @@
         "delete": {
             "title": "Confirm delete operation"
         }
+    },
+    "project": "Project",
+    "labels": {
+        "or": "or",
+        "one": "one",
+        "name": "Name",
+        "about.minium": "About Minium",
+        "version": "Version"
     },
     "footer": "This is your footer"
 }

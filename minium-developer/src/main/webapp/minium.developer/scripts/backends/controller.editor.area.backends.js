@@ -1,14 +1,15 @@
 'use strict';
 
-var BackendsController = function($scope, $modalInstance, backendFactory) {
+var BackendsController = function($scope, $translate, $filter, $modalInstance, backendFactory) {
+    var $translate = $filter('translate');
 
     $scope.register = function() {
         var backendPath = $scope.backendPath;
         backendFactory.register(backendPath).success(function(data) {
-            toastr.success("Backend registed with success")
-             $scope.$close(true);
-        }).error(function(data){
-            toastr.error("Error. Can't register the backend")
+            toastr.success($translate('messages.backend.success'))
+            $scope.$close(true);
+        }).error(function(data) {
+            toastr.error($translate('messages.backend.error'))
         });
     };
 

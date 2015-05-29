@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
@@ -57,14 +56,6 @@
 							<goal>integration-test</goal>
 							<goal>verify</goal>
 						</goals>
-						<configuration>
-							<systemProperties>
-								<property>
-									<name>spring.profiles.active</name>
-									<value>${spring.profiles.active}</value>
-					            </property>
-							</systemProperties>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -81,15 +72,19 @@
 				<skip.minium.tests>false</skip.minium.tests>
 			</properties>
 		</profile>
-		<profile>
-			<id>styx-ci</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<spring.profiles.active>styx-ci</spring.profiles.active>
-			</properties>
-		</profile>
 	</profiles>
 
+	<repositories>
+		<repository>
+			<id>sonatype-snapshot</id>
+			<url>http://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
 </project>

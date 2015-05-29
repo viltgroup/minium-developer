@@ -88,6 +88,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         this.mode = obj.mode;
 
         var fileName = fileProps.name || "";
+        var relativeUri = fileProps.relativeUri || "";
 
         //ADD EVENT HANDLERS to the editor
         addEventListeners(editor, fileName, this);
@@ -96,12 +97,12 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         this.editors.push({
             id: tabUniqueId,
             instance: editor,
-            relativeUri: fileProps.relativeUri,
+            relativeUri: relativeUri,
             mode: this.mode,
             selected: fileContent
         });
 
-        this.paths.push(fileProps.relativeUri)
+        this.paths.push(relativeUri)
 
         openTab.store(this.editors);
 
@@ -110,7 +111,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         return {
             id: tabUniqueId,
             instance: editor,
-            relativeUri: fileProps.relativeUri,
+            relativeUri: relativeUri,
             mode: this.mode,
             selected: fileContent
         }

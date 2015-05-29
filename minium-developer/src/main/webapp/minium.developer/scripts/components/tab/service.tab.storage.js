@@ -8,7 +8,7 @@ miniumDeveloper.service('openTab', function() {
 
         var reltivepaths = [];
         editors.forEach(function(editor) {
-            if (editor.relativeUri != undefined) {
+            if (editor.relativeUri != undefined && editor.relativeUri !== "") {
                 reltivepaths.push(editor.relativeUri);
             }
         });

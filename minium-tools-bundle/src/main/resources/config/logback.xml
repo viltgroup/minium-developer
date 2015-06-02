@@ -1,30 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<include resource="org/springframework/boot/logging/logback/base.xml" />
-	<logger name="org.springframework.web" level="INFO" />
-	
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder>
-			<charset>utf-8</charset>
-			<Pattern>[%p] %c - %m%n</Pattern>
-		</encoder>
-	</appender>
-
-	<appender name="FILE"
-		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${app.home:-.}/minium-dev.%d{yyyy-MM-dd}.log</fileNamePattern>
-			<maxHistory>90</maxHistory>
-		</rollingPolicy>
-		<encoder>
-			<charset>utf-8</charset>
-			<Pattern>%d %-5level [%thread] %logger{0}: %msg%n</Pattern>
-		</encoder>
-	</appender>
-
-	<root level="INFO">
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="FILE" />
-	</root>
-
+    <logger name="org.springframework" level="WARN"/>
 </configuration>

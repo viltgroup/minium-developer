@@ -74,7 +74,7 @@ public class ProjectContextConfiguration {
             return new RhinoProjectContext(projConfiguration);
         }
         LOGGER.warn("Project at {} is not a valid project", projConfiguration.getDir());
-        return null;
+        return new RhinoProjectContext(projConfiguration);
     }
 
     @Autowired

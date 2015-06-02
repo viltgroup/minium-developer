@@ -191,6 +191,11 @@
 .ace_editor.ace_autocomplete {
     margin-top: 2px;
 }
+
+.ace_searchbtn,
+.ace_replacebtn {
+    color: black;
+}
 /** THEME CHANGES **/
 
 .skin-blue .sidebar > .sidebar-menu > li {
@@ -1458,6 +1463,7 @@ Console editor CSS
     margin-top: 5px;
 }
 
-.ace_searchbtn, .ace_replacebtn{
-    color:black;
+.parent-directory {
+    max-width: 350px;
+    overflow-x: auto;
 }

@@ -9,5 +9,10 @@
         "deleted_file": "Ficheiro {{relativeUri}} apagado",
         "created_file": "Criado ficheiro {{newPath}}",
         "action":"{{type}} {{relativeUri}} {{action}}"
+    },
+    "project": {
+        "no.project": "Nenhum projeto definido",
+        "open": "abrir",
+        "create": "criar"
     }
 }

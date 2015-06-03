@@ -57,14 +57,6 @@ angular.module('minium.developer')
             $scope.active.selectedNode = node;
             if (node.type == "FILE") {
                 $scope.loadFile(decodeURIComponent($scope.active.selectedNode.relativeUri));
-
-                $state.go("global.editorarea.sub", {
-                    path: $scope.active.selectedNode.relativeUri
-                }, {
-                    location: 'replace', //  update url and replace
-                    inherit: false,
-                    notify: false
-                });
             } else { //if the is on click on a file
                 $scope.loadChildren(node);
                 //expand the node

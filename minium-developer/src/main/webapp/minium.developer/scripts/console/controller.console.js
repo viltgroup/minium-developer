@@ -4,14 +4,29 @@
     angular.module('minium.developer')
         .controller('ConsoleController', ConsoleController);
 
-    ConsoleController.$inject = ['$scope', 'ConsoleLog'];
+    ConsoleController.$inject = ['$rootScope', '$scope', '$state', 'ConsoleLog', 'stackTraceParser'];
 
-    function ConsoleController($scope, ConsoleLog) {
+    function ConsoleController($rootScope, $scope, $state, ConsoleLog, stackTraceParser) {
         console.log("Console ");
         //scope only needed for linkFn function
         var c = new ConsoleLog($scope);
         var editor = c.editor;
 
+        var HoverLink = ace.require("hoverlink").HoverLink
+        editor.hoverLink = new HoverLink(editor);
+        editor.hoverLink.on("open", function(e) {
+            console.log(e)
+            var clickedValue = e.value.split(":");
+            //split the uri and the line (example: step/stepfile.js:16 )
+            var relativeUri = clickedValue[0];
+            var line = clickedValue[1];
+
+            $scope.loadFile(decodeURIComponent(relativeUri)).then(function(result) {
+                if( line ){
+                     $rootScope.active.session.gotoLine(line);
+                }
+            });
+        })
 
         $scope.isActivePause = false;
         console.log(editor);
@@ -27,6 +42,10 @@
             _renderer.setShowGutter(true);
         };
 
+
+        //////////////////////////////////////////////////////////////////
+        // websockets 
+        //////////////////////////////////////////////////////////////////
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
 
@@ -36,7 +55,8 @@
 
                 if ($scope.isActivePause == false) {
                     console.log(message);
-                    editor.insert(message.body + "\n");
+                    var stackTraceParsed = stackTraceParser.parseLine(message.body);
+                    editor.insert(stackTraceParsed);
                     editor.navigateLineEnd();
                 } else {
                     $scope.pausedLog.push(message.body + "\n");
@@ -45,6 +65,17 @@
             });
 
         });
+
+        //////////////////////////////////////////////////////////////////
+        // STACKTRACE
+        //////////////////////////////////////////////////////////////////
+        $scope.stackTraceParser = function(stackTrace) {
+            return stackTraceParser.parseInHtml(stackTrace);
+        }
+
+        //////////////////////////////////////////////////////////////////
+        // EDITOR AUX FUNCTIONS
+        //////////////////////////////////////////////////////////////////
 
         $scope.addPausedLines = function() {
             angular.forEach($scope.pausedLog, function(data) {
@@ -72,9 +103,20 @@
             $(window).trigger('resize');
         }
 
+<<<<<<< HEAD
         //show and hide the log from the cookie
         var initLog = function() {
             
+=======
+
+        //////////////////////////////////////////////////////////////////
+        // INITIALIZATIONS
+        //////////////////////////////////////////////////////////////////
+
+        //show and hide the log from the cookie
+        var initLog = function() {
+
+>>>>>>> feature/stacktrace-parser
             if ($.cookie('log') !== undefined) {
                 $scope.isLogVisible = JSON.parse($.cookie('log'));
                 if (!$scope.isLogVisible) {

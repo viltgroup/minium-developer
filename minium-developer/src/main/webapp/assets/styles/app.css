@@ -196,6 +196,12 @@
 .ace_replacebtn {
     color: black;
 }
+/** ACE EDITOR LINKS */
+
+.ace_link_marker {
+    position: absolute;
+    border-bottom: 1px solid #e08e0b;
+}
 /** THEME CHANGES **/
 
 .skin-blue .sidebar > .sidebar-menu > li {

@@ -89,6 +89,7 @@
             "field": "Campo",
             "value": "Valor"
         },
+        "project":"Projecto",
         "delete": {
             "title": "Confirm delete operation"
         },
@@ -103,7 +104,11 @@
             "datetimelocal": "This field should be a date and time."
         }
     },
-    "project": "Project",
+    "project": {
+        "no.project": "Nenhum projeto definido",
+        "open": "abrir",
+        "create": "criar"
+    },
     "labels": {
         "or": "ou",
         "one": "um",

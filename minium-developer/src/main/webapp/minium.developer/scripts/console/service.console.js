@@ -14,7 +14,7 @@ angular.module('minium.developer')
                 HighlightActiveLine: true,
                 tabSize: 2,
                 resize: true,
-                readOnly: true
+                readOnly: false
             };
 
             this.editor = ace.edit("console-log");
@@ -49,6 +49,9 @@ angular.module('minium.developer')
                 }
                 e.stop();
             })
+
+            
+
         }
 
         return ConsoleLog;

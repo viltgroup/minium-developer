@@ -15,7 +15,8 @@ var miniumDeveloper = angular.module('minium.developer', [
     'nvd3ChartDirectives',
     'miniumDeveloper.filters',
     'miniumDeveloper.directives',
-    'miniumDeveloper.config'
+    'miniumDeveloper.config',
+    'minium.stacktrace.parser'
 ]);
 
 miniumDeveloper.provider('modalState', function($stateProvider) {

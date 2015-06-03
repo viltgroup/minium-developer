@@ -103,20 +103,12 @@
             $(window).trigger('resize');
         }
 
-<<<<<<< HEAD
-        //show and hide the log from the cookie
-        var initLog = function() {
-            
-=======
-
         //////////////////////////////////////////////////////////////////
         // INITIALIZATIONS
         //////////////////////////////////////////////////////////////////
 
         //show and hide the log from the cookie
         var initLog = function() {
-
->>>>>>> feature/stacktrace-parser
             if ($.cookie('log') !== undefined) {
                 $scope.isLogVisible = JSON.parse($.cookie('log'));
                 if (!$scope.isLogVisible) {

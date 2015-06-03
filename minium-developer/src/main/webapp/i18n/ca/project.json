@@ -1,0 +1,15 @@
+{
+    "messages": {
+        "valid_directory": "Directory is valid",
+        "invalid_directory": "Directory invalid",
+        "project_exists": "Project exists",
+        "no_project_exists": "No project here",
+        "illegal_chars":"Your project name contains illegal characters.",
+        "cannot_create_project":"Not possible to create the project",
+        "form_invalid":"Form is invalid",
+        "created":"Project created",
+        "popover":{
+            "directory_input": "Put the parent path where you want to create the project!"
+        }
+    }
+}

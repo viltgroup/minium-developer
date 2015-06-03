@@ -1,0 +1,20 @@
+{
+    "health": {
+        "title": "Revisions de salud",
+        "refresh.button": "Actualitzar",
+        "stacktrace": "Traça d'error",
+        "indicator": {
+            "diskSpace": "Disk space",
+            "mail": "Compte de correu electrònic",
+            "db": "Base de dades"
+        },
+        "table": {
+            "service": "Nom del servei",
+            "status": "Estat"
+        },
+        "status": {
+            "UP": "FINS",
+            "DOWN": "BAIX"
+        }
+    }
+}

@@ -1,11 +1,8 @@
 <!-- *************** BUTTON TOOLBAR ********************-->
-
 <script>
 $('.running-data').show();
 </script>
-
 <div class="running-data">
-
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
         <a class="btn-floating btn-large red">
             <button id="runningTest" class="ladda-button disabled" data-size="xs" data-style="contract">
@@ -13,14 +10,27 @@ $('.running-data').show();
             </button>
         </a>
         <ul>
-            <li><a tooltip-placement="left" tooltip="Stop Test" class="btn-floating" id="teste-out"  ng-click="stopLaunch()" ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
+            <li>
+                <a tooltip-placement="left" 
+                   tooltip="{{'messages.tooltip.stop_test' | translate}}" 
+                   class="btn-floating" id="teste-out" 
+                   ng-click="stopLaunch()" 
+                   ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
             </li>
             <li>
-                <a tooltip-placement="left" tooltip="Report" class="btn-floating blue" id="summary-report" ng-click="openModalReport('lg')" ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
+                <a tooltip-placement="left" 
+                   tooltip="{{'messages.tooltip.report' | translate}}" class="btn-floating blue" 
+                   id="summary-report" ng-click="openModalReport('lg')" 
+                   ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
                 </a>
             </li>
             <li>
-                <a tooltip-placement="left" tooltip="Clear editor markers" class="btn-floating" id="clear markers"  ng-click="clearMarkers()" ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
+                <a tooltip-placement="left" 
+                   tooltip="{{'messages.tooltip.clear_markers' | translate}}" 
+                   class="btn-floating" 
+                   id="clear markers" 
+                   ng-click="clearMarkers()" 
+                   ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
                 </a>
             </li>
         </ul>
@@ -29,44 +39,58 @@ $('.running-data').show();
 </div>
 <div class="btn-toolbar top-bar" role="toolbar">
     <div class="row">
-
         <div class="col-md-12">
             <div class="btn-group-sm">
-                <a class="btn  btn-default btn-sm" title="Interface Selector Gadget (Ctrl+Shift+C) " ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
-                    <span class="fa  fa-hand-o-up"></span> Selector Gadget
+                <a class="btn  btn-default btn-sm" 
+                   title="{{'messages.title.selector.gadget' | translate}}" 
+                   ng-show="active.mode === 'JS'" 
+                   ng-click="activateSelectorGadget()">
+                    <span class="fa  fa-hand-o-up"></span>
+                    <span translate="actions.selector.gadget">Selector Gadget</span>
                 </a>
-                <a class="btn  btn-default btn-sm" title="Evaluator (Ctrl + Enter)" ng-show="active.mode === 'JS'" ng-click="evaluate()">
-                    <span class="fa  fa-binoculars"></span> Evaluate
+                <a class="btn  btn-default btn-sm" 
+                   title="{{'messages.title.evaluator' | translate}}" 
+                   ng-show="active.mode === 'JS'" 
+                   ng-click="evaluate()">
+                    <span class="fa  fa-binoculars"></span>
+                    <span translate="actions.evaluate">Evaluate</span>
                 </a>
-
-                <a class="btn btn-primary" title="Run test from cursor (Ctrl + Enter)" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
-                    <span class="fa  fa-play"></span> Run Test
+                <a class="btn btn-primary" 
+                   title="{{'messages.title.run_test' | translate}}" 
+                   ng-show=" (active.mode === 'FEATURE')" 
+                   ng-click="launchCucumber()" 
+                   ng-disabled="testExecuting">
+                    <span class="fa  fa-play"></span>
+                    <span translate="actions.run">Run Test</span>
                 </a>
-                <a class="btn btn-primary" type="button" ng-click="launchAll()" title="Run all tests" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
-                    <i class="fa fa-list-alt"></i> Run All
+                <a class="btn btn-primary" 
+                   type="button" 
+                   ng-click="launchAll()" 
+                   title="{{'messages.title.run_all '| translate}}" 
+                   ng-show="(active.mode === 'FEATURE')" 
+                   ng-disabled="testExecuting">
+                    <i class="fa fa-list-alt"></i>
+                    <span translate="actions.runAll">Run All</span>
                 </a>
-
                 <span class="col-sm-2 pull-right" ng-show="testExecuting && active.mode !== 'JS'">
                     <span style="color:black; white-space:nowrap;">
                         {{testsExecuted}} / {{totalTests}}
                     </span>
-
-                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" class="progress-striped active" max="100" value="( testsExecuted * 100 ) / totalTests" style="height: 10px;">
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" 
+                                 class="progress-striped active" 
+                                 max="100" 
+                                 value="( testsExecuted * 100 ) / totalTests" 
+                                 style="height: 10px;">
                     </progressbar>
                 </span>
             </div>
-
         </div>
     </div>
-
-
-
 </div>
 <div id="tabs">
     <!-- <div class="scroller"> -->
     <!-- <a href="#" id="right-button"><i class="fa fa-arrow-circle-right"/></a> -->
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-
     </ul>
     <!-- <a href="#" id="left-button"><i class="fa fa-arrow-circle-left"/></a> -->
     <!-- </div> -->

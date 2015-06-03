@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ImportProjectController', function($scope, $window, $modalInstance, $cookieStore, GENERAL_CONFIG, ProjectService, ProjectFactory) {
+    .controller('ImportProjectController', function($scope, $translate, $filter, $window, $modalInstance, $cookieStore, GENERAL_CONFIG, ProjectService, ProjectFactory) {
 
+        var $translate = $filter('translate');
 
         //////////////////////////////////////////////////////////////////
         // INIT VARABLES
@@ -13,13 +14,13 @@ angular.module('minium.developer')
         $scope.validatingProject = false;
 
         var directoryMsgTemplate = {
-            success: '<span class="fa fa-check" style="color:green;"></span> Directory is valid',
-            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> Directory invalid'
+            success: '<span class="fa fa-check" style="color:green;"></span>' + $translate("messages.valid_directory"),
+            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> ' + $translate("messages.invalid_directory")
         }
 
         var projectMsgTemplate = {
-            success: '<span class="fa fa-check" style="color:green;"></span> Project exists',
-            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> No project here'
+            success: '<span class="fa fa-check" style="color:green;"></span> ' + $translate("messages.project_exists"),
+            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> ' + $translate("messages.no_project_exists")
         }
 
         $scope.msg = {
@@ -28,11 +29,12 @@ angular.module('minium.developer')
             projectType: ''
         }
 
+        //TODO need translation
         //////////////////////////////////////////////////////////////////
         // Functions
         //////////////////////////////////////////////////////////////////
         $scope.validate = function(e) {
-             if(!$scope.path){
+            if (!$scope.path) {
                 return;
             }
             $scope.validatingProject = true;
@@ -64,10 +66,10 @@ angular.module('minium.developer')
             });
         }
 
-        
+
         //put this in a service in order to re user
         $scope.importProject = function(path) {
-            if(!path){
+            if (!path) {
                 return;
             }
             ProjectService.open(path);
@@ -78,7 +80,7 @@ angular.module('minium.developer')
             $scope.$dismiss();
         };
 
-        $scope.select = function(project){
+        $scope.select = function(project) {
             $scope.path = project;
             $scope.validate();
         }

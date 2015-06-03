@@ -3,11 +3,16 @@
         <fieldset>
             <!-- Form Name -->
             <legend>
-                Register a Backend <small></small>
+                <span translate="backend.resgister.backend">
+                    Register a Backend 
+                </span>
+                <small></small>
             </legend>
             <!-- Text input-->
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="textinput">Backend </label>
+                <label class="col-sm-2 control-label" for="textinput" translate="backend.backend">
+                    Backend
+                </label>
                 <div class="col-sm-10">
                     <input name="backendPath" type="text" class="form-control" ng-model="backendPath" required>
                     <span class="help-block" ng-show="newBackendForm.backendPath.$dirty && newBackendForm.backendPath.$error.required">Required field.</span>
@@ -16,7 +21,9 @@
 </div>
 <div class="modal-footer">
 
-    <button class="btn btn-primary" ng-click="register()" ng-disabled="newBackendForm.$invalid">Register</button>
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="register()" ng-disabled="newBackendForm.$invalid" translate="backend.resgister">
+        Register
+    </button>
+    <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">Cancel</button>
     </form>
 </div>

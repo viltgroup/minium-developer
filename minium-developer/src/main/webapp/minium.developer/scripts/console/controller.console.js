@@ -12,7 +12,7 @@
         var c = new ConsoleLog($scope);
         var editor = c.editor;
 
-        $scope.isLogVisible = true;
+
         $scope.isActivePause = false;
         console.log(editor);
 
@@ -63,10 +63,31 @@
 
         $scope.toggleEditor = function() {
             $scope.isLogVisible = !$scope.isLogVisible;
+
+            $.cookie('log', $scope.isLogVisible, {
+                expires: 7
+            });
+
             $(".console-log").toggle();
             $(window).trigger('resize');
         }
-        $(window).trigger('resize');
+
+        //show and hide the log from the cookie
+        var initLog = function() {
+            
+            if ($.cookie('log') !== undefined) {
+                $scope.isLogVisible = JSON.parse($.cookie('log'));
+                if (!$scope.isLogVisible) {
+                    $(".console-log").toggle();
+                }
+            } else {
+                $scope.isLogVisible = true;
+            }
+
+            $(window).trigger('resize');
+        }
+
+        initLog();
 
     }
 })();

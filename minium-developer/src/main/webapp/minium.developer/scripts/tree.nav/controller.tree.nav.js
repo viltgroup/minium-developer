@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $state, $modal, $q, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager, GENERAL_CONFIG) {
-
+    .controller('TreeNavController', function($scope, $translate, $filter, $state, $modal, $q, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager) {
+        var $translate = $filter('translate');
         //data for the tree
         $scope.dataForTheTree = [];
 
@@ -164,9 +164,10 @@ angular.module('minium.developer')
                     $scope.importProject($.cookie('project'));
                 } else {
                     $.removeCookie('openTabs');
-                    toastr.info(GENERAL_CONFIG.ERROR_MSG.NO_PROJECT_DEFINED)
-                        //remove all the open tab int the cookie 
-                        //because there's no project defined
+                    toastr.info($translate('messages.no_project_defined'))
+
+                    //remove all the open tab int the cookie 
+                    //because there's no project defined
                 }
                 addProjectToTree(projectName);
                 asyncLoad($scope.fs.current);
@@ -259,7 +260,9 @@ angular.module('minium.developer')
         $scope.delete = function() {
             //TODO
 
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE + "\n" + decodeURIComponent(relativeUriContextClick));
+            var result = confirm($translate('messages.files.delete', {
+                uri: decodeURIComponent(relativeUriContextClick)
+            }));
             if (result == true) {
                 var dataForTheTree = $scope.dataForTheTree[0].children;
                 //Logic to delete the item
@@ -274,7 +277,9 @@ angular.module('minium.developer')
 
                     elem.splice(pos, 1);
 
-                    toastr.success("File " + relativeUri + " deleted");
+                    toastr.success($translate('messages.deleted_file', {
+                        relativeUri: relativeUri
+                    }));
                     // $modalInstance.close();
                 }).error(function(data) {
                     toastr.error("Error " + data);
@@ -285,7 +290,10 @@ angular.module('minium.developer')
 
         $scope.deleteDirectory = function() {
             //TODO
-            var result = confirm(GENERAL_CONFIG.FILE_SYSTEM.DELETE + "\n" + decodeURIComponent(relativeUriContextClick));
+            var result = confirm($translate('messages.files.delete', {
+                uri: decodeURIComponent(relativeUriContextClick)
+            }));
+
             if (result == true) {
                 var dataForTheTree = $scope.dataForTheTree[0].children;
 
@@ -301,7 +309,10 @@ angular.module('minium.developer')
 
                     elem.splice(pos, 1);
 
-                    toastr.success("File " + relativeUri + " deleted");
+                    toastr.success($translate('messages.deleted_file', {
+                        relativeUri: relativeUri
+                    }));
+
                     // $modalInstance.close();
                 }).error(function(data) {
                     toastr.error("Error " + data);

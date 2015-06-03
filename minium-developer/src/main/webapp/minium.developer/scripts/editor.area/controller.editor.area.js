@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function($rootScope, $scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, TabLoader, SessionID, GENERAL_CONFIG) {
-
+    .controller('EditorAreaController', function($rootScope, $translate, $filter, $scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, TabLoader, SessionID) {
+        
+        var $translate = $filter('translate');
         //is the actual file selected
         //every time we move to other tab 
         //this value is being update
@@ -27,7 +28,7 @@ angular.module('minium.developer')
         //that manage editor and tabs
         //service is shared by controllers
         var editors = MiniumEditor;
-        
+
         /////////////////////////////////////////////////////////////////
         //
         // load the file and create a new editor instance with the file loaded
@@ -35,8 +36,8 @@ angular.module('minium.developer')
         // lineNo - num of line to go
         /////////////////////////////////////////////////////////////////
 
-        $scope.loadFile = function(props,lineNo) {
-            
+        $scope.loadFile = function(props, lineNo) {
+
             //load the file
             var promise = TabLoader.loadFile(props, editors);
             var deferred = $q.defer();
@@ -45,7 +46,7 @@ angular.module('minium.developer')
                 //success handler
                 var newEditor = result;
                 $scope.setActiveEditor(newEditor);
-                
+
                 deferred.resolve(newEditor);
             }, function(errorPayload) {
                 //the promise was rejected
@@ -57,9 +58,9 @@ angular.module('minium.developer')
         };
 
         /*
-        * Set the editor as active
-        * We always keep the the reference of the active(selected/open) editor
-        */ 
+         * Set the editor as active
+         * We always keep the the reference of the active(selected/open) editor
+         */
         $scope.setActiveEditor = function(editor) {
             $rootScope.active = {
                 session: editor.instance,
@@ -70,10 +71,10 @@ angular.module('minium.developer')
                 activeID: editor.id,
                 mode: editor.mode
             }
-            
+
             console.log($rootScope.active);
             //if the file is not found
-            if ($rootScope.active.session === undefined){
+            if ($rootScope.active.session === undefined) {
                 return;
             }
 
@@ -147,7 +148,7 @@ angular.module('minium.developer')
         //Another option here is when we close the window
         //try to close tab one by one
         window.addEventListener("beforeunload", function(e) {
-            var confirmationMessage = GENERAL_CONFIG.UNSAVED_MSG;
+            var confirmationMessage = $translate('messages.files.unsaved');
 
             if (editors.areDirty()) {
                 (e || window.event).returnValue = confirmationMessage; //Gecko + IE
@@ -157,7 +158,7 @@ angular.module('minium.developer')
 
         $scope.$on('$locationChangeStart', function(event, nextPath, current) {
             if (nextPath.indexOf("editor") == -1 && $scope.isDirty) {
-                var answer = confirm(GENERAL_CONFIG.UNSAVED_MSG)
+                var answer = confirm($translate('messages.files.unsaved'))
                 if (!answer) {
                     event.preventDefault();
                 }

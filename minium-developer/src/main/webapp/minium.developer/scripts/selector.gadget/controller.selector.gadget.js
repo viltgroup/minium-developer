@@ -4,50 +4,52 @@
 //SelectorGadgetCtrl
 //
 angular.module('minium.developer')
-    .controller('SelectorGadgetCtrl', function($rootScope, $scope, $location, $modalInstance, SelectorGadgetService, editor) {
+    .controller('SelectorGadgetCtrl', function($rootScope, $scope, $translate, $filter, $location, $modalInstance, SelectorGadgetService, editor) {
 
-    var request = SelectorGadgetService.activate()
-        .success(function() {
-            toastr.success("Selector Gadget activated");
-        })
-        .error(function() {
-            toastr.warning("Selector Gadget failed");
-        });
+        var $translate = $filter('translate');
+        var request = SelectorGadgetService.activate()
+            .success(function() {
+                toastr.success($translate('selector.gadget.activated'));
+            })
+            .error(function() {
+                toastr.warning($translate('selector.gadget.failed'));
+            });
 
 
-    $scope.accept = function() {
-        var request = SelectorGadgetService.cssSelector()
-            .success(function(data) {
-                if (data.expression) {
-                    var session = editor.getSession();
-                    var range = editor.getSelectionRange();
-                    var position = range.start;
-                    session.remove(range);
-                    session.insert(position, data.expression);
+        $scope.accept = function() {
+            var request = SelectorGadgetService.cssSelector()
+                .success(function(data) {
+                    if (data.expression) {
+                        var session = editor.getSession();
+                        var range = editor.getSelectionRange();
+                        var position = range.start;
+                        session.remove(range);
+                        session.insert(position, data.expression);
 
-                    $modalInstance.close(data);
+                        $modalInstance.close(data);
+                        toastr.success($translate('selector.gadget.picked', {
+                            data: data
+                        }));
+                    } else {
+                        // close modal
+                        $modalInstance.dismiss('cancel');
 
-                    toastr.success("Picked CSS selector is " + data + "!");
-                } else {
+                        toastr.warning($translate('selector.gadget.no_elem'));
+                    }
+                })
+                .error(function() {
+                    toastr.warning($translate('selector.gadget.error'));
+                });
+        };
+
+        $scope.cancel = function() {
+            var request = SelectorGadgetService.deactivate()
+                .success(function(data) {
                     // close modal
-                    $modalInstance.dismiss('cancel');
-
-                    toastr.warning("No element was picked");
-                }
-            })
-            .error(function() {
-                toastr.warning("Could not pick element");
-            });
-    };
-
-    $scope.cancel = function() {
-        var request = SelectorGadgetService.deactivate()
-            .success(function(data) {
-                // close modal
-            })
-            .error(function() {
-                toastr.warning("Could not deactivate selector gadget");
-            });
-        $modalInstance.dismiss('cancel');
-    };
-});
+                })
+                .error(function() {
+                    toastr.warning($translate('selector.gadget.error_deactivate'));
+                });
+            $modalInstance.dismiss('cancel');
+        };
+    });

@@ -7,12 +7,16 @@
     <span class="fa fa-pencil-square-o"></span>{{elemClick}}</small>
 </div>
 <div class="modal-body">
-    <p>Name:</p>
+    <p translate="labels.name">Name:</p>
     <form name="signInForm" ng-submit="ok()">
         <input class="form-control" data-tabindex="1" type="text" ng-model="selectedItem" required autofocus>
         <div class="modal-footer">
-            <button class="btn btn-primary" ng-disabled="signInForm.$invalid">Update</button>
-            <a class="btn btn-default" ng-click="cancel()">Cancel</a>
+            <button class="btn btn-primary" ng-disabled="signInForm.$invalid" translate="entity.action.update">
+                Update
+            </button>
+            <a class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">
+                Cancel
+            </a>
         </div>
 </div>
 </form>

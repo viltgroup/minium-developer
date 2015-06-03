@@ -1,10 +1,11 @@
 'use strict';
 angular.module('minium.developer')
-    .controller('WebDriversController', function($scope, $rootScope, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory, error, GENERAL_CONFIG) {
-
+    .controller('WebDriversController', function($rootScope, $scope, $translate, $filter, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory, error) {
+        
+        var $translate = $filter('translate');
         if (error) {
             $scope.error = true;
-            $scope.errorMessage = GENERAL_CONFIG.WEBDRIVER.NOTLAUNCHED;
+            $scope.errorMessage = $translate('webdriver.not_launched');
             error = undefined;
         }
 
@@ -54,7 +55,7 @@ angular.module('minium.developer')
 
         $scope.remoteWebDriverUrl = "";
         $scope.useRemoteWebDriver = false;
-        $scope.toggleText = 'Use remote webdriver';
+        $scope.toggleText = $translate('webdriver.use_remote');
         $scope.ok = function() {
             $scope.$close(true);
         };
@@ -67,7 +68,7 @@ angular.module('minium.developer')
 
         $scope.setRemoteWebDriver = function() {
             $scope.useRemoteWebDriver = !$scope.useRemoteWebDriver;
-            $scope.toggleText = $scope.useRemoteWebDriver ? 'Use local webdriver' : 'Use remote webdriver';
+            $scope.toggleText = $scope.useRemoteWebDriver ? $translate('webdriver.use_local') : $translate('webdriver.use_remote');
         }
 
         $scope.createWebDriver = function() {
@@ -92,11 +93,11 @@ angular.module('minium.developer')
             }
 
             WebDriverFactory.create(config).success(function() {
-                toastr.success("Created a WebDriver");
+                toastr.success($translate('webdriver.new'));
                 $scope.$close(false);
             }).error(function(data) {
                 creatingWebDriver.stop();
-                toastr.error('Could not create a new WebDriver!!');
+                toastr.error($translate('webdriver.error_creating'));
             });
         }
 

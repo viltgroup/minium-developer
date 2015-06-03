@@ -1,0 +1,18 @@
+{
+    "operation": {
+        "new_folder": "Nova pasta",
+        "new_file": "Novo ficheiro",
+        "rename_file": "Renomear ficheiro",
+        "rename_folder": "Renomear pasta"
+    },
+    "messages": {
+        "deleted_file": "Ficheiro {{relativeUri}} apagado",
+        "created_file": "Criado ficheiro {{newPath}}",
+        "action":"{{type}} {{relativeUri}} {{action}}"
+    },
+    "project": {
+        "no.project": "Nenhum projeto definido",
+        "open": "abrir",
+        "create": "criar"
+    }
+}

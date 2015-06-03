@@ -84,12 +84,11 @@ angular.module('minium.developer')
         //////////////////////////////////////////////////////////////////
 
         var init = function() {
-            
             //open tabs
             var promise = tabLoader();
             //open the console helper
             $scope.loadFile("");
-            
+
         }
 
         init();

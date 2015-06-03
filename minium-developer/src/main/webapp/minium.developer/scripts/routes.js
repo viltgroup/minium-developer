@@ -50,6 +50,13 @@ miniumDeveloper
                     'treeNav@global.editorarea': {
                         controller: "TreeNavController",
                         templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
+                        resolve: {
+                            translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                                $translatePartialLoader.addPart('editor.area');
+                                return $translate.refresh();
+                            }]
+
+                        }
                     },
                     'console@global.editorarea': {
                          controller: "ConsoleController",

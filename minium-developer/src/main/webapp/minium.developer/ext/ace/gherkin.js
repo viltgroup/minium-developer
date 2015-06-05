@@ -14,13 +14,13 @@ var GherkinHighlightRules = function() {
         regex : "#.*$"
       }, {
         token : "keyword",
-        regex : "Feature:|Background:|Scenario:|Scenario\ Outline:|Examples:|Given|When|Then|And|But|" +
+        regex : "^\\s*(Feature:|Background:|Scenario:|Scenario\ Outline:|Examples:|Given|When|Then|And|But)|"+
                 //catalan
-                "Funcionalitat:|Antecedents:|Escenari:|Esquema\ de\ l'escenari:|Exemples:|Donat|Quan|Cal|I|Però" + 
+                "^\\s*(Funcionalitat:|Antecedents:|Escenari:|Esquema\ de\ l'escenari:|Exemples:|Donat|Quan|Cal|I|Però)|" + 
         		// spanish
-        		//"Característica:|Antecedentes:|Escenario:|Esquema\ del\ escenario:|Ejemplos:|Dado|Dada|Dados|Dadas|Cuando|Entonces|Y|Pero|" +
+        		"^\\s*(Característica:|Antecedentes:|Escenario:|Esquema\ del\ escenario:|Ejemplos:|Dado|Dada|Dados|Dadas|Cuando|Entonces|Y|Pero)|" +
         		// portuguese
-        		//"Funcionalidade:|Característica:|Caracteristica:|Contexto:|Cenário de Fundo:|Cenario de Fundo:|Fundo:|Cenário:|Cenario:|Esquema\ do\ Cenário:|Esquema\ do\ Cenario:|Delineação\ do\ Cenário:|Delineacao\ do\ Cenario:|Exemplos:|Cenários:|Cenarios:|Dado|Dada|Dados|Dadas|Quando|Então|Entao|E|Mas|" +
+        		"^\\s*(Funcionalidade:|Característica:|Caracteristica:|Contexto:|Cenário de Fundo:|Cenario de Fundo:|Fundo:|Cenário:|Cenario:|Esquema\ do\ Cenário:|Esquema\ do\ Cenario:|Delineação\ do\ Cenário:|Delineacao\ do\ Cenario:|Exemplos:|Cenários:|Cenarios:|Dado|Dada|Dados|Dadas|Quando|Então|Entao|E|Mas)|" +
         		"\\*",
       }, {
             token : "string",           // multi line """ string start

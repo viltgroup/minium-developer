@@ -7,19 +7,6 @@
     ConsoleController.$inject = ['$rootScope', '$scope', '$state', 'ConsoleLog', 'stackTraceParser'];
 
     function ConsoleController($rootScope, $scope, $state, ConsoleLog, stackTraceParser) {
-        console.log("Console ");
-
-        $scope.aceLoaded = function(_editor) {
-            // Editor part
-            var _session = _editor.getSession();
-            var _renderer = _editor.renderer;
-
-            // Options
-            _editor.setReadOnly(true);
-            _session.setUndoManager(new ace.UndoManager());
-            _renderer.setShowGutter(true);
-        };
-
 
         //////////////////////////////////////////////////////////////////
         // websockets 
@@ -123,7 +110,7 @@
 
         initLog();
 
-        //scope only needed for linkFn function
+        //scope only needed for angular linkFn function
         var c = new ConsoleLog($scope);
         var editor = c.editor;
 
@@ -131,7 +118,6 @@
 
         $scope.isActivePause = false;
         console.log(editor);
-
     }
 
 })();

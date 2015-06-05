@@ -110,7 +110,8 @@
         //check if the path has /resources/
         var relativePath = matches[1].indexOf("/resources/") != -1 ? matches[1].split("/resources/")[1] : matches[1];
         
-        return relativePath;
+
+        return hasLineNumber(relativePath) ? relativePath : "";
     }
 
     /**
@@ -140,7 +141,9 @@
 
     };
 
-
+    function hasLineNumber(str){
+        return str.indexOf(':') > -1;
+    }
 
     angular.module('minium.stacktrace.parser')
         .service('stackTraceParser', StackTraceParser);

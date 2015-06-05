@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h2 class="modal-title">
-        <center>Search</center>
+        <center translate="file.search">Search</center>
     </h2>
 
 </div>
@@ -9,7 +9,7 @@
 
     <form role="form">
         <div class="form-group">
-            <input type="text" class="form-control" id="search-query" placeholder="Search file" ng-model="form.searchQuery" ng-change="search()" autoFocus>
+            <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file' | translate }}" ng-model="form.searchQuery" ng-change="search()" autoFocus>
         </div>
     </form>
     <div class="list-group">
@@ -23,8 +23,8 @@
 <div class="modal-footer">
     
     <div class="col-xs-8 pull-left">
-        Shortcut:
+        <span translate="labels.shortcut">Shortcut</span>:
         <kbd>Ctrl + P</kbd>&nbsp;
     </div>
-    <button class="btn btn-primary" ng-click="ok()">OK</button>
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" ng-click="ok()" translate="entity.action.ok">OK</button>
+    <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">Cancel</button>

@@ -3,8 +3,9 @@
  * And process the result of execution
  *
  */
-miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, FeatureFacade, GENERAL_CONFIG) {
+miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, launcherService, FeatureFacade) {
 
+    var $translate = $filter('translate');
     //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -20,7 +21,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             //check if the data is valid
             if (data === undefined || data === "") {
                 stopLaunch();
-                toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
+                toastr.error($translate('test_msg.test_error'));
                 return;
             }
             console.log(snippetsForUndefinedSteps);
@@ -33,20 +34,20 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
             //refactor all this logic
             //URGENT NEED TO PUT THIS ON A MODEL
             //CANT BE IN A CONTROLLER
-            
-            console.debug(faillingSteps)
 
+            console.debug(faillingSteps)
+            
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;
                 var msg, type;
                 if (result === 'failed') {
-                    msg = step.result.error_message.substring(0,500);
+                    msg = step.result.error_message.substring(0, 500);
                     type = 'error';
                 } else if (result === 'undefined') {
-                    msg = 'Undefined. Can’t find a matching Step Definition';
+                    msg = $translate('cucumber.undefided')
                     type = 'info';
                 } else {
-                    msg = 'Skipped. Steps that follow undefined, pending or failed steps are never executed (even if there is a matching Step Definition)';
+                    msg = $translate('cucumber.skipped');
                     type = 'warning';
                 }
 
@@ -58,20 +59,20 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
                     type: type
                 };
             });
-
+            
             if (annotations.length > 0) {
-                toastr.warning(GENERAL_CONFIG.TEST.FAILING);
+                toastr.warning($translate('test_msg.failing'));
                 $("#runningTest").parent("a").removeClass("green").addClass("red");
                 $("#status").removeClass().addClass("").html("Failing");
             } else {
                 if (resultsSummary.runCount == 0) {
                     //no test were run
-                    $("#status").removeClass().addClass("").html(GENERAL_CONFIG.TEST.NOT_EXECUTED);
-                    toastr.error(GENERAL_CONFIG.TEST.NOT_EXECUTED);
+                    $("#status").removeClass().addClass("").html($translate('test_msg.not_executed'));
+                    toastr.error($translate('test_msg.not_executed'));
                 } else {
                     $("#runningTest").parent("a").removeClass("red").addClass("green");
                     $("#status").removeClass().addClass("").html("Passed");
-                    toastr.success(GENERAL_CONFIG.TEST.PASS);
+                    toastr.success($translate('test_msg.pass'));
                 }
             }
 
@@ -94,7 +95,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, launcherService, Featu
 
         }).error(function() {
             stopLaunch();
-            toastr.error(GENERAL_CONFIG.ERROR_MSG.TEST_ERROR);
+            toastr.error($translate('test_msg.test_error'));
             def.reject();
         });
 

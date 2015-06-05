@@ -38,6 +38,16 @@ miniumDeveloper
                         templateUrl: 'minium.developer/views/toolbar/toolbar.html',
                         controller: 'NavbarController'
                     }
+                },
+                resolve: {
+                    translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                        $translatePartialLoader.addPart('toolbar');
+                        $translatePartialLoader.addPart('editor.area');
+                        $translatePartialLoader.addPart('project');
+                        $translatePartialLoader.addPart('tree.nav');
+                        return $translate.refresh();
+                    }]
+
                 }
             })
             .state('global.editorarea.sub', {
@@ -46,13 +56,20 @@ miniumDeveloper
                     'view1@global.editorarea': {
                         controller: "EditorAreaMultiTabController",
                         templateUrl: 'minium.developer/views/editor.area/partials/editors.html',
+                        resolve: {
+                            translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
+                                $translatePartialLoader.addPart('editor.area');
+                                return $translate.refresh();
+                            }]
+
+                        }
                     },
                     'treeNav@global.editorarea': {
                         controller: "TreeNavController",
-                        templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
+                        templateUrl: 'minium.developer/views/tree.nav/tree-nav.html'
                     },
                     'console@global.editorarea': {
-                         controller: "ConsoleController",
+                        controller: "ConsoleController",
                         templateUrl: 'minium.developer/views/console/console.html',
                     }
                 }
@@ -81,7 +98,7 @@ miniumDeveloper
         modalStateProvider.state('global.editorarea.sub.help', {
             templateUrl: "minium.developer/views/editor.area/modal/help.html",
             controller: "AboutController"
-            
+
         });
 
         //version
@@ -90,7 +107,7 @@ miniumDeveloper
             controller: "AboutController"
         });
 
-         //report
+        //report
         modalStateProvider.state('global.editorarea.sub.report', {
             templateUrl: "minium.developer/views/editor.area/modal/launch.html"
         });

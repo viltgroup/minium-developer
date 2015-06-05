@@ -3,25 +3,25 @@
     <li class="tree-panel">
         <ul class="list-inline">
             <li class="dropdown">
-                <a href title="Refresh folders" ng-click="refresh()">
+                <a href title="{{'file.refresh' | translate}}" ng-click="refresh()">
                     <i class="fa fa-refresh"></i>
                 </a>
             </li>
             <li class="dropdown">
-                <a href title="Collapse all" ng-click="collapseAll()">
+                <a href title="{{'file.collapse' | translate}}" ng-click="collapseAll()">
                     <i class="fa fa-minus-square-o"></i>
                 </a>
             </li>
 
             <li class="dropdown">
-                <a href title="Search File (Ctrl + P)" modal state='global.editorarea.sub.open'>
+                <a href title="{{'file.searchWithShortcut' | translate}}" modal state='global.editorarea.sub.open'>
                     <i class="fa fa-search"></i>
                 </a>
             </li>
 
 
             <li class="pull-right">
-                <a href title="New file" modal state="global.editorarea.sub.newFile">
+                <a href title="{{'file.new.file' | translate}}" modal state="global.editorarea.sub.newFile">
                     <i class="fa fa-plus"></i>
                 </a>
             </li>
@@ -29,7 +29,6 @@
         </ul>
     </li>
 </ul>
-
 
 
 <!-- /.sidebar -->
@@ -43,15 +42,15 @@
         </treecontrol>
     </ul>
     <small style="margin-left:50px;" ng-hide="hasProject" ng-cloak>
-        No project defined
-        <a class="" href title="open project" modal state="global.editorarea.sub.importProject">
-            <span class="ladda-label">open</span>
+        <span translate="project.no.project">No project defined</span>
+        <a class="" href  modal state="global.editorarea.sub.importProject">
+            <span class="ladda-label" translate="project.open">open</span>
         </a>
-        or
-         <a class="" href title="new project" modal state="global.editorarea.sub.newProject">
-            <span class="ladda-label">create</span>
+        <span translate="labels.or">or</span>
+         <a class="" href  modal state="global.editorarea.sub.newProject">
+            <span class="ladda-label" translate="project.create">create</span>
         </a>
-        one
+        <span translate="labels.one">one</span>
     </small>
 </div>
 
@@ -62,29 +61,42 @@
 <div id="context-menu2" style="position: absolute; z-index: 9999; top: 443px; left: 268px;" class="">
     <ul class="dropdown-menu" role="menu">
         <li ng-show="clickedType == 'DIR' || clickedType == 'PROJECT'">
-            <a href tabindex="-1" ng-click="open('newFolder')"><i class="fa fa-folder-o"></i>New Folder</a>
+            <a href tabindex="-1" ng-click="open('newFolder')"><i class="fa fa-folder-o"></i>
+                <span translate="file.new.folder">New Folder</span>
+            </a>
         </li>
         <li ng-show="clickedType == 'DIR' || clickedType == 'PROJECT'">
-            <a href tabindex="-1" ng-click="open('newFile')"><i class="fa fa-file"></i>New File</a>
+            <a href tabindex="-1" ng-click="open('newFile')"><i class="fa fa-file"></i>
+                <span translate="file.new.file">New File</span>
+            </a>
         </li>
 
         <li ng-show="clickedType == 'FILE'">
-            <a href tabindex="-1" ng-click="open('rename')"><i class="fa fa-pencil"></i>Rename</a>
+            <a href tabindex="-1" ng-click="open('rename')"><i class="fa fa-pencil"></i>
+                <span translate="file.rename">Rename</span>
+            </a>
         </li>
 
         <li ng-show="clickedType == 'DIR'">
-            <a href tabindex="-1" ng-click="open('renameFolder')"><i class="fa fa-pencil"></i>Rename Folder</a>
+            <a href tabindex="-1" ng-click="open('renameFolder')"><i class="fa fa-pencil"></i>
+                <span translate="file.rename.folder">Rename Folder</span>
+            </a>
         </li>
 
 
         <li class="divider" ng-show="clickedType == 'DIR' || clickedType == 'FILE'"></li>
 
         <li ng-show="clickedType == 'DIR'">
-            <a href tabindex="-1" ng-click="deleteDirectory()"><i class="fa fa-trash-o danger"></i><span class="danger">Delete Folder</span></a>
+            <a href tabindex="-1" ng-click="deleteDirectory()"><i class="fa fa-trash-o danger"></i>
+            <span class="danger" translate="file.delete.folder">
+                Delete Folder
+            </span></a>
         </li>
 
         <li ng-show="clickedType == 'FILE'">
-            <a href tabindex="-1" ng-click="delete()"><i class="fa fa-trash-o danger"></i><span class="danger">Delete</span></a>
+            <a href tabindex="-1" ng-click="delete()"><i class="fa fa-trash-o danger"></i>
+                <span class="danger" translate="file.delete">Delete</span>
+            </a>
         </li>
     </ul>
 </div>

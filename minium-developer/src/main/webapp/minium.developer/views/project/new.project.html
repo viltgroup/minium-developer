@@ -5,18 +5,24 @@
         <fieldset>
 
             <!-- Form Name -->
-            <legend>New project <strong>{{project.type}}</strong> </legend>
+            <legend >
+                <span translate="project.form.new">New project </span>
+                <strong>{{project.type}}</strong> 
+            </legend>
             <!-- Text input-->
             <div class="form-group">
-                <label class="control-label" for="textinput">Project type</label>
-
+                <label class="control-label" for="textinput" translate="project.form.type">
+                    Project type
+                </label>
 
                 <div class="btn-group" data-toggle="buttons" style="margin-left:10%">
                     <label class="btn btn-default" ng-click='activate("automator")' ng-class="{'active' : project.type == 'automator'}">
-                        <input type="radio" ng-model="project.type" value="automator" /> Automator Project
+                        <input type="radio" ng-model="project.type" value="automator" /> 
+                        <span translate="project.form.automator">Automator Project</span>
                     </label>
                     <label class="btn btn-default" ng-click='activate("cucumber")' ng-class="{'active' : project.type == 'cucumber'}">
-                        <input type="radio" ng-model="project.type" value="cucumber" ng-click='activate("cucumber")' /> Cucumber project
+                        <input type="radio" ng-model="project.type" value="cucumber" ng-click='activate("cucumber")' /> 
+                        <span translate="project.form.cucumber">Cucumber project</span>
                     </label>
                 </div>
 
@@ -25,13 +31,15 @@
 
             <!-- Text input-->
             <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.directory.$invalid && !projectForm.directory.$pristine  }">
-                <label class="control-label" for="textinput">Parent Directory</label>
+                <label class="control-label" for="textinput" translate="project.form.parent.dir">Parent Directory</label>
 
-                <input type="text" ng-model="project.directory" name="directory" required placeholder="Parent Directory" class="form-control" popover="{{popoverDirectoryInput}}" popover-trigger="focus" class="form-control" ng-keyup="validate($event)" />
+                <input type="text" ng-model="project.directory" name="directory" required placeholder="{{'project.form.parent.dir' | translate}}" class="form-control" popover="{{popoverDirectoryInput}}" popover-trigger="focus" class="form-control" ng-keyup="validate($event)" />
 
-                <p ng-show="projectForm.directory.$error.required && !projectForm.directory.$pristine" class="help-block">Path is required</p>
+                <p ng-show="projectForm.directory.$error.required && !projectForm.directory.$pristine" class="help-block" translate="messages.validate.parent.dir.required">
+                    Path is required
+                </p>
 
-                <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine && !projectForm.directory.$error.required" class="help-block">Path not valid</p>
+                <p ng-show="projectForm.directory.$invalid && !projectForm.directory.$pristine && !projectForm.directory.$error.required" class="help-block" translate="messages.validate.parent.dir.invalid">Path not valid</p>
 
 
                 <span id="inputGroupSuccess2Status" class="sr-only">(success)</span>
@@ -42,7 +50,9 @@
 
             <!-- Text input-->
             <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.name.$invalid && !projectForm.name.$pristine || (isValid == false) , 'has-success' : isValid}">
-                <label class="control-label" for="textinput">Project Name</label>
+                <label class="control-label" for="textinput" translate="project.form.name">
+                    Project Name
+                </label>
 
                 <div class="input-group">
                     <div class="input-group-addon parent-directory">
@@ -52,7 +62,9 @@
                     </div>
                     <input type="text" ng-model="project.name" name="name" required placeholder="Project Name" class="form-control" ng-keyup="validate($event)" />
                 </div>
-                <p ng-show="projectForm.name.$invalid && !projectForm.name.$pristine" class="help-block">Project name is required.</p>
+                <p ng-show="projectForm.name.$invalid && !projectForm.name.$pristine" class="help-block" translate="messages.validate.project.name.required">
+                    Project name is required.
+                </p>
 
                 <span class="fa fa-spinner  fa-spin form-control-feedback" aria-hidden="true" ng-hide="!validatingProject"></span>
 
@@ -68,44 +80,73 @@
 
             <!-- Text input-->
             <div class="form-group" ng-show="project.type == 'cucumber'">
-                <label class="control-label" for="textinput">Articfact ID</label>
+                <label class="control-label" for="textinput" translate="project.form.artifactId">
+                    Articfact ID
+                </label>
 
-                <input type="text" ng-model="project.artifactId" name="artifactId" ng-required="project.type === 'cucumber'" placeholder="Articfact ID" class="form-control" readonly/>
+                <input type="text" 
+                       ng-model="project.artifactId" name="artifactId" 
+                       ng-required="project.type === 'cucumber'" 
+                       placeholder="{{'project.form.artifactId' | translate}}" 
+                       class="form-control" 
+                       readonly/>
 
+                <!-- VALIDATIONS  MESSAGES-->
                 <div ng-show="form.$submitted || form.artifactId.$touched">
-                    <span ng-show="form.artifactId.$error.required">Tell us the artifactId.</span>
-                    <span ng-show="form.artifactId.$error.artifactId">This is not a valid artifactId.</span>
+
+                    <span ng-show="form.artifactId.$error.required" translate="messages.validate.artifactId.required" >Tell us the artifactId.</span>
+
+                    <span ng-show="form.artifactId.$error.artifactId" translate="messages.validate.artifactId.invalid">This is not a valid artifactId.</span>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-xs-6 col-md-6 pull-left" ng-show="project.type == 'cucumber'">
                     <div class="form-group has-feedback" ng-class="{ 'has-error' : projectForm.groupId.$invalid && !projectForm.groupId.$pristine}">
-                        <label class=" control-label" for="textinput">Group ID</label>
+                        <label class=" control-label" for="textinput" translate="project.form.groupId" >Group ID</label>
 
-                        <input type="text" ng-model="project.groupId" name="groupId" ng-required="project.type === 'cucumber'" placeholder="groupId" class="form-control" ng-keyup="isValidJavaPackageName()">
+                        <input type="text" 
+                               ng-model="project.groupId" 
+                               name="groupId" 
+                               ng-required="project.type === 'cucumber'" 
+                               placeholder="{{'project.form.groupId' | translate}}" 
+                               class="form-control" 
+                               ng-keyup="isValidJavaPackageName()">
 
-                        <p ng-show="projectForm.groupId.$error.required && !projectForm.groupId.$pristine" class="help-block">groupId is required</p>
+                        <!-- VALIDATIONS  MESSAGES-->
+                        <p ng-show="projectForm.groupId.$error.required && !projectForm.groupId.$pristine" class="help-block" translate="messages.validate.groupId.required">groupId is required</p>
 
-                        <p ng-show="projectForm.groupId.$invalid && !projectForm.groupId.$pristine && !projectForm.groupId.$error.required" class="help-block">groupId not valid</p>
+                        <p ng-show="projectForm.groupId.$invalid && !projectForm.groupId.$pristine && !projectForm.groupId.$error.required" class="help-block" translate="messages.validate.groupId.invalid">groupId not valid</p>
 
                     </div>
                 </div>
                 <div class="col-xs-6 col-md-6 pull-right" ng-show="project.type == 'cucumber'">
                     <div class="form-group">
-                        <label class=" control-label" for="textinput">Version</label>
+                        <label class=" control-label" for="textinput" translate="project.form.version">Version</label>
 
-                        <input type="text" ng-model="project.version" name="version" ng-required="project.type === 'cucumber'" placeholder="Version" class="form-control" ng-init="project.version = '1.0.0-SNAPSHOT'">
+                        <input type="text"
+
+                               ng-model="project.version" 
+                               name="version" 
+                               ng-required="project.type === 'cucumber'" 
+                               placeholder="{{'project.form.version' | translate}}" 
+                               class="form-control" 
+                               ng-init="project.version = '1.0.0-SNAPSHOT'">
                     </div>
                 </div>
             </div>
 
             <!-- Text input-->
             <div class="form-group" ng-show="project.type == 'cucumber'">
-                <label class="control-label" for="textinput">Feature file</label>
+                <label class="control-label" for="textinput" translate="project.form.featureFile">Feature file</label>
 
                 <div class="input-group">
-                    <input type="text" ng-model="project.featureFile" ng-required="project.type === 'cucumber'" name="featureFile" placeholder="Feature file name" class="form-control" />
+                    <input type="text" 
+                           ng-model="project.featureFile" 
+                           ng-required="project.type === 'cucumber'" 
+                           name="featureFile" 
+                           placeholder="{{'project.form.featureFile' | translate}}" 
+                           class="form-control" />
                     <div class="input-group-addon">.feature</div>
                 </div>
 
@@ -113,10 +154,16 @@
 
             <!-- Text input-->
             <div class="form-group" ng-show="project.type == 'cucumber'">
-                <label class="control-label" for="textinput">Step file</label>
+                <label class="control-label" for="textinput" translate="project.form.stepFile">Step file</label>
 
                 <div class="input-group">
-                    <input type="text" ng-model="project.stepFile" name="stepFile" ng-required="project.type === 'cucumber'" placeholder="Step file name" class="form-control" />
+                    <input type="text" 
+                            ng-model="project.stepFile"
+                            name="stepFile" 
+                            ng-required="project.type === 'cucumber'" 
+                            placeholder="{{'project.form.stepFile' | translate}}" 
+                            class="form-control" />
+
                     <div class="input-group-addon">.js</div>
                 </div>
 
@@ -129,6 +176,10 @@
 
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="submitForm()" ng-disabled="projectForm.$error.required || projectForm.$invalid || !isValid ">Create</button>
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary" type="button" ng-click="submitForm()" ng-disabled="projectForm.$error.required || projectForm.$invalid || !isValid " translate="entity.action.create">
+        Create
+    </button>
+    <button class="btn btn-default" ng-click="cancel()"  translate="entity.action.cancel">
+        Cancel
+    </button>
 </div>

@@ -1,6 +1,6 @@
 <div class="panel-body">
     <div class="col-xs-12">
-        <p class="lead">Help</p>
+        <p class="lead" translate="help.help">Help</p>
 
         <div class="list-group">
             <a class="list-group-item" href>
@@ -9,7 +9,7 @@
                 </span>
                 <kbd>CTRL + S</kbd>&nbsp;
                 <div class="col-xs-8 pull-right">
-                    <em> Save the file</em>
+                    <em translate="help.save.file"> Save the file</em>
                 </div>
             </a>
 
@@ -19,8 +19,8 @@
                 </span>
                 <kbd>Ctrl-Enter</kbd>&nbsp;
                 <div class="col-xs-8 pull-right">
-                    <em>  [Mode Cucumber]  Run Test</em>
-                    <small>Run your tests from the cursor location. You can have multiple cursor.</small>
+                    <em translate="help.run.tests">  [Mode Cucumber]  Run Test</em>
+                    <small translate="help.run.tests.text">Run your tests from the cursor location. You can have multiple cursor.</small>
                 </div>
             </a>
 
@@ -31,8 +31,8 @@
 
                 <kbd>Ctrl+Shift+C</kbd>&nbsp;
                 <div class="col-xs-8 pull-right">
-                    <em> [Mode Javascript] Selector Gadget</em>
-                    <small>You can select elements with selector.. </small>
+                    <em translate="help.selector.gadget"> [Mode Javascript] Selector Gadget</em>
+                    <small translate="help.selector.gadget.text">You can select elements with selector.. </small>
                 </div>
             </a>
 
@@ -43,8 +43,8 @@
 
                 <kbd>Ctrl + Enter</kbd>&nbsp;
                 <div class="col-xs-8 pull-right">
-                    <em> [Mode Javascript] Evaluator</em>
-                    <small>You can evaluate your expressions in javascript. <!-- Put the cursor on the line or select the expression that you want to evaluate.  --> </small>
+                    <em  translate="help.evaluator"> > [Mode Javascript] Evaluator</em>
+                    <small translate="help.evaluator.text" >You can evaluate your expressions in javascript. <!-- Put the cursor on the line or select the expression that you want to evaluate.  --> </small>
                 </div>
             </a>
 
@@ -55,8 +55,8 @@
 
                 <kbd>Ctrl + P</kbd>&nbsp;
                 <div class="col-xs-8 pull-right">
-                    <em> Search File</em>
-                    <small>You can search and open files <!-- Put the cursor on the line or select the expression that you want to evaluate.  --> </small>
+                    <em translate="help.search">> Search File</em>
+                    <small translate="help.search.text">You can search and open files <!-- Put the cursor on the line or select the expression that you want to evaluate.  --> </small>
                 </div>
             </a>
 
@@ -65,5 +65,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-default" ng-click="cancel()">Close</button>
+    <button class="btn btn-default" ng-click="cancel()" translate="entity.action.close">
+        Close
+    </button>
 </div>

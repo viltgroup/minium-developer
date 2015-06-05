@@ -1,0 +1,27 @@
+{
+    "actions": {
+        "preferences": "Preferências",
+        "status": "Estado",
+        "summary": "Resumo",
+        "clearMarkers": "Limpar marcadores",
+        "runAll": "Executar todos",
+        "openFile": "Abrir ficheiro",
+        "newFile": "Novo ficheiro",
+        "seeExecution": "Ver execução",
+        "stop": "Parar",
+        "running": "Em execução",
+        "editor": "Editor",
+        "create.file": "Criar ficheiro",
+        "evaluate": "Avaliar",
+        "help": "Ajuda",
+        "clear.markers": "Clear Markers",
+        "about": "Sobre",
+        "run": "Executar",
+        "launch": "Lançar Browser",
+        "selector.gadget": "Selector Gadget",
+        "file": "Ficheiro",
+        "save": "Guardar",
+        "create.project": "Criar Projecto",
+        "open.project": "Abrir Projecto"
+    }
+}

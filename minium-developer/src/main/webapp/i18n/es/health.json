@@ -1,0 +1,20 @@
+{
+    "health": {
+        "title": "Heath checks",
+        "refresh.button": "Refresh",
+        "stacktrace": "Stacktrace",
+        "indicator": {
+            "diskSpace": "Disk space",
+            "mail": "Email",
+            "db": "Database"
+        },
+        "table": {
+            "service": "Nombre del servicio",
+            "status": "Estado"
+        },
+        "status": {
+            "UP": "HASTA",
+            "DOWN": "ABAJO"
+        }
+    }
+}

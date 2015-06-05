@@ -1,7 +1,7 @@
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">Browsers</h4>
+    <h4 class="modal-title" translate="webdriver.browsers">Browsers</h4>
 </div>
 <div class="modal-body">
     <div class="panel-body">
@@ -13,10 +13,10 @@
 
             <br><br>
             <div class="form-group" ng-show="useRemoteWebDriver">
-                <label class="col-sm-2 control-label" for="textinput">Remote url:</label>
+                <label class="col-sm-2 control-label" for="textinput" translate="webdriver.remote.url">Remote url</label>:
 
                 <div class="col-sm-10">
-                    <input type="text" ng-model="remoteWebDriverUrl" placeholder="Remote url" class="form-control" />
+                    <input type="text" ng-model="remoteWebDriverUrl" placeholder="{{webdriver.remote.url | translate}}" class="form-control" />
                 </div>
 
             </div>
@@ -29,6 +29,8 @@
         {{toggleText}}
     </button>
 
-    <button class="btn btn-primary ladda-button my-ladda-btn" id="createWebDriver" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined || isProcessing === true || (useRemoteWebDriver == true && remoteWebDriverUrl == '') " data-style="expand-right">Create new WebDriver</button>
-    <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-primary ladda-button my-ladda-btn" id="createWebDriver" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined || isProcessing === true || (useRemoteWebDriver == true && remoteWebDriverUrl == '') " data-style="expand-right" translate="webdriver.new">
+         Create new WebDriver
+    </button>
+    <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">Cancel</button>
 </div>

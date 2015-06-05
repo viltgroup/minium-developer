@@ -1,20 +1,22 @@
 <button class="btn btn-default btn-xs" ng-click="toggleEditor()">
-    <span ng-show="!isLogVisible">Show </span>
-    <span ng-hide="!isLogVisible">Hide </span> log
+    <span ng-show="!isLogVisible" translate="labels.show">Show </span>
+    <span ng-hide="!isLogVisible" translate="labels.hide">Hide </span> log
 </button>
 
 <button type="button" class="btn btn-primary btn-xs active loading" active="isActivePause" action="addPausedLines()" id="pause" pause ng-hide="!isLogVisible">
-    <span class="fa fa-pause"></span> Pause
+    <span class="fa fa-pause"></span> 
+    <span translate="labels.pause">Pause</span>
 </button>
 
 <button type="button" class="btn btn-primary btn-xs active" id="clear" ng-click="clearLog()" ng-hide="!isLogVisible">
-    <span class="fa fa-repeat"></span> Clear
+    <span class="fa fa-repeat"></span> 
+    <span translate="labels.clear">Clear</span>
 </button>
 
 
 <br><br>
-<div class="console-log">
-    <div ui-ace id="console-log"></div>
+<div class="console-log" >
+    <div ui-ace id="console-log" ng-show="isLogVisible"></div>
 </div>
 
 <div id="breakpoints" ng-hide="!isLogVisible"></div>

@@ -112,51 +112,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         snippetManager.register(snippets, "javascript");
     }
 
-    // from minium app
-    var evaluate = function(editor) {
-        var range = editor.getSelectionRange();
-        var session = editor.getSession();
-
-        var line = range.start.row;
-        var code = range.isEmpty() ? session.getLine(line) : session.getTextRange(range);
-
-        var request = EvalService.eval({
-                expression: code,
-                lineNumber: line + 1
-            })
-            .success(function(data) {
-                if (data.size >= 0) {
-                    toastr.success(data.size + " matching web elements");
-                } else {
-                    toastr.success(data.value ? _.escape(data.value) : "No value");
-                }
-            })
-            .error(function(exception) {
-                toastr.warning(exception.message);
-                if (exception.lineNumber >= 0 && !exception.sourceName) {
-                    var errors = [{
-                        row: exception.lineNumber - 1,
-                        column: 0,
-                        text: exception.message,
-                        type: "error"
-                    }];
-                    editor.getSession().setAnnotations(errors);
-                }
-            });
-    };
-
-    var activateSelectorGadget = function(editor) {
-        var modalInstance = $modal.open({
-            templateUrl: 'selectorGadgetModal.html',
-            controller: 'SelectorGadgetCtrl',
-            resolve: {
-                editor: function() {
-                    return editor;
-                }
-            }
-        });
-    };
-
     /**
      * Set the content of the session
      * @param {item} the properties of the file
@@ -180,6 +135,5 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         editor.moveCursorToPosition(cursor);
         editor.clearSelection();
     }
-
 
 });

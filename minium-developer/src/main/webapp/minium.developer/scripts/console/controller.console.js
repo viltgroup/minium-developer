@@ -8,28 +8,6 @@
 
     function ConsoleController($rootScope, $scope, $state, ConsoleLog, stackTraceParser) {
         console.log("Console ");
-        //scope only needed for linkFn function
-        var c = new ConsoleLog($scope);
-        var editor = c.editor;
-
-        var HoverLink = ace.require("hoverlink").HoverLink
-        editor.hoverLink = new HoverLink(editor);
-        editor.hoverLink.on("open", function(e) {
-            console.log(e)
-            var clickedValue = e.value.split(":");
-            //split the uri and the line (example: step/stepfile.js:16 )
-            var relativeUri = clickedValue[0];
-            var line = clickedValue[1];
-
-            $scope.loadFile(decodeURIComponent(relativeUri)).then(function(result) {
-                if( line ){
-                     $rootScope.active.session.gotoLine(line);
-                }
-            });
-        })
-
-        $scope.isActivePause = false;
-        console.log(editor);
 
         $scope.aceLoaded = function(_editor) {
             // Editor part
@@ -77,6 +55,28 @@
         // EDITOR AUX FUNCTIONS
         //////////////////////////////////////////////////////////////////
 
+        /**
+         * Create linkable links in the editor
+         *
+         */
+        var addHoverLinkEvent = function(editor) {
+            var HoverLink = ace.require("hoverlink").HoverLink
+            editor.hoverLink = new HoverLink(editor);
+            editor.hoverLink.on("open", function(e) {
+                console.log(e)
+                var clickedValue = e.value.split(":");
+                //split the uri and the line (example: step/stepfile.js:16 )
+                var relativeUri = clickedValue[0];
+                var line = clickedValue[1];
+
+                $scope.loadFile(decodeURIComponent(relativeUri)).then(function(result) {
+                    if (line) {
+                        $rootScope.active.session.gotoLine(line);
+                    }
+                });
+            })
+        }
+
         $scope.addPausedLines = function() {
             angular.forEach($scope.pausedLog, function(data) {
                 editor.insert(data);
@@ -103,10 +103,6 @@
             $(window).trigger('resize');
         }
 
-        //////////////////////////////////////////////////////////////////
-        // INITIALIZATIONS
-        //////////////////////////////////////////////////////////////////
-
         //show and hide the log from the cookie
         var initLog = function() {
             if ($.cookie('log') !== undefined) {
@@ -121,7 +117,21 @@
             $(window).trigger('resize');
         }
 
+        //////////////////////////////////////////////////////////////////
+        // INITIALIZATIONS
+        //////////////////////////////////////////////////////////////////
+
         initLog();
 
+        //scope only needed for linkFn function
+        var c = new ConsoleLog($scope);
+        var editor = c.editor;
+
+        addHoverLinkEvent(editor);
+
+        $scope.isActivePause = false;
+        console.log(editor);
+
     }
+
 })();

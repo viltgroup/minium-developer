@@ -2,7 +2,7 @@
     <h4 class="modal-title">
             <span translate="report.results">Results</span>
             <!-- NG IF -->
-            <span ng-if="resultsSummary.failures > 0">
+            <span ng-if="!isPassing()">
             <span class="label label-danger ">
               <span translate="report.failing">
                 Failing
@@ -11,7 +11,7 @@
             </span>
             </span>
             <!-- NG IF -->
-            <span ng-if="resultsSummary.failures == 0">
+            <span ng-if="isPassing()">
             <span class="label label-success">
               <span translate="report.failure">
                 Passing
@@ -41,14 +41,14 @@
                  {{step.status}}</small>
             </accordion-heading>
             <!-- CONTENT -->
-            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.result">
+            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.errorMessage !== null">
                 <thead>
                     <tr>
                         <th translate="report.error.message">Error message</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                     <tr>
                         <td >
                         <p >{{step.result.error_message}}</p>
@@ -65,7 +65,7 @@
     </accordion>
 
     <!-- Snippets -->
-    <h4 ng-show="snippetsForUndefinedSteps.length > 0" translate="reports.undefided.steps">
+    <h4 ng-show="snippetsForUndefinedSteps.length > 0" translate="report.undefided.steps">
       Undefined steps
     </h4>
     <span ng-repeat="snippet in snippetsForUndefinedSteps track by $index">

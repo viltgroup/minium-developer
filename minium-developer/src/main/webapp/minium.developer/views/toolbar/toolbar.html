@@ -13,7 +13,7 @@
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" > 
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span translate="actions.file">File</span>
                         <span class="caret"></span>
                     </a>
@@ -35,15 +35,17 @@
                     </ul>
                 </li>
                 <li class="dropdown">
-
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span translate="entity.project">
                         Project
-                    </span> <span class="caret"></span></a>
+                        </span> <span class="caret"></span></a>
+
+                    <ul class="dropdown-menu" role="menu">
+
 
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href  modal state="global.editorarea.sub.newProject">
+                            <a href modal state="global.editorarea.sub.newProject">
                                 <span class="fa fa-plus"></span>
                                 <span class="ladda-label" translate="actions.create.project">Create Project</span>
                             </a>
@@ -67,19 +69,21 @@
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-class="{'disabled': (active.mode === 'JS')}">
-                            <a href ng-click="launchCucumber()"  a-disabled="(active.mode === 'JS')">
+                            <a href ng-click="launchCucumber()" a-disabled="(active.mode === 'JS')">
                                 <span class="fa  fa-play"></span>
                                 <span class="ladda-label" translate="actions.run">Run</span>
                             </a>
                         </li>
                         <li ng-class="{'disabled': (active.mode === 'JS')}">
-                            <a href a-disabled="(active.mode === 'JS')" ng-click="launchAll()" >
+
+                            <a href a-disabled="(active.mode === 'JS')" ng-click="launchAll()">
                                 <span class="fa  fa-list"></span>
                                 <span class="ladda-label" translate="actions.runAll">Run All</span>
                             </a>
                         </li>
                         <li ng-class="{'disabled':((testExecuting == false))}">
-                            <a href a-disabled="((testExecuting == false))" ng-click="stopLaunch()" >
+
+                            <a href a-disabled="((testExecuting == false))" ng-click="stopLaunch()">
                                 <span class="fa  fa-ban danger"></span>
                                 <span class="ladda-label" translate="actions.stop">Stop</span>
                             </a>
@@ -94,7 +98,7 @@
                         </li>
                         <li class="divider"></li>
                         <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href  a-disabled="(active.mode !== 'JS')" ng-click="activateSelectorGadget()">
+                            <a href a-disabled="(active.mode !== 'JS')" ng-click="activateSelectorGadget()">
                                 <span class="fa  fa-hand-o-up"></span>
                                 <span class="ladda-label" translate="actions.selector.gadget">
                                     Selector Gadget
@@ -102,7 +106,7 @@
                             </a>
                         </li>
                         <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href  a-disabled="(active.mode !== 'JS')" ng-click="evaluate()">
+                            <a href a-disabled="(active.mode !== 'JS')" ng-click="evaluate()">
                                 <span class="fa  fa-binoculars"></span>
                                 <span class="ladda-label" translate="actions.evaluate">
                                     Evaluate

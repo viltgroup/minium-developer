@@ -28,11 +28,6 @@
         "collapse": "Collapse all",
         "searchWithShortcut": "Search File (Ctrl + P)"
     },
-    "project": {
-        "no.project": "No project defined",
-        "open": "open",
-        "create": "create"
-    },
     "labels": {
         "show": "Show",
         "hide": "Hide",

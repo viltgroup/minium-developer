@@ -96,7 +96,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
             List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString());
 
             for (Throwable failure : failures) {
-                LOGGER.error("Feature {} failed", featurePath, failure);
+                //LOGGER.error("Feature {} failed", featurePath, failure);
             }
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
@@ -289,7 +289,6 @@ public class CucumberProjectContext extends AbstractProjectContext {
             for (String snippet : snippets) {
                 StepDTO stepDTO = new StepDTO(snippet, 0, "", "snippet");
                 messagingTemplate.convertAndSend("/cucumber/" + sessionId, stepDTO);
-                LOGGER.info("SNIPPETS {}", snippet);
             }
         }
     }

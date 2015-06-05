@@ -46,7 +46,7 @@
                 "register": "No disposa d'un compte encara? <a href=\"#/register\">Registri un nou compte</a>"
             },
             "error": {
-                "dontmatch" : "La contrasenya i la confirmació no coincideixen!"
+                "dontmatch": "La contrasenya i la confirmació no coincideixen!"
             },
             "validate": {
                 "newpassword": {
@@ -76,8 +76,16 @@
             "delete": "Delete",
             "edit": "Edit",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "close": "Close",
+            "create": "Create",
+            "ok": "OK",
+            "accept": "Accept",
+            "open": "Open",
+            "update": "Update",
+            "reset": "Reset default"
         },
+        "project": "Project",
         "detail": {
             "field": "Field",
             "value": "Value"
@@ -96,5 +104,16 @@
             "datetimelocal": "This field should be a date and time."
         }
     },
-    "footer": "Aquest és el teu footer"
+    "project": {
+        "no.project": "No project defined",
+        "open": "open",
+        "create": "create"
+    },
+    "labels": {
+        "or": "or",
+        "one": "one",
+        "name": "Name",
+        "about.minium": "About Minium",
+        "version": "Version"
+    }
 }

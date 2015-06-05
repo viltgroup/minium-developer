@@ -19,10 +19,7 @@ var HoverLink = function(editor) {
     this.onClick = this.onClick.bind(this);
     event.addListener(editor.renderer.scroller, "mousemove", this.onMouseMove);
     event.addListener(editor.renderer.content, "mouseout", this.onMouseOut);
-
     event.addListener(editor.renderer.content, "dblclick", this.onDBClick.bind(this, "dblclick"));
-    //event.addListener(editor.renderer.content, "click", this.onClick);
-    // event.addListener(editor.renderer.content, "dblclick", this.onMouseEvent);
 };
 
 (function(){
@@ -93,7 +90,6 @@ var HoverLink = function(editor) {
                     value: str
                 };
         });
-    
         return match;
     };
     
@@ -110,7 +106,7 @@ var HoverLink = function(editor) {
         var session = editor.session;
         var line = session.getLine(row);
         
-        var match = this.getMatchAround(/^(steps|features|modules)(.*)(\.js|\.feature)(:.*)?/g, line, column);
+        var match = this.getMatchAround(/(steps|features|modules)(.*)(\.js|\.feature)(:.*)?/g, line, column);
         if (!match)
             return;
         

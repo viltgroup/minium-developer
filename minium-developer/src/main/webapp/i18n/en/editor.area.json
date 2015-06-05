@@ -1,0 +1,188 @@
+{
+    "editor": {
+        "status": "Status",
+        "summary": "Summary",
+        "clearMarkers": "Clear Markers",
+        "runAll": "Run All",
+        "openFile": "Open File",
+        "newFile": "New File",
+        "seeExecution": "See execution",
+        "stop": "Stop",
+        "running": "Running",
+        "editor": "Editor"
+    },
+    "file": {
+        "new.folder": "New Folder",
+        "new.file": "New File",
+        "rename": "Rename",
+        "rename.folder": "Rename Folder",
+        "delete.folder": " Delete Folder",
+        "delete": "Delete",
+        "name": "File Name",
+        "no.file": "No Files here",
+        "search": "Search",
+        "search.file": "Search file",
+        "name": "Name",
+        "date": "Date",
+        "refresh": "Refresh folders",
+        "collapse": "Collapse all",
+        "searchWithShortcut": "Search File (Ctrl + P)"
+    },
+    "labels": {
+        "show": "Show",
+        "hide": "Hide",
+        "pause": "Pause",
+        "clear": "Clear",
+        "shortcut": "Shortcut",
+        "line": "Line",
+        "selector.gadget": "Pick elements with Selector Gadget",
+        "selector.gadget.text": "Pick elements with Selector Gadget to generate a CSS selector expression."
+    },
+    "webdriver": {
+        "new": "Create new WebDriver",
+        "browsers": "Navegadores",
+        "remote.url": "Remote url",
+        "use_remote": "Use remote webdriver",
+        "use_local": "Use local webdriver",
+        "error_creating": "Could not create a new WebDriver!!",
+        "not_launched": "No web driver launched. Please select one!"
+    },
+    "report": {
+        "steps": "Steps",
+        "passing": "Passing",
+        "failure": "Failure",
+        "skipped": "Skipped",
+        "undefined": "Undefined",
+        "undefided.steps": "Undefined steps",
+        "error.message": "Error message",
+        "failing": "Failing",
+        "results": "Results"
+    },
+    "test_msg": {
+        "failing": "Test didn't pass!!",
+        "pass": "Test Pass with Sucess",
+        "not_executed": "No tests executed",
+        "executed_passed": "Test Executed and Pass",
+        "test_error": "Oops, something went wrong."
+    },
+    "cucumber": {
+        "step": "Step",
+        "undefided": "Undefined. Can’t find a matching Step Definition",
+        "skipped": "Skipped. Steps that follow undefined, pending or failed steps are never executed (even if there is a matching Step Definition)"
+    },
+    "selector.gadget": {
+        "activated": "Selector Gadget activated",
+        "failed": "Selector Gadget failed",
+        "picked": "Picked CSS selector is {{data}} !",
+        "no_elem": "No element was picked",
+        "error": "Could not pick element",
+        "error_deactivate": "Could not deactivate selector gadget"
+    },
+    "evaluator": {
+        "matching": "{{data}} matching web elements",
+        "no_value": "No value"
+    },
+    "help": {
+        "help": "help",
+        "selector.gadget": "[Mode Javascript] Selector Gadget",
+        "selector.gadget.text": "You can select elements with selector.. ",
+        "evaluator": "[Mode Javascript] Evaluator",
+        "evaluator.text": "You can evaluate your expressions in javascript.",
+        "search": "Seacrh File",
+        "search.text": "You can search and open files",
+        "save.file": "Save the file",
+        "run.tests": "[Mode Cucumber]  Run Test",
+        "run.tests.text": "Run your tests from the cursor location. You can have multiple cursor."
+    },
+    "backend": {
+        "resgister.backend": "Register a Backend",
+        "backend": "Backend",
+        "resgister": "Register"
+    },
+    "project.form": {
+        "open": "Open project",
+        "directory": "Project Directory",
+        "latest": "Latest projects",
+        "artifactId": "Articfact ID",
+        "groupId": "Group ID",
+        "version": "Version",
+        "featureFile": "Feature file",
+        "stepFile": "Step file",
+        "new": "New project",
+        "type": "Project type",
+        "parent.dir": "Parent Directory",
+        "name": "Project Name",
+        "automator": "Automator Project",
+        "cucumber": "Cucumber project"
+    },
+    "messages": {
+        "validate": {
+            "directory": {
+                "required": "The name is required."
+            },
+            "parent.dir": {
+                "required": "Path is required",
+                "invalid": "Path not valid"
+            },
+            "project.name": {
+                "required": "Project name is required."
+            },
+            "artifactId": {
+                "required": "artifactId is required..",
+                "invalid": "This is not a valid artifactId."
+            },
+            "groupId": {
+                "required": "groupId is required.",
+                "invalid": "groupId not valid."
+            }
+        },
+        "backend": {
+            "success": "Backend registed with success",
+            "error": "Error. Can't register the backend"
+        },
+        "error": {
+            "test_executing": "A test is already running!!",
+            "file_not_found": "The file was not found!!",
+            "test_error": "Oops, something went wrong.",
+            "socket_connect": "It was not possible to connect to the socket!!",
+            "no_project_defined": "No project defined!! Please define a project!"
+        },
+        "info": {
+            "test_started": "Test Started..."
+        },
+        "files": {
+            "unsaved": "If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?",
+            "delete": "Are you sure you want to delete this item? \n {{uri}}",
+            "saved": "File saved",
+            "error": "The file contains {{data}}"
+        },
+        "no_project_defined:": "No project defined!! Please define a project!",
+        "tooltip": {
+            "stop_test": "Stop Test",
+            "report": "Report",
+            "clear_markers": "Clear editor markers"
+        },
+        "title":{
+            "selector.gadget":"Interface Selector Gadget (Ctrl+Shift+C) ",
+            "evaluator":"Evaluator (Ctrl + Enter)",
+            "run_test":"Run test from cursor (Ctrl + Enter)",
+            "run_all":"Run all tests"
+        }
+    },
+    "preferences": {
+        "title": "Editor Preferences",
+        "font_size": "Font size",
+        "theme": "Theme",
+        "tab_size": "Tab size",
+        "soft_tabs": "Soft tabs",
+        "messages": {
+            "validate": {
+                "required": "Required field."
+            }
+        },
+        "placeholders": {
+            "font.size": "Enter font size",
+            "tab.size": "Enter tab size"
+        }
+    }
+}

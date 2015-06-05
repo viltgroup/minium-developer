@@ -76,15 +76,44 @@
             "delete": "Delete",
             "edit": "Edit",
             "save": "Save",
-            "view": "View"
+            "view": "View",
+            "close": "Close",
+            "create": "Create",
+            "ok": "OK",
+            "accept": "Accept",
+            "open": "Open",
+            "update": "Update",
+            "reset": "Reset default"
         },
+        "project": "Project",
         "detail": {
             "field": "Field",
             "value": "Value"
         },
         "delete": {
             "title": "Confirm delete operation"
+        },
+        "validation": {
+            "required": "This field is required.",
+            "minlength": "This field is required to be at least {{min}} characters.",
+            "maxlength": "This field cannot be longer than {{max}} characters.",
+            "min": "This field should be more than {{min}}.",
+            "max": "This field cannot be more than {{max}}.",
+            "pattern": "This field should follow pattern {{pattern}}.",
+            "number": "This field should be a number.",
+            "datetimelocal": "This field should be a date and time."
         }
     },
-    "footer": "This is your footer"
+    "project": {
+        "no.project": "No project defined",
+        "open": "open",
+        "create": "create"
+    },
+    "labels": {
+        "or": "or",
+        "one": "one",
+        "name": "Name",
+        "about.minium": "About Minium",
+        "version": "Version"
+    }
 }

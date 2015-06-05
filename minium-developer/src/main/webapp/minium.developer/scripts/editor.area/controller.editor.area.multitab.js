@@ -10,7 +10,7 @@ angular.module('minium.developer')
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
-
+        
         /**
          * Initialize tabs
          */

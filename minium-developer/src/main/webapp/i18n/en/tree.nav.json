@@ -1,0 +1,18 @@
+{
+    "operation": {
+        "new_folder": "New Folder",
+        "new_file": "New File",
+        "rename_file": "Rename File",
+        "rename_folder": "Rename Folder"
+    },
+    "messages": {
+        "deleted_file": "File {{relativeUri}} deleted",
+        "created_file": "Created file {{newPath}}",
+        "action": "{{type}} {{relativeUri}} {{action}}"
+    },
+    "project": {
+        "no.project": "No project defined",
+        "open": "open",
+        "create": "create"
+    }
+}

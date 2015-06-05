@@ -2,13 +2,13 @@
     <h4 class="modal-title">
             Results
             <!-- NG IF -->
-            <span ng-if="resultsSummary.failures > 0">
+            <span ng-if="!isPassing()">
             <span class="label label-danger ">
             Failing <i class="fa fa-thumbs-down"></i>
             </span>
             </span>
             <!-- NG IF -->
-            <span ng-if="resultsSummary.failures == 0">
+            <span ng-if="isPassing()">
             <span class="label label-success">
             Passing  <i class="fa fa-thumbs-up"></i>
             </span>
@@ -31,14 +31,14 @@
                  <small style="margin-left:10px;">Step {{step.status}}</small>
             </accordion-heading>
             <!-- CONTENT -->
-            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.result">
+            <table class="table table-primary table-list table-striped table-condensed" ng-if="step.errorMessage !== null">
                 <thead>
                     <tr>
                         <th>Error message</th>
                         <th class="text-center"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody >
                     <tr>
                         <td >
                         <p >{{step.result.error_message}}</p>
@@ -55,7 +55,9 @@
     </accordion>
 
     <!-- Snippets -->
-    <h4 ng-show="snippetsForUndefinedSteps.length > 0">Undefined steps</h4>
+    <h4 ng-show="snippetsForUndefinedSteps.length > 0" translate="report.undefided.steps">
+      Undefined steps
+    </h4>
     <span ng-repeat="snippet in snippetsForUndefinedSteps track by $index">
          <pre class="prettyprint lang-js" style="white-space: pre;">{{snippet}} </pre>
     </span>

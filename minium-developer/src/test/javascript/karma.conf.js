@@ -53,6 +53,9 @@ module.exports = function (config) {
             // endbower
             'main/webapp/scripts/app/app.js',
             'main/webapp/scripts/app/**/*.js',
+            'main/webapp/minium.developer/scripts/app.js',
+            'main/webapp/minium.developer/scripts/**/*.js',
+            'main/webapp/minium.developer/scripts/components/stacktrace/*.js',
             'main/webapp/scripts/components/**/*.js',
             'test/javascript/**/!(karma.conf).js'
         ],

@@ -67,10 +67,8 @@ public class ProjectContextConfiguration {
     @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public AbstractProjectContext projectContext(ProjectProperties projConfiguration) throws Exception {
         if (projConfiguration.isCucumberProject()) {
-            LOGGER.info("Project at {} is a cucumber project", projConfiguration.getDir());
             return new CucumberProjectContext(projConfiguration);
         } else if (projConfiguration.isAutomatorProject()) {
-            LOGGER.info("Project at {} is a rhino project", projConfiguration.getDir());
             return new RhinoProjectContext(projConfiguration);
         }
         LOGGER.warn("Project at {} is not a valid project", projConfiguration.getDir());

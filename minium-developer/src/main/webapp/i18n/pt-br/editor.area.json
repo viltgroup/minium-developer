@@ -49,8 +49,8 @@
     },
     "report": {
         "steps": "Passos",
-        "passing": "Passing",
-        "failure": "Falhado",
+        "passing": "Passados",
+        "failure": "Falhados",
         "skipped": "Ignorados",
         "undefined": "Indefinidos",
         "undefided.steps": "Passos indefinidos",

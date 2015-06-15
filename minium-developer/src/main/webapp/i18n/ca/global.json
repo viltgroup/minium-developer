@@ -71,27 +71,27 @@
     },
     "entity": {
         "action": {
-            "back": "Back",
-            "cancel": "Cancel",
-            "delete": "Delete",
+            "back": "Tornar",
+            "cancel": "Cancel·lar",
+            "delete": "Eliminació",
             "edit": "Edit",
             "save": "Save",
-            "view": "View",
-            "close": "Close",
-            "create": "Create",
+            "view": "Vista",
+            "close": "Tancar",
+            "create": "Creació",
             "ok": "OK",
-            "accept": "Accept",
-            "open": "Open",
+            "accept": "Acceptada",
+            "open": "Obrir",
             "update": "Update",
             "reset": "Reset default"
         },
         "project": "Project",
         "detail": {
             "field": "Field",
-            "value": "Value"
+            "value": "Valor"
         },
         "delete": {
-            "title": "Confirm delete operation"
+            "title": "Confirm operació de eliminació"
         },
         "validation": {
             "required": "This field is required.",
@@ -100,19 +100,19 @@
             "min": "This field should be more than {{min}}.",
             "max": "This field cannot be more than {{max}}.",
             "pattern": "This field should follow pattern {{pattern}}.",
-            "number": "This field should be a number.",
+            "number": "This field should be a nombre.",
             "datetimelocal": "This field should be a date and time."
         }
     },
     "project": {
-        "no.project": "No project defined",
-        "open": "open",
-        "create": "create"
+        "no.project": "No hi ha projecte definit",
+        "open": "obrir",
+        "create": "creació"
     },
     "labels": {
-        "or": "or",
-        "one": "one",
-        "name": "Name",
+        "or": "o",
+        "one": "un",
+        "name": "Nom",
         "about.minium": "About Minium",
         "version": "Version"
     }

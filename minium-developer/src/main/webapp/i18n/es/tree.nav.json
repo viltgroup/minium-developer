@@ -1,13 +1,13 @@
 {
     "operation": {
-        "new_folder": "New Folder",
-        "new_file": "New File",
-        "rename_file": "Rename File",
-        "rename_folder": "Rename Folder"
+        "new_folder": "Nueva Carpeta",
+        "new_file": "Nuevo Archivo",
+        "rename_file": "Renombrar Archivo",
+        "rename_folder": "Renombrar Carpeta"
     },
     "messages": {
-        "deleted_file": "File {{relativeUri}} deleted",
-        "created_file": "Created file {{newPath}}",
+        "deleted_file": "Eliminado el archivo {{relativeUri}}",
+        "created_file": "Creado el archivo {{newPath}}",
         "action":"{{type}} {{relativeUri}} {{action}}"
     }
 }

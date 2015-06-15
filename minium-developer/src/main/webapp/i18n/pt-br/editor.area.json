@@ -36,7 +36,9 @@
         "shortcut": "Atalho",
         "line": "Linha",
         "selector.gadget": "Escolha elementos com o Selector Gadget",
-        "selector.gadget.text": "Escolha elementos com o Selector Gadget para gerar uma expressão CSS."
+        "selector.gadget.text": "Escolha elementos com o Selector Gadget para gerar uma expressão CSS.",
+        "complete.stackTrace": "View complete stack trace",
+        "parsed.stackTrace": "View parsed stack trace"
     },
     "webdriver": {
         "new": "Criar um novo WebDriver",
@@ -163,11 +165,11 @@
             "report": "Relatório",
             "clear_markers": "Limpar marcadores"
         },
-        "title":{
-            "selector.gadget":"Interface Selector Gadget (Ctrl+Shift+C) ",
-            "evaluator":"Avaliar expressão (Ctrl + Enter)",
-            "run_test":"Executar testes a partir de cursor (Ctrl + Enter)",
-            "run_all":"Executar todos os testes"
+        "title": {
+            "selector.gadget": "Interface Selector Gadget (Ctrl+Shift+C) ",
+            "evaluator": "Avaliar expressão (Ctrl + Enter)",
+            "run_test": "Executar testes a partir de cursor (Ctrl + Enter)",
+            "run_all": "Executar todos os testes"
         }
     },
     "preferences": {

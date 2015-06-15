@@ -20,11 +20,18 @@
 
                 if ($scope.isActivePause == false) {
                     console.log(message);
-                    var stackTraceParsed = stackTraceParser.parseLine(message.body);
-                    editor.insert(stackTraceParsed);
+                    var stackTrace;
+                    if (!$scope.showCompleteStackTrace) {
+                        //parse the stacktarce
+                        stackTrace = stackTraceParser.parseLine(message.body);
+                    } else {
+                        //show the complete stacktrace
+                        stackTrace = message.body + '\n';
+                    }
+                    editor.insert(stackTrace);
                     editor.navigateLineEnd();
                 } else {
-                    $scope.pausedLog.push(message.body + "\n");
+                    $scope.pausedLog.push(message.body + '\n');
                 }
 
             });
@@ -90,6 +97,10 @@
             $(window).trigger('resize');
         }
 
+        $scope.toggleStackTrace = function() {
+            $scope.showCompleteStackTrace = !$scope.showCompleteStackTrace;
+        }
+
         //show and hide the log from the cookie
         var initLog = function() {
             if ($.cookie('log') !== undefined) {
@@ -117,6 +128,7 @@
         addHoverLinkEvent(editor);
 
         $scope.isActivePause = false;
+        $scope.showCompleteStackTrace = false;
         console.log(editor);
     }
 

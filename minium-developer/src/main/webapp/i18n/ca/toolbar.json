@@ -1,12 +1,12 @@
 {
     "actions": {
         "preferences": "Preferences",
-        "status": "Status",
-        "summary": "Summary",
+        "status": "Estat",
+        "summary": "Sumari",
         "clearMarkers": "Clear Markers",
-        "runAll": "Run All",
-        "openFile": "Open File",
-        "newFile": "New File",
+        "runAll": "Run Tot",
+        "openFile": "Obrir Fitxer",
+        "newFile": "Nou Fitxer",
         "seeExecution": "See execution",
         "stop": "Stop",
         "running": "Running",
@@ -17,15 +17,15 @@
         "clear.markers": "Clear Markers",
         "about": "About",
         "run": "Run",
-        "runAll": "Run All",
+        "runAll": "Run Tot",
         "stop": "Stop",
-        "launch": "Launch Browser",
+        "launch": "Launch Navegadors",
         "selector.gadget": "Selector Gadget",
         "evaluate": "Evaluate",
-        "file": "File",
-        "create.file": "Create File",
+        "file": "Fitxer",
+        "create.file": "Creació Fitxer",
         "save": "Save",
-        "create.project": "Create Project",
-        "open.project": "Open Project"
+        "create.project": "Creació Projecte",
+        "open.project": "Obrir Projecte"
     }
 }

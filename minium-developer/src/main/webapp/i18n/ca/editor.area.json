@@ -1,78 +1,80 @@
 {
     "editor": {
-        "status": "Status",
-        "summary": "Summary",
+        "status": "Estat",
+        "summary": "Sumari",
         "clearMarkers": "Clear Markers",
-        "runAll": "Run All",
-        "openFile": "Open File",
-        "newFile": "New File",
+        "runAll": "Run tot",
+        "openFile": "Obrir fitxer",
+        "newFile": "Nou fitxer",
         "seeExecution": "See execution",
         "stop": "Stop",
         "running": "Running",
         "editor": "Editor"
     },
     "file": {
-        "new.folder": "New Folder",
-        "new.file": "New File",
+        "new.folder": "Nou directori",
+        "new.file": "Nou fitxer",
         "rename": "Rename",
-        "rename.folder": "Rename Folder",
-        "delete.folder": " Delete Folder",
-        "delete": "Delete",
-        "name": "File Name",
-        "no.file": "No Files here",
-        "search": "Search",
-        "search.file": "Search file",
-        "name": "Name",
-        "date": "Date",
-        "refresh": "Refresh folders",
-        "collapse": "Collapse all",
-        "searchWithShortcut": "Search File (Ctrl + P)"
+        "rename.folder": "Rename directori",
+        "delete.folder": " Eliminació directori",
+        "delete": "Eliminació",
+        "name": "fitxer Nom",
+        "no.file": "No fitxers here",
+        "search": "recerca",
+        "search.file": "recerca fitxer",
+        "name": "Nom",
+        "date": "Data",
+        "refresh": "Actualitzar directoris",
+        "collapse": "Collapse tot",
+        "searchWithShortcut": "recerca fitxer (Ctrl + P)"
     },
     "project": {
-        "no.project": "No project defined",
-        "open": "open",
-        "create": "create"
+        "no.project": "No hi ha projecte definit",
+        "open": "obrir",
+        "create": "Creació"
     },
     "labels": {
-        "show": "Show",
-        "hide": "Hide",
+        "show": "Mostrar",
+        "hide": "Ocultar",
         "pause": "Pause",
         "clear": "Clear",
         "shortcut": "Shortcut",
-        "line": "Line",
-        "selector.gadget": "Pick elements with Selector Gadget",
-        "selector.gadget.text": "Pick elements with Selector Gadget to generate a CSS selector expression."
+        "line": "Línia",
+        "selector.gadget": "Pick elements amb Selector Gadget",
+        "selector.gadget.text": "Pick elements amb Selector Gadget generar un CSS selector expression.",
+        "complete.stackTrace": "Veure stack trace complet",
+        "parsed.stackTrace": "Veure stack trace parsed"
     },
     "webdriver": {
-        "new": "Create new WebDriver",
-        "browsers": "Browsers",
+        "new": "Creació nou WebDriver",
+        "browsers": "Navegadors",
         "remote.url": "Remote url",
         "use_remote": "Use remote webdriver",
         "use_local": "Use local webdriver",
-        "error_creating": "Could not create a new WebDriver!!",
-        "not_launched": "No web driver launched. Please select one!"
+        "error_creating": "Could no Creació un nou WebDriver!!",
+        "not_launched": "No web driver launched. Si us plau seleccioneu un!"
     },
     "report": {
         "steps": "Steps",
         "passing": "Passing",
-        "failure": "Failure",
+        "failure": "Incorrecte",
         "skipped": "Skipped",
         "undefined": "Undefined",
         "undefided.steps": "Undefined steps",
         "error.message": "Error message",
         "failing": "Failing",
-        "results": "Results"
+        "results": "Resultats"
     },
     "test_msg": {
         "failing": "Test didn't pass!!",
-        "pass": "Test Pass with Sucess",
+        "pass": "Test Pass amb Sucess",
         "not_executed": "No tests executed",
-        "executed_passed": "Test Executed and Pass",
+        "executed_passed": "Test Executed i Pass",
         "test_error": "Oops, something went wrong."
     },
     "cucumber": {
         "step": "Step",
-        "undefided": "Undefined. Can’t find a matching Step Definition",
+        "undefided": "Undefined. No pot find un matching Step Definition",
         "skipped": "Skipped. Steps that follow undefined, pending or failed steps are never executed (even if there is a matching Step Definition)"
     },
     "selector.gadget": {
@@ -80,104 +82,104 @@
         "failed": "Selector Gadget failed",
         "picked": "Picked CSS selector is {{data}} !",
         "no_elem": "No element was picked",
-        "error": "Could not pick element",
-        "error_deactivate": "Could not deactivate selector gadget"
+        "error": "Could no pick element",
+        "error_deactivate": "Could no deactivate selector gadget"
     },
     "evaluator": {
         "matching": "{{data}} matching web elements",
-        "no_value": "No value"
+        "no_value": "No valor"
     },
     "help": {
         "help": "help",
         "selector.gadget": "[Mode Javascript] Selector Gadget",
-        "selector.gadget.text": "You can select elements with selector.. ",
+        "selector.gadget.text": "Pots select elements amb selector.. ",
         "evaluator": "[Mode Javascript] Evaluator",
-        "evaluator.text": "You can evaluate your expressions in javascript.",
-        "search": "Seacrh File",
-        "search.text": "You can search and open files",
-        "save.file": "Save the file",
+        "evaluator.text": "Pots evaluate your expressions in javascript.",
+        "search": "recerca fitxer",
+        "search.text": "Pots recerca i Obrir fitxers",
+        "save.file": "Save the fitxer",
         "run.tests": "[Mode Cucumber]  Run Test",
-        "run.tests.text": "Run your tests from the cursor location. You can have multiple cursor."
+        "run.tests.text": "Run your tests des the cursor location. Pots tenir diferents cursor."
     },
     "backend": {
-        "resgister.backend": "Register a Backend",
+        "resgister.backend": "Register un Backend",
         "backend": "Backend",
         "resgister": "Register"
     },
     "project.form": {
-        "open": "Open project",
-        "directory": "Project Directory",
-        "latest": "Latest projects",
-        "artifactId": "Articfact ID",
-        "groupId": "Group ID",
+        "open": "Obrir projecte",
+        "directory": "Projecte Directory",
+        "latest": "Latest projecte",
+        "artifactId": "Artifact ID",
+        "groupId": "grup ID",
         "version": "Version",
-        "featureFile": "Feature file",
-        "stepFile": "Step file",
-        "new": "New project",
-        "type": "Project type",
+        "featureFile": "Feature fitxer",
+        "stepFile": "Step fitxer",
+        "new": "Nou projecte",
+        "type": "projecte Tipu",
         "parent.dir": "Parent Directory",
-        "name": "Project Name",
-        "automator": "Automator Project",
-        "cucumber": "Cucumber project"
+        "name": "Nom del projecte",
+        "automator": "Automator projecte",
+        "cucumber": "Cucumber projecte"
     },
     "messages": {
         "validate": {
             "directory": {
-                "required": "The name is required."
+                "required": "Nom is required."
             },
             "parent.dir": {
-                "required": "Path is required",
-                "invalid": "Path not valid"
+                "required": "Ruta is required",
+                "invalid": "Ruta no vàlid"
             },
             "project.name": {
-                "required": "Project name is required."
+                "required": "Nom del projecte is required."
             },
             "artifactId": {
                 "required": "Tell us the artifactId.",
-                "invalid": "This is not a valid artifactId."
+                "invalid": "This is no un vàlid artifactId."
             },
             "groupId": {
-                "required": "groupId is required.",
-                "invalid": "groupId not valid."
+                "required": "grupId is required.",
+                "invalid": "grupId no vàlid."
             }
         },
         "backend": {
-            "success": "Backend registed with success",
-            "error": "Error. Can't register the backend"
+            "success": "Backend registed amb success",
+            "error": "Error. No pot register the backend"
         },
         "error": {
-            "test_executing": "A test is already running!!",
-            "file_not_found": "The file was not found!!",
+            "test_executing": "Un test is already running!!",
+            "file_not_found": "No s''han trobat fitxer!!",
             "test_error": "Oops, something went wrong.",
-            "socket_connect": "It was not possible to connect to the socket!!",
-            "no_project_defined": "No project defined!! Please define a project!"
+            "socket_connect": "It was no possible to connect to the socket!!",
+            "no_project_defined": "No projecte defined!! Si us plau define a projecte!"
         },
         "info": {
             "test_started": "Test Started..."
         },
         "files": {
-            "unsaved": "If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?",
-            "delete": "Are you sure you want to delete this item? \n {{uri}}",
-            "saved": "File saved",
-            "error": "The file contains {{data}}"
+            "unsaved": "If you leave this pagina you are going to lose tot unsaved changes, are you sure you want to leave?",
+            "delete": "Are you sure you want to Eliminació this item? \n {{uri}}",
+            "saved": "fitxer saved",
+            "error": "The fitxer contains {{data}}"
         },
-        "no_project_defined:": "No project defined!! Please define a project!",
+        "no_project_defined:": "No projecte defined!! Si us plau define un projecte!",
         "tooltip": {
             "stop_test": "Stop Test",
-            "report": "Report",
+            "report": "informe",
             "clear_markers": "Clear editor markers"
         },
-        "title":{
-            "selector.gadget":"Interface Selector Gadget (Ctrl+Shift+C) ",
-            "evaluator":"Evaluator (Ctrl + Enter)",
-            "run_test":"Run test from cursor (Ctrl + Enter)",
-            "run_all":"Run all tests"
+        "title": {
+            "selector.gadget": "Interface Selector Gadget (Ctrl+Shift+C) ",
+            "evaluator": "Evaluator (Ctrl + Enter)",
+            "run_test": "Run test des cursor (Ctrl + Enter)",
+            "run_all": "Run tot tests"
         }
     },
     "preferences": {
         "title": "Editor Preferences",
         "font_size": "Font size",
-        "theme": "Theme",
+        "theme": "Tema",
         "tab_size": "Tab size",
         "soft_tabs": "Soft tabs",
         "messages": {

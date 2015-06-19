@@ -12,7 +12,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>minium-tools</outputDirectory>
 			<includes>
 				<include>bin/**</include>
 				<include>config/**</include>
@@ -22,7 +22,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}/win32</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>minium-tools</outputDirectory>
 			<includes>
 				<include>**</include>
 			</includes>

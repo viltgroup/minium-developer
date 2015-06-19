@@ -12,7 +12,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>minium-tools</outputDirectory>
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
@@ -24,7 +24,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>minium-tools</outputDirectory>
 			<includes>
 				<include>config/**</include>
 				<include>lib/**</include>
@@ -32,7 +32,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}/linux32</directory>
-			<outputDirectory></outputDirectory>
+			<outputDirectory>minium-tools</outputDirectory>
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>

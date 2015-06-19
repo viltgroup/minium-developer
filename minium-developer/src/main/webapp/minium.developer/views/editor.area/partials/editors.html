@@ -37,41 +37,10 @@ $('.running-data').show();
     </div>
     <!-- end div .stack -->
 </div>
-<div class="btn-toolbar top-bar" role="toolbar">
+<!-- <div class="btn-toolbar top-bar" role="toolbar">
     <div class="row">
         <div class="col-md-12">
             <div class="btn-group-sm">
-                <a class="btn  btn-default btn-sm" 
-                   title="{{'messages.title.selector.gadget' | translate}}" 
-                   ng-show="active.mode === 'JS'" 
-                   ng-click="activateSelectorGadget()">
-                    <span class="fa  fa-hand-o-up"></span>
-                    <span translate="actions.selector.gadget">Selector Gadget</span>
-                </a>
-                <a class="btn  btn-default btn-sm" 
-                   title="{{'messages.title.evaluator' | translate}}" 
-                   ng-show="active.mode === 'JS'" 
-                   ng-click="evaluate()">
-                    <span class="fa  fa-binoculars"></span>
-                    <span translate="actions.evaluate">Evaluate</span>
-                </a>
-                <a class="btn btn-primary" 
-                   title="{{'messages.title.run_test' | translate}}" 
-                   ng-show=" (active.mode === 'FEATURE')" 
-                   ng-click="launchCucumber()" 
-                   ng-disabled="testExecuting">
-                    <span class="fa  fa-play"></span>
-                    <span translate="actions.run">Run Test</span>
-                </a>
-                <a class="btn btn-primary" 
-                   type="button" 
-                   ng-click="launchAll()" 
-                   title="{{'messages.title.run_all '| translate}}" 
-                   ng-show="(active.mode === 'FEATURE')" 
-                   ng-disabled="testExecuting">
-                    <i class="fa fa-list-alt"></i>
-                    <span translate="actions.runAll">Run All</span>
-                </a>
                 <span class="col-sm-2 pull-right" ng-show="testExecuting && active.mode !== 'JS'">
                     <span style="color:black; white-space:nowrap;">
                         {{testsExecuted}} / {{totalTests}}
@@ -86,7 +55,7 @@ $('.running-data').show();
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <div id="tabs">
     <!-- <div class="scroller"> -->
     <!-- <a href="#" id="right-button"><i class="fa fa-arrow-circle-right"/></a> -->

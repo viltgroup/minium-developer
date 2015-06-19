@@ -76,11 +76,11 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
                 }
             }
 
-            toastr.info('<em class="fa fa-rocket"></em> <strong>' + feature.resultsSummary.runCount + ' Steps </strong><br>' +
-                '<em class="fa fa-check-square"></em> <strong>' + feature.resultsSummary.passed + ' Passing</strong><br>' +
-                '<em class="fa fa-bug"></em> <strong>' + feature.resultsSummary.failures + ' Failure</strong><br>' +
-                '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' Skipped</strong><br>' +
-                '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' Undefined</strong>');
+            toastr.info('<em class="fa fa-rocket"></em> <strong>' + feature.resultsSummary.runCount + ' ' + $translate('report.steps')  + '</strong><br>' +
+                '<em class="fa fa-check-square"></em> <strong>' + feature.resultsSummary.passed + ' ' +  $translate('report.passing') + '</strong><br>' +
+                '<em class="fa fa-bug"></em> <strong>' + feature.resultsSummary.failures + ' ' +  $translate('report.failure') + '</strong><br>' +
+                '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' ' +  $translate('report.skipped') + '</strong><br>' +
+                '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' ' +  $translate('report.undefined') + '</strong>');
 
 
             onFinishTestExecution(annotations, launchTestSession);

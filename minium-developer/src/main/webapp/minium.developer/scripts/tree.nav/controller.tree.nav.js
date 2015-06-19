@@ -6,7 +6,6 @@ angular.module('minium.developer')
         //data for the tree
         $scope.dataForTheTree = [];
 
-
         //current file selected
         $scope.fs = {
             current: {}

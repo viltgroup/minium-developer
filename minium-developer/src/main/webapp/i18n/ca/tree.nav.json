@@ -1,13 +1,13 @@
 {
     "operation": {
-        "new_folder": "New Folder",
-        "new_file": "New File",
-        "rename_file": "Rename File",
-        "rename_folder": "Rename Folder"
+        "new_folder": "Nou carpeta",
+        "new_file": "Nou Fitxer",
+        "rename_file": "Renombrar Fitxer",
+        "rename_folder": "Renombrar carpeta"
     },
     "messages": {
-        "deleted_file": "File {{relativeUri}} deleted",
-        "created_file": "Created file {{newPath}}",
+        "deleted_file": "Fitxer {{relativeUri}} eliminat",
+        "created_file": "Creat fitxer {{newPath}}",
         "action":"{{type}} {{relativeUri}} {{action}}"
     }
 }

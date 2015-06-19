@@ -227,17 +227,26 @@ angular.module('miniumDeveloper.directives', [])
             var classToToggle = attr.sideBarToggle;
             element.bind('click', function(e) {
                 e.preventDefault();
-                //If window is small enough, enable sidebar push menu
-                if ($(window).width() <= 992) {
-                    $('.row-offcanvas').toggleClass('active');
-                    $('.left-side').removeClass("collapse-left");
-                    $(".right-side").removeClass("strech");
-                    $('.row-offcanvas').toggleClass("relative");
-                } else {
-                    //Else, enable content streching
-                    $('.left-side').toggleClass("collapse-left");
-                    $(".right-side").toggleClass("strech");
+                if ($(window).width() > 750) {
+                    $("body").toggleClass('sidebar-collapse');
                 }
+                //Handle sidebar push menu for small screens
+                else {
+                    if ($("body").hasClass('sidebar-open')) {
+                        $("body").removeClass('sidebar-open');
+                        $("body").removeClass('sidebar-collapse')
+                    } else {
+                        $("body").addClass('sidebar-open');
+                    }
+                }
+
+
+                $(".content-wrapper").click(function() {
+                    //Enable hide menu when clicking on the content-wrapper on small screens
+                    if ($(window).width() <= 750 && $("body").hasClass("sidebar-open")) {
+                        $("body").removeClass('sidebar-open');
+                    }
+                });
 
             });
 

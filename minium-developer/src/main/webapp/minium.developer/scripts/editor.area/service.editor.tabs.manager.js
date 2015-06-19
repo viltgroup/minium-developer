@@ -269,7 +269,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         }
 
         if ($(".console-log").is(":visible")) {
-            containerHeight = containerHeight - 230;
+            containerHeight = containerHeight - 170;
         }
 
         $.each(this.editors, function(i, obj) {

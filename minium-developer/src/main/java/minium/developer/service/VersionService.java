@@ -21,12 +21,20 @@ public class VersionService {
 
     public VersionDTO getVersionAndDate() throws ParseException {
         String path = Application.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-        String impVersion = null, impBuildDate = null, commitHash = null;
+        String impVersion = null, impBuildDate = null, commitHash = null, url = null;
 
         path = path.replace("classes/", "");
+
+        //check if the path already has the complete path of the jar
+        if (path.contains(".jar")) {
+            url = "jar:file:" + path + "!/";
+        } else {
+            url = "jar:file:" + path + "minium-developer.jar!/";
+        }
+
         URL jarUrl = null;
         try {
-            jarUrl = new URL("jar:file:" + path + "!/");
+            jarUrl = new URL(url);
             JarURLConnection jarConnection = null;
 
             jarConnection = (JarURLConnection) jarUrl.openConnection();

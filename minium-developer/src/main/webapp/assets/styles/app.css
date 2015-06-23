@@ -807,7 +807,7 @@ treecontrol.tree-classic li .tree-selected {
 }
 
 #tabs .ui-tabs-nav {
-    padding-left: 0px;
+    padding-left: 1px;
     background: transparent;
     border-width: 0px 0px 1px 0px;
     -moz-border-radius: 0px;

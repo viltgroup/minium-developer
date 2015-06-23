@@ -114,6 +114,8 @@
         "one": "un",
         "name": "Nom",
         "about.minium": "Aprop de Minium",
-        "version": "Versió"
+        "version": "Versió",
+        "date": "Data",
+        "commitHash": "Commit Hash"
     }
 }

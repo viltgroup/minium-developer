@@ -26,7 +26,7 @@ public class VersionService {
         path = path.replace("classes/", "");
         URL jarUrl = null;
         try {
-            jarUrl = new URL("jar:file:" + path + "minium-developer.jar!/");
+            jarUrl = new URL("jar:file:" + path + "!/");
             JarURLConnection jarConnection = null;
 
             jarConnection = (JarURLConnection) jarUrl.openConnection();
@@ -36,7 +36,7 @@ public class VersionService {
             // get values and parse from manifest
             String buildTime = manifestItem.getValue("Build-Time");
             Date buildTimeDate = new SimpleDateFormat("yyyyMMddHHmmss").parse(buildTime);
-            impBuildDate = new SimpleDateFormat("dd-mm-yyyy").format(buildTimeDate);
+            impBuildDate = new SimpleDateFormat("dd-MM-yyyy").format(buildTimeDate);
             impVersion = manifestItem.getValue("Implementation-Version");
             commitHash = manifestItem.getValue("Implementation-Build");
 

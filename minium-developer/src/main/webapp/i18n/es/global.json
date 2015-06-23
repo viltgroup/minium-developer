@@ -46,11 +46,7 @@
                 "register": "¿No tienes una cuenta todavía? <a href=\"#/register\">Crear una cuenta</a>"
             },
             "error": {
-<<<<<<< HEAD
-                "dontmatch" : "¡La contraseña y la confirmación no coinciden!"
-=======
                 "dontmatch": "¡La contraseña y la confirmación no coinciden!"
->>>>>>> feature/stacktrace-parser
             },
             "validate": {
                 "newpassword": {
@@ -80,10 +76,6 @@
             "delete": "Delete",
             "edit": "Edit",
             "save": "Save",
-<<<<<<< HEAD
-            "view": "View"
-        },
-=======
             "view": "View",
             "close": "Close",
             "create": "Create",
@@ -94,7 +86,6 @@
             "reset": "Reset default"
         },
         "project": "Project",
->>>>>>> feature/stacktrace-parser
         "detail": {
             "field": "Field",
             "value": "Value"
@@ -113,9 +104,6 @@
             "datetimelocal": "This field should be a date and time."
         }
     },
-<<<<<<< HEAD
-    "footer": "pie de página"
-=======
     "project": {
         "no.project": "No project defined",
         "open": "open",
@@ -126,7 +114,8 @@
         "one": "one",
         "name": "Name",
         "about.minium": "About Minium",
-        "version": "Version"
+        "version": "Version",
+        "date": "Fecha",
+        "commitHash": "Commit Hash"
     }
->>>>>>> feature/stacktrace-parser
 }

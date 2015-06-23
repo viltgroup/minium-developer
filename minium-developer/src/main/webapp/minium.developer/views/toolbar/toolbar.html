@@ -2,22 +2,23 @@
     <!-- Logo -->
     <a href="#/editor" class="logo navbar-brand"></a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top" role="navigation">
+    <nav class="navbar  navbar-default navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
         <a href="#" class="sidebar-toggle" sidebar-toggle="active" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
         </a>
 
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-
-      
-        <ul class="nav navbar-nav action-bar">
-            <li class="active">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>
                 <a href title="{{'messages.title.selector.gadget' | translate}}" ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()">
                     <span class="fa  fa-hand-o-up"></span>
                     <span translate="actions.selector.gadget">Selector Gadget</span>
@@ -43,7 +44,8 @@
             </li>
         </ul>
         <!-- Navbar Right Menu -->
-        <div class="navbar-custom-menu collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        
+        
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">

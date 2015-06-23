@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $translate, $filter, $q, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, WebDriverFactory, openTab, cumcumberLauncher) {
+    .controller('EditorAreaMultiTabController', function($rootScope, $scope, $translate, $filter, $q, $interval, $timeout, $modal, $state, $stateParams, MiniumEditor, launcherService, EvalService, FeatureFacade, SessionID, WebDriverFactory, openTab, cumcumberLauncher, Utils) {
 
         var $translate = $filter('translate');
         //initialize the service to manage the instances
@@ -11,7 +11,8 @@ angular.module('minium.developer')
         //to know when the execution was stopped
         //inicialize a false
         $scope.executionWasStopped = false;
-        
+
+        var socket_key;
         /**
          * Initialize tabs
          */
@@ -128,68 +129,56 @@ angular.module('minium.developer')
 
             isAlreadySubscribed = true;
 
-            var session_id;
             var socket = new SockJS("/app/ws");
             var stompClient = Stomp.over(socket);
 
-            //get the sessionID in the server 
-            //to use it for private sockets
-            //workflow : 
-            //1- get the sessionID in the server
-            //2- wait for the response 
-            //3- subscribe to a websocket with the sessionID fetched
-            // TODO: Need a better solution
+            //genarate an id to create a private connection
+            socket_key = Utils.generateId();
 
-            SessionID.sessionId().then(function(data) {
-                session_id = data;
+            stompClient.connect({}, function(frame) {
+                var suffix = frame.headers;
 
-                stompClient.connect({}, function(frame) {
-                    var suffix = frame.headers;
-
-                    stompClient.subscribe("/tests/" + session_id, function(message) {
-                        var body = message.body;
-                        var testMessage = eval('(' + body + ')');
-                        $scope.totalTests = message.body;
-                        $scope.$apply();
-                    });
-
-                    var range = ace.require('ace/range').Range;
-
-                    stompClient.subscribe("/cucumber/" + session_id, function(message) {
-                        var step = JSON.parse(message.body);
-                        var markerId;
-
-                        switch (step.status) {
-                            case "failed":
-                                $scope.testsExecuted = $scope.testsExecuted + 1;
-                                $scope.isFailing = true;
-                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
-                                break;
-                            case "passed":
-                                $scope.testsExecuted = $scope.testsExecuted + 1;
-                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
-                                break;
-                            case "executing":
-                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
-                                break;
-                            case "undefined":
-                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
-                                break;
-                            case "snippet":
-                                snippetsForUndefinedSteps.push(step.name);
-                                break;
-                            case "failed_example":
-                                editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
-                                break;
-                            default: //do nothing
-                        }
-                        $scope.$apply();
-                    });
+                stompClient.subscribe("/tests/" + socket_key, function(message) {
+                    var body = message.body;
+                    var testMessage = eval('(' + body + ')');
+                    $scope.totalTests = message.body;
+                    $scope.$apply();
                 });
-            }, function(errorPayload) {
-                //the promise was rejected
-                toastr.error($translate('messages.error.socket_connect'))
+
+                var range = ace.require('ace/range').Range;
+
+                stompClient.subscribe("/cucumber/" + socket_key, function(message) {
+                    var step = JSON.parse(message.body);
+                    var markerId;
+
+                    switch (step.status) {
+                        case "failed":
+                            $scope.testsExecuted = $scope.testsExecuted + 1;
+                            $scope.isFailing = true;
+                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                            break;
+                        case "passed":
+                            $scope.testsExecuted = $scope.testsExecuted + 1;
+                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
+                            break;
+                        case "executing":
+                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
+                            break;
+                        case "undefined":
+                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
+                            break;
+                        case "snippet":
+                            snippetsForUndefinedSteps.push(step.name);
+                            break;
+                        case "failed_example":
+                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                            break;
+                        default: //do nothing
+                    }
+                    $scope.$apply();
+                });
             });
+
         };
 
         /**
@@ -201,8 +190,9 @@ angular.module('minium.developer')
 
         $scope.launchAll = function() {
             //if no file is selected
-            if ($scope.active.selected.item === undefined)
+            if ($scope.active.selected.item === undefined) {
                 return;
+            }
 
             var launchParams = {
                 fileProps: $scope.active.selected.item.fileProps
@@ -279,7 +269,7 @@ angular.module('minium.developer')
             /*
             Cucumber launcher to launch the test
              */
-            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession)
+            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession, socket_key)
                 .then(function(data) {
                     console.log(data.feature);
                     feature = data.feature;

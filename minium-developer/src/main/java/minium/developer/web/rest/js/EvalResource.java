@@ -66,7 +66,7 @@ public class EvalResource {
                 return new EvalResult(getProjectContext().toString(result));
             }
         } catch (Exception e) {
-            logger.error("Evaluation of {} failed", evaluation.getExpression(), e);
+            //logger.error("Evaluation of {} failed", evaluation.getExpression(), e);
             throw new EvalException(e);
         }
     }

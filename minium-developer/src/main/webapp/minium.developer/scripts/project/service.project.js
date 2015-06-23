@@ -36,17 +36,19 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
 
     var reload = function(path) {
         $.removeCookie(OPEN_TABS_COOKIES); // remove the tab with the open tabs
-        $cookieStore.put(PROJECT_COOKIE, path)
+        $.cookie(PROJECT_COOKIE, path, {
+            expires: 7
+        });
         $window.location.reload();
     };
 
-    var getOpenProjects = function(){
+    var getOpenProjects = function() {
         var projects = $cookieStore.get(LAST_PROJECTS_COOKIES);
         return projects;
 
     }
 
-    var storeOpenProjects = function(path){
+    var storeOpenProjects = function(path) {
         var projects = getOpenProjects() || [];
         projects.push(path);
         $cookieStore.put(LAST_PROJECTS_COOKIES,_.uniq(projects).slice(-4));
@@ -54,11 +56,13 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
 
     this.open = function(path) {
         ProjectFactory.open(path).success(function(data) {
-            $cookieStore.put(PROJECT_COOKIE, path);
+            $.cookie(PROJECT_COOKIE, path, {
+                expires: 7
+            });
             storeOpenProjects(path);
             reload(path);
         }).error(function(data, status) {
-            $cookieStore.remove(PROJECT_COOKIE)
+            $.removeCookie(PROJECT_COOKIE);
             toastr.error(data)
         });
     };
@@ -70,22 +74,23 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     /*
     store the last open projects in a cookie
     */
-    this.storeOpenProjects = function(path){
+    this.storeOpenProjects = function(path) {
         storeOpenProjects(path);
     }
 
     /*
     store the last open projects from a cookie
     */
-    this.getOpenProjects = function(path){
+    this.getOpenProjects = function(path) {
         return getOpenProjects();
     }
 
-     /*
+    /*
     store the last open projects from a cookie
     */
-    this.clearOpenProjects = function(path){
-        $cookieStore.remove(LAST_PROJECTS_COOKIES);
+    this.clearOpenProjects = function(path) {
+        $cookieStore.remove(LAST_PROJECTS_COOKIES)
+
     }
 
 });

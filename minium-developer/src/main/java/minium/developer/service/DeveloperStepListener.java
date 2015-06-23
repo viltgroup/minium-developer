@@ -13,7 +13,7 @@ public class DeveloperStepListener implements StepListener {
     private final MessageSendingOperations<String> messagingTemplate;
     private final String uri;
     private final String socketPath;
-    
+
     public DeveloperStepListener(MessageSendingOperations<String> messagingTemplate, String sessionId, String uri) {
         this.messagingTemplate = messagingTemplate;
         this.uri = uri;
@@ -54,7 +54,7 @@ public class DeveloperStepListener implements StepListener {
 	public void failedExampleStep(int line) {
 		StepDTO stepDTO = new StepDTO("", line , uri, "failed_example");
         messagingTemplate.convertAndSend(socketPath, stepDTO);
-		
+
 	}
 
 }

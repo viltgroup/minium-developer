@@ -391,12 +391,7 @@ a:focus {
     }
 }
 
-.navbar-toggle {
-    color: #fff;
-    border: 0;
-    margin: 0;
-    padding: 15px 15px;
-}
+
 
 @media (max-width: 991px) {
     .navbar-custom-menu .navbar-nav > li {
@@ -415,7 +410,7 @@ a:focus {
 /* Removed because it put the sidebar toggle below the brand */
 
 @media (max-width: 767px) {
-    /*    .main-header {
+   /* .main-header {
         position: relative;
     }
     .main-header .logo,
@@ -5010,16 +5005,15 @@ Gradient Background colors
     border-bottom-left-radius: 0 !important;
 }
 
-.skin-blue.layout-top-nav .main-header > .logo {
+.layout-top-nav .main-header > .logo {
     background-color: #3c8dbc;
     color: #ffffff;
     border-bottom: 0px solid transparent;
 }
 
-.skin-blue.layout-top-nav .main-header > .logo > a {
+.layout-top-nav .main-header > .logo > a {
     color: #ffffff;
 }
-
-.skin-blue.layout-top-nav .main-header > .logo:hover {
+.layout-top-nav .main-header > .logo:hover {
     background: #3b8ab8;
 }

@@ -40,7 +40,7 @@
                 Latest projects
             </h4>
             <div class="list-group">
-                <a ng-repeat="project in lastProjects" ng-click="select(project)" class="list-group-item search-results">
+                <a ng-repeat="project in lastProjects track by $index" ng-click="select(project)" class="list-group-item search-results">
                     <p class="list-group-item-text nowrap hideoverflow">{{project}}</p>
                 </a>
             </div>

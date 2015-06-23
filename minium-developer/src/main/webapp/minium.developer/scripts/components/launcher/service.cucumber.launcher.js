@@ -9,11 +9,11 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
     //functions needed to be here
     var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
-    this.launch = function(launchParams, executionWasStopped, snippetsForUndefinedSteps, faillingSteps, resultsSummary, launchTestSession) {
+    this.launch = function(launchParams, executionWasStopped, snippetsForUndefinedSteps, faillingSteps, resultsSummary, launchTestSession, socket_key) {
         var def = $q.defer();
 
         runningTest.start();
-        launcherService.launch(launchParams).success(function(data) {
+        launcherService.launch(launchParams, socket_key).success(function(data) {
 
             //if execution was stopped there's no need to execute the block
             if (executionWasStopped == true) return;
@@ -36,7 +36,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
             //CANT BE IN A CONTROLLER
 
             console.debug(faillingSteps)
-            
+
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;
                 var msg, type;
@@ -59,7 +59,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
                     type: type
                 };
             });
-            
+
             if (annotations.length > 0) {
                 toastr.warning($translate('test_msg.failing'));
                 $("#runningTest").parent("a").removeClass("green").addClass("red");
@@ -76,11 +76,11 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
                 }
             }
 
-            toastr.info('<em class="fa fa-rocket"></em> <strong>' + feature.resultsSummary.runCount + ' ' + $translate('report.steps')  + '</strong><br>' +
-                '<em class="fa fa-check-square"></em> <strong>' + feature.resultsSummary.passed + ' ' +  $translate('report.passing') + '</strong><br>' +
-                '<em class="fa fa-bug"></em> <strong>' + feature.resultsSummary.failures + ' ' +  $translate('report.failure') + '</strong><br>' +
-                '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' ' +  $translate('report.skipped') + '</strong><br>' +
-                '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' ' +  $translate('report.undefined') + '</strong>');
+            toastr.info('<em class="fa fa-rocket"></em> <strong>' + feature.resultsSummary.runCount + ' ' + $translate('report.steps') + '</strong><br>' +
+                '<em class="fa fa-check-square"></em> <strong>' + feature.resultsSummary.passed + ' ' + $translate('report.passing') + '</strong><br>' +
+                '<em class="fa fa-bug"></em> <strong>' + feature.resultsSummary.failures + ' ' + $translate('report.failure') + '</strong><br>' +
+                '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' ' + $translate('report.skipped') + '</strong><br>' +
+                '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' ' + $translate('report.undefined') + '</strong>');
 
 
             onFinishTestExecution(annotations, launchTestSession);

@@ -159,7 +159,8 @@
             "unsaved": "Si abandona la pàgina perdrà tots els canvis no desats, està segur que vol sortir?",
             "delete": "Està segur que vol eliminar aquest element? \n {{uri}}",
             "saved": "Fitxer guardat",
-            "error": "El fitxer conté {{data}}"
+            "error": "El fitxer conté {{data}}",
+            "cannot.be.saved": "Aquest fitxer no es pot guardar"
         },
         "no_project_defined:": "No hi ha projecte definit!! Si us plau defineix un projecte!",
         "tooltip": {

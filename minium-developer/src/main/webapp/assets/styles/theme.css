@@ -443,7 +443,7 @@ a:focus {
     padding-top: 50px;
     min-height: 100%;
     width: 230px;
-    z-index: 810;
+    /*z-index: 810;*/
     -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
     -moz-transition: -moz-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);
     -o-transition: -o-transform 0.3s cubic-bezier(0.32, 1.25, 0.375, 1.15);

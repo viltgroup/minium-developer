@@ -620,7 +620,8 @@ div.inline {
     font-size: 13px;
     font-weight: 600;
     text-transform: uppercase;
-    z-index: 999;
+    z-index: 999999;
+    
 }
 
 /**
@@ -630,8 +631,8 @@ div.inline {
 #tree-bar {
     position: absolute;
     margin-left: -270px;
-    height: auto;
-    width: 260px;
+    /*height: auto;*/
+    width: 270px;
     overflow: auto;
     margin-top: 0px;
     /*background: #34495E;*/
@@ -640,6 +641,7 @@ div.inline {
     overflow-y: auto;
     max-height: 90%;
     z-index: 999;
+    height: 100%;
 }
 
 .tree-label {

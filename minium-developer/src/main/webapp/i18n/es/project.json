@@ -1,15 +1,15 @@
 {
     "messages": {
-        "valid_directory": "Directory is valid",
-        "invalid_directory": "Directory invalid",
-        "project_exists": "Project exists",
-        "no_project_exists": "No project here",
-        "illegal_chars":"Your project name contains illegal characters.",
-        "cannot_create_project":"Not possible to create the project",
-        "form_invalid":"Form is invalid",
-        "created":"Project created",
+        "valid_directory": "El directorio es válido",
+        "invalid_directory": "Directorio inválido",
+        "project_exists": "El proyecto ya existe",
+        "no_project_exists": "No hay ningún proyecto",
+        "illegal_chars":"El nombre de tu proyecto contiene caracteres prohibidos.",
+        "cannot_create_project":"No ha sido posible crear el proyecto",
+        "form_invalid":"El formulario es inválido",
+        "created":"Proyecto creado",
         "popover":{
-            "directory_input": "Put the parent path where you want to create the project!"
+            "directory_input": "Inserta la ruta del directorio padre en el que quieres crear tu proyecto!"
         }
     }
 }

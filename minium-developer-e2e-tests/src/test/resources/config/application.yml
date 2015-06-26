@@ -11,7 +11,7 @@ minium:
         - "@runit"
 
   config:
-    baseUrl: http://localhost:8080
+    baseUrl: http://localhost:8089
     defaultBrowser: 
       browserName: Chrome
 

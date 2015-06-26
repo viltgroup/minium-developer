@@ -154,7 +154,8 @@
             "unsaved": "If you leave this page you are going to lose all unsaved changes, are you sure you want to leave?",
             "delete": "Are you sure you want to delete this item? \n {{uri}}",
             "saved": "File saved",
-            "error": "The file contains {{data}}"
+            "error": "The file contains {{data}}",
+            "cannot.be.saved": "This file cannot be saved"
         },
         "no_project_defined:": "No project defined!! Please define a project!",
         "tooltip": {

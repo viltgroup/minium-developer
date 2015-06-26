@@ -181,13 +181,6 @@ angular.module('minium.developer')
 
         };
 
-        /**
-         * Clean the scope of the engine
-         */
-        $scope.cleanScriptEngineScope = function() {
-            EvalService.clean();
-        }
-
         $scope.launchAll = function() {
             //if no file is selected
             if ($scope.active.selected.item === undefined) {

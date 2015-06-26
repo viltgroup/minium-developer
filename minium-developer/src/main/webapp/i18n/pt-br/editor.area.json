@@ -155,7 +155,8 @@
             "unsaved": "Se deixar esta página irá para perder todas as alterações não salvas, tem certeza que quer sair?",
             "delete": "Tem certeza de que quer apagar este item? \n {{uri}}",
             "saved": "Ficheiro guardado",
-            "error": "O ficheiro contém {{data}}"
+            "error": "O ficheiro contém {{data}}",
+            "cannot.be.saved": "Este ficheiro não pode ser salvo"
         },
         "no_project_defined:": "Nenhum projeto definido!! Por favor, defina um projeto!",
         "tooltip": {

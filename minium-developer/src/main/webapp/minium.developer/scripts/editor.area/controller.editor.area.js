@@ -2,7 +2,7 @@
 
 angular.module('minium.developer')
     .controller('EditorAreaController', function($rootScope, $translate, $filter, $scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, TabLoader, SessionID) {
-        
+
         var $translate = $filter('translate');
         //is the actual file selected
         //every time we move to other tab 
@@ -205,6 +205,19 @@ angular.module('minium.developer')
         $scope.clearMarkers = function() {
             $scope.active.session.getSession().clearBreakpoints();
             $scope.active.session.getSession().setAnnotations([]);
+        }
+
+
+        /**
+         * Clean the scope of the engine
+         */
+        $scope.cleanScriptEngineScope = function() {
+            EvalService.clean().success(function(data) {
+                    toastr.success($translate('evaluator.clean.success'));
+                })
+                .error(function(exception) {
+                    toastr.error($translate('evaluator.clean.error'));
+                });
         }
 
     });

@@ -9,7 +9,7 @@ Given(/^I'm at Minium Developer$/, function() {
 
 Given(/^a browser is already launched$/, function () {
   var editor = editors.console();
-  var evalBtn = base.find(".btn").withText("Evaluate");
+  var evalBtn = base.find("#evaluator");
   
   editor.setValue("browser.getCurrentUrl()");
   editor.selectAll();

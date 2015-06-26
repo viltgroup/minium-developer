@@ -52,7 +52,7 @@ var editors = {
   },
   
   console : function () {
-    var tab = editors.tabs().withText("console*");
+    var tab = editors.tabs().has(".fa-info-circle");
     tab.click();
     return editors.currentEditor();
   },

@@ -5,6 +5,8 @@ import java.util.Arrays;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import minium.developer.browser.BrowserLauncher;
 import minium.developer.config.Constants;
@@ -19,6 +21,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -32,7 +35,7 @@ import org.springframework.core.env.SimpleCommandLinePropertySource;
 @ComponentScan
 @EnableAutoConfiguration
 @Import(FileSystemConfiguration.class)
-public class Application implements EmbeddedServletContainerCustomizer {
+public class Application implements EmbeddedServletContainerCustomizer, ServletContextInitializer  {
 
     private final Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -104,5 +107,10 @@ public class Application implements EmbeddedServletContainerCustomizer {
         } catch (BeansException e) {
             // not a big deal
         }
+    }
+
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        servletContext.getSessionCookieConfig().setName("minium.developer.sessionId");
     }
 }

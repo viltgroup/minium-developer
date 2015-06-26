@@ -269,7 +269,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         }
 
         if ($(".console-log").is(":visible")) {
-            containerHeight = containerHeight - 230;
+            containerHeight = containerHeight - 170;
         }
 
         $.each(this.editors, function(i, obj) {
@@ -619,9 +619,10 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         _this.ignore = true;
 
         var item = _this.scope.active.selected.item;
-        //if its an untitled tab
-        if (item == "") {
-            createNewFile(editor, that);
+
+        //if its an aux console tab, so we dont want to save the file
+        if (item.fileProps === "") {
+            toastr.error(_this.$translate('messages.files.cannot.be.saved'))
             return;
         }
         item.content = editor.getSession().getValue();

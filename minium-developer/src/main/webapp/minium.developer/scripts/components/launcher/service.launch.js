@@ -1,7 +1,12 @@
 miniumDeveloper.factory('launcherService', function($http) {
     return {
-        launch: function(params) {
-            return $http.post("/app/rest/launch", params);
+        launch: function(launchParams, socket_key) {
+            var headers = {
+                'key': socket_key
+            };
+            return $http.post("/app/rest/launch", launchParams, {
+                headers: headers
+            });
         },
         dotcucumber: function() {
             return $http.get("/app/rest/dry-run", {

@@ -17,6 +17,8 @@ import minium.tools.fs.service.FileSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Throwables;
+
 @Service
 public class ProjectService {
 
@@ -48,8 +50,7 @@ public class ProjectService {
 			openProject(projectProperties, getPath(project), session);
 			isCreated = true;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		    throw Throwables.propagate(e);
 		}
 		return isCreated;
 	}
@@ -113,7 +114,7 @@ public class ProjectService {
 
 	/**
 	 * Create an automator project
-	 * 
+	 *
 	 * @param project
 	 * @return
 	 * @throws IOException
@@ -123,11 +124,11 @@ public class ProjectService {
 		projectTemplate.buildProject();
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Create a cucumber project
-	 * 
+	 *
 	 * @param project
 	 * @return
 	 * @throws IOException
@@ -152,7 +153,7 @@ public class ProjectService {
 		File f = new File(project.getDirectory(), project.getName());
 		return f.getPath();
 	}
-	
+
 	/**
 	 * Replace the first element if it is ~ with the home path in unix
 	 * @param path - example (~/Documents/)

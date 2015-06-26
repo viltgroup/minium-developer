@@ -115,9 +115,12 @@ When(/^I save the file "(.*?)"$/, function(fileName) {
 });
 
 When(/^I click on button "(.*?)"$/, function(text) {
-  var btn = $(".btn").withText(text);
+  var btn = ( $(".btn").withText(text), $("#navbar li a").withText(text));
   btn.click();
 });
+
+
+
 
 When(/^I close all tabs$/, function() {
   var tabs = p.getTabs();

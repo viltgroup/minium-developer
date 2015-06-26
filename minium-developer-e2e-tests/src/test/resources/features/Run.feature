@@ -14,7 +14,7 @@ Feature: Run features
 
   Scenario: Run all tests (button 'Run Test', first line selected)
     When I open file "minium-cucumber-test/features/my-feature.feature"
-    And I click on button "Run Test"
+    And I click on button "Run"
     Then I should see a success notification with text "Test Started..."
     When I wait until the test is completed
     And I should see a success notification with text "Test Pass with Sucess"
@@ -31,7 +31,7 @@ Feature: Run features
   Scenario: Run one test (button 'Run Test')
     When I open file "minium-cucumber-test/features/my-feature.feature"
     And I move the cursor to line 5
-    And I click on button "Run Test"
+    And I click on button "Run"
     And I wait until the test is completed
     And I should see a success notification with text "Test Pass with Sucess"
     And only lines 6,7,8 should be marked as passed
@@ -39,7 +39,7 @@ Feature: Run features
   Scenario: Run one scenario outline example test (button 'Run Test')
     When I open file "minium-cucumber-test/features/my-feature.feature"
     And I move the cursor to line 17
-    And I click on button "Run Test"
+    And I click on button "Run"
     And I wait until the test is completed
     And I should see a success notification with text "Test Pass with Sucess"
     And only lines 11,12,13 should be marked as passed

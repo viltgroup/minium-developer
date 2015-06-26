@@ -29,6 +29,8 @@ import minium.web.internal.actions.HighlightInteraction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,7 +68,7 @@ public class EvalResource {
                 return new EvalResult(getProjectContext().toString(result));
             }
         } catch (Exception e) {
-            logger.error("Evaluation of {} failed", evaluation.getExpression(), e);
+            //logger.error("Evaluation of {} failed", evaluation.getExpression(), e);
             throw new EvalException(e);
         }
     }
@@ -91,11 +93,14 @@ public class EvalResource {
 
     /**
      * Clean the scope
+     * @return
      */
     @RequestMapping(value = "/clean", method = POST)
-    public synchronized void clean() {
-        //TODO
-    	logger.info("clean Done");
+    @ResponseBody
+    public synchronized ResponseEntity<Void> clean() {
+        AbstractProjectContext activeProject = workspace.getActiveProject();
+    	activeProject.resetEngine();
+    	return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     protected AbstractProjectContext getProjectContext() {

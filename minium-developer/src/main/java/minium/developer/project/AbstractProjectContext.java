@@ -55,6 +55,10 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         this.jsEngine = createJsEngine();
     }
 
+    public void resetEngine() {
+        this.jsEngine = createJsEngine();
+    }
+
     protected void refreshConfiguration() throws Exception {
         this.propertySources = loadConfiguration();
         this.configProperties = getAppConfigBean("minium.config", ConfigProperties.class);

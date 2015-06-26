@@ -5,7 +5,7 @@
         //configs
         this.location = "http://localhost:8089/#/editor/"
             //add here more patterns to ignore
-        this.toIgnorePattern = /(.*)(\.java|Unknown Source|Native Method|WebSocketMessageBrokerStats)/g;
+        this.toIgnorePattern = /(.*)(\.java|Unknown Source|Native Method|WebSocketMessageBrokerStats|EvalException:)/g;
         this.javascriptIgnorePattern = /(.*)(dsl\.js)/g;
     }
 
@@ -34,8 +34,8 @@
             stackTraceParsed += stackTraceLine + "\n";
             return stackTraceParsed;
         }
-
-        return stackTraceParsed;
+        //if line stackTraceParsed
+        return stackTraceParsed !== "\n" ? stackTraceParsed : "";
     }
 
     function isCausedBy(str) {
@@ -77,13 +77,16 @@
         if (str.match(this.javascriptIgnorePattern)) {
             return "";
         }
+
         var line = "",
-            link;
-        var path = extractFileName(str)
+            link = "";
+        var path = extractFileName(str);
+        
         if (path) {
             link = path;
             line += link + "\n";
         }
+        //if the is blank return blank 
         return line;
     }
 

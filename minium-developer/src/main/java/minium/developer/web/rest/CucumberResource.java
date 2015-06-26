@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,9 +32,9 @@ public class CucumberResource {
 
 	@RequestMapping(value = "/launch", method = RequestMethod.POST)
 	@ResponseBody
-	public FeatureResult launch(@RequestBody LaunchInfo launchInfo, HttpServletRequest request) throws Exception {
+	public FeatureResult launch(@RequestBody LaunchInfo launchInfo,@RequestHeader("key") String key) throws Exception {
 	    if (getCucumberProjectContext() == null) return null;
-		return getCucumberProjectContext().launchCucumber(launchInfo, request.getSession().getId());
+		return getCucumberProjectContext().launchCucumber(launchInfo, key);
 	}
 
 	@RequestMapping(value = "/snippets", method = RequestMethod.GET)

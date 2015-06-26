@@ -1,19 +1,54 @@
-<header class="header">
-    <a href="#/editor" class="logo navbar-brand">
-    </a>
+<header class="main-header">
+    <!-- Logo -->
+    <a href="#/editor" class="logo navbar-brand"></a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top" role="navigation">
+    <nav class="navbar  navbar-default navbar-static-top" role="navigation">
         <!-- Sidebar toggle button-->
-        <a href class="navbar-btn sidebar-toggle" sidebar-toggle="active" role="button">
+        <a href="#" class="sidebar-toggle" sidebar-toggle="active" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-        </a>
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="nav navbar-nav">
+          </button>
+        </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href title="{{'messages.title.selector.gadget' | translate}}" ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()" id="selector-gadget">
+                    <span class="fa  fa-hand-o-up"></span>
+                    <span translate="actions.selector.gadget">Selector Gadget</span>
+                </a>
+            </li>
+            <li>
+                <a href title="{{'messages.title.evaluator' | translate}}" ng-show="active.mode === 'JS'" ng-click="evaluate()" id="evaluator">
+                    <span class="fa  fa-binoculars"></span>
+                    <span translate="actions.evaluate">Evaluate</span>
+                </a>
+            </li>
+            <li>
+                <a href title="{{'messages.title.run_test' | translate}}" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+                    <span class="fa  fa-play"></span>
+                    <span translate="actions.run">Run Test</span>
+                </a>
+            </li>
+            <li>
+                <a href type="button" ng-click="launchAll()" title="{{'messages.title.run_all '| translate}}" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
+                    <i class="fa fa-list-alt"></i>
+                    <span translate="actions.runAll">Run All</span>
+                </a>
+            </li>
+        </ul>
+        <!-- Navbar Right Menu -->
+        
+        
+            <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" > 
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span translate="actions.file">File</span>
                         <span class="caret"></span>
                     </a>
@@ -41,7 +76,7 @@
                     </span> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href  modal state="global.editorarea.sub.newProject">
+                            <a href modal state="global.editorarea.sub.newProject">
                                 <span class="fa fa-plus"></span>
                                 <span class="ladda-label" translate="actions.create.project">Create Project</span>
                             </a>
@@ -65,19 +100,19 @@
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-class="{'disabled': (active.mode === 'JS')}">
-                            <a href ng-click="launchCucumber()"  a-disabled="(active.mode === 'JS')">
+                            <a href ng-click="launchCucumber()" a-disabled="(active.mode === 'JS')">
                                 <span class="fa  fa-play"></span>
                                 <span class="ladda-label" translate="actions.run">Run</span>
                             </a>
                         </li>
                         <li ng-class="{'disabled': (active.mode === 'JS')}">
-                            <a href a-disabled="(active.mode === 'JS')" ng-click="launchAll()" >
+                            <a href a-disabled="(active.mode === 'JS')" ng-click="launchAll()">
                                 <span class="fa  fa-list"></span>
                                 <span class="ladda-label" translate="actions.runAll">Run All</span>
                             </a>
                         </li>
                         <li ng-class="{'disabled':((testExecuting == false))}">
-                            <a href a-disabled="((testExecuting == false))" ng-click="stopLaunch()" >
+                            <a href a-disabled="((testExecuting == false))" ng-click="stopLaunch()">
                                 <span class="fa  fa-ban danger"></span>
                                 <span class="ladda-label" translate="actions.stop">Stop</span>
                             </a>
@@ -92,7 +127,7 @@
                         </li>
                         <li class="divider"></li>
                         <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href  a-disabled="(active.mode !== 'JS')" ng-click="activateSelectorGadget()">
+                            <a href a-disabled="(active.mode !== 'JS')" ng-click="activateSelectorGadget()">
                                 <span class="fa  fa-hand-o-up"></span>
                                 <span class="ladda-label" translate="actions.selector.gadget">
                                     Selector Gadget
@@ -100,22 +135,30 @@
                             </a>
                         </li>
                         <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href  a-disabled="(active.mode !== 'JS')" ng-click="evaluate()">
+                            <a href a-disabled="(active.mode !== 'JS')" ng-click="evaluate()">
                                 <span class="fa  fa-binoculars"></span>
                                 <span class="ladda-label" translate="actions.evaluate">
                                     Evaluate
                                 </span>
                             </a>
                         </li>
+
+                        <li >
+                            <a href ng-click="cleanScriptEngineScope()">
+                                <span class="fa  fa-recycle"></span>
+                                <span class="ladda-label" translate="actions.cleanScope">
+                                    Clean Scope
+                                </span>
+                            </a>
+                        </li>
+                        
                     </ul>
                 </li>
                 <!-- Preferences -->
                 <li class="dropdown ">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span>
-                    <span class="hidden-tablet" translate="actions.preferences">
-                         Preferences
-                    </span>
+                        <i class="fa fa-gear"></i>
                         <b class="caret"></b>
                         </span>
                     </a>
@@ -174,6 +217,21 @@
                                 {{'language.' + language| translate}}
                             </a>
                         </li>
+                        <!-- <li class="dropdown-submenu">
+                            <a tabindex="-1" href="#">More options</a>
+                            <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="#">Second level</a></li>
+                                <li class="dropdown-submenu">
+                                    <a href="#">More..</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">3rd level</a></li>
+                                        <li><a href="#">3rd level</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#">Second level</a></li>
+                                <li><a href="#">Second level</a></li>
+                            </ul>
+                        </li> -->
                     </ul>
                 </li>
             </ul>

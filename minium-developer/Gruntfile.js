@@ -57,7 +57,7 @@ module.exports = function (grunt) {
                     'src/main/webapp/**/*.json',
                     '{.tmp/,}src/main/webapp/assets/styles/**/*.css',
                     '{.tmp/,}src/main/webapp/scripts/**/*.js',
-		    '{.tmp/,}src/main/webapp/minium.developer/**/*.*',
+		            '{.tmp/,}src/main/webapp/minium.developer/**/*.*',
                     'src/main/webapp/assets/images/**/*.{png,jpg,jpeg,gif,webp,svg}'
                 ]
             }
@@ -102,63 +102,63 @@ module.exports = function (grunt) {
                 {
                     context: '/app',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/api',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/metrics',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/dump',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/health',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/configprops',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/beans',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/api-docs',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                 },
                 {
                     context: '/console',
                     host: 'localhost',
-                    port: 8080,
+                    port: 8089,
                     https: false,
                     changeOrigin: false
                  }
@@ -176,15 +176,7 @@ module.exports = function (grunt) {
                         '.tmp',
                         'src/main/webapp',
                         'src/main/webapp/minium-developer'
-                    ],
-                    middleware: function (connect) {
-                        return [
-                        	// 
-                            null,
-                            connect.static('.tmp'),
-                            connect.static('src/main/webapp')
-                        ];
-                    }
+                    ]
                 }
             },
             test: {

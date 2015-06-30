@@ -259,17 +259,17 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
-        var margin = 100;
+        var margin = 80;
         var containerHeight
         if ($(window).width() >= 768) {
-            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin - 20;
+            containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;
         } else {
-            containerHeight = $(window).height() - $('.navbar').height() - margin - 20;
+            containerHeight = $(window).height() - $('.navbar').height() - margin;
 
         }
 
         if ($(".console-log").is(":visible")) {
-            containerHeight = containerHeight - 170;
+            containerHeight = containerHeight - 200;
         }
 
         $.each(this.editors, function(i, obj) {

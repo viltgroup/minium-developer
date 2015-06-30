@@ -20,11 +20,24 @@
 
                 if ($scope.isActivePause == false) {
                     console.log(message);
-                    var stackTraceParsed = stackTraceParser.parseLine(message.body);
-                    editor.insert(stackTraceParsed);
+                    var stackTrace;
+                    if (!$scope.showCompleteStackTrace) {
+                        //parse the stacktarce
+                        stackTrace = stackTraceParser.parseLine(message.body);
+                    } else {
+                        //show the complete stacktrace
+                        stackTrace = message.body + '\n';
+                    }
+
+                    //hack when we focus on the console editor 
+                    //it will write where the cursor is
+                    ////this way it always insert the data at the end of the editor
+
+                    goToLastLine(editor);
+                    editor.insert(stackTrace);
                     editor.navigateLineEnd();
                 } else {
-                    $scope.pausedLog.push(message.body + "\n");
+                    $scope.pausedLog.push(message.body + '\n');
                 }
 
             });
@@ -90,6 +103,10 @@
             $(window).trigger('resize');
         }
 
+        $scope.toggleStackTrace = function() {
+            $scope.showCompleteStackTrace = !$scope.showCompleteStackTrace;
+        }
+
         //show and hide the log from the cookie
         var initLog = function() {
             if ($.cookie('log') !== undefined) {
@@ -102,6 +119,12 @@
             }
 
             $(window).trigger('resize');
+        }
+
+        var goToLastLine = function(editor) {
+            editor.focus(); //To focus the ace editor
+            var n = editor.getSession().getValue().split("\n").length; // To count total no. of lines
+            editor.gotoLine(n + 1); //Go to end of document
         }
 
         //////////////////////////////////////////////////////////////////
@@ -117,6 +140,7 @@
         addHoverLinkEvent(editor);
 
         $scope.isActivePause = false;
+        $scope.showCompleteStackTrace = false;
         console.log(editor);
     }
 

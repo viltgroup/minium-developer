@@ -5,8 +5,10 @@
         //configs
         this.location = "http://localhost:8089/#/editor/"
             //add here more patterns to ignore
-        this.toIgnorePattern = /(.*)(\.java|Unknown Source|Native Method|WebSocketMessageBrokerStats|EvalException:)/g;
+        this.toIgnorePattern = /(.*)(\.java|Unknown Source|Native Method|WebSocketMessageBrokerStats)/g;
         this.javascriptIgnorePattern = /(.*)(dsl\.js)/g;
+
+        this.evaluationErrorPattern = /(org.mozilla.javascript.EcmaError|EvalException|JavaScriptException)(.*)/g;
     }
 
     /**
@@ -76,6 +78,11 @@
         //case internal/dsl.js, we want to ignore it
         if (str.match(this.javascriptIgnorePattern)) {
             return "";
+        }
+        //if it is a javascript evaluation error
+        if( str.match(this.evaluationErrorPattern)){
+            var match = this.evaluationErrorPattern.exec(str);
+            return str;
         }
 
         var line = "",

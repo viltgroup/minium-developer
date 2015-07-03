@@ -26,6 +26,9 @@
         "create.file": "Create File",
         "save": "Save",
         "create.project": "Create Project",
-        "open.project": "Open Project"
+        "open.project": "Open Project",
+        "cleanScope":"Clean Scope",
+        "dowload.webdrivers":"Download webdrivers",
+        "update.webdrivers":"Update webdrivers"
     }
 }

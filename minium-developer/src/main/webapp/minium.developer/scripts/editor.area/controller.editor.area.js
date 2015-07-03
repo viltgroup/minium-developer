@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('EditorAreaController', function($rootScope, $translate, $filter, $scope, $q, $log, $modal, $state, $controller, $location, $window, $stateParams, $cookieStore, MiniumEditor, FS, launcherService, EvalService, FeatureFacade, TabLoader, SessionID) {
+    .controller('EditorAreaController', function($rootScope, $translate, $filter, $scope, $q, $modal, $state, MiniumEditor, EvalService, TabLoader) {
 
         var $translate = $filter('translate');
         //is the actual file selected
@@ -193,8 +193,6 @@ angular.module('minium.developer')
 
             modalInstance.result.then(function(value) {
                 $scope.setWebDriverMsg(value);
-            }, function() {
-                $log.info('Modal dismissed at: ' + new Date());
             });
         };
 

@@ -50,7 +50,17 @@
         "use_remote": "Use remot webdriver",
         "use_local": "Use local webdriver",
         "error_creating": "No s'ha pogut crear un nou WebDriver!!",
-        "not_launched": "No hi ha web driver llançat. Si us plau seleccioneu un!"
+        "not_launched": "No hi ha web driver llançat. Si us plau seleccioneu un!",
+        "download": {
+            "started": "Descàrrega començar",
+            "complete": "Descàrrega completa",
+            "error": "No s'ha pogut descarregar els wedrivers"
+        },
+        "update":{
+            "started": "Actualització va començar",
+            "complete": "Actualització completada",
+            "error": "No s'ha pogut actualitzar els wedrivers"
+        }
     },
     "report": {
         "steps": "Passos",

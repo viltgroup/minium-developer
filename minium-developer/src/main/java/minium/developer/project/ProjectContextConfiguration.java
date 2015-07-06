@@ -82,14 +82,14 @@ public class ProjectContextConfiguration {
     }
 
     @Autowired
-    @Bean
+    @Bean(destroyMethod = "quit")
     public DelegatorWebDriver delegatorWebDriver() {
         return new DelegatorWebDriver();
     }
 
     @Lazy
     @Autowired
-    @Bean
+    @Bean(destroyMethod = "quit")
     public Browser<DefaultWebElements> browser(DelegatorWebDriver delegatorWebDriver) {
         return new WebDriverBrowser<>(delegatorWebDriver, DefaultWebElements.class, createWebModule(delegatorWebDriver));
     }

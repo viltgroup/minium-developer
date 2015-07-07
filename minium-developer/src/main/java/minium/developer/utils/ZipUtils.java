@@ -15,14 +15,17 @@ import com.google.common.base.Throwables;
 
 public class ZipUtils {
 
-    public ZipUtils() {}
+    public ZipUtils() {
+    }
 
     public static void unzipArchive(File archive, File outputDir) {
+
         try {
-            ZipFile zipfile = new ZipFile(archive);
-            for (Enumeration e = zipfile.entries(); e.hasMoreElements();) {
-                ZipEntry entry = (ZipEntry) e.nextElement();
-                unzipEntry(zipfile, entry, outputDir);
+            try (ZipFile zipfile = new ZipFile(archive)) {
+                for (Enumeration e = zipfile.entries(); e.hasMoreElements();) {
+                    ZipEntry entry = (ZipEntry) e.nextElement();
+                    unzipEntry(zipfile, entry, outputDir);
+                }
             }
         } catch (Exception e) {
             throw Throwables.propagate(e);

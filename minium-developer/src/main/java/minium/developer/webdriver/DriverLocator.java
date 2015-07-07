@@ -2,10 +2,17 @@ package minium.developer.webdriver;
 
 import java.io.File;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class DriverLocator {
 
     private static OS currentOS = new OS();
-    private File homedir = new File("");
+
+    @Value("${app.home:.}")
+    private File homedir;
+
 
     public boolean webDriverExists(String browser) {
         switch (browser) {
@@ -55,12 +62,13 @@ public class DriverLocator {
 
         String osSpecificExeName = currentOS.isWindows() ? exeName + ".exe" : exeName;
         File exeFile = new File(driversDir, osSpecificExeName);
-        boolean c = exeFile.canExecute();
+
         return exeFile.exists() && exeFile.isFile() && exeFile.canExecute() ? exeFile : null;
     }
 
-    protected File getDriversDir() {
-        File driverDir = homedir == null ? null : new File(RuntimeConfig.getDriverPath());
-        return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : null;
+    public File getDriversDir() {
+        File driverDir = homedir == null ? null : new File(homedir, "drivers");
+        return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : (driverDir.mkdir() ? driverDir : null) ;
     }
+
 }

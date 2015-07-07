@@ -54,7 +54,7 @@ public class ChromeDriverDownloader extends Downloader {
                 }
 
                 File tempUnzipedExecutable = new File(getDestinationDir(), chromedriver);
-                File finalExecutable = new File(RuntimeConfig.getDriverPath(),chromedriver);
+                File finalExecutable = new File(getDestinationDir(),chromedriver);
 
                 tempUnzipedExecutable.renameTo(finalExecutable);
 
@@ -62,7 +62,7 @@ public class ChromeDriverDownloader extends Downloader {
 
                 finalExecutable.setExecutable(true, false);
                 finalExecutable.setReadable(true, false);
-
+                logger.info("Driver extracted to  " + finalExecutable.getAbsolutePath());
                 return true;
             }
         }

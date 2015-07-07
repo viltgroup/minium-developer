@@ -1,9 +1,11 @@
 package minium.developer.webdriver;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.dom4j.DocumentException;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.google.common.base.Throwables;
 
@@ -12,7 +14,11 @@ public class RuntimeConfig {
     private static OS currentOS = new OS();
     private static WebDriverReleaseManager releaseManager;
 
+    @Value("${app.home:.}")
+    private File homedir;
+
     private static final String DRIVER_PATH = "../drivers";
+
     private static final String SELENIUM_URL = "https://selenium-release.storage.googleapis.com/";
     private static final String CHROME_DRIVER_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
     private static final String PHANTOMJS_URL = "https://bitbucket.org/ariya/phantomjs/downloads";
@@ -36,8 +42,13 @@ public class RuntimeConfig {
         return currentOS;
     }
 
-    public static String getDriverPath() {
-        return DRIVER_PATH;
+    public String getDriverPath() {
+        return getDriversDir().getPath();
+    }
+
+    protected File getDriversDir() {
+        File driverDir = homedir == null ? null : new File(homedir, "drivers");
+        return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : null;
     }
 
     public static String getPhantomjsUrl() {

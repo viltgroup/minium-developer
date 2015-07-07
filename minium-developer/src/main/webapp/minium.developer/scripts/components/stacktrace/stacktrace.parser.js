@@ -68,7 +68,7 @@
             if (path) {
                 link = path;
             }
-            line += link + "\n";
+            line += " " + link + "\n";
         }
         return line;
     }
@@ -91,7 +91,7 @@
         
         if (path) {
             link = path;
-            line += link + "\n";
+            line += " " + link + "\n";
         }
         //if the is blank return blank 
         return line;

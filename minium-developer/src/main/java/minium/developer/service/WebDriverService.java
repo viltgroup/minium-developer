@@ -8,16 +8,20 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WebDriverService {
 
+    @Autowired
     private DriverLocator driverLocator;
+
     private WebDriverReleaseManager releaseManager;
     private ChromeDriverDownloader chromeDownloader;
     private IEDriverDownloader IEDownloader;
     private PhantomJSDownloader phantomJSDownloader;
+
 
     public WebDriverService() {
         driverLocator = new DriverLocator();
@@ -46,21 +50,19 @@ public class WebDriverService {
     protected void downloadChromeDriver() {
         WebDriverRelease chromeDriverLatestVersion = releaseManager.getChromeDriverLatestVersion();
         String chromeVersion = chromeDriverLatestVersion.getPrettyPrintVersion(".");
-        chromeDownloader = new ChromeDriverDownloader(chromeVersion, RuntimeConfig.getOS().getBitVersion(), RuntimeConfig.getDriverPath());
+        chromeDownloader = new ChromeDriverDownloader(chromeVersion, RuntimeConfig.getOS().getBitVersion(), driverLocator.getDriversDir().getPath());
         chromeDownloader.download();
-
     }
 
     protected void downloadPhantomJs() {
-        phantomJSDownloader = new PhantomJSDownloader("1.9.8", RuntimeConfig.getOS().getBitVersion(), RuntimeConfig.getDriverPath());
+        phantomJSDownloader = new PhantomJSDownloader("1.9.8", RuntimeConfig.getOS().getBitVersion(), driverLocator.getDriversDir().getPath() );
         phantomJSDownloader.download();
-
     }
 
     protected void downloadIEDriver() {
         WebDriverRelease ieDriverLatestVersion = releaseManager.getIeDriverLatestVersion();
         String version = ieDriverLatestVersion.getPrettyPrintVersion(".");
-        IEDownloader = new IEDriverDownloader(version, RuntimeConfig.getOS().getBitVersion(), RuntimeConfig.getDriverPath());
+        IEDownloader = new IEDriverDownloader(version, RuntimeConfig.getOS().getBitVersion(), driverLocator.getDriversDir().getPath());
         IEDownloader.download();
     }
 
@@ -86,6 +88,7 @@ public class WebDriverService {
 
     /**
      * Update the version of the webdrivers
+     *  Even if the webdrivers exists they will updated
      */
     public void updateAllWebDrivers() {
 

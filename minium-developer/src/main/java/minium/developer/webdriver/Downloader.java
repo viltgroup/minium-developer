@@ -53,7 +53,7 @@ public abstract class Downloader {
             URL url = new URL(getSourceURL());
             logger.info("Starting to download from " + url);
             FileUtils.copyURLToFile(url, getDestinationFileFullPath());
-            logger.info("Download complete");
+            logger.info("Download complete to " + getDestinationFileFullPath());
             return true;
         } catch (MalformedURLException error) {
             logger.error(error.toString());

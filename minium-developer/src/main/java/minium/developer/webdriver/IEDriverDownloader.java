@@ -70,7 +70,7 @@ public class IEDriverDownloader extends Downloader {
             if (Unzipper.unzip(getDestinationFileFullPath().getAbsolutePath(), getDestinationDir())) {
 
                 File tempUnzipedExecutable = new File(getDestinationDir(), "IEDriverServer.exe");
-                File finalExecutable = new File(RuntimeConfig.getDriverPath(),"IEDriverServer.exe");
+                File finalExecutable = new File(getDestinationDir(),"IEDriverServer.exe");
 
                 if (tempUnzipedExecutable.exists()) {
                     logger.debug(tempUnzipedExecutable.getAbsolutePath());

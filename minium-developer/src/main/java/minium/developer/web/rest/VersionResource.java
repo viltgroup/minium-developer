@@ -25,4 +25,10 @@ public class VersionResource {
         return versionService.getVersionAndDate();
 
     }
+
+    @RequestMapping(value = "/rest/version/new", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean checkForNewVersion() throws IOException, ParseException {
+        return versionService.checkForNewVersion();
+    }
 }

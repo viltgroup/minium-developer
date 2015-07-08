@@ -66,6 +66,10 @@
                     "minlength": "O e-mail deve ter pelo menos 5 caracteres",
                     "maxlength": "O e-mail não pode ter mais de 50 caracteres"
                 }
+            },
+            "version":{
+                "new": "Nova versão disponível",
+                "new.title": "Nova versão disponível"
             }
         }
     },

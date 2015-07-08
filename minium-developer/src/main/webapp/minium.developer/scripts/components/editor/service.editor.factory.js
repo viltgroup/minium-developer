@@ -2,7 +2,7 @@
  * Creates and initialize an editor instance
  *
  */
-miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider) {
+miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider, MiniumMethodsProvider) {
 
 
     //init the possible modes
@@ -22,7 +22,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var editor = ace.edit('editor_' + tabUniqueId);
 
         var fileName = fileProps.name || "console";
-        
+
         //create a new session and set the content
         setAceContent(fileContent, editor);
 
@@ -35,8 +35,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         // resize the editor
         editor.resize();
 
-        //init snippets like autocompletion
-        initSnippets(editor);
+        
 
         return {
             editor: editor,
@@ -50,10 +49,13 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         if (/\.js$/.test(fileName)) {
             editor.getSession().setMode("ace/mode/javascript");
             mode = modeEnum.JS;
+            iniJSSnippets(editor);
+           
         }
         if (/\.feature$/.test(fileName)) {
             editor.getSession().setMode("ace/mode/gherkin");
             mode = modeEnum.FEATURE;
+            initCucumberSnippets(editor);
         }
         if (/\.yml$/.test(fileName)) {
             editor.getSession().setMode("ace/mode/yaml");
@@ -63,26 +65,76 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         if (fileName === 'console') {
             editor.getSession().setMode("ace/mode/javascript");
             mode = modeEnum.JS;
+            iniJSSnippets(editor);
         }
         return mode;
     }
 
-    //////////////////////////////////////////////////////////////////
-    //
-    // Configure the snippets of the editor
-    //
-    //////////////////////////////////////////////////////////////////
-    var initSnippets = function(editor) {
+    var iniJSSnippets = function(editor){
         // autocompletion
         var langTools = ace.require("ace/ext/language_tools");
         //snippets
         var snippetManager = ace.require("ace/snippets").snippetManager;
 
+        // //step snippets
+        var snippets = StepSnippetsProvider.all();
+        snippetManager.register(snippets, "javascript");
+
+        var jsonUrl = "minium.developer/ext/minium/methods.json";
+
+        var miniumAutoCompleter = {
+            getCompletions: function(editor, session, pos, prefix, callback) {
+                $.getJSON(jsonUrl,
+                    function(wordList) {
+                        callback(null, wordList.map(function(ea) {
+                            return {
+                                caption: ea.caption,
+                                description: ea.description,
+                                snippet: ea.content,
+                                meta: "Minium Functions"
+                            }
+                        }));
+                    })
+            },
+            getDocTooltip: function(item) {
+                if (!item.docHTML) {
+                    item.docHTML = [
+                        "<b>", item.snippet, "</b>", "<hr></hr>",
+                        item.description
+                    ].join("");
+                }
+            }
+        };
+
+        editor.completers = [miniumAutoCompleter]
+        // langTools.completers.push(miniumAutoCompleter)
+        console.log(editor.completers)
+        editor.commands.on("afterExec", function(e) {
+            if (e.command.name == "insertstring" && e.args === ".") {
+                editor.execCommand("startAutocomplete")
+            }
+        })
+
         editor.setOptions({
-            // enableBasicAutocompletion: true,  //this enable a autocomplete (ctrl + space)
+            enableBasicAutocompletion: true, //this enable a autocomplete (ctrl + space)
             enableSnippets: true,
-            enableLiveAutocompletion: true
+            // enableLiveAutocompletion: true
         });
+
+    }
+    //////////////////////////////////////////////////////////////////
+    //
+    // Configure the snippets of the editor
+    //
+    //////////////////////////////////////////////////////////////////
+    var initCucumberSnippets = function(editor) {
+        // autocompletion
+        var langTools = ace.require("ace/ext/language_tools");
+        //snippets
+        var snippetManager = ace.require("ace/snippets").snippetManager;
+
+
+        editor.$blockScrolling = Infinity;
 
         StepProvider.all().then(function(response) {
 
@@ -105,11 +157,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var snippets = SnippetsProvider.all();
 
         snippetManager.register(snippets, "gherkin");
-
-
-        //step snippets
-        snippets = StepSnippetsProvider.all();
-        snippetManager.register(snippets, "javascript");
+        
     }
 
     /**

@@ -35,7 +35,8 @@ miniumDeveloper
                         controller: 'EditorAreaController'
                     },
                     'navbar@': {
-                        templateUrl: 'minium.developer/views/toolbar/toolbar.html'
+                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
+                        controller: 'NavbarController'
                     }
                 },
                 resolve: {

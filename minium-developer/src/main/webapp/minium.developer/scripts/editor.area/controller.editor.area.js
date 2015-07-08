@@ -111,9 +111,15 @@ angular.module('minium.developer')
          * Launch test
          */
         $scope.launchCucumber = function() {
-            editors.launchCucumber($rootScope.active.session);
+            var runAll = false;
+            editors.launchCucumber($rootScope.active.session, runAll);
         }
 
+
+        $scope.launchAll = function() {
+            var runAll = true;
+            editors.launchCucumber($rootScope.active.session, runAll);
+        }
 
         /**
          * Open Selector Gadget

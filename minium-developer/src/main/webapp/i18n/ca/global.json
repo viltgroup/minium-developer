@@ -66,6 +66,10 @@
                     "minlength": "El seu compte de correu electrònic ha de tenir, com a mínim, 5 caràcters",
                     "maxlength": "El seu compte de correu electrònic no pot tenir més de 50 caràcters"
                 }
+            },
+            "version":{
+                "new": "Nova versió disponible",
+                "new.title": "Nova versió"
             }
         }
     },

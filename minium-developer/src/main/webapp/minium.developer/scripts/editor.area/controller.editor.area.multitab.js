@@ -181,18 +181,7 @@ angular.module('minium.developer')
 
         };
 
-        $scope.launchAll = function() {
-            //if no file is selected
-            if ($scope.active.selected.item === undefined) {
-                return;
-            }
-
-            var launchParams = {
-                fileProps: $scope.active.selected.item.fileProps
-            };
-
-            $scope.launch(launchParams);
-        }
+       
 
         var annotations = [];
         var executionWasStopped;

@@ -11,7 +11,7 @@
         /**
          * Get Minium Developer version
          **/
-        VersionService.get().then(function(response) {
+        VersionService.getVersionInfo().then(function(response) {
             console.log(response.data)
             var version = response.data;
             $scope.version = version.version;

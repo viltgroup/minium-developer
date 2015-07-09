@@ -22,151 +22,159 @@ import com.google.common.base.Throwables;
 @Service
 public class ProjectService {
 
-	private static final String CUCUMBER_PROJECT = "cucumber";
-	private static final String AUTOMATOR_PROJECT = "automator";
+    private static final String CUCUMBER_PROJECT = "cucumber";
+    private static final String AUTOMATOR_PROJECT = "automator";
 
-	@Autowired
-	private FileSystemService fileSystemservice;
+    @Autowired
+    private FileSystemService fileSystemservice;
 
-	private ProjectTemplate projectTemplate;
+    private ProjectTemplate projectTemplate;
 
-	public boolean createProject(ProjectProperties projectProperties, ProjectDTO project, HttpSession session) {
-		boolean isCreated = false;
-		// validate that the path don't exists
-		if (isValid(getPath(project))) {
-			// means that the directory exists
-			return false;
-		}
-		// normalize the path
-		String path = getPath(project.getDirectory());
-		project.setDirectory(path);
-		String projectType = project.getType();
-		try {
-			if (projectType.equals(CUCUMBER_PROJECT)) {
-				createCucumberProject(project);
-			} else {
-				createAutomatorProject(project);
-			}
-			openProject(projectProperties, getPath(project), session);
-			isCreated = true;
-		} catch (IOException e) {
-		    throw Throwables.propagate(e);
-		}
-		return isCreated;
-	}
+    public boolean createProject(ProjectProperties projectProperties, ProjectDTO project, HttpSession session) {
+        boolean isCreated = false;
 
-	public boolean isValid(String path) {
-		path = getPath(path);
-		return fileSystemservice.dirExists(path);
-	}
+        // validate that the path don't exists
+        if (isValid(getPath(project))) {
+            // means that the directory exists
+            return false;
+        }
 
-	public boolean isParentValid(String path) {
-		path = getPath(path);
-		File file = new File(path);
-		String parent = file.getParentFile().getAbsolutePath();
-		return this.isValid(parent);
-	}
+        // normalize the path
+        String path = getPath(project.getDirectory());
+        project.setDirectory(path);
+        String projectType = project.getType();
+        try {
+            if (projectType.equals(CUCUMBER_PROJECT)) {
+                createCucumberProject(project);
+            } else {
+                createAutomatorProject(project);
+            }
+            openProject(projectProperties, getPath(project), session);
+            isCreated = true;
+        } catch (IOException e) {
+            throw Throwables.propagate(e);
+        }
+        return isCreated;
+    }
 
-	public String typeOfProject(String path) {
-		// TODO refactor
-		String project;
-		path = getPath(path);
-		if (isCucumberProject(path)) {
-			project = CUCUMBER_PROJECT;
-		} else if (isAutomatorProject(path)) {
-			project = AUTOMATOR_PROJECT;
-		} else {
-			project = "No project here";
-		}
+    public boolean isValid(String path) {
+        path = getPath(path);
+        return fileSystemservice.dirExists(path) ;
+    }
 
-		return project;
-	}
+    public boolean isParentValid(String path) {
+        path = getPath(path);
+        File file = new File(path);
+        String parent = file.getParentFile().getAbsolutePath();
+        return this.isValid(parent);
+    }
 
-	public boolean openProject(ProjectProperties projectProperties, String path, HttpSession session) {
-		boolean validProject = false;
-		session.invalidate();
-		path = getPath(path);
-		File f = new File(path);
-		if (f.exists()) {
-			projectProperties.setDir(f);
-			validProject = true;
-		}
+    public String typeOfProject(String path) {
+        // TODO refactor
+        String project;
+        path = getPath(path);
+        if (isCucumberProject(path)) {
+            project = CUCUMBER_PROJECT;
+        } else if (isAutomatorProject(path)) {
+            project = AUTOMATOR_PROJECT;
+        } else {
+            project = "No project here";
+        }
 
-		return validProject;
+        return project;
+    }
 
-	}
+    public boolean openProject(ProjectProperties projectProperties, String path, HttpSession session) {
+        boolean validProject = false;
+        session.invalidate();
+        path = getPath(path);
+        File f = new File(path);
+        if (f.exists()) {
+            projectProperties.setDir(f);
+            validProject = true;
+        }
 
-	public boolean hasProject(ProjectProperties projectProperties) {
-		File dir = projectProperties.getDir();
-		boolean hasProject = true;
-		if (dir.getPath() == ".") {
-			hasProject = false;
-		}
-		return hasProject;
-	}
+        return validProject;
 
-	public String getProjectName(ProjectProperties projectProperties) {
-		File file = projectProperties.getDir();
-		String parent = file.getPath();
-		String projectName = parent.substring(parent.lastIndexOf(File.separator) + 1);
-		return projectName;
-	}
+    }
 
-	/**
-	 * Create an automator project
-	 *
-	 * @param project
-	 * @return
-	 * @throws IOException
-	 */
-	protected boolean createAutomatorProject(ProjectDTO project) throws IOException {
-		projectTemplate = new AutomatorTemplate(project);
-		projectTemplate.buildProject();
-		return true;
-	}
+    public boolean hasProject(ProjectProperties projectProperties) {
+        File dir = projectProperties.getDir();
+        boolean hasProject = true;
+        if (dir.getPath() == ".") {
+            hasProject = false;
+        }
+        return hasProject;
+    }
 
+    public String getProjectName(ProjectProperties projectProperties) {
+        File file = projectProperties.getDir();
+        String parent = file.getPath();
+        String projectName = parent.substring(parent.lastIndexOf(File.separator) + 1);
+        return projectName;
+    }
 
-	/**
-	 * Create a cucumber project
-	 *
-	 * @param project
-	 * @return
-	 * @throws IOException
-	 */
-	protected boolean createCucumberProject(ProjectDTO project) throws IOException {
-		projectTemplate = new CucumberProject(project);
-		projectTemplate.buildProject();
-		return true;
-	}
+    public boolean fileExists(String path){
+        File file = new File(path);
+        return file.exists() || file.isDirectory();
+    }
 
-	protected boolean isCucumberProject(String dir) {
-		// TODO for now, just checks if pom.xml exists
-		return new File(dir, "pom.xml").exists();
-	}
+    /**
+     * Create an automator project
+     *
+     * @param project
+     * @return
+     * @throws IOException
+     */
+    protected boolean createAutomatorProject(ProjectDTO project) throws IOException {
+        projectTemplate = new AutomatorTemplate(project);
+        projectTemplate.buildProject();
+        return true;
+    }
 
-	protected boolean isAutomatorProject(String dir) {
-		// TODO for now, just checks if main.js exists
-		return new File(dir, "main.js").exists();
-	}
+    /**
+     * Create a cucumber project
+     *
+     * @param project
+     * @return
+     * @throws IOException
+     */
+    protected boolean createCucumberProject(ProjectDTO project) throws IOException {
+        projectTemplate = new CucumberProject(project);
+        projectTemplate.buildProject();
+        return true;
+    }
 
-	protected String getPath(ProjectDTO project) {
-		File f = new File(project.getDirectory(), project.getName());
-		return f.getPath();
-	}
+    protected boolean isCucumberProject(String dir) {
+        // TODO for now, just checks if pom.xml exists
+        return new File(dir, "pom.xml").exists();
+    }
 
-	/**
-	 * Replace the first element if it is ~ with the home path in unix
-	 * @param path - example (~/Documents/)
-	 * @return the absolute path - example( /home/user/Documents
-	 */
-	private String getPath(String path){
-	  path = path.replaceFirst("^~", System.getProperty("user.home"));
-	  if (path.startsWith("." + File.separator)) {
-		  Path currentRelativePath = Paths.get("");
-		  String s = currentRelativePath.toAbsolutePath().toString();
-		  path = path.replaceFirst("^.", s);
-		}
-	  return path;
-	}
+    protected boolean isAutomatorProject(String dir) {
+        // TODO for now, just checks if main.js exists
+        return new File(dir, "main.js").exists();
+    }
+
+    protected String getPath(ProjectDTO project) {
+        File f = new File(project.getDirectory(), project.getName());
+        return f.getPath();
+    }
+
+    /**
+     * Replace the first element if it is ~ with the home path in unix
+     *
+     * @param path
+     *            - example (~/Documents/)
+     * @return the absolute path - example( /home/user/Documents
+     */
+    private String getPath(String path) {
+        path = path.replaceFirst("^~", System.getProperty("user.home"));
+        if (path.startsWith("." + File.separator)) {
+            Path currentRelativePath = Paths.get("");
+            String s = currentRelativePath.toAbsolutePath().toString();
+            path = path.replaceFirst("^.", s);
+        }
+        return path;
+    }
 
 }

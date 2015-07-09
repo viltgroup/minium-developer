@@ -1,3 +1,4 @@
+package minium.developer.web.version;
 import java.io.IOException;
 
 import minium.developer.utils.HttpClientUtils;

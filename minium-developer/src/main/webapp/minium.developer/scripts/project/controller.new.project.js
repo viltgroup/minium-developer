@@ -13,7 +13,7 @@ angular.module('minium.developer')
 
         var projectMsgTemplate = {
             success: '<span class="fa fa-check" style="color:green;"></span> ' + $translate("messages.project_exists"),
-            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> ' + $translate("messages.no_project_exists")
+            error: '<span class="fa fa-remove" style="color:#FF0004;"></span> ' + $translate("messages.project_already")
         }
 
         //possible modes of a project after validation
@@ -68,7 +68,7 @@ angular.module('minium.developer')
             if (isValidProjectName(str) == false) {
                 $scope.isValid = false;
                 $scope.msg.directory = '';
-                $scope.msg.project = $translate('illegal_chars');
+                $scope.msg.project = $translate('messages.illegal_chars');
                 $scope.msg.projectType = '';
                 return;
             }
@@ -86,12 +86,14 @@ angular.module('minium.developer')
             ProjectFactory.isValidName(path).success(function(data) {
                 console.debug(data)
                 if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
+                    
                     //dir is good and theres a project
                     $scope.isValid = true;
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = '';
                     $scope.msg.projectType = '';
                 } else if (data !== projectEnum.NO_PROJECT && data !== projectEnum.NOT_VALID) {
+                    
                     //dir is valid but no projects
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.success;
@@ -99,7 +101,8 @@ angular.module('minium.developer')
                     $scope.msg.projectType = '';
 
                 } else {
-                    //dir is worng and theres no project
+                    
+                    //dir is wrong and theres no project
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.error;
                     $scope.msg.project = '';

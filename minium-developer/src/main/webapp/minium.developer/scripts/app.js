@@ -48,20 +48,6 @@ miniumDeveloper.provider('modalState', function($stateProvider) {
     };
 })
 
-.run(function(ProjectFactory, ProjectService) {
-
-    // before get in the state
-    // check if project is defined
-    // hack: to stop a refresh of the page
-    // on loading the project from a cookie
-    ProjectFactory.hasProject().success(function(data) {
-        console.log(data)
-        if ($.cookie('project') != undefined && !(data !== '')) {
-            ProjectService.open($.cookie('project'));
-        }
-    });
-})
-
 .config(function($httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider) {
 
     // Initialize angular-translate

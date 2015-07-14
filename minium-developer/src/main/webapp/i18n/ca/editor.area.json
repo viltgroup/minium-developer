@@ -56,7 +56,7 @@
             "complete": "Descàrrega completa",
             "error": "No s'ha pogut descarregar els wedrivers"
         },
-        "update":{
+        "update": {
             "started": "Actualització va començar",
             "complete": "Actualització completada",
             "error": "No s'ha pogut actualitzar els wedrivers"
@@ -178,11 +178,11 @@
             "report": "informe",
             "clear_markers": "Vaciar editor de marcadors"
         },
-        "title":{
-            "selector.gadget":"Interface del Selector de Dispositiu (Ctrl+Shift+C) ",
-            "evaluator":"Avaluador (Ctrl + Enter)",
-            "run_test":"Executar provas des cursor (Ctrl + Enter)",
-            "run_all":"Executar tot las provas"
+        "title": {
+            "selector.gadget": "Interface del Selector de Dispositiu (Ctrl+Shift+C) ",
+            "evaluator": "Avaluador (Ctrl + Enter)",
+            "run_test": "Executar provas des cursor (Ctrl + Enter)",
+            "run_all": "Executar tot las provas"
         }
     },
     "preferences": {

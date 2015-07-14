@@ -42,7 +42,7 @@
     },
     "webdriver": {
         "new": "Create new WebDriver",
-        "browsers": "Navegadores",
+        "browsers": "Browsers",
         "remote.url": "Remote url",
         "use_remote": "Use remote webdriver",
         "use_local": "Use local webdriver",

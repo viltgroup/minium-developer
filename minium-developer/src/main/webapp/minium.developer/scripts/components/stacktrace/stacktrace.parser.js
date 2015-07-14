@@ -5,8 +5,8 @@
         //configs
         this.location = "http://localhost:8089/#/editor/"
             //add here more patterns to ignore
-        this.toIgnorePattern = /(.*)(\.java|Unknown Source|Native Method|WebSocketMessageBrokerStats)/g;
-        this.javascriptIgnorePattern = /(.*)(dsl\.js)/g;
+        this.toIgnorePattern = /(.*)((\.java)|Unknown Source|Native Method|WebSocketMessageBrokerStats)/g;
+        this.javascriptIgnorePattern = /(.*)(dsl\.js|expect\.js|expect-webelements\.js)/g;
 
         this.evaluationErrorPattern = /(org.mozilla.javascript.EcmaError|EvalException|JavaScriptException)(.*)/g;
     }
@@ -16,9 +16,23 @@
      * 
      */
     StackTraceParser.prototype.parseLine = function(stackTraceLine) {
+
         var stackTraceParsed = "";
+
+
+
+        if (!isAtLine(stackTraceLine)) {
+            stackTraceParsed += stackTraceLine + "\n";
+            return stackTraceParsed;
+        }
+
+        if(stackTraceLine.match(this.toIgnorePattern)){
+            return;
+        }
+
         if (isFeatureFile(stackTraceLine)) {
             stackTraceParsed += this.parseFeatureFile(stackTraceLine, this.location);
+
             return stackTraceParsed;
         }
 
@@ -32,10 +46,14 @@
             return stackTraceParsed;
         }
 
+
         if (this.isNotJavaException(stackTraceLine)) {
+
             stackTraceParsed += stackTraceLine + "\n";
             return stackTraceParsed;
         }
+
+
         //if line stackTraceParsed
         return stackTraceParsed !== "\n" ? stackTraceParsed : "";
     }
@@ -43,6 +61,11 @@
     function isCausedBy(str) {
         var causedByPat = /^Caused by: (.*)/gm;
         return str.match(causedByPat);
+    }
+
+    function isAtLine(str) {
+        var atPat = /^at (.*)/g;
+        return str.trim().match(atPat);
     }
 
     function isFeatureFile(str) {
@@ -76,11 +99,13 @@
 
     StackTraceParser.prototype.parseJavascriptFile = function(str) {
         //case internal/dsl.js, we want to ignore it
+        // alert(str.match(this.javascriptIgnorePattern) + "cebas" + str)
         if (str.match(this.javascriptIgnorePattern)) {
+            // alert("Ignored "+ str)
             return "";
         }
         //if it is a javascript evaluation error
-        if( str.match(this.evaluationErrorPattern)){
+        if (str.match(this.evaluationErrorPattern)) {
             var match = this.evaluationErrorPattern.exec(str);
             return str;
         }
@@ -88,10 +113,10 @@
         var line = "",
             link = "";
         var path = extractFileName(str);
-        
+
         if (path) {
             link = path;
-            line += " " + link + "\n";
+            line += "  at " + link + "\n";
         }
         //if the is blank return blank 
         return line;
@@ -118,8 +143,11 @@
         var matches = regExp.exec(content);
 
         //check if the path has /resources/
-        var relativePath = matches[1].indexOf("/resources/") != -1 ? matches[1].split("/resources/")[1] : matches[1];
         
+        matches[1] = matches[1].replace(/\\/g, '/');
+        
+        var relativePath = matches[1].indexOf("/resources/") != -1 ? matches[1].split("/resources/")[1] : matches[1];
+
 
         return hasLineNumber(relativePath) ? relativePath : "";
     }
@@ -151,7 +179,7 @@
 
     };
 
-    function hasLineNumber(str){
+    function hasLineNumber(str) {
         return str.indexOf(':') > -1;
     }
 

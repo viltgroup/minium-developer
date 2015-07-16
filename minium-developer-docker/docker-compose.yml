@@ -1,0 +1,4 @@
+developer:
+  build: ../minium-tools-bundle/
+  ports:
+  - "8089:8089"

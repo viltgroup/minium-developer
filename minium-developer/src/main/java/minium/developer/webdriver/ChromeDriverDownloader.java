@@ -13,14 +13,14 @@ public class ChromeDriverDownloader extends Downloader {
 
     private static Logger logger = Logger.getLogger(ChromeDriverDownloader.class);
 
-    public ChromeDriverDownloader(String version, String bitVersion,String destDir) {
+    public ChromeDriverDownloader(String version, String bitVersion, String destDir) {
         setDestinationDir(destDir);
         setVersion(version);
         setBitVersion(bitVersion);
 
         setDestinationFile(getVersion() + "_" + getBitVersion() + "bit" + ".zip");
 
-        setSourceURL("http://chromedriver.storage.googleapis.com/" + getVersion() + "/chromedriver_" + getOSName() + getBitVersion() + ".zip");
+        setSourceURL("http://chromedriver.storage.googleapis.com/" + getVersion() + "/chromedriver_" + getOSName() + ".zip");
 
     }
 
@@ -54,7 +54,7 @@ public class ChromeDriverDownloader extends Downloader {
                 }
 
                 File tempUnzipedExecutable = new File(getDestinationDir(), chromedriver);
-                File finalExecutable = new File(getDestinationDir(),chromedriver);
+                File finalExecutable = new File(getDestinationDir(), chromedriver);
 
                 tempUnzipedExecutable.renameTo(finalExecutable);
 
@@ -89,11 +89,12 @@ public class ChromeDriverDownloader extends Downloader {
         String os;
 
         if (RuntimeConfig.getOS().isWindows()) {
-            os = getWindownsName();
+            os = getWindownsName() + getBitVersion();
         } else if (RuntimeConfig.getOS().isMac()) {
-            os = getMacName();
+            // HACK- this driver doesn't exists in 64 version in MAC OS
+            os = getMacName() + "32";
         } else {
-            os = getLinuxName();
+            os = getLinuxName() + getBitVersion();
         }
 
         return os;

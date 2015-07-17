@@ -518,7 +518,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                     name: "launchCucumber",
                     bindKey: {
                         win: "Ctrl+Enter",
-                        mac: "Ctrl+Enter"
+                        mac: "Command+Enter"
                     },
                     exec: function(env) {
                         launchCucumber(env, _this.scope, false);

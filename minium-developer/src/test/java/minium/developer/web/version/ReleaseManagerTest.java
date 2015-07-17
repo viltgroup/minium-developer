@@ -1,11 +1,8 @@
 package minium.developer.web.version;
+
 import java.io.IOException;
 
 import minium.developer.utils.HttpClientUtils;
-import minium.developer.web.version.GitHubRelease;
-import minium.developer.web.version.MiniumIoRelease;
-import minium.developer.web.version.MiniumReleaseManager;
-import minium.developer.web.version.Release;
 
 import org.junit.Before;
 import org.junit.Test;

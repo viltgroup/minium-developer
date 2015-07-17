@@ -103,9 +103,7 @@ miniumDeveloper
 
         //help
         modalStateProvider.state('global.editorarea.sub.help', {
-            templateUrl: "minium.developer/views/editor.area/modal/help.html",
-            controller: "AboutController"
-
+            templateUrl: "minium.developer/views/editor.area/modal/help.html"
         });
 
         //version

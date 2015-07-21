@@ -1,0 +1,22 @@
+[{
+    "id": "click",
+    "caption": "click",
+    "trigger": "cli",
+    "content": "click()",
+    "description":"MouseInteractable- Click on an element an try to..."
+},
+{
+    "id": "select",
+    "caption": "select",
+    "trigger": "s",
+    "content": "select()",
+    "description":"KeyboardInteractable  Selecting an item from Select Box"
+},
+{
+    "id": "fill",
+    "caption": "fill",
+    "trigger": "f",
+    "content": "fill(${1:value})",
+    "description":"KeyboardInteractable - .fill(text)"
+}
+]

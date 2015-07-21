@@ -151,12 +151,9 @@ angular.module('minium.developer')
                 if (data !== '') {
                     $scope.hasProject = true;
                     projectName = data;
-                } else if ($.cookie('project') != undefined) {
-                    $scope.importProject($.cookie('project'));
-                } else {
+                }  else {
                     $.removeCookie('openTabs');
-                    toastr.info($translate('messages.no_project_defined'))
-
+                    toastr.info($translate('messages.error.no_project_defined'))
                     //remove all the open tab int the cookie 
                     //because there's no project defined
                 }

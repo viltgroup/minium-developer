@@ -10,6 +10,12 @@ miniumDeveloper.factory('WebDriverFactory', function($http) {
         },
         isCreated: function(){
             return $http.get("/app/rest/webdrivers/isLaunched");
+        },
+        downloadAll: function(){
+            return $http.get("/app/rest/webdrivers/download/all");
+        },
+        updateAll: function(){
+            return $http.get("/app/rest/webdrivers/update/all");
         }
     };
 });

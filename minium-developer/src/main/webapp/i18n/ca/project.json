@@ -4,6 +4,7 @@
         "invalid_directory": "El directori no és vàlid",
         "project_exists": "Projecte existeix",
         "no_project_exists": "No hi ha projecte aquí",
+        "project_already": "Ja hi ha un projecte",
         "illegal_chars":"El nom del projecte Conté caràcters invàlids.",
         "cannot_create_project":"No ha estat possible crear el projecte",
         "form_invalid":"Formulari és invàlids",

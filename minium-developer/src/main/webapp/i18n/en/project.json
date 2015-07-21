@@ -4,6 +4,7 @@
         "invalid_directory": "Directory invalid",
         "project_exists": "Project exists",
         "no_project_exists": "No project here",
+        "project_already": "There's already a project",
         "illegal_chars":"Your project name contains illegal characters.",
         "cannot_create_project":"Not possible to create the project",
         "form_invalid":"Form is invalid",

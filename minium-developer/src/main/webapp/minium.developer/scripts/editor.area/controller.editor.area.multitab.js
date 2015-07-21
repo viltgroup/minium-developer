@@ -181,18 +181,7 @@ angular.module('minium.developer')
 
         };
 
-        $scope.launchAll = function() {
-            //if no file is selected
-            if ($scope.active.selected.item === undefined) {
-                return;
-            }
 
-            var launchParams = {
-                fileProps: $scope.active.selected.item.fileProps
-            };
-
-            $scope.launch(launchParams);
-        }
 
         var annotations = [];
         var executionWasStopped;
@@ -200,6 +189,7 @@ angular.module('minium.developer')
         $scope.launch = function(launchParams) {
             reLaunchParams = launchParams;
             $scope.launchTestSession = $scope.active.session;
+
             //check if the test already executing
             if ($scope.testExecuting == true) {
                 toastr.error($translate('messages.error.test_executing'));
@@ -350,6 +340,10 @@ angular.module('minium.developer')
                 }
             });
 
+            // when the modal is closed
+            // it checks if there's any thing to run
+            // this case can happen when we try to launch or evalaute 
+            // and no web driver is launched
             modalInstance.result.then(function(value) {
                 $scope.setWebDriverMsg(value);
                 if (relaunch) {

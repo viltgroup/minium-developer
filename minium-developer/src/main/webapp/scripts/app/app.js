@@ -6,7 +6,7 @@ angular.module('miniumdevApp', [
     'minium.developer'
 ])
 
-.run(function($rootScope, $location, $http, $state, $translate, Language, ENV, VERSION) {
+.run(function($rootScope, $location, $http, $state, $translate, Language, ENV, VERSION, ProjectFactory, ProjectService) {
     $rootScope.ENV = ENV;
     $rootScope.VERSION = VERSION;
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
@@ -34,6 +34,18 @@ angular.module('miniumdevApp', [
             $state.go($rootScope.previousStateName, $rootScope.previousStateParams);
         }
     };
+
+
+    // before get in the state
+    // check if project is defined
+    // hack: to stop a refresh of the page
+    // on loading the project from a cookie
+    ProjectFactory.hasProject().success(function(data) {
+        console.log(data)
+        if ($.cookie('project') != undefined && !(data !== '')) {
+            ProjectService.open($.cookie('project'));
+        }
+    });
 })
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
@@ -51,11 +63,6 @@ angular.module('miniumdevApp', [
         views: {
             'navbar@': {
                 templateUrl: 'scripts/components/navbar/navbar.html',
-                // controller: 'NavbarController'
-            },
-            'sidebar@': {
-                templateUrl: 'scripts/components/sidebar/sidebar.html',
-                // controller: 'NavbarController'
             }
         },
         resolve: {

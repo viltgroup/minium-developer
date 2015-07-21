@@ -66,6 +66,10 @@
                     "minlength": "Es necesario que su correo electrónico tenga por lo menos 5 carácteres",
                     "maxlength": "Su correo electrónico no puede contener mas de 50 carácteres"
                 }
+            },
+            "version":{
+                "new": "Nueva versión disponible",
+                "new.title": "Nueva versión"
             }
         }
     },    "entity": {

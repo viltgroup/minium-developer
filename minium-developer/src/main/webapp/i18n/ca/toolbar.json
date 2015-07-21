@@ -26,6 +26,9 @@
         "create.file": "Creació Fitxer",
         "save": "Guardar",
         "create.project": "Creació Projecte",
-        "open.project": "Obrir Projecte"
+        "open.project": "Obrir Projecte",
+        "cleanScope":"Net Scope",
+        "dowload.webdrivers":"Descargar webdrivers",
+        "update.webdrivers":"Actualització webdrivers"
     }
 }

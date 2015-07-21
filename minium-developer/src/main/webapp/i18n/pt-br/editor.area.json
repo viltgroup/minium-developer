@@ -47,7 +47,17 @@
         "use_remote": "Usar webdriver remoto ",
         "use_local": "Usar webdriver local",
         "error_creating": "Não foi possível criar um novo WebDriver!!",
-        "not_launched": "Nenhum webdriver lançado. Por favor seleccione um!"
+        "not_launched": "Nenhum webdriver lançado. Por favor seleccione um!",
+        "download": {
+            "started": "Download começou",
+            "complete": "Download concluído",
+            "error": "Não foi possível fazer o download dos wedrivers"
+        },
+        "update":{
+            "started": "A actualizar",
+            "complete": "Actualização concluída",
+            "error": "Não foi possível actulizar os wedrivers"
+        }
     },
     "report": {
         "steps": "Passos",

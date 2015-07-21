@@ -352,8 +352,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     //
     //
     /////////////////////////////////////////////////////////////////
-    MiniumEditor.prototype.launchCucumber = function(editor) {
-        launchCucumber(editor, this.scope);
+    MiniumEditor.prototype.launchCucumber = function(editor, runAll) {
+        launchCucumber(editor, this.scope, runAll);
     };
 
 
@@ -518,10 +518,10 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                     name: "launchCucumber",
                     bindKey: {
                         win: "Ctrl+Enter",
-                        mac: "Ctrl+Enter"
+                        mac: "Command+Enter"
                     },
                     exec: function(env) {
-                        launchCucumber(env, _this.scope);
+                        launchCucumber(env, _this.scope, false);
                     },
                     readOnly: false // should not apply in readOnly mode
                 });
@@ -744,7 +744,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     };
 
     // from minium app
-    function evaluate(editor, scope,that) {
+    function evaluate(editor, scope, that) {
         //functions needed to be here
         var runningTest = Ladda.create(document.querySelector('#runningTest'));
 
@@ -834,25 +834,33 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         that.testExecuting = false;
     }
 
-    function launchCucumber(editor, scope) {
+    function launchCucumber(editor, scope, runAll) {
 
         var scope = scope;
 
         var selectedItem = scope.active.selected.item;
         if (!selectedItem) return;
 
-        var lines = [];
-        var range;
-        editor.forEachSelection({
-            exec: function() {
-                range = editor.getSelectionRange();
-                lines.push(range.start.row + 1);
-            }
-        });
-        var launchParams = {
-            line: lines.reverse(),
-            fileProps: selectedItem.fileProps
-        };
+
+        if (runAll === true) {
+            var launchParams = {
+                fileProps: selectedItem.fileProps
+            };
+        } else {
+            var lines = [];
+            var range;
+            editor.forEachSelection({
+                exec: function() {
+                    range = editor.getSelectionRange();
+                    lines.push(range.start.row + 1);
+                }
+            });
+            var launchParams = {
+                line: lines.reverse(),
+                fileProps: selectedItem.fileProps
+            };
+        }
+
         //launch the execution
         scope.launch(launchParams);
     };

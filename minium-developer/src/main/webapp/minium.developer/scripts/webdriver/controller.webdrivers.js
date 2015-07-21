@@ -27,11 +27,6 @@ angular.module('minium.developer')
                 shortDisplayName: "internet explorer",
                 icon: "icon-ie"
             },
-            "Opera": {
-                displayName: "Opera",
-                shortDisplayName: "opera",
-                icon: "icon-opera"
-            },
             "Safari": {
                 displayName: "Safari",
                 shortDisplayName: "safari",

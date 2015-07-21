@@ -171,6 +171,33 @@
                                 </span>
                             </a>
                         </li>
+                        <li class="dropdown-submenu" ng-controller="WebDriversDownloadController">
+                            <a tabindex="-1" href="#">
+                                <i class="fa fa-download"></i>
+                                    <span translate="actions.dowload.webdrivers">
+                                            Webdrivers
+                                    </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href ng-click="downloadAllWebdrivers()">
+                                         <span translate="actions.dowload.webdrivers">
+                                            Download webdrivers
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href ng-click="updateAllWebdrivers()">
+                                        <!-- <i class="fa fa-download"></i> -->
+                                        <span class="ladda-label" translate="actions.update.webdrivers">
+                                            Update webdrivers
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </li>
+                        
                     </ul>
                 </li>
                 <!-- OTHER ACTIONS -->

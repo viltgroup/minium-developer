@@ -43,15 +43,25 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     };
 
     var getOpenProjects = function() {
-        var projects = $cookieStore.get(LAST_PROJECTS_COOKIES);
+        console.log($.cookie(LAST_PROJECTS_COOKIES) || "")
+        var projects = [];
+        if ($.cookie(LAST_PROJECTS_COOKIES)) {
+            projects = $.parseJSON($.cookie(LAST_PROJECTS_COOKIES));
+        }
         return projects;
 
     }
 
     var storeOpenProjects = function(path) {
-        var projects = getOpenProjects() || [];
+        var projects = getOpenProjects();
         projects.push(path);
-        $cookieStore.put(LAST_PROJECTS_COOKIES,_.uniq(projects).slice(-4));
+        console.log(JSON.stringify(_.uniq(projects).slice(-4)))
+
+        //remove duplicated and limit to 4 elements
+        var projects = _.uniq(projects).slice(-4);
+        $.cookie(LAST_PROJECTS_COOKIES, JSON.stringify(projects), {
+            expires: 7
+        });
     }
 
     this.open = function(path) {
@@ -59,6 +69,7 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
             $.cookie(PROJECT_COOKIE, path, {
                 expires: 7
             });
+
             storeOpenProjects(path);
             reload(path);
         }).error(function(data, status) {
@@ -89,7 +100,7 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     store the last open projects from a cookie
     */
     this.clearOpenProjects = function(path) {
-        $cookieStore.remove(LAST_PROJECTS_COOKIES)
+        // $cookieStore.remove(LAST_PROJECTS_COOKIES)
 
     }
 

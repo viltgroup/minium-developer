@@ -3,8 +3,11 @@
 angular.module('minium.developer')
     .service('VersionService', ['$http', function($http){
         return {
-            get: function() {
+            getVersionInfo: function() {
                 return $http.get('app/rest/version');
-            }
+            },
+            checkForNewVersion: function() {
+                return $http.get('app/rest/version/new');
+            },
         };
     }]);

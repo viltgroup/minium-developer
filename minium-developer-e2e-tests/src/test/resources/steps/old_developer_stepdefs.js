@@ -71,11 +71,11 @@ Then(/^I reset theme$/, function() {
 /*TABS*/
 
 Given(/^I am at editor$/, function() {
-  var tabs = $(".ui-tabs-panel");
-  if (tabs.immediately().checkForUnexistence()) {
+  //var tabs = $(".ui-tabs-panel").size();
+  //if (tabs.immediately().checkForUnexistence()) {
     browser.get(config.baseUrl);
-  }
-  expect(tabs).not.to.exist();
+  //}
+  //expect(tabs).not.to.exist();
 });
 
 
@@ -115,7 +115,7 @@ When(/^I save the file "(.*?)"$/, function(fileName) {
 });
 
 When(/^I click on button "(.*?)"$/, function(text) {
-  var btn = ( $(".btn").withText(text), $("#navbar li a").withText(text));
+  var btn = ($("#navbar li a").withText(text), $(".btn").withText(text) );
   btn.click();
 });
 

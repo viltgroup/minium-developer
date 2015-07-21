@@ -19,15 +19,9 @@
 
         var stackTraceParsed = "";
 
-
-
         if (!isAtLine(stackTraceLine)) {
             stackTraceParsed += stackTraceLine + "\n";
             return stackTraceParsed;
-        }
-
-        if(stackTraceLine.match(this.toIgnorePattern)){
-            return;
         }
 
         if (isFeatureFile(stackTraceLine)) {
@@ -46,13 +40,15 @@
             return stackTraceParsed;
         }
 
+        if (stackTraceLine.match(this.toIgnorePattern)) {
+            return;
+        }
 
         if (this.isNotJavaException(stackTraceLine)) {
 
             stackTraceParsed += stackTraceLine + "\n";
             return stackTraceParsed;
         }
-
 
         //if line stackTraceParsed
         return stackTraceParsed !== "\n" ? stackTraceParsed : "";
@@ -80,7 +76,6 @@
         return !str.match(this.toIgnorePattern);
     }
 
-
     StackTraceParser.prototype.parseFeatureFile = function(str) {
         var line, link = "";
         var outsideParenthesisPatt = /[^\(\)]+/g
@@ -95,7 +90,6 @@
         }
         return line;
     }
-
 
     StackTraceParser.prototype.parseJavascriptFile = function(str) {
         //case internal/dsl.js, we want to ignore it
@@ -122,7 +116,6 @@
         return line;
     }
 
-
     StackTraceParser.prototype.parseCausedBy = function(str) {
         return str;
     }
@@ -143,11 +136,10 @@
         var matches = regExp.exec(content);
 
         //check if the path has /resources/
-        
-        matches[1] = matches[1].replace(/\\/g, '/');
-        
-        var relativePath = matches[1].indexOf("/resources/") != -1 ? matches[1].split("/resources/")[1] : matches[1];
 
+        matches[1] = matches[1].replace(/\\/g, '/');
+
+        var relativePath = matches[1].indexOf("/resources/") != -1 ? matches[1].split("/resources/")[1] : matches[1];
 
         return hasLineNumber(relativePath) ? relativePath : "";
     }

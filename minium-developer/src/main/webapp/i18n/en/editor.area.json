@@ -41,7 +41,7 @@
         "parsed.stackTrace": "View parsed stack trace"
     },
     "webdriver": {
-        "new": "Create new WebDriver",
+        "new": "Created a new WebDriver",
         "browsers": "Browsers",
         "remote.url": "Remote url",
         "use_remote": "Use remote webdriver",

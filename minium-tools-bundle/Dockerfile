@@ -15,7 +15,7 @@ ENV MINIUM_TOOLS_HOME=/opt/minium-tools
 RUN mkdir $MINIUM_TOOLS_HOME
 RUN export JAVA_OPTS="-Djava.awt.headless=true"
 
-ADD ./target/minium-tools-bundle-1.1.0-SNAPSHOT*linux64.tar.gz $MINIUM_TOOLS_HOME/
+ADD ./target/minium-tools-bundle-* $MINIUM_TOOLS_HOME/
 #RUN tar xzvf $MINIUM_TOOLS_HOME/*.gz
 
 

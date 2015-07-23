@@ -5,7 +5,6 @@
 miniumDeveloper.factory('editorPreferences', function($cookieStore) {
     var EditorPreferences = {};
 
-
     /**
      * Returns the settings from a coookie if the cookie exists,
      * return the default settings if theres no cookie

@@ -41,7 +41,7 @@ When(/^I go to the tab with name '(.*?)'$/, function(tabName) {
 
 
 When(/^I check if the url is "(.*?)"$/, function(url) {
-  wd.getCurrentUrl();
+  browser.getCurrentUrl();
 });
 
 

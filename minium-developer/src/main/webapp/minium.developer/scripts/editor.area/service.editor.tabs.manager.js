@@ -408,8 +408,9 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.closeTab = function(id, tabs, element) {
         //get the element
-        var panelId = element.closest("li").remove().attr("aria-controls");
-        $("#" + panelId).remove();
+        // var panelId = element.closest("li").remove().attr("aria-controls");
+        $("#panel_nav_" + id).remove();
+        $("#panel_" + id).remove();
         tabs.tabs("refresh");
         //remove the instance of tabs that we closed
         this.deleteSession(id);

@@ -50,7 +50,6 @@
 
 .full {
     /** Setting height is also important, otherwise editor wont showup**/
-    
     width: 100%;
     height: 100%;
 }
@@ -58,6 +57,8 @@
 .search-results {
     cursor: pointer;
 }
+
+
 /**
  * ACE EDITOR
  */
@@ -167,6 +168,8 @@
 .undefined {
     background-color: #E8AC0C;
 }
+
+
 /**  Active line ace editor**/
 
 .ace-monokai .ace_marker-layer .ace_active-line {
@@ -186,6 +189,8 @@
 .ace-monokai .ace_constant.ace_other {
     color: #59ABE3;
 }
+
+
 /**  Autocomplete **/
 
 .ace_editor.ace_autocomplete {
@@ -196,12 +201,16 @@
 .ace_replacebtn {
     color: black;
 }
+
+
 /** ACE EDITOR LINKS */
 
 .ace_link_marker {
     position: absolute;
     border-bottom: 1px solid #e08e0b;
 }
+
+
 /** THEME CHANGES **/
 
 .sidebar > .sidebar-menu > li {
@@ -216,6 +225,8 @@
 .form-box .header {
     background: #428bca;
 }
+
+
 /** LEFT BAR COLOR **/
 
 .left-side {
@@ -227,7 +238,6 @@
 .info {
     padding: 5px 5px 0px;
     /*margin-left: 450px;*/
-    
     width: 100%;
 }
 
@@ -253,6 +263,8 @@ body > div > .header .logo {
     margin-left: 90px;
     font-size: 20px;
 }
+
+
 /**
  * SLIDER
  */
@@ -267,6 +279,8 @@ body > div > .header .logo {
     width: 100%;
     margin: 0 auto;
 }
+
+
 /**
  * LOADER
  * http://tympanus.net/codrops/2012/11/14/creative-css-loading-animations/
@@ -319,9 +333,13 @@ body > div > .header .logo {
         margin-left: 90%;
     }
 }
+
+
 /**
  * PANEL WITH TABS
  */
+
+
 /* Tabs panel */
 
 .nav-tabs {
@@ -405,12 +423,16 @@ body > div > .header .logo {
 .close-tab {
     float: right;
 }
+
+
 /*#tabs .scroller {
     overflow: auto;
 }
 #tabs ul {
     width: 1660px;
 }*/
+
+
 /**
  * BLOCK LIST
  */
@@ -430,6 +452,8 @@ body > div > .header .logo {
 .panel-border-top-success {
     border-top: 3px solid #00a65a;
 }
+
+
 /* Center modal dialog */
 
 .modal-dialog-center {
@@ -439,7 +463,6 @@ body > div > .header .logo {
 .info {
     margin-left: 450px;
     /*padding: 15px 15px 0px;*/
-    
     width: 60%;
 }
 
@@ -451,6 +474,8 @@ body > div > .header .logo {
     background-color: #efefef;
     border: 0px;
 }
+
+
 /*.table > tbody > tr:first-child{
     vertical-align: top;
     padding-bottom: 50px;
@@ -462,6 +487,8 @@ body > div > .header .logo {
 .file {
     cursor: pointer;
 }
+
+
 /**
  * MATERIAL DESIGN BOX
  */
@@ -487,6 +514,8 @@ body > div > .header .logo {
     text-align: center;
     vertical-align: middle;
 }
+
+
 /**
  * SIDE BAR
  */
@@ -506,7 +535,6 @@ body > div > .header .logo {
     margin: 0;
     border: 0 none;
     /*padding: 15px 15px 15px 20px;*/
-    
     width: 100%;
     text-decoration: none;
     font-size: 13px;
@@ -552,10 +580,14 @@ div.inline {
 .table {
     font-size: 14.5px;
 }
+
+
 /*
     Skin Blue
     ---------
 */
+
+
 /* skin-ide navbar */
 
 .skin-ide .navbar {
@@ -565,12 +597,16 @@ div.inline {
 .skin-ide .navbar .nav a {
     color: rgba(255, 255, 255, 0.8);
 }
+
+
 /* Check box Buttons */
 
 .btn.checkboxBtn.active {
     box-shadow: inset 0 13px 15px #285e8e;
     background-color: #367fa9;
 }
+
+
 /**
  * change the breadcrumbs to the left
  */
@@ -591,6 +627,8 @@ div.inline {
 #launchBtn {
     margin-left: 10px;
 }
+
+
 /**
  * Angular tree view custom css
  */
@@ -621,8 +659,8 @@ div.inline {
     font-weight: 600;
     text-transform: uppercase;
     /*z-index: 999999;*/
-    
 }
+
 
 /**
  * TREE VIEW with folder navigation
@@ -636,7 +674,6 @@ div.inline {
     overflow: auto;
     margin-top: 0px;
     /*background: #34495E;*/
-    
     color: #ffffff;
     overflow-y: auto;
     max-height: 90%;
@@ -684,6 +721,8 @@ treecontrol.tree-classic li .tree-selected {
     color: #22313F;
     padding: 1px 4px;
 }
+
+
 /**
  * Show More/Less for show&hide very long text
  */
@@ -766,6 +805,8 @@ treecontrol.tree-classic li .tree-selected {
 .collapse-text-toggle:after {
     content: ')';
 }
+
+
 /**
  * EDITORS TABS
  */
@@ -821,6 +862,8 @@ treecontrol.tree-classic li .tree-selected {
     /*background: #f5f3e5 url(http://code.jquery.com/ui/1.8.23/themes/south-street/images/ui-bg_highlight-hard_100_f5f3e5_1x100.png) repeat-x scroll 50% top;*/
     /*border-width: 0px 1px 1px 1px;*/
 }
+
+
 /**
  * ACTIVE TAB
  */
@@ -829,7 +872,6 @@ treecontrol.tree-classic li .tree-selected {
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
     /*border: 1px solid #aaaaaa;*/
-    
     background: #ccc;
     font-weight: normal;
     color: #212121;
@@ -838,15 +880,13 @@ treecontrol.tree-classic li .tree-selected {
 .ui-state-default,
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
-     
     background: #e6e6e6;
     font-weight: normal;
-      color: rgba(246,246,246,0);
-
-      background: #eee;
-   border: 1px solid rgba(0,0,0,.1);
-  /*border-radius: 0;*/
-  padding: 0 40px 0 10px;
+    color: rgba(246, 246, 246, 0);
+    background: #eee;
+    border: 1px solid rgba(0, 0, 0, .1);
+    /*border-radius: 0;*/
+    padding: 0 40px 0 10px;
 }
 
 .ui-state-hover,
@@ -856,11 +896,12 @@ treecontrol.tree-classic li .tree-selected {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
     /*border: 1px solid transparent;*/
-    
     background: #dadada;
     font-weight: normal;
     color: #212121;
 }
+
+
 /**
  * TREE VIEW
  */
@@ -924,6 +965,15 @@ treecontrol.tree-classic li .tree-selected {
 }
 
 
+/* active sub-menu in right menu */
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus {
+    background-color: orange;
+}
+
+
 /*
 * Toolbar shortcuts buttons
 */
@@ -953,6 +1003,8 @@ treecontrol.tree-classic li .tree-selected {
 .ladda-button {
     background: transparent;
 }
+
+
 /*
 * Need to put :not(.my-ladda-btn) because since the we change the ladda button css
 * for a specific button the "normal" or default ladda btn will be affected
@@ -1105,10 +1157,14 @@ treecontrol.tree-classic li .tree-selected {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+
 /*.top-bar {
     margin-top: 10px;
     margin-bottom: 10px;
 }*/
+
+
 /* skin-blue sidebar */
 
 .wrapper,
@@ -1147,6 +1203,8 @@ treecontrol.tree-classic li .tree-selected {
 .tree-panel:after {
     clear: both;
 }
+
+
 /**
  *  "Multi level dropdown menu BS3"
  *  @from: http://bootsnipp.com/snippets/featured/multi-level-dropdown-menu-bs3
@@ -1199,6 +1257,8 @@ treecontrol.tree-classic li .tree-selected {
     -moz-border-radius: 6px 0 6px 6px;
     border-radius: 6px 0 6px 6px;
 }
+
+
 /**
  * MODAL CLASSES
  */
@@ -1210,6 +1270,8 @@ treecontrol.tree-classic li .tree-selected {
 .modal-with-bg-color .modal-body {
     padding: 0px;
 }
+
+
 /**
  * SPLITTER SIDE BAR CUSTOM CSS
  */
@@ -1309,7 +1371,6 @@ treecontrol.tree-classic li .tree-selected {
     -moz-box-shadow: 0 0 5px #22313F;
     /* -webkit-box-shadow: 0 0 12px #999999; */
     /* box-shadow: 0 0 12px #999999; */
-    
     color: #ffffff;
     opacity: 0.9;
     -ms-filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=90);
@@ -1323,11 +1384,15 @@ treecontrol.tree-classic li .tree-selected {
 .toast-success {
     background: #03A678;
 }
+
+
 /*.btn-default.active:hover, .open>.dropdown-toggle.btn-default:hover{
     color: red;
     background-color: #3c8dbc;
     border-color: #367fa9;
 }*/
+
+
 /* Glyphicon sizes */
 
 .gl-lg {
@@ -1431,6 +1496,8 @@ a.list-group-item:focus {
 .table tr td a {
     color: #34495E;
 }
+
+
 /*Remove content full width on xs screens*/
 
 @media screen and (max-width: 992px) {
@@ -1439,7 +1506,6 @@ a.list-group-item:focus {
         background: #34495E;
     }
     /*Right side strech mode*/
-    
     .right-side.strech {
         margin-left: 220px;
     }
@@ -1447,7 +1513,6 @@ a.list-group-item:focus {
         margin-top: 0px;
     }
     /* Left side collapse */
-    
     .left-side.collapse-left {
         left: -220px;
         background: #34495E;
@@ -1462,6 +1527,8 @@ a.list-group-item:focus {
     float: none;
     margin: 0 auto;
 }
+
+
 /**
 * Info Label for projects
 *
@@ -1470,6 +1537,8 @@ a.list-group-item:focus {
 .info-labels {
     margin-top: -15px;
 }
+
+
 /**
 Console editor CSS
 **/
@@ -1500,12 +1569,11 @@ Console editor CSS
 }
 
 @media (max-width: 992px) {
-
-
     .navbar-header {
         float: none;
     }
-    .navbar-left,.navbar-right {
+    .navbar-left,
+    .navbar-right {
         float: none !important;
     }
     .navbar-toggle {
@@ -1513,7 +1581,7 @@ Console editor CSS
     }
     .navbar-collapse {
         border-top: 1px solid transparent;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
     }
     .navbar-fixed-top {
         top: 0;
@@ -1533,11 +1601,10 @@ Console editor CSS
         padding-top: 10px;
         padding-bottom: 10px;
     }
-    .collapse.in{
-        display:block !important;
+    .collapse.in {
+        display: block !important;
     }
-
-    .action-bar{
+    .action-bar {
         display: none!important;
     }
 }

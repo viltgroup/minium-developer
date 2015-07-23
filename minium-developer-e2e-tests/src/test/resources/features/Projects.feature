@@ -19,7 +19,7 @@ Feature: Manage Minium Projects
       | Project type | Automator Project |
       | Project Name | minium-test       |
     Then I should see the following validation messages:
-      | Project Name | There's already a project in this path!! |
+      | Project Name | Directory invalid |
 
   Scenario: Create new Cucumber project
     When I create the following project:

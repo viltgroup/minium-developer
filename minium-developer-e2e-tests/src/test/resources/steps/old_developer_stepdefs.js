@@ -115,9 +115,12 @@ When(/^I save the file "(.*?)"$/, function(fileName) {
 });
 
 When(/^I click on button "(.*?)"$/, function(text) {
-  var btn = ($("#navbar li a").withText(text), $(".btn").withText(text) );
+  var btn = $("#actions li a").withText(text).add($(".btn").withText(text) );
   btn.click();
 });
+
+
+
 
 
 
@@ -186,8 +189,9 @@ Then(/^There is only one open tab named 'untitled'$/, function() {
 /*SIDEBAR*/
 
 Given(/^The side bar is not hiden$/, function() {
-  var hiden = $(".full").find(".strech");
-  expect(hiden).to.exist();
+  var hiden = $("body").is(":not(.sidebar-collapse)");
+  expect(hiden).to.be.equal(true);
+  //expect(hiden).to.exist();
 });
 
 

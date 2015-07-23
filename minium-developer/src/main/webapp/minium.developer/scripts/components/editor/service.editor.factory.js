@@ -87,7 +87,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
                                 caption: ea.caption,
                                 description: ea.description,
                                 snippet: ea.content,
-                                meta: "Minium Functions"
+                                meta: ea.type
                             }
                         }));
                     })
@@ -95,26 +95,30 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
             getDocTooltip: function(item) {
                 if (!item.docHTML) {
                     item.docHTML = [
-                        "<b>", item.snippet, "</b>", "<hr></hr>",
+                        "<b>", item.caption, "</b>", "<hr></hr>",
                         item.description
                     ].join("");
                 }
             }
         };
 
-        editor.completers = [miniumAutoCompleter]
-            // langTools.completers.push(miniumAutoCompleter)
-        console.log(editor.completers)
+        editor.completers = [langTools.snippetCompleter, langTools.textCompleter, miniumAutoCompleter]
+
         editor.commands.on("afterExec", function(e) {
+
+            // when the token is a point only put the completer with minium functions
             if (e.command.name == "insertstring" && e.args === ".") {
+                editor.completers = [miniumAutoCompleter]
                 editor.execCommand("startAutocomplete")
+            } else {
+                editor.completers = [langTools.snippetCompleter, langTools.textCompleter, miniumAutoCompleter]
             }
         })
 
         editor.setOptions({
             enableBasicAutocompletion: true, //this enable a autocomplete (ctrl + space)
             enableSnippets: true,
-            // enableLiveAutocompletion: true
+            enableLiveAutocompletion: true
         });
 
     }

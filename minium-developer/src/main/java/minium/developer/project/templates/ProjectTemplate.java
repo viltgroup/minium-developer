@@ -45,10 +45,11 @@ public abstract class ProjectTemplate {
 		File f = new File(project.getDirectory(), project.getName());
 		return f.getPath();
 	}
-	
+
 	protected void copyResource(String resourcePath, File destPath, String fileName) throws IOException {
-		InputStream myResource = getClass().getResourceAsStream(resourcePath);
-		File myResourceAsFile = new File(destPath, fileName);
-		FileUtils.copyInputStreamToFile(myResource, myResourceAsFile);
+		try (InputStream myResource = getClass().getResourceAsStream(resourcePath)) {
+		    File myResourceAsFile = new File(destPath, fileName);
+		    FileUtils.copyInputStreamToFile(myResource, myResourceAsFile);
+		}
 	}
 }

@@ -24,16 +24,13 @@ public class AutomatorTemplate extends ProjectTemplate {
 	@Override
 	public void buildFiles() {
 	}
-	
+
 	private void createStructure(String destPath) throws IOException {
-		// create folder modules file in root 
+		// create folder modules file in root
 		File file = new File(destPath, "modules");
 		FileUtils.forceMkdir(file);
 		//create a file a main.js in root
 		File fileModules = new File(destPath);
 		copyResource("/templates/automator-project/main.js", fileModules, "main.js");
 	}
-
-	
-
 }

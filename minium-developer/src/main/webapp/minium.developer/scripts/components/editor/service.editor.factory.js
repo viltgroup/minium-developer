@@ -158,6 +158,11 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
 
         snippetManager.register(snippets, "gherkin");
 
+         editor.setOptions({
+            enableBasicAutocompletion: true, //this enable a autocomplete (ctrl + space)
+            enableSnippets: true,
+            enableLiveAutocompletion: true
+        });
     }
 
     /**

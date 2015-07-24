@@ -15,13 +15,16 @@ import minium.developer.web.rest.dto.ProjectDTO;
 import minium.web.WebElements;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 
 public class CucumberProject extends ProjectTemplate {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CucumberProject.class);
 
 	private static final String APPLICATION_YML = "application.yml";
 	private static final String LOGBACK_XML = "logback-test.xml";
@@ -104,28 +107,27 @@ public class CucumberProject extends ProjectTemplate {
 			data.put("groupId", project.getGroupId());
 			data.put("artifactId", project.getArtifactId());
 			data.put("version", project.getVersion());
-			
+
 			//minium version
-			String tmp = WebElements.class.getPackage().getImplementationVersion();
-			String miniumVersion = tmp != null ? tmp : "1.0.0-SNAPSHOT" ;
+			String miniumVersionStr = WebElements.class.getPackage().getImplementationVersion();
+			String miniumVersion = miniumVersionStr != null ? miniumVersionStr : "1.1.0-SNAPSHOT" ;
 			data.put("miniumVersion", miniumVersion);
-			
+
 			//spring version
 			String springVersion = ApplicationContext.class.getPackage().getImplementationVersion();
 			data.put("springVersion", springVersion);
 
-			Writer out = new OutputStreamWriter(new FileOutputStream(newFile));
-			template.process(data, out);
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			e.printStackTrace();
+			try (Writer out = new OutputStreamWriter(new FileOutputStream(newFile))) {
+			    template.process(data, out);
+			    out.flush();
+			}
+		} catch (Exception e) {
+	         LOGGER.debug("Error occurred when generating {}", newFile, e);
 		}
 	}
 
 	private void buildTestClass(File f) {
-		
+
 		String className = Utils.toClassName(project.getArtifactId()) + "IT";
 		String fileName = className + ".java";
 
@@ -141,13 +143,12 @@ public class CucumberProject extends ProjectTemplate {
 			data.put("groupId", project.getGroupId());
 			data.put("className", className);
 
-			Writer out = new OutputStreamWriter(new FileOutputStream(newFile));
-			template.process(data, out);
-			out.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (TemplateException e) {
-			e.printStackTrace();
+            try (Writer out = new OutputStreamWriter(new FileOutputStream(newFile))) {
+                template.process(data, out);
+                out.flush();
+            }
+		} catch (Exception e) {
+		    LOGGER.debug("Error occurred when generating {}", newFile, e);
 		}
 	}
 

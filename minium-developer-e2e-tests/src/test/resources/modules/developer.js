@@ -23,7 +23,7 @@ var developer = {
     var disabledCreateBtn = base.find("#createWebDriver:disabled");
     disabledCreateBtn.waitForUnexistence("very-slow");
     
-    expect(notifications.successes()).to.have.text("Created a WebDriver");
+    expect(notifications.successes()).to.have.text("Created a new WebDriver");
   }
 };
 

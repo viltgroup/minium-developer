@@ -43,7 +43,9 @@ public class WebDriverResource {
     @ResponseBody
     public void create(@RequestBody WebDriverProperties webDriverProperties) {
         String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
-        webDriverService.webDriverExists(browserName);
+        if (webDriverProperties.getUrl() == null) {
+            webDriverService.webDriverExists(browserName);
+        }
         WebDriver webDriver = webDriverFactory.create(webDriverProperties);
         delegatorWebDriver.setDelegate(webDriver);
     }

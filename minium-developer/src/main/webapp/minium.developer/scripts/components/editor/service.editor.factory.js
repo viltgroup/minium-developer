@@ -4,10 +4,9 @@
  */
 miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider, MiniumMethodsProvider) {
 
-
     //init the possible modes
     var modeEnum = {
-        JS: "JS", // optionally you can give the object properties and methods
+        JS: "JS",
         FEATURE: "FEATURE",
         YAML: "YAML"
     };
@@ -35,14 +34,11 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         // resize the editor
         editor.resize();
 
-        
-
         return {
             editor: editor,
             mode: mode
         };
     }
-
 
     this.setMode = function(fileName, editor) {
         var mode;
@@ -50,7 +46,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
             editor.getSession().setMode("ace/mode/javascript");
             mode = modeEnum.JS;
             iniJSSnippets(editor);
-           
+
         }
         if (/\.feature$/.test(fileName)) {
             editor.getSession().setMode("ace/mode/gherkin");
@@ -70,7 +66,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         return mode;
     }
 
-    var iniJSSnippets = function(editor){
+    var iniJSSnippets = function(editor) {
         // autocompletion
         var langTools = ace.require("ace/ext/language_tools");
         //snippets
@@ -91,7 +87,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
                                 caption: ea.caption,
                                 description: ea.description,
                                 snippet: ea.content,
-                                meta: "Minium Functions"
+                                meta: ea.type
                             }
                         }));
                     })
@@ -99,29 +95,34 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
             getDocTooltip: function(item) {
                 if (!item.docHTML) {
                     item.docHTML = [
-                        "<b>", item.snippet, "</b>", "<hr></hr>",
+                        "<b>", item.caption, "</b>", "<hr></hr>",
                         item.description
                     ].join("");
                 }
             }
         };
 
-        editor.completers = [miniumAutoCompleter]
-        // langTools.completers.push(miniumAutoCompleter)
-        console.log(editor.completers)
+        editor.completers = [langTools.snippetCompleter, langTools.textCompleter, miniumAutoCompleter]
+
         editor.commands.on("afterExec", function(e) {
+
+            // when the token is a point only put the completer with minium functions
             if (e.command.name == "insertstring" && e.args === ".") {
+                editor.completers = [miniumAutoCompleter]
                 editor.execCommand("startAutocomplete")
+            } else {
+                editor.completers = [langTools.snippetCompleter, langTools.textCompleter, miniumAutoCompleter]
             }
         })
 
         editor.setOptions({
             enableBasicAutocompletion: true, //this enable a autocomplete (ctrl + space)
             enableSnippets: true,
-            // enableLiveAutocompletion: true
+            enableLiveAutocompletion: true
         });
 
     }
+
     //////////////////////////////////////////////////////////////////
     //
     // Configure the snippets of the editor
@@ -132,7 +133,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var langTools = ace.require("ace/ext/language_tools");
         //snippets
         var snippetManager = ace.require("ace/snippets").snippetManager;
-
 
         editor.$blockScrolling = Infinity;
 
@@ -157,7 +157,7 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var snippets = SnippetsProvider.all();
 
         snippetManager.register(snippets, "gherkin");
-        
+
     }
 
     /**

@@ -18,6 +18,13 @@ angular.module('minium.developer')
          */
         var tabs = $('#tabs').tabs({
             beforeActivate: function(event, ui) {
+
+                if (event.which == 2) {
+                    event.preventDefault();
+                    console.log(ui.newPanel, ui.newPanel.attr('data-tab-id'))
+                    closeTab(ui.newPanel, ui.newPanel.attr('data-tab-id'));
+                    return;
+                }
                 var tabId = ui.newPanel.attr('data-tab-id');
                 var editor = editors.getSession(tabId);
                 console.log(editor)
@@ -31,12 +38,13 @@ angular.module('minium.developer')
          * close icon: removing the tab on click
          */
         tabs.delegate("span.ui-icon-close", "click", function() {
-            closeTab($(this));
+            closeTab($(this), $(this).parent().attr('data-id'));
         });
 
-        var closeTab = function(elem) {
-            var tabUniqueId = elem.parent().attr('data-id');
+        var closeTab = function(elem, id) {
+            var tabUniqueId = id;
             var dirty = editors.isDirty(tabUniqueId);
+            console.log(elem, id)
             if (dirty === true) {
                 //the editor is dirty so check if the user 
                 var answer = confirm($translate('messages.files.unsaved'));

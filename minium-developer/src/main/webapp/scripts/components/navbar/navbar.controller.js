@@ -23,7 +23,6 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
      */
     var checkForNewVersion = function() {
         VersionService.checkForNewVersion().then(function(response) {
-            console.log(response.data)
             if (response.data === false) {
                 toastr.info($translate('global.messages.version.new'), $translate('global.messages.version.new.title'));
             }

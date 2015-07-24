@@ -62,7 +62,6 @@ angular.module('minium.developer')
                 var obj = TreeNav.getParentElement(relativeUri, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
-                console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
 
                 elem[pos] = newElem;
@@ -206,7 +205,6 @@ angular.module('minium.developer')
                 var obj = TreeNav.getParentElement(relativeUriContextClick, dataForTheTree);
                 var elem = obj.element;
                 var pos = obj.pos;
-                console.log(JSON.stringify(elem[pos]));
                 //elem.splice(pos, 1);
                 elem[pos] = newElem;
 

@@ -9,8 +9,6 @@ angular.module('minium.developer')
 
         $scope.snippetsForUndefinedSteps = featureReport.snippetsForUndefinedSteps;
 
-        console.log($scope.failingSteps);
-
         $scope.isPassing = function(){
             return $scope.resultsSummary.runCount === $scope.resultsSummary.passed;
         }

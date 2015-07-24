@@ -72,7 +72,6 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
             mode: editor.mode
         }
 
-        console.log($rootScope.active);
         //if the file is not found
         if ($rootScope.active.session === undefined) {
             return;
@@ -103,7 +102,6 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      *
      */
     $scope.saveFile = function() {
-        console.log($rootScope.active.session);
         editors.saveFile($rootScope.active.session);
     }
 

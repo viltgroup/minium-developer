@@ -19,7 +19,7 @@
 
         var stackTraceParsed = "";
 
-        if (!isAtLine(stackTraceLine)) {
+        if (!isAtLine(stackTraceLine) && !stackTraceLine.match( /(.*)(WebSocketMessageBrokerStats)/g)) {
             stackTraceParsed += stackTraceLine + "\n";
             return stackTraceParsed;
         }
@@ -38,10 +38,6 @@
         if (isCausedBy(stackTraceLine)) {
             stackTraceParsed += this.parseCausedBy(stackTraceLine, this.location);
             return stackTraceParsed;
-        }
-
-        if (stackTraceLine.match(this.toIgnorePattern)) {
-            return;
         }
 
         if (this.isNotJavaException(stackTraceLine)) {

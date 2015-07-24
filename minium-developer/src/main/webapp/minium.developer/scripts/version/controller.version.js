@@ -12,7 +12,6 @@
          * Get Minium Developer version
          **/
         VersionService.getVersionInfo().then(function(response) {
-            console.log(response.data)
             var version = response.data;
             $scope.version = version.version;
             $scope.commitHash = version.commitHash;

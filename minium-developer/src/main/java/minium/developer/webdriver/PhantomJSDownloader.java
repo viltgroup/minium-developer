@@ -7,161 +7,88 @@ import minium.developer.utils.Unzipper;
 
 import org.apache.commons.io.FileUtils;
 
-import com.google.common.base.Throwables;
-
 public class PhantomJSDownloader extends Downloader {
 
-    private String bit;
     private String version;
 
-    public PhantomJSDownloader(String version, String bitVersion, String destDir) {
-        setDestinationDir(destDir);
-        setVersion(version);
-        setBitVersion(bitVersion);
-
-        setDestinationFile(getVersion() + "_" + getBitVersion() + getOsPackage());
-
-        String sourceUrl = String.format("%s/phantomjs-%s-%s", RuntimeConfig.getPhantomjsUrl(), getVersion(), getOsPackage());
-        setSourceURL(sourceUrl);
-
-    }
-
-    private void extractZip() {
-        Unzipper.unzip(getDestinationFileFullPath().getAbsolutePath(), getDestinationDir());
-    }
-
-    private void extractTar() {
-        Unzipper.untar(getDestinationFileFullPath().getAbsolutePath(), getDestinationDir());
-    }
-
-    @Override
-    public boolean download() {
-
-        if (startDownload()) {
-            try {
-                // extract the downloaded archive
-                String driver = "phantomjs", driverPath = "phantomjs";
-                if (RuntimeConfig.getOS().isWindows() || RuntimeConfig.getOS().isMac()) {
-                    extractZip();
-                } else {
-                    extractTar();
-                }
-
-                // extract the executable
-                if (RuntimeConfig.getOS().isWindows()) {
-                    driver = driver + ".exe";
-                    driverPath = driver;
-                } else {
-                    driverPath = "bin/" + driverPath;
-                }
-
-                String sourceUrl = String.format("phantomjs-%s-%s", getVersion(), getOSName());
-                File tempUnzipedExecutable = new File(getDestinationDir(), sourceUrl + "/" + driverPath);
-                tempUnzipedExecutable.setExecutable(true, false);
-                tempUnzipedExecutable.setReadable(true, false);
-
-                File finalExecutable = new File(getDestinationDir(), driver);
-
-                if (!finalExecutable.exists()) {
-                    FileUtils.moveFile(tempUnzipedExecutable, finalExecutable);
-                }
-
-                // delete the extractedFile
-                File file = new File(getDestinationDir(), sourceUrl);
-                FileUtils.deleteDirectory(file);
-
-            } catch (IOException e) {
-                throw Throwables.propagate(e);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void setSourceURL(String source) {
-        sourceURL = source;
-    }
-
-    @Override
-    public void setDestinationFile(String destination) {
-        destinationFile = destination;
-    }
-
-    @Override
-    public void setDestinationDir(String dir) {
-        destinationDir = dir;
-    }
-
-    public String getBitVersion() {
-        return bit;
-    }
-
-    public void setBitVersion(String bit) {
-        this.bit = bit;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
+    public PhantomJSDownloader(String version, String destDir) {
+        super(destDir, String.format("%s/phantomjs-%s-%s", RuntimeConfig.getPhantomjsUrl(), version, getOsPackage()));
         this.version = version;
+    }
+
+    private void extractZip(File compressedFile) {
+        Unzipper.unzip(compressedFile.getAbsolutePath(), getDestinationDir());
+    }
+
+    private void extractTar(File compressedFile) {
+        Unzipper.untar(compressedFile.getAbsolutePath(), getDestinationDir());
+    }
+
+    @Override
+    public void download() throws IOException {
+        File compressedFile = doDownload();
+
+        // extract the downloaded archive
+        String driver = "phantomjs", driverPath = "phantomjs";
+        if (RuntimeConfig.getOS().isWindows() || RuntimeConfig.getOS().isMac()) {
+            extractZip(compressedFile);
+        } else {
+            extractTar(compressedFile);
+        }
+
+        // extract the executable
+        if (RuntimeConfig.getOS().isWindows()) {
+            driver = driver + ".exe";
+            driverPath = driver;
+        } else {
+            driverPath = "bin/" + driverPath;
+        }
+
+        String sourceUrl = String.format("phantomjs-%s-%s", version, getOSName());
+        File tempUnzipedExecutable = new File(getDestinationDir(), sourceUrl + "/" + driverPath);
+        tempUnzipedExecutable.setExecutable(true, false);
+        tempUnzipedExecutable.setReadable(true, false);
+
+        File finalExecutable = new File(getDestinationDir(), driver);
+
+        if (!finalExecutable.exists()) {
+            FileUtils.moveFile(tempUnzipedExecutable, finalExecutable);
+        }
+
+        // delete the extractedFile
+        File file = new File(getDestinationDir(), sourceUrl);
+        FileUtils.deleteDirectory(file);
     }
 
     protected String getOSName() {
         String os;
 
         if (RuntimeConfig.getOS().isWindows()) {
-            os = getWindownsName();
+            os = "windows";
         } else if (RuntimeConfig.getOS().isMac()) {
-            os = getMacName();
+            os = "macosx";
         } else {
-            os = getLinuxName();
+            os = "linux" + getLinuxBitVersion();
         }
 
         return os;
     }
 
-    public String getLinuxName() {
-        return "linux" + getLinuxBitVersion();
-    }
-
-    public String getMacName() {
-        return "macosx";
-    }
-
-    public String getWindownsName() {
-        return "windows";
-    }
-
-    protected String getOsPackage() {
+    protected static String getOsPackage() {
         String packageOs;
 
         if (RuntimeConfig.getOS().isWindows()) {
-            packageOs = getWindownsPackage();
+            packageOs = "windows.zip";
         } else if (RuntimeConfig.getOS().isMac()) {
-            packageOs = getMacPackage();
+            packageOs = "macosx.zip";
         } else {
-            packageOs = getLinuxPackage();
+            packageOs = "linux" + getLinuxBitVersion() + ".tar.bz2";
         }
 
         return packageOs;
     }
 
-    public String getLinuxPackage() {
-        return "linux" + getLinuxBitVersion() + ".tar.bz2";
-    }
-
-    public String getMacPackage() {
-        return "macosx.zip";
-    }
-
-    public String getWindownsPackage() {
-        return "windows.zip";
-    }
-
-    protected String getLinuxBitVersion(){
+    protected static String getLinuxBitVersion(){
         return RuntimeConfig.getOS().getBitVersion().equals("64") ? "-x86_64" : "-i686";
     }
 

@@ -25,7 +25,7 @@ public class WebDriverDownloaderTest {
 
     @Before
     public void setUp() throws Exception {
-        releaseManager = RuntimeConfig.getReleaseManager();
+//        releaseManager = RuntimeConfig.getReleaseManager();
     }
 
     @After

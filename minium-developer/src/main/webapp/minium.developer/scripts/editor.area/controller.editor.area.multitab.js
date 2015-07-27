@@ -351,6 +351,9 @@ angular.module('minium.developer')
                 $scope.setWebDriverMsg(value);
                 if (relaunch) {
                     launchTest(reLaunchParams);
+
+                    //reset the value
+                    relaunch = false;
                 } else if ($scope.relaunchEval) {
                     editors.evaluate($scope.active.session);
                     $scope.relaunchEval = false;

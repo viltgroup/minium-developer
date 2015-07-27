@@ -67,12 +67,13 @@
                     "maxlength": "Su correo electrónico no puede contener mas de 50 carácteres"
                 }
             },
-            "version":{
+            "version": {
                 "new": "Nueva versión disponible",
                 "new.title": "Nueva versión"
             }
         }
-    },    "entity": {
+    },
+    "entity": {
         "action": {
             "back": "Atrás",
             "cancel": "Cancelar",
@@ -117,6 +118,9 @@
         "one": "uno",
         "name": "Nombre",
         "about.minium": "Acerca de Minium",
-        "version": "Versión"
+        "version": "Versión",
+        "version.new": "Hay una nueva versión disponible?",
+        "date": "Fecha",
+        "commitHash": "Commit Hash"
     }
 }

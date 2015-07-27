@@ -16,6 +16,9 @@ miniumDeveloper.factory('WebDriverFactory', function($http) {
         },
         updateAll: function(){
             return $http.get("/app/rest/webdrivers/update/all");
+        },
+        getOS: function(){
+            return $http.get("/app/rest/webdrivers/getOS");
         }
     };
 });

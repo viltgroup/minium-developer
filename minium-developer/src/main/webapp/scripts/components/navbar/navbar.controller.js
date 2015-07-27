@@ -1,7 +1,6 @@
 'use strict';
 
-
-var NavbarController = function($rootScope, $scope, $translate, $filter, $location, $controller, VersionService) {
+var NavbarController = function($rootScope, $scope, $translate, $filter, $location, $controller, VersionService, WebDriverFactory) {
 
     var $translate = $filter('translate');
     // extends the EditorAreaController
@@ -23,16 +22,26 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
      */
     var checkForNewVersion = function() {
         VersionService.checkForNewVersion().then(function(response) {
-            if (response.data === false) {
-                toastr.info($translate('global.messages.version.new'), $translate('global.messages.version.new.title'));
+            var version = response.data;
+            if (version.hasNewVersion === true) {
+                toastr.info('<div>&nbsp;<a class="btn btn-default btn-xs" href="' + version.linkForNewVersion + '" target="_blank">' + $translate('global.messages.version.new') + '</a></div>', $translate('global.messages.version.new.title'));
             }
         });
     }
 
+    var getOS = function() {
+        WebDriverFactory.getOS().then(function(response) {
+            $rootScope.versionOS = response.data;
+        })
+    }
+
+    /////////////////////////////////////////////////////////////////
+    // Initializations
+    /////////////////////////////////////////////////////////////////
     checkForNewVersion();
+    getOS();
 };
 
-
-NavbarController.$inject = ['$rootScope', '$scope', '$translate', '$filter', '$location', '$controller', 'VersionService'];
+NavbarController.$inject = ['$rootScope', '$scope', '$translate', '$filter', '$location', '$controller', 'VersionService', 'WebDriverFactory'];
 
 angular.module('miniumdevApp').controller('NavbarController', NavbarController);

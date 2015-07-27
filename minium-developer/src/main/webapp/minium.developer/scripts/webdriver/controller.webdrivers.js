@@ -1,7 +1,7 @@
 'use strict';
 angular.module('minium.developer')
     .controller('WebDriversController', function($rootScope, $scope, $translate, $filter, $modalInstance, $state, $stateParams, $log, $location, FS, launcherService, WebDriverFactory, error) {
-        
+
         var $translate = $filter('translate');
         if (error) {
             $scope.error = true;
@@ -9,37 +9,65 @@ angular.module('minium.developer')
             error = undefined;
         }
 
+        var OS = {
+            MAC: 'mac',
+            LINUX: 'linux',
+            WINDOWS: 'windows'
+        };
 
-        $scope.browsers = {
+        var allBrowsers = {
             "Chrome": {
                 displayName: "Chrome",
                 shortDisplayName: "chrome",
-                icon: "icon-chrome"
+                icon: "icon-chrome",
+                os: [OS.MAC, OS.WINDOWS, OS.LINUX]
             },
             "Firefox": {
                 displayName: "Firefox",
                 shortDisplayName: "firefox",
-
-                icon: "icon-firefox"
+                icon: "icon-firefox",
+                os: [OS.MAC, OS.WINDOWS, OS.LINUX]
             },
             "InternetExplorer": {
                 displayName: "Internet Explorer",
                 shortDisplayName: "internet explorer",
-                icon: "icon-ie"
+                icon: "icon-ie",
+                os: [OS.WINDOWS]
             },
             "Safari": {
                 displayName: "Safari",
                 shortDisplayName: "safari",
-                icon: "icon-compass"
+                icon: "icon-compass",
+                os: [OS.MAC]
             },
             "PhantomJS": {
                 displayName: "PhantomJS",
                 shortDisplayName: "phantomjs",
-                icon: "icon-globe"
+                icon: "icon-globe",
+                os: [OS.MAC, OS.WINDOWS, OS.LINUX]
             }
 
         };
 
+        $scope.browsers = {};
+        /**
+         * Filter browsers by current OS
+         * 
+         */
+        var filterBrowsersByOS = function() {
+
+            // if it cannot get the browser OS
+            if (!$rootScope.versionOS) {
+                $scope.browsers = allBrowsers;
+                return;
+            }
+
+            for (var key in allBrowsers) {
+                if (allBrowsers[key].os.indexOf($rootScope.versionOS) != -1) {
+                    $scope.browsers[key] = allBrowsers[key];
+                }
+            }
+        }
 
         $scope.selectBrowser;
         $scope.isProcessing = false;
@@ -51,6 +79,7 @@ angular.module('minium.developer')
         $scope.remoteWebDriverUrl = "";
         $scope.useRemoteWebDriver = false;
         $scope.toggleText = $translate('webdriver.use_remote');
+
         $scope.ok = function() {
             $scope.$close(true);
         };
@@ -95,5 +124,10 @@ angular.module('minium.developer')
                 toastr.error($translate('webdriver.error_creating'));
             });
         }
+
+        /////////////////////////////////////////////////////////////////
+        // Initializations
+        /////////////////////////////////////////////////////////////////
+        filterBrowsersByOS();
 
     });

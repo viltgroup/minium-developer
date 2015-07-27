@@ -119,6 +119,7 @@
         "name": "Nom",
         "about.minium": "Aprop de Minium",
         "version": "Versió",
+        "version.new": "Hi ha una nova versió disponible?",
         "date": "Data",
         "commitHash": "Commit Hash"
     }

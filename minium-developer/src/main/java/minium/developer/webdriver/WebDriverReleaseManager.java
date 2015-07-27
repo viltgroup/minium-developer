@@ -16,11 +16,13 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Throwables;
 
 @Component
+@Lazy
 public class WebDriverReleaseManager {
 
     private static final String WEBDRIVER_JAR = "webdriver-jar";
@@ -30,31 +32,30 @@ public class WebDriverReleaseManager {
     private WebDriverRelease latestIEDriverVersion;
     private WebDriverRelease latestChromeDriverVersion;
 
-
     private Document parsedXml;
     private static Logger logger = Logger.getLogger(WebDriverReleaseManager.class);
 
     private Map<String, List<WebDriverRelease>> allProducts;
 
-    private void initialize() {
-        allProducts = new HashMap<String, List<WebDriverRelease>>();
-        allProducts.put(WEBDRIVER_JAR, new LinkedList<WebDriverRelease>());
-        allProducts.put(IE_DRIVER, new LinkedList<WebDriverRelease>());
-        allProducts.put(CHROME_DRIVER, new LinkedList<WebDriverRelease>());
-    }
-
     public WebDriverReleaseManager() throws DocumentException, MalformedURLException {
-
         URL webDriverAndIEDriverURL = new URL(RuntimeConfig.getSeleniumUrl());
         URL chromeDriverVersionURL = new URL(RuntimeConfig.getChromeDriverUrl());
         logger.info("Checking the latest version of WebDriver, IEDriver, ChromeDriver from " + webDriverAndIEDriverURL.toExternalForm() + " and "
                 + chromeDriverVersionURL.toExternalForm());
+
         initialize();
 
         SAXReader reader = new SAXReader();
         parsedXml = reader.read(webDriverAndIEDriverURL);
         loadWebDriverAndIEDriverVersions(parsedXml);
         loadChromeDriverVersionFromURL(chromeDriverVersionURL);
+    }
+
+    private void initialize() {
+        allProducts = new HashMap<String, List<WebDriverRelease>>();
+        allProducts.put(WEBDRIVER_JAR, new LinkedList<WebDriverRelease>());
+        allProducts.put(IE_DRIVER, new LinkedList<WebDriverRelease>());
+        allProducts.put(CHROME_DRIVER, new LinkedList<WebDriverRelease>());
     }
 
     public int getWebdriverVersionCount() {

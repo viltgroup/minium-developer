@@ -1,6 +1,7 @@
 package minium.developer.webdriver;
 
 import java.io.File;
+import java.io.IOException;
 
 import minium.developer.utils.Unzipper;
 
@@ -8,108 +9,56 @@ import org.jboss.logging.Logger;
 
 public class ChromeDriverDownloader extends Downloader {
 
-    private String bit;
     private String version;
 
-    private static Logger logger = Logger.getLogger(ChromeDriverDownloader.class);
+    private static final Logger LOGGER = Logger.getLogger(ChromeDriverDownloader.class);
 
-    public ChromeDriverDownloader(String version, String bitVersion, String destDir) {
-        setDestinationDir(destDir);
-        setVersion(version);
-        setBitVersion(bitVersion);
-
-        setDestinationFile(getVersion() + "_" + getBitVersion() + "bit" + ".zip");
-
-        setSourceURL("http://chromedriver.storage.googleapis.com/" + getVersion() + "/chromedriver_" + getOSName() + ".zip");
-
+    public ChromeDriverDownloader(String version, String destDir) {
+        super(destDir, "http://chromedriver.storage.googleapis.com/" + version + "/chromedriver_" + getOSName() + ".zip");
+        this.version = version;
     }
 
     @Override
-    public void setSourceURL(String source) {
-        sourceURL = source;
-    }
-
-    @Override
-    public void setDestinationFile(String destination) {
-        destinationFile = destination;
-    }
-
-    @Override
-    public void setDestinationDir(String dir) {
-        destinationDir = dir;
-    }
-
-    @Override
-    public boolean download() {
-
-        logger.info("Downloading from " + getSourceURL());
-
-        if (startDownload()) {
-
-            if (Unzipper.unzip(getDestinationFileFullPath().getAbsolutePath(), getDestinationDir())) {
-
-                String chromedriver = "chromedriver";
-                if (RuntimeConfig.getOS().isWindows()) {
-                    chromedriver = chromedriver + ".exe";
-                }
-
-                File tempUnzipedExecutable = new File(getDestinationDir(), chromedriver);
-                File finalExecutable = new File(getDestinationDir(), chromedriver);
-
-                tempUnzipedExecutable.renameTo(finalExecutable);
-
-                setDestinationFile(finalExecutable.getAbsolutePath());
-
-                finalExecutable.setExecutable(true, false);
-                finalExecutable.setReadable(true, false);
-                logger.info("Driver extracted to  " + finalExecutable.getAbsolutePath());
-                return true;
-            }
+    public void download() throws IOException {
+        LOGGER.info("Downloading from " + getSourceURL());
+        File zipFile = doDownload();
+        Unzipper.unzip(zipFile.getAbsolutePath(), getDestinationDir());
+        String chromedriver = "chromedriver";
+        if (RuntimeConfig.getOS().isWindows()) {
+            chromedriver = chromedriver + ".exe";
         }
-        return false;
-    }
 
-    public String getBitVersion() {
-        return bit;
-    }
+        File finalExecutable = new File(getDestinationDir(), chromedriver);
+        finalExecutable.setExecutable(true, false);
+        finalExecutable.setReadable(true, false);
 
-    public void setBitVersion(String bit) {
-        this.bit = bit;
+        LOGGER.info("Driver extracted to  " + finalExecutable.getAbsolutePath());
     }
 
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    protected String getOSName() {
+    protected static String getOSName() {
         String os;
 
         if (RuntimeConfig.getOS().isWindows()) {
-            os = getWindownsName() + getBitVersion();
+            os = "win";
         } else if (RuntimeConfig.getOS().isMac()) {
-            // HACK- this driver doesn't exists in 64 version in MAC OS
-            os = getMacName() + "32";
+            os = "mac";
         } else {
-            os = getLinuxName() + getBitVersion();
+            os = "linux";
         }
 
-        return os;
+        return os + getBitVersion();
     }
 
-    public String getLinuxName() {
-        return "linux";
+    protected static String getBitVersion() {
+        OS os = RuntimeConfig.getOS();
+        if (os.isMac() || os.isWindows()) {
+            // HACK - this driver only exists in 32 bits for Mac and Windows
+            return "32";
+        }
+        return os.getBitVersion();
     }
-
-    public String getMacName() {
-        return "mac";
-    }
-
-    public String getWindownsName() {
-        return "win";
-    }
-
 }

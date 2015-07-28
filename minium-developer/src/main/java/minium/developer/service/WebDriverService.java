@@ -1,5 +1,7 @@
 package minium.developer.service;
 
+import java.io.IOException;
+
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
 import minium.developer.webdriver.IEDriverDownloader;
@@ -28,7 +30,7 @@ public class WebDriverService {
         releaseManager = RuntimeConfig.getReleaseManager();
     }
 
-    public void webDriverExists(String browserName) {
+    public void webDriverExists(String browserName) throws IOException {
         if (!driverLocator.webDriverExists(browserName)) {
             // download the webdrivers
             switch (browserName) {
@@ -47,30 +49,31 @@ public class WebDriverService {
         }
     }
 
-    protected void downloadChromeDriver() {
+    protected void downloadChromeDriver() throws IOException {
         WebDriverRelease chromeDriverLatestVersion = releaseManager.getChromeDriverLatestVersion();
         String chromeVersion = chromeDriverLatestVersion.getPrettyPrintVersion(".");
-        chromeDownloader = new ChromeDriverDownloader(chromeVersion, RuntimeConfig.getOS().getBitVersion(), driverLocator.getDriversDir().getPath());
+        chromeDownloader = new ChromeDriverDownloader(chromeVersion, driverLocator.getDriversDir().getPath());
         chromeDownloader.download();
     }
 
-    protected void downloadPhantomJs() {
-        phantomJSDownloader = new PhantomJSDownloader("1.9.8", RuntimeConfig.getOS().getBitVersion(), driverLocator.getDriversDir().getPath() );
+    protected void downloadPhantomJs() throws IOException {
+        phantomJSDownloader = new PhantomJSDownloader("1.9.8", driverLocator.getDriversDir().getPath() );
         phantomJSDownloader.download();
     }
 
-    protected void downloadIEDriver() {
+    protected void downloadIEDriver() throws IOException {
         WebDriverRelease ieDriverLatestVersion = releaseManager.getIeDriverLatestVersion();
         String version = ieDriverLatestVersion.getPrettyPrintVersion(".");
-        IEDownloader = new IEDriverDownloader(version, RuntimeConfig.getOS().getBitVersion(), driverLocator.getDriversDir().getPath());
+        IEDownloader = new IEDriverDownloader(version, driverLocator.getDriversDir().getPath());
         IEDownloader.download();
     }
 
     /**
      * Download the webdriver
      * Only download if webdriver doesn't exists
+     * @throws IOException
      */
-    public void downloadAllWebDrivers() {
+    public void downloadAllWebDrivers() throws IOException {
 
         if (RuntimeConfig.getOS().isWindows() && !driverLocator.webDriverExists("internet explorer")) {
             downloadIEDriver();
@@ -89,8 +92,9 @@ public class WebDriverService {
     /**
      * Update the version of the webdrivers
      *  Even if the webdrivers exists they will updated
+     * @throws IOException
      */
-    public void updateAllWebDrivers() {
+    public void updateAllWebDrivers() throws IOException {
 
         if (RuntimeConfig.getOS().isWindows()) {
             downloadIEDriver();

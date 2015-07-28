@@ -1,5 +1,7 @@
 package minium.developer.web.rest;
 
+import java.io.IOException;
+
 import minium.developer.service.WebDriverService;
 import minium.web.DelegatorWebDriver;
 import minium.web.config.WebDriverFactory;
@@ -41,7 +43,7 @@ public class WebDriverResource {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public void create(@RequestBody WebDriverProperties webDriverProperties) {
+    public void create(@RequestBody WebDriverProperties webDriverProperties) throws IOException {
         String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
         if (webDriverProperties.getUrl() == null) {
             webDriverService.webDriverExists(browserName);
@@ -52,14 +54,14 @@ public class WebDriverResource {
 
     @RequestMapping(value = "/download/all", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
     @ResponseBody
-    public ResponseEntity<String> downloadAll() {
+    public ResponseEntity<String> downloadAll() throws IOException {
         webDriverService.downloadAllWebDrivers();
         return new ResponseEntity<String>("Ok", HttpStatus.OK);
     }
 
     @RequestMapping(value = "/update/all", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
     @ResponseBody
-    public ResponseEntity<String> updateAll() {
+    public ResponseEntity<String> updateAll() throws IOException {
         webDriverService.updateAllWebDrivers();
         return new ResponseEntity<String>("Ok", HttpStatus.OK);
     }

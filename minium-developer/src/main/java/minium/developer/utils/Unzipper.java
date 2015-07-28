@@ -6,7 +6,7 @@ import com.google.common.base.Throwables;
 
 public class Unzipper {
 
-    public static boolean unzip(String source, String destination) {
+    public static void unzip(String source, String destination) {
         try {
             File archive = new File(source);
             File outputDir = new File(destination);
@@ -15,10 +15,9 @@ public class Unzipper {
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }
-        return true;
     }
 
-    public static boolean untar(String source, String destination) {
+    public static void untar(String source, String destination) {
         try {
             File archive = new File(source);
             File outputDir = new File(destination);
@@ -27,7 +26,6 @@ public class Unzipper {
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }
-        return true;
     }
 
 }

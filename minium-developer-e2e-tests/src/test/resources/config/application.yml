@@ -9,6 +9,8 @@ minium:
     options:
       tags:
         - "@runit"
+      plugin:
+        - pretty
 
   config:
     baseUrl: http://virtus.vilt-group.com:8089

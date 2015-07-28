@@ -1,6 +1,6 @@
 FROM cynthia:5100/oraclejdk8-debian
 
-MAINTAINER Mario Lameiras <mario.lameiraso@vilt-group.com>
+MAINTAINER Mario Lameiras <mario.lameiras@vilt-group.com>
 ##############################################
 # Config
 ##############################################

@@ -11,6 +11,7 @@ import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,19 +20,17 @@ public class WebDriverService {
     @Autowired
     private DriverLocator driverLocator;
 
+    @Autowired
+    @Lazy
     private WebDriverReleaseManager releaseManager;
+
     private ChromeDriverDownloader chromeDownloader;
     private IEDriverDownloader IEDownloader;
     private PhantomJSDownloader phantomJSDownloader;
 
-
-    public WebDriverService() {
-        driverLocator = new DriverLocator();
-        releaseManager = RuntimeConfig.getReleaseManager();
-    }
-
     public void webDriverExists(String browserName) throws IOException {
         if (!driverLocator.webDriverExists(browserName)) {
+
             // download the webdrivers
             switch (browserName) {
             case "chrome":
@@ -57,7 +56,7 @@ public class WebDriverService {
     }
 
     protected void downloadPhantomJs() throws IOException {
-        phantomJSDownloader = new PhantomJSDownloader("1.9.8", driverLocator.getDriversDir().getPath() );
+        phantomJSDownloader = new PhantomJSDownloader("1.9.8", driverLocator.getDriversDir().getPath());
         phantomJSDownloader.download();
     }
 
@@ -69,8 +68,8 @@ public class WebDriverService {
     }
 
     /**
-     * Download the webdriver
-     * Only download if webdriver doesn't exists
+     * Download the webdriver Only download if webdriver doesn't exists
+     *
      * @throws IOException
      */
     public void downloadAllWebDrivers() throws IOException {
@@ -90,8 +89,9 @@ public class WebDriverService {
     }
 
     /**
-     * Update the version of the webdrivers
-     *  Even if the webdrivers exists they will updated
+     * Update the version of the webdrivers Even if the webdrivers exists they
+     * will updated
+     *
      * @throws IOException
      */
     public void updateAllWebDrivers() throws IOException {

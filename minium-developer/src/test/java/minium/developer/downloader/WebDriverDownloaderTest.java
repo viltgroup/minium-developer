@@ -7,12 +7,10 @@ import java.io.File;
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.IEDriverDownloader;
 import minium.developer.webdriver.PhantomJSDownloader;
-import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
 import org.apache.commons.lang3.SystemUtils;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,11 +23,7 @@ public class WebDriverDownloaderTest {
 
     @Before
     public void setUp() throws Exception {
-        releaseManager = RuntimeConfig.getReleaseManager();
-    }
-
-    @After
-    public void tearDown() throws Exception {
+        releaseManager = new WebDriverReleaseManager();
     }
 
     @Test

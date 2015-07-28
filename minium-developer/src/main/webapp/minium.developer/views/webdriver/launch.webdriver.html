@@ -8,10 +8,9 @@
         <div class="alert alert-error alert-warning" ng-show="error">
             <i class="fa fa-warning"></i> {{errorMessage}}
         </div>
-        <form class="" name="newLogForm">
+        <form class="webdrivers">
             <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
 
-            <br><br>
             <div class="form-group" ng-show="useRemoteWebDriver">
                 <label class="col-sm-2 control-label" for="textinput" translate="webdriver.remote.url">Remote url</label>
 

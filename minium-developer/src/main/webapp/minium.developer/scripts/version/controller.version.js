@@ -22,6 +22,25 @@
             $modalInstance.dismiss('cancel');
             $scope.$dismiss();
         };
+
+        /**
+         * Check for a new version of minium
+         */
+        $scope.hasNewVersion = true;
+        var checkForNewVersion = function() {
+            VersionService.checkForNewVersion().then(function(response) {
+                console.log(response.data)
+                var version = response.data;
+                if (version.hasNewVersion === false) {
+                    $scope.hasNewVersion = false;
+                } else {
+                    $scope.hasNewVersion = true;
+                    $scope.linkForNewVersion = version.linkForNewVersion;
+                }
+            });
+        }
+
+        checkForNewVersion();
     }
 
 })();

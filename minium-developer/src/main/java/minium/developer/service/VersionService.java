@@ -15,11 +15,11 @@ public class VersionService {
 
     private MiniumReleaseManager releaseManager;
 
-    public VersionDTO getVersionAndDate() throws ParseException {
+    public VersionDTO getLocalVersionInfo() throws ParseException {
         return releaseManager.getLocalVersion();
     }
 
-    public boolean checkForNewVersion() throws IOException{
+    public VersionDTO checkForNewVersion() throws IOException{
         releaseManager = new MiniumIoRelease(new HttpClientUtils());
         return releaseManager.gotTheLastVersion();
     }

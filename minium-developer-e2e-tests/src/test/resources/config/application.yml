@@ -11,7 +11,8 @@ minium:
         - "@runit"
 
   config:
-    baseUrl: http://localhost:8089
+    baseUrl: http://virtus.vilt-group.com:8089
+    tempDir: /tmp
     defaultBrowser: 
       browserName: Chrome
 

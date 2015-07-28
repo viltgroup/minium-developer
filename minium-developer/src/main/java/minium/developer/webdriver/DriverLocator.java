@@ -8,11 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class DriverLocator {
 
-    private static OS currentOS = new OS();
+    private static OS currentOS;
 
     @Value("${app.home:.}")
     private File homedir;
 
+    public DriverLocator() {
+        currentOS = new OS();
+    }
 
     public boolean webDriverExists(String browser) {
         switch (browser) {
@@ -68,7 +71,7 @@ public class DriverLocator {
 
     public File getDriversDir() {
         File driverDir = homedir == null ? null : new File(homedir, "drivers");
-        return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : (driverDir.mkdir() ? driverDir : null) ;
+        return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : (driverDir.mkdir() ? driverDir : null);
     }
 
 }

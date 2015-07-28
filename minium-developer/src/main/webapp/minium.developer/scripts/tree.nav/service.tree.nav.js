@@ -37,7 +37,6 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
         for (var i = 0; i < aux.length; i++) {
             var level = unescape(levels[0])
             if (aux[i].name == level) {
-                console.log(aux[i].children)
                 node = aux[i];
                 pos = i;
                 break;
@@ -135,7 +134,6 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
         for (var i = 0; i < aux.length; i++) {
             var level = unescape(levels[0])
             if (aux[i].name == level) {
-                console.log(aux[i].children)
                 node = aux[i];
                 pos = i;
                 break;
@@ -214,7 +212,6 @@ miniumDeveloper.factory('TreeNav', function($http, $q) {
         for (var i = 0; i < aux.length; i++) {
             var level = unescape(levels[0])
             if (aux[i].name == level) {
-                console.log(aux[i].children)
                 node = aux[i];
                 pos = i;
                 break;

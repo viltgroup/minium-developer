@@ -21,13 +21,11 @@ angular.module('minium.developer')
 
                 if (event.which == 2) {
                     event.preventDefault();
-                    console.log(ui.newPanel, ui.newPanel.attr('data-tab-id'))
                     closeTab(ui.newPanel, ui.newPanel.attr('data-tab-id'));
                     return;
                 }
                 var tabId = ui.newPanel.attr('data-tab-id');
                 var editor = editors.getSession(tabId);
-                console.log(editor)
                 if (editor !== null) {
                     $scope.setActiveEditor(editor);
                 }
@@ -44,7 +42,6 @@ angular.module('minium.developer')
         var closeTab = function(elem, id) {
             var tabUniqueId = id;
             var dirty = editors.isDirty(tabUniqueId);
-            console.log(elem, id)
             if (dirty === true) {
                 //the editor is dirty so check if the user 
                 var answer = confirm($translate('messages.files.unsaved'));
@@ -78,7 +75,6 @@ angular.module('minium.developer')
                 if ($stateParams.path) {
                     var promise = $scope.loadFile($stateParams.path).then(function(result) {
                         if ($stateParams.line) {
-                            console.log($rootScope.active)
                             $rootScope.active.session.gotoLine($stateParams.line);
                         }
                     });
@@ -262,7 +258,6 @@ angular.module('minium.developer')
              */
             cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession, socket_key)
                 .then(function(data) {
-                    console.log(data.feature);
                     feature = data.feature;
                     $scope.faillingSteps = data.faillingSteps;
                     $scope.resultsSummary = data.resultsSummary;
@@ -356,6 +351,9 @@ angular.module('minium.developer')
                 $scope.setWebDriverMsg(value);
                 if (relaunch) {
                     launchTest(reLaunchParams);
+
+                    //reset the value
+                    relaunch = false;
                 } else if ($scope.relaunchEval) {
                     editors.evaluate($scope.active.session);
                     $scope.relaunchEval = false;

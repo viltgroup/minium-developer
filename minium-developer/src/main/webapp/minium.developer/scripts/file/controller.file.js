@@ -21,11 +21,9 @@ angular.module('minium.developer')
                 // tree navigation needs a label property
                 item.label = item.name;
                 item.parent = node;
-                console.log(item)
             });
         });
         $scope.fs.current.children =  node.children;
-        //console.log(node)
     };
 
     $scope.loadParent = function() {

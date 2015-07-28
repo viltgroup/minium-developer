@@ -70,8 +70,6 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     //////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.addInstance = function(fileContent, num) {
 
-        //console.log('add a tab with an ace editor instance' + JSON.stringify(fileContent));
-
         // the panel id is a timestamp plus a random number from 0 to 10000
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
@@ -566,7 +564,6 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                 sender: "editor|cli"
             },
             exec: function(env) {
-                //console.log("open file")
             },
             readOnly: false // should not apply in readOnly mode
         });

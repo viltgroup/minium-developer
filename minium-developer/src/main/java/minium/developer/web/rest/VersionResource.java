@@ -22,13 +22,13 @@ public class VersionResource {
     @RequestMapping(value = "/rest/version", method = RequestMethod.GET)
     @ResponseBody
     public VersionDTO getVersion() throws IOException, ParseException {
-        return versionService.getVersionAndDate();
-
+         VersionDTO versionAndDate = versionService.getLocalVersionInfo();
+         return versionAndDate;
     }
 
     @RequestMapping(value = "/rest/version/new", method = RequestMethod.GET)
     @ResponseBody
-    public boolean checkForNewVersion() throws IOException, ParseException {
+    public VersionDTO checkForNewVersion() throws IOException, ParseException {
         return versionService.checkForNewVersion();
     }
 }

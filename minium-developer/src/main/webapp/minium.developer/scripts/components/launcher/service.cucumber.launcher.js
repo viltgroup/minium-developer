@@ -24,7 +24,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
                 toastr.error($translate('test_msg.test_error'));
                 return;
             }
-            console.log(snippetsForUndefinedSteps);
 
             var feature = new FeatureFacade(data, snippetsForUndefinedSteps);
 
@@ -81,7 +80,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
                 '<em class="fa fa-bug"></em> <strong>' + feature.resultsSummary.failures + ' ' + $translate('report.failure') + '</strong><br>' +
                 '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' ' + $translate('report.skipped') + '</strong><br>' +
                 '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' ' + $translate('report.undefined') + '</strong>');
-
 
             onFinishTestExecution(annotations, launchTestSession);
 

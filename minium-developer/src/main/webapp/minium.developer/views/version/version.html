@@ -19,6 +19,14 @@
             <span class="label label-warning">{{commitHash}}</span><br><br>
         </center>
         <hr>
+
+        <center>
+            <span><strong translate="labels.version.new">Is there new version?  </strong></span>
+            <span class="label label-primary">{{hasNewVersion}}</span><br><br>
+            <a href="{{linkForNewVersion}}" ng-show="{{hasNewVersion}}" target="_blank">
+                {{linkForNewVersion}}
+            </a>
+        </center>
     </div>
     <div class="modal-footer">
         <button class="btn btn-default" ng-click="cancel()" translate="entity.action.close">

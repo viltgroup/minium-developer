@@ -23,14 +23,6 @@ public class GitHubRelease extends MiniumReleaseManager {
         return (!latest.isEmpty() && latest != null) ? latest.get(0) : null;
     }
 
-    @Override
-    public boolean gotTheLastVersion() throws IOException {
-        Release lastRelease = getLastRelease();
-        Release localVersionRelease = toGitHubRelease(localVersion);
-        int compare = releaseComparator.compare(localVersionRelease, lastRelease);
-        return compare == 1 ? false : true;
-    }
-
     private List<Release> getLatest() throws IOException {
         ArrayList<Release> releases = new ArrayList<>();
 

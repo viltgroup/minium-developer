@@ -61,7 +61,6 @@ angular.module('minium.developer')
                 }
                 $scope.validatingProject = false;
             }).error(function(data, status) {
-                console.error('Repos error', status, data);
                 $scope.validatingProject = false;
             });
         }

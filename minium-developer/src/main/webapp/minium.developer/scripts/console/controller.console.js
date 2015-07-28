@@ -63,7 +63,6 @@
             var HoverLink = ace.require("hoverlink").HoverLink
             editor.hoverLink = new HoverLink(editor);
             editor.hoverLink.on("open", function(e) {
-                console.log(e)
                 var clickedValue = e.value.split(":");
                 //split the uri and the line (example: step/stepfile.js:16 )
                 var relativeUri = clickedValue[0];
@@ -141,7 +140,6 @@
 
         $scope.isActivePause = false;
         $scope.showCompleteStackTrace = false;
-        console.log(editor);
     }
 
 })();

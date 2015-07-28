@@ -1608,3 +1608,7 @@ Console editor CSS
         display: none!important;
     }
 }
+
+.webdrivers{
+    text-align: center;
+}

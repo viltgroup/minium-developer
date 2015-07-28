@@ -34,9 +34,17 @@ public abstract class MiniumReleaseManager {
         return new Release(actualVersion.getVersion(),"");
     }
 
-    public abstract boolean gotTheLastVersion() throws IOException;
-
     public abstract Release getLastRelease() throws IOException;
+
+    public VersionDTO gotTheLastVersion() throws IOException{
+        Release lastRelease = getLastRelease();
+        Release localVersionRelease = toGitHubRelease(localVersion);
+        int compare = releaseComparator.compare(localVersionRelease, lastRelease);
+        boolean hasNewVerison = compare < 0 ? true : false;
+        localVersion.setHasNewVersion(hasNewVerison);
+        localVersion.setLinkForNewVersion(lastRelease.getHtmlUrl());
+        return localVersion;
+    }
 
     public VersionDTO getLocalVersion(){
         String path = Application.class.getProtectionDomain().getCodeSource().getLocation().getPath();

@@ -43,7 +43,6 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     };
 
     var getOpenProjects = function() {
-        console.log($.cookie(LAST_PROJECTS_COOKIES) || "")
         var projects = [];
         if ($.cookie(LAST_PROJECTS_COOKIES)) {
             projects = $.parseJSON($.cookie(LAST_PROJECTS_COOKIES));
@@ -55,7 +54,6 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
     var storeOpenProjects = function(path) {
         var projects = getOpenProjects();
         projects.push(path);
-        console.log(JSON.stringify(_.uniq(projects).slice(-4)))
 
         //remove duplicated and limit to 4 elements
         var projects = _.uniq(projects).slice(-4);

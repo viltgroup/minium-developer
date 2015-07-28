@@ -12,10 +12,6 @@ public class Release {
     private String tagName;
     @JsonProperty("html_url")
     private String htmlUrl;
-    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern =
-    // "yyyy-MM-dd'T'HH:mm:ssZ")
-    // @JsonProperty("published_at")
-    // private DateTime publishedAt;
 
     public Release() {
     }
@@ -49,11 +45,11 @@ public class Release {
         this.htmlUrl = htmlUrl;
     }
 
-    // public DateTime getPublishedAt() {
-    // return publishedAt;
-    // }
-    //
-    // public void setPublishedAt(DateTime publishedAt) {
-    // this.publishedAt = publishedAt;
-    // }
+    public Release(String id, String tagName, String htmlUrl) {
+        super();
+        this.id = id;
+        this.tagName = tagName;
+        this.htmlUrl = htmlUrl;
+    }
+
 }

@@ -38,10 +38,9 @@ public abstract class MiniumReleaseManager {
 
     public VersionDTO gotTheLastVersion() throws IOException{
         Release lastRelease = getLastRelease();
-        lastRelease.setTagName("minium-tools-1.5.1");
         Release localVersionRelease = toGitHubRelease(localVersion);
         int compare = releaseComparator.compare(localVersionRelease, lastRelease);
-        boolean hasNewVerison = compare == 1 ? true : false;
+        boolean hasNewVerison = compare <= 0 ? false : true;
         localVersion.setHasNewVersion(hasNewVerison);
         localVersion.setLinkForNewVersion(lastRelease.getHtmlUrl());
         return localVersion;

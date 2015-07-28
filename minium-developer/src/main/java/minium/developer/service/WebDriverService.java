@@ -9,6 +9,7 @@ import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class WebDriverService {
     private DriverLocator driverLocator;
 
     @Autowired
+    @Lazy
     private WebDriverReleaseManager releaseManager;
 
     private ChromeDriverDownloader chromeDownloader;

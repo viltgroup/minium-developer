@@ -12,7 +12,6 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,14 +24,8 @@ public class WebDriverDownloaderTest {
 
     @Before
     public void setUp() throws Exception {
-//        releaseManager = RuntimeConfig.getReleaseManager();
+        releaseManager = new WebDriverReleaseManager();
     }
-
-    @After
-    public void tearDown() throws Exception {
-//        FileUtils.deleteDirectory(new File(downloadDir));
-    }
-
 
     @Test
     public void testChromeDownload() throws Exception {

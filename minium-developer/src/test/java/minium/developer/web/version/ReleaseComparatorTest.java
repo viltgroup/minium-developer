@@ -21,7 +21,7 @@ public class ReleaseComparatorTest {
         Release newRelease = new Release("minium-tools-1.2.1", null);
 
         int compare = releaseComparator.compare(olderRelease, newRelease);
-        assertTrue("Relase 1.1.1 is older than 1.2.1", compare > 0);
+        assertTrue("Relase 1.1.1 is older than 1.2.1", compare < 0);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class ReleaseComparatorTest {
         Release olderRelease = new Release("minium-tools-0.1.1", null);
 
         int compare = releaseComparator.compare(newRelease, olderRelease);
-        assertTrue("Relase 1.1.0-SNAPSHOT is newer than 0.1.1", compare < 0);
+        assertTrue("Relase 1.1.0-SNAPSHOT is newer than 0.1.1", compare > 0);
     }
 
     @Test
@@ -41,7 +41,7 @@ public class ReleaseComparatorTest {
         Release olderRelease = new Release("minium-tools-1.1.2", null);
 
         int compare = releaseComparator.compare(newRelease, olderRelease);
-        assertTrue("Relase 1.1.3-SNAPSHOT is newer than 1.1.2", compare < 0);
+        assertTrue("Relase 1.1.3-SNAPSHOT is newer than 1.1.2", compare > 0);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ReleaseComparatorTest {
         Release newRelease = new Release("minium-tools-1.1.1", null);
 
         int compare = releaseComparator.compare(olderRelease, newRelease);
-        assertTrue("Relase 1.1.0 is odler than 1.1.1", compare > 0);
+        assertTrue("Relase 1.1.0 is odler than 1.1.1", compare < 0);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ReleaseComparatorTest {
         Release newRelease = new Release("minium-tools-3.15", null);
 
         int compare = releaseComparator.compare(olderRelease, newRelease);
-        assertTrue("Relase 3.1.6 is older than 3.15", compare > 0);
+        assertTrue("Relase 3.1.6 is older than 3.15", compare < 0);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class ReleaseComparatorTest {
         Release newRelease = new Release("3.5.1", null);
 
         int compare = releaseComparator.compare(olderRelease, newRelease);
-        assertTrue("Relase 3.4.6 is newer than 3.5.1", compare > 0);
+        assertTrue("Relase 3.4.6 is older than 3.5.1", compare < 0);
     }
 
 }

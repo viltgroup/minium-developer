@@ -40,7 +40,7 @@ public abstract class MiniumReleaseManager {
         Release lastRelease = getLastRelease();
         Release localVersionRelease = toGitHubRelease(localVersion);
         int compare = releaseComparator.compare(localVersionRelease, lastRelease);
-        boolean hasNewVerison = compare <= 0 ? false : true;
+        boolean hasNewVerison = compare < 0 ? true : false;
         localVersion.setHasNewVersion(hasNewVerison);
         localVersion.setLinkForNewVersion(lastRelease.getHtmlUrl());
         return localVersion;

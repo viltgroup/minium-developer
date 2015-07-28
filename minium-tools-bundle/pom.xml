@@ -25,24 +25,6 @@
 
 	<build>
 	    <finalName>minium-tools</finalName>
-		<resources>
-			<resource>
-				<directory>docker</directory>
-				<filtering>true</filtering>
-				<includes>
-				    <include>production.yml</include>
-				</includes>
-				<targetPath>${project.build.directory}/docker</targetPath>
-			</resource>
-			<resource>
-				<directory>docker</directory>
-				<filtering>true</filtering>
-				<excludes>
-				    <exclude>production.yml</exclude>
-				</excludes>
-				<targetPath>${project.build.directory}/docker</targetPath>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

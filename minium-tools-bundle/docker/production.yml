@@ -1,5 +1,5 @@
 developer:
-  image: cynthia:5100/minium-tools:${project.version}
+  image: cynthia:5100/minium-tools:latest
   ports:
   - "8089:8089"
   restart: always

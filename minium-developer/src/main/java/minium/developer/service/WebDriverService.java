@@ -31,7 +31,7 @@ public class WebDriverService {
     private IEDriverDownloader IEDownloader;
     private PhantomJSDownloader phantomJSDownloader;
 
-    private enum WebDrivers {
+    public static enum WebDriverType {
         CHROME, FIREFOX, IE, SAFARI, PHANTOMJS
     };
 
@@ -111,16 +111,16 @@ public class WebDriverService {
         downloadChromeDriver();
     }
 
-    public List<Enum<?>> getAvailableWebdrivers() {
-        List<Enum<?>> availableBrowsers = new ArrayList<Enum<?>>();
+    public List<WebDriverType> getAvailableWebdrivers() {
+        List<WebDriverType> availableBrowsers = new ArrayList<WebDriverType>();
 
-        availableBrowsers.add(WebDrivers.CHROME);
-        availableBrowsers.add(WebDrivers.FIREFOX);
-        availableBrowsers.add(WebDrivers.PHANTOMJS);
+        availableBrowsers.add(WebDriverType.CHROME);
+        availableBrowsers.add(WebDriverType.FIREFOX);
+        availableBrowsers.add(WebDriverType.PHANTOMJS);
         if (SystemUtils.IS_OS_WINDOWS) {
-            availableBrowsers.add(WebDrivers.IE);
+            availableBrowsers.add(WebDriverType.IE);
         } else if (SystemUtils.IS_OS_MAC) {
-            availableBrowsers.add(WebDrivers.SAFARI);
+            availableBrowsers.add(WebDriverType.SAFARI);
         }
         return availableBrowsers;
     }

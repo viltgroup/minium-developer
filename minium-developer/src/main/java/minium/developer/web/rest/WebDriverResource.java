@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import minium.developer.service.WebDriverService;
+import minium.developer.service.WebDriverService.WebDriverType;
 import minium.web.DelegatorWebDriver;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.WebDriverProperties;
@@ -69,7 +70,7 @@ public class WebDriverResource {
 
     @RequestMapping(value = "/getAvailableWebdrivers", method = RequestMethod.GET)
     @ResponseBody
-    public List<Enum<?>> getAvailableWebdrivers() {
+    public List<WebDriverType> getAvailableWebdrivers() {
         return webDriverService.getAvailableWebdrivers();
     }
 }

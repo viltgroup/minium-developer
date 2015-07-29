@@ -28,7 +28,7 @@ angular.module('minium.developer')
                 icon: "icon-firefox",
                 os: [OS.MAC, OS.WINDOWS, OS.LINUX]
             },
-            "INTERNETEXPLORER": {
+            "IE": {
                 displayName: "Internet Explorer",
                 shortDisplayName: "internet explorer",
                 icon: "icon-ie",
@@ -63,7 +63,6 @@ angular.module('minium.developer')
             }
 
             for (var key in allBrowsers) {
-                console.log(key)
                 if ($rootScope.availableWebDrivers.indexOf(key) != -1) {
                     $scope.browsers[key] = allBrowsers[key];
                 }

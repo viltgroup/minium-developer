@@ -29,9 +29,9 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
         });
     }
 
-    var getOS = function() {
-        WebDriverFactory.getOS().then(function(response) {
-            $rootScope.versionOS = response.data;
+    var getAvailableWebdrivers = function() {
+        WebDriverFactory.getAvailableWebdrivers().then(function(response) {
+            $rootScope.availableWebDrivers = response.data;
         })
     }
 
@@ -39,7 +39,7 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
     // Initializations
     /////////////////////////////////////////////////////////////////
     checkForNewVersion();
-    getOS();
+    getAvailableWebdrivers();
 };
 
 NavbarController.$inject = ['$rootScope', '$scope', '$translate', '$filter', '$location', '$controller', 'VersionService', 'WebDriverFactory'];

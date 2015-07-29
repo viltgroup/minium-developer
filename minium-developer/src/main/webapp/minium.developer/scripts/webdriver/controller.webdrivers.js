@@ -16,31 +16,31 @@ angular.module('minium.developer')
         };
 
         var allBrowsers = {
-            "Chrome": {
+            "CHROME": {
                 displayName: "Chrome",
                 shortDisplayName: "chrome",
                 icon: "icon-chrome",
                 os: [OS.MAC, OS.WINDOWS, OS.LINUX]
             },
-            "Firefox": {
+            "FIREFOX": {
                 displayName: "Firefox",
                 shortDisplayName: "firefox",
                 icon: "icon-firefox",
                 os: [OS.MAC, OS.WINDOWS, OS.LINUX]
             },
-            "InternetExplorer": {
+            "IE": {
                 displayName: "Internet Explorer",
                 shortDisplayName: "internet explorer",
                 icon: "icon-ie",
                 os: [OS.WINDOWS]
             },
-            "Safari": {
+            "SAFARI": {
                 displayName: "Safari",
                 shortDisplayName: "safari",
                 icon: "icon-compass",
                 os: [OS.MAC]
             },
-            "PhantomJS": {
+            "PHANTOMJS": {
                 displayName: "PhantomJS",
                 shortDisplayName: "phantomjs",
                 icon: "icon-globe",
@@ -57,13 +57,13 @@ angular.module('minium.developer')
         var filterBrowsersByOS = function() {
 
             // if it cannot get the browser OS
-            if (!$rootScope.versionOS) {
+            if (!$rootScope.availableWebDrivers) {
                 $scope.browsers = allBrowsers;
                 return;
             }
 
             for (var key in allBrowsers) {
-                if (allBrowsers[key].os.indexOf($rootScope.versionOS) != -1) {
+                if ($rootScope.availableWebDrivers.indexOf(key) != -1) {
                     $scope.browsers[key] = allBrowsers[key];
                 }
             }

@@ -1,9 +1,9 @@
 package minium.developer.web.rest;
 
 import java.io.IOException;
+import java.util.List;
 
 import minium.developer.service.WebDriverService;
-import minium.developer.webdriver.RuntimeConfig;
 import minium.web.DelegatorWebDriver;
 import minium.web.config.WebDriverFactory;
 import minium.web.config.WebDriverProperties;
@@ -67,10 +67,9 @@ public class WebDriverResource {
         return new ResponseEntity<String>("Ok", HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/getOS", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
+    @RequestMapping(value = "/getAvailableWebdrivers", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> getOS() {
-        String osName = RuntimeConfig.getOS().getOSName().toLowerCase();
-        return new ResponseEntity<String>(osName, HttpStatus.OK);
+    public List<Enum<?>> getAvailableWebdrivers() {
+        return webDriverService.getAvailableWebdrivers();
     }
 }

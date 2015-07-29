@@ -1,6 +1,8 @@
 package minium.developer.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
@@ -10,6 +12,7 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
+import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,10 @@ public class WebDriverService {
     private ChromeDriverDownloader chromeDownloader;
     private IEDriverDownloader IEDownloader;
     private PhantomJSDownloader phantomJSDownloader;
+
+    private enum WebDrivers {
+        CHROME, FIREFOX, IE, SAFARI, PHANTOMJS
+    };
 
     public void webDriverExists(String browserName) throws IOException {
         if (!driverLocator.webDriverExists(browserName)) {
@@ -104,4 +111,17 @@ public class WebDriverService {
         downloadChromeDriver();
     }
 
+    public List<Enum<?>> getAvailableWebdrivers() {
+        List<Enum<?>> availableBrowsers = new ArrayList<Enum<?>>();
+
+        availableBrowsers.add(WebDrivers.CHROME);
+        availableBrowsers.add(WebDrivers.FIREFOX);
+        availableBrowsers.add(WebDrivers.PHANTOMJS);
+        if (SystemUtils.IS_OS_WINDOWS) {
+            availableBrowsers.add(WebDrivers.IE);
+        } else if (SystemUtils.IS_OS_MAC) {
+            availableBrowsers.add(WebDrivers.SAFARI);
+        }
+        return availableBrowsers;
+    }
 }

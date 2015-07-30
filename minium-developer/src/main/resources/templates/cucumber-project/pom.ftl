@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>io.vilt.minium</artifactId>
-		<groupId>minium-cucumber-parent</groupId>
+		<groupId>io.vilt.minium</groupId>
+		<artifactId>minium-cucumber-parent</artifactId>
 		<version>${miniumVersion}</version>
 		<relativePath />
 	</parent>

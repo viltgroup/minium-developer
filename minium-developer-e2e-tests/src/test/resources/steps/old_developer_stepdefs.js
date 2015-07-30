@@ -121,10 +121,6 @@ When(/^I click on button "(.*?)"$/, function(text) {
 
 
 
-
-
-
-
 When(/^I close all tabs$/, function() {
   var tabs = p.getTabs();
   var btnsClose = tabs.find(".ui-icon-close");

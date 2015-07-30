@@ -49,7 +49,7 @@ var forms = {
     });
 
     forms.fill(options.fields);
-    if (options.submitBtn.checkForExistence("fast")) {
+    if (!options.submitBtn.checkForUnexistence("fast")) {
       options.submitBtn.click();
     }
   } 

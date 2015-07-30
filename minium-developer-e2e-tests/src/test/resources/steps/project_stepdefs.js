@@ -5,6 +5,8 @@ var _ = require("lodash"),
     files = require("files");
 
 var tempDir = function () {
+  if (config.tempDir) return config.tempDir;
+  
   var File = Packages.java.io.File;
   var System = Packages.java.lang.System;
   return String(new File(System.getProperty("java.io.tmpdir")).getCanonicalPath());

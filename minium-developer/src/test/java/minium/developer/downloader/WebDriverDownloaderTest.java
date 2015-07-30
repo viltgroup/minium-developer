@@ -49,7 +49,7 @@ public class WebDriverDownloaderTest {
     }
 
     @Test
-    public void testPhantomJSDowload() throws Exception {
+    public void testPhantomJSDownload() throws Exception {
         PhantomJSDownloader phantomJSDownloader = new PhantomJSDownloader("1.9.8", downloadDir);
         phantomJSDownloader.download();
         File executable = new File(downloadDir, "phantomjs" + (SystemUtils.IS_OS_WINDOWS ? ".exe" : ""));

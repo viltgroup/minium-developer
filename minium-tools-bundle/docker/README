@@ -7,8 +7,10 @@ please build the minium-tools project first with `mvn install` then
 
 To Push to registry chaning to the CORRECT_VERSION:
 
-`docker tag miniumdeveloperdocker_developer cynthia:5100/minium-tools:1.1.0-SNAPSHOT`
-`docker push cynthia:5100/minium-tools:1.1.0-SNAPSHOT:CORRECT_VERSION`
+```
+docker tag docker_developer cynthia:5100/minium-tools:1.1.0-SNAPSHOT
+docker push cynthia:5100/minium-tools:1.1.0-SNAPSHOT
+```
 
 
 RUNNING

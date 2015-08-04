@@ -108,7 +108,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         FeatureResult featureResult = null;
         // check if the execution as results
         // to present the result in the interface
-        if (!content.equals("")) {
+        if (!"".equals(content)) {
             ReporterParser reporterParser = new ReporterParser();
             List<Feature> features = reporterParser.parseJsonResult(content);
             if (features != null && !features.isEmpty()) {
@@ -279,8 +279,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
             throws IOException {
         MiniumBackend miniumBackend = new MiniumBackend(resourceLoader, cx, scope);
         List<RemoteBackend> remoteBackends = getRemoteBackends(cucumberProperties);
-        List<Backend> allBackends = ImmutableList.<Backend> builder().add(miniumBackend).addAll(remoteBackends).build();
-        return allBackends;
+        return ImmutableList.<Backend> builder().add(miniumBackend).addAll(remoteBackends).build();
     }
 
     protected void sendSnippets(Runtime runtime, String sessionId) {

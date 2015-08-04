@@ -355,8 +355,7 @@ When(/^I click on toolbar "(.*?)"$/, function(nav) {
 });
 
 When(/^I choose the browser "(.*?)"$/, function(browserName) {
-  browserName="Chrome "
-  var browsers = $(".modal-content").find("form").withName("newLogForm").find("button");
+  var browsers = $(".modal-content").find("form button");
   var browserBtn = browsers.withText(browserName);
   browserBtn.click();
   $("#createWebDriver").click();

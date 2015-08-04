@@ -11,8 +11,6 @@ public class RuntimeConfig {
     @Value("${app.home:.}")
     private File homedir;
 
-    private static final String DRIVER_PATH = "../drivers";
-
     private static final String SELENIUM_URL = "https://selenium-release.storage.googleapis.com/";
     private static final String CHROME_DRIVER_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
     private static final String PHANTOMJS_URL = "https://bitbucket.org/ariya/phantomjs/downloads";

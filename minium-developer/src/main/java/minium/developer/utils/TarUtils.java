@@ -12,6 +12,10 @@ import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 
 public class TarUtils {
 
+    private TarUtils() {
+
+    }
+
     public static void untar(File tarFile, File outputDir) throws IOException {
 
         File temporaryFile = File.createTempFile("tmp", ".tar");
@@ -61,7 +65,8 @@ public class TarUtils {
     }
 
     private static void createDir(File dir) {
-        if (!dir.mkdirs())
+        if (!dir.mkdirs()) {
             throw new RuntimeException("Can not create dir " + dir);
+        }
     }
 }

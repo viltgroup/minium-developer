@@ -1,9 +1,9 @@
 package minium.developer.web.version;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-
-public class ReleaseComparator implements Comparator<Release> {
+public class ReleaseComparator implements Comparator<Release>, Serializable {
 
     /**
      *

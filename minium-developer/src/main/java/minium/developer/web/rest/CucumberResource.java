@@ -67,8 +67,7 @@ public class CucumberResource {
 	@RequestMapping(value = "/sessionId", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")
 	@ResponseBody
 	public String checkSessionId(HttpServletRequest request) {
-		String sessionId = request.getSession().getId();
-		return sessionId;
+		return request.getSession().getId();
 	}
 
 	public CucumberProjectContext getCucumberProjectContext() {

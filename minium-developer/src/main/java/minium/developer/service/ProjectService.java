@@ -59,7 +59,7 @@ public class ProjectService {
 
     public boolean isValid(String path) {
         path = getPath(path);
-        return fileSystemservice.dirExists(path) ;
+        return fileSystemservice.dirExists(path);
     }
 
     public boolean isParentValid(String path) {
@@ -101,7 +101,7 @@ public class ProjectService {
     public boolean hasProject(ProjectProperties projectProperties) {
         File dir = projectProperties.getDir();
         boolean hasProject = true;
-        if (dir.getPath() == ".") {
+        if (".".equals(dir.getPath())) {
             hasProject = false;
         }
         return hasProject;
@@ -110,11 +110,10 @@ public class ProjectService {
     public String getProjectName(ProjectProperties projectProperties) {
         File file = projectProperties.getDir();
         String parent = file.getPath();
-        String projectName = parent.substring(parent.lastIndexOf(File.separator) + 1);
-        return projectName;
+        return parent.substring(parent.lastIndexOf(File.separator) + 1);
     }
 
-    public boolean fileExists(String path){
+    public boolean fileExists(String path) {
         File file = new File(path);
         return file.exists() || file.isDirectory();
     }

@@ -62,9 +62,33 @@ When(/^I refresh the page$/, function() {
   browser.get(browser.getCurrentUrl());
 });
  
+ When(/^I write the expression "([^"]*)"$/, function(expr) {
+  var editor = editors.console();
+  editor.setValue(expr, 1);
+  editor.execCommand('startAutocomplete');
+});
+
+Then(/^I shoul see the autocomplete tooltip$/, function() {
+  var autocompleteToolTip = $(".ace_autocomplete .ace_content").visible();
+  expect(autocompleteToolTip).to.exist();
+});
+
+Then(/^I should see the function "([^"]*)" in doc tooltip$/, function(fn) {
+  var functionName = $(".ace_doc-tooltip b").withText(fn);
+  expect(functionName).to.exist();
+});
  
- 
- 
+Then(/^I should see at minimum (\d+) webdrivers availables$/, function(number) {
+  expect($("radio-button-group button").visible()).to.have.size(number);
+});
+
+When(/^I evaluate the expression "([^"]*)"$/, function(expression) {
+  
+});
+
+When(/^I clean the scope$/, function() {
+  
+});
  
  
  

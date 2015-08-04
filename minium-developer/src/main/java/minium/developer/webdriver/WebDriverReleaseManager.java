@@ -129,7 +129,7 @@ public class WebDriverReleaseManager {
 
             if (release.getName() == null) {
 
-            } else if (release.getName().equals("selenium-server-standalone")) {
+            } else if ("selenium-server-standalone".equals(release.getName())) {
                 allProducts.get(WEBDRIVER_JAR).add(release);
             } else {
                 allProducts.get(IE_DRIVER).add(release);

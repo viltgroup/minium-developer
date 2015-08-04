@@ -15,7 +15,7 @@ import com.google.common.base.Throwables;
 
 public class ZipUtils {
 
-    public ZipUtils() {
+    private ZipUtils() {
     }
 
     public static void unzipArchive(File archive, File outputDir) {
@@ -56,7 +56,8 @@ public class ZipUtils {
     }
 
     private static void createDir(File dir) {
-        if (!dir.mkdirs())
+        if (!dir.mkdirs()) {
             throw new RuntimeException("Can not create dir " + dir);
+        }
     }
 }

@@ -1,4 +1,3 @@
-@runit
 Feature: Test Console log
 
   Background: 

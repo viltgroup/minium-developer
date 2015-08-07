@@ -1,7 +1,12 @@
-'use strict';
+(function() {
+    'use strict';
 
-angular.module('minium.developer')
-    .controller('OpenFileController', function($scope, $modalInstance, $controller, $stateParams, FS, TabLoader, MiniumEditor) {
+    angular.module('minium.developer')
+        .controller('OpenFileController', OpenFileController);
+
+    OpenFileController.$inject = ['$rootScope', '$scope', '$modalInstance', '$controller', '$stateParams', 'TabLoader', 'FS', 'MiniumEditor'];
+
+    function OpenFileController($rootScope, $scope, $modalInstance, $controller, $stateParams, TabLoader, FS, MiniumEditor) {
 
         console.debug("loaded FileController")
             //extends the fileController
@@ -17,18 +22,6 @@ angular.module('minium.developer')
 
         $scope.type = $stateParams.type | '';
 
-        $scope.search = function() {
-            var searchQuery = $scope.form.searchQuery;
-            $scope.results = FS.search({
-                q: searchQuery
-            });
-        };
-
-        $scope.select = function(item) {
-            parentScope.loadFile(item.relativeUri);
-            $scope.$close(true);
-        };
-
         $scope.ok = function() {
             $scope.$close(true);
         };
@@ -38,4 +31,35 @@ angular.module('minium.developer')
             $scope.$dismiss();
         };
 
-    });
+         $scope.search = function() {
+            var searchQuery = $scope.form.searchQuery;
+            $scope.results = FS.search({
+                q: searchQuery
+            });
+        };
+
+        $scope.searchContent = function() {
+            var searchQuery = $scope.form.searchQuery;
+            if (searchQuery.length <= 3) {
+                return;
+            }
+
+            $scope.resultPromise = FS.searchContent({
+                q: searchQuery
+            }).$promise.then(function(result) {
+                $scope.resultsForContentSearch = result;
+            })
+
+        };
+
+        $scope.select = function(item, line) {
+            console.log($scope)
+            parentScope.loadFile(decodeURIComponent(item.relativeUri)).then(function(result) {
+                if (line) {
+                    $rootScope.active.session.gotoLine(line);
+                }
+            });
+        }
+    }
+
+})();

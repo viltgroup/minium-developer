@@ -17,6 +17,13 @@ miniumDeveloper.factory('FS', function($resource) {
                 action: "search"
             },
             isArray: true
+        },
+        searchContent: {
+            method: 'GET',
+            params: {
+                action: "searchContent"
+            },
+            isArray: true
         }
     });
 })

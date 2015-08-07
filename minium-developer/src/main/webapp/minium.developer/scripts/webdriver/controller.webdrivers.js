@@ -54,14 +54,15 @@ angular.module('minium.developer')
          * Filter browsers by current OS
          * 
          */
-        var filterBrowsersByOS = function() {
+        var filterBrowsersByOS = function(useRemoteWebDriver) {
 
             // if it cannot get the browser OS
-            if (!$rootScope.availableWebDrivers) {
+            if (!$rootScope.availableWebDrivers || useRemoteWebDriver) {
                 $scope.browsers = allBrowsers;
                 return;
             }
 
+            $scope.browsers = {};
             for (var key in allBrowsers) {
                 if ($rootScope.availableWebDrivers.indexOf(key) != -1) {
                     $scope.browsers[key] = allBrowsers[key];
@@ -93,6 +94,7 @@ angular.module('minium.developer')
         $scope.setRemoteWebDriver = function() {
             $scope.useRemoteWebDriver = !$scope.useRemoteWebDriver;
             $scope.toggleText = $scope.useRemoteWebDriver ? $translate('webdriver.use_local') : $translate('webdriver.use_remote');
+            filterBrowsersByOS($scope.useRemoteWebDriver);
         }
 
         $scope.createWebDriver = function() {

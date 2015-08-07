@@ -4,6 +4,6 @@ angular.module('miniumdevApp')
 
 .constant('ENV', 'dev')
 
-.constant('VERSION', '1.1.0-SNAPSHOT')
+.constant('VERSION', '1.1.2-SNAPSHOT')
 
 ;

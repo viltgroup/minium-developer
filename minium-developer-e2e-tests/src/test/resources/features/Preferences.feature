@@ -3,7 +3,7 @@ Feature: Editor Preferences
 
   Background: 
     Given I'm at Minium Developer
-    And I click on toolbar "Preferences > Preferences"
+    And I click on toolbar "Preferences > Preferences1"
 
   Scenario Outline: Test theme
     When I fill:

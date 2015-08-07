@@ -82,18 +82,18 @@ angular.module('minium.developer')
             }
             $scope.project.artifactId = name.replace(/\s+/g, '-');
             var path = $scope.location;
-
+            
             ProjectFactory.isValidName(path).success(function(data) {
                 console.debug(data)
                 if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
-                    
+
                     //dir is good and theres a project
                     $scope.isValid = true;
                     $scope.msg.directory = directoryMsgTemplate.success;
                     $scope.msg.project = '';
                     $scope.msg.projectType = '';
                 } else if (data !== projectEnum.NO_PROJECT && data !== projectEnum.NOT_VALID) {
-                    
+
                     //dir is valid but no projects
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.success;
@@ -101,7 +101,7 @@ angular.module('minium.developer')
                     $scope.msg.projectType = '';
 
                 } else {
-                    
+
                     //dir is wrong and theres no project
                     $scope.isValid = false;
                     $scope.msg.directory = directoryMsgTemplate.error;
@@ -116,7 +116,7 @@ angular.module('minium.developer')
             });
         }
 
-        $scope.$watchGroup(['project.directory', 'project.name'], function(newValues, oldValues, scope) {
+        $scope.$watch('project.directory + project.name', function(newValues, oldValues, scope) {
             var projectName = $scope.project.name || "";
             var projectDirectory = $scope.project.directory || "";
             $scope.location = projectDirectory + "/" + projectName;

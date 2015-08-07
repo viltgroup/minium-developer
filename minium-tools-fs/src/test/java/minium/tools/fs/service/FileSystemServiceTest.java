@@ -1,5 +1,6 @@
 package minium.tools.fs.service;
 
+import static org.junit.Assert.assertTrue;
 import minium.tools.fs.config.FileSystemConfiguration;
 
 import org.junit.Test;
@@ -18,7 +19,7 @@ public class FileSystemServiceTest {
 	@Configuration
 	@Import(FileSystemConfiguration.class)
 	public static class TestConfig {
-		
+
 		@Bean
 		@Autowired
 		public FileSystemService fileSystemService() {
@@ -31,8 +32,7 @@ public class FileSystemServiceTest {
 
 	@Test
 	public void testInTempFolder() {
-
-		// assertTrue(file.exists());
+		assertTrue(true);
 	}
 
 }

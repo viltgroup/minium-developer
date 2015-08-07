@@ -18,6 +18,7 @@ public class FileProps implements Serializable {
     private long size;
     private FileProps.Type type;
     private Date lastModified;
+    private int lineNo;
 
     public String getName() {
         return name;
@@ -70,5 +71,13 @@ public class FileProps implements Serializable {
     @Override
     public String toString() {
         return uri.toString();
+    }
+
+    public int getLineNo() {
+        return lineNo;
+    }
+
+    public void setLineNo(int lineNo) {
+        this.lineNo = lineNo;
     }
 }

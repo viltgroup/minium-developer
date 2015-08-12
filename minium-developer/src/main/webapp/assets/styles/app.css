@@ -1609,6 +1609,11 @@ Console editor CSS
     }
 }
 
-.webdrivers{
+.webdrivers {
     text-align: center;
+}
+
+.file-navigator-wrapper {
+    height: 200px;
+    overflow: auto;
 }

@@ -11,6 +11,13 @@ miniumDeveloper.factory('FS', function($resource) {
             },
             isArray: true
         },
+        listAll: {
+            method: 'GET',
+            params: {
+                action: "listAll"
+            },
+            isArray: true
+        },
         search: {
             method: 'GET',
             params: {

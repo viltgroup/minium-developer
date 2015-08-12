@@ -15,6 +15,7 @@ public class FileProps implements Serializable {
     private String name;
     private URI uri;
     private URI relativeUri;
+    private String absoluteUri;
     private long size;
     private FileProps.Type type;
     private Date lastModified;
@@ -79,5 +80,13 @@ public class FileProps implements Serializable {
 
     public void setLineNo(int lineNo) {
         this.lineNo = lineNo;
+    }
+
+    public String getAbsoluteUri() {
+        return absoluteUri;
+    }
+
+    public void setAbsoluteUri(String absoluteUri) {
+        this.absoluteUri = absoluteUri;
     }
 }

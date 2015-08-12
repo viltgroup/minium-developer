@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('ImportProjectController', function($scope, $translate, $filter, $window, $modalInstance, $cookieStore, GENERAL_CONFIG, ProjectService, ProjectFactory) {
+    .controller('ImportProjectController', function($scope, $translate, $filter, $window, $modalInstance, $cookieStore, GENERAL_CONFIG, ProjectService, ProjectFactory, FS) {
 
         var $translate = $filter('translate');
 
@@ -88,4 +88,52 @@ angular.module('minium.developer')
         //initializations
         $scope.lastProjects = ProjectService.getOpenProjects();
 
+
+        $scope.fs = {
+            current: {}
+        };
+        $scope.form = {};
+
+        //focus on search input
+
+        $scope.asyncLoad = function(node) {
+            console.debug(node);
+            var params = {
+                path: node.relativeUri || ""
+            };
+            node.children = FS.listAll(params, function() {
+                _.each(node.children, function(item) {
+                    // tree navigation needs a label property
+                    item.label = item.name;
+                    item.parent = node;
+                });
+            });
+            $scope.fs.current.children = node.children;
+        };
+
+        $scope.loadParent = function() {
+            var parent = $scope.fs.current.parent;
+            if (!parent) return;
+            $scope.fs.current = parent;
+            $scope.loadChildren(parent);
+        }
+
+        $scope.loadChildren = function(item) {
+            if (item.childrenLoaded) return;
+            $scope.asyncLoad(item);
+            item.childrenLoaded = true;
+        };
+
+
+        $scope.enter = function(item) {
+            $scope.fs.current = item;
+            $scope.asyncLoad(item);
+        };
+
+        $scope.asyncLoad($scope.fs.current);
+
+        $scope.selectDir = function(relativeUri) {
+            $scope.path = relativeUri;
+            $scope.validate();
+        }
     });

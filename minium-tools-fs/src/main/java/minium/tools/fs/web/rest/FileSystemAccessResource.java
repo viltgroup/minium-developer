@@ -48,6 +48,12 @@ public class FileSystemAccessResource {
         return service.list(baseUrl, path);
     }
 
+    @RequestMapping(value = "/**", params = "action=listAll", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<FileProps> listAll(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException {
+        return service.listAll(baseUrl, path);
+    }
+
     @RequestMapping(value = "/**", method = RequestMethod.GET)
     @ResponseBody
     public FileContent getFileContent(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException, URISyntaxException {

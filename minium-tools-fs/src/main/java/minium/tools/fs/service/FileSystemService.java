@@ -83,6 +83,31 @@ public class FileSystemService {
         return fileProps;
     }
 
+    public Set<FileProps> listAll(String baseUrl, String path) throws IOException {
+        String property = System.getProperty("user.home");
+        File file;
+        file = new File(property, path);
+
+        if (!file.exists())
+            throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
+        if (!file.isDirectory())
+            new IllegalOperationException();
+
+        File[] childFiles = file.listFiles();
+
+        Set<FileProps> fileProps = Sets.newHashSet();
+
+        if (childFiles != null) {
+            for (File childFile : childFiles) {
+                if (childFile.isDirectory() && childFile.exists() && !childFile.isHidden()) {
+                    fileProps.add(extractFileProps2(baseUrl, childFile));
+                }
+            }
+        }
+
+        return fileProps;
+    }
+
     public FileContent getFileContent(String baseUrl, String path) throws IOException, URISyntaxException {
         FileSystemResource resource = get(path);
         File file = resource.getFile();
@@ -241,6 +266,21 @@ public class FileSystemService {
         fileProps.setUri(uri);
         fileProps.setRelativeUri(relativeUri);
         fileProps.setSize(FileUtils.sizeOf(file));
+        fileProps.setType(file.isFile() ? FileProps.Type.FILE : FileProps.Type.DIR);
+        fileProps.setLastModified(new Date(file.lastModified()));
+        return fileProps;
+    }
+
+    protected FileProps extractFileProps2(String baseUrl, File file) throws IOException {
+        File homeDir = new File(System.getProperty("user.home"));
+        URI relativeUri = homeDir.toURI().relativize(file.toURI());
+        String path = relativeUri.getPath();
+        FileProps fileProps = new FileProps();
+        fileProps.setName(file.getName());
+        URI uri = UriComponentsBuilder.fromHttpUrl(baseUrl).path("fs/").path(path.toString()).build().toUri();
+        fileProps.setAbsoluteUri(file.getAbsolutePath());
+        fileProps.setUri(uri);
+        fileProps.setRelativeUri(relativeUri);
         fileProps.setType(file.isFile() ? FileProps.Type.FILE : FileProps.Type.DIR);
         fileProps.setLastModified(new Date(file.lastModified()));
         return fileProps;

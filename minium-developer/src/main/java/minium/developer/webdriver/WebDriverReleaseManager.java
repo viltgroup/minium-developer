@@ -11,11 +11,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -33,7 +34,7 @@ public class WebDriverReleaseManager {
     private WebDriverRelease latestChromeDriverVersion;
 
     private Document parsedXml;
-    private static Logger logger = Logger.getLogger(WebDriverReleaseManager.class);
+    private static Logger logger = LoggerFactory.getLogger(WebDriverReleaseManager.class);
 
     private Map<String, List<WebDriverRelease>> allProducts;
 

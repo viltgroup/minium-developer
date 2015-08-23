@@ -5,13 +5,14 @@ import java.io.IOException;
 
 import minium.developer.utils.Unzipper;
 
-import org.jboss.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ChromeDriverDownloader extends Downloader {
 
     private String version;
 
-    private static final Logger LOGGER = Logger.getLogger(ChromeDriverDownloader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ChromeDriverDownloader.class);
 
     public ChromeDriverDownloader(String version, String destDir) {
         super(destDir, "http://chromedriver.storage.googleapis.com/" + version + "/chromedriver_" + getOSName() + ".zip");

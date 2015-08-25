@@ -36,7 +36,7 @@ import com.google.common.base.Preconditions;
 @RequestMapping("/app/rest/js/selectorGadget")
 public class SelectorGadgetResource {
 
-	private static final Logger log = LoggerFactory.getLogger(SelectorGadgetResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(SelectorGadgetResource.class);
 
 	private boolean activated = false;
 
@@ -49,7 +49,7 @@ public class SelectorGadgetResource {
 			try {
 				deactivate();
 			} catch (Exception e) {
-				log.warn("Could not deactivate selector gadget");
+				LOGGER.warn("Could not deactivate selector gadget");
 			}
 		}
 

@@ -31,3 +31,70 @@ When(/^I wait until the test is completed$/, function () {
   var floatLoading = $(".running-data .ladda-spinner [role=progressbar]");
   floatLoading.waitForUnexistence("very-slow");
 });
+
+Then(/^I should see the info of "(.*?)"/, function(label) {
+  var labelElem = $(".modal-body .ng-scope").withText(label);
+  var infoElem = $(".label").rightOf(labelElem);
+  expect(infoElem).to.exist();
+});
+ 
+
+Given(/^the console is visible$/, function() {
+  var console = $("#console-log");
+  
+  if( console.visible().size() === 0){
+    
+    // console is hidden, click on show log
+    $("#log .btn").visible().click();
+  }
+});
+
+When(/^I hide the console$/, function() {
+  $("#log .btn").eq(0).click();
+});
+
+Then(/^I should not see the console$/, function() {
+  var console = $("#console-log");
+  expect(console.visible()).to.have.size(0);
+});
+
+When(/^I refresh the page$/, function() {
+  browser.get(browser.getCurrentUrl());
+});
+ 
+ When(/^I write the expression "([^"]*)"$/, function(expr) {
+  var editor = editors.console();
+  editor.setValue(expr, 1);
+  editor.execCommand('startAutocomplete');
+});
+
+Then(/^I shoul see the autocomplete tooltip$/, function() {
+  var autocompleteToolTip = $(".ace_autocomplete .ace_content").visible();
+  expect(autocompleteToolTip).to.exist();
+});
+
+Then(/^I should see the function "([^"]*)" in doc tooltip$/, function(fn) {
+  var functionName = $(".ace_doc-tooltip b").withText(fn);
+  expect(functionName).to.exist();
+});
+ 
+Then(/^I should see at minimum (\d+) webdrivers availables$/, function(number) {
+  expect($("radio-button-group button").visible()).to.have.size(number);
+});
+
+When(/^I evaluate the expression "([^"]*)"$/, function(expression) {
+  
+});
+
+When(/^I clean the scope$/, function() {
+  
+});
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

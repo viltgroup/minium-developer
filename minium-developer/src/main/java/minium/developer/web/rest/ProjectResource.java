@@ -29,9 +29,8 @@ public class ProjectResource {
 
     @RequestMapping(value = "/project/new", method = RequestMethod.POST)
     @ResponseBody
-    public boolean create(@RequestBody ProjectDTO project, HttpSession session) throws Exception {
-        boolean isCreated = projectService.createProject(projectProperties, project, session);
-        return isCreated;
+    public boolean create(@RequestBody ProjectDTO project, HttpSession session) {
+        return projectService.createProject(projectProperties, project, session);
     }
 
     @RequestMapping(value = "/project/valid", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
@@ -50,13 +49,8 @@ public class ProjectResource {
     public ResponseEntity<String> isValidName(@RequestBody String path) throws IOException, InterruptedException {
         Boolean isValidDir = projectService.isParentValid(path);
         String typeProject = "Not valid";
-        if (isValidDir) {
-            isValidDir = projectService.isValid(path);
-
-            if (!projectService.fileExists(path)) {
-                typeProject = projectService.typeOfProject(path);
-            }
-
+        if (isValidDir && !projectService.fileExists(path)) {
+            typeProject = projectService.typeOfProject(path);
         }
         return new ResponseEntity<String>(typeProject, HttpStatus.OK);
     }
@@ -65,10 +59,11 @@ public class ProjectResource {
     @ResponseBody
     public ResponseEntity<String> importProject(@RequestBody String path, HttpSession session) throws IOException {
         boolean validProject = projectService.openProject(projectProperties, path, session);
-        if (validProject == true)
+        if (validProject) {
             return new ResponseEntity<String>("Ok", HttpStatus.OK);
-        else
+        } else {
             return new ResponseEntity<String>("Project directory not valid", HttpStatus.PRECONDITION_FAILED);
+        }
     }
 
     @RequestMapping(value = "/project/hasProject", method = RequestMethod.GET, produces = "text/plain; charset=utf-8")

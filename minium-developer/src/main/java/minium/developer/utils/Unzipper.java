@@ -6,6 +6,10 @@ import com.google.common.base.Throwables;
 
 public class Unzipper {
 
+    private Unzipper() {
+
+    }
+
     public static void unzip(String source, String destination) {
         try {
             File archive = new File(source);

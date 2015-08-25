@@ -13,7 +13,7 @@ minium:
         - pretty
 
   config:
-    baseUrl: http://virtus.vilt-group.com:8089
+    baseUrl: http://localhost:8089/#/editor/
     tempDir: /tmp
     defaultBrowser: 
       browserName: Chrome

@@ -85,14 +85,16 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     }
 
     public void cancel() {
-        if (jsEngine != null)
+        if (jsEngine != null) {
             jsEngine.cancel();
+        }
     }
 
     @Override
     public void destroy() throws Exception {
-        if (jsEngine != null)
+        if (jsEngine != null) {
             jsEngine.destroy();
+        }
     }
 
     public String toString(Object obj) {

@@ -28,12 +28,12 @@ public class WebDriverService {
     private WebDriverReleaseManager releaseManager;
 
     private ChromeDriverDownloader chromeDownloader;
-    private IEDriverDownloader IEDownloader;
+    private IEDriverDownloader ieDownloader;
     private PhantomJSDownloader phantomJSDownloader;
 
     public static enum WebDriverType {
         CHROME, FIREFOX, IE, SAFARI, PHANTOMJS
-    };
+    }
 
     public void webDriverExists(String browserName) throws IOException {
         if (!driverLocator.webDriverExists(browserName)) {
@@ -70,8 +70,8 @@ public class WebDriverService {
     protected void downloadIEDriver() throws IOException {
         WebDriverRelease ieDriverLatestVersion = releaseManager.getIeDriverLatestVersion();
         String version = ieDriverLatestVersion.getPrettyPrintVersion(".");
-        IEDownloader = new IEDriverDownloader(version, driverLocator.getDriversDir().getPath());
-        IEDownloader.download();
+        ieDownloader = new IEDriverDownloader(version, driverLocator.getDriversDir().getPath());
+        ieDownloader.download();
     }
 
     /**

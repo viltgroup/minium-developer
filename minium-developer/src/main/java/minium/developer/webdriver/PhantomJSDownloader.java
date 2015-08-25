@@ -88,8 +88,8 @@ public class PhantomJSDownloader extends Downloader {
         return packageOs;
     }
 
-    protected static String getLinuxBitVersion(){
-        return RuntimeConfig.getOS().getBitVersion().equals("64") ? "-x86_64" : "-i686";
+    protected static String getLinuxBitVersion() {
+        return "64".equals(RuntimeConfig.getOS().getBitVersion()) ? "-x86_64" : "-i686";
     }
 
 }

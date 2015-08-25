@@ -22,8 +22,7 @@ public class VersionResource {
     @RequestMapping(value = "/rest/version", method = RequestMethod.GET)
     @ResponseBody
     public VersionDTO getVersion() throws IOException, ParseException {
-         VersionDTO versionAndDate = versionService.getLocalVersionInfo();
-         return versionAndDate;
+        return versionService.getLocalVersionInfo();
     }
 
     @RequestMapping(value = "/rest/version/new", method = RequestMethod.GET)

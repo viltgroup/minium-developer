@@ -11,7 +11,8 @@ var AceEditorProxy = function (editorElem) {
     "getValue",
     "setValue",
     "selectAll",
-    "moveCursorTo"
+    "moveCursorTo",
+    "execCommand"
   ];
   
   aceFnNames.forEach(function (fnName) {

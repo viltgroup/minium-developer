@@ -8,21 +8,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class DriverLocator {
 
-    private static OS currentOS;
+    private static OS currentOS = new OS();;
 
     @Value("${app.home:.}")
     private File homedir;
-
-    public DriverLocator() {
-        currentOS = new OS();
-    }
 
     public boolean webDriverExists(String browser) {
         switch (browser) {
         case "chrome":
             return chromeDriverExists();
         case "internet explorer":
-            return IEDriverExists();
+            return ieDriverExists();
         case "phantomjs":
             return phantomJsDriverExists();
         default:
@@ -31,37 +27,26 @@ public class DriverLocator {
         return false;
     }
 
-    protected boolean IEDriverExists() {
-        File chromedriverExe = findExecutable("IEDriverServer");
-        if (chromedriverExe != null) {
-            return true;
-        } else {
-            return false;
-        }
+    protected boolean ieDriverExists() {
+        File ieDriverExe = findExecutable("IEDriverServer");
+        return ieDriverExe != null ? true : false;
     }
 
     protected boolean chromeDriverExists() {
-        File ieDriverExe = findExecutable("chromedriver");
-        if (ieDriverExe != null) {
-            return true;
-        } else {
-            return false;
-        }
+        File chromedriverExe = findExecutable("chromedriver");
+        return chromedriverExe != null ? true : false;
     }
 
     protected boolean phantomJsDriverExists() {
         File phantomjsExe = findExecutable("phantomjs");
-        if (phantomjsExe != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return phantomjsExe != null ? true : false;
     }
 
     protected File findExecutable(String exeName) {
         File driversDir = getDriversDir();
-        if (driversDir == null)
+        if (driversDir == null) {
             return null;
+        }
 
         String osSpecificExeName = currentOS.isWindows() ? exeName + ".exe" : exeName;
         File exeFile = new File(driversDir, osSpecificExeName);
@@ -71,7 +56,8 @@ public class DriverLocator {
 
     public File getDriversDir() {
         File driverDir = homedir == null ? null : new File(homedir, "drivers");
-        return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : (driverDir.mkdir() ? driverDir : null);
+        boolean driverDirISNotNullAndExistsAndIsADir = driverDir != null && driverDir.exists() && driverDir.isDirectory();
+        return driverDirISNotNullAndExistsAndIsADir ? driverDir : (driverDir.mkdir() ? driverDir : null);
     }
 
 }

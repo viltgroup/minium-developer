@@ -30,7 +30,7 @@ public class Element {
 
     @JsonView(Views.Public.class)
     private String keyword;
-    
+
     @JsonView(Views.Public.class)
     private String type;
 
@@ -54,10 +54,10 @@ public class Element {
     public String getKeyword() {
         return keyword;
     }
-    
+
     public String getType() {
-		return type;
-	}
+        return type;
+    }
 
     public List<Step> getSteps() {
         return steps;

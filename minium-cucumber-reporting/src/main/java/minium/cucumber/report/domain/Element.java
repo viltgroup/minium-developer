@@ -30,6 +30,9 @@ public class Element {
 
     @JsonView(Views.Public.class)
     private String keyword;
+    
+    @JsonView(Views.Public.class)
+    private String type;
 
     @JsonView(Views.Public.class)
     private List<Step> steps = Lists.newArrayList();
@@ -51,6 +54,10 @@ public class Element {
     public String getKeyword() {
         return keyword;
     }
+    
+    public String getType() {
+		return type;
+	}
 
     public List<Step> getSteps() {
         return steps;

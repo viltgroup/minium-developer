@@ -26,8 +26,6 @@ import minium.developer.project.Workspace;
 import minium.web.EvalWebElements;
 import minium.web.internal.actions.HighlightInteraction;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,8 +39,6 @@ import com.google.common.base.Preconditions;
 @Controller
 @RequestMapping("/app/rest/js")
 public class EvalResource {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(EvalResource.class);
 
     @Autowired
     private Workspace workspace;
@@ -60,16 +56,25 @@ public class EvalResource {
                 }
                 int totalCount = elements.as(BasicElements.class).size();
                 if (totalCount > 0 && canHighlight) {
-                    // we cannot call DebugInteractable because it would trigger
-                    // listeners, which we don't wants
-                    elements.as(EvalWebElements.class).eval(HighlightInteraction.HIGHLIGHT_EVAL_EXPR);
+                    highlight(elements);
                 }
                 return new EvalResult(evaluation.getExpression(), totalCount);
             } else {
                 return new EvalResult(getProjectContext().toString(result));
             }
         } catch (Exception e) {
+            //logger.error("Evaluation of {} failed", evaluation.getExpression(), e);
             throw new EvalException(e);
+        }
+    }
+
+    public void highlight(Elements elements) {
+        try {
+            // we cannot call DebugInteractable because it would trigger listeners, which we don't wants
+            elements.as(EvalWebElements.class).eval(HighlightInteraction.HIGHLIGHT_EVAL_EXPR);
+        } catch (Exception e) {
+            // this is something that can happen, when for instance we evaluate a link click
+            // because most likely the element will be stale after the click
         }
     }
 
@@ -93,15 +98,14 @@ public class EvalResource {
 
     /**
      * Clean the scope
-     *
      * @return
      */
     @RequestMapping(value = "/clean", method = POST)
     @ResponseBody
     public synchronized ResponseEntity<Void> clean() {
         AbstractProjectContext activeProject = workspace.getActiveProject();
-        activeProject.resetEngine();
-        return new ResponseEntity<Void>(HttpStatus.OK);
+    	activeProject.resetEngine();
+    	return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     protected AbstractProjectContext getProjectContext() {

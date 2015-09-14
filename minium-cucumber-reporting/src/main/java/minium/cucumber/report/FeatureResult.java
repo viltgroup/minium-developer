@@ -16,6 +16,7 @@
 package minium.cucumber.report;
 
 import java.util.List;
+import java.util.Objects;
 
 import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Feature;
@@ -154,7 +155,9 @@ public class FeatureResult {
     }
 
     protected void calculateScenarioStats(List<Element> allScenarios, List<Element> passedScenarios, List<Element> failedScenarios, Element element) {
-        if (!element.getKeyword().equals("Background")) {
+        if (Objects.equals(element.getType(), "scenario_outline")) return;
+        
+        if (!Objects.equals(element.getType(), "background")) {
             allScenarios.add(element);
             if (element.getStatus() == Status.PASSED) {
                 passedScenarios.add(element);

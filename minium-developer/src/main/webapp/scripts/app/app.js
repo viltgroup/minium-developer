@@ -35,7 +35,6 @@ angular.module('miniumdevApp', [
         }
     };
 
-
     // before get in the state
     // check if project is defined
     // hack: to stop a refresh of the page
@@ -59,11 +58,6 @@ angular.module('miniumdevApp', [
     $urlRouterProvider.otherwise('/editor/');
     $stateProvider.state('global', {
         'abstract': true,
-        views: {
-            'navbar@': {
-                templateUrl: 'scripts/components/navbar/navbar.html',
-            }
-        },
         resolve: {
             translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
                 $translatePartialLoader.addPart('global');

@@ -65,6 +65,10 @@ angular.module('minium.developer')
             });
         }
 
+        $scope.cancel = function() {
+            $modalInstance.dismiss('cancel');
+            $scope.$dismiss();
+        };
 
         //put this in a service in order to re user
         $scope.importProject = function(path) {
@@ -74,10 +78,7 @@ angular.module('minium.developer')
             ProjectService.open(path);
         }
 
-        $scope.cancel = function() {
-            $modalInstance.dismiss('cancel');
-            $scope.$dismiss();
-        };
+
 
         $scope.select = function(project) {
             $scope.path = project;

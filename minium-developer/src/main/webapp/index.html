@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
     <link rel="stylesheet" href="bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
     <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+    
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css assets/styles/main.css -->
@@ -40,13 +41,8 @@
 
 <body ng-app="miniumdevApp">
 
-    <div class="wrapper">
-      
-     <div ui-view="navbar" ng-cloak=""></div>
-    
-    <div class=" content-wrapper" ui-view="content"></div>
+    <div  ui-view="content"></div>
 
-    </div><!-- ./wrapper -->
 
   </body>
     <!--[if lt IE 10]>

@@ -30,7 +30,8 @@ public class ProjectResource {
     @RequestMapping(value = "/project/new", method = RequestMethod.POST)
     @ResponseBody
     public boolean create(@RequestBody ProjectDTO project, HttpSession session) {
-        return projectService.createProject(projectProperties, project, session);
+         boolean createProject = projectService.createProject(projectProperties, project, session);
+         return createProject;
     }
 
     @RequestMapping(value = "/project/valid", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")

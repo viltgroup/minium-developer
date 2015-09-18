@@ -27,7 +27,7 @@ body {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 400;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 /* Layout */
 
@@ -4942,7 +4942,7 @@ Gradient Background colors
 .wrapper,
 .main-sidebar,
 .left-side {
-    background: #222d32;
+    background: #34495E;
 }
 
 .sidebar a {

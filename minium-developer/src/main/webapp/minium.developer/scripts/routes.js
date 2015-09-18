@@ -34,10 +34,6 @@ miniumDeveloper
                         templateUrl: "minium.developer/views/editor.area/index.html",
                         controller: 'EditorAreaController'
                     },
-                    'navbar@': {
-                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
-                        controller: 'NavbarController'
-                    }
                 },
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
@@ -53,27 +49,17 @@ miniumDeveloper
             .state('global.editorarea.sub', {
                 url: '',
                 views: {
+                    'navbar@global.editorarea': {
+                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
+                        controller: 'NavbarController'
+                    },
                     'view1@global.editorarea': {
                         controller: "EditorAreaMultiTabController",
                         templateUrl: 'minium.developer/views/editor.area/partials/editors.html',
-                        resolve: {
-                            translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                                $translatePartialLoader.addPart('editor.area');
-                                return $translate.refresh();
-                            }]
-
-                        }
                     },
                     'treeNav@global.editorarea': {
                         controller: "TreeNavController",
                         templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
-                        resolve: {
-                            translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                                $translatePartialLoader.addPart('editor.area');
-                                return $translate.refresh();
-                            }]
-
-                        }
                     },
                     'console@global.editorarea': {
                         controller: "ConsoleController",

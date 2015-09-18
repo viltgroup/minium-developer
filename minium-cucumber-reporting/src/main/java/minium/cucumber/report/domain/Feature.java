@@ -106,7 +106,7 @@ public class Feature {
     public int getNumberOfScenarios() {
         List<Element> elementList = new ArrayList<Element>();
         for (Element element : elements) {
-            if (!element.getKeyword().equals("Background")) {
+            if (!element.getKeyword().equals("Background") && !element.getType().equals("scenario_outline")) {
                 elementList.add(element);
             }
         }

@@ -8,21 +8,23 @@
     padding: 1em 0em 0em 1.4em;
 }
 
-.content {
+
+/*.content {
     min-height: auto;
     background: #eeeeee;
     height: 100%;
     margin-top: -50px;
     padding: 0px 15px;
     overflow: hidden;
-}
+}*/
 
-.left-side {
+
+/*.left-side {
     overflow: auto;
     height: 100%;
     position: fixed;
     background: #34495E;
-}
+}*/
 
 .right-side {
     background-color: #EEEEEE;
@@ -650,9 +652,9 @@ div.inline {
     background: #2C3E50;
     padding: 10px;
     z-index: 1;
-    width: 230px;
+    /*width: 230px;*/
     position: relative;
-    margin-left: -270px;
+    margin-left: -40px;
     margin-top: 0px;
     text-decoration: none;
     font-size: 13px;
@@ -667,10 +669,10 @@ div.inline {
  */
 
 #tree-bar {
-    position: absolute;
-    margin-left: -270px;
+    /*position: absolute;*/
+    /*margin-left: -270px;*/
     /*height: auto;*/
-    width: 270px;
+    width: 230px;
     overflow: auto;
     margin-top: 0px;
     /*background: #34495E;*/
@@ -678,6 +680,11 @@ div.inline {
     overflow-y: auto;
     max-height: 90%;
     z-index: 999;
+    height: 100%;
+}
+
+.treeview-menu {
+    margin-left: -40px;
     height: 100%;
 }
 
@@ -1176,7 +1183,7 @@ treecontrol.tree-classic li .tree-selected {
 .sidebar {
     border-bottom: 0px solid #fff;
     position: absolute;
-    background: #2C3E50;
+    background: #34495E;
 }
 
 .tree-panel ul>li a i {
@@ -1185,7 +1192,7 @@ treecontrol.tree-classic li .tree-selected {
 }
 
 .tree-panel ul li {
-    margin-left: 15px;
+    margin-left: 26px;
     padding-right: 5px;
     padding-left: 5px;
 }
@@ -1616,4 +1623,9 @@ Console editor CSS
 .file-navigator-wrapper {
     height: 200px;
     overflow: auto;
+}
+
+
+.ace_line .ace_rightAlignedText[text=*snippets]]{
+    color:red;
 }

@@ -71,8 +71,10 @@ public class Element {
         // can be optimized to retrieve only the count of elements and not the
         // all list
         for (Step step : steps) {
-            if (step.getStatus() != Status.PASSED)
-                return step.getStatus();
+            if (step.getStatus() != Status.PASSED) {
+                Status status = step.getStatus();
+                return status;
+            }
         }
         return Status.PASSED;
     }

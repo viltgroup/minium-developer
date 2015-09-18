@@ -38,10 +38,10 @@
                 <td>{{file.lastModified | moment | fromNow}}</td>
             </tr>
         </table>
-
     </div>
     <button class="btn btn-sm" ng-click="selectDir(fs.current.absoluteUri)">Select</button>
-    <br><br>
+    <br>
+    <br>
     <form name="projectForm" class="form-horizontal" ng-submit="importProject(path)" novalidate>
         <fieldset>
             <!-- Form Name -->
@@ -81,10 +81,10 @@
                 <button class="btn btn-primary" type="submit" ng-disabled="path == undefined || path == '' || isValid !== true" translate="entity.action.open">
                     Open
                 </button>
-                <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">
+                <button type="button" class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">
                     Cancel
                 </button>
             </div>
+        </fieldset>
+    </form>
 </div>
-</fieldset>
-</form>

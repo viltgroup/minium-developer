@@ -1,24 +1,32 @@
-<div ui-view="toolBar"></div>
+<div class="wrapper ">
 
-<!-- Right side column. Contains the navbar and content of the page -->
-<aside >
-    <!-- Content Header (Page header) -->
-    <section class="container-fluid">
+    <div ui-view="navbar" ng-cloak=""></div>
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar" style="height: auto;">
+          <div ui-view="treeNav"></div>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+    <div class=" content-wrapper">
         
-        <!-- /.navbar-collapse -->
-    </section>
-    <!-- Main content -->
-
-    <div ui-view="treeNav"></div>
-
-    <section class="content container container-editor full ">
-        <div ui-view="view1"></div>
-        <div ui-view="console" id="log"></div>
-    </section>
-
-</aside>
-
-
+        <!-- Right side column. Contains the navbar and content of the page -->
+        <aside>
+            <!-- Content Header (Page header) -->
+            <section class="container-fluid">
+                <!-- /.navbar-collapse -->
+            </section>
+            <!-- Main content -->
+            
+            <section class="content container container-editor full ">
+                <div ui-view="view1"></div>
+                <div ui-view="console" id="log"></div>
+            </section>
+        </aside>
+    </div>
+    <!-- ./wrapper -->
+</div>
+<!-- ./wrapper -->
 <script type="text/ng-template" id="selectorGadgetModal.html">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

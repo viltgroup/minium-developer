@@ -2,7 +2,7 @@
 
 
 var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q, $modal, $state, MiniumEditor, EvalService, TabLoader) {
-
+    
     var $translate = $filter('translate');
     //is the actual file selected
     //every time we move to other tab 

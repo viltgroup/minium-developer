@@ -24,7 +24,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
         var emptyEditor = function() {
             //create an empty editor
             var fileProps = {
-                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved\n\n",
+                content: "// this editor can be used as a javascript expression evaluator\n// cannot be saved\n\n",
                 fileProps: ""
             }
             newEditor = editors.addInstance(fileProps, 1);

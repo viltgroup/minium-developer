@@ -155,8 +155,10 @@ public class FeatureResult {
     }
 
     protected void calculateScenarioStats(List<Element> allScenarios, List<Element> passedScenarios, List<Element> failedScenarios, Element element) {
-        if (Objects.equals(element.getType(), "scenario_outline")) return;
-        
+        if (Objects.equals(element.getType(), "scenario_outline")) {
+            return;
+        }
+
         if (!Objects.equals(element.getType(), "background")) {
             allScenarios.add(element);
             if (element.getStatus() == Status.PASSED) {

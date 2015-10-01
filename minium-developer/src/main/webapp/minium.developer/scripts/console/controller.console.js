@@ -121,7 +121,7 @@
         }
 
         var goToLastLine = function(editor) {
-            editor.focus(); //To focus the ace editor
+            // editor.focus(); //To focus the ace editor
             var n = editor.getSession().getValue().split("\n").length; // To count total no. of lines
             editor.gotoLine(n + 1); //Go to end of document
         }

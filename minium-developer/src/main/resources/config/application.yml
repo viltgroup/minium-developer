@@ -1,16 +1,6 @@
 server:
   port: 8089
-  
+
 minium:
   rhino:
     filteredStackTraces: true
-
-  cucumber:
-    snippets:
-	  - name: "Given I'm logged in as ..." 
-	  - name: "When I navigate to \"...\"" 
-	  - name: "When I fill the form with:" 
-	    rowsHashKeys:
-	      - Name
-	      - Address
-	  - name: "Then I should see error message \"...\"" 

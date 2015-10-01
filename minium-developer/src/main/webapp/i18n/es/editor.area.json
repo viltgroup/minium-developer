@@ -51,6 +51,12 @@
         "use_local": "Usar un webdriver local",
         "error_creating": "No se pudo crear un nuevo WebDriver!!",
         "not_launched": "No se ha lanzado ningún Web Driver. Por favor seleccione uno!",
+        "advanced": "Avanzada",
+        "advanced.popover": "Utilice una configuración JSON para lanzar un nuevo WebDriver !!",
+        "messages": {
+            "invalidJSON": "JSON no és válido",
+            "validJSON":"JSON válido"
+        },
         "download": {
             "started": "Descarga comenzado",
             "complete": "Descarga completada",

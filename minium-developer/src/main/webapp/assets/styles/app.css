@@ -609,6 +609,7 @@ div.inline {
 }
 
 
+
 /**
  * change the breadcrumbs to the left
  */
@@ -1327,13 +1328,13 @@ treecontrol.tree-classic li .tree-selected {
     /*border-color: #34495E;*/
 }
 
-.btn.btn-default:hover,
+/*.btn.btn-default:hover,
 .btn.btn-default:active,
 .btn.btn-default.hover {
     color: #22313F;
     background-color: #f3f3f3!important;
 }
-
+*/
 .btn.btn-danger {
     background-color: #D64541;
     border-color: #f4543c;
@@ -1625,7 +1626,31 @@ Console editor CSS
     overflow: auto;
 }
 
+.ace_line .ace_rightAlignedText[text=*snippets]] {
+    color: red;
+}
 
-.ace_line .ace_rightAlignedText[text=*snippets]]{
-    color:red;
+@media only screen and (max-width: 1100px) {
+    .action-label {
+        display: none!important;
+    }
+    #actions>li {
+        float: left!important;
+        margin-top: 5px;
+    }
+    .navbar-nav {
+        float: left;
+        margin: 0;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        float: left;
+        margin: 0;
+    }
+}
+
+.textarea-resizable-vertical {
+    resize: vertical;
 }

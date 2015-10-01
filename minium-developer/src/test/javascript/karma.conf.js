@@ -51,6 +51,7 @@ module.exports = function (config) {
             'main/webapp/bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js',
             'main/webapp/bower_components/angular-animate/angular-animate.js',
             'main/webapp/bower_components/angular-busy/dist/angular-busy.js',
+            'main/webapp/bower_components/angular-contextmenu/dist/contextmenu.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/scripts/app/app.js',

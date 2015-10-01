@@ -48,12 +48,18 @@
         "use_local": "Use local webdriver",
         "error_creating": "Could not create a new WebDriver!!",
         "not_launched": "No web driver launched. Please select one!",
+        "advanced": "Advanced",
+        "advanced.popover": "Use a JSON configuration to launch a new webdriver!!",
+        "messages": {
+            "invalidJSON": "Invalid JSON",
+            "validJSON":"Valid JSON"
+        },
         "download": {
             "started": "Download started",
             "complete": "Download completed",
             "error": "Couldn't download the wedrivers"
         },
-        "update":{
+        "update": {
             "started": "Update started",
             "complete": "Update completed",
             "error": "Couldn't updated the wedrivers"

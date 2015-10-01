@@ -839,6 +839,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         var selectedItem = scope.active.selected.item;
         if (!selectedItem) return;
 
+        scope.saveFile();
 
         if (runAll === true) {
             var launchParams = {

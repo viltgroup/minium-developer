@@ -386,4 +386,5 @@ angular.module('minium.developer')
             return true;
         }
 
+
     });

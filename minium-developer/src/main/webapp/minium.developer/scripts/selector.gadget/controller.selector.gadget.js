@@ -40,6 +40,7 @@ angular.module('minium.developer')
                 .error(function() {
                     toastr.warning($translate('selector.gadget.error'));
                 });
+            $rootScope.active.session.focus();
         };
 
         $scope.cancel = function() {
@@ -50,6 +51,7 @@ angular.module('minium.developer')
                 .error(function() {
                     toastr.warning($translate('selector.gadget.error_deactivate'));
                 });
+            $rootScope.active.session.focus();
             $modalInstance.dismiss('cancel');
         };
     });

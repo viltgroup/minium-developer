@@ -31,6 +31,7 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
 
     var getAvailableWebdrivers = function() {
         WebDriverFactory.getAvailableWebdrivers().then(function(response) {
+            console.log(response.data);
             $rootScope.availableWebDrivers = response.data;
         })
     }

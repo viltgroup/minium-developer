@@ -1,9 +1,10 @@
 package minium.developer.service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import minium.developer.config.WebDriversProperties;
+import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
 import minium.developer.webdriver.IEDriverDownloader;
@@ -12,7 +13,6 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
-import org.apache.commons.lang3.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -26,6 +26,9 @@ public class WebDriverService {
     @Autowired
     @Lazy
     private WebDriverReleaseManager releaseManager;
+
+    @Autowired
+    private WebDriversProperties webDriversProperties;
 
     private ChromeDriverDownloader chromeDownloader;
     private IEDriverDownloader ieDownloader;
@@ -111,17 +114,7 @@ public class WebDriverService {
         downloadChromeDriver();
     }
 
-    public List<WebDriverType> getAvailableWebdrivers() {
-        List<WebDriverType> availableBrowsers = new ArrayList<WebDriverType>();
-
-        availableBrowsers.add(WebDriverType.CHROME);
-        availableBrowsers.add(WebDriverType.FIREFOX);
-        availableBrowsers.add(WebDriverType.PHANTOMJS);
-        if (SystemUtils.IS_OS_WINDOWS) {
-            availableBrowsers.add(WebDriverType.IE);
-        } else if (SystemUtils.IS_OS_MAC) {
-            availableBrowsers.add(WebDriverType.SAFARI);
-        }
-        return availableBrowsers;
+    public List<DeveloperWebDriverProperties> getAvailableWebdrivers() {
+        return webDriversProperties.getWebdrivers();
     }
 }

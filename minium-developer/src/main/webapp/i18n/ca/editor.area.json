@@ -51,6 +51,12 @@
         "use_local": "Use local webdriver",
         "error_creating": "No s'ha pogut crear un nou WebDriver!!",
         "not_launched": "No hi ha web driver llançat. Si us plau seleccioneu un!",
+        "advanced": "Avançada",
+        "advanced.popover": "Utilitzeu una configuració JSON per llançar un nou WebDriver !!",
+        "messages": {
+            "invalidJSON": "JSON no és vàlid",
+            "validJSON":"JSON és vàlid"
+        },
         "download": {
             "started": "Descàrrega començar",
             "complete": "Descàrrega completa",

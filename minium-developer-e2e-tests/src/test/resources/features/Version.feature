@@ -14,3 +14,6 @@ Feature: Test console
       | Date                              |
       | Commit Hash                       |
       | There is a new version available? |
+
+  Scenario: VILT's logo
+    Then I should see the image which has alternative text "VILT logo"

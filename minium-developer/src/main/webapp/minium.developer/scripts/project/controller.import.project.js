@@ -64,7 +64,7 @@ angular.module('minium.developer')
                 $scope.validatingProject = false;
             });
         }
-
+        
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
             $scope.$dismiss();
@@ -96,7 +96,9 @@ angular.module('minium.developer')
         $scope.form = {};
 
         //focus on search input
-
+        $scope.search = {
+          name : ""
+        };
         $scope.asyncLoad = function(node) {
             console.debug(node);
             var params = {
@@ -110,6 +112,7 @@ angular.module('minium.developer')
                 });
             });
             $scope.fs.current.children = node.children;
+            $scope.search.name = "";
         };
 
         $scope.loadParent = function() {
@@ -136,5 +139,10 @@ angular.module('minium.developer')
         $scope.selectDir = function(relativeUri) {
             $scope.path = relativeUri;
             $scope.validate();
+        }
+
+        $scope.pathSelectorIsVisible = false;
+        $scope.togglePathSelectorVisibility = function() {
+            $scope.pathSelectorIsVisible = !$scope.pathSelectorIsVisible;
         }
     });

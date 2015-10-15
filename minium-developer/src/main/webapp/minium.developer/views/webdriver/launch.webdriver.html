@@ -10,31 +10,31 @@
         </div>
          <form class="webdrivers">
 
-            <button type='button' class='btn btn-default' 
+            <button type='button' class='btn btn-default'
                 ng-class='{active: isActive(webdriver)}'
-                ng-repeat='webdriver in availableWebDrivers' 
+                ng-repeat='webdriver in availableWebDrivers'
                 ng-click='activate(webdriver)'>
                 <i class='{{getIcon(webdriver)}} gl-lg'></i><br>
-                {{webdriver.displayName}} 
-            </button> 
-
+                {{webdriver.displayName}}   {{webdriver.version}}
+            </button>
+            
            <div ng-show="useRemoteWebDriver">
             <br>
-           
+
                 <div class="btn-group col-sm-5">
                     <label class="btn btn-default btn-xs">
-                        <input type="radio" 
-                        name="advancedCapabilities" 
-                        data-ng-model="advancedCapabilities" 
+                        <input type="radio"
+                        name="advancedCapabilities"
+                        data-ng-model="advancedCapabilities"
                         ng-value="false">
                         <span translate="webdriver.remote.url">Remote Url</span>
                     </label>
                     <label class="btn btn-default btn-xs"
-                        popover="{{'webdriver.advanced.popover' | translate}}" 
+                        popover="{{'webdriver.advanced.popover' | translate}}"
                         popover-trigger="mouseenter">
-                        <input type="radio" 
-                        name="advancedCapabilities" 
-                        data-ng-model="advancedCapabilities" 
+                        <input type="radio"
+                        name="advancedCapabilities"
+                        data-ng-model="advancedCapabilities"
                         ng-value="true"
                         >
                         <span translate="webdriver.advanced">Advanced</span>
@@ -43,39 +43,39 @@
                 <div class="col-sm-7 ">
 
                     <span ng-hide="advancedCapabilities">
-                        <input type="text" 
-                                ng-model="remoteWebDriverUrl" 
-                                placeholder="{{'webdriver.remote.url' | translate}}" 
+                        <input type="text"
+                                ng-model="remoteWebDriverUrl"
+                                placeholder="{{'webdriver.remote.url' | translate}}"
                                 class="form-control" />
                     </span>
                     <span ng-hide="!advancedCapabilities"
                           class="has-feedback"
                           ng-class="{ 'has-error' : advancedWebDriverForm.jsonConfig.$error.validJson ,
-                                'has-success' : !advancedWebDriverForm.jsonConfig.$error.validJson 
-                                     && !advancedWebDriverForm.jsonConfig.$pristine}"  
-                          ng-form 
+                                'has-success' : !advancedWebDriverForm.jsonConfig.$error.validJson
+                                     && !advancedWebDriverForm.jsonConfig.$pristine}"
+                          ng-form
                           name="advancedWebDriverForm">
-                        <textarea class="form-control textarea-resizable-vertical " 
+                        <textarea class="form-control textarea-resizable-vertical "
                             id="advanced-field"
                             name= "jsonConfig"
-                            ng-model="advancedCapabilitiesConfig" 
+                            ng-model="advancedCapabilitiesConfig"
                             ng-keyup="validateJSON($event)"
                             ></textarea>
                         <br>
-                        <button class="btn btn-default btn-xs pull-right" 
+                        <button class="btn btn-default btn-xs pull-right"
                                 ng-click="addDefaultJson()">
                                 Add default JSON
                         </button>
 
-                        <span class="text-danger pull-left label-feedback" 
-                              ng-show="advancedWebDriverForm.jsonConfig.$error.validJson" 
+                        <span class="text-danger pull-left label-feedback"
+                              ng-show="advancedWebDriverForm.jsonConfig.$error.validJson"
                               translate="webdriver.messages.invalidJSON">
                            Invalid JSON
                         </span>
 
-                        <span class="text-success pull-left label-feedback" 
-                                ng-show="!advancedWebDriverForm.jsonConfig.$error.validJson 
-                                         && !advancedWebDriverForm.jsonConfig.$pristine" 
+                        <span class="text-success pull-left label-feedback"
+                                ng-show="!advancedWebDriverForm.jsonConfig.$error.validJson
+                                         && !advancedWebDriverForm.jsonConfig.$pristine"
                                 translate="webdriver.messages.validJSON">
                             Valid JSON
                         </span>
@@ -92,14 +92,14 @@
     <button class="btn btn-default pull-left" id="remoteWebDriver" ng-click="setRemoteWebDriver()">
         {{toggleText}}
     </button>
-    <button class="btn btn-primary ladda-button my-ladda-btn" 
-            id="createWebDriver" 
-            ng-click="createWebDriver()" 
-            ng-disabled="formIsInvalid()" 
-            data-style="expand-right" 
+    <button class="btn btn-primary ladda-button my-ladda-btn"
+            id="createWebDriver"
+            ng-click="createWebDriver()"
+            ng-disabled="formIsInvalid()"
+            data-style="expand-right"
             translate="webdriver.new">
-        Create new WebDriver  
-        
+        Create new WebDriver
+
     </button>
     <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">Cancel</button>
 </div><!-- /.modal-footer -->

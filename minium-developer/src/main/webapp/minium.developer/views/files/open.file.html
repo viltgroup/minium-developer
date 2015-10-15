@@ -12,7 +12,9 @@
                 </div>
             </form>
             <div class="list-group">
-                <a ng-repeat="item in results | orderBy : 'uri' | limitTo: 5" ng-click="select(item)" class="list-group-item search-results">
+                <a ng-repeat="item in results | orderBy : 'uri' | limitTo: 5"
+                   ng-click="select(item)"
+                   class="list-group-item search-results">
                     <h4 class="list-group-item-heading">{{item.name}}</h4>
                     <p class="list-group-item-text nowrap hideoverflow">{{item.relativeUri | unescape}}</p>
                 </a>

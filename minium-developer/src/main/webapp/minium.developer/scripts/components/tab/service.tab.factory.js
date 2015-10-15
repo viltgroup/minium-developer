@@ -18,7 +18,16 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
             var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="Console" name="' + fileName + '">&nbsp;<i class="fa fa-info-circle"></i>&nbsp;<span id="save_' + tabUniqueId + '" class="hide">*</span></a> </li>');
         } else {
             // create a navigation bar item for the new panel
-            var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '" name="' + fileName + '">' + fileName + '<span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close close-tab" ></span></li>');
+            var className = "fa-file";
+            if (/\.js$/.test(fileName)) {
+                className = "fa-file-o";
+
+            } else if (/\.feature$/.test(fileName)) {
+                className = "fa-file-text-o feature-tab";
+            }
+
+
+            var newTabNavElement = $('<li id="panel_nav_' + tabUniqueId + '" data-id="' + tabUniqueId + '"><a href="#panel_' + tabUniqueId + '" title="' + fileProps.relativeUri + '" name="' + fileName + '"><i class="fa  ' + className + '"></i> ' + fileName + '<span id="save_' + tabUniqueId + '" class="hide">*</span></a> <span class="ui-icon ui-icon-close close-tab" ></span></li>');
         }
 
         // add the new nav item to the DOM

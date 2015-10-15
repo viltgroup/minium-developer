@@ -89,12 +89,7 @@ When(/^I evaluate the expression "([^"]*)"$/, function(expression) {
 When(/^I clean the scope$/, function() {
   
 });
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
+Then(/^I should see the image which has alternative text "(.*)"$/, function(imageAlt) {
+  expect($('img').withAttr("alt", imageAlt).visible()).to.exist();
+});

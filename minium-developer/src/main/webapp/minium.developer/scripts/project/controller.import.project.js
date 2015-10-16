@@ -128,15 +128,22 @@ angular.module('minium.developer')
             item.childrenLoaded = true;
         };
 
+         $scope.loadAndSelectParent = function(){
+            $scope.loadParent(); 
+            $scope.selectDir($scope.fs.current.absoluteUri)
+        }
+
 
         $scope.enter = function(item) {
             $scope.fs.current = item;
             $scope.asyncLoad(item);
+            $scope.selectDir($scope.fs.current.absoluteUri);
         };
 
         $scope.asyncLoad($scope.fs.current);
 
         $scope.selectDir = function(relativeUri) {
+            console.log(relativeUri)
             $scope.path = relativeUri;
             $scope.validate();
         }

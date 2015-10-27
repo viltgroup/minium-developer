@@ -1,6 +1,7 @@
 package minium.developer.web.rest;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import minium.cucumber.report.FeatureResult;
 import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.CucumberProjectContext;
 import minium.developer.project.Workspace;
+import minium.developer.service.FormatService;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class CucumberResource {
 
 	@Autowired
 	private Workspace workspace;
+
+	@Autowired
+    private FormatService formatService;
 
 	@RequestMapping(value = "/launch", method = RequestMethod.POST)
 	@ResponseBody
@@ -69,6 +74,12 @@ public class CucumberResource {
 	public String checkSessionId(HttpServletRequest request) {
 		return request.getSession().getId();
 	}
+
+	@RequestMapping(value = "/preview", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
+    @ResponseBody
+    public String previewWithExternalData(@RequestBody LaunchInfo launchInfo) throws IOException, URISyntaxException {
+        return formatService.validateFeature(launchInfo.getFileProps().getRelativeUri().getPath());
+    }
 
 	public CucumberProjectContext getCucumberProjectContext() {
 	    AbstractProjectContext activeProject = workspace.getActiveProject();

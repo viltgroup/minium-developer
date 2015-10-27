@@ -48,7 +48,7 @@ angular.module('minium.developer')
                 var newPath = newFile;
             }
 
-            //need decodeURIComponent 
+            //need decodeURIComponent
             // because the relativeUriContextClick comes like this ("john%20doe")
             var obj = {
                 oldName: decodeURIComponent(relativeUriContextClick),

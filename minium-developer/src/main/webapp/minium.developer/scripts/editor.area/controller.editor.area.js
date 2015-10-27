@@ -1,11 +1,11 @@
 'use strict';
 
 
-var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q, $modal, $state, MiniumEditor, EvalService, TabLoader) {
-    
+var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q, $modal, $state, MiniumEditor, EvalService, TabLoader, FeaturePreviewService) {
+
     var $translate = $filter('translate');
     //is the actual file selected
-    //every time we move to other tab 
+    //every time we move to other tab
     //this value is being update
 
     //this object store all information about the active nodes
@@ -21,10 +21,10 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     $scope.resultsSummary = {};
     //init variables
     $scope.testExecuting = false;
-    //store the editor where the test are launched 
+    //store the editor where the test are launched
     //to know where we can mark the result of the tests
     $scope.launchTestSession = null;
-    //init the minium editor 
+    //init the minium editor
     //that manage editor and tabs
     //service is shared by controllers
     var editors = MiniumEditor;
@@ -144,7 +144,7 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     //
     /////////////////////////////////////////////////////////////////
 
-    //REFACTOR put this in a directive or service 
+    //REFACTOR put this in a directive or service
     //search what the best way to do this.
     //value to check if thres any editor dirty
 
@@ -222,9 +222,45 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
             });
     }
 
+    $scope.previewFeatureWithExternalCucumberData = function() {
+        // if the file is not a feature
+        // can't open the preview
+        if ($rootScope.active.mode !== 'FEATURE') {
+            toastr.warning($translate('evaluator.clean.success'));
+            return;
+        }
+
+        var launchParams = {
+            fileProps: $rootScope.active.selectedNode
+        };
+
+        toastr.info('<i class="fa fa-circle-o-notch fa-spin fa-2x"></i> Loading Data!', {
+            allowHtml: true
+        });
+
+        FeaturePreviewService.preview(launchParams).success(function(data) {
+                toastr.clear();
+                //create an empty editor
+                var fileProps = {
+                    content: data,
+                    type: "preview",
+                    fileProps: launchParams.fileProps
+                }
+                var newEditor = editors.addInstance(fileProps, 1);
+                //go to line
+                newEditor.instance.gotoLine(4);
+                newEditor.instance.setReadOnly(true);
+                toastr.success($translate('evaluator.clean.success'))
+            })
+            .error(function(exception) {
+                toastr.clear();
+                toastr.error($translate('evaluator.clean.error'));
+            });
+    }
+
 };
 
 
-EditorAreaController.$inject = ['$rootScope', '$translate', '$filter', '$scope', '$q', '$modal', '$state', 'MiniumEditor', 'EvalService', 'TabLoader'];
+EditorAreaController.$inject = ['$rootScope', '$translate', '$filter', '$scope', '$q', '$modal', '$state', 'MiniumEditor', 'EvalService', 'TabLoader', 'FeaturePreviewService'];
 
 angular.module('minium.developer').controller('EditorAreaController', EditorAreaController);

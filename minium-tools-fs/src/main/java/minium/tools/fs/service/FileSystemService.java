@@ -237,7 +237,7 @@ public class FileSystemService {
         }
     }
 
-    protected FileSystemResource get(String path) throws IOException, URISyntaxException {
+    public FileSystemResource get(String path) throws IOException, URISyntaxException {
         File file = getFile(path);
         if (!file.exists())
             throw new ResourceNotFoundException("File " + file.getAbsolutePath() + " not found");
@@ -351,5 +351,13 @@ public class FileSystemService {
             }
         }
         return fileProps;
+    }
+
+    public File getBaseDir() {
+        return baseDir;
+    }
+
+    public void setBaseDir(File baseDir) {
+        this.baseDir = baseDir;
     }
 }

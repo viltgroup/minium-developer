@@ -19,12 +19,13 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
         var result = editors.isOpen(file);
         var deferred = $q.defer();
 
-        
-        
+
+
         var emptyEditor = function() {
             //create an empty editor
             var fileProps = {
                 content: "// this editor can be used as a javascript expression evaluator\n// cannot be saved\n\n",
+                type: "console",
                 fileProps: ""
             }
             newEditor = editors.addInstance(fileProps, 1);
@@ -42,7 +43,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
             var tab = "#panel_" + id;
             var index = $('#tabs a[href="' + tab + '"]').parent().index();
             $("#tabs").tabs("option", "active", index);
-            
+
             newEditor = editors.getSession(id);
             deferred.resolve(newEditor);
         } else { //if theres no tab opened with this file
@@ -52,7 +53,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
             FS.get({
                 path: path
             }, function(fileContent) {
-                //succes handler file exists 
+                //succes handler file exists
                 result = editors.isOpen(file);
                 if (result.isOpen) {
                     var id = result.id;

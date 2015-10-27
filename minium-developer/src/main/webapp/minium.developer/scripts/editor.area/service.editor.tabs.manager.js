@@ -74,8 +74,9 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
         var fileProps = fileContent.fileProps || "";
+
         //create the DOM elements
-        TabFactory.createTab(tabUniqueId, fileProps);
+        TabFactory.createTab(tabUniqueId, fileProps, fileContent.type);
 
         //inicialize editor and create and configure the editor
         //returns an object like an object with:
@@ -86,7 +87,9 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         this.mode = obj.mode;
 
         var fileName = fileProps.name || "";
+
         var relativeUri = fileProps.relativeUri || "";
+        var editorType = fileContent.type || "";
 
         //ADD EVENT HANDLERS to the editor
         addEventListeners(editor, fileName, this);
@@ -95,7 +98,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         this.editors.push({
             id: tabUniqueId,
             instance: editor,
-            relativeUri: relativeUri,
+            relativeUri: relativeUri + editorType,
             mode: this.mode,
             selected: fileContent
         });
@@ -563,8 +566,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                 mac: "Command-Shift-R",
                 sender: "editor|cli"
             },
-            exec: function(env) {
-            },
+            exec: function(env) {},
             readOnly: false // should not apply in readOnly mode
         });
     }

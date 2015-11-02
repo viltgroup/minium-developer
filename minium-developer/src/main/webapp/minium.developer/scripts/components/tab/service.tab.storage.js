@@ -8,8 +8,9 @@ miniumDeveloper.service('openTab', function() {
 
         var reltivepaths = [];
         editors.forEach(function(editor) {
-            if (editor.relativeUri != undefined && editor.relativeUri !== "") {
-                reltivepaths.push(editor.relativeUri);
+            var relativeUri = editor.file.fileProps.relativeUri;
+            if (relativeUri != undefined && relativeUri !== "" && editor.type === "FILE") {
+                reltivepaths.push(relativeUri);
             }
         });
 

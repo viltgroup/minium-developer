@@ -4,6 +4,9 @@ miniumDeveloper.factory('FS', function($resource) {
     return $resource("/app/rest/fs", {
         path: "/"
     }, {
+        saving:{
+          method: 'POST'
+        },
         list: {
             method: 'GET',
             params: {
@@ -34,4 +37,3 @@ miniumDeveloper.factory('FS', function($resource) {
         }
     });
 })
-

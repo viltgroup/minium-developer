@@ -20,6 +20,7 @@ public class FileProps implements Serializable {
     private FileProps.Type type;
     private Date lastModified;
     private int lineNo;
+    private boolean preview;
 
     public String getName() {
         return name;
@@ -88,5 +89,13 @@ public class FileProps implements Serializable {
 
     public void setAbsoluteUri(String absoluteUri) {
         this.absoluteUri = absoluteUri;
+    }
+
+    public boolean getPreview() {
+        return preview;
+    }
+
+    public void setPreview(boolean preview) {
+        this.preview = preview;
     }
 }

@@ -53,9 +53,9 @@ angular.module('minium.developer')
         //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
 
-            $scope.active.selectedNode = node;
+            $scope.activeEditor.fileProps = node;
             if (node.type == "FILE") {
-                $scope.loadFile(decodeURIComponent($scope.active.selectedNode.relativeUri));
+                $scope.loadFile(decodeURIComponent($scope.activeEditor.fileProps.relativeUri));
             } else { //if the is on click on a file
                 $scope.loadChildren(node);
                 //expand the node
@@ -154,7 +154,7 @@ angular.module('minium.developer')
                 }  else {
                     $.removeCookie('openTabs');
                     toastr.info($translate('messages.error.no_project_defined'))
-                    //remove all the open tab int the cookie 
+                    //remove all the open tab int the cookie
                     //because there's no project defined
                 }
                 addProjectToTree(projectName);
@@ -314,6 +314,6 @@ angular.module('minium.developer')
         }
 
 
-       
+
 
     });

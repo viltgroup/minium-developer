@@ -10,12 +10,12 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
 
     //this object store all information about the active nodes
     //can put it in a class
-    $rootScope.active = {
-        selected: {},
-        selectedNode: "",
-        session: null, //store the active instance of the editor
+    $rootScope.activeEditor = {
+        file: {}, // stores the file props and content
+        instance: null, //store the active instance of the editor
         mode: "", //mode of the open file
-        activeID: null //store the ID of the active editor
+        activeID: null, //store the ID of the active editor
+        type: "" // store the type (File,Console, Preview)
     }
 
     $scope.resultsSummary = {};
@@ -36,10 +36,9 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     // lineNo - num of line to go
     /////////////////////////////////////////////////////////////////
 
-    $scope.loadFile = function(props, lineNo) {
-
+    $scope.loadFile = function(relativeUri, lineNo) {
         //load the file
-        var promise = TabLoader.loadFile(props, editors);
+        var promise = TabLoader.loadFile(relativeUri, editors);
         var deferred = $q.defer();
 
         promise.then(function(result) {
@@ -62,22 +61,20 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      * We always keep the the reference of the active(selected/open) editor
      */
     $scope.setActiveEditor = function(editor) {
-        $rootScope.active = {
-            session: editor.instance,
-            selected: {
-                item: editor.selected
-            },
-            selectedNode: editor.selected.fileProps,
+        $rootScope.activeEditor = {
+            instance: editor.instance,
+            file: editor.file,
             activeID: editor.id,
-            mode: editor.mode
+            mode: editor.mode,
+            type: editor.type
         }
 
         //if the file is not found
-        if ($rootScope.active.session === undefined) {
+        if ($rootScope.activeEditor.instance === undefined) {
             return;
         }
 
-        $rootScope.active.session.focus();
+        $rootScope.activeEditor.instance.focus();
 
         //ace editor dont update the editor until a click or set a the cursor
         //so i need to get a solution
@@ -87,14 +84,19 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
         pos.column -= 1;
         editor.instance.moveCursorToPosition(pos);
 
-        //set state
-        $state.go("global.editorarea.sub", {
-            path: editor.relativeUri
-        }, {
-            location: 'replace', //  update url and replace
-            inherit: false,
-            notify: false
-        });
+        if (editor.type === 'FILE') {
+            //set state
+            $state.go("global.editorarea.sub", {
+                path: editor.file.fileProps.relativeUri
+            }, {
+                location: 'replace', //  update url and replace
+                inherit: false,
+                notify: false
+            });
+        }
+
+        console.log($rootScope.activeEditor);
+
     }
 
     /**
@@ -102,7 +104,7 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      *
      */
     $scope.saveFile = function() {
-        editors.saveFile($rootScope.active.session);
+        editors.saveFile($rootScope.activeEditor.instance);
     }
 
     /**
@@ -110,13 +112,13 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      */
     $scope.launchCucumber = function() {
         var runAll = false;
-        editors.launchCucumber($rootScope.active.session, runAll);
+        editors.launchCucumber($rootScope.activeEditor.instance, runAll);
     }
 
 
     $scope.launchAll = function() {
         var runAll = true;
-        editors.launchCucumber($rootScope.active.session, runAll);
+        editors.launchCucumber($rootScope.activeEditor.instance, runAll);
     }
 
     /**
@@ -124,8 +126,8 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      *
      */
     $scope.activateSelectorGadget = function() {
-        if ($rootScope.active.mode == editors.modeEnum.JS) {
-            editors.activateSelectorGadget($rootScope.active.session);
+        if ($rootScope.activeEditor.mode == editors.modeEnum.JS) {
+            editors.activateSelectorGadget($rootScope.activeEditor.instance);
         }
     }
 
@@ -133,8 +135,8 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      * Evaluate Expression
      */
     $scope.evaluate = function() {
-        if ($rootScope.active.mode == editors.modeEnum.JS) {
-            editors.evaluate($rootScope.active.session);
+        if ($rootScope.activeEditor.mode == editors.modeEnum.JS) {
+            editors.evaluate($rootScope.activeEditor.instance);
         }
     }
 
@@ -205,8 +207,8 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
      *
      */
     $scope.clearMarkers = function() {
-        $scope.active.session.getSession().clearBreakpoints();
-        $scope.active.session.getSession().setAnnotations([]);
+        $scope.activeEditor.instance.getSession().clearBreakpoints();
+        $scope.activeEditor.instance.getSession().setAnnotations([]);
     }
 
 
@@ -225,13 +227,13 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     $scope.previewFeatureWithExternalCucumberData = function() {
         // if the file is not a feature
         // can't open the preview
-        if ($rootScope.active.mode !== 'FEATURE') {
+        if ($rootScope.activeEditor.mode !== 'FEATURE') {
             toastr.warning($translate('evaluator.clean.success'));
             return;
         }
 
         var launchParams = {
-            fileProps: $rootScope.active.selectedNode
+            fileProps: $rootScope.activeEditor.file.fileProps
         };
 
         toastr.info('<i class="fa fa-circle-o-notch fa-spin fa-2x"></i> Loading Data!', {
@@ -240,17 +242,22 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
 
         FeaturePreviewService.preview(launchParams).success(function(data) {
                 toastr.clear();
-                //create an empty editor
-                var fileProps = {
+                console.log(data);
+                launchParams.fileProps.preview = true;
+
+                var filePropsAndContent = {
                     content: data,
                     type: "preview",
                     fileProps: launchParams.fileProps
                 }
-                var newEditor = editors.addInstance(fileProps, 1);
-                //go to line
-                newEditor.instance.gotoLine(4);
+
+                var newEditor = editors.addInstance(filePropsAndContent, 1);
+
+                // change editor settings
+                newEditor.instance.focus();
                 newEditor.instance.setReadOnly(true);
-                toastr.success($translate('evaluator.clean.success'))
+                toastr.success($translate('evaluator.clean.success'));
+                $scope.setActiveEditor(newEditor);
             })
             .error(function(exception) {
                 toastr.clear();

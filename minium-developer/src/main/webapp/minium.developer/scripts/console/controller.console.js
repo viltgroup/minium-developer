@@ -9,7 +9,7 @@
     function ConsoleController($rootScope, $scope, $state, ConsoleLog, stackTraceParser) {
 
         //////////////////////////////////////////////////////////////////
-        // websockets 
+        // websockets
         //////////////////////////////////////////////////////////////////
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
@@ -29,7 +29,7 @@
                         stackTrace = message.body + '\n';
                     }
 
-                    //hack when we focus on the console editor 
+                    //hack when we focus on the console editor
                     //it will write where the cursor is
                     ////this way it always insert the data at the end of the editor
 
@@ -70,7 +70,7 @@
 
                 $scope.loadFile(decodeURIComponent(relativeUri)).then(function(result) {
                     if (line) {
-                        $rootScope.active.session.gotoLine(line);
+                        $rootScope.activeEditor.instance.gotoLine(line);
                     }
                 });
             })

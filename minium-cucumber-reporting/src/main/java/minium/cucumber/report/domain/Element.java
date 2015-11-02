@@ -40,6 +40,9 @@ public class Element {
     @JsonView(Views.Public.class)
     private List<Tag> tags = Lists.newArrayList();
 
+    @JsonView(Views.Public.class)
+    private List<Comment> comments = Lists.newArrayList();
+
     public Element() {
     }
 
@@ -65,6 +68,10 @@ public class Element {
 
     public List<Tag> getTags() {
         return tags;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
     }
 
     public Status getStatus() {

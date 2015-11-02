@@ -15,39 +15,29 @@
  */
 package minium.cucumber.report.domain;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonView;
-import com.google.common.collect.Lists;
 
-public class Row {
-
-    @JsonView(Views.Public.class)
-    private List<String> cells = Lists.newArrayList();
+public class Comment {
 
     @JsonView(Views.Public.class)
-    private List<Comment> comments = Lists.newArrayList();
+    private String value;
 
     @JsonView(Views.Public.class)
     private Integer line;
 
-    public Row() {
+    public Comment() {
     }
 
-    public List<String> getCells() {
-        return cells;
+    public Comment(String value, Integer line) {
+        this.value = value;
+        this.line = line;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public String getValue() {
+        return value;
     }
 
     public Integer getLine() {
         return line;
     }
-
-    public void setLine(Integer line) {
-        this.line = line;
-    }
 }
-

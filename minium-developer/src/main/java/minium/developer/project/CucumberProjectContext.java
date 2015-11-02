@@ -13,6 +13,7 @@ import minium.cucumber.config.CucumberProperties;
 import minium.cucumber.config.CucumberProperties.OptionsProperties;
 import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
+import minium.cucumber.data.MiniumRunTimeOptions;
 import minium.cucumber.internal.ListenerReporter;
 import minium.cucumber.internal.MiniumBackend;
 import minium.cucumber.internal.RuntimeBuilder;
@@ -93,7 +94,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         CucumberProperties cucumberProperties = createEvaluationCucumberProperties(resultsFile, featurePath);
 
         try {
-            List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString());
+            List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString(),launchInfo.getFileProps().getPreview());
 
             for (Throwable failure : failures) {
                 //LOGGER.error("Feature {} failed", featurePath, failure);
@@ -131,7 +132,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
                     RuntimeBuilder runtimeBuilder = new RuntimeBuilder().withArgs(projectCucumberProperties.getOptions().toArgs())
                             .withResourceLoader(resourceLoader).withBackends(allBackends);
                     runtimeBuilder.build();
-                    RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
+                    MiniumRunTimeOptions runtimeOptions = (MiniumRunTimeOptions) runtimeBuilder.getRuntimeOptions();
 
                     SimpleGlue glue = new SimpleGlue();
                     for (Backend backend : allBackends) {
@@ -209,7 +210,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         return cucumberProperties;
     }
 
-    protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId, final String uri) {
+    protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId, final String uri,final boolean isPreview) {
         cucumberEngine = createJsEngine();
         try {
             return cucumberEngine.runWithContext(cucumberEngine.new RhinoCallable<List<Throwable>, RuntimeException>() {
@@ -220,25 +221,42 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
                         ResourceLoader resourceLoader = new MultiLoader(Thread.currentThread().getContextClassLoader());
                         List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, cucumberProperties);
-
+                        final MiniumRunTimeOptions myruntimeOptions = new MiniumRunTimeOptions(cucumberProperties.getOptions().toArgs());
                         try (ListenerReporter listenerReporter = new ListenerReporter()) {
                             listenerReporter.add(cucumberLiveReporter);
                             RuntimeBuilder runtimeBuilder = new RuntimeBuilder().withArgs(cucumberProperties.getOptions().toArgs())
-                                    .withResourceLoader(resourceLoader).withPlugins(cucumberLiveReporter, listenerReporter).withBackends(allBackends);
+                                    .withResourceLoader(resourceLoader).withPlugins(cucumberLiveReporter, listenerReporter).withBackends(allBackends).withRuntimeOptions(myruntimeOptions);
 
                             Runtime runtime = runtimeBuilder.build();
-                            RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
-                            List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
+                            if(isPreview){
 
-                            // send to the client the total number of test to
-                            // execute
-                            sendTotalSteps(cucumberFeatures, sessionId);
+                                MiniumRunTimeOptions runtimeOptions = (MiniumRunTimeOptions) runtimeBuilder.getRuntimeOptions();
+                                List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
 
-                            runtime.run();
+                                // send to the client the total number of test to
+                                // execute
+                                sendTotalSteps(cucumberFeatures, sessionId);
 
-                            // send snippets of undefined steps to the client
-                            sendSnippets(runtime, sessionId);
-                            return runtime.getErrors();
+                                runtime.run();
+
+                                // send snippets of undefined steps to the client
+                                sendSnippets(runtime, sessionId);
+                                return runtime.getErrors();
+                            }else{
+                                RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
+                                List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
+
+                                // send to the client the total number of test to
+                                // execute
+                                sendTotalSteps(cucumberFeatures, sessionId);
+
+                                runtime.run();
+
+                                // send snippets of undefined steps to the client
+                                sendSnippets(runtime, sessionId);
+                                return runtime.getErrors();
+                            }
+
                         }
                     } catch (Exception e) {
                         throw Throwables.propagate(e);

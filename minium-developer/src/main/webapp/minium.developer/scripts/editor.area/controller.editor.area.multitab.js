@@ -43,7 +43,7 @@ angular.module('minium.developer')
             var tabUniqueId = id;
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
-                //the editor is dirty so check if the user 
+                //the editor is dirty so check if the user
                 var answer = confirm($translate('messages.files.unsaved'));
                 if (answer) {
                     editors.closeTab(tabUniqueId, tabs, elem);
@@ -75,7 +75,7 @@ angular.module('minium.developer')
                 if ($stateParams.path) {
                     var promise = $scope.loadFile($stateParams.path).then(function(result) {
                         if ($stateParams.line) {
-                            $rootScope.active.session.gotoLine($stateParams.line);
+                            $rootScope.activeEditor.instance.gotoLine($stateParams.line);
                         }
                     });
                 }
@@ -106,7 +106,7 @@ angular.module('minium.developer')
 
         //set the theme of the editor
         $scope.setTheme = function(themeName) {
-            editors.setTheme($scope.active.session, themeName);
+            editors.setTheme($scope.activeEditor.instance, themeName);
         }
 
         /**
@@ -192,8 +192,8 @@ angular.module('minium.developer')
         var reLaunchParams;
         $scope.launch = function(launchParams) {
             reLaunchParams = launchParams;
-            $scope.launchTestSession = $scope.active.session;
-
+            $scope.launchTestSession = $rootScope.activeEditor.instance;
+            console.log($scope.launchTestSession);
             //check if the test already executing
             if ($scope.testExecuting == true) {
                 toastr.error($translate('messages.error.test_executing'));
@@ -212,7 +212,7 @@ angular.module('minium.developer')
             error(function(data, status, headers, config) {
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
-                //set the modal select webdriver 
+                //set the modal select webdriver
                 //now the modal wil be launch with an error message
                 $scope.setWebDriverMsg(true);
                 $scope.openModalWebDriverSelect();
@@ -345,7 +345,7 @@ angular.module('minium.developer')
 
             // when the modal is closed
             // it checks if there's any thing to run
-            // this case can happen when we try to launch or evalaute 
+            // this case can happen when we try to launch or evalaute
             // and no web driver is launched
             modalInstance.result.then(function(value) {
                 $scope.setWebDriverMsg(value);
@@ -355,14 +355,14 @@ angular.module('minium.developer')
                     //reset the value
                     relaunch = false;
                 } else if ($scope.relaunchEval) {
-                    editors.evaluate($scope.active.session);
+                    editors.evaluate($scope.activeEditor.instance);
                     $scope.relaunchEval = false;
                 }
             });
         };
 
         //////////////////////////////////////////////////////////////////
-        // EVENT HANDLER  CTLR + P 
+        // EVENT HANDLER  CTLR + P
         // to Search a file
         //////////////////////////////////////////////////////////////////
         document.addEventListener("keydown", function(e) {

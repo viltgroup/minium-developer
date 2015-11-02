@@ -18,25 +18,25 @@
 
            <ul class="nav navbar-nav" id="actions">
             <li>
-                <a href title="{{'messages.title.selector.gadget' | translate}}" ng-show="active.mode === 'JS'" ng-click="activateSelectorGadget()" id="selector-gadget">
+                <a href title="{{'messages.title.selector.gadget' | translate}}" ng-show="activeEditor.mode === 'JS'" ng-click="activateSelectorGadget()" id="selector-gadget">
                     <span class="fa  fa-hand-o-up"></span>
                     <span translate="actions.selector.gadget" class="action-label">Selector Gadget</span>
                 </a>
             </li>
             <li>
-                <a href title="{{'messages.title.evaluator' | translate}}" ng-show="active.mode === 'JS'" ng-click="evaluate()" id="evaluator">
+                <a href title="{{'messages.title.evaluator' | translate}}" ng-show="activeEditor.mode === 'JS'" ng-click="evaluate()" id="evaluator">
                     <span class="fa fa-binoculars"></span>
                     <span translate="actions.evaluate" class="action-label">Evaluate</span>
                 </a>
             </li>
             <li>
-                <a href title="{{'messages.title.run_test' | translate}}" ng-show=" (active.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+                <a href title="{{'messages.title.run_test' | translate}}" ng-show=" (activeEditor.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
                     <span class="fa  fa-play"></span>
                     <span translate="actions.run" class="action-label">Run Test</span>
                 </a>
             </li>
             <li>
-                <a href type="button" ng-click="launchAll()" title="{{'messages.title.run_all '| translate}}" ng-show="(active.mode === 'FEATURE')" ng-disabled="testExecuting">
+                <a href type="button" ng-click="launchAll()" title="{{'messages.title.run_all '| translate}}" ng-show="(activeEditor.mode === 'FEATURE')" ng-disabled="testExecuting">
                     <i class="fa fa-list-alt"></i>
                     <span translate="actions.runAll" class="action-label">Run All</span>
                 </a>
@@ -106,14 +106,14 @@
                         </span>
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li ng-class="{'disabled': (active.mode === 'JS')}">
-                            <a href ng-click="launchCucumber()" a-disabled="(active.mode === 'JS')">
+                        <li ng-class="{'disabled': (activeEditor.mode === 'JS')}">
+                            <a href ng-click="launchCucumber()" a-disabled="(activeEditor.mode === 'JS')">
                                 <span class="fa  fa-play"></span>
                                 <span class="ladda-label" translate="actions.run">Run</span>
                             </a>
                         </li>
-                        <li ng-class="{'disabled': (active.mode === 'JS')}">
-                            <a href a-disabled="(active.mode === 'JS')" ng-click="launchAll()">
+                        <li ng-class="{'disabled': (activeEditor.mode === 'JS')}">
+                            <a href a-disabled="(activeEditor.mode === 'JS')" ng-click="launchAll()">
                                 <span class="fa  fa-list"></span>
                                 <span class="ladda-label" translate="actions.runAll">Run All</span>
                             </a>
@@ -133,16 +133,16 @@
                             </a>
                         </li>
                         <li class="divider"></li>
-                        <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href a-disabled="(active.mode !== 'JS')" ng-click="activateSelectorGadget()">
+                        <li ng-class="{'disabled': (activeEditor.mode !== 'JS')}">
+                            <a href a-disabled="(activeEditor.mode !== 'JS')" ng-click="activateSelectorGadget()">
                                 <span class="fa  fa-hand-o-up"></span>
                                 <span class="ladda-label" translate="actions.selector.gadget">
                                     Selector Gadget
                                 </span>
                             </a>
                         </li>
-                        <li ng-class="{'disabled': (active.mode !== 'JS')}">
-                            <a href a-disabled="(active.mode !== 'JS')" ng-click="evaluate()">
+                        <li ng-class="{'disabled': (activeEditor.mode !== 'JS')}">
+                            <a href a-disabled="(activeEditor.mode !== 'JS')" ng-click="evaluate()">
                                 <span class="fa  fa-binoculars"></span>
                                 <span class="ladda-label" translate="actions.evaluate">
                                     Evaluate
@@ -161,11 +161,13 @@
 
                         <li >
                           <a href ng-click="previewFeatureWithExternalCucumberData()"
-                              a-disabled="(active.selectedNode === '' || active.mode !== 'FEATURE')">
+                              a-disabled="(activeEditor.file === '' || activeEditor.mode !== 'FEATURE')">
                               <span class="fa  fa-user"></span>
                               <span class="ladda-label" translate="">
                                   previewFeatureWithExternalCucumberData
+
                               </span>
+                              
                           </a>
                       </li>
 

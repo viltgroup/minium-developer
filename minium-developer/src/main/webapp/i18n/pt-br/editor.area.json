@@ -187,6 +187,11 @@
             "evaluator": "Avaliar expressão (Ctrl + Enter)",
             "run_test": "Executar testes a partir de cursor (Ctrl + Enter)",
             "run_all": "Executar todos os testes"
+        },
+        "preview.feature":{
+          "error":"Erro ao carregar Feature! Por favor, reveja seus dados externos!",
+          "success":"Feature carregada com sucesso!",
+          "loading": "Carregando dados"
         }
     },
     "preferences": {

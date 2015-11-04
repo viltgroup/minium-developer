@@ -159,23 +159,23 @@ angular.module('minium.developer')
                         case "failed":
                             $scope.testsExecuted = $scope.testsExecuted + 1;
                             $scope.isFailing = true;
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "failed");
                             break;
                         case "passed":
                             $scope.testsExecuted = $scope.testsExecuted + 1;
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "passed");
                             break;
                         case "executing":
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "breakpoint");
                             break;
                         case "undefined":
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "undefined");
                             break;
                         case "snippet":
                             snippetsForUndefinedSteps.push(step.name);
                             break;
                         case "failed_example":
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "failed");
                             break;
                         default: //do nothing
                     }
@@ -192,8 +192,7 @@ angular.module('minium.developer')
         var reLaunchParams;
         $scope.launch = function(launchParams) {
             reLaunchParams = launchParams;
-            $scope.launchTestSession = $rootScope.activeEditor.instance;
-            console.log($scope.launchTestSession);
+            $scope.launchedTestEditor = $rootScope.activeEditor;
             //check if the test already executing
             if ($scope.testExecuting == true) {
                 toastr.error($translate('messages.error.test_executing'));
@@ -203,17 +202,14 @@ angular.module('minium.developer')
              * check if a webdriver if launched
              */
             WebDriverFactory.isCreated().success(function(data, status, headers, config) {
-                // this callback will be called asynchronously
                 // when the response is available
-                //put a lock in test execution
+                // put a lock in test execution
                 launchTest(launchParams);
                 $scope.setWebDriverMsg(false);
-            }).
-            error(function(data, status, headers, config) {
-                // called asynchronously if an error occurs
+            }).error(function(data, status, headers, config) {
                 // or server returns response with an error status.
-                //set the modal select webdriver
-                //now the modal wil be launch with an error message
+                // set the modal select webdriver
+                // now the modal wil be launch with an error message
                 $scope.setWebDriverMsg(true);
                 $scope.openModalWebDriverSelect();
                 relaunch = true;
@@ -256,7 +252,7 @@ angular.module('minium.developer')
             /*
             Cucumber launcher to launch the test
              */
-            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession, socket_key)
+            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchedTestEditor, socket_key)
                 .then(function(data) {
                     feature = data.feature;
                     $scope.faillingSteps = data.faillingSteps;
@@ -368,8 +364,6 @@ angular.module('minium.developer')
         document.addEventListener("keydown", function(e) {
             if (e.keyCode == 80 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
                 e.preventDefault();
-                //your implementation or function calls
-                // $state.transition();
                 $state.go(".open", {}, {
                     notify: false,
                 });

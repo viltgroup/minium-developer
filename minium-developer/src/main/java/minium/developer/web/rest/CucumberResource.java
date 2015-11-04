@@ -13,6 +13,7 @@ import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.CucumberProjectContext;
 import minium.developer.project.Workspace;
 import minium.developer.service.FormatService;
+import minium.developer.web.rest.dto.FileWithOffsetsDTO;
 import minium.developer.web.rest.dto.StepDefinitionDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,9 +76,9 @@ public class CucumberResource {
 		return request.getSession().getId();
 	}
 
-	@RequestMapping(value = "/preview", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
+	@RequestMapping(value = "/preview", method = RequestMethod.POST)
     @ResponseBody
-    public String previewWithExternalData(@RequestBody LaunchInfo launchInfo) throws IOException, URISyntaxException {
+    public FileWithOffsetsDTO previewWithExternalData(@RequestBody LaunchInfo launchInfo) throws IOException, URISyntaxException {
         return formatService.validateFeature(launchInfo.getFileProps().getRelativeUri().getPath());
     }
 

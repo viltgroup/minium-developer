@@ -4,12 +4,8 @@
 var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q, $modal, $state, MiniumEditor, EvalService, TabLoader, FeaturePreviewService) {
 
     var $translate = $filter('translate');
-    //is the actual file selected
-    //every time we move to other tab
-    //this value is being update
-
-    //this object store all information about the active nodes
-    //can put it in a class
+    // contains the actual file selected. every time we move to other tab
+    // this value is updated
     $rootScope.activeEditor = {
         file: {}, // stores the file props and content
         instance: null, //store the active instance of the editor
@@ -19,7 +15,7 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     }
 
     $scope.resultsSummary = {};
-    //init variables
+
     $scope.testExecuting = false;
     //store the editor where the test are launched
     //to know where we can mark the result of the tests
@@ -66,7 +62,8 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
             file: editor.file,
             activeID: editor.id,
             mode: editor.mode,
-            type: editor.type
+            type: editor.type,
+            offsets: editor.offsets
         }
 
         //if the file is not found
@@ -224,6 +221,9 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
             });
     }
 
+    /**
+    * Function open a new editor with feature with external data
+    */
     $scope.previewFeatureWithExternalCucumberData = function() {
         // if the file is not a feature
         // can't open the preview
@@ -232,23 +232,26 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
             return;
         }
 
-        var launchParams = {
-            fileProps: $rootScope.activeEditor.file.fileProps
+        var file = {
+            fileProps: angular.copy($rootScope.activeEditor.file.fileProps)
         };
 
-        toastr.info('<i class="fa fa-circle-o-notch fa-spin fa-2x"></i> Loading Data!', {
+        toastr.info('<i class="fa fa-circle-o-notch fa-spin fa-2x"></i> ' + $translate('messages.preview.feature.loading'), {
             allowHtml: true
         });
 
-        FeaturePreviewService.preview(launchParams).success(function(data) {
+        FeaturePreviewService.preview(file).success(function(data) {
                 toastr.clear();
-                console.log(data);
-                launchParams.fileProps.preview = true;
+                var fileContent = data.fileContent;
+                var offsets = data.offset;
+
+                file.fileProps.preview = true;
 
                 var filePropsAndContent = {
-                    content: data,
+                    content: fileContent,
                     type: "preview",
-                    fileProps: launchParams.fileProps
+                    fileProps: file.fileProps,
+                    offsets: offsets
                 }
 
                 var newEditor = editors.addInstance(filePropsAndContent, 1);
@@ -256,12 +259,12 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
                 // change editor settings
                 newEditor.instance.focus();
                 newEditor.instance.setReadOnly(true);
-                toastr.success($translate('evaluator.clean.success'));
+                toastr.success($translate('messages.preview.feature.success'));
                 $scope.setActiveEditor(newEditor);
             })
             .error(function(exception) {
                 toastr.clear();
-                toastr.error($translate('evaluator.clean.error'));
+                toastr.error($translate('messages.preview.feature.error'));
             });
     }
 

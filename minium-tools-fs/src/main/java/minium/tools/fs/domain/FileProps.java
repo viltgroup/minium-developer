@@ -20,7 +20,7 @@ public class FileProps implements Serializable {
     private FileProps.Type type;
     private Date lastModified;
     private int lineNo;
-    private boolean preview;
+    private boolean preview = false;
 
     public String getName() {
         return name;

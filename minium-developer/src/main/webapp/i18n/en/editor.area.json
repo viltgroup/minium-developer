@@ -98,7 +98,11 @@
     },
     "evaluator": {
         "matching": "{{data}} matching web elements",
-        "no_value": "No value"
+        "no_value": "No value",
+        "clean":{
+          "error":"",
+          "success": ""
+        }
     },
     "help": {
         "help": "help",
@@ -186,6 +190,11 @@
             "evaluator": "Evaluator (Ctrl + Enter)",
             "run_test": "Run test from cursor (Ctrl + Enter)",
             "run_all": "Run all tests"
+        },
+        "preview.feature":{
+          "error":"Error loading Feature! Please review your external data!",
+          "success":"Feature loaded with success!",
+          "loading": "Loading data"
         }
     },
     "preferences": {

@@ -189,6 +189,11 @@
             "evaluator": "Avaluador (Ctrl + Enter)",
             "run_test": "Executar provas des cursor (Ctrl + Enter)",
             "run_all": "Executar tot las provas"
+        },
+        "preview.feature":{
+          "error":"Error en carregar la Feature! Si us plau, revisi les seves dades externes!",
+          "success":"Feature carregat amb èxit!",
+          "loading": "Carregant dades"
         }
     },
     "preferences": {

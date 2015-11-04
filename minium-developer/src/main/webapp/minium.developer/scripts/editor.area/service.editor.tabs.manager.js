@@ -91,7 +91,11 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         var relativeUri = fileProps.relativeUri || "";
         var editorType = fileContentAndProps.type || fileProps.type;
 
-        //ADD EVENT HANDLERS to the editor
+        // contains the lines offstes
+        // only for preview editors
+        var offsets = fileContentAndProps.offsets || undefined;
+
+        // ADD EVENT HANDLERS to the editor
         addEventListeners(editor, fileName, this);
 
         var newEditor = {
@@ -99,7 +103,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
             instance: editor,
             mode: this.mode,
             type: editorType,
-            file: fileContentAndProps
+            file: fileContentAndProps,
+            offsets: offsets
         }
 
         //add this instance to the list of editors instance
@@ -110,6 +115,10 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         openTab.store(this.editors);
 
         this.resizeEditors();
+
+        this.editors.forEach(function(editor) {
+            console.debug(editor);
+        });
 
         return newEditor;
 
@@ -300,7 +309,13 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.hightlightLine = function(row, editor, type) {
-        editor.getSession().setBreakpoint(row, type);
+        row = row + 1;
+        var newRow = row;
+        if (editor.offsets && editor.offsets[row]) {
+            newRow = editor.offsets[row];
+        }
+        // row = editor.offSet.get(row);
+        editor.instance.getSession().setBreakpoint(parseInt(newRow) - 1, type);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -519,7 +534,6 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                         mac: "Command+Enter"
                     },
                     exec: function(env) {
-                        console.log(env);
                         launchCucumber(env, _this.scope, false);
                     },
                     readOnly: true // should be apply in readOnly mode if TRUE
@@ -832,7 +846,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     function launchCucumber(editor, scope, isRunAll) {
         var scope = scope;
 
-        var featureToRunProps = scope.activeEditor.file.fileProps;
+        var featureToRunProps = $rootScope.activeEditor.file.fileProps;
+        console.log(featureToRunProps);
 
         if (!featureToRunProps) return;
 
@@ -853,6 +868,21 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                     lines.push(range.start.row + 1);
                 }
             });
+
+            var editor = scope.activeEditor;
+
+            // if editor is in preview
+            // need to get the line from the offset structure
+            if (editor.type === 'preview') {
+                lines.forEach(function(line, index) {
+                    for (var oldLine in editor.offsets) {
+                        if (editor.offsets.hasOwnProperty(oldLine) && editor.offsets[oldLine] === lines[index]) {
+                            lines[index] = oldLine;
+                        }
+                    }
+                });
+            }
+
             var launchParams = {
                 line: lines.reverse(),
                 fileProps: featureToRunProps

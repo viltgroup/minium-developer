@@ -94,10 +94,10 @@ public class CucumberProjectContext extends AbstractProjectContext {
         CucumberProperties cucumberProperties = createEvaluationCucumberProperties(resultsFile, featurePath);
 
         try {
-            List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString(),launchInfo.getFileProps().getPreview());
+            List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString(), launchInfo.getFileProps().getPreview());
 
             for (Throwable failure : failures) {
-                //LOGGER.error("Feature {} failed", featurePath, failure);
+                // LOGGER.error("Feature {} failed", featurePath, failure);
             }
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
@@ -210,7 +210,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         return cucumberProperties;
     }
 
-    protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId, final String uri,final boolean isPreview) {
+    protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId, final String uri, final boolean isPreview) {
         cucumberEngine = createJsEngine();
         try {
             return cucumberEngine.runWithContext(cucumberEngine.new RhinoCallable<List<Throwable>, RuntimeException>() {
@@ -221,42 +221,31 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
                         ResourceLoader resourceLoader = new MultiLoader(Thread.currentThread().getContextClassLoader());
                         List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, cucumberProperties);
-                        final MiniumRunTimeOptions myruntimeOptions = new MiniumRunTimeOptions(cucumberProperties.getOptions().toArgs());
+                        MiniumRunTimeOptions miniumRuntimeOptions = null;
+                        if (isPreview) {
+                            miniumRuntimeOptions = new MiniumRunTimeOptions(cucumberProperties.getOptions().toArgs(), resourcesDir);
+                        }
                         try (ListenerReporter listenerReporter = new ListenerReporter()) {
                             listenerReporter.add(cucumberLiveReporter);
                             RuntimeBuilder runtimeBuilder = new RuntimeBuilder().withArgs(cucumberProperties.getOptions().toArgs())
-                                    .withResourceLoader(resourceLoader).withPlugins(cucumberLiveReporter, listenerReporter).withBackends(allBackends).withRuntimeOptions(myruntimeOptions);
+                                    .withResourceLoader(resourceLoader).withPlugins(cucumberLiveReporter, listenerReporter).withBackends(allBackends)
+                                    .withRuntimeOptions(miniumRuntimeOptions);
 
                             Runtime runtime = runtimeBuilder.build();
-                            if(isPreview){
+                            List<CucumberFeature> cucumberFeatures;
 
-                                MiniumRunTimeOptions runtimeOptions = (MiniumRunTimeOptions) runtimeBuilder.getRuntimeOptions();
-                                List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
+                            RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
+                            cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
 
-                                // send to the client the total number of test to
-                                // execute
-                                sendTotalSteps(cucumberFeatures, sessionId);
+                            // send to the client the total number of test to
+                            // execute
+                            sendTotalSteps(cucumberFeatures, sessionId);
 
-                                runtime.run();
+                            runtime.run();
 
-                                // send snippets of undefined steps to the client
-                                sendSnippets(runtime, sessionId);
-                                return runtime.getErrors();
-                            }else{
-                                RuntimeOptions runtimeOptions = runtimeBuilder.getRuntimeOptions();
-                                List<CucumberFeature> cucumberFeatures = runtimeOptions.cucumberFeatures(runtimeBuilder.getResourceLoader());
-
-                                // send to the client the total number of test to
-                                // execute
-                                sendTotalSteps(cucumberFeatures, sessionId);
-
-                                runtime.run();
-
-                                // send snippets of undefined steps to the client
-                                sendSnippets(runtime, sessionId);
-                                return runtime.getErrors();
-                            }
-
+                            // send snippets of undefined steps to the client
+                            sendSnippets(runtime, sessionId);
+                            return runtime.getErrors();
                         }
                     } catch (Exception e) {
                         throw Throwables.propagate(e);

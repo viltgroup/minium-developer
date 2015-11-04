@@ -34,7 +34,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
             //URGENT NEED TO PUT THIS ON A MODEL
             //CANT BE IN A CONTROLLER
 
-            console.debug(data)
+            console.debug(launchTestSession)
 
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;
@@ -52,8 +52,14 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
 
                 var lines = msg;
 
+                var row = step.line;
+
+                if( launchTestSession.offsets && launchTestSession.offsets[row] ){
+                  row = launchTestSession.offsets[row];
+                }
+
                 return {
-                    row: step.line - 1,
+                    row: row - 1,
                     text: msg,
                     type: type
                 };
@@ -81,7 +87,7 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
                 '<em class="fa fa-warning"></em> <strong>' + feature.resultsSummary.skipped + ' ' + $translate('report.skipped') + '</strong><br>' +
                 '<em class="fa fa-exclamation"></em> <strong>' + feature.resultsSummary.undefined + ' ' + $translate('report.undefined') + '</strong>');
 
-            onFinishTestExecution(annotations, launchTestSession);
+            onFinishTestExecution(annotations, launchTestSession.instance);
 
             data = {
                 feature: feature,

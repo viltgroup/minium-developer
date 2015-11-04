@@ -11,9 +11,11 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import minium.cucumber.StringResource;
 import minium.cucumber.data.MiniumFeatureBuilder;
+import minium.developer.web.rest.dto.FileWithOffsetsDTO;
 import minium.tools.fs.service.FileSystemService;
 
 import org.apache.commons.io.FileUtils;
@@ -64,19 +66,22 @@ public class FormatService {
         }
     }
 
-    public String validateFeature(String featurePath) {
+    public FileWithOffsetsDTO validateFeature(String featurePath) {
         try {
             FileSystemResource fileSystemResource = fileSystemService.get(featurePath);
             InputStream inputStream = new FileInputStream(fileSystemResource.getPath());
             StringResource resource = new StringResource(fileSystemResource.getPath(), inputStream);
-
             List<CucumberFeature> cucumberFeatures = Lists.newArrayList();
             StringWriter writer = new StringWriter();
             final PrettyFormatter formatter = new PrettyFormatter(writer, true, false);
-            MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, formatter, fileSystemService.getBaseDir());
+            MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, formatter, fileSystemService.getBaseDir(),true);
+
             builder.parse(resource, Collections.emptyList());
+            Map<Integer, Integer> lineOffset = builder.getLineOffset();
             String string = writer.toString();
-            return string;
+
+            FileWithOffsetsDTO fileWithOffsets = new FileWithOffsetsDTO(string,lineOffset);
+            return fileWithOffsets;
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }

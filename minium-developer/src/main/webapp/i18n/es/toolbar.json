@@ -29,6 +29,7 @@
         "open.project": "Abrir Proyecto",
         "cleanScope":"Limpiar Scope",
         "dowload.webdrivers":"Descargar webdrivers",
-        "update.webdrivers":"Actualizar webdrivers"
+        "update.webdrivers":"Actualizar webdrivers",
+        "preview-feature-with-data": "Vista previa de la Feature con datos externos"
     }
 }

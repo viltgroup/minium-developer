@@ -159,7 +159,7 @@
                             </a>
                         </li>
 
-                        <li >
+                        <li ng-show="(activeEditor.mode === 'FEATURE' && activeEditor.type === 'FILE')">
                           <a href ng-click="previewFeatureWithExternalCucumberData()"
                               a-disabled="(activeEditor.file === '' || activeEditor.mode !== 'FEATURE')">
                               <span class="fa  fa-file-excel-o"></span>

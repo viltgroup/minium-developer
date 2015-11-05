@@ -6,7 +6,7 @@ angular.module('miniumdevApp', [
     'minium.developer'
 ])
 
-.run(function($rootScope, $location, $http, $state, $translate, Language, ENV, VERSION, ProjectFactory, ProjectService) {
+.run(function($rootScope, $location, $http, $state, $translate, Language, ENV, VERSION, ProjectFactory, ProjectService,openTab) {
     $rootScope.ENV = ENV;
     $rootScope.VERSION = VERSION;
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
@@ -39,9 +39,11 @@ angular.module('miniumdevApp', [
     // check if project is defined
     // hack: to stop a refresh of the page
     // on loading the project from a cookie
+
     ProjectFactory.hasProject().success(function(data) {
         if ($.cookie('project') != undefined && !(data !== '')) {
-            ProjectService.open($.cookie('project'));
+            var cookieTabs = openTab.load();
+            ProjectService.open($.cookie('project'),cookieTabs);
         }
     });
 })

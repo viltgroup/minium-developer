@@ -56,7 +56,7 @@ miniumDeveloper.factory('TabFactory', function($http, $q) {
         tabsElement.tabs('option', 'active', tabIndex);
 
         // create the editor dom
-        var newEditorElement = $('<div id="editor_' + tabUniqueId + '"></div>');
+        var newEditorElement = $('<div id="editor_' + tabUniqueId + '" data-toggle="context" data-target="#context-menu"></div>');
 
         newTabPanelElement.append(newEditorElement);
 

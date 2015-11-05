@@ -28,7 +28,7 @@ miniumDeveloper.factory('ProjectFactory', function($http) {
 
 
 // this service load and store open tabs from cookies
-miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $location, $cookieStore) {
+miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $location, $cookieStore,openTab) {
     //todo put in config.js
     var OPEN_TABS_COOKIES = 'openTabs';
     var LAST_PROJECTS_COOKIES = 'lastProjects';
@@ -62,13 +62,15 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
         });
     }
 
-    this.open = function(path) {
+    this.open = function(path,openTabs) {
+
         ProjectFactory.open(path).success(function(data) {
             $.cookie(PROJECT_COOKIE, path, {
                 expires: 7
             });
 
             storeOpenProjects(path);
+            openTab.reload(openTabs);
             reload(path);
         }).error(function(data, status) {
             $.removeCookie(PROJECT_COOKIE);

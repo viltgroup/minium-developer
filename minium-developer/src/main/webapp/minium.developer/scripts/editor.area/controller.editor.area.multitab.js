@@ -68,9 +68,11 @@ angular.module('minium.developer')
 
             var openTabs = openTab.load();
             var numTabs = 0;
+
             for (var i = 0; i < openTabs.length; i++) {
                 arrPromises[i] = $scope.loadFile(openTabs[i]);
             }
+
             $q.all(arrPromises).then(function() {
                 if ($stateParams.path) {
                     var promise = $scope.loadFile($stateParams.path).then(function(result) {
@@ -106,7 +108,7 @@ angular.module('minium.developer')
 
         //set the theme of the editor
         $scope.setTheme = function(themeName) {
-            editors.setTheme($scope.activeEditor.instance, themeName);
+            editors.setTheme($rootScope.activeEditor.instance, themeName);
         }
 
         /**
@@ -379,6 +381,5 @@ angular.module('minium.developer')
 
             return true;
         }
-
 
     });

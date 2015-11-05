@@ -11,25 +11,25 @@ $('.running-data').show();
         </a>
         <ul>
             <li>
-                <a tooltip-placement="left" 
-                   tooltip="{{'messages.tooltip.stop_test' | translate}}" 
-                   class="btn-floating" id="teste-out" 
-                   ng-click="stopLaunch()" 
+                <a tooltip-placement="left"
+                   tooltip="{{'messages.tooltip.stop_test' | translate}}"
+                   class="btn-floating" id="teste-out"
+                   ng-click="stopLaunch()"
                    ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
             </li>
             <li>
-                <a tooltip-placement="left" 
-                   tooltip="{{'messages.tooltip.report' | translate}}" class="btn-floating blue" 
-                   id="summary-report" ng-click="openModalReport('lg')" 
+                <a tooltip-placement="left"
+                   tooltip="{{'messages.tooltip.report' | translate}}" class="btn-floating blue"
+                   id="summary-report" ng-click="openModalReport('lg')"
                    ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
                 </a>
             </li>
             <li>
-                <a tooltip-placement="left" 
-                   tooltip="{{'messages.tooltip.clear_markers' | translate}}" 
-                   class="btn-floating" 
-                   id="clear markers" 
-                   ng-click="clearMarkers()" 
+                <a tooltip-placement="left"
+                   tooltip="{{'messages.tooltip.clear_markers' | translate}}"
+                   class="btn-floating"
+                   id="clear markers"
+                   ng-click="clearMarkers()"
                    ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
                 </a>
             </li>
@@ -45,10 +45,10 @@ $('.running-data').show();
                     <span style="color:black; white-space:nowrap;">
                         {{testsExecuted}} / {{totalTests}}
                     </span>
-                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" 
-                                 class="progress-striped active" 
-                                 max="100" 
-                                 value="( testsExecuted * 100 ) / totalTests" 
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}"
+                                 class="progress-striped active"
+                                 max="100"
+                                 value="( testsExecuted * 100 ) / totalTests"
                                  style="height: 10px;">
                     </progressbar>
                 </span>
@@ -63,50 +63,4 @@ $('.running-data').show();
     </ul>
     <!-- <a href="#" id="left-button"><i class="fa fa-arrow-circle-left"/></a> -->
     <!-- </div> -->
-</div>
-
-
-
-
-<div id="context-menu" style="position: absolute; z-index: 9999; top: 443px; left: 268px;" class="">
-    <ul class="dropdown-menu" role="menu">
-        <li >
-            <a href tabindex="-1" ng-click="cenas('newFolder')"><i class="fa fa-folder-o"></i>
-                <span translate="file.new.folder">New Folder</span>
-            </a>
-        </li>
-        <li >
-            <a href tabindex="-1" ng-click="open('newFile')"><i class="fa fa-file"></i>
-                <span translate="file.new.file">New File</span>
-            </a>
-        </li>
-
-        <li> 
-            <a href tabindex="-1" ng-click="open('rename')"><i class="fa fa-pencil"></i>
-                <span translate="file.rename">Rename</span>
-            </a>
-        </li>
-
-        <li ng-show="clickedType == 'DIR'">
-            <a href tabindex="-1" ng-click="open('renameFolder')"><i class="fa fa-pencil"></i>
-                <span translate="file.rename.folder">Rename Folder</span>
-            </a>
-        </li>
-
-
-        <li class="divider" ></li>
-
-        <li >
-            <a href tabindex="-1" ng-click="deleteDirectory()"><i class="fa fa-trash-o danger"></i>
-            <span class="danger" translate="file.delete.folder">
-                Delete Folder
-            </span></a>
-        </li>
-
-        <li >
-            <a href tabindex="-1" ng-click="delete()"><i class="fa fa-trash-o danger"></i>
-                <span class="danger" translate="file.delete">Delete</span>
-            </a>
-        </li>
-    </ul>
 </div>

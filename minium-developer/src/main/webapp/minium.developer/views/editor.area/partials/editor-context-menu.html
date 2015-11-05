@@ -1,0 +1,62 @@
+<div class="" id="context-menu" style="position: absolute; z-index: 9999; top: 443px; left: 268px;">
+    <ul class="dropdown-menu" role="menu">
+
+        <li ng-show="activeEditor.mode === 'JS'">
+            <a href id="evaluator" ng-click="evaluate()" title="{{'messages.title.evaluator' | translate}}">
+                <span class="fa fa-binoculars"></span>
+                <span class="action-label" translate="actions.evaluate">Evaluate</span>
+            </a>
+        </li>
+
+        <li ng-show=" (activeEditor.mode === 'FEATURE'">
+            <a href ng-click="launchCucumber()" ng-disabled="testExecuting" title="{{'messages.title.run_test' | translate}}">
+                <span class="fa  fa-play"></span>
+                <span class="action-label" translate="actions.run">Run Test</span>
+            </a>
+        </li>
+        <li ng-show="(activeEditor.mode === 'FEATURE' && activeEditor.type === 'FILE')">
+            <a href ng-click="test()">
+                <span class="fa  fa-file-excel-o"></span>
+                <span class="ladda-label" translate="actions.preview-feature-with-data">
+                    Preview Feature With External CucumberData
+                </span>
+
+            </a>
+        </li>
+        <li ng-show="activeEditor.mode === 'JS'">
+            <a href id="selector-gadget" ng-click="activateSelectorGadget()" title="{{'messages.title.selector.gadget' | translate}}">
+                <span class="fa  fa-hand-o-up"></span>
+                <span class="action-label" translate="actions.selector.gadget">Selector Gadget</span>
+            </a>
+        </li>
+        <li class="divider"></li>
+        <li >
+            <a href ng-click="search()">
+                <i class="fa fa-search"></i>
+                <span class="ladda-label" title="{{'file.searchWithShortcut' | translate}}">
+                    Search
+                </span>
+            </a>
+        </li>
+
+        <li class="dropdown-submenu" ng-show=" (activeEditor.mode === 'FEATURE')">
+            <a href tabindex="-1">
+                <i class="fa fa-download"></i>
+                <span translate="">
+                    Snippets
+                </span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href ng-click="addSnippet()">
+                        <span translate="">
+                            Load from external file
+                        </span>
+                    </a>
+                </li>
+            </ul>
+
+        </li>
+
+    </ul>
+</div>

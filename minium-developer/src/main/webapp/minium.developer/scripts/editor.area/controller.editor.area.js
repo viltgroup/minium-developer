@@ -81,16 +81,20 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
         pos.column -= 1;
         editor.instance.moveCursorToPosition(pos);
 
-        if (editor.type === 'FILE') {
+        var path = '';
+        if (editor.type !== 'console') {
             //set state
-            $state.go("global.editorarea.sub", {
-                path: editor.file.fileProps.relativeUri
-            }, {
-                location: 'replace', //  update url and replace
-                inherit: false,
-                notify: false
-            });
+            path = editor.file.fileProps.relativeUri
         }
+
+        $state.go("global.editorarea.sub", {
+            path: path
+        }, {
+            location: 'replace', //  update url and replace
+            inherit: false,
+            notify: false
+        });
+
 
         console.log($rootScope.activeEditor);
 
@@ -222,8 +226,8 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     }
 
     /**
-    * Function open a new editor with feature with external data
-    */
+     * Function open a new editor with feature with external data
+     */
     $scope.previewFeatureWithExternalCucumberData = function() {
         // if the file is not a feature
         // can't open the preview

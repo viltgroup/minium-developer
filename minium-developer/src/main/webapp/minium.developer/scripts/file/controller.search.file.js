@@ -2,11 +2,11 @@
     'use strict';
 
     angular.module('minium.developer')
-        .controller('OpenFileController', OpenFileController);
+        .controller('SearchFileController', SearchFileController);
 
-    OpenFileController.$inject = ['$rootScope', '$scope', '$modalInstance', '$controller', '$stateParams', 'TabLoader', 'FS', 'MiniumEditor'];
+    SearchFileController.$inject = ['$rootScope', '$scope', '$modalInstance', '$controller', '$stateParams', 'TabLoader', 'FS', 'MiniumEditor'];
 
-    function OpenFileController($rootScope, $scope, $modalInstance, $controller, $stateParams, TabLoader, FS, MiniumEditor) {
+    function SearchFileController($rootScope, $scope, $modalInstance, $controller, $stateParams, TabLoader, FS, MiniumEditor) {
 
         console.debug("loaded FileController")
             //extends the fileController
@@ -21,7 +21,8 @@
         $scope.form = {};
 
         $scope.type = $stateParams.type | '';
-
+        console.log( $stateParams);
+        $scope.isActive = true;
         $scope.ok = function() {
             $scope.$close(true);
         };
@@ -31,7 +32,7 @@
             $scope.$dismiss();
         };
 
-         $scope.search = function() {
+        $scope.search = function() {
             var searchQuery = $scope.form.searchQuery;
             $scope.results = FS.search({
                 q: searchQuery
@@ -56,10 +57,19 @@
             console.log($scope)
             parentScope.loadFile(decodeURIComponent(item.relativeUri)).then(function(result) {
                 if (line) {
-                    $rootScope.active.session.gotoLine(line);
+                    $rootScope.activeEditor.instance.gotoLine(line);
                 }
             });
         }
+
+        //////////////////////////////////////////////////////////////////
+        // On enter in controller
+        //////////////////////////////////////////////////////////////////
+        if ($stateParams.line) {
+            $scope.form.searchQuery = $stateParams.line;
+            $scope.searchContent();
+        }
+
     }
 
 })();

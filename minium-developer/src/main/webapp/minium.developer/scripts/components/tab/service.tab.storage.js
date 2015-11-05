@@ -5,7 +5,6 @@
 miniumDeveloper.service('openTab', function() {
 
     this.store = function(editors) {
-
         var reltivepaths = [];
         editors.forEach(function(editor) {
             var relativeUri = editor.file.fileProps.relativeUri;
@@ -23,6 +22,13 @@ miniumDeveloper.service('openTab', function() {
         var openTabs = $.cookie('openTabs');
         var paths = (openTabs !== undefined && openTabs !== "") ? openTabs.split(",") : [];
         return paths;
+    }
+
+    this.reload = function(paths) {
+      alert(path.join(','))
+      $.cookie('openTabs', paths.join(','), {
+            expires: 7
+        });
     }
 
 });

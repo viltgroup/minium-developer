@@ -5,9 +5,9 @@ miniumDeveloper
 
         //////////////////////////////////////////////////////////////////
         //
-        // Angular encode the url 
+        // Angular encode the url
         // with this features/preferences.features => features%252Fpreferences.features
-        // So we need to register a custom type 
+        // So we need to register a custom type
         // from https://github.com/angular-ui/ui-router/issues/1557
         //
         //////////////////////////////////////////////////////////////////
@@ -57,6 +57,10 @@ miniumDeveloper
                         controller: "EditorAreaMultiTabController",
                         templateUrl: 'minium.developer/views/editor.area/partials/editors.html',
                     },
+                    'context-menu@global.editorarea': {
+                        controller: "ContextMenuEditorController",
+                        templateUrl: 'minium.developer/views/editor.area/partials/editor-context-menu.html',
+                    },
                     'treeNav@global.editorarea': {
                         controller: "TreeNavController",
                         templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
@@ -77,8 +81,8 @@ miniumDeveloper
 
         modalStateProvider
             .state('global.editorarea.sub.open', {
-                templateUrl: "minium.developer/views/files/open.file.html",
-                controller: "OpenFileController"
+                templateUrl: "minium.developer/views/files/search.file.html",
+                controller: "SearchFileController"
             });
 
         //register backend

@@ -74,14 +74,15 @@ public class FormatService {
             List<CucumberFeature> cucumberFeatures = Lists.newArrayList();
             StringWriter writer = new StringWriter();
             final PrettyFormatter formatter = new PrettyFormatter(writer, true, false);
-            MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, formatter, fileSystemService.getBaseDir(),true);
 
-            builder.parse(resource, Collections.emptyList());
-            Map<Integer, Integer> lineOffset = builder.getLineOffset();
-            String string = writer.toString();
+            try (MiniumFeatureBuilder builder = new MiniumFeatureBuilder(cucumberFeatures, formatter, fileSystemService.getBaseDir(), true)) {
+                builder.parse(resource, Collections.emptyList());
+                Map<Integer, Integer> lineOffset = builder.getLineOffset();
+                String fileContent = writer.toString();
+                FileWithOffsetsDTO fileWithOffsets = new FileWithOffsetsDTO(fileContent, lineOffset);
+                return fileWithOffsets;
+            }
 
-            FileWithOffsetsDTO fileWithOffsets = new FileWithOffsetsDTO(string,lineOffset);
-            return fileWithOffsets;
         } catch (Exception e) {
             throw Throwables.propagate(e);
         }

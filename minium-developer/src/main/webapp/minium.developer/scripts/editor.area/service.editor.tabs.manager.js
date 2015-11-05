@@ -229,7 +229,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         var id = null;
 
         $.each(this.editors, function(i, editor) {
-            if (decodeURIComponent(editor.file.fileProps.relativeUri) == relativeUri) {
+            if (decodeURIComponent(editor.file.fileProps.relativeUri) == relativeUri && editor.type === 'FILE') {
                 id = editor.id;
                 isOpen = true;
             }
@@ -851,8 +851,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
 
         if (!featureToRunProps) return;
 
-        if (!scope.activeEditor.type) {
-            //scope.saveFile();
+        if ($rootScope.activeEditor.type === 'FILE') {
+            scope.saveFile();
         }
 
         if (isRunAll === true) {

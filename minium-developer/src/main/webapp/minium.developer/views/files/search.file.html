@@ -5,7 +5,7 @@
 </div>
 <div class="panel-body">
     <tabset>
-        <tab  id="search-file" heading="Search" popover="I appeared on mouse enter!" popover-trigger="mouseenter">
+        <tab  id="search-file" heading="{{ 'file.search.file' | translate }}" popover="{{ 'popover.search.file' | translate }}" popover-trigger="mouseenter">
             <form role="form">
                 <div class="form-group">
                     <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file' | translate }}" ng-model="form.searchQuery" ng-change="search()" autoFocus>
@@ -20,10 +20,10 @@
                 </a>
             </div>
         </tab>
-        <tab id="search-step-defs" heading="{{ 'file.search.file' | translate }}" popover="I appeared on mouse enter!" popover-trigger="mouseenter" active="isActive">
+        <tab id="search-step-defs" heading="{{ 'file.search.file.step' | translate }}" popover="{{ 'popover.search.file.step' | translate }}" popover-trigger="mouseenter" active="isActive">
             <form role="form">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file' | translate }}" ng-model="form.searchQuery" ng-change="searchContent()" autoFocus>
+                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file.step' | translate }}" ng-model="form.searchQuery" ng-change="searchContent()" autoFocus>
                 </div>
             </form>
             <div class="list-group">

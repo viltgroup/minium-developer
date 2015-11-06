@@ -21,7 +21,8 @@
         "name": "File Name",
         "no.file": "No Files here",
         "search": "Search",
-        "search.file": "Search file",
+        "search.file": "Search File",
+        "search.file.step": "Search Step File",
         "name": "Name",
         "date": "Date",
         "refresh": "Refresh folders",
@@ -212,5 +213,9 @@
             "font.size": "Enter font size",
             "tab.size": "Enter tab size"
         }
+    },
+    "popover": {
+        "search.file": "Search for a file in all directories of the current project.",
+        "search.file.step": "Search for a step file in the current project ."
     }
 }

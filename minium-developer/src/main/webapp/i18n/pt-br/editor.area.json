@@ -33,13 +33,13 @@
     "labels": {
         "show": "Mostrar",
         "hide": "Esconder",
-        "pause": "pausa",
+        "pause": "Pausa",
         "clear": "Limpar",
         "shortcut": "Atalho",
         "line": "Linha",
         "selector.gadget": "Escolha elementos com o Selector Gadget",
         "selector.gadget.text": "Escolha elementos com o Selector Gadget para gerar uma expressão CSS.",
-        "complete.stackTrace": "View complete stack trace",
+        "complete.stackTrace": "Ver o rastreamento de pilha completo",
         "parsed.stackTrace": "View parsed stack trace"
     },
     "webdriver": {

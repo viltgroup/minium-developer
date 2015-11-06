@@ -43,7 +43,8 @@
         "shortcut": "Atajo",
         "line": "Línea",
         "selector.gadget": "Obtener elementos con el selector de dispositivos",
-        "selector.gadget.text": "Obtener elementos con el selector de dispositivo generando un CSS del selector de expresión."
+        "selector.gadget.text": "Obtener elementos con el selector de dispositivo generando un CSS del selector de expresión.",
+        "complete.stackTrace": "Ver seguimiento de la pila completa"
     },
     "webdriver": {
         "new": "Crear un nuevo WebDriver",
@@ -215,7 +216,7 @@
         }
     },
     "popover": {
-        "search.file": "Buscar archivos en las carpetas de lo proyecto.",
+        "search.file": "Buscar archivos en las carpetas del proyecto.",
         "search.file.step": "Buscar archivos en la carpeta steps."
     }
 }

@@ -43,7 +43,8 @@
         "shortcut": "Drecera",
         "line": "Línia",
         "selector.gadget": "Seleccionar elements amb el selector de dispositiu",
-        "selector.gadget.text": "Seleccionar elements amb el selector de dispositiu genera una expressió selectora CSS."
+        "selector.gadget.text": "Seleccionar elements amb el selector de dispositiu genera una expressió selectora CSS.",
+        "complete.stackTrace": "Veure seguiment de la pila completa"
     },
     "webdriver": {
         "new": "Creació de un nou WebDriver",

@@ -8,7 +8,7 @@
             </a>
         </li>
 
-        <li ng-show=" (activeEditor.mode === 'FEATURE'">
+        <li ng-show="(activeEditor.mode === 'FEATURE')">
             <a href ng-click="launchCucumber()" ng-disabled="testExecuting" title="{{'messages.title.run_test' | translate}}">
                 <span class="fa  fa-play"></span>
                 <span class="action-label" translate="actions.run">Run Test</span>

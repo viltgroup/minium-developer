@@ -25,10 +25,12 @@ miniumDeveloper.service('openTab', function() {
     }
 
     this.reload = function(paths) {
-      alert(path.join(','))
-      $.cookie('openTabs', paths.join(','), {
-            expires: 7
-        });
+        if (paths) {
+            $.cookie('openTabs', paths.join(','), {
+                expires: 7
+            });
+        }
+
     }
 
 });

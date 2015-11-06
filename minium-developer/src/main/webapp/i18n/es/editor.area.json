@@ -23,7 +23,8 @@
         "search": "Buscar",
         "search.file": "Buscar Archivo",
         "search.file.placeholder": "Nombre del archivo",
-        "search.file.step": "Buscar Archivo Step",
+        "search.step.placeholder": "Inserte una parte de lo paso (ejemplo: 'hago clic en')",
+        "search.file.step": "Buscar Step Definition",
         "name": "Nombre",
         "date": "Fecha",
         "refresh": "Actualizar Carpetas",
@@ -44,7 +45,8 @@
         "line": "Línea",
         "selector.gadget": "Obtener elementos con el selector de dispositivos",
         "selector.gadget.text": "Obtener elementos con el selector de dispositivo generando un CSS del selector de expresión.",
-        "complete.stackTrace": "Ver seguimiento de la pila completa"
+        "complete.stackTrace": "Ver registro completo",
+        "parsed.stackTrace": "Ver registro parcial"
     },
     "webdriver": {
         "new": "Crear un nuevo WebDriver",
@@ -58,14 +60,14 @@
         "advanced.popover": "Utilice una configuración JSON para lanzar un nuevo WebDriver !!",
         "messages": {
             "invalidJSON": "JSON no és válido",
-            "validJSON":"JSON válido"
+            "validJSON": "JSON válido"
         },
         "download": {
             "started": "Descarga comenzado",
             "complete": "Descarga completada",
             "error": "No se pudo descargar los wedrivers"
         },
-        "update":{
+        "update": {
             "started": "Actualización empezó",
             "complete": "Actualización completada",
             "error": "No se pudo actualizar los wedrivers"
@@ -187,16 +189,16 @@
             "report": "Reportar",
             "clear_markers": "Vaciar marcadores del editor"
         },
-        "title":{
-            "selector.gadget":"Interfaz del Selector de dispositivos (Ctrl+Shift+C) ",
-            "evaluator":"Evaluador (Ctrl + Enter)",
-            "run_test":"Ejecutar prueba desde el cursor (Ctrl + Enter)",
-            "run_all":"Ejecutar todas las pruebas"
+        "title": {
+            "selector.gadget": "Interfaz del Selector de dispositivos (Ctrl+Shift+C) ",
+            "evaluator": "Evaluador (Ctrl + Enter)",
+            "run_test": "Ejecutar prueba desde el cursor (Ctrl + Enter)",
+            "run_all": "Ejecutar todas las pruebas"
         },
-        "preview.feature":{
-          "error":"Error al cargar la Feature! Por favor, revise sus datos externos!",
-          "success":"Feature cargada con éxito!",
-          "loading": "Cargando datos!"
+        "preview.feature": {
+            "error": "Error al cargar la Feature! Por favor, revise sus datos externos!",
+            "success": "Feature cargada con éxito!",
+            "loading": "Cargando datos!"
         }
     },
     "preferences": {
@@ -217,6 +219,6 @@
     },
     "popover": {
         "search.file": "Buscar archivos en las carpetas del proyecto.",
-        "search.file.step": "Buscar archivos en la carpeta steps."
+        "search.file.step": "Buscar Step Definitions en la carpeta steps."
     }
 }

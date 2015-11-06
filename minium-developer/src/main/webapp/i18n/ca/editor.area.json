@@ -23,7 +23,8 @@
         "search": "Recerca",
         "search.file": "Recerca Fitxer",
         "search.file.placeholder": "Nom de l'arxiu",
-        "search.file.step": "Recerca Fitxer Step",
+        "search.step.placeholder": "Inseriu una part del pas (exemple: 'faig clic a')",
+        "search.file.step": "Cerca Step Definitions",
         "name": "Nom",
         "date": "Data",
         "refresh": "Actualitzar directoris",
@@ -44,7 +45,8 @@
         "line": "Línia",
         "selector.gadget": "Seleccionar elements amb el selector de dispositiu",
         "selector.gadget.text": "Seleccionar elements amb el selector de dispositiu genera una expressió selectora CSS.",
-        "complete.stackTrace": "Veure seguiment de la pila completa"
+        "complete.stackTrace": "Veure registre complet",
+        "parsed.stackTrace": "Veure registre parcial"
     },
     "webdriver": {
         "new": "Creació de un nou WebDriver",
@@ -217,6 +219,6 @@
     },
     "popover": {
         "search.file": "Cerca d'un arxiu en tots els directoris del projecte actual.",
-        "search.file.step": "Cerca d'arxius en la carpeta steps."
+        "search.file.step": "Cerca Step Definitions en la carpeta steps."
     }
 }

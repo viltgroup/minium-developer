@@ -23,7 +23,8 @@
         "search": "Pesquisar",
         "search.file": "Pesquisar Ficheiro",
         "search.file.placeholder": "Nome do ficheiro",
-        "search.file.step": "Pesquisar Ficheiro Step",
+        "search.step.placeholder": "Insira uma parte do passo ( examplo: 'I click on' )",
+        "search.file.step": "Pesquisar Step Definitions",
         "name": "Nome",
         "date": "Data",
         "refresh": "Actualizar pastas",
@@ -39,8 +40,8 @@
         "line": "Linha",
         "selector.gadget": "Escolha elementos com o Selector Gadget",
         "selector.gadget.text": "Escolha elementos com o Selector Gadget para gerar uma expressão CSS.",
-        "complete.stackTrace": "Ver o rastreamento de pilha completo",
-        "parsed.stackTrace": "View parsed stack trace"
+        "complete.stackTrace": "Ver log completo",
+        "parsed.stackTrace": "Ver log parcial"
     },
     "webdriver": {
         "new": "Criar um novo WebDriver",
@@ -214,6 +215,6 @@
     },
     "popover": {
         "search.file": "Pesquise ficheiros nos diretórios do projecto atual.",
-        "search.file.step": "Encontre ficheiros no diretório steps."
+        "search.file.step": "Encontre step definitions na pasta de steps."
     }
 }

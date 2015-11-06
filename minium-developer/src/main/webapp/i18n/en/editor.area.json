@@ -23,7 +23,8 @@
         "search": "Search",
         "search.file": "Search File",
         "search.file.placeholder": "File name",
-        "search.file.step": "Search Step File",
+        "search.step.placeholder": "Insert one part of the step ( example: 'I click on' )",
+        "search.file.step": "Search a step definition",
         "name": "Name",
         "date": "Date",
         "refresh": "Refresh folders",
@@ -39,8 +40,8 @@
         "line": "Line",
         "selector.gadget": "Pick elements with Selector Gadget",
         "selector.gadget.text": "Pick elements with Selector Gadget to generate a CSS selector expression.",
-        "complete.stackTrace": "View complete stack trace",
-        "parsed.stackTrace": "View parsed stack trace"
+        "complete.stackTrace": "View complete log",
+        "parsed.stackTrace": "View parsed log"
     },
     "webdriver": {
         "new": "Created a new WebDriver",
@@ -217,6 +218,6 @@
     },
     "popover": {
         "search.file": "Search for a file in all directories of the current project.",
-        "search.file.step": "Search for files in the steps' folder."
+        "search.file.step": "Search for a step definitions in the 'steps' folder."
     }
 }

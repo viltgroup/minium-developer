@@ -21,7 +21,9 @@
         "name": "Nome do ficheiro",
         "no.file": "Não há ficheiros aqui",
         "search": "Pesquisar",
-        "search.file": "Pesquisar ficheiro",
+        "search.file": "Pesquisar Ficheiro",
+        "search.file.placeholder": "Nome do ficheiro",
+        "search.file.step": "Pesquisar Ficheiro Step",
         "name": "Nome",
         "date": "Data",
         "refresh": "Actualizar pastas",
@@ -209,5 +211,9 @@
             "font.size": "Introduza o tamanho da fonte",
             "tab.size": "Introduza o tamanho do tab"
         }
+    },
+    "popover": {
+        "search.file": "Pesquise ficheiros nos diretórios do projecto atual.",
+        "search.file.step": "Encontre ficheiros no diretório steps."
     }
 }

@@ -8,7 +8,7 @@
         <tab  id="search-file" heading="{{ 'file.search.file' | translate }}" popover="{{ 'popover.search.file' | translate }}" popover-trigger="mouseenter">
             <form role="form">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file' | translate }}" ng-model="form.searchQuery" ng-change="search()" autoFocus>
+                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file.placeholder' | translate }}" ng-model="form.searchQuery" ng-change="search()" autoFocus>
                 </div>
             </form>
             <div class="list-group">
@@ -23,7 +23,7 @@
         <tab id="search-step-defs" heading="{{ 'file.search.file.step' | translate }}" popover="{{ 'popover.search.file.step' | translate }}" popover-trigger="mouseenter" active="isActive">
             <form role="form">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file.step' | translate }}" ng-model="form.searchQuery" ng-change="searchContent()" autoFocus>
+                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file.placeholder' | translate }}" ng-model="form.searchQuery" ng-change="searchContent()" autoFocus>
                 </div>
             </form>
             <div class="list-group">

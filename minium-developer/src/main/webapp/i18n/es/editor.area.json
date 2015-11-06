@@ -22,6 +22,8 @@
         "no.file": "No hay archivos seleccionados",
         "search": "Buscar",
         "search.file": "Buscar Archivo",
+        "search.file.placeholder": "Nombre del archivo",
+        "search.file.step": "Buscar Archivo Step",
         "name": "Nombre",
         "date": "Fecha",
         "refresh": "Actualizar Carpetas",
@@ -211,5 +213,9 @@
             "font.size": "Introduce tamaño de fuente",
             "tab.size": "Introduce tamaño de pestaña"
         }
+    },
+    "popover": {
+        "search.file": "Buscar archivos en las carpetas de lo proyecto.",
+        "search.file.step": "Buscar archivos en la carpeta steps."
     }
 }

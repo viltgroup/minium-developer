@@ -20,8 +20,10 @@
         "delete": "Eliminació",
         "name": "fitxer Nom",
         "no.file": "No hi ha fitxers aquí",
-        "search": "recerca",
-        "search.file": "recerca fitxer",
+        "search": "Recerca",
+        "search.file": "Recerca Fitxer",
+        "search.file.placeholder": "Nom de l'arxiu",
+        "search.file.step": "Recerca Fitxer Step",
         "name": "Nom",
         "date": "Data",
         "refresh": "Actualitzar directoris",
@@ -211,5 +213,9 @@
             "font.size": "Introduir mida de la font",
             "tab.size": "Introduir mida de la Pestanya"
         }
+    },
+    "popover": {
+        "search.file": "Cerca d'un arxiu en tots els directoris del projecte actual.",
+        "search.file.step": "Cerca d'arxius en la carpeta steps."
     }
 }

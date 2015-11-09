@@ -15,9 +15,9 @@
 	<name>Minium Tools</name>
 	
 	<scm>
-		<connection>scm:git:git@artemis.vilt-group.com:engineering/minium-tools.git</connection>
-		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering/minium-tools.git</developerConnection>
-		<url>https://artemis.vilt-group.com/engineering/minium-tools</url>
+		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-tools.git</connection>
+		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-tools.git</developerConnection>
+		<url>https://artemis.vilt-group.com/engineering.minium/minium-tools</url>
 		<tag>HEAD</tag>
 	</scm>
 

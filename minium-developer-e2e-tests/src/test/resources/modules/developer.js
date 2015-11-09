@@ -5,7 +5,7 @@ var base = require("base"),
 var developer = {
   launchBrowser : function (browserInfo) {
     menu.open([ "Run", "Launch Browser" ]);
-    var browserBtn = base.find("#idProperty button").withText(browserInfo.browserName);
+    var browserBtn = base.find("button").withText(browserInfo.browserName);
     var createBtn = base.find("#createWebDriver").not(":disabled");
     
     browserBtn.click();

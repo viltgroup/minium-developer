@@ -21,7 +21,10 @@
         "name": "File Name",
         "no.file": "No Files here",
         "search": "Search",
-        "search.file": "Search file",
+        "search.file": "Search File",
+        "search.file.placeholder": "File name",
+        "search.step.placeholder": "Insert one part of the step ( example: 'I click on' )",
+        "search.file.step": "Search a step definition",
         "name": "Name",
         "date": "Date",
         "refresh": "Refresh folders",
@@ -37,8 +40,8 @@
         "line": "Line",
         "selector.gadget": "Pick elements with Selector Gadget",
         "selector.gadget.text": "Pick elements with Selector Gadget to generate a CSS selector expression.",
-        "complete.stackTrace": "View complete stack trace",
-        "parsed.stackTrace": "View parsed stack trace"
+        "complete.stackTrace": "View complete log",
+        "parsed.stackTrace": "View parsed log"
     },
     "webdriver": {
         "new": "Created a new WebDriver",
@@ -48,12 +51,18 @@
         "use_local": "Use local webdriver",
         "error_creating": "Could not create a new WebDriver!!",
         "not_launched": "No web driver launched. Please select one!",
+        "advanced": "Advanced",
+        "advanced.popover": "Use a JSON configuration to launch a new webdriver!!",
+        "messages": {
+            "invalidJSON": "Invalid JSON",
+            "validJSON":"Valid JSON"
+        },
         "download": {
             "started": "Download started",
             "complete": "Download completed",
             "error": "Couldn't download the wedrivers"
         },
-        "update":{
+        "update": {
             "started": "Update started",
             "complete": "Update completed",
             "error": "Couldn't updated the wedrivers"
@@ -92,7 +101,11 @@
     },
     "evaluator": {
         "matching": "{{data}} matching web elements",
-        "no_value": "No value"
+        "no_value": "No value",
+        "clean":{
+          "error":"",
+          "success": ""
+        }
     },
     "help": {
         "help": "help",
@@ -180,6 +193,11 @@
             "evaluator": "Evaluator (Ctrl + Enter)",
             "run_test": "Run test from cursor (Ctrl + Enter)",
             "run_all": "Run all tests"
+        },
+        "preview.feature":{
+          "error":"Error loading Feature! Please review your external data!",
+          "success":"Feature loaded with success!",
+          "loading": "Loading data"
         }
     },
     "preferences": {
@@ -197,5 +215,9 @@
             "font.size": "Enter font size",
             "tab.size": "Enter tab size"
         }
+    },
+    "popover": {
+        "search.file": "Search for a file in all directories of the current project.",
+        "search.file.step": "Search for a step definitions in the 'steps' folder."
     }
 }

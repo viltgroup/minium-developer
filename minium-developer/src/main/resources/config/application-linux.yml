@@ -1,0 +1,20 @@
+spring:
+    profiles:
+        active: linux
+minium:
+  developer:
+    webdrivers:
+      - name: chrome
+        displayName: Chrome
+        iconClass: icon-chrome
+        desiredCapabilities:
+          - browserName: chrome
+      - name: firefox
+        displayName: Firefox
+        iconClass: icon-firefox
+        desiredCapabilities:
+          - browserName: firefox
+      - name: phantomjs
+        displayName: PhantomJS
+        desiredCapabilities:
+          - browserName: phantomjs

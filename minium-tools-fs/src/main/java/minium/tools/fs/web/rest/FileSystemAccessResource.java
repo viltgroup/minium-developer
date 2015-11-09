@@ -48,6 +48,12 @@ public class FileSystemAccessResource {
         return service.list(baseUrl, path);
     }
 
+    @RequestMapping(value = "/**", params = "action=listAll", method = RequestMethod.GET)
+    @ResponseBody
+    public Set<FileProps> listAll(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException {
+        return service.listAll(baseUrl, path);
+    }
+
     @RequestMapping(value = "/**", method = RequestMethod.GET)
     @ResponseBody
     public FileContent getFileContent(@BaseURL String baseUrl, @AntPath("path") String path) throws IOException, URISyntaxException {
@@ -72,75 +78,74 @@ public class FileSystemAccessResource {
         return service.search(baseUrl, path, query);
     }
 
+    @RequestMapping(value = "/**", params = { "action=searchContent", "q" }, method = RequestMethod.GET)
+    @ResponseBody
+    public Set<FileProps> searchContent(@BaseURL String baseUrl, @AntPath("path") String path, @RequestParam("q") String query) throws IOException {
+        return service.searchContent(baseUrl, query);
+    }
+
     @SendToUser("/queue/errors")
     public String handleException(Throwable exception) {
-    	return exception.getMessage();
+        return exception.getMessage();
     }
-    
+
     /**
      * CRUD Operation File
      */
-    
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<FileProps> create(@BaseURL String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
-    	FileProps props = service.create(baseUrl, path);
-    	if (props == null) {
-			return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
-		} else {
-			return new ResponseEntity<FileProps>(props, HttpStatus.OK);
-		}
+        FileProps props = service.create(baseUrl, path);
+        if (props == null) {
+            return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
+        } else {
+            return new ResponseEntity<FileProps>(props, HttpStatus.OK);
+        }
     }
-    
-    
+
     @RequestMapping(value = "/new/folder", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<FileProps> createFolder(@BaseURL String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
-    	FileProps props = service.createFolder(baseUrl, path);
-    	if (props == null) {
-			return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
-		} else {
-			return new ResponseEntity<FileProps>(props, HttpStatus.OK);
-		}
+        FileProps props = service.createFolder(baseUrl, path);
+        if (props == null) {
+            return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
+        } else {
+            return new ResponseEntity<FileProps>(props, HttpStatus.OK);
+        }
     }
-    
+
     @RequestMapping(value = "/rename", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<FileProps> rename(@BaseURL String baseUrl,@RequestBody FileDTO fileDTO) throws IOException, URISyntaxException {
-    	FileProps props = service.renameFile(baseUrl,fileDTO);
-    	if (props == null) {
-			return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
-		} else {
-			return new ResponseEntity<FileProps>(props, HttpStatus.OK);
-		}
+    public ResponseEntity<FileProps> rename(@BaseURL String baseUrl, @RequestBody FileDTO fileDTO) throws IOException, URISyntaxException {
+        FileProps props = service.renameFile(baseUrl, fileDTO);
+        if (props == null) {
+            return new ResponseEntity<FileProps>(props, HttpStatus.PRECONDITION_FAILED);
+        } else {
+            return new ResponseEntity<FileProps>(props, HttpStatus.OK);
+        }
     }
-    
-    
+
     @RequestMapping(value = "/delete", method = RequestMethod.PUT)
     @ResponseBody
     public void delete(@BaseURL String baseUrl, @RequestBody String path) {
-    	try {
-			service.delete(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            service.delete(path);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-    
-    
+
     @RequestMapping(value = "/delete/directory", method = RequestMethod.PUT)
     @ResponseBody
     public void deleteDirectory(@BaseURL String baseUrl, @RequestBody String path) {
-    	try {
-			service.deleteDirectory(path);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try {
+            service.deleteDirectory(path);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    
-    
-    
-    
 }

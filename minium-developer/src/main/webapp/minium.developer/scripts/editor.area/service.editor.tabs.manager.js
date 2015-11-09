@@ -68,51 +68,55 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     //   session - {EditSession} Session to be used for new Editor instance
     //
     //////////////////////////////////////////////////////////////////
-    MiniumEditor.prototype.addInstance = function(fileContent, num) {
+    MiniumEditor.prototype.addInstance = function(fileContentAndProps, num) {
 
         // the panel id is a timestamp plus a random number from 0 to 10000
         var tabUniqueId = new Date().getTime() + Math.floor(Math.random() * 10000);
 
-        var fileProps = fileContent.fileProps || "";
+        var fileProps = fileContentAndProps.fileProps || "";
+        var fileContent = fileContentAndProps.content || "";
         //create the DOM elements
-        TabFactory.createTab(tabUniqueId, fileProps);
+        TabFactory.createTab(tabUniqueId, fileProps, fileContentAndProps.type);
 
         //inicialize editor and create and configure the editor
         //returns an object like an object with:
         //an editor and the mode(type of file feature,js,yml)
-        var obj = EditorFactory.create(tabUniqueId, fileContent, this.settings);
+        var obj = EditorFactory.create(tabUniqueId, fileProps, fileContent, this.settings);
 
         var editor = obj.editor;
         this.mode = obj.mode;
 
         var fileName = fileProps.name || "";
-        var relativeUri = fileProps.relativeUri || "";
 
-        //ADD EVENT HANDLERS to the editor
+        var relativeUri = fileProps.relativeUri || "";
+        var editorType = fileContentAndProps.type || fileProps.type;
+
+        // contains the lines offstes
+        // only for preview editors
+        var offsets = fileContentAndProps.offsets || undefined;
+
+        // ADD EVENT HANDLERS to the editor
         addEventListeners(editor, fileName, this);
 
-        //add this instance to the list of editors instance
-        this.editors.push({
+        var newEditor = {
             id: tabUniqueId,
             instance: editor,
-            relativeUri: relativeUri,
             mode: this.mode,
-            selected: fileContent
-        });
+            type: editorType,
+            file: fileContentAndProps,
+            offsets: offsets
+        }
 
-        this.paths.push(relativeUri)
+        //add this instance to the list of editors instance
+        this.editors.push(newEditor);
+
+        this.paths.push(relativeUri);
 
         openTab.store(this.editors);
 
         this.resizeEditors();
 
-        return {
-            id: tabUniqueId,
-            instance: editor,
-            relativeUri: relativeUri,
-            mode: this.mode,
-            selected: fileContent
-        }
+        return newEditor;
 
     }
 
@@ -220,9 +224,9 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         var isOpen = false;
         var id = null;
 
-        $.each(this.editors, function(i, obj) {
-            if (decodeURIComponent(obj.relativeUri) == relativeUri) {
-                id = obj.id;
+        $.each(this.editors, function(i, editor) {
+            if (decodeURIComponent(editor.file.fileProps.relativeUri) == relativeUri && editor.type === 'FILE') {
+                id = editor.id;
                 isOpen = true;
             }
         });
@@ -301,7 +305,13 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     //
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.hightlightLine = function(row, editor, type) {
-        editor.getSession().setBreakpoint(row, type);
+        row = row + 1;
+        var newRow = row;
+        if (editor.offsets && editor.offsets[row]) {
+            newRow = editor.offsets[row];
+        }
+        // row = editor.offSet.get(row);
+        editor.instance.getSession().setBreakpoint(parseInt(newRow) - 1, type);
     };
 
     ////////////////////////////////////////////////////////////////
@@ -522,7 +532,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                     exec: function(env) {
                         launchCucumber(env, _this.scope, false);
                     },
-                    readOnly: false // should not apply in readOnly mode
+                    readOnly: true // should be apply in readOnly mode if TRUE
                 });
 
                 _this.scope.subscribeMessages();
@@ -563,8 +573,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                 mac: "Command-Shift-R",
                 sender: "editor|cli"
             },
-            exec: function(env) {
-            },
+            exec: function(env) {},
             readOnly: false // should not apply in readOnly mode
         });
     }
@@ -616,21 +625,19 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         //flag for the even listener don't mark as dirty the editor
         _this.ignore = true;
 
-        var item = _this.scope.active.selected.item;
-
-        //if its an aux console tab, so we dont want to save the file
-        if (item.fileProps === "") {
+        // if its an aux console tab, so we dont want to save the file
+        if (_this.scope.activeEditor.type !== "FILE") {
             toastr.error(_this.$translate('messages.files.cannot.be.saved'))
             return;
         }
+        var item = _this.scope.activeEditor.file;
         item.content = editor.getSession().getValue();
 
         item.$save(function() {
 
             var tabUniqueId = getEditorID(editor);
-            updateContent(item, editor, _this, tabUniqueId)
-                //setAceContent(item, editor);
-            toastr.success(_this.$translate('messages.files.saved'))
+            updateContent(item, editor, _this, tabUniqueId);
+            toastr.success(_this.$translate('messages.files.saved'));
             markAsDirty(tabUniqueId, false);
 
         }, function(response) {
@@ -762,7 +769,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
 
             var request = EvalService.eval({
                     expression: code,
-                    filePath: $rootScope.active.selectedNode.relativeUri,
+                    filePath: $rootScope.activeEditor.file.fileProps.relativeUri,
                     lineNumber: line + 1
                 })
                 .success(function(data) {
@@ -832,17 +839,20 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         that.testExecuting = false;
     }
 
-    function launchCucumber(editor, scope, runAll) {
-
+    function launchCucumber(editor, scope, isRunAll) {
         var scope = scope;
 
-        var selectedItem = scope.active.selected.item;
-        if (!selectedItem) return;
+        var featureToRunProps = $rootScope.activeEditor.file.fileProps;
 
+        if (!featureToRunProps) return;
 
-        if (runAll === true) {
+        if ($rootScope.activeEditor.type === 'FILE') {
+            scope.saveFile();
+        }
+
+        if (isRunAll === true) {
             var launchParams = {
-                fileProps: selectedItem.fileProps
+                fileProps: featureToRunProps
             };
         } else {
             var lines = [];
@@ -853,9 +863,24 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                     lines.push(range.start.row + 1);
                 }
             });
+
+            var editor = scope.activeEditor;
+
+            // if editor is in preview
+            // need to get the line from the offset structure
+            if (editor.type === 'preview') {
+                lines.forEach(function(line, index) {
+                    for (var oldLine in editor.offsets) {
+                        if (editor.offsets.hasOwnProperty(oldLine) && editor.offsets[oldLine] === lines[index]) {
+                            lines[index] = oldLine;
+                        }
+                    }
+                });
+            }
+
             var launchParams = {
                 line: lines.reverse(),
-                fileProps: selectedItem.fileProps
+                fileProps: featureToRunProps
             };
         }
 

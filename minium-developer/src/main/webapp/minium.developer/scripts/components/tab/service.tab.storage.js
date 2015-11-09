@@ -5,11 +5,11 @@
 miniumDeveloper.service('openTab', function() {
 
     this.store = function(editors) {
-
         var reltivepaths = [];
         editors.forEach(function(editor) {
-            if (editor.relativeUri != undefined && editor.relativeUri !== "") {
-                reltivepaths.push(editor.relativeUri);
+            var relativeUri = editor.file.fileProps.relativeUri;
+            if (relativeUri != undefined && relativeUri !== "" && editor.type === "FILE") {
+                reltivepaths.push(relativeUri);
             }
         });
 
@@ -22,6 +22,15 @@ miniumDeveloper.service('openTab', function() {
         var openTabs = $.cookie('openTabs');
         var paths = (openTabs !== undefined && openTabs !== "") ? openTabs.split(",") : [];
         return paths;
+    }
+
+    this.reload = function(paths) {
+        if (paths) {
+            $.cookie('openTabs', paths.join(','), {
+                expires: 7
+            });
+        }
+
     }
 
 });

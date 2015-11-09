@@ -43,7 +43,7 @@ angular.module('minium.developer')
             var tabUniqueId = id;
             var dirty = editors.isDirty(tabUniqueId);
             if (dirty === true) {
-                //the editor is dirty so check if the user 
+                //the editor is dirty so check if the user
                 var answer = confirm($translate('messages.files.unsaved'));
                 if (answer) {
                     editors.closeTab(tabUniqueId, tabs, elem);
@@ -68,14 +68,16 @@ angular.module('minium.developer')
 
             var openTabs = openTab.load();
             var numTabs = 0;
+
             for (var i = 0; i < openTabs.length; i++) {
                 arrPromises[i] = $scope.loadFile(openTabs[i]);
             }
+
             $q.all(arrPromises).then(function() {
                 if ($stateParams.path) {
                     var promise = $scope.loadFile($stateParams.path).then(function(result) {
                         if ($stateParams.line) {
-                            $rootScope.active.session.gotoLine($stateParams.line);
+                            $rootScope.activeEditor.instance.gotoLine($stateParams.line);
                         }
                     });
                 }
@@ -106,7 +108,7 @@ angular.module('minium.developer')
 
         //set the theme of the editor
         $scope.setTheme = function(themeName) {
-            editors.setTheme($scope.active.session, themeName);
+            editors.setTheme($rootScope.activeEditor.instance, themeName);
         }
 
         /**
@@ -159,23 +161,23 @@ angular.module('minium.developer')
                         case "failed":
                             $scope.testsExecuted = $scope.testsExecuted + 1;
                             $scope.isFailing = true;
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "failed");
                             break;
                         case "passed":
                             $scope.testsExecuted = $scope.testsExecuted + 1;
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "passed");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "passed");
                             break;
                         case "executing":
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "breakpoint");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "breakpoint");
                             break;
                         case "undefined":
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "undefined");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "undefined");
                             break;
                         case "snippet":
                             snippetsForUndefinedSteps.push(step.name);
                             break;
                         case "failed_example":
-                            editors.hightlightLine((step.line - 1), $scope.launchTestSession, "failed");
+                            editors.hightlightLine((step.line - 1), $scope.launchedTestEditor, "failed");
                             break;
                         default: //do nothing
                     }
@@ -192,8 +194,7 @@ angular.module('minium.developer')
         var reLaunchParams;
         $scope.launch = function(launchParams) {
             reLaunchParams = launchParams;
-            $scope.launchTestSession = $scope.active.session;
-
+            $scope.launchedTestEditor = $rootScope.activeEditor;
             //check if the test already executing
             if ($scope.testExecuting == true) {
                 toastr.error($translate('messages.error.test_executing'));
@@ -203,17 +204,14 @@ angular.module('minium.developer')
              * check if a webdriver if launched
              */
             WebDriverFactory.isCreated().success(function(data, status, headers, config) {
-                // this callback will be called asynchronously
                 // when the response is available
-                //put a lock in test execution
+                // put a lock in test execution
                 launchTest(launchParams);
                 $scope.setWebDriverMsg(false);
-            }).
-            error(function(data, status, headers, config) {
-                // called asynchronously if an error occurs
+            }).error(function(data, status, headers, config) {
                 // or server returns response with an error status.
-                //set the modal select webdriver 
-                //now the modal wil be launch with an error message
+                // set the modal select webdriver
+                // now the modal wil be launch with an error message
                 $scope.setWebDriverMsg(true);
                 $scope.openModalWebDriverSelect();
                 relaunch = true;
@@ -256,7 +254,7 @@ angular.module('minium.developer')
             /*
             Cucumber launcher to launch the test
              */
-            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchTestSession, socket_key)
+            cumcumberLauncher.launch(launchParams, executionWasStopped, snippetsForUndefinedSteps, $scope.faillingSteps, $scope.resultsSummary, $scope.launchedTestEditor, socket_key)
                 .then(function(data) {
                     feature = data.feature;
                     $scope.faillingSteps = data.faillingSteps;
@@ -345,7 +343,7 @@ angular.module('minium.developer')
 
             // when the modal is closed
             // it checks if there's any thing to run
-            // this case can happen when we try to launch or evalaute 
+            // this case can happen when we try to launch or evalaute
             // and no web driver is launched
             modalInstance.result.then(function(value) {
                 $scope.setWebDriverMsg(value);
@@ -355,21 +353,19 @@ angular.module('minium.developer')
                     //reset the value
                     relaunch = false;
                 } else if ($scope.relaunchEval) {
-                    editors.evaluate($scope.active.session);
+                    editors.evaluate($scope.activeEditor.instance);
                     $scope.relaunchEval = false;
                 }
             });
         };
 
         //////////////////////////////////////////////////////////////////
-        // EVENT HANDLER  CTLR + P 
+        // EVENT HANDLER  CTLR + P
         // to Search a file
         //////////////////////////////////////////////////////////////////
         document.addEventListener("keydown", function(e) {
             if (e.keyCode == 80 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
                 e.preventDefault();
-                //your implementation or function calls
-                // $state.transition();
                 $state.go(".open", {}, {
                     notify: false,
                 });

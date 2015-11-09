@@ -1,0 +1,32 @@
+spring:
+    profiles:
+        active: windows
+minium:
+  developer:
+    webdrivers:
+      - name: chrome
+        displayName: Chrome
+        iconClass: icon-chrome
+        desiredCapabilities:
+          - browserName: chrome
+      - name: firefox
+        displayName: Firefox
+        iconClass: icon-firefox
+        desiredCapabilities:
+          - browserName: firefox
+      - name: phantomjs
+        displayName: PhantomJS
+        desiredCapabilities:
+          - browserName: phantomjs
+      - name: ie8
+        displayName: Internet Explorer 8
+        iconClass: icon-ie
+        desiredCapabilities:
+          - browserName: ie
+            version: 8
+      - name: ie11
+        displayName: Internet Explorer 11
+        iconClass: icon-ie
+        desiredCapabilities:
+          - browserName: ie
+            version: 11

@@ -27,7 +27,7 @@ body {
     font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-weight: 400;
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 /* Layout */
 
@@ -220,6 +220,7 @@ a:focus {
     border: none;
     min-height: 50px;
     border-radius: 0;
+      /*max-height: 50px;*/
 }
 
 .layout-top-nav .main-header > .navbar {
@@ -394,7 +395,7 @@ a:focus {
 
 
 @media (max-width: 991px) {
-    .navbar-custom-menu .navbar-nav > li {
+ /*   .navbar-custom-menu .navbar-nav > li {
         float: left;
     }
     .navbar-custom-menu .navbar-nav {
@@ -405,7 +406,7 @@ a:focus {
         padding-top: 15px;
         padding-bottom: 15px;
         line-height: 20px;
-    }
+    }*/
 }
 /* Removed because it put the sidebar toggle below the brand */
 
@@ -2115,7 +2116,7 @@ a:focus {
 .btn-default:hover,
 .btn-default:active,
 .btn-default.hover {
-    background-color: #e7e7e7 !important;
+    background-color: #e7e7e7;
 }
 
 .btn-primary {
@@ -4942,7 +4943,7 @@ Gradient Background colors
 .wrapper,
 .main-sidebar,
 .left-side {
-    background: #222d32;
+    background: #34495E;
 }
 
 .sidebar a {

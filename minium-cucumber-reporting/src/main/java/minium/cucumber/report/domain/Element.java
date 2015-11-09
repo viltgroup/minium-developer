@@ -40,6 +40,9 @@ public class Element {
     @JsonView(Views.Public.class)
     private List<Tag> tags = Lists.newArrayList();
 
+    @JsonView(Views.Public.class)
+    private List<Comment> comments = Lists.newArrayList();
+
     public Element() {
     }
 
@@ -67,12 +70,18 @@ public class Element {
         return tags;
     }
 
+    public List<Comment> getComments() {
+        return comments;
+    }
+
     public Status getStatus() {
         // can be optimized to retrieve only the count of elements and not the
         // all list
         for (Step step : steps) {
-            if (step.getStatus() != Status.PASSED)
-                return step.getStatus();
+            if (step.getStatus() != Status.PASSED) {
+                Status status = step.getStatus();
+                return status;
+            }
         }
         return Status.PASSED;
     }

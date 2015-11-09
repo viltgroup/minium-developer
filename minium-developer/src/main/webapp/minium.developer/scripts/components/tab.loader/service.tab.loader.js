@@ -13,18 +13,17 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
      * @param  {[type]} editors the service with the editors info
      * @return a promise
      */
-    this.loadFile = function(file, editors) {
+    this.loadFile = function(relativeUri, editors) {
         //load the file and create a new editor instance with the file loaded
         var newEditor = {};
-        var result = editors.isOpen(file);
+        var result = editors.isOpen(relativeUri);
         var deferred = $q.defer();
 
-        
-        
         var emptyEditor = function() {
             //create an empty editor
             var fileProps = {
-                content: "// this editor can be used has a javascript expression evaluator\n// cannot be saved\n\n",
+                content: "// this editor can be used as a javascript expression evaluator\n// cannot be saved\n\n",
+                type: "console",
                 fileProps: ""
             }
             newEditor = editors.addInstance(fileProps, 1);
@@ -32,7 +31,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
             newEditor.instance.gotoLine(4);
         }
 
-        if (file === "") { //if the is empty
+        if (relativeUri === "") { //if the is empty
             //create an empty editor
             emptyEditor();
             deferred.resolve(newEditor);
@@ -42,18 +41,18 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
             var tab = "#panel_" + id;
             var index = $('#tabs a[href="' + tab + '"]').parent().index();
             $("#tabs").tabs("option", "active", index);
-            
+
             newEditor = editors.getSession(id);
             deferred.resolve(newEditor);
         } else { //if theres no tab opened with this file
-            var path = file.relativeUri || file;
 
             //get the file
             FS.get({
-                path: path
-            }, function(fileContent) {
-                //succes handler file exists 
-                result = editors.isOpen(file);
+                path: relativeUri
+            }, function(fileContentAndProps) {
+
+                //succes handler file exists
+                result = editors.isOpen(relativeUri);
                 if (result.isOpen) {
                     var id = result.id;
                     //tab is already open
@@ -61,7 +60,7 @@ miniumDeveloper.service('TabLoader', function($q, FS) {
                     var index = $('#tabs a[href="' + tab + '"]').parent().index();
                     $("#tabs").tabs("option", "active", index);
                 } else {
-                    newEditor = editors.addInstance(fileContent);
+                    newEditor = editors.addInstance(fileContentAndProps);
                     deferred.resolve(newEditor);
                 }
 

@@ -79,7 +79,7 @@ Then(/^I should see the function "([^"]*)" in doc tooltip$/, function(fn) {
 });
  
 Then(/^I should see at minimum (\d+) webdrivers availables$/, function(number) {
-  expect($("radio-button-group button").visible()).to.have.size(number);
+  expect($(".webdrivers button[type='button']").visible()).to.have.size(number);
 });
 
 When(/^I evaluate the expression "([^"]*)"$/, function(expression) {
@@ -89,8 +89,16 @@ When(/^I evaluate the expression "([^"]*)"$/, function(expression) {
 When(/^I clean the scope$/, function() {
   
 });
- 
- 
+
+
+When(/^I fill the field JSON fied with$/, function(text) {
+  $("#advanced-field").fill(text);
+});
+
+Then(/^I should see message "([^"]*)"$/, function(text) {
+  var label = $(".label-feedback").visible().withText(text);
+  expect(label).to.exist();
+});
  
  
  

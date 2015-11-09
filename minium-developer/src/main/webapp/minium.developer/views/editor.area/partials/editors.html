@@ -11,25 +11,25 @@ $('.running-data').show();
         </a>
         <ul>
             <li>
-                <a tooltip-placement="left" 
-                   tooltip="{{'messages.tooltip.stop_test' | translate}}" 
-                   class="btn-floating" id="teste-out" 
-                   ng-click="stopLaunch()" 
+                <a tooltip-placement="left"
+                   tooltip="{{'messages.tooltip.stop_test' | translate}}"
+                   class="btn-floating" id="teste-out"
+                   ng-click="stopLaunch()"
                    ng-hide="(testExecuting !== true)"><span class="fa fa-ban"></span></a>
             </li>
             <li>
-                <a tooltip-placement="left" 
-                   tooltip="{{'messages.tooltip.report' | translate}}" class="btn-floating blue" 
-                   id="summary-report" ng-click="openModalReport('lg')" 
+                <a tooltip-placement="left"
+                   tooltip="{{'messages.tooltip.report' | translate}}" class="btn-floating blue"
+                   id="summary-report" ng-click="openModalReport('lg')"
                    ng-hide="(resultsSummary | isEmpty) || (testExecuting == true)"> <span class="fa  fa-bar-chart"></span>
                 </a>
             </li>
             <li>
-                <a tooltip-placement="left" 
-                   tooltip="{{'messages.tooltip.clear_markers' | translate}}" 
-                   class="btn-floating" 
-                   id="clear markers" 
-                   ng-click="clearMarkers()" 
+                <a tooltip-placement="left"
+                   tooltip="{{'messages.tooltip.clear_markers' | translate}}"
+                   class="btn-floating"
+                   id="clear markers"
+                   ng-click="clearMarkers()"
                    ng-hide="(testExecuting == true)"> <span class="fa  fa-eraser"></span>
                 </a>
             </li>
@@ -45,10 +45,10 @@ $('.running-data').show();
                     <span style="color:black; white-space:nowrap;">
                         {{testsExecuted}} / {{totalTests}}
                     </span>
-                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}" 
-                                 class="progress-striped active" 
-                                 max="100" 
-                                 value="( testsExecuted * 100 ) / totalTests" 
+                    <progressbar ng-attr-type="{{ isFailing ? 'danger' : 'success' }}"
+                                 class="progress-striped active"
+                                 max="100"
+                                 value="( testsExecuted * 100 ) / totalTests"
                                  style="height: 10px;">
                     </progressbar>
                 </span>

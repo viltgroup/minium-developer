@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h2 class="modal-title">
+        <center translate="file.search">Search</center>
+    </h2>
+</div>
+<div class="panel-body">
+    <tabset>
+        <tab  id="search-file" heading="{{ 'file.search.file' | translate }}" popover="{{ 'popover.search.file' | translate }}" popover-trigger="mouseenter">
+            <form role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.file.placeholder' | translate }}" ng-model="form.searchQuery" ng-change="search()" autoFocus>
+                </div>
+            </form>
+            <div class="list-group">
+                <a ng-repeat="item in results | orderBy : 'uri' | limitTo: 5"
+                   ng-click="select(item)"
+                   class="list-group-item search-results">
+                    <h4 class="list-group-item-heading">{{item.name}}</h4>
+                    <p class="list-group-item-text nowrap hideoverflow">{{item.relativeUri | unescape}}</p>
+                </a>
+            </div>
+        </tab>
+        <tab id="search-step-defs" heading="{{ 'file.search.file.step' | translate }}" popover="{{ 'popover.search.file.step' | translate }}" popover-trigger="mouseenter" active="isActive">
+            <form role="form">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="search-query" placeholder="{{ 'file.search.step.placeholder' | translate }}" ng-model="form.searchQuery" ng-change="searchContent()" autoFocus>
+                </div>
+            </form>
+            <div class="list-group">
+                <!-- Loading animation -->
+                <div cg-busy="resultPromise"></div>
+                <a ng-repeat="item in resultsForContentSearch | orderBy : 'uri' | limitTo: 5" ng-click="select(item,item.lineNo)" class="list-group-item search-results">
+                    <h4 class="list-group-item-heading">{{item.name}}:{{item.lineNo}}</h4>
+                    <p class="list-group-item-text nowrap hideoverflow">
+                        {{item.relativeUri | unescape}}
+                    </p>
+                </a>
+            </div>
+        </tab>
+    </tabset>
+
+</div>
+<div class="modal-footer">
+    <div class="col-xs-8 pull-left">
+        <span translate="labels.shortcut">Shortcut</span>:
+        <kbd>Ctrl + P</kbd>&nbsp;
+    </div>
+    <button class="btn btn-default" ng-click="cancel()" translate="entity.action.close">Cancel</button>
+</div>

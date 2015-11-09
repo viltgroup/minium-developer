@@ -29,6 +29,7 @@
         "open.project": "Open Project",
         "cleanScope":"Clean Scope",
         "dowload.webdrivers":"Download webdrivers",
-        "update.webdrivers":"Update webdrivers"
+        "update.webdrivers":"Update webdrivers",
+        "preview-feature-with-data": "Preview feature with external data"
     }
 }

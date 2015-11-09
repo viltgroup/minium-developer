@@ -16,7 +16,7 @@ minium:
     baseUrl: http://localhost:8089/#/editor/
     tempDir: /tmp
     defaultBrowser: 
-      browserName: Chrome
+      browserName: chrome
 
 ---
 spring:

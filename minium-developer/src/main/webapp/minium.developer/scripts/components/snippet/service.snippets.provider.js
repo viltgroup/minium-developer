@@ -22,7 +22,7 @@ miniumDeveloper.factory('SnippetsProvider', function() {
                     "  | ${3:attr1} | ${4:attr2} |"
                 ].join("\n")
             }, {
-                name: "feature",
+                name: "feature-scenario-outline",
                 trigger: "feat",
                 content: [
                     "Feature: ${1:Little description here}                                                                                                                                                                                                                                                              ",
@@ -31,6 +31,17 @@ miniumDeveloper.factory('SnippetsProvider', function() {
                     "    Given ${3:something}",
                     "    Examples:",
                     "    | ${4:attr1} | ${4:attr2} |"
+                ].join("\n")
+            },{
+                name: "feature",
+                trigger: "feat",
+                content: [
+                    "Feature: ${1:Little description here}                                                                                                                                                                                                                                                              ",
+                    " ",
+                    "  Scenario: ${2:Little description here}",
+                    "    Given ${3:something}",
+                    "    When ${4:something}",
+                    "    Then ${5:something}"
                 ].join("\n")
             }, {
                 name: "background",

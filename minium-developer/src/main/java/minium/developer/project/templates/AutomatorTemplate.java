@@ -23,7 +23,6 @@ public class AutomatorTemplate extends ProjectTemplate {
 
     @Override
     public void buildFiles() {
-        throw new UnsupportedOperationException();
     }
 
     private void createStructure(String destPath) throws IOException {

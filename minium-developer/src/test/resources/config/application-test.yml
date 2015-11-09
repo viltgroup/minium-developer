@@ -1,0 +1,23 @@
+spring:
+    profiles:
+        active: test
+server:
+  port: 8089
+  
+minium:
+  developer:
+    webdrivers:
+      - name: chrome
+        displayName: Chrome
+        iconClass: icon-chrome
+        desiredCapabilities:
+          - browserName: chrome
+      - name: firefox
+        displayName: Firefox
+        iconClass: icon-firefox
+        desiredCapabilities:
+          - browserName: firefox
+      - name: phantomjs
+        displayName: PhantomJS
+        desiredCapabilities:
+          - browserName: phantomjs

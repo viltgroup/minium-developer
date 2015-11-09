@@ -13,7 +13,7 @@
         "editor": "Editor",
         "create.file": "",
         "evaluate": "Avaluar",
-        "help": "Help",
+        "help": "Ajut",
         "clear.markers": "Vaciar els marcadors",
         "about": "Aprop de",
         "run": "Executar",
@@ -29,6 +29,7 @@
         "open.project": "Obrir Projecte",
         "cleanScope":"Net Scope",
         "dowload.webdrivers":"Descargar webdrivers",
-        "update.webdrivers":"Actualització webdrivers"
+        "update.webdrivers":"Actualització webdrivers",
+        "preview-feature-with-data": "Vista prèvia del feature amb dades externes"
     }
 }

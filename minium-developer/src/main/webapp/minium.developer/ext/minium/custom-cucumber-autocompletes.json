@@ -1,0 +1,6 @@
+[{
+    "type": "Custom Autocomplete",
+    "caption": "# @source:<your-file-with-data>",
+    "content": "@source:${1:your-file}",
+    "description": "Comment to load data from an external resource"
+}]

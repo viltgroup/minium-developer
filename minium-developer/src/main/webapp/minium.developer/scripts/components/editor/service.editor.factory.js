@@ -14,9 +14,9 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
     /**
      * Constructor, with class name
      */
-    this.create = function(tabUniqueId, fileContent, settings) {
+    this.create = function(tabUniqueId,  fileProps, fileContent, settings) {
 
-        var fileProps = fileContent.fileProps || "";
+        var fileProps = fileProps || "";
         // initialize the editor in the tab
         var editor = ace.edit('editor_' + tabUniqueId);
 
@@ -46,7 +46,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
             editor.getSession().setMode("ace/mode/javascript");
             mode = modeEnum.JS;
             iniJSSnippets(editor);
-
         }
         if (/\.feature$/.test(fileName)) {
             editor.getSession().setMode("ace/mode/gherkin");
@@ -72,11 +71,12 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         //snippets
         var snippetManager = ace.require("ace/snippets").snippetManager;
 
+          editor.$blockScrolling = Infinity;
         // //step snippets
         var snippets = StepSnippetsProvider.all();
         snippetManager.register(snippets, "javascript");
 
-        var jsonUrl = "minium.developer/ext/minium/methods.json";
+        var jsonUrl = "minium.developer/ext/minium/minium-core-methods.json";
 
         var miniumAutoCompleter = {
             getCompletions: function(editor, session, pos, prefix, callback) {
@@ -105,7 +105,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         editor.completers = [langTools.snippetCompleter, langTools.textCompleter, miniumAutoCompleter]
 
         editor.commands.on("afterExec", function(e) {
-
             // when the token is a point only put the completer with minium functions
             if (e.command.name == "insertstring" && e.args === ".") {
                 editor.completers = [miniumAutoCompleter]
@@ -136,6 +135,31 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
 
         editor.$blockScrolling = Infinity;
 
+        var customAutoCompletes = "minium.developer/ext/minium/custom-cucumber-autocompletes.json";
+        var customCucumberAutoCompleter = {
+            getCompletions: function(editor, session, pos, prefix, callback) {
+                $.getJSON(customAutoCompletes,
+                    function(wordList) {
+                        callback(null, wordList.map(function(ea) {
+                            return {
+                                caption: ea.caption,
+                                description: ea.description,
+                                snippet: ea.content,
+                                meta: ea.type
+                            }
+                        }));
+                    })
+            },
+            getDocTooltip: function(item) {
+                if (!item.docHTML) {
+                    item.docHTML = [
+                        "<b>", item.caption, "</b>", "<hr></hr>",
+                        item.description
+                    ].join("");
+                }
+            }
+        };
+
         StepProvider.all().then(function(response) {
 
             var util = ace.require("ace/autocomplete/util");
@@ -146,7 +170,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
                 }
                 return text.replace(/^\s+/, "");
             };
-
             //register the snippets founded
             snippetManager.register(response.data, "gherkin");
         });
@@ -157,6 +180,8 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
         var snippets = SnippetsProvider.all();
 
         snippetManager.register(snippets, "gherkin");
+
+          editor.completers = [langTools.snippetCompleter, langTools.textCompleter, customCucumberAutoCompleter]
 
          editor.setOptions({
             enableBasicAutocompletion: true, //this enable a autocomplete (ctrl + space)
@@ -170,9 +195,9 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
      * @param {item} the properties of the file
      * @param {editor} the editor than we gonna edit
      **/
-    var setAceContent = function(item, editor) {
+    var setAceContent = function(fileContent, editor) {
 
-        var content = item.content || "";
+        var content = fileContent || "";
         var cursor = editor.getCursorPosition();
         var EditSession = ace.require('ace/edit_session').EditSession;
         var UndoManager = ace.require('ace/undomanager').UndoManager;

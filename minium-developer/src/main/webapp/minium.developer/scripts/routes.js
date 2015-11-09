@@ -5,9 +5,9 @@ miniumDeveloper
 
         //////////////////////////////////////////////////////////////////
         //
-        // Angular encode the url 
+        // Angular encode the url
         // with this features/preferences.features => features%252Fpreferences.features
-        // So we need to register a custom type 
+        // So we need to register a custom type
         // from https://github.com/angular-ui/ui-router/issues/1557
         //
         //////////////////////////////////////////////////////////////////
@@ -34,10 +34,6 @@ miniumDeveloper
                         templateUrl: "minium.developer/views/editor.area/index.html",
                         controller: 'EditorAreaController'
                     },
-                    'navbar@': {
-                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
-                        controller: 'NavbarController'
-                    }
                 },
                 resolve: {
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
@@ -53,27 +49,21 @@ miniumDeveloper
             .state('global.editorarea.sub', {
                 url: '',
                 views: {
+                    'navbar@global.editorarea': {
+                        templateUrl: 'minium.developer/views/toolbar/toolbar.html',
+                        controller: 'NavbarController'
+                    },
                     'view1@global.editorarea': {
                         controller: "EditorAreaMultiTabController",
                         templateUrl: 'minium.developer/views/editor.area/partials/editors.html',
-                        resolve: {
-                            translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                                $translatePartialLoader.addPart('editor.area');
-                                return $translate.refresh();
-                            }]
-
-                        }
+                    },
+                    'context-menu@global.editorarea': {
+                        controller: "ContextMenuEditorController",
+                        templateUrl: 'minium.developer/views/editor.area/partials/editor-context-menu.html',
                     },
                     'treeNav@global.editorarea': {
                         controller: "TreeNavController",
                         templateUrl: 'minium.developer/views/tree.nav/tree-nav.html',
-                        resolve: {
-                            translatePartialLoader: ['$translate', '$translatePartialLoader', function($translate, $translatePartialLoader) {
-                                $translatePartialLoader.addPart('editor.area');
-                                return $translate.refresh();
-                            }]
-
-                        }
                     },
                     'console@global.editorarea': {
                         controller: "ConsoleController",
@@ -91,8 +81,8 @@ miniumDeveloper
 
         modalStateProvider
             .state('global.editorarea.sub.open', {
-                templateUrl: "minium.developer/views/files/open.file.html",
-                controller: "OpenFileController"
+                templateUrl: "minium.developer/views/files/search.file.html",
+                controller: "SearchFileController"
             });
 
         //register backend

@@ -16,7 +16,8 @@ var miniumDeveloper = angular.module('minium.developer', [
     'miniumDeveloper.filters',
     'miniumDeveloper.directives',
     'miniumDeveloper.config',
-    'minium.stacktrace.parser'
+    'minium.stacktrace.parser',
+    'io.dennis.contextmenu'
 ]);
 
 miniumDeveloper.provider('modalState', function($stateProvider) {

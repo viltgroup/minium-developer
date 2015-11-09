@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/angular-tree-control/css/tree-control.css" />
     <link rel="stylesheet" href="bower_components/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" />
+    <link rel="stylesheet" href="bower_components/angular-busy/dist/angular-busy.css" />
+    <link rel="stylesheet" href="bower_components/angular-contextmenu/dist/style.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css assets/styles/main.css -->
@@ -39,20 +41,15 @@
 
 <body ng-app="miniumdevApp">
 
-    <div class="wrapper">
-      
-     <div ui-view="navbar" ng-cloak=""></div>
-    
-    <div class=" content-wrapper" ui-view="content"></div>
+    <div  ui-view="content"></div>
 
-    </div><!-- ./wrapper -->
 
   </body>
     <!--[if lt IE 10]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 <!-- <div class="wrapper">
-    
+
     <div ui-view="sidebar" ng-cloak=""></div>
     <div class="full content-wrapper" ui-view="content"></div>
 </div> -->
@@ -105,6 +102,9 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/jquery.cookie/jquery.cookie.js"></script>
     <script src="bower_components/bootstrap-contextmenu/bootstrap-contextmenu.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-busy/dist/angular-busy.js"></script>
+    <script src="bower_components/angular-contextmenu/dist/contextmenu.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -161,12 +161,12 @@
     <!-- STACKTRACE MODULE -->
     <script src="minium.developer/scripts/components/stacktrace/stacktrace.module.js"></script>
     <script src="minium.developer/scripts/components/stacktrace/stacktrace.parser.js"></script>
-
+    <script src="minium.developer/scripts/components/feature-preview/service.feature.preview.js"></script>
     <!-- File open/new -->
     <script src="minium.developer/scripts/file/service.file.system.js"></script>
     <script src="minium.developer/scripts/file/service.file.manager.js"></script>
     <script src="minium.developer/scripts/file/controller.file.js"></script>
-    <script src="minium.developer/scripts/file/controller.open.file.js"></script>
+    <script src="minium.developer/scripts/file/controller.search.file.js"></script>
     <script src="minium.developer/scripts/file/controller.new.file.js"></script>
     <!-- Tree Nav -->
     <script src="minium.developer/scripts/tree.nav/controller.tree.nav.js"></script>
@@ -197,13 +197,15 @@
     <script src="minium.developer/scripts/project/controller.new.project.js"></script>
     <script src="minium.developer/scripts/project/controller.import.project.js"></script>
     <script src="minium.developer/scripts/project/service.project.js"></script>
-    
+
     <!-- Console -->
     <script src="minium.developer/scripts/console/controller.console.js"></script>
     <script src="minium.developer/scripts/console/service.console.js"></script>
-   
+
     <!-- endbuild -->
     <script type="text/javascript" src="assets/styles/materialize.js"></script>
+    <!-- contextmenu -->
+    <script src="minium.developer/scripts/editor.context.menu/controller.editor.context.menu.js"></script>
 
     <link rel="stylesheet" href="assets/styles/app.css" />
 </body>

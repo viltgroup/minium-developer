@@ -21,7 +21,10 @@
         "name": "Nome do ficheiro",
         "no.file": "Não há ficheiros aqui",
         "search": "Pesquisar",
-        "search.file": "Pesquisar ficheiro",
+        "search.file": "Pesquisar Ficheiro",
+        "search.file.placeholder": "Nome do ficheiro",
+        "search.step.placeholder": "Insira uma parte do passo ( examplo: 'I click on' )",
+        "search.file.step": "Pesquisar Step Definitions",
         "name": "Nome",
         "date": "Data",
         "refresh": "Actualizar pastas",
@@ -31,14 +34,14 @@
     "labels": {
         "show": "Mostrar",
         "hide": "Esconder",
-        "pause": "pausa",
+        "pause": "Pausa",
         "clear": "Limpar",
         "shortcut": "Atalho",
         "line": "Linha",
         "selector.gadget": "Escolha elementos com o Selector Gadget",
         "selector.gadget.text": "Escolha elementos com o Selector Gadget para gerar uma expressão CSS.",
-        "complete.stackTrace": "View complete stack trace",
-        "parsed.stackTrace": "View parsed stack trace"
+        "complete.stackTrace": "Ver log completo",
+        "parsed.stackTrace": "Ver log parcial"
     },
     "webdriver": {
         "new": "Criar um novo WebDriver",
@@ -48,6 +51,12 @@
         "use_local": "Usar webdriver local",
         "error_creating": "Não foi possível criar um novo WebDriver!!",
         "not_launched": "Nenhum webdriver lançado. Por favor seleccione um!",
+        "advanced": "Avançado",
+        "advanced.popover": "Use uma configuração JSON para lançar um novo Webdriver !!",
+        "messages": {
+            "invalidJSON": "JSON inválido",
+            "validJSON":"JSON válido"
+        },
         "download": {
             "started": "Download começou",
             "complete": "Download concluído",
@@ -181,6 +190,11 @@
             "evaluator": "Avaliar expressão (Ctrl + Enter)",
             "run_test": "Executar testes a partir de cursor (Ctrl + Enter)",
             "run_all": "Executar todos os testes"
+        },
+        "preview.feature":{
+          "error":"Erro ao carregar Feature! Por favor, reveja seus dados externos!",
+          "success":"Feature carregada com sucesso!",
+          "loading": "Carregando dados"
         }
     },
     "preferences": {
@@ -198,5 +212,9 @@
             "font.size": "Introduza o tamanho da fonte",
             "tab.size": "Introduza o tamanho do tab"
         }
+    },
+    "popover": {
+        "search.file": "Pesquise ficheiros nos diretórios do projecto atual.",
+        "search.file.step": "Encontre step definitions na pasta de steps."
     }
 }

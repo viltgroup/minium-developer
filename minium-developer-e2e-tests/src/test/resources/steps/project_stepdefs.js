@@ -70,9 +70,23 @@ Then(/^I should see the following files:$/, function(datatable) {
   });
 });
 
+When(/^I go to Open Project$/, function(){
+  $("#navbar .ng-scope").withText("Project").click();
+  $(".ladda-label").withText("Open Project").click();
+});
+
+When(/^I click the search button$/, function(){
+  $(".glyphicon-search").click();
+});
+
 Then(/^I should see the following validation messages:$/, function(datatable) {
   datatable.raw().forEach(function (row) {
     var fld = row[0];
     expect(forms.getFldValidations(fld)).to.have.text(row[1]);
   });
+});
+
+Then(/^I should see a tree-view of the directory strutucture$/, function(){
+  var folders = $('table.file-navigator tr').visible();
+  expect(folders).to.not.be.empty();
 });

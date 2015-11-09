@@ -8,28 +8,98 @@
         <div class="alert alert-error alert-warning" ng-show="error">
             <i class="fa fa-warning"></i> {{errorMessage}}
         </div>
-        <form class="webdrivers">
-            <radio-button-group class="btn-group" data-toggle="buttons-radio" model="selectBrowser" options="browsers" id="idProperty" name="nameProperty" suffix="bootstrapSuffix"></radio-button-group>
+         <form class="webdrivers">
 
-            <div class="form-group" ng-show="useRemoteWebDriver">
-                <label class="col-sm-2 control-label" for="textinput" translate="webdriver.remote.url">Remote url</label>
+            <button type='button' class='btn btn-default'
+                ng-class='{active: isActive(webdriver)}'
+                ng-repeat='webdriver in availableWebDrivers'
+                ng-click='activate(webdriver)'>
+                <i class='{{getIcon(webdriver)}} gl-lg'></i><br>
+                {{webdriver.displayName}}   {{webdriver.version}}
+            </button>
+            
+           <div ng-show="useRemoteWebDriver">
+            <br>
 
-                <div class="col-sm-10">
-                    <input type="text" ng-model="remoteWebDriverUrl" placeholder="{{webdriver.remote.url | translate}}" class="form-control" />
+                <div class="btn-group col-sm-5">
+                    <label class="btn btn-default btn-xs">
+                        <input type="radio"
+                        name="advancedCapabilities"
+                        data-ng-model="advancedCapabilities"
+                        ng-value="false">
+                        <span translate="webdriver.remote.url">Remote Url</span>
+                    </label>
+                    <label class="btn btn-default btn-xs"
+                        popover="{{'webdriver.advanced.popover' | translate}}"
+                        popover-trigger="mouseenter">
+                        <input type="radio"
+                        name="advancedCapabilities"
+                        data-ng-model="advancedCapabilities"
+                        ng-value="true"
+                        >
+                        <span translate="webdriver.advanced">Advanced</span>
+                    </label>
+                </div>
+                <div class="col-sm-7 ">
+
+                    <span ng-hide="advancedCapabilities">
+                        <input type="text"
+                                ng-model="remoteWebDriverUrl"
+                                placeholder="{{'webdriver.remote.url' | translate}}"
+                                class="form-control" />
+                    </span>
+                    <span ng-hide="!advancedCapabilities"
+                          class="has-feedback"
+                          ng-class="{ 'has-error' : advancedWebDriverForm.jsonConfig.$error.validJson ,
+                                'has-success' : !advancedWebDriverForm.jsonConfig.$error.validJson
+                                     && !advancedWebDriverForm.jsonConfig.$pristine}"
+                          ng-form
+                          name="advancedWebDriverForm">
+                        <textarea class="form-control textarea-resizable-vertical "
+                            id="advanced-field"
+                            name= "jsonConfig"
+                            ng-model="advancedCapabilitiesConfig"
+                            ng-keyup="validateJSON($event)"
+                            ></textarea>
+                        <br>
+                        <button class="btn btn-default btn-xs pull-right"
+                                ng-click="addDefaultJson()">
+                                Add default JSON
+                        </button>
+
+                        <span class="text-danger pull-left label-feedback"
+                              ng-show="advancedWebDriverForm.jsonConfig.$error.validJson"
+                              translate="webdriver.messages.invalidJSON">
+                           Invalid JSON
+                        </span>
+
+                        <span class="text-success pull-left label-feedback"
+                                ng-show="!advancedWebDriverForm.jsonConfig.$error.validJson
+                                         && !advancedWebDriverForm.jsonConfig.$pristine"
+                                translate="webdriver.messages.validJSON">
+                            Valid JSON
+                        </span>
+                    </span>
                 </div>
 
-            </div>
+            </div> <!-- ./user remote url div -->
         </form>
-    </div>
-</div>
-<div class="modal-footer">
 
+    </div><!-- /.panel-body  -->
+</div><!-- /.modal-body -->
+
+<div class="modal-footer">
     <button class="btn btn-default pull-left" id="remoteWebDriver" ng-click="setRemoteWebDriver()">
         {{toggleText}}
     </button>
+    <button class="btn btn-primary ladda-button my-ladda-btn"
+            id="createWebDriver"
+            ng-click="createWebDriver()"
+            ng-disabled="formIsInvalid()"
+            data-style="expand-right"
+            translate="webdriver.new">
+        Create new WebDriver
 
-    <button class="btn btn-primary ladda-button my-ladda-btn" id="createWebDriver" ng-click="createWebDriver()" ng-disabled="selectBrowser === undefined || isProcessing === true || (useRemoteWebDriver == true && remoteWebDriverUrl == '') " data-style="expand-right" translate="webdriver.new">
-         Create new WebDriver
     </button>
     <button class="btn btn-default" ng-click="cancel()" translate="entity.action.cancel">Cancel</button>
-</div>
+</div><!-- /.modal-footer -->

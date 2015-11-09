@@ -29,6 +29,8 @@ import org.springframework.core.env.PropertySources;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.core.io.FileSystemResource;
 
+import com.google.common.collect.ImmutableMap;
+
 public class AbstractProjectContext implements InitializingBean, DisposableBean {
 
     protected final File projectDir;
@@ -117,7 +119,8 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected PropertySources loadConfiguration() throws Exception {
         MutablePropertySources propertySources = new MutablePropertySources();
-        propertySources.addLast(new SystemEnvironmentPropertySource("systemProperties", (Map) System.getProperties()));
+        Map<String, String> properties = ImmutableMap.<String, String>builder().putAll((Map) System.getProperties()).put("minium.resources.dir", resourcesDir.getAbsolutePath()).build();
+        propertySources.addLast(new SystemEnvironmentPropertySource("systemProperties", (Map) properties));
         File appConfigFile = new File(resourcesDir, "config/application.yml");
         if (appConfigFile.exists() && appConfigFile.isFile()) {
             YamlPropertySourceLoader loader = new YamlPropertySourceLoader();

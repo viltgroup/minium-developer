@@ -35,3 +35,8 @@ Feature: Manage Minium Projects
       | minium-cucumber-${timestamp}/logback-test.xml            |
       | minium-cucumber-${timestamp}/steps/my-steps.js           |
       | minium-cucumber-${timestamp}/features/my-feature.feature |
+
+  Scenario: Navigate in the directory structure of local disk
+    When I go to Open Project
+    And I click the search button
+    Then I should see a tree-view of the directory strutucture

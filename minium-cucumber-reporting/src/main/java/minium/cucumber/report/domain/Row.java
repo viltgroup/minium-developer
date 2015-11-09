@@ -25,11 +25,29 @@ public class Row {
     @JsonView(Views.Public.class)
     private List<String> cells = Lists.newArrayList();
 
+    @JsonView(Views.Public.class)
+    private List<Comment> comments = Lists.newArrayList();
+
+    @JsonView(Views.Public.class)
+    private Integer line;
+
     public Row() {
     }
 
     public List<String> getCells() {
         return cells;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public Integer getLine() {
+        return line;
+    }
+
+    public void setLine(Integer line) {
+        this.line = line;
     }
 }
 

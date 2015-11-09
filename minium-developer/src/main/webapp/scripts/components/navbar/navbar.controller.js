@@ -3,10 +3,10 @@
 var NavbarController = function($rootScope, $scope, $translate, $filter, $location, $controller, VersionService, WebDriverFactory) {
 
     var $translate = $filter('translate');
-    // extends the EditorAreaController
-    $controller('EditorAreaController', {
-        $scope: $scope
-    });
+    // // extends the EditorAreaController
+    // $controller('EditorAreaController', {
+    //     $scope: $scope
+    // });
 
     /**
      * Clear marker in lines of editor

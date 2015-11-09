@@ -9,7 +9,7 @@
     function ConsoleController($rootScope, $scope, $state, ConsoleLog, stackTraceParser) {
 
         //////////////////////////////////////////////////////////////////
-        // websockets 
+        // websockets
         //////////////////////////////////////////////////////////////////
         var socket = new SockJS("/app/ws");
         var stompClient = Stomp.over(socket);
@@ -19,7 +19,6 @@
             stompClient.subscribe("/log", function(message) {
 
                 if ($scope.isActivePause == false) {
-                    console.log(message);
                     var stackTrace;
                     if (!$scope.showCompleteStackTrace) {
                         //parse the stacktarce
@@ -29,7 +28,7 @@
                         stackTrace = message.body + '\n';
                     }
 
-                    //hack when we focus on the console editor 
+                    //hack when we focus on the console editor
                     //it will write where the cursor is
                     ////this way it always insert the data at the end of the editor
 
@@ -70,7 +69,7 @@
 
                 $scope.loadFile(decodeURIComponent(relativeUri)).then(function(result) {
                     if (line) {
-                        $rootScope.active.session.gotoLine(line);
+                        $rootScope.activeEditor.instance.gotoLine(line);
                     }
                 });
             })
@@ -121,7 +120,7 @@
         }
 
         var goToLastLine = function(editor) {
-            editor.focus(); //To focus the ace editor
+            // editor.focus(); //To focus the ace editor
             var n = editor.getSession().getValue().split("\n").length; // To count total no. of lines
             editor.gotoLine(n + 1); //Go to end of document
         }

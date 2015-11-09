@@ -1,28 +1,30 @@
-/* 
-  Allow angular.js to be loaded in body, hiding cloaked elements until 
-  templates compile.  The !important is important given that there may be 
-  other selectors that are more specific or come later and might alter display.  
+/*
+  Allow angular.js to be loaded in body, hiding cloaked elements until
+  templates compile.  The !important is important given that there may be
+  other selectors that are more specific or come later and might alter display.
  */
 
 .container-editor .ui-tabs .ui-tabs-panel {
     padding: 1em 0em 0em 1.4em;
 }
 
-.content {
+
+/*.content {
     min-height: auto;
     background: #eeeeee;
     height: 100%;
     margin-top: -50px;
     padding: 0px 15px;
     overflow: hidden;
-}
+}*/
 
-.left-side {
+
+/*.left-side {
     overflow: auto;
     height: 100%;
     position: fixed;
     background: #34495E;
-}
+}*/
 
 .right-side {
     background-color: #EEEEEE;
@@ -607,6 +609,7 @@ div.inline {
 }
 
 
+
 /**
  * change the breadcrumbs to the left
  */
@@ -650,9 +653,9 @@ div.inline {
     background: #2C3E50;
     padding: 10px;
     z-index: 1;
-    width: 230px;
+    /*width: 230px;*/
     position: relative;
-    margin-left: -270px;
+    margin-left: -40px;
     margin-top: 0px;
     text-decoration: none;
     font-size: 13px;
@@ -667,10 +670,10 @@ div.inline {
  */
 
 #tree-bar {
-    position: absolute;
-    margin-left: -270px;
+    /*position: absolute;*/
+    /*margin-left: -270px;*/
     /*height: auto;*/
-    width: 270px;
+    width: 230px;
     overflow: auto;
     margin-top: 0px;
     /*background: #34495E;*/
@@ -678,6 +681,11 @@ div.inline {
     overflow-y: auto;
     max-height: 90%;
     z-index: 999;
+    height: 100%;
+}
+
+.treeview-menu {
+    margin-left: -40px;
     height: 100%;
 }
 
@@ -1176,7 +1184,7 @@ treecontrol.tree-classic li .tree-selected {
 .sidebar {
     border-bottom: 0px solid #fff;
     position: absolute;
-    background: #2C3E50;
+    background: #34495E;
 }
 
 .tree-panel ul>li a i {
@@ -1185,7 +1193,7 @@ treecontrol.tree-classic li .tree-selected {
 }
 
 .tree-panel ul li {
-    margin-left: 15px;
+    margin-left: 26px;
     padding-right: 5px;
     padding-left: 5px;
 }
@@ -1320,13 +1328,13 @@ treecontrol.tree-classic li .tree-selected {
     /*border-color: #34495E;*/
 }
 
-.btn.btn-default:hover,
+/*.btn.btn-default:hover,
 .btn.btn-default:active,
 .btn.btn-default.hover {
     color: #22313F;
     background-color: #f3f3f3!important;
 }
-
+*/
 .btn.btn-danger {
     background-color: #D64541;
     border-color: #f4543c;
@@ -1609,6 +1617,45 @@ Console editor CSS
     }
 }
 
-.webdrivers{
+.webdrivers {
     text-align: center;
+}
+
+.file-navigator-wrapper {
+    height: 200px;
+    overflow: auto;
+}
+
+.ace_line .ace_rightAlignedText[text=*snippets]] {
+    color: red;
+}
+
+@media only screen and (max-width: 1100px) {
+    .action-label {
+        display: none!important;
+    }
+    #actions>li {
+        float: left!important;
+        margin-top: 5px;
+    }
+    .navbar-nav {
+        float: left;
+        margin: -5px;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-nav {
+        float: left;
+        margin: 0;
+    }
+}
+
+.textarea-resizable-vertical {
+    resize: vertical;
+}
+
+
+.feature-tab{
+  color: #F4B350;
 }

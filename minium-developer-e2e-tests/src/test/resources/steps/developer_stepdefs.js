@@ -101,8 +101,6 @@ Then(/^I should see message "([^"]*)"$/, function(text) {
 });
  
  
- 
- 
- 
- 
- 
+Then(/^I should see the image which has alternative text "(.*)"$/, function(imageAlt) {
+  expect($('img').withAttr("alt", imageAlt).visible()).to.exist();
+});

@@ -42,22 +42,22 @@
        		<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-automator</artifactId>
-				<version>1.1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-tools-fs</artifactId>
-				<version>1.1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 	        <dependency>
 	            <groupId>io.vilt.minium.tools</groupId>
 	            <artifactId>minium-cucumber-reporting</artifactId>
-				<version>1.1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 	        </dependency>
 			<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-developer</artifactId>
-				<version>1.1.2-SNAPSHOT</version>
+				<version>1.2.0</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

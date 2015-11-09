@@ -64,7 +64,7 @@ angular.module('minium.developer')
                 $scope.validatingProject = false;
             });
         }
-        
+
         $scope.cancel = function() {
             $modalInstance.dismiss('cancel');
             $scope.$dismiss();
@@ -100,7 +100,6 @@ angular.module('minium.developer')
           name : ""
         };
         $scope.asyncLoad = function(node) {
-            console.debug(node);
             var params = {
                 path: node.relativeUri || ""
             };
@@ -129,7 +128,7 @@ angular.module('minium.developer')
         };
 
          $scope.loadAndSelectParent = function(){
-            $scope.loadParent(); 
+            $scope.loadParent();
             $scope.selectDir($scope.fs.current.absoluteUri)
         }
 
@@ -143,7 +142,6 @@ angular.module('minium.developer')
         $scope.asyncLoad($scope.fs.current);
 
         $scope.selectDir = function(relativeUri) {
-            console.log(relativeUri)
             $scope.path = relativeUri;
             $scope.validate();
         }

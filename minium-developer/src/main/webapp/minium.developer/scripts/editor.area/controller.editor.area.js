@@ -96,7 +96,6 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
         });
 
 
-        console.log($rootScope.activeEditor);
 
     }
 

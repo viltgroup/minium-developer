@@ -170,7 +170,6 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
                 }
                 return text.replace(/^\s+/, "");
             };
-            console.log(response.data);
             //register the snippets founded
             snippetManager.register(response.data, "gherkin");
         });

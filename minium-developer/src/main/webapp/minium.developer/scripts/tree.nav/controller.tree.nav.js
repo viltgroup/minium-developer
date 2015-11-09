@@ -31,7 +31,6 @@ angular.module('minium.developer')
                     if (firstLoad && $scope.hasProject) {
                         $scope.dataForTheTree[0].children.push(item);
                         $scope.expandedNodes.push($scope.dataForTheTree[0]);
-                        // console.log($scope.expandedNodes)
                     }
                 });
                 firstLoad = false;
@@ -50,7 +49,6 @@ angular.module('minium.developer')
         };
 
         $scope.expandedNodes = [];
-        //console.log($scope.expandedNodes);
         $scope.showSelected = function(node) {
 
             $scope.activeEditor.fileProps = node;
@@ -64,7 +62,6 @@ angular.module('minium.developer')
         };
 
         $scope.showToggle = function(node, expanded) {
-            //console.log(node.children)
             $scope.loadChildren(node);
         };
 

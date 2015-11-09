@@ -16,7 +16,7 @@ var GherkinHighlightRules = function() {
         token : "keyword",
         regex : "^\\s*(Feature:|Background:|Scenario:|Scenario\ Outline:|Examples:|Given|When|Then|And|But)|"+
                 //catalan
-                "^\\s*(Funcionalitat:|Antecedents:|Escenari:|Esquema\ de\ l'escenari:|Exemples:|Donat|Quan|Cal|I|Però)|" + 
+                "^\\s*(Funcionalitat:|Antecedents:|Escenari:|Esquema\ de\ l'escenari:|Exemples:|Donat|Quan|Cal|I|Però)|" +
         		// spanish
         		"^\\s*(Característica:|Antecedentes:|Escenario:|Esquema\ del\ escenario:|Ejemplos:|Dado|Dada|Dados|Dadas|Cuando|Entonces|Y|Pero)|" +
         		// portuguese
@@ -106,7 +106,6 @@ oop.inherits(Mode, TextMode);
         var tokenizedLine = this.getTokenizer().getLineTokens(line, state);
         var tokens = tokenizedLine.tokens;
 
-        console.log(state)
 
         if(line.match("[ ]*\\|")) {
             indent += "| ";

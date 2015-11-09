@@ -82,9 +82,8 @@ angular.module('minium.developer')
             }
             $scope.project.artifactId = name.replace(/\s+/g, '-');
             var path = $scope.location;
-            
+
             ProjectFactory.isValidName(path).success(function(data) {
-                console.debug(data)
                 if (data !== projectEnum.NOT_VALID && data === projectEnum.NO_PROJECT) {
 
                     //dir is good and theres a project

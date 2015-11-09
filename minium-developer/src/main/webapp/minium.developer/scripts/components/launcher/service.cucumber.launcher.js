@@ -34,7 +34,6 @@ miniumDeveloper.service('cumcumberLauncher', function($q, $translate, $filter, l
             //URGENT NEED TO PUT THIS ON A MODEL
             //CANT BE IN A CONTROLLER
 
-            console.debug(launchTestSession)
 
             var annotations = _.map(faillingSteps, function(step) {
                 var result = step.status;

@@ -8,7 +8,6 @@
 
     function SearchFileController($rootScope, $scope, $modalInstance, $controller, $stateParams, TabLoader, FS, MiniumEditor) {
 
-        console.debug("loaded FileController")
             //extends the fileController
         $controller('FileController', {
             $scope: $scope
@@ -21,7 +20,6 @@
         $scope.form = {};
 
         $scope.type = $stateParams.type | '';
-        console.log( $stateParams);
         $scope.isActive = true;
         $scope.ok = function() {
             $scope.$close(true);
@@ -54,7 +52,6 @@
         };
 
         $scope.select = function(item, line) {
-            console.log($scope)
             parentScope.loadFile(decodeURIComponent(item.relativeUri)).then(function(result) {
                 if (line) {
                     $rootScope.activeEditor.instance.gotoLine(line);

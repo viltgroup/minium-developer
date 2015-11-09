@@ -10,9 +10,8 @@ angular.module('minium.developer')
     $scope.type = $stateParams.type | ''
 
     //focus on search input
-   
+
     $scope.asyncLoad = function(node) {
-        console.debug(node);
         var params = {
             path: node.relativeUri || ""
         };
@@ -45,8 +44,8 @@ angular.module('minium.developer')
         $scope.asyncLoad(item);
     };
 
-   
-    
-    
+
+
+
 
 });

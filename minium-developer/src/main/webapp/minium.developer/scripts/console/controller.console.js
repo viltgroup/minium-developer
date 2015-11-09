@@ -19,7 +19,6 @@
             stompClient.subscribe("/log", function(message) {
 
                 if ($scope.isActivePause == false) {
-                    console.log(message);
                     var stackTrace;
                     if (!$scope.showCompleteStackTrace) {
                         //parse the stacktarce

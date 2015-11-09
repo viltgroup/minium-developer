@@ -116,10 +116,6 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
 
         this.resizeEditors();
 
-        this.editors.forEach(function(editor) {
-            console.debug(editor);
-        });
-
         return newEditor;
 
     }
@@ -847,7 +843,6 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         var scope = scope;
 
         var featureToRunProps = $rootScope.activeEditor.file.fileProps;
-        console.log(featureToRunProps);
 
         if (!featureToRunProps) return;
 

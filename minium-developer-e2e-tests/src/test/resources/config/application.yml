@@ -16,7 +16,8 @@ minium:
     baseUrl: http://localhost:8089/#/editor/
     tempDir: /tmp
     defaultBrowser: 
-      browserName: chrome
+      browserName: Firefox
+      url: http://styx:4444/wd/hub
 
 ---
 spring:

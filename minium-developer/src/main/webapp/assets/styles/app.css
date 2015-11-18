@@ -670,16 +670,12 @@ div.inline {
  */
 
 #tree-bar {
-    /*position: absolute;*/
-    /*margin-left: -270px;*/
-    /*height: auto;*/
     width: 230px;
     overflow: auto;
     margin-top: 0px;
-    /*background: #34495E;*/
     color: #ffffff;
     overflow-y: auto;
-    max-height: 90%;
+    max-height: 700px;
     z-index: 999;
     height: 100%;
 }

@@ -148,11 +148,11 @@ angular.module('minium.developer')
                 if (data !== '') {
                     $scope.hasProject = true;
                     projectName = data;
-                }  else {
+                } else {
                     $.removeCookie('openTabs');
                     toastr.info($translate('messages.error.no_project_defined'))
-                    //remove all the open tab int the cookie
-                    //because there's no project defined
+                        //remove all the open tab int the cookie
+                        //because there's no project defined
                 }
                 addProjectToTree(projectName);
                 asyncLoad($scope.fs.current);
@@ -308,8 +308,19 @@ angular.module('minium.developer')
                 // $modalInstance.close();
             }
 
+
+
         }
 
+        // needed to calculate the size of the sidebar
+        function resize() {
+            var originaHeight = $(window).height() - 100;
+            $(this).css("max-height", originaHeight);
+        };
+
+        $(window).on('resize', function() {
+            $("#tree-bar").each(resize);
+        });
 
 
 

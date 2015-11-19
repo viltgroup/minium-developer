@@ -18,15 +18,8 @@ minium:
         displayName: PhantomJS
         desiredCapabilities:
           - browserName: phantomjs
-      - name: ie8
-        displayName: Internet Explorer 8
+      - name: ie
+        displayName: Internet Explorer
         iconClass: icon-ie
         desiredCapabilities:
-          - browserName: ie
-            version: 8
-      - name: ie11
-        displayName: Internet Explorer 11
-        iconClass: icon-ie
-        desiredCapabilities:
-          - browserName: ie
-            version: 11
+          - browserName: internet explorer

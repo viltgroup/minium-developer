@@ -11,8 +11,6 @@ import java.util.zip.ZipFile;
 
 import org.apache.commons.io.IOUtils;
 
-import com.google.common.base.Throwables;
-
 public class ZipUtils {
 
     private ZipUtils() {
@@ -28,7 +26,7 @@ public class ZipUtils {
                 }
             }
         } catch (Exception e) {
-            throw Throwables.propagate(e);
+            throw new RuntimeException("Cannot unzip the file to " + outputDir.getAbsolutePath());
         }
     }
 

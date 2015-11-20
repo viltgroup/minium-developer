@@ -108,7 +108,6 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         require.getModulePaths().add(new File(resourcesDir, "modules").toURI().toString());
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
-        rhinoProperties.setFilteredStackTraces(true);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
         JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine);
         new MiniumJsEngineAdapter(browser, browsers).adapt(rhinoEngine);

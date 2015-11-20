@@ -8,18 +8,18 @@ minium:
         displayName: Chrome
         iconClass: icon-chrome
         desiredCapabilities:
-          - browserName: chrome
+          browserName: chrome
       - name: firefox
         displayName: Firefox
         iconClass: icon-firefox
         desiredCapabilities:
-          - browserName: firefox
+          browserName: firefox
       - name: phantomjs
         displayName: PhantomJS
         desiredCapabilities:
-          - browserName: phantomjs
+          browserName: phantomjs
       - name: ie
         displayName: Internet Explorer
         iconClass: icon-ie
         desiredCapabilities:
-          - browserName: internet explorer
+          browserName: internet explorer

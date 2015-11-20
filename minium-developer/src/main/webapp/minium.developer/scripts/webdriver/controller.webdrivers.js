@@ -9,46 +9,6 @@ angular.module('minium.developer')
             error = undefined;
         }
 
-        var OS = {
-            MAC: 'mac',
-            LINUX: 'linux',
-            WINDOWS: 'windows'
-        };
-
-        var allBrowsers = {
-            "CHROME": {
-                displayName: "Chrome",
-                shortDisplayName: "chrome",
-                icon: "icon-chrome",
-                os: [OS.MAC, OS.WINDOWS, OS.LINUX]
-            },
-            "FIREFOX": {
-                displayName: "Firefox",
-                shortDisplayName: "firefox",
-                icon: "icon-firefox",
-                os: [OS.MAC, OS.WINDOWS, OS.LINUX]
-            },
-            "IE": {
-                displayName: "Internet Explorer",
-                shortDisplayName: "internet explorer",
-                icon: "icon-ie",
-                os: [OS.WINDOWS]
-            },
-            "SAFARI": {
-                displayName: "Safari",
-                shortDisplayName: "safari",
-                icon: "icon-compass",
-                os: [OS.MAC]
-            },
-            "PHANTOMJS": {
-                displayName: "PhantomJS",
-                shortDisplayName: "phantomjs",
-                icon: "icon-globe",
-                os: [OS.MAC, OS.WINDOWS, OS.LINUX]
-            }
-
-        };
-
         $scope.browsers = {};
 
         $scope.selectedBrowser = undefined;
@@ -108,13 +68,12 @@ angular.module('minium.developer')
                     return;
                 }
             } else if ($scope.useRemoteWebDriver) {
-                $scope.selectedBrowser.url = $scope.remoteWebDriverUrl,
-                    config = $scope.selectedBrowser;
-
+                $scope.selectedBrowser.url = $scope.remoteWebDriverUrl;
             } else {
-                $scope.selectedBrowser.desiredCapabilities = $scope.selectedBrowser.desiredCapabilities[0];
-                config = $scope.selectedBrowser;
+                $scope.selectedBrowser.desiredCapabilities =  $scope.selectedBrowser.desiredCapabilities;
             }
+
+            config = $scope.selectedBrowser;
 
             WebDriverFactory.create(config).success(function() {
                 toastr.success($translate('webdriver.new'));
@@ -147,7 +106,7 @@ angular.module('minium.developer')
 
             // if returns TRUE the button will be disabled
             if ($scope.advancedCapabilities) {
-                return $scope.selectedBrowser === undefined || $scope.isProcessing === true || $scope.advancedCapabilitiesConfig == '' || $scope.advancedWebDriverForm.jsonConfig.$error.validJson;
+                return $scope.isProcessing === true || $scope.advancedCapabilitiesConfig == '' || $scope.advancedWebDriverForm.jsonConfig.$error.validJson;
             } else if($scope.useRemoteWebDriver) {
                 return $scope.selectedBrowser === undefined || $scope.isProcessing === true || $scope.remoteWebDriverUrl == '' ;
             } else{

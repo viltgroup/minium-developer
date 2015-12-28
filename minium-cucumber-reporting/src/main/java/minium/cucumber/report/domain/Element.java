@@ -22,7 +22,35 @@ import com.google.common.collect.Lists;
 
 public class Element {
 
-    @JsonView(Views.Public.class)
+    public class Example {
+    	@JsonView(Views.Public.class)
+        private String line;
+    	
+    	@JsonView(Views.Public.class)
+        private String name;
+    	
+    	@JsonView(Views.Public.class)
+        private String description;
+    	
+    	@JsonView(Views.Public.class)
+        private String id;
+    	
+    	@JsonView(Views.Public.class)
+        private List<Row> rows = Lists.newArrayList();
+    	
+    	public List<Row> getRows() {
+			return rows;
+		}
+
+		public void setRows(List<Row> rows) {
+			this.rows = rows;
+		}
+
+		@JsonView(Views.Public.class)
+        private String keyword;
+	}
+
+	@JsonView(Views.Public.class)
     private String name;
 
     @JsonView(Views.Public.class)
@@ -42,6 +70,9 @@ public class Element {
 
     @JsonView(Views.Public.class)
     private List<Comment> comments = Lists.newArrayList();
+    
+    @JsonView(Views.Public.class)
+    private List<Example> examples = Lists.newArrayList();
 
     public Element() {
     }
@@ -85,5 +116,13 @@ public class Element {
         }
         return Status.PASSED;
     }
+
+	public List<Example> getExamples() {
+		return examples;
+	}
+
+	public void setExamples(List<Example> examples) {
+		this.examples = examples;
+	}
 
 }

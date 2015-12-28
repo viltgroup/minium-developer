@@ -30,6 +30,9 @@ public class Row {
 
     @JsonView(Views.Public.class)
     private Integer line;
+    
+    @JsonView(Views.Public.class)
+    private String id;
 
     public Row() {
     }
@@ -49,5 +52,13 @@ public class Row {
     public void setLine(Integer line) {
         this.line = line;
     }
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 }
 

@@ -26,7 +26,8 @@ public class Result {
     @JsonView(Views.Public.class)
     @JsonProperty("error_message")
     private String errorMessage;
-
+    @JsonView(Views.Public.class)
+    private String id;
     @JsonView(Views.Public.class)
     private Long duration;
 

@@ -15,12 +15,30 @@
  */
 package minium.cucumber.report.domain;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonView;
+import com.google.common.collect.Lists;
 
 public class Match {
+	
+	static class Argument{
+		public Argument(){
+			
+		}
+		
+		@JsonView(Views.Public.class)
+        private String val;
+    	
+    	@JsonView(Views.Public.class)
+        private Integer offset;
+	}
 
     @JsonView(Views.Public.class)
     private String location;
+    
+    @JsonView(Views.Public.class)
+    private List<Argument> arguments = Lists.newArrayList();
 
     public Match() {
     }

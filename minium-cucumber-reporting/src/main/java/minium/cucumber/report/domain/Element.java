@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 
 public class Element {
 
-    public class Example {
+    public static class Example {
     	@JsonView(Views.Public.class)
         private String line;
     	
@@ -73,8 +73,30 @@ public class Element {
     
     @JsonView(Views.Public.class)
     private List<Example> examples = Lists.newArrayList();
+    
+    @JsonView(Views.Public.class)
+    private List<After> after = Lists.newArrayList();
+    
+    @JsonView(Views.Public.class)
+    private String id;
 
-    public Element() {
+    public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<After> getAfter() {
+		return after;
+	}
+
+	public void setAfter(List<After> after) {
+		this.after = after;
+	}
+
+	public Element() {
     }
 
     public String getName() {

@@ -8,8 +8,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import minium.cucumber.report.domain.After;
 import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Result;
+import minium.cucumber.report.domain.Status;
 import minium.cucumber.report.domain.Step;
 import minium.cucumber.report.domain.Views;
 
@@ -29,7 +31,7 @@ public class ElementReport {
     private String id;
     
     @JsonView(Views.Public.class)
-    private AfterReport after;
+    private List<After> after = Lists.newArrayList();
     
     @JsonView(Views.Public.class)
     private String type;
@@ -44,23 +46,7 @@ public class ElementReport {
     private BackgroundReport background;
     
     @JsonView(Views.Public.class)
-    private ScenarioOutlineReport scenarioOutline;
-    
-    public ScenarioOutlineReport getScenarioOutline() {
-		return scenarioOutline;
-	}
-
-	public void setScenarioOutline(ScenarioOutlineReport scenarioOutline) {
-		this.scenarioOutline = scenarioOutline;
-	}
-
-	public Integer getRowIndex() {
-		return rowIndex;
-	}
-
-	public void setRowIndex(Integer rowIndex) {
-		this.rowIndex = rowIndex;
-	}
+    private Element scenarioOutline;
 
 	@JsonView(Views.Public.class)
     private Integer rowIndex;
@@ -70,9 +56,47 @@ public class ElementReport {
     
     @JsonView(Views.Public.class)
     private Map<String, Result> profilesResults = Maps.newHashMap();
-
+    
 	public ElementReport(Element e) {
-		// TODO Auto-generated constructor stub
+		this.steps = e.getSteps();
+		
+		this.result = new Result();
+		Status status = Status.PASSED; 
+		for(Step s : steps){
+			this.result.increaseDuration(s.getDuration());
+			if(status == Status.PASSED && s.getResult().getStatus() != Status.PASSED){
+				status = s.getResult().getStatus();
+			}
+		}
+		for(After a : e.getAfter()){
+			this.result.increaseDuration(a.getResult().getDuration());
+		}
+		this.result.setStatus(status);
+		
+		this.line = Integer.parseInt(e.getSteps().get(0).getLine()) - 1;
+		this.name = e.getName();
+		this.description = e.getDescription();
+		this.id = e.getId();
+		this.after = e.getAfter();
+		this.type = e.getType();
+		this.keyword = e.getKeyword();
+	}
+	
+    public Element getScenarioOutline() {
+		return scenarioOutline;
+	}
+
+	public void setScenarioOutline(Element scenarioOutline, int rowIndex) {
+		this.scenarioOutline = scenarioOutline;
+		this.rowIndex = rowIndex;
+	}
+
+	public Integer getRowIndex() {
+		return rowIndex;
+	}
+
+	public void setRowIndex(Integer rowIndex) {
+		this.rowIndex = rowIndex;
 	}
 
 	public Integer getLine() {
@@ -107,11 +131,11 @@ public class ElementReport {
 		this.id = id;
 	}
 
-	public AfterReport getAfter() {
+	public List<After> getAfter() {
 		return after;
 	}
 
-	public void setAfter(AfterReport after) {
+	public void setAfter(List<After> after) {
 		this.after = after;
 	}
 
@@ -145,6 +169,12 @@ public class ElementReport {
 
 	public void setBackground(BackgroundReport background) {
 		this.background = background;
+		for(Step s : background.getSteps()){
+			this.result.increaseDuration(s.getDuration());
+		}
+		if(result.getStatus() == Status.PASSED && background.getStatus() != Status.PASSED){
+			result.setStatus(background.getStatus());
+		}
 	}
 
 	public Result getResult() {

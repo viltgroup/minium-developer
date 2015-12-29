@@ -26,23 +26,37 @@ public class Result {
     @JsonView(Views.Public.class)
     @JsonProperty("error_message")
     private String errorMessage;
-    @JsonView(Views.Public.class)
+
+	@JsonView(Views.Public.class)
     private String id;
     @JsonView(Views.Public.class)
     private Long duration;
 
-    public Result() {
+	public Result() {
+		this.duration = new Long(0L);
     }
 
     public Status getStatus() {
         return status;
     }
+    
+    public void setStatus(Status status) {
+		this.status = status;
+	}
 
     public Long getDuration() {
         return duration == null ? 0L : duration;
     }
+    
+    public void setDuration(Long duration) {
+		this.duration = duration;
+	}
 
     public String getErrorMessage() {
         return errorMessage;
+    }
+    
+    public void increaseDuration(long increment){
+    	this.duration += increment;
     }
 }

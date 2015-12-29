@@ -8,6 +8,8 @@ import com.google.common.collect.Lists;
 
 import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Feature;
+import minium.cucumber.report.domain.Result;
+import minium.cucumber.report.domain.Status;
 import minium.cucumber.report.domain.Views;
 
 @JsonPropertyOrder({ "line", "elements", "name", "description", "id", "keyword", "uri", "summary", "profile", "profiles" })
@@ -15,32 +17,46 @@ public class FeatureReport {
 	
 	public FeatureReport(Feature feature) {
 		BackgroundReport bg = null;
-		ScenarioOutlineReport so = null;
-		int nRows = 0, rowIndex = 1;
+		Element so = null;
+		int nRows = 0, rowIndex = 1, totalScenarios = 0;
 		
 		for (Element e : feature.getElements()) {
 			switch (e.getType()) {
-			case "background":
-				bg = new BackgroundReport(e);
-				break;
-			case "scenario_outline":
-				so = new ScenarioOutlineReport(e);
-				nRows = e.getExamples().get(0).getRows().size();
-				rowIndex = 1;
-				break;
-			default:
-				elements.add(new ElementReport(e));
-				if(rowIndex <= nRows){
-					elements.get(elements.size() - 1).setScenarioOutline(so);
-					rowIndex++;
-				}
+				case "background":
+					bg = new BackgroundReport(e);
+					break;
+				case "scenario_outline":
+					so = e;
+					nRows = e.getExamples().get(0).getRows().size();
+					rowIndex = 1;
+					break;
+				default:
+					elements.add(new ElementReport(e));
+					if(rowIndex <= nRows){
+						elements.get(elements.size() - 1).setScenarioOutline(so, rowIndex);
+						rowIndex++;
+					}
 			}
+			totalScenarios += 1;
 		}
 		
 		if(bg != null)
 			elements.get(elements.size() - 1).setBackground(bg);
 		
-		// handleSummary
+		int passingScenarios = 0;
+		double totalDuration = 0D;
+		Result r;
+		for(ElementReport e : elements){
+			r = e.getResult();
+			if(r.getStatus() == Status.PASSED){
+				passingScenarios += 1;
+			}
+			totalDuration += r.getDuration();
+		}
+		summary = new SummaryReport();
+		summary.setPassingScenarios(passingScenarios);
+		summary.setTotalDuration(totalDuration);
+		summary.setTotalScenarios(totalScenarios);
 	}
 
 	@JsonView(Views.Public.class)

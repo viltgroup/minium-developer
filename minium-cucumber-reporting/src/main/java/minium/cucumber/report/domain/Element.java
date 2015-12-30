@@ -17,7 +17,9 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
 public class Element {
@@ -65,15 +67,18 @@ public class Element {
     @JsonView(Views.Public.class)
     private List<Step> steps = Lists.newArrayList();
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<Tag> tags = Lists.newArrayList();
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<Comment> comments = Lists.newArrayList();
     
     @JsonView(Views.Public.class)
     private List<Example> examples = Lists.newArrayList();
     
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<After> after = Lists.newArrayList();
     

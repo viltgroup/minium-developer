@@ -17,9 +17,14 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
+@JsonPropertyOrder({ "arguments", "location" })
+@JsonInclude(Include.NON_EMPTY) 
 public class Match {
 	
 	static class Argument{

@@ -2,8 +2,10 @@ package minium.cucumber.report.json;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
 import minium.cucumber.report.domain.Element;
@@ -12,13 +14,14 @@ import minium.cucumber.report.domain.Result;
 import minium.cucumber.report.domain.Status;
 import minium.cucumber.report.domain.Views;
 
+@JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({ "line", "elements", "name", "description", "id", "keyword", "uri", "summary", "profile", "profiles" })
 public class FeatureReport {
 	
 	public FeatureReport(Feature feature) {
 		BackgroundReport bg = null;
 		Element so = null;
-		int nRows = 0, rowIndex = 1, totalScenarios = 0;
+		int nRows = 0, rowIndex = 1;
 		
 		for (Element e : feature.getElements()) {
 			switch (e.getType()) {
@@ -31,19 +34,18 @@ public class FeatureReport {
 					rowIndex = 1;
 					break;
 				default:
-					elements.add(new ElementReport(e));
+					ElementReport er = new ElementReport(e);
+					er.setBackground(bg);
+					elements.add(er);
 					if(rowIndex <= nRows){
 						elements.get(elements.size() - 1).setScenarioOutline(so, rowIndex);
 						rowIndex++;
 					}
 			}
-			totalScenarios += 1;
+			
 		}
 		
-		if(bg != null)
-			elements.get(elements.size() - 1).setBackground(bg);
-		
-		int passingScenarios = 0;
+		int passingScenarios = 0, totalScenarios = 0;
 		double totalDuration = 0D;
 		Result r;
 		for(ElementReport e : elements){
@@ -52,11 +54,19 @@ public class FeatureReport {
 				passingScenarios += 1;
 			}
 			totalDuration += r.getDuration();
+			totalScenarios += 1;
 		}
 		summary = new SummaryReport();
 		summary.setPassingScenarios(passingScenarios);
-		summary.setTotalDuration(totalDuration);
+		summary.setTotalDuration(totalDuration / 1000000);
 		summary.setTotalScenarios(totalScenarios);
+		
+		line = feature.getLine();
+		description = feature.getDescription();
+		name = feature.getName();
+		id = feature.getId();
+		keyword = feature.getKeyword();
+		uri = feature.getUri();
 	}
 
 	@JsonView(Views.Public.class)
@@ -83,9 +93,11 @@ public class FeatureReport {
     @JsonView(Views.Public.class)
     private SummaryReport summary;
     
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private String profile;
     
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<String> profiles;
 }

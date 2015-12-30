@@ -15,20 +15,27 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonPropertyOrder({ "duration", "error_message", "status" })
 public class Result {
 
     @JsonView(Views.Public.class)
     private Status status;
 
+    @JsonInclude(Include.NON_NULL)
     @JsonView(Views.Public.class)
     @JsonProperty("error_message")
     private String errorMessage;
 
+    @JsonInclude(Include.NON_NULL)
 	@JsonView(Views.Public.class)
     private String id;
+	
     @JsonView(Views.Public.class)
     private Long duration;
 
@@ -57,6 +64,7 @@ public class Result {
     }
     
     public void increaseDuration(long increment){
-    	this.duration += increment;
+    	if(this.duration != null)
+    		this.duration += increment;
     }
 }

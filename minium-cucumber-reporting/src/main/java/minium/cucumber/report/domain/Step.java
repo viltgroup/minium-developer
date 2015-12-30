@@ -17,9 +17,15 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
+@JsonPropertyOrder({ "result", "embeddings", "line", "name", "match", "rows", "keyword" })
+@JsonInclude(Include.NON_NULL)
 public class Step {
 
     @JsonView(Views.Public.class)
@@ -29,20 +35,23 @@ public class Step {
     private String keyword;
 
     @JsonView(Views.Public.class)
-    private String line;
+    private Integer line;
 
     @JsonView(Views.Public.class)
     private Result result;
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<Row> rows = Lists.newArrayList();
 
     @JsonView(Views.Public.class)
     private Match match;
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<Embedding> embeddings = Lists.newArrayList();
 
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<String> output = Lists.newArrayList();
 
@@ -79,10 +88,12 @@ public class Step {
         return embeddings;
     }
 
+    @JsonIgnore
     public Status getStatus() {
         return result == null ? Status.MISSING : result.getStatus();
     }
 
+    @JsonIgnore
     public Long getDuration() {
         if (result == null) {
             return 1L;
@@ -115,11 +126,11 @@ public class Step {
         this.errorMessage = errorMessage;
     }
 
-    public String getLine() {
+    public Integer getLine() {
         return line;
     }
 
-    public void setLine(String line) {
+    public void setLine(Integer line) {
         this.line = line;
     }
 

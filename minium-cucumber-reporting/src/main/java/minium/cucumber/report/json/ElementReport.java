@@ -3,8 +3,10 @@ package minium.cucumber.report.json;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -15,6 +17,7 @@ import minium.cucumber.report.domain.Status;
 import minium.cucumber.report.domain.Step;
 import minium.cucumber.report.domain.Views;
 
+@JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({ "line", "name", "description", "id", "after", "type", "keyword", "steps", "background", "scenarioOutline", "rowIndex", "result", "profile", "profilesResults"})
 public class ElementReport {
 	
@@ -66,6 +69,7 @@ public class ElementReport {
 			this.result.increaseDuration(s.getDuration());
 			if(status == Status.PASSED && s.getResult().getStatus() != Status.PASSED){
 				status = s.getResult().getStatus();
+				this.result.setDuration(null);
 			}
 		}
 		for(After a : e.getAfter()){
@@ -73,7 +77,7 @@ public class ElementReport {
 		}
 		this.result.setStatus(status);
 		
-		this.line = Integer.parseInt(e.getSteps().get(0).getLine()) - 1;
+		this.line = e.getSteps().get(0).getLine() - 1;
 		this.name = e.getName();
 		this.description = e.getDescription();
 		this.id = e.getId();
@@ -168,11 +172,14 @@ public class ElementReport {
 	}
 
 	public void setBackground(BackgroundReport background) {
+		if(background == null)
+			return;
+		
 		this.background = background;
 		for(Step s : background.getSteps()){
 			this.result.increaseDuration(s.getDuration());
 		}
-		if(result.getStatus() == Status.PASSED && background.getStatus() != Status.PASSED){
+		if(background.getStatus() != Status.PASSED){
 			result.setStatus(background.getStatus());
 		}
 	}
@@ -185,6 +192,7 @@ public class ElementReport {
 		this.result = result;
 	}
 
+	@JsonInclude(Include.NON_EMPTY)
 	public Map<String, Result> getProfilesResults() {
 		return profilesResults;
 	}

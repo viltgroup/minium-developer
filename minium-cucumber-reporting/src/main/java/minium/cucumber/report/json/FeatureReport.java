@@ -18,6 +18,37 @@ import minium.cucumber.report.domain.Views;
 @JsonPropertyOrder({ "line", "elements", "name", "description", "id", "keyword", "uri", "summary", "profile", "profiles" })
 public class FeatureReport {
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((line == null) ? 0 : line.hashCode());
+		result = prime * result + ((uri == null) ? 0 : uri.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FeatureReport other = (FeatureReport) obj;
+		if (line == null) {
+			if (other.line != null)
+				return false;
+		} else if (!line.equals(other.line))
+			return false;
+		if (uri == null) {
+			if (other.uri != null)
+				return false;
+		} else if (!uri.equals(other.uri))
+			return false;
+		return true;
+	}
+
 	public FeatureReport(Feature feature) {
 		BackgroundReport bg = null;
 		Element so = null;
@@ -80,7 +111,11 @@ public class FeatureReport {
     @JsonView(Views.Full.class)
     private List<ElementReport> elements = Lists.newArrayList();
     
-    @JsonView(Views.Public.class)
+    public List<ElementReport> getElements() {
+		return elements;
+	}
+
+	@JsonView(Views.Public.class)
     private String name;
     
     @JsonView(Views.Public.class)
@@ -102,7 +137,18 @@ public class FeatureReport {
     @JsonView(Views.Public.class)
     private String profile;
     
-    @JsonInclude(Include.NON_EMPTY)
+    public void setProfile(String profile) {
+		this.profile = profile;
+	}
+
+	@JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
-    private List<String> profiles;
+    private List<String> profiles = Lists.newArrayList();
+
+	public void combineFeature(String profile, FeatureReport feature) {
+		profiles.add(profile);
+		for(ElementReport element : elements){
+			element.addProfileResult(profile, feature.getElements().get(feature.getElements().indexOf(element)));
+		}
+	}
 }

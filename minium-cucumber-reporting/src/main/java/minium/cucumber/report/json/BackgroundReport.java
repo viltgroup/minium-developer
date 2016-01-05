@@ -26,6 +26,10 @@ public class BackgroundReport {
 		this.keyword = "Background";
 		this.steps = e.getSteps();
 	}
+	
+	public BackgroundReport(){
+		
+	}
 
 	@JsonView(Views.Public.class)
     private Integer line;

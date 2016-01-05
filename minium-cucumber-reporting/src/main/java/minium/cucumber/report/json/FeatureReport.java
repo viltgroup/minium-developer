@@ -53,7 +53,8 @@ public class FeatureReport {
 			if(r.getStatus() == Status.PASSED){
 				passingScenarios += 1;
 			}
-			totalDuration += r.getDuration();
+			if(r.getDuration() != null)
+				totalDuration += r.getDuration();
 			totalScenarios += 1;
 		}
 		summary = new SummaryReport();
@@ -67,6 +68,10 @@ public class FeatureReport {
 		id = feature.getId();
 		keyword = feature.getKeyword();
 		uri = feature.getUri();
+	}
+	
+	public FeatureReport(){
+		
 	}
 
 	@JsonView(Views.Public.class)

@@ -11,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import minium.cucumber.report.domain.After;
+import minium.cucumber.report.domain.Comment;
 import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Result;
 import minium.cucumber.report.domain.Status;
@@ -18,8 +19,12 @@ import minium.cucumber.report.domain.Step;
 import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "line", "name", "description", "id", "after", "type", "keyword", "steps", "background", "scenarioOutline", "rowIndex", "result", "profile", "profilesResults"})
+@JsonPropertyOrder({ "comments", "line", "name", "description", "id", "after", "type", "keyword", "steps", "background", "scenarioOutline", "rowIndex", "result", "profile", "profilesResults"})
 public class ElementReport {
+	
+	@JsonInclude(Include.NON_EMPTY)
+    @JsonView(Views.Public.class)
+    private List<Comment> comments = Lists.newArrayList();
 	
 	@JsonView(Views.Public.class)
     private Integer line;
@@ -69,7 +74,6 @@ public class ElementReport {
 			this.result.increaseDuration(s.getDuration());
 			if(status == Status.PASSED && s.getResult().getStatus() != Status.PASSED){
 				status = s.getResult().getStatus();
-				this.result.setDuration(null);
 			}
 		}
 		for(After a : e.getAfter()){
@@ -77,13 +81,18 @@ public class ElementReport {
 		}
 		this.result.setStatus(status);
 		
-		this.line = e.getSteps().get(0).getLine() - 1;
+		this.comments = e.getComments();
+		this.line = e.getLine();
 		this.name = e.getName();
 		this.description = e.getDescription();
 		this.id = e.getId();
 		this.after = e.getAfter();
 		this.type = e.getType();
 		this.keyword = e.getKeyword();
+	}
+	
+	public ElementReport(){
+		
 	}
 	
     public Element getScenarioOutline() {

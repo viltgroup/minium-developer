@@ -36,6 +36,7 @@ public class Result {
 	@JsonView(Views.Public.class)
     private String id;
 	
+    @JsonInclude(Include.NON_NULL)
     @JsonView(Views.Public.class)
     private Long duration;
 
@@ -52,6 +53,9 @@ public class Result {
 	}
 
     public Long getDuration() {
+    	if(status == Status.SKIPPED || status == Status.UNDEFINED)
+    		return null;
+    	
         return duration == null ? 0L : duration;
     }
     
@@ -63,8 +67,8 @@ public class Result {
         return errorMessage;
     }
     
-    public void increaseDuration(long increment){
-    	if(this.duration != null)
+    public void increaseDuration(Long increment){
+    	if(this.duration != null && increment != null)
     		this.duration += increment;
     }
 }

@@ -15,6 +15,10 @@ public class SummaryReport {
 	@JsonView(Views.Public.class)
 	private Double totalDuration;
 
+	public SummaryReport(){
+		
+	}
+	
 	public Integer getTotalScenarios() {
 		return totalScenarios;
 	}

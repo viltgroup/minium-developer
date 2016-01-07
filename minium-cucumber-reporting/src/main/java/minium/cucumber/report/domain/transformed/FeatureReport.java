@@ -1,4 +1,4 @@
-package minium.cucumber.report.json;
+package minium.cucumber.report.domain.transformed;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
+import minium.cucumber.report.domain.Comment;
 import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Feature;
 import minium.cucumber.report.domain.Result;
@@ -16,6 +17,7 @@ import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({
+		"comments",
 		"line",
 		"elements",
 		"name",
@@ -23,11 +25,13 @@ import minium.cucumber.report.domain.Views;
 		"id",
 		"keyword",
 		"uri",
-		"summary",
-		"profile",
-		"profiles" })
+		"summary" })
 public class FeatureReport {
 
+	@JsonInclude(Include.NON_EMPTY)
+    @JsonView(Views.Public.class)
+    private List<Comment> comments = Lists.newArrayList();
+	
 	@JsonView(Views.Public.class)
 	private Integer line;
 
@@ -51,14 +55,6 @@ public class FeatureReport {
 
 	@JsonView(Views.Public.class)
 	private SummaryReport summary;
-
-	@JsonInclude(Include.NON_EMPTY)
-	@JsonView(Views.Public.class)
-	private String profile;
-	
-	@JsonInclude(Include.NON_EMPTY)
-	@JsonView(Views.Public.class)
-	private List<String> profiles = Lists.newArrayList();
 	
 	public FeatureReport() {
 	}
@@ -107,6 +103,7 @@ public class FeatureReport {
 		summary.setTotalDuration(totalDuration / 1000000);
 		summary.setTotalScenarios(totalScenarios);
 
+		comments = feature.getComments();
 		line = feature.getLine();
 		description = feature.getDescription();
 		name = feature.getName();
@@ -151,7 +148,6 @@ public class FeatureReport {
 	}
 
 	public void combineFeature(String profile, FeatureReport feature) {
-		profiles.add(profile);
 		for (ElementReport element : elements) {
 			element.addProfileResult(profile, feature.getElements().get(feature.getElements().indexOf(element)));
 		}

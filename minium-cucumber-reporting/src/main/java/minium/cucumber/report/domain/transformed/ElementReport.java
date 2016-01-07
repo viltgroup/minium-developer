@@ -1,17 +1,16 @@
-package minium.cucumber.report.json;
+package minium.cucumber.report.domain.transformed;
 
 import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import minium.cucumber.report.domain.After;
-import minium.cucumber.report.domain.Comment;
 import minium.cucumber.report.domain.Element;
 import minium.cucumber.report.domain.Result;
 import minium.cucumber.report.domain.Status;
@@ -20,7 +19,6 @@ import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({
-	"comments",
 	"line",
 	"name",
 	"description",
@@ -36,10 +34,6 @@ import minium.cucumber.report.domain.Views;
 	"profile",
 	"profilesResults" })
 public class ElementReport {
-	
-	@JsonInclude(Include.NON_EMPTY)
-    @JsonView(Views.Public.class)
-    private List<Comment> comments = Lists.newArrayList();
 	
 	@JsonView(Views.Public.class)
     private Integer line;
@@ -102,7 +96,6 @@ public class ElementReport {
 		}
 		this.result.setStatus(status);
 		
-		this.comments = e.getComments();
 		this.line = e.getLine();
 		this.name = e.getName();
 		this.description = e.getDescription();
@@ -166,5 +159,6 @@ public class ElementReport {
 
 	public void addProfileResult(String profile, ElementReport element) {
 		profilesResults.put(profile, element.getResult());
+		result = null;
 	}
 }

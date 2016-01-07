@@ -1,4 +1,4 @@
-package minium.cucumber.report.json;
+package minium.cucumber.report.domain.transformed;
 
 import java.util.List;
 

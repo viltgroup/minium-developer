@@ -18,11 +18,17 @@ package minium.cucumber.report.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
 public class Feature {
 
+	@JsonInclude(Include.NON_EMPTY)
+    @JsonView(Views.Public.class)
+    private List<Comment> comments = Lists.newArrayList();
+	
     @JsonView(Views.Public.class)
     private String id;
 
@@ -98,6 +104,10 @@ public class Feature {
     public String getName() {
         return name;
     }
+    
+    public List<Comment> getComments() {
+		return comments;
+	}
 
     public String getDescription() {
         return description;

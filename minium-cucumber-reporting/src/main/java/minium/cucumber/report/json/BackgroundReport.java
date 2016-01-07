@@ -15,21 +15,14 @@ import minium.cucumber.report.domain.Step;
 import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({"line", "name", "description", "type", "keyword", "steps"})
+@JsonPropertyOrder({
+	"line",
+	"name",
+	"description",
+	"type",
+	"keyword",
+	"steps"})
 public class BackgroundReport {
-
-	public BackgroundReport(Element e) {
-		this.line = e.getSteps().get(0).getLine() - 1;
-		this.name = e.getName();
-		this.description = e.getDescription();
-		this.type = "background";
-		this.keyword = "Background";
-		this.steps = e.getSteps();
-	}
-	
-	public BackgroundReport(){
-		
-	}
 
 	@JsonView(Views.Public.class)
     private Integer line;
@@ -48,24 +41,31 @@ public class BackgroundReport {
     
     @JsonView(Views.Public.class)
     private List<Step> steps = Lists.newArrayList();
+    
+    public BackgroundReport(){
+	}
+
+	public BackgroundReport(Element e) {
+		this.line = e.getSteps().get(0).getLine() - 1;
+		this.name = e.getName();
+		this.description = e.getDescription();
+		this.type = "background";
+		this.keyword = "Background";
+		this.steps = e.getSteps();
+	}
 
 	public List<Step> getSteps() {
 		return steps;
-	}
-
-	public void setSteps(List<Step> steps) {
-		this.steps = steps;
 	}
 	
 	@JsonIgnore
     public Status getStatus() {
         for (Step step : steps) {
             if (step.getStatus() != Status.PASSED) {
-                Status status = step.getStatus();
-                return status;
+            	return step.getStatus();
             }
         }
         return Status.PASSED;
     }
-    
+	
 }

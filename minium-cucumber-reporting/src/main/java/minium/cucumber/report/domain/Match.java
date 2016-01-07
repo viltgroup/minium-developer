@@ -23,28 +23,29 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.google.common.collect.Lists;
 
-@JsonPropertyOrder({ "arguments", "location" })
+@JsonPropertyOrder({
+	"arguments",
+	"location" })
 @JsonInclude(Include.NON_EMPTY) 
 public class Match {
 	
 	static class Argument{
-		public Argument(){
-			
-		}
-		
 		@JsonView(Views.Public.class)
         private String val;
     	
     	@JsonView(Views.Public.class)
         private Integer offset;
+    	
+		public Argument(){
+		}
 	}
+	
+	@JsonView(Views.Public.class)
+    private List<Argument> arguments = Lists.newArrayList();
 
     @JsonView(Views.Public.class)
     private String location;
     
-    @JsonView(Views.Public.class)
-    private List<Argument> arguments = Lists.newArrayList();
-
     public Match() {
     }
 

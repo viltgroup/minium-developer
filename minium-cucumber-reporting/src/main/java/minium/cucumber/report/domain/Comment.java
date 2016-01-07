@@ -15,17 +15,15 @@
  */
 package minium.cucumber.report.domain;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 
-@JsonPropertyOrder({ "line", "value" })
 public class Comment {
 	
 	@JsonView(Views.Public.class)
-    private String value;
-
-    @JsonView(Views.Public.class)
     private Integer line;
+	
+	@JsonView(Views.Public.class)
+    private String value;
 
     public Comment() {
     }
@@ -35,20 +33,12 @@ public class Comment {
         this.line = line;
     }
 
-    public String getValue() {
-        return value;
-    }
-
     public Integer getLine() {
         return line;
     }
     
-    public void setValue(String value) {
-		this.value = value;
-	}
-
-	public void setLine(Integer line) {
-		this.line = line;
-	}
+    public String getValue() {
+        return value;
+    }
 
 }

@@ -56,12 +56,5 @@ public class Row {
         this.line = line;
     }
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 }
 

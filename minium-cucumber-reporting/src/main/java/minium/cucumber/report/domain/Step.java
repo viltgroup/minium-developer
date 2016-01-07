@@ -24,7 +24,15 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
-@JsonPropertyOrder({ "result", "embeddings", "line", "name", "match", "matchedColumns", "rows", "keyword" })
+@JsonPropertyOrder({
+	"result",
+	"embeddings",
+	"line",
+	"name",
+	"match",
+	"matchedColumns",
+	"rows",
+	"keyword" })
 @JsonInclude(Include.NON_NULL)
 public class Step {
 

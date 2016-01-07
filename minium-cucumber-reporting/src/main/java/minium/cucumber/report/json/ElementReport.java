@@ -19,34 +19,24 @@ import minium.cucumber.report.domain.Step;
 import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "comments", "line", "name", "description", "id", "after", "type", "keyword", "steps", "background", "scenarioOutline", "rowIndex", "result", "profile", "profilesResults"})
+@JsonPropertyOrder({
+	"comments",
+	"line",
+	"name",
+	"description",
+	"id",
+	"after",
+	"type",
+	"keyword",
+	"steps",
+	"background",
+	"scenarioOutline",
+	"rowIndex",
+	"result",
+	"profile",
+	"profilesResults" })
 public class ElementReport {
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((line == null) ? 0 : line.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ElementReport other = (ElementReport) obj;
-		if (line == null) {
-			if (other.line != null)
-				return false;
-		} else if (!line.equals(other.line))
-			return false;
-		return true;
-	}
-
 	@JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<Comment> comments = Lists.newArrayList();
@@ -90,14 +80,13 @@ public class ElementReport {
     @JsonView(Views.Public.class)
     private String profile;
     
-    public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
-	@JsonView(Views.Public.class)
+    @JsonView(Views.Public.class)
     private Map<String, Result> profilesResults = Maps.newHashMap();
     
-	public ElementReport(Element e) {
+    public ElementReport(){
+	}
+    
+    public ElementReport(Element e) {
 		this.steps = e.getSteps();
 		
 		this.result = new Result();
@@ -122,96 +111,41 @@ public class ElementReport {
 		this.type = e.getType();
 		this.keyword = e.getKeyword();
 	}
+    
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((line == null) ? 0 : line.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ElementReport other = (ElementReport) obj;
+		if (line == null) {
+			if (other.line != null)
+				return false;
+		} else if (!line.equals(other.line))
+			return false;
+		return true;
+	}
 	
-	public ElementReport(){
-		
+	@JsonInclude(Include.NON_EMPTY)
+	public Map<String, Result> getProfilesResults() {
+		return profilesResults;
 	}
 	
-    public Element getScenarioOutline() {
-		return scenarioOutline;
+	public Result getResult() {
+		return result;
 	}
-
-	public void setScenarioOutline(Element scenarioOutline, int rowIndex) {
-		this.scenarioOutline = scenarioOutline;
-		this.rowIndex = rowIndex;
-	}
-
-	public Integer getRowIndex() {
-		return rowIndex;
-	}
-
-	public void setRowIndex(Integer rowIndex) {
-		this.rowIndex = rowIndex;
-	}
-
-	public Integer getLine() {
-		return line;
-	}
-
-	public void setLine(Integer line) {
-		this.line = line;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public List<After> getAfter() {
-		return after;
-	}
-
-	public void setAfter(List<After> after) {
-		this.after = after;
-	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public String getKeyword() {
-		return keyword;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
-
-	public List<Step> getSteps() {
-		return steps;
-	}
-
-	public void setSteps(List<Step> steps) {
-		this.steps = steps;
-	}
-
-	public BackgroundReport getBackground() {
-		return background;
-	}
-
+	
 	public void setBackground(BackgroundReport background) {
 		if(background == null)
 			return;
@@ -224,22 +158,10 @@ public class ElementReport {
 			result.setStatus(background.getStatus());
 		}
 	}
-
-	public Result getResult() {
-		return result;
-	}
-
-	public void setResult(Result result) {
-		this.result = result;
-	}
-
-	@JsonInclude(Include.NON_EMPTY)
-	public Map<String, Result> getProfilesResults() {
-		return profilesResults;
-	}
-
-	public void setProfilesResults(Map<String, Result> profilesResults) {
-		this.profilesResults = profilesResults;
+	
+	public void setScenarioOutline(Element scenarioOutline, int rowIndex) {
+		this.scenarioOutline = scenarioOutline;
+		this.rowIndex = rowIndex;
 	}
 
 	public void addProfileResult(String profile, ElementReport element) {

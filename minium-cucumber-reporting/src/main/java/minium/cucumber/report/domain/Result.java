@@ -21,7 +21,10 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-@JsonPropertyOrder({ "duration", "error_message", "status" })
+@JsonPropertyOrder({
+	"duration",
+	"error_message",
+	"status" })
 public class Result {
 
     @JsonView(Views.Public.class)
@@ -44,28 +47,28 @@ public class Result {
 		this.duration = new Long(0L);
     }
 
-    public Status getStatus() {
-        return status;
-    }
-    
-    public void setStatus(Status status) {
-		this.status = status;
-	}
-
-    public Long getDuration() {
+	public Long getDuration() {
     	if(status == Status.SKIPPED || status == Status.UNDEFINED)
     		return null;
     	
         return duration == null ? 0L : duration;
     }
+	
+	public String getErrorMessage() {
+        return errorMessage;
+    }
+	
+    public Status getStatus() {
+        return status;
+    }
     
     public void setDuration(Long duration) {
 		this.duration = duration;
 	}
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
+    
+    public void setStatus(Status status) {
+		this.status = status;
+	}
     
     public void increaseDuration(Long increment){
     	if(this.duration != null && increment != null)

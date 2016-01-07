@@ -15,8 +15,109 @@ import minium.cucumber.report.domain.Status;
 import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
-@JsonPropertyOrder({ "line", "elements", "name", "description", "id", "keyword", "uri", "summary", "profile", "profiles" })
+@JsonPropertyOrder({
+		"line",
+		"elements",
+		"name",
+		"description",
+		"id",
+		"keyword",
+		"uri",
+		"summary",
+		"profile",
+		"profiles" })
 public class FeatureReport {
+
+	@JsonView(Views.Public.class)
+	private Integer line;
+
+	@JsonView(Views.Full.class)
+	private List<ElementReport> elements = Lists.newArrayList();
+	
+	@JsonView(Views.Public.class)
+	private String name;
+
+	@JsonView(Views.Public.class)
+	private String description;
+
+	@JsonView(Views.Public.class)
+	private String id;
+
+	@JsonView(Views.Public.class)
+	private String keyword;
+
+	@JsonView(Views.Public.class)
+	private String uri;
+
+	@JsonView(Views.Public.class)
+	private SummaryReport summary;
+
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonView(Views.Public.class)
+	private String profile;
+	
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonView(Views.Public.class)
+	private List<String> profiles = Lists.newArrayList();
+	
+	public FeatureReport() {
+	}
+
+	public FeatureReport(Feature feature) {
+		BackgroundReport bg = null;
+		Element so = null;
+		int nRows = 0, rowIndex = 1;
+
+		for (Element e : feature.getElements()) {
+			switch (e.getType()) {
+			case "background":
+				bg = new BackgroundReport(e);
+				break;
+			case "scenario_outline":
+				so = e;
+				nRows = e.getExamples().get(0).getRows().size();
+				rowIndex = 1;
+				break;
+			default:
+				ElementReport er = new ElementReport(e);
+				er.setBackground(bg);
+				elements.add(er);
+				if (rowIndex <= nRows) {
+					elements.get(elements.size() - 1).setScenarioOutline(so, rowIndex);
+					rowIndex++;
+				}
+			}
+
+		}
+
+		int passingScenarios = 0, totalScenarios = 0;
+		double totalDuration = 0D;
+		Result r;
+		for (ElementReport e : elements) {
+			r = e.getResult();
+			if (r.getStatus() == Status.PASSED) {
+				passingScenarios += 1;
+			}
+			if (r.getDuration() != null)
+				totalDuration += r.getDuration();
+			totalScenarios += 1;
+		}
+		summary = new SummaryReport();
+		summary.setPassingScenarios(passingScenarios);
+		summary.setTotalDuration(totalDuration / 1000000);
+		summary.setTotalScenarios(totalScenarios);
+
+		line = feature.getLine();
+		description = feature.getDescription();
+		name = feature.getName();
+		id = feature.getId();
+		keyword = feature.getKeyword();
+		uri = feature.getUri();
+	}
+
+	public List<ElementReport> getElements() {
+		return elements;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -49,105 +150,9 @@ public class FeatureReport {
 		return true;
 	}
 
-	public FeatureReport(Feature feature) {
-		BackgroundReport bg = null;
-		Element so = null;
-		int nRows = 0, rowIndex = 1;
-		
-		for (Element e : feature.getElements()) {
-			switch (e.getType()) {
-				case "background":
-					bg = new BackgroundReport(e);
-					break;
-				case "scenario_outline":
-					so = e;
-					nRows = e.getExamples().get(0).getRows().size();
-					rowIndex = 1;
-					break;
-				default:
-					ElementReport er = new ElementReport(e);
-					er.setBackground(bg);
-					elements.add(er);
-					if(rowIndex <= nRows){
-						elements.get(elements.size() - 1).setScenarioOutline(so, rowIndex);
-						rowIndex++;
-					}
-			}
-			
-		}
-		
-		int passingScenarios = 0, totalScenarios = 0;
-		double totalDuration = 0D;
-		Result r;
-		for(ElementReport e : elements){
-			r = e.getResult();
-			if(r.getStatus() == Status.PASSED){
-				passingScenarios += 1;
-			}
-			if(r.getDuration() != null)
-				totalDuration += r.getDuration();
-			totalScenarios += 1;
-		}
-		summary = new SummaryReport();
-		summary.setPassingScenarios(passingScenarios);
-		summary.setTotalDuration(totalDuration / 1000000);
-		summary.setTotalScenarios(totalScenarios);
-		
-		line = feature.getLine();
-		description = feature.getDescription();
-		name = feature.getName();
-		id = feature.getId();
-		keyword = feature.getKeyword();
-		uri = feature.getUri();
-	}
-	
-	public FeatureReport(){
-		
-	}
-
-	@JsonView(Views.Public.class)
-    private Integer line;
-    
-    @JsonView(Views.Full.class)
-    private List<ElementReport> elements = Lists.newArrayList();
-    
-    public List<ElementReport> getElements() {
-		return elements;
-	}
-
-	@JsonView(Views.Public.class)
-    private String name;
-    
-    @JsonView(Views.Public.class)
-    private String description;
-    
-    @JsonView(Views.Public.class)
-    private String id;
-    
-    @JsonView(Views.Public.class)
-    private String keyword;
-    
-    @JsonView(Views.Public.class)
-    private String uri;
-    
-    @JsonView(Views.Public.class)
-    private SummaryReport summary;
-    
-    @JsonInclude(Include.NON_EMPTY)
-    @JsonView(Views.Public.class)
-    private String profile;
-    
-    public void setProfile(String profile) {
-		this.profile = profile;
-	}
-
-	@JsonInclude(Include.NON_EMPTY)
-    @JsonView(Views.Public.class)
-    private List<String> profiles = Lists.newArrayList();
-
 	public void combineFeature(String profile, FeatureReport feature) {
 		profiles.add(profile);
-		for(ElementReport element : elements){
+		for (ElementReport element : elements) {
 			element.addProfileResult(profile, feature.getElements().get(feature.getElements().indexOf(element)));
 		}
 	}

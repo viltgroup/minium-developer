@@ -16,30 +16,18 @@ public class SummaryReport {
 	private Double totalDuration;
 
 	public SummaryReport(){
-		
-	}
-	
-	public Integer getTotalScenarios() {
-		return totalScenarios;
-	}
-
-	public void setTotalScenarios(Integer totalScenarios) {
-		this.totalScenarios = totalScenarios;
-	}
-
-	public Integer getPassingScenarios() {
-		return passingScenarios;
 	}
 
 	public void setPassingScenarios(Integer passingScenarios) {
 		this.passingScenarios = passingScenarios;
 	}
-
-	public Double getTotalDuration() {
-		return totalDuration;
-	}
-
+	
 	public void setTotalDuration(Double totalDuration) {
 		this.totalDuration = totalDuration;
 	}
+	
+	public void setTotalScenarios(Integer totalScenarios) {
+		this.totalScenarios = totalScenarios;
+	}
+
 }

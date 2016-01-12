@@ -1,4 +1,4 @@
-package minium.cucumber.report.domain.transformed;
+package minium.cucumber.report;
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ import minium.cucumber.report.domain.Views;
 	"line",
 	"name",
 	"description",
-	"type",
 	"keyword",
 	"steps"})
 public class BackgroundReport {
@@ -34,9 +33,6 @@ public class BackgroundReport {
     private String description;
     
     @JsonView(Views.Public.class)
-    private String type;
-    
-    @JsonView(Views.Public.class)
     private String keyword;
     
     @JsonView(Views.Public.class)
@@ -49,7 +45,6 @@ public class BackgroundReport {
 		this.line = e.getSteps().get(0).getLine() - 1;
 		this.name = e.getName();
 		this.description = e.getDescription();
-		this.type = "background";
 		this.keyword = "Background";
 		this.steps = e.getSteps();
 	}

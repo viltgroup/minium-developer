@@ -16,6 +16,7 @@
 package minium.cucumber.report.domain;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -23,9 +24,11 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @JsonPropertyOrder({
 	"result",
+	"results",
 	"embeddings",
 	"line",
 	"name",
@@ -47,6 +50,10 @@ public class Step {
 
     @JsonView(Views.Public.class)
     private Result result;
+    
+    @JsonInclude(Include.NON_EMPTY)
+    @JsonView(Views.Public.class)
+    private Map<String, Result> results = Maps.newHashMap();
 
     @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
@@ -145,5 +152,12 @@ public class Step {
     public void setLine(Integer line) {
         this.line = line;
     }
+
+	public void addResult(String profile, Step step) {
+		results.put(profile, step.getResult());
+		if(result != null){
+			result = null;
+		}	
+	}
 
 }

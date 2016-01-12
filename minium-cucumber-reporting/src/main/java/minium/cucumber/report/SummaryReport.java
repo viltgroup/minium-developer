@@ -1,4 +1,4 @@
-package minium.cucumber.report.domain.transformed;
+package minium.cucumber.report;
 
 import com.fasterxml.jackson.annotation.JsonView;
 

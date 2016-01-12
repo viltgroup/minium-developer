@@ -1,4 +1,4 @@
-package minium.cucumber.report.domain.transformed;
+package minium.cucumber.report;
 
 import java.util.List;
 
@@ -60,14 +60,15 @@ public class FeatureReport {
 	}
 
 	public FeatureReport(Feature feature) {
-		BackgroundReport bg = null;
+		ElementReport background = null;
 		Element so = null;
 		int nRows = 0, rowIndex = 1;
 
 		for (Element e : feature.getElements()) {
 			switch (e.getType()) {
 			case "background":
-				bg = new BackgroundReport(e);
+				background = new ElementReport(e);
+				background.setType(null);
 				break;
 			case "scenario_outline":
 				so = e;
@@ -76,7 +77,7 @@ public class FeatureReport {
 				break;
 			default:
 				ElementReport er = new ElementReport(e);
-				er.setBackground(bg);
+				er.setBackground(background);
 				elements.add(er);
 				if (rowIndex <= nRows) {
 					elements.get(elements.size() - 1).setScenarioOutline(so, rowIndex);
@@ -149,7 +150,11 @@ public class FeatureReport {
 
 	public void combineFeature(String profile, FeatureReport feature) {
 		for (ElementReport element : elements) {
-			element.addProfileResult(profile, feature.getElements().get(feature.getElements().indexOf(element)));
+			ElementReport bg = element.getBackground();
+			if(element.getBackground() != null){
+				bg.addProfileResults(profile, feature.getElements().get(feature.getElements().indexOf(element)).getBackground());
+			}
+			element.addProfileResults(profile, feature.getElements().get(feature.getElements().indexOf(element)));
 		}
 	}
 }

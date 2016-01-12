@@ -24,7 +24,17 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
-@JsonPropertyOrder({ "comments", "examples", "line", "name", "description", "id", "after", "type", "keyword", "steps" })
+@JsonPropertyOrder({
+	"comments",
+	"examples",
+	"line",
+	"name",
+	"description",
+	"id",
+	"after",
+	"type",
+	"keyword",
+	"steps" })
 public class Element {
 
     public static class Example {

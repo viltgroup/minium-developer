@@ -1,8 +1,9 @@
-package minium.cucumber.report.domain.transformed;
+package minium.cucumber.report;
 
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -47,6 +48,7 @@ public class ElementReport {
     @JsonView(Views.Public.class)
     private String id;
     
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<After> after = Lists.newArrayList();
     
@@ -58,9 +60,9 @@ public class ElementReport {
     
     @JsonView(Views.Public.class)
     private List<Step> steps = Lists.newArrayList();
-    
-    @JsonView(Views.Public.class)
-    private BackgroundReport background;
+
+	@JsonView(Views.Public.class)
+    private ElementReport background;
     
     @JsonView(Views.Public.class)
     private Element scenarioOutline;
@@ -130,6 +132,14 @@ public class ElementReport {
 		return true;
 	}
 	
+	private List<After> getAfter() {
+		return after;
+	}
+	
+	public ElementReport getBackground() {
+		return background;
+	}
+	
 	@JsonInclude(Include.NON_EMPTY)
 	public Map<String, Result> getProfilesResults() {
 		return profilesResults;
@@ -139,7 +149,21 @@ public class ElementReport {
 		return result;
 	}
 	
-	public void setBackground(BackgroundReport background) {
+	@JsonIgnore
+    public Status getStatus() {
+        for (Step step : steps) {
+            if (step.getStatus() != Status.PASSED) {
+            	return step.getStatus();
+            }
+        }
+        return Status.PASSED;
+    }
+	
+	public List<Step> getSteps() {
+		return steps;
+	}
+	
+	public void setBackground(ElementReport background) {
 		if(background == null)
 			return;
 		
@@ -156,9 +180,19 @@ public class ElementReport {
 		this.scenarioOutline = scenarioOutline;
 		this.rowIndex = rowIndex;
 	}
+	
+	public void setType(String type) {
+		this.type = type;
+	}
 
-	public void addProfileResult(String profile, ElementReport element) {
+	public void addProfileResults(String profile, ElementReport element) {
+		for (int i = 0; i < steps.size(); i++) {// assuming that the steps are in the same order in both objects
+			steps.get(i).addResult(profile, element.getSteps().get(i));
+		}
 		profilesResults.put(profile, element.getResult());
+		for(int i = 0; i < after.size(); i++){// assuming that the steps are in the same order in both objects
+			after.get(i).addResult(profile, element.getAfter().get(i));
+		}
 		result = null;
 	}
 }

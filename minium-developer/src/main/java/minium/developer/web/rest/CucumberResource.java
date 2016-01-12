@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import minium.cucumber.config.CucumberProperties.SnippetProperties;
-import minium.cucumber.report.FeatureResult;
+import minium.cucumber.report.results.FeatureResult;
 import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.CucumberProjectContext;
 import minium.developer.project.Workspace;

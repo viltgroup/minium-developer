@@ -37,34 +37,6 @@ import com.google.common.collect.Lists;
 	"steps" })
 public class Element {
 
-    public static class Example {
-    	@JsonView(Views.Public.class)
-        private Integer line;
-    	
-    	@JsonView(Views.Public.class)
-        private String name;
-    	
-    	@JsonView(Views.Public.class)
-        private String description;
-    	
-    	@JsonView(Views.Public.class)
-        private String id;
-    	
-    	@JsonView(Views.Public.class)
-        private List<Row> rows = Lists.newArrayList();
-    	
-    	public List<Row> getRows() {
-			return rows;
-		}
-
-		public void setRows(List<Row> rows) {
-			this.rows = rows;
-		}
-
-		@JsonView(Views.Public.class)
-        private String keyword;
-	}
-    
     @JsonView(Views.Public.class)
     private Integer line;
 

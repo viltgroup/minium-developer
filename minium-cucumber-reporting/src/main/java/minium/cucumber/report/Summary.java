@@ -4,18 +4,18 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import minium.cucumber.report.domain.Views;
 
-public class SummaryReport {
-	
-	@JsonView(Views.Public.class)
-	private Integer totalScenarios;
+public class Summary {
 	
 	@JsonView(Views.Public.class)
 	private Integer passingScenarios;
 	
 	@JsonView(Views.Public.class)
+	private Integer totalScenarios;
+	
+	@JsonView(Views.Public.class)
 	private Double totalDuration;
 
-	public SummaryReport(){
+	public Summary(){
 	}
 
 	public void setPassingScenarios(Integer passingScenarios) {

@@ -27,15 +27,15 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @JsonPropertyOrder({
+	"name",
+	"keyword",
+	"line",
 	"result",
 	"results",
 	"embeddings",
-	"line",
-	"name",
 	"match",
 	"matchedColumns",
-	"rows",
-	"keyword" })
+	"rows" })
 @JsonInclude(Include.NON_NULL)
 public class Step {
 

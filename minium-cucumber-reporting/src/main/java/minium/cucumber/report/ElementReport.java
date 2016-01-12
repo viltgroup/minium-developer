@@ -20,20 +20,17 @@ import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({
-	"line",
+	"id",
 	"name",
 	"description",
-	"id",
-	"after",
 	"type",
 	"keyword",
-	"steps",
-	"background",
-	"scenarioOutline",
+	"line",
 	"rowIndex",
-	"result",
-	"profile",
-	"profilesResults" })
+	"profilesResults",
+	"background",
+	"steps",
+	"after" })
 public class ElementReport {
 	
 	@JsonView(Views.Public.class)
@@ -63,18 +60,12 @@ public class ElementReport {
 
 	@JsonView(Views.Public.class)
     private ElementReport background;
-    
-    @JsonView(Views.Public.class)
-    private Element scenarioOutline;
 
 	@JsonView(Views.Public.class)
     private Integer rowIndex;
     
     @JsonView(Views.Public.class)
     private Result result;
-    
-    @JsonView(Views.Public.class)
-    private String profile;
     
     @JsonView(Views.Public.class)
     private Map<String, Result> profilesResults = Maps.newHashMap();
@@ -176,8 +167,7 @@ public class ElementReport {
 		}
 	}
 	
-	public void setScenarioOutline(Element scenarioOutline, int rowIndex) {
-		this.scenarioOutline = scenarioOutline;
+	public void setRowIndex(int rowIndex) {
 		this.rowIndex = rowIndex;
 	}
 	

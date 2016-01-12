@@ -1,15 +1,18 @@
 package minium.cucumber.report;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import minium.cucumber.report.domain.Comment;
 import minium.cucumber.report.domain.Element;
+import minium.cucumber.report.domain.Example;
 import minium.cucumber.report.domain.Feature;
 import minium.cucumber.report.domain.Result;
 import minium.cucumber.report.domain.Status;
@@ -17,15 +20,16 @@ import minium.cucumber.report.domain.Views;
 
 @JsonInclude(Include.NON_NULL)
 @JsonPropertyOrder({
-		"comments",
-		"line",
-		"elements",
+		"id",
 		"name",
 		"description",
-		"id",
 		"keyword",
+		"line",
 		"uri",
-		"summary" })
+		"summary",
+		"examples",
+		"elements",
+		"comments" })
 public class FeatureReport {
 
 	@JsonInclude(Include.NON_EMPTY)
@@ -54,14 +58,17 @@ public class FeatureReport {
 	private String uri;
 
 	@JsonView(Views.Public.class)
-	private SummaryReport summary;
+	private Summary summary;
+	
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonView(Views.Public.class)
+	private Map<String, List<Example>> examples = Maps.newHashMap();
 	
 	public FeatureReport() {
 	}
 
 	public FeatureReport(Feature feature) {
 		ElementReport background = null;
-		Element so = null;
 		int nRows = 0, rowIndex = 1;
 
 		for (Element e : feature.getElements()) {
@@ -71,7 +78,7 @@ public class FeatureReport {
 				background.setType(null);
 				break;
 			case "scenario_outline":
-				so = e;
+				examples.put(e.getId(), e.getExamples());
 				nRows = e.getExamples().get(0).getRows().size();
 				rowIndex = 1;
 				break;
@@ -80,7 +87,7 @@ public class FeatureReport {
 				er.setBackground(background);
 				elements.add(er);
 				if (rowIndex <= nRows) {
-					elements.get(elements.size() - 1).setScenarioOutline(so, rowIndex);
+					elements.get(elements.size() - 1).setRowIndex(rowIndex);
 					rowIndex++;
 				}
 			}
@@ -99,7 +106,7 @@ public class FeatureReport {
 				totalDuration += r.getDuration();
 			totalScenarios += 1;
 		}
-		summary = new SummaryReport();
+		summary = new Summary();
 		summary.setPassingScenarios(passingScenarios);
 		summary.setTotalDuration(totalDuration / 1000000);
 		summary.setTotalScenarios(totalScenarios);

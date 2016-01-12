@@ -15,11 +15,10 @@
  */
 package minium.cucumber.report.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.hash.Hashing;
 
@@ -33,9 +32,8 @@ public class Embedding {
     @JsonDeserialize(using = JsonBase64Deserializer.class)
     private byte[] data;
 
-    //@JsonView(Views.Public.class)
-    //@JsonProperty("sha1_hash")
-    @JsonIgnore
+    @JsonView(Views.Public.class)
+    @JsonProperty("sha1_hash")
     private String sha1Hash;
 
     public String getMimeType() {

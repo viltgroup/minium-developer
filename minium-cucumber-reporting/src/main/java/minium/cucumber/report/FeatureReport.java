@@ -3,6 +3,7 @@ package minium.cucumber.report;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -26,6 +27,8 @@ import minium.cucumber.report.domain.Views;
 		"keyword",
 		"line",
 		"uri",
+		"status",
+		"profileStatus",
 		"summary",
 		"examples",
 		"elements",
@@ -39,7 +42,7 @@ public class FeatureReport {
 	@JsonView(Views.Public.class)
 	private Integer line;
 
-	@JsonView(Views.Full.class)
+	@JsonView(Views.Public.class)
 	private List<ElementReport> elements = Lists.newArrayList();
 	
 	@JsonView(Views.Public.class)
@@ -63,6 +66,13 @@ public class FeatureReport {
 	@JsonInclude(Include.NON_EMPTY)
 	@JsonView(Views.Public.class)
 	private Map<String, List<Example>> examples = Maps.newHashMap();
+	
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonView(Views.Public.class)
+	private Map<String, Status> profileStatus = Maps.newHashMap();
+	
+	@JsonView(Views.Public.class)
+	private Status status;
 	
 	public FeatureReport() {
 	}
@@ -97,10 +107,14 @@ public class FeatureReport {
 		int passingScenarios = 0, totalScenarios = 0;
 		double totalDuration = 0D;
 		Result r;
+		status = Status.PASSED;
 		for (ElementReport e : elements) {
 			r = e.getResult();
 			if (r.getStatus() == Status.PASSED) {
 				passingScenarios += 1;
+			}
+			else{
+				status = r.getStatus();
 			}
 			if (r.getDuration() != null)
 				totalDuration += r.getDuration();
@@ -123,6 +137,10 @@ public class FeatureReport {
 	public List<ElementReport> getElements() {
 		return elements;
 	}
+	
+	public Status getStatus() {
+        return status;
+    }
 	
 	@Override
 	public int hashCode() {
@@ -163,5 +181,7 @@ public class FeatureReport {
 			}
 			element.addProfileResults(profile, feature.getElements().get(feature.getElements().indexOf(element)));
 		}
+		this.profileStatus.put(profile, feature.getStatus());
+		status = null;
 	}
 }

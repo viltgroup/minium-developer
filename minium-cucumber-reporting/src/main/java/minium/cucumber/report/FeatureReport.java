@@ -114,6 +114,7 @@ public class FeatureReport {
 			}
 			else if (r.getStatus() == Status.FAILED) {
 				failingScenarios++;
+				status = Status.FAILED;
 			}
 			else{
 				status = r.getStatus();

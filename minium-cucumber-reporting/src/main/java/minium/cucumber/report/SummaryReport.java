@@ -4,18 +4,41 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 import minium.cucumber.report.domain.Views;
 
-public class Summary {
+public class SummaryReport {
 	
 	@JsonView(Views.Public.class)
+	private Integer failingScenarios;
+
+	@JsonView(Views.Public.class)
 	private Integer passingScenarios;
-	
+
 	@JsonView(Views.Public.class)
 	private Integer totalScenarios;
 	
 	@JsonView(Views.Public.class)
 	private Double totalDuration;
 
-	public Summary(){
+	public SummaryReport(){
+	}
+	
+	public Integer getFailingScenarios() {
+		return failingScenarios;
+	}
+	
+	public Integer getPassingScenarios() {
+		return passingScenarios;
+	}
+
+	public Integer getTotalScenarios() {
+		return totalScenarios;
+	}
+
+	public Double getTotalDuration() {
+		return totalDuration;
+	}
+	
+	public void setFailingScenarios(int failingScenarios) {
+		this.failingScenarios = failingScenarios;
 	}
 
 	public void setPassingScenarios(Integer passingScenarios) {

@@ -3,11 +3,10 @@ package minium.cucumber.report;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -61,8 +60,8 @@ public class FeatureReport {
 	private String uri;
 
 	@JsonView(Views.Public.class)
-	private Summary summary;
-	
+	private SummaryReport summary;
+
 	@JsonInclude(Include.NON_EMPTY)
 	@JsonView(Views.Public.class)
 	private Map<String, List<Example>> examples = Maps.newHashMap();
@@ -104,7 +103,7 @@ public class FeatureReport {
 
 		}
 
-		int passingScenarios = 0, totalScenarios = 0;
+		int passingScenarios = 0, failingScenarios = 0, totalScenarios = 0;
 		double totalDuration = 0D;
 		Result r;
 		status = Status.PASSED;
@@ -113,6 +112,9 @@ public class FeatureReport {
 			if (r.getStatus() == Status.PASSED) {
 				passingScenarios += 1;
 			}
+			else if (r.getStatus() == Status.FAILED) {
+				failingScenarios++;
+			}
 			else{
 				status = r.getStatus();
 			}
@@ -120,8 +122,9 @@ public class FeatureReport {
 				totalDuration += r.getDuration();
 			totalScenarios += 1;
 		}
-		summary = new Summary();
+		summary = new SummaryReport();
 		summary.setPassingScenarios(passingScenarios);
+		summary.setFailingScenarios(failingScenarios);
 		summary.setTotalDuration(totalDuration / 1000000);
 		summary.setTotalScenarios(totalScenarios);
 
@@ -141,6 +144,14 @@ public class FeatureReport {
 	public Status getStatus() {
         return status;
     }
+	
+	public SummaryReport getSummary() {
+		return summary;
+	}
+	
+	public String getUri() {
+		return uri;
+	}
 	
 	@Override
 	public int hashCode() {

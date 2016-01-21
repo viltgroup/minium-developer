@@ -153,6 +153,18 @@ public class FeatureReport {
 	public String getUri() {
 		return uri;
 	}
+
+	public void combineFeature(String profile, FeatureReport feature) {
+		for (ElementReport element : elements) {
+			element.combineElement(profile, feature.getElement(element));
+		}
+		this.profileStatus.put(profile, feature.getStatus());
+		status = null;
+	}
+
+	public ElementReport getElement(ElementReport element) {
+		return elements.get(elements.indexOf(element));
+	}
 	
 	@Override
 	public int hashCode() {
@@ -183,17 +195,5 @@ public class FeatureReport {
 		} else if (!uri.equals(other.uri))
 			return false;
 		return true;
-	}
-
-	public void combineFeature(String profile, FeatureReport feature) {
-		for (ElementReport element : elements) {
-			ElementReport bg = element.getBackground();
-			if(element.getBackground() != null){
-				bg.addProfileResults(profile, feature.getElements().get(feature.getElements().indexOf(element)).getBackground());
-			}
-			element.addProfileResults(profile, feature.getElements().get(feature.getElements().indexOf(element)));
-		}
-		this.profileStatus.put(profile, feature.getStatus());
-		status = null;
 	}
 }

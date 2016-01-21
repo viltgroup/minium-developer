@@ -39,7 +39,7 @@ import com.google.common.collect.Maps;
 @JsonInclude(Include.NON_NULL)
 public class Step {
 
-    @JsonView(Views.Public.class)
+	@JsonView(Views.Public.class)
     private String name;
 
     @JsonView(Views.Public.class)
@@ -82,6 +82,43 @@ public class Step {
 
     public Step() {
     }
+    
+    @Override
+   	public int hashCode() {
+   		final int prime = 31;
+   		int result = 1;
+   		result = prime * result + ((keyword == null) ? 0 : keyword.hashCode());
+   		result = prime * result + ((line == null) ? 0 : line.hashCode());
+   		result = prime * result + ((name == null) ? 0 : name.hashCode());
+   		return result;
+   	}
+
+   	@Override
+   	public boolean equals(Object obj) {
+   		if (this == obj)
+   			return true;
+   		if (obj == null)
+   			return false;
+   		if (getClass() != obj.getClass())
+   			return false;
+   		Step other = (Step) obj;
+   		if (keyword == null) {
+   			if (other.keyword != null)
+   				return false;
+   		} else if (!keyword.equals(other.keyword))
+   			return false;
+   		if (line == null) {
+   			if (other.line != null)
+   				return false;
+   		} else if (!line.equals(other.line))
+   			return false;
+   		if (name == null) {
+   			if (other.name != null)
+   				return false;
+   		} else if (!name.equals(other.name))
+   			return false;
+   		return true;
+   	}
 
     public String getKeyword() {
         return keyword;
@@ -153,7 +190,7 @@ public class Step {
         this.line = line;
     }
 
-	public void addResult(String profile, Step step) {
+	public void combineStep(String profile, Step step) {
 		results.put(profile, step.getResult());
 		if(result != null){
 			result = null;

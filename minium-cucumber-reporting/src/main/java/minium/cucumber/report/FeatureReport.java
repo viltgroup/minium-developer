@@ -29,6 +29,7 @@ import minium.cucumber.report.domain.Views;
 		"status",
 		"profileStatus",
 		"summary",
+		"profileSummary",
 		"examples",
 		"elements",
 		"comments" })
@@ -61,6 +62,10 @@ public class FeatureReport {
 
 	@JsonView(Views.Public.class)
 	private SummaryReport summary;
+	
+	@JsonInclude(Include.NON_EMPTY)
+	@JsonView(Views.Public.class)
+	private Map<String, SummaryReport> profileSummary = Maps.newHashMap();
 
 	@JsonInclude(Include.NON_EMPTY)
 	@JsonView(Views.Public.class)
@@ -159,7 +164,9 @@ public class FeatureReport {
 			element.combineElement(profile, feature.getElement(element));
 		}
 		this.profileStatus.put(profile, feature.getStatus());
-		status = null;
+		this.status = null;
+		this.profileSummary.put(profile, feature.getSummary());
+		this.summary = null;
 	}
 
 	public ElementReport getElement(ElementReport element) {

@@ -1645,6 +1645,15 @@ Console editor CSS
         float: left;
         margin: 0;
     }
+    .navbar .dropdown-menu > li > a.disabled {
+        color: #34495E;
+        cursor: not-allowed;
+        background-color: transparent;
+    }
+    .navbar .dropdown-menu > li > a {
+        color: #eee;
+        background-color: transparent;
+    }
 }
 
 .textarea-resizable-vertical {
@@ -1654,4 +1663,26 @@ Console editor CSS
 
 .feature-tab{
   color: #F4B350;
+}
+
+@media (max-width: 992px) {
+    .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+    .navbar .dropdown-menu > li > a.disabled {
+        color: #34495E;
+        cursor: not-allowed;
+        background-color: transparent;
+    }
+    .navbar .dropdown-menu > li > a {
+        color: #eee;
+        background-color: transparent;
+    }
 }

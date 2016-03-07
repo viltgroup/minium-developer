@@ -106,7 +106,11 @@
     },
     "evaluator": {
         "matching": "{{data}} coincidencia de elementos web",
-        "no_value": "No hay valor"
+        "no_value": "No hay valor",
+        "clean":{
+          "success":"Scope limpio con éxito",
+          "error": "No se ha podido limpiar el scope"
+        }
     },
     "help": {
         "help": "ayuda",

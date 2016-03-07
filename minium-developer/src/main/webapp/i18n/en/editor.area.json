@@ -103,8 +103,8 @@
         "matching": "{{data}} matching web elements",
         "no_value": "No value",
         "clean":{
-          "error":"",
-          "success": ""
+          "success":"Scope cleaned with success",
+          "error": "Could not clear the scope!"
         }
     },
     "help": {

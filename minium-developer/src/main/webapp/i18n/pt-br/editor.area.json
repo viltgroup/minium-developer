@@ -102,7 +102,11 @@
     },
     "evaluator": {
         "matching": "{{data}} elementos encontrados",
-        "no_value": "Nenhum valor"
+        "no_value": "Nenhum valor",
+        "clean":{
+          "success":"Scope limpo com sucesso",
+          "error": "Não foi possível  limpar o scope!"
+        }
     },
     "help": {
         "help": "ajuda",

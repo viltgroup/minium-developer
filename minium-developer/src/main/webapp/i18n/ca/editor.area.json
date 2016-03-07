@@ -106,7 +106,11 @@
     },
     "evaluator": {
         "matching": "{{data}} Correspon a web elements",
-        "no_value": "No valor"
+        "no_value": "No valor",
+        "clean":{
+          "success":"Scope net amb èxit",
+          "error": "No s'ha pogut netejar el scope"
+        }
     },
     "help": {
         "help": "Ajuda",

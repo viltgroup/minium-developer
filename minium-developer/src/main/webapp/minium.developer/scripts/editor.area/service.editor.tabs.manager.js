@@ -5,7 +5,7 @@
  */
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter, $modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory) {
+miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter, $modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory, SelectorGadgetService) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -825,6 +825,14 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                     }
                 }
             });
+
+            // when the modal is closed
+            // deactivate the selector gadget
+            modalInstance.result['finally'](function() {
+                SelectorGadgetService.deactivate();
+                $rootScope.activeEditor.instance.focus();
+            });
+
         }).error(function(data) {
             that.setWebDriverMsg(true);
             that.openModalWebDriverSelect();

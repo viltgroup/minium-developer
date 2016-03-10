@@ -27,11 +27,11 @@ public class ProjectResource {
     @Autowired
     private ProjectProperties projectProperties;
 
-    @RequestMapping(value = "/project/new", method = RequestMethod.POST)
+    @RequestMapping(value = "/project/new", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
     @ResponseBody
-    public boolean create(@RequestBody ProjectDTO project, HttpSession session) {
-         boolean createProject = projectService.createProject(projectProperties, project, session);
-         return createProject;
+    public ResponseEntity<String> create(@RequestBody ProjectDTO project, HttpSession session) {
+         Boolean createProject = projectService.createProject(projectProperties, project, session);
+         return  new ResponseEntity<String>(String.valueOf(createProject), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/project/valid", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")

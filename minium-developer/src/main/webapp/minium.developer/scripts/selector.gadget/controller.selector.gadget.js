@@ -33,25 +33,16 @@ angular.module('minium.developer')
                     } else {
                         // close modal
                         $modalInstance.dismiss('cancel');
-
                         toastr.warning($translate('selector.gadget.no_elem'));
                     }
                 })
                 .error(function() {
                     toastr.warning($translate('selector.gadget.error'));
+                    $modalInstance.dismiss('cancel');
                 });
-            $rootScope.activeEditor.instance.focus();
         };
 
         $scope.cancel = function() {
-            var request = SelectorGadgetService.deactivate()
-                .success(function(data) {
-                    // close modal
-                })
-                .error(function() {
-                    toastr.warning($translate('selector.gadget.error_deactivate'));
-                });
-            $rootScope.activeEditor.instance.focus();
             $modalInstance.dismiss('cancel');
         };
     });

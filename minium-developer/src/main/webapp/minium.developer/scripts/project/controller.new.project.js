@@ -127,7 +127,7 @@ angular.module('minium.developer')
                 return;
             }
             ProjectFactory.create($scope.project).success(function(data) {
-                if (data) {
+                if (data == 'true') {
                     toastr.success($translate('messages.created'));
                     ProjectService.storeOpenProjects($scope.location);
                     ProjectService.reload($scope.location);

@@ -17,9 +17,12 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
+@JsonInclude(Include.NON_EMPTY) 
 public class Row {
 
     @JsonView(Views.Public.class)
@@ -30,6 +33,9 @@ public class Row {
 
     @JsonView(Views.Public.class)
     private Integer line;
+    
+    @JsonView(Views.Public.class)
+    private String id;
 
     public Row() {
     }
@@ -49,5 +55,6 @@ public class Row {
     public void setLine(Integer line) {
         this.line = line;
     }
+
 }
 

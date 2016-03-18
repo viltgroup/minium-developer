@@ -15,33 +15,63 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+@JsonPropertyOrder({
+	"duration",
+	"error_message",
+	"status" })
 public class Result {
 
     @JsonView(Views.Public.class)
     private Status status;
 
+    @JsonInclude(Include.NON_NULL)
     @JsonView(Views.Public.class)
     @JsonProperty("error_message")
     private String errorMessage;
 
+    @JsonInclude(Include.NON_NULL)
+	@JsonView(Views.Public.class)
+    private String id;
+	
+    @JsonInclude(Include.NON_NULL)
     @JsonView(Views.Public.class)
     private Long duration;
 
-    public Result() {
+	public Result() {
+		this.duration = new Long(0L);
     }
 
+	public Long getDuration() {
+    	if(status == Status.SKIPPED || status == Status.UNDEFINED)
+    		return null;
+    	
+        return duration == null ? 0L : duration;
+    }
+	
+	public String getErrorMessage() {
+        return errorMessage;
+    }
+	
     public Status getStatus() {
         return status;
     }
-
-    public Long getDuration() {
-        return duration == null ? 0L : duration;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
+    
+    public void setDuration(Long duration) {
+		this.duration = duration;
+	}
+    
+    public void setStatus(Status status) {
+		this.status = status;
+	}
+    
+    public void increaseDuration(Long increment){
+    	if(this.duration != null && increment != null)
+    		this.duration += increment;
     }
 }

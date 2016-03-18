@@ -15,6 +15,8 @@
  */
 package minium.cucumber.report.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -50,6 +52,7 @@ public class Embedding {
         this.data = data;
     }
 
+    @JsonInclude(Include.NON_NULL)
     public String getSha1Hash() {
         if (sha1Hash == null && data != null) {
             sha1Hash = Hashing.sha1().hashBytes(data).toString();

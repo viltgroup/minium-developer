@@ -25,10 +25,10 @@ import com.google.common.collect.Lists;
 
 public class Feature {
 
-	@JsonInclude(Include.NON_EMPTY)
+    @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<Comment> comments = Lists.newArrayList();
-	
+
     @JsonView(Views.Public.class)
     private String id;
 
@@ -104,10 +104,10 @@ public class Feature {
     public String getName() {
         return name;
     }
-    
+
     public List<Comment> getComments() {
-		return comments;
-	}
+        return comments;
+    }
 
     public String getDescription() {
         return description;
@@ -125,7 +125,7 @@ public class Feature {
 
     public Status getStatus() {
         for (Element elem : elements) {
-            if (elem.getStatus() != Status.PASSED && !elem.getType().equals("scenario_outline") )
+            if (elem.getStatus() != Status.PASSED && !elem.getType().equals("scenario_outline"))
                 return Status.FAILED;
         }
         return Status.PASSED;

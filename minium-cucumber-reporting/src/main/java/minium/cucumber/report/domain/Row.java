@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
-@JsonInclude(Include.NON_EMPTY) 
+@JsonInclude(Include.NON_EMPTY)
 public class Row {
 
     @JsonView(Views.Public.class)
@@ -33,7 +33,7 @@ public class Row {
 
     @JsonView(Views.Public.class)
     private Integer line;
-    
+
     @JsonView(Views.Public.class)
     private String id;
 
@@ -57,4 +57,3 @@ public class Row {
     }
 
 }
-

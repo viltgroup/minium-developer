@@ -25,26 +25,26 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
 @JsonPropertyOrder({
-	"comments",
-	"examples",
-	"line",
-	"name",
-	"description",
-	"id",
-	"after",
-	"type",
-	"keyword",
-	"steps" })
+        "comments",
+        "examples",
+        "line",
+        "name",
+        "description",
+        "id",
+        "after",
+        "type",
+        "keyword",
+        "steps" })
 public class Element {
 
     @JsonView(Views.Public.class)
     private Integer line;
 
-	public Integer getLine() {
-		return line;
-	}
+    public Integer getLine() {
+        return line;
+    }
 
-	@JsonView(Views.Public.class)
+    @JsonView(Views.Public.class)
     private String name;
 
     @JsonView(Views.Public.class)
@@ -67,33 +67,33 @@ public class Element {
     @JsonView(Views.Public.class)
     private List<Comment> comments = Lists.newArrayList();
 
-	@JsonView(Views.Public.class)
+    @JsonView(Views.Public.class)
     private List<Example> examples = Lists.newArrayList();
-    
+
     @JsonInclude(Include.NON_EMPTY)
     @JsonView(Views.Public.class)
     private List<After> after = Lists.newArrayList();
-    
+
     @JsonView(Views.Public.class)
     private String id;
 
     public String getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public List<After> getAfter() {
-		return after;
-	}
+    public List<After> getAfter() {
+        return after;
+    }
 
-	public void setAfter(List<After> after) {
-		this.after = after;
-	}
+    public void setAfter(List<After> after) {
+        this.after = after;
+    }
 
-	public Element() {
+    public Element() {
     }
 
     public String getName() {
@@ -125,9 +125,9 @@ public class Element {
     }
 
     public void setComments(List<Comment> comments) {
-		this.comments = comments;
-	}
-    
+        this.comments = comments;
+    }
+
     @JsonIgnore
     public Status getStatus() {
         // can be optimized to retrieve only the count of elements and not the
@@ -141,12 +141,12 @@ public class Element {
         return Status.PASSED;
     }
 
-	public List<Example> getExamples() {
-		return examples;
-	}
+    public List<Example> getExamples() {
+        return examples;
+    }
 
-	public void setExamples(List<Example> examples) {
-		this.examples = examples;
-	}
+    public void setExamples(List<Example> examples) {
+        this.examples = examples;
+    }
 
 }

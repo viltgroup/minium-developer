@@ -18,11 +18,11 @@ package minium.cucumber.report.domain;
 import com.fasterxml.jackson.annotation.JsonView;
 
 public class Comment {
-	
-	@JsonView(Views.Public.class)
+
+    @JsonView(Views.Public.class)
     private Integer line;
-	
-	@JsonView(Views.Public.class)
+
+    @JsonView(Views.Public.class)
     private String value;
 
     public Comment() {
@@ -36,7 +36,7 @@ public class Comment {
     public Integer getLine() {
         return line;
     }
-    
+
     public String getValue() {
         return value;
     }

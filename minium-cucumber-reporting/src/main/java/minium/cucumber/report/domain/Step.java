@@ -18,11 +18,10 @@ package minium.cucumber.report.domain;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -144,12 +143,10 @@ public class Step {
         return embeddings;
     }
 
-    @JsonIgnore
     public Status getStatus() {
         return result == null ? Status.MISSING : result.getStatus();
     }
 
-    @JsonIgnore
     public Long getDuration() {
         if (result == null) {
             return 1L;

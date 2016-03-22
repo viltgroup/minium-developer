@@ -17,11 +17,10 @@ package minium.cucumber.report.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.common.collect.Lists;
 
 @JsonPropertyOrder({
@@ -128,7 +127,6 @@ public class Element {
         this.comments = comments;
     }
 
-    @JsonIgnore
     public Status getStatus() {
         // can be optimized to retrieve only the count of elements and not the
         // all list

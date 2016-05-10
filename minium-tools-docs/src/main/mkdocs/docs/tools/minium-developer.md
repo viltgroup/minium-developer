@@ -1,4 +1,4 @@
-#Minium Developer
+# Minium Developer
 
 ## Create a new project
 
@@ -39,6 +39,40 @@ code.
 * Go to `Run > Launch Browser`
 * Select the desired browser type
 * Click on the button `Create a new webdriver`
+
+### Configure the Firefox WebDriver with a custom profile
+
+You can configure the Firefox WebDriver with a custom profile by creating a file with name `application-dev.yml` in the folder `minium-tools/config` of your Minium installation directory. Configurations available:
+* Load a profile from a directory
+* Add extensions
+* Set preferences: enable native events, load the focus library on Linux, accept untrusted SSL certificates
+* Set any additional preference
+
+Example:
+```
+minium:
+  developer:
+    webdrivers:
+      - name: firefox-with-profile
+        displayName: Firefox Profile
+        iconClass: icon-firefox
+        desiredCapabilities:
+          browserName: firefox
+        firefox_profile:
+          dir: C:\Users\minium\AppData\Roaming\Mozilla\Firefox\Profiles\xxxxxxxx.<profile-name>
+          extensions:
+            - name: Some Extension
+              path: C:\Users\minium\AppData\Roaming\Mozilla\Extensions\extension.xpi
+          enableNativeEvents: true
+          loadNoFocusLib: false
+          acceptUntrustedCerts: true
+          untrustedCertIssuer: false
+          preferences:
+            - name: accessibility.accesskeycausesactivation
+              type: boolean
+              value: true
+    (other WebDrivers)
+```
 
 ## Status Button
 
@@ -105,3 +139,27 @@ be stored in a scope.
 ### Search file (`Ctrl + P`)
 
 Search and open files
+
+## Update Minium Tools to the latest release
+
+1. Download the latest release from <https://github.com/viltgroup/minium-tools/releases/>.
+2. Update the version of `minium-cucumber-parent` in the `pom.xml` file of your Minium projects. For instance, if you downloaded release 1.3.0, then you would need to change the file to something like:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+        <modelVersion>4.0.0</modelVersion>
+
+        <parent>
+                <groupId>io.vilt.minium</groupId>
+                <artifactId>minium-cucumber-parent</artifactId>
+                <version>1.3.0</version>
+                <relativePath />
+        </parent>
+
+        <groupId>your-project-groupId</groupId>
+        <artifactId>your-project-artifactId</artifactId>
+        <version>your-project-version</version>
+</project>
+```

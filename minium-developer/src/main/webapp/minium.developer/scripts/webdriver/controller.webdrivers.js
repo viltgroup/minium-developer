@@ -12,16 +12,20 @@ angular.module('minium.developer')
         $scope.browsers = {};
 
         $scope.selectedBrowser = undefined;
+        $scope.selectedBrowserCanBeLaunchedWithRecorder = false;
+        $scope.createWebDriverWithRecorder = true;
 
         // TODO- put this in a directive
         $scope.isActive = function(webdriver) {
             return $scope.selectedBrowser ? ($scope.selectedBrowser.name === webdriver.name) : false;
         };
 
-
         $scope.activate = function(webdriver) {
             if (!$scope.isActive(webdriver)) {
                 $scope.selectedBrowser = webdriver;
+                WebDriverFactory.isRecorderAvailableForBrowser(webdriver.name).success(function(isAvailable) {
+                    $scope.selectedBrowserCanBeLaunchedWithRecorder = isAvailable;
+                });
             }
         };
 
@@ -75,7 +79,7 @@ angular.module('minium.developer')
 
             config = $scope.selectedBrowser;
 
-            WebDriverFactory.create(config).success(function() {
+            WebDriverFactory.create(config, $scope.createWebDriverWithRecorder).success(function() {
                 toastr.success($translate('webdriver.new'));
                 $scope.$close(false);
             }).error(function() {

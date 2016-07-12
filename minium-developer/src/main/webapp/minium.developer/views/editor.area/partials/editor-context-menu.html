@@ -23,6 +23,12 @@
 
             </a>
         </li>
+        <li ng-show="activeEditor.mode === 'JS' && recorderIsAvailable">
+            <a href ng-click="pasteRecordedScript()" title="{{'messages.title.recorder' | translate}}">
+                <span class="fa fa-video-camera"></span>
+                <span translate="recorder.import_script">Import Recorded Script</span>
+            </a>
+        </li>
         <li ng-show="activeEditor.mode === 'JS'">
             <a href id="selector-gadget" ng-click="activateSelectorGadget()" title="{{'messages.title.selector.gadget' | translate}}">
                 <span class="fa  fa-hand-o-up"></span>

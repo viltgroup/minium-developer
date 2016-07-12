@@ -1,8 +1,24 @@
 package minium.developer.service;
 
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.google.inject.internal.Maps;
+
+import minium.actions.Keys;
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.webdriver.ChromeDriverDownloader;
@@ -12,13 +28,12 @@ import minium.developer.webdriver.PhantomJSDownloader;
 import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
+import minium.web.config.WebDriverFactory;
 
 @Service
 public class WebDriverService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverService.class);
 
     @Autowired
     private DriverLocator driverLocator;
@@ -29,6 +44,9 @@ public class WebDriverService {
 
     @Autowired
     private WebDriversProperties webDriversProperties;
+
+    @Autowired
+    protected WebDriverFactory webDriverFactory;
 
     private ChromeDriverDownloader chromeDownloader;
     private IEDriverDownloader ieDownloader;
@@ -116,5 +134,51 @@ public class WebDriverService {
 
     public List<DeveloperWebDriverProperties> getAvailableWebdrivers() {
         return webDriversProperties.getWebdrivers();
+    }
+
+    public WebDriver createWebDriver(minium.web.config.WebDriverProperties webDriverProperties, boolean withRecorder)
+            throws IOException {
+        WebDriver webDriver = null;
+        if (withRecorder) {
+            String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
+            Map<String, String> recorderProperties = this.webDriversProperties
+                    .getWebDriverPropertiesByBrowserName(browserName).getRecorderProperties();
+            if (recorderProperties != null) {
+                ChromeOptions options = new ChromeOptions();
+
+                options.addExtensions(new File(recorderProperties.get("path")));
+
+                Map<String, Object> prefs = Maps.newHashMap();
+                Map<String, Object> devtoolsPrefs = Maps.newHashMap();
+                devtoolsPrefs.put("InspectorView.panelOrder",
+                        "{\"chrome-extension://" + recorderProperties.get("id") + "\":1}");
+                devtoolsPrefs.put("shortcutPanelSwitch", true);
+                prefs.put("devtools.preferences", devtoolsPrefs);
+                options.setExperimentalOption("prefs", prefs);
+
+                options.addArguments("start-maximized");
+
+                webDriverProperties.getDesiredCapabilities().put(ChromeOptions.CAPABILITY, options);
+
+                webDriver = webDriverFactory.create(webDriverProperties);
+
+                webDriver.findElement(By.tagName("body")).sendKeys(Keys.F12);
+                try {
+                    Thread.sleep(1500);
+                    Robot robot = new Robot();
+                    robot.keyPress(KeyEvent.VK_CONTROL);
+                    robot.keyPress(KeyEvent.VK_1);
+                    robot.keyRelease(KeyEvent.VK_CONTROL);
+                    robot.keyRelease(KeyEvent.VK_1);
+                } catch (Exception e) {
+                    LOGGER.info("Couldn't open the recorder automatically.");
+                }
+            }
+        }
+        return webDriver != null ? webDriver : webDriverFactory.create(webDriverProperties);
+    }
+
+    public boolean isRecorderAvailableForBrowser(String browser) {
+        return this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getRecorderProperties() != null;
     }
 }

@@ -71,7 +71,8 @@
             "started": "Actualització va començar",
             "complete": "Actualització completada",
             "error": "No s'ha pogut actualitzar els wedrivers"
-        }
+        },
+        "launch_with_recorder": "llançar amb Minium Recorder"
     },
     "report": {
         "steps": "Passos",
@@ -103,6 +104,12 @@
         "no_elem": "No element va ser agafat",
         "error": "No s'ha pogut agafar el element",
         "error_deactivate": "No s'ha pogut desactivat el selector de dispositiu"
+    },
+    "recorder": {
+      "import_script": "Importació de gravació de seqüències d'ordres",
+      "messages": {
+        "no_recorded_script": "Encara no ha gravat un script."
+      }
     },
     "evaluator": {
         "matching": "{{data}} Correspon a web elements",
@@ -197,7 +204,8 @@
             "selector.gadget": "Interface del Selector de Dispositiu (Ctrl+Shift+C) ",
             "evaluator": "Avaluador (Ctrl + Enter)",
             "run_test": "Executar provas des cursor (Ctrl + Enter)",
-            "run_all": "Executar tot las provas"
+            "run_all": "Executar tot las provas",
+            "recorder": "Import l'últim script gravat"
         },
         "preview.feature":{
           "error":"Error en carregar la Feature! Si us plau, revisi les seves dades externes!",

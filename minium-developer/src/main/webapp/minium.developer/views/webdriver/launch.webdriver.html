@@ -17,7 +17,14 @@
                 <i class='{{getIcon(webdriver)}} gl-lg'></i><br>
                 {{webdriver.displayName}}   {{webdriver.version}}
             </button>
-            
+
+            <br/>
+            <br/>
+            <label ng-show="selectedBrowserCanBeLaunchedWithRecorder">
+              <input type="checkbox" ng-model="createWebDriverWithRecorder">
+              <span translate="webdriver.launch_with_recorder">Launch with Minium Recorder</span>
+            </label>
+
            <div ng-show="useRemoteWebDriver">
             <br>
 

@@ -3,12 +3,6 @@ package minium.developer.web.rest;
 import java.io.IOException;
 import java.util.List;
 
-import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
-import minium.developer.service.WebDriverService;
-import minium.web.DelegatorWebDriver;
-import minium.web.config.WebDriverFactory;
-import minium.web.config.WebDriverProperties;
-
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,14 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
+import minium.developer.service.WebDriverService;
+import minium.web.DelegatorWebDriver;
+import minium.web.config.WebDriverProperties;
 
 @Controller
 @RequestMapping("/app/rest/webdrivers")
 public class WebDriverResource {
-
-    @Autowired
-    protected WebDriverFactory webDriverFactory;
 
     @Autowired
     protected DelegatorWebDriver delegatorWebDriver;
@@ -43,14 +40,21 @@ public class WebDriverResource {
         }
     }
 
+    @RequestMapping(value = "/isRecorderAvailableForBrowser", method = RequestMethod.GET)
+    @ResponseBody
+    public boolean isRecorderAvailableForBrowser(@RequestParam(value = "browser") String browser) {
+        return webDriverService.isRecorderAvailableForBrowser(browser);
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public void create(@RequestBody WebDriverProperties webDriverProperties) throws IOException {
+    public void create(@RequestBody WebDriverProperties webDriverProperties,
+            @RequestParam(value = "withRecorder", defaultValue = "false") boolean withRecorder) throws IOException {
         String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
         if (webDriverProperties.getUrl() == null) {
             webDriverService.webDriverExists(browserName);
         }
-        WebDriver webDriver = webDriverFactory.create(webDriverProperties);
+        WebDriver webDriver = webDriverService.createWebDriver(webDriverProperties, withRecorder);
         delegatorWebDriver.setDelegate(webDriver);
     }
 

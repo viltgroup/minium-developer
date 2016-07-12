@@ -4,9 +4,14 @@
     angular.module('minium.developer')
         .controller('ContextMenuEditorController', ContextMenuEditorController);
 
-    ContextMenuEditorController.$inject = ['$rootScope', '$scope', '$state'];
+    ContextMenuEditorController.$inject = ['$rootScope', '$scope', '$translate', '$state','RecorderService', 'WebDriverFactory'];
 
-    function ContextMenuEditorController($rootScope, $scope, $state) {
+    function ContextMenuEditorController($rootScope, $scope, $translate, $state, RecorderService, WebDriverFactory) {
+
+        $scope.recorderIsAvailable = false;
+        WebDriverFactory.isRecorderAvailableForBrowser("chrome").success(function(isAvailable) {
+            $scope.recorderIsAvailable = isAvailable;
+        });
 
         $scope.test = function() {
             $scope.previewFeatureWithExternalCucumberData();
@@ -39,7 +44,22 @@
 
         }
 
-
+        $scope.pasteRecordedScript = function() {
+            RecorderService.getScript().success(function(script) {
+                if (script) {
+                    var editor = $rootScope.activeEditor.instance;
+                    var session = editor.getSession();
+                    var range = editor.getSelectionRange();
+                    session.remove(range);
+                    session.insert(range.start, script);
+                } else {
+                    $translate('recorder.messages.no_recorded_script')
+                        .then(function(translatedMessage) {
+                            toastr.warning(translatedMessage);
+                        });
+                }
+            });
+        }
     }
 
 })();

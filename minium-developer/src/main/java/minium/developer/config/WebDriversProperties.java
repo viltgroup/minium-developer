@@ -1,6 +1,7 @@
 package minium.developer.config;
 
 import java.util.List;
+import java.util.Map;
 
 import minium.web.config.WebDriverProperties;
 
@@ -17,6 +18,7 @@ public class WebDriversProperties {
         private String name;
         private String displayName;
         private String iconClass;
+        private Map<String, String> recorderProperties;
 
         public String getName() {
             return name;
@@ -42,6 +44,13 @@ public class WebDriversProperties {
             this.iconClass = icon;
         }
 
+        public Map<String, String> getRecorderProperties() {
+            return recorderProperties;
+        }
+
+        public void setRecorderProperties(Map<String, String> recorderProperties) {
+            this.recorderProperties = recorderProperties;
+        }
     }
 
     public List<DeveloperWebDriverProperties> getWebdrivers() {
@@ -50,5 +59,13 @@ public class WebDriversProperties {
 
     public void setWebdrivers(List<DeveloperWebDriverProperties> webdrivers) {
         this.webdrivers = webdrivers;
+    }
+
+    public DeveloperWebDriverProperties getWebDriverPropertiesByBrowserName(String browserName) {
+        for (DeveloperWebDriverProperties wd : webdrivers) {
+            if (wd.getName().equals(browserName))
+                return wd;
+        }
+        return null;
     }
 }

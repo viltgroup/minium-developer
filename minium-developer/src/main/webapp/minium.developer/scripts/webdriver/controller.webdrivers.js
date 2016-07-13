@@ -10,7 +10,8 @@ angular.module('minium.developer')
         }
 
         $scope.browsers = {};
-
+        $scope.webdrivers = angular.copy($rootScope.availableWebDrivers);
+        
         $scope.selectedBrowser = undefined;
 
         // TODO- put this in a directive

@@ -9,19 +9,19 @@
             <i class="fa fa-warning"></i> {{errorMessage}}
         </div>
          <form class="webdrivers">
-
             <button type='button' class='btn btn-default'
                 ng-class='{active: isActive(webdriver)}'
-                ng-repeat='webdriver in availableWebDrivers'
+                ng-repeat='webdriver in webdrivers'
                 ng-click='activate(webdriver)'>
                 <i class='{{getIcon(webdriver)}} gl-lg'></i><br>
                 {{webdriver.displayName}}   {{webdriver.version}}
             </button>
-            
+
            <div ng-show="useRemoteWebDriver">
             <br>
 
                 <div class="btn-group col-sm-5">
+
                     <label class="btn btn-default btn-xs">
                         <input type="radio"
                         name="advancedCapabilities"

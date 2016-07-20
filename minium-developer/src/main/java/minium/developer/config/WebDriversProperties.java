@@ -1,12 +1,12 @@
 package minium.developer.config;
 
+import java.io.File;
 import java.util.List;
-import java.util.Map;
-
-import minium.web.config.WebDriverProperties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
+
+import minium.web.config.WebDriverProperties;
 
 @Component
 @ConfigurationProperties(prefix = "minium.developer")
@@ -14,11 +14,45 @@ public class WebDriversProperties {
 
     private List<DeveloperWebDriverProperties> webdrivers;
 
+    public static class RecorderProperties {
+        private String id;
+        private File path;
+        private boolean openOnStartup = true;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public File getPath() {
+            return path == null ? null : path.getAbsoluteFile();
+        }
+
+        public void setPath(File path) {
+            this.path = path;
+        }
+
+        public boolean isAvailable() {
+            return path != null && path.exists() && path.isFile();
+        }
+
+        public boolean isOpenOnStartup() {
+            return openOnStartup;
+        }
+
+        public void setOpenOnStartup(boolean openOnStartup) {
+            this.openOnStartup = openOnStartup;
+        }
+    }
+
     public static class DeveloperWebDriverProperties extends WebDriverProperties {
         private String name;
         private String displayName;
         private String iconClass;
-        private Map<String, String> recorderProperties;
+        private RecorderProperties recorder = new RecorderProperties();
 
         public String getName() {
             return name;
@@ -44,12 +78,12 @@ public class WebDriversProperties {
             this.iconClass = icon;
         }
 
-        public Map<String, String> getRecorderProperties() {
-            return recorderProperties;
+        public RecorderProperties getRecorder() {
+            return recorder;
         }
 
-        public void setRecorderProperties(Map<String, String> recorderProperties) {
-            this.recorderProperties = recorderProperties;
+        public void setRecorder(RecorderProperties recorder) {
+            this.recorder = recorder;
         }
     }
 

@@ -2,7 +2,6 @@ package minium.developer.service;
 
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,7 @@ import com.google.inject.internal.Maps;
 import minium.actions.Keys;
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
+import minium.developer.config.WebDriversProperties.RecorderProperties;
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
 import minium.developer.webdriver.IEDriverDownloader;
@@ -29,6 +29,7 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 import minium.web.config.WebDriverFactory;
+import minium.web.config.WebDriverProperties;
 
 @Service
 public class WebDriverService {
@@ -136,22 +137,18 @@ public class WebDriverService {
         return webDriversProperties.getWebdrivers();
     }
 
-    public WebDriver createWebDriver(minium.web.config.WebDriverProperties webDriverProperties, boolean withRecorder)
-            throws IOException {
+    public WebDriver createWebDriver(DeveloperWebDriverProperties webDriverProperties, boolean withRecorder) throws IOException {
         WebDriver webDriver = null;
         if (withRecorder) {
-            String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
-            Map<String, String> recorderProperties = this.webDriversProperties
-                    .getWebDriverPropertiesByBrowserName(browserName).getRecorderProperties();
-            if (recorderProperties != null) {
+            RecorderProperties recorderProperties = this.webDriversProperties.getWebDriverPropertiesByBrowserName(webDriverProperties.getName()).getRecorder();
+            if (recorderProperties != null && recorderProperties.isAvailable()) {
                 ChromeOptions options = new ChromeOptions();
 
-                options.addExtensions(new File(recorderProperties.get("path")));
+                options.addExtensions(recorderProperties.getPath());
 
                 Map<String, Object> prefs = Maps.newHashMap();
                 Map<String, Object> devtoolsPrefs = Maps.newHashMap();
-                devtoolsPrefs.put("InspectorView.panelOrder",
-                        "{\"chrome-extension://" + recorderProperties.get("id") + "\":1}");
+                devtoolsPrefs.put("InspectorView.panelOrder", "{\"chrome-extension://" + recorderProperties.getId() + "\":1}");
                 devtoolsPrefs.put("shortcutPanelSwitch", true);
                 prefs.put("devtools.preferences", devtoolsPrefs);
                 options.setExperimentalOption("prefs", prefs);
@@ -159,26 +156,31 @@ public class WebDriverService {
                 options.addArguments("start-maximized");
 
                 webDriverProperties.getDesiredCapabilities().put(ChromeOptions.CAPABILITY, options);
-
                 webDriver = webDriverFactory.create(webDriverProperties);
 
-                webDriver.findElement(By.tagName("body")).sendKeys(Keys.F12);
-                try {
-                    Thread.sleep(1500);
-                    Robot robot = new Robot();
-                    robot.keyPress(KeyEvent.VK_CONTROL);
-                    robot.keyPress(KeyEvent.VK_1);
-                    robot.keyRelease(KeyEvent.VK_CONTROL);
-                    robot.keyRelease(KeyEvent.VK_1);
-                } catch (Exception e) {
-                    LOGGER.info("Couldn't open the recorder automatically.");
-                }
+                maybeOpenOnStartup(webDriver, recorderProperties);
             }
         }
         return webDriver != null ? webDriver : webDriverFactory.create(webDriverProperties);
     }
 
+    private void maybeOpenOnStartup(WebDriver webDriver, RecorderProperties recorderProperties) {
+        if (recorderProperties.isOpenOnStartup()) {
+            try {
+                webDriver.findElement(By.tagName("body")).sendKeys(Keys.F12);
+                Thread.sleep(1500);
+                Robot robot = new Robot();
+                robot.keyPress(KeyEvent.VK_CONTROL);
+                robot.keyPress(KeyEvent.VK_1);
+                robot.keyRelease(KeyEvent.VK_CONTROL);
+                robot.keyRelease(KeyEvent.VK_1);
+            } catch (Exception e) {
+                LOGGER.warn("Couldn't open the recorder automatically", e);
+            }
+        }
+    }
+
     public boolean isRecorderAvailableForBrowser(String browser) {
-        return this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getRecorderProperties() != null;
+        return this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getRecorder().isAvailable();
     }
 }

@@ -9,6 +9,9 @@ minium:
         iconClass: icon-chrome
         desiredCapabilities:
           browserName: chrome
+        recorder:
+          path: ${app.home:.}/extensions/minium-recorder.crx
+          id: ggefeclafoeoejognlebilidgmgdglogMiniumRecorder
       - name: firefox
         displayName: Firefox
         iconClass: icon-firefox

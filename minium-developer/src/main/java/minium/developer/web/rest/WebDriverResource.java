@@ -48,7 +48,7 @@ public class WebDriverResource {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public void create(@RequestBody WebDriverProperties webDriverProperties,
+    public void create(@RequestBody DeveloperWebDriverProperties webDriverProperties,
             @RequestParam(value = "withRecorder", defaultValue = "false") boolean withRecorder) throws IOException {
         String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
         if (webDriverProperties.getUrl() == null) {

@@ -2,8 +2,8 @@
 
 miniumDeveloper.factory('WebDriverFactory', function($http) {
     return {
-        create: function(config) {
-            return $http.post("/app/rest/webdrivers/create", config);
+        create: function(config, withRecorder) {
+            return $http.post("/app/rest/webdrivers/create" + (withRecorder ? "?withRecorder=true" : ""), config);
         },
         quit: function() {
             return $http.post("/app/rest/webdrivers/quit");
@@ -19,7 +19,9 @@ miniumDeveloper.factory('WebDriverFactory', function($http) {
         },
         getAvailableWebdrivers: function(){
             return $http.get("/app/rest/webdrivers/getAvailableWebdrivers");
+        },
+        isRecorderAvailableForBrowser: function(browser) {
+            return $http.get("/app/rest/webdrivers/isRecorderAvailableForBrowser?browser=" + browser);
         }
     };
 });
-

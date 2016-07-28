@@ -71,7 +71,8 @@
             "started": "Actualización empezó",
             "complete": "Actualización completada",
             "error": "No se pudo actualizar los wedrivers"
-        }
+        },
+        "launch_with_recorder": "Lanzar con Minium Recorder"
     },
     "report": {
         "steps": "Pasos",
@@ -103,6 +104,12 @@
         "no_elem": "Ningún elemento fue obtenido",
         "error": "No se pudo obtener el elemento",
         "error_deactivate": "No ha sido posible desactivar el selector de dispositivo"
+    },
+    "recorder": {
+      "import_script": "Importación de grabación de secuencias de comandos",
+      "messages": {
+        "no_recorded_script": "Aún no ha grabado una secuencia de comandos."
+      }
     },
     "evaluator": {
         "matching": "{{data}} coincidencia de elementos web",
@@ -197,7 +204,8 @@
             "selector.gadget": "Interfaz del Selector de dispositivos (Ctrl+Shift+C) ",
             "evaluator": "Evaluador (Ctrl + Enter)",
             "run_test": "Ejecutar prueba desde el cursor (Ctrl + Enter)",
-            "run_all": "Ejecutar todas las pruebas"
+            "run_all": "Ejecutar todas las pruebas",
+            "recorder": "Importe el último script grabado"
         },
         "preview.feature": {
             "error": "Error al cargar la Feature! Por favor, revise sus datos externos!",

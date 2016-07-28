@@ -66,7 +66,8 @@
             "started": "A actualizar",
             "complete": "Actualização concluída",
             "error": "Não foi possível actulizar os wedrivers"
-        }
+        },
+        "launch_with_recorder": "Lançar com Minium Recorder"
     },
     "report": {
         "steps": "Passos",
@@ -91,7 +92,6 @@
         "undefided": "Indefinido. Não é possível encontrar uma definição de correspondência para o passo",
         "skipped": "Ignorados. Passos que se seguem passos indefinidos , pendentes ou com falha nunca são executadas ( mesmo que haja uma definição correspondente Step)"
     },
-
     "selector.gadget": {
         "activated": "Selector Gadget ativado",
         "failed": "Selector Gadget falhou",
@@ -99,6 +99,12 @@
         "no_elem": "Nenhum elemento foi escolhido",
         "error": "Não foi possível escolher um elemento",
         "error_deactivate": "Não foi possível desativar o Selector Gadget"
+    },
+    "recorder": {
+      "import_script": "Importar script gravado",
+      "messages": {
+        "no_recorded_script": "Você não gravou nenhum script."
+      }
     },
     "evaluator": {
         "matching": "{{data}} elementos encontrados",
@@ -193,7 +199,8 @@
             "selector.gadget": "Interface Selector Gadget (Ctrl+Shift+C) ",
             "evaluator": "Avaliar expressão (Ctrl + Enter)",
             "run_test": "Executar testes a partir de cursor (Ctrl + Enter)",
-            "run_all": "Executar todos os testes"
+            "run_all": "Executar todos os testes",
+            "recorder": "Importar o último script gravado"
         },
         "preview.feature":{
           "error":"Erro ao carregar Feature! Por favor, reveja seus dados externos!",

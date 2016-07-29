@@ -11,7 +11,7 @@ angular.module('minium.developer')
 
         $scope.browsers = {};
         $scope.webdrivers = angular.copy($rootScope.availableWebDrivers);
-        
+
         $scope.selectedBrowser = undefined;
         $scope.selectedBrowserCanBeLaunchedWithRecorder = false;
         $scope.createWebDriverWithRecorder = true;
@@ -66,7 +66,8 @@ angular.module('minium.developer')
                 // if user choose insert JSON Configuration
                 if (IsValidJsonString($scope.advancedCapabilitiesConfig)) {
                     var objectConfig = JSON.parse($scope.advancedCapabilitiesConfig);
-                    config = $scope.advancedCapabilitiesConfig;
+                    config = objectConfig;
+                    $scope.createWebDriverWithRecorder = false;
                 } else {
                     toastr.error($translate('webdriver.json_invalid'));
                     creatingWebDriver.stop();
@@ -74,11 +75,12 @@ angular.module('minium.developer')
                 }
             } else if ($scope.useRemoteWebDriver) {
                 $scope.selectedBrowser.url = $scope.remoteWebDriverUrl;
+                config = $scope.selectedBrowser;
+                $scope.createWebDriverWithRecorder = false;
             } else {
                 $scope.selectedBrowser.desiredCapabilities =  $scope.selectedBrowser.desiredCapabilities;
+                config = $scope.selectedBrowser;
             }
-
-            config = $scope.selectedBrowser;
 
             WebDriverFactory.create(config, $scope.createWebDriverWithRecorder).success(function() {
                 toastr.success($translate('webdriver.new'));

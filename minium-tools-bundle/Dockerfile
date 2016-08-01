@@ -1,4 +1,4 @@
-FROM dolos:5100/oraclejdk8-debian
+FROM bia.vilt-group.com/devops/docker-base-images:jdk8
 
 MAINTAINER Mario Lameiras <mario.lameiras@vilt-group.com>
 ##############################################

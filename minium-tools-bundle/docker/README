@@ -8,8 +8,8 @@ please build the minium-tools project first with `mvn install` then
 To Push to registry chaning to the CORRECT_VERSION:
 
 ```
-docker tag docker_developer cynthia:5100/minium-tools:1.1.0-SNAPSHOT
-docker push cynthia:5100/minium-tools:1.1.0-SNAPSHOT
+docker tag docker_developer dolos:5100/minium-tools:1.1.0-SNAPSHOT
+docker push dolos:5100/minium-tools:1.1.0-SNAPSHOT
 ```
 
 

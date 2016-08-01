@@ -1,4 +1,4 @@
-FROM cynthia:5100/oraclejdk8-debian
+FROM dolos:5100/oraclejdk8-debian
 
 MAINTAINER Mario Lameiras <mario.lameiras@vilt-group.com>
 ##############################################

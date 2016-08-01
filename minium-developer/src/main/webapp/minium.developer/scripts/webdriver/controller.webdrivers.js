@@ -25,7 +25,8 @@ angular.module('minium.developer')
             if (!$scope.isActive(webdriver)) {
                 $scope.selectedBrowser = webdriver;
                 WebDriverFactory.isRecorderAvailableForBrowser(webdriver.name).success(function(isAvailable) {
-                    $scope.selectedBrowserCanBeLaunchedWithRecorder = isAvailable;
+                    // string to boolean
+                    $scope.selectedBrowserCanBeLaunchedWithRecorder = (isAvailable.toLowerCase() === 'true');
                 });
             }
         };
@@ -55,6 +56,7 @@ angular.module('minium.developer')
         }
 
         $scope.createWebDriver = function() {
+
             //functions needed to be here
             var creatingWebDriver = Ladda.create(document.querySelector('#createWebDriver'));
             $scope.isProcessing = true;
@@ -78,8 +80,12 @@ angular.module('minium.developer')
                 config = $scope.selectedBrowser;
                 $scope.createWebDriverWithRecorder = false;
             } else {
-                $scope.selectedBrowser.desiredCapabilities =  $scope.selectedBrowser.desiredCapabilities;
+                $scope.selectedBrowser.desiredCapabilities = $scope.selectedBrowser.desiredCapabilities;
                 config = $scope.selectedBrowser;
+
+                if (!$scope.selectedBrowserCanBeLaunchedWithRecorder) {
+                    $scope.createWebDriverWithRecorder = false;
+                }
             }
 
             WebDriverFactory.create(config, $scope.createWebDriverWithRecorder).success(function() {
@@ -114,10 +120,10 @@ angular.module('minium.developer')
             // if returns TRUE the button will be disabled
             if ($scope.advancedCapabilities) {
                 return $scope.isProcessing === true || $scope.advancedCapabilitiesConfig == '' || $scope.advancedWebDriverForm.jsonConfig.$error.validJson;
-            } else if($scope.useRemoteWebDriver) {
-                return $scope.selectedBrowser === undefined || $scope.isProcessing === true || $scope.remoteWebDriverUrl == '' ;
-            } else{
-                return $scope.selectedBrowser === undefined || $scope.isProcessing === true ;
+            } else if ($scope.useRemoteWebDriver) {
+                return $scope.selectedBrowser === undefined || $scope.isProcessing === true || $scope.remoteWebDriverUrl == '';
+            } else {
+                return $scope.selectedBrowser === undefined || $scope.isProcessing === true;
             }
         }
 
@@ -130,7 +136,7 @@ angular.module('minium.developer')
                     version: '<version>'
                 }
             };
-            $scope.advancedCapabilitiesConfig = JSON.stringify(defaultJsonConfig,null, "\t");
+            $scope.advancedCapabilitiesConfig = JSON.stringify(defaultJsonConfig, null, "\t");
         }
 
     });

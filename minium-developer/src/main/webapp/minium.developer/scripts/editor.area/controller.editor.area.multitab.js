@@ -187,8 +187,6 @@ angular.module('minium.developer')
 
         };
 
-
-
         var annotations = [];
         var executionWasStopped;
         var reLaunchParams;

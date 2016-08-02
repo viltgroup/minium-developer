@@ -19,7 +19,7 @@
 		<!-- cucumber 1.22 doesn't seem to support 4.12 yet -->
 		<junit.version>4.11</junit.version>
 
-		<skip.minium.tests>true</skip.minium.tests>
+		<skip.minium.tests>false</skip.minium.tests>
 	</properties>
 
 	<dependencies>

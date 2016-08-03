@@ -72,7 +72,8 @@
             "complete": "Actualización completada",
             "error": "No se pudo actualizar los wedrivers"
         },
-        "launch_with_recorder": "Lanzar con Minium Recorder"
+        "isAvailable": "Minium Recorder está <strong class='success'>disponible</strong>",
+        "how_to_use": "Puede utilizar Minium Recorder abriendo el Developer tools: pinchar con el botón derecho sobre cualquier elemento de la página y seleccionar Inspeccionar elemento. <br> En Developer Tools abrir la pestaña 'Minium Recorder'. Después puede empezar a grabar sus interacciones con el navegador."
     },
     "report": {
         "steps": "Pasos",

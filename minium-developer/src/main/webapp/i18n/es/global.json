@@ -121,6 +121,7 @@
         "version": "Versión",
         "version.new": "Hay una nueva versión disponible?",
         "date": "Fecha",
-        "commitHash": "Commit Hash"
+        "commitHash": "Commit Hash",
+        "more_details": "Más detalles"
     }
 }

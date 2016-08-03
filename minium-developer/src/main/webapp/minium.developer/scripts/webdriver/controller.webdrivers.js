@@ -13,8 +13,7 @@ angular.module('minium.developer')
         $scope.webdrivers = angular.copy($rootScope.availableWebDrivers);
 
         $scope.selectedBrowser = undefined;
-        $scope.selectedBrowserCanBeLaunchedWithRecorder = false;
-        $scope.createWebDriverWithRecorder = true;
+        $scope.selectedBrowserHasRecorder = false;
 
         // TODO- put this in a directive
         $scope.isActive = function(webdriver) {
@@ -26,7 +25,7 @@ angular.module('minium.developer')
                 $scope.selectedBrowser = webdriver;
                 WebDriverFactory.isRecorderAvailableForBrowser(webdriver.name).success(function(isAvailable) {
                     // string to boolean
-                    $scope.selectedBrowserCanBeLaunchedWithRecorder = (isAvailable.toLowerCase() === 'true');
+                    $scope.selectedBrowserHasRecorder = (isAvailable.toLowerCase() === 'true');
                 });
             }
         };
@@ -69,7 +68,7 @@ angular.module('minium.developer')
                 if (IsValidJsonString($scope.advancedCapabilitiesConfig)) {
                     var objectConfig = JSON.parse($scope.advancedCapabilitiesConfig);
                     config = objectConfig;
-                    $scope.createWebDriverWithRecorder = false;
+                    $scope.selectedBrowserHasRecorder = false;
                 } else {
                     toastr.error($translate('webdriver.json_invalid'));
                     creatingWebDriver.stop();
@@ -78,17 +77,13 @@ angular.module('minium.developer')
             } else if ($scope.useRemoteWebDriver) {
                 $scope.selectedBrowser.url = $scope.remoteWebDriverUrl;
                 config = $scope.selectedBrowser;
-                $scope.createWebDriverWithRecorder = false;
+                $scope.selectedBrowserHasRecorder = false;
             } else {
                 $scope.selectedBrowser.desiredCapabilities = $scope.selectedBrowser.desiredCapabilities;
                 config = $scope.selectedBrowser;
-
-                if (!$scope.selectedBrowserCanBeLaunchedWithRecorder) {
-                    $scope.createWebDriverWithRecorder = false;
-                }
             }
 
-            WebDriverFactory.create(config, $scope.createWebDriverWithRecorder).success(function() {
+            WebDriverFactory.create(config, $scope.selectedBrowserHasRecorder).success(function() {
                 toastr.success($translate('webdriver.new'));
                 $scope.$close(false);
             }).error(function() {

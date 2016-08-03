@@ -1,23 +1,9 @@
 package minium.developer.service;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import com.google.inject.internal.Maps;
-
-import minium.actions.Keys;
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.config.WebDriversProperties.RecorderProperties;
@@ -29,7 +15,16 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 import minium.web.config.WebDriverFactory;
-import minium.web.config.WebDriverProperties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.google.inject.internal.Maps;
 
 @Service
 public class WebDriverService {
@@ -140,44 +135,31 @@ public class WebDriverService {
     public WebDriver createWebDriver(DeveloperWebDriverProperties webDriverProperties, boolean withRecorder) throws IOException {
         WebDriver webDriver = null;
         if (withRecorder) {
-            RecorderProperties recorderProperties = this.webDriversProperties.getWebDriverPropertiesByBrowserName(webDriverProperties.getName()).getRecorder();
-            if (recorderProperties != null && recorderProperties.isAvailable()) {
-                ChromeOptions options = new ChromeOptions();
-
-                options.addExtensions(recorderProperties.getPath());
-
-                Map<String, Object> prefs = Maps.newHashMap();
-                Map<String, Object> devtoolsPrefs = Maps.newHashMap();
-                devtoolsPrefs.put("InspectorView.panelOrder", "{\"chrome-extension://" + recorderProperties.getId() + "\":1}");
-                devtoolsPrefs.put("shortcutPanelSwitch", true);
-                prefs.put("devtools.preferences", devtoolsPrefs);
-                options.setExperimentalOption("prefs", prefs);
-
-                options.addArguments("start-maximized");
-
-                webDriverProperties.getDesiredCapabilities().put(ChromeOptions.CAPABILITY, options);
-                webDriver = webDriverFactory.create(webDriverProperties);
-
-                maybeOpenOnStartup(webDriver, recorderProperties);
-            }
+            webDriver = addRecorderPlugin(webDriverProperties, webDriver);
         }
         return webDriver != null ? webDriver : webDriverFactory.create(webDriverProperties);
     }
 
-    private void maybeOpenOnStartup(WebDriver webDriver, RecorderProperties recorderProperties) {
-        if (recorderProperties.isOpenOnStartup()) {
-            try {
-                webDriver.findElement(By.tagName("body")).sendKeys(Keys.F12);
-                Thread.sleep(1500);
-                Robot robot = new Robot();
-                robot.keyPress(KeyEvent.VK_CONTROL);
-                robot.keyPress(KeyEvent.VK_1);
-                robot.keyRelease(KeyEvent.VK_CONTROL);
-                robot.keyRelease(KeyEvent.VK_1);
-            } catch (Exception e) {
-                LOGGER.warn("Couldn't open the recorder automatically", e);
-            }
+    protected WebDriver addRecorderPlugin(DeveloperWebDriverProperties webDriverProperties, WebDriver webDriver) throws IOException {
+        RecorderProperties recorderProperties = this.webDriversProperties.getWebDriverPropertiesByBrowserName(webDriverProperties.getName()).getRecorder();
+        if (recorderProperties != null && recorderProperties.isAvailable()) {
+            ChromeOptions options = new ChromeOptions();
+
+            options.addExtensions(recorderProperties.getPath());
+
+            Map<String, Object> prefs = Maps.newHashMap();
+            Map<String, Object> devtoolsPrefs = Maps.newHashMap();
+            devtoolsPrefs.put("InspectorView.panelOrder", "{\"chrome-extension://" + recorderProperties.getId() + "\":1}");
+            devtoolsPrefs.put("shortcutPanelSwitch", true);
+            prefs.put("devtools.preferences", devtoolsPrefs);
+            options.setExperimentalOption("prefs", prefs);
+
+            options.addArguments("start-maximized");
+
+            webDriverProperties.getDesiredCapabilities().put(ChromeOptions.CAPABILITY, options);
+            webDriver = webDriverFactory.create(webDriverProperties);
         }
+        return webDriver;
     }
 
     public boolean isRecorderAvailableForBrowser(String browser) {

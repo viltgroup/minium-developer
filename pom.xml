@@ -10,7 +10,7 @@
 
 	<groupId>io.vilt.minium.tools</groupId>
 	<artifactId>minium-tools</artifactId>
-	<version>1.4.1</version>
+	<version>1.4.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Tools</name>
@@ -19,7 +19,7 @@
 		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-tools.git</connection>
 		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-tools.git</developerConnection>
 		<url>https://artemis.vilt-group.com/engineering.minium/minium-tools</url>
-		<tag>minium-tools-1.4.1</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<properties>
@@ -43,22 +43,22 @@
        		<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-automator</artifactId>
-				<version>1.4.1</version>
+				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-tools-fs</artifactId>
-				<version>1.4.1</version>
+				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
 	        <dependency>
 	            <groupId>io.vilt.minium.tools</groupId>
 	            <artifactId>minium-cucumber-reporting</artifactId>
-				<version>1.4.1</version>
+				<version>1.4.2-SNAPSHOT</version>
 	        </dependency>
 			<dependency>
 				<groupId>io.vilt.minium.tools</groupId>
 				<artifactId>minium-developer</artifactId>
-				<version>1.4.1</version>
+				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

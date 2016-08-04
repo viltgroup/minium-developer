@@ -6,7 +6,6 @@ import java.io.File;
 
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.IEDriverDownloader;
-import minium.developer.webdriver.PhantomJSDownloader;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 
@@ -46,13 +45,5 @@ public class WebDriverDownloaderTest {
         if (SystemUtils.IS_OS_WINDOWS) {
             assertTrue("Cannot execute", executable.canExecute());
         }
-    }
-
-    @Test
-    public void testPhantomJSDownload() throws Exception {
-        PhantomJSDownloader phantomJSDownloader = new PhantomJSDownloader("1.9.8", downloadDir);
-        phantomJSDownloader.download();
-        File executable = new File(downloadDir, "phantomjs" + (SystemUtils.IS_OS_WINDOWS ? ".exe" : ""));
-        assertTrue("Cannot execute", executable.canExecute());
     }
 }

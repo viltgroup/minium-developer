@@ -163,6 +163,7 @@ public class CucumberProject extends ProjectTemplate {
 		f = new File(resourcesPath, "steps");
 		fileModules = new File(f, "");
 		copyResource("/templates/cucumber-project/steps.js", fileModules, project.getStepFile() + ".js");
+		copyResource("/templates/cucumber-project/world.js", fileModules, "world.js");
 	}
 
 }

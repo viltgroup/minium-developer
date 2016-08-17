@@ -99,7 +99,11 @@ Clean the markers in the present editor.
 ## Console tab
 
 Minium Developer provides you a console where you can put javascript expressions
-that you don't want to put in your test files. It works like a helper for your
+that you don't want to put in your test files:
+
+![Javascript console](img/js-console.png)
+
+ It works like a helper for your
 javascript code, you can evaluate expressions and select elements.
 
 ## Features
@@ -135,6 +139,36 @@ code.
 You can evaluate your expressions in javascript. For example, if you want to
 evaluate an element like `$("#my-div")`, `var x = 10`. Evaluated variables will
 be stored in a scope.
+
+### Variables scope
+
+When we evaluate some javascript in Minium Developer, all variables declared
+we'll be maintained in the evaluation global scope. That means that, the next
+time you evaluate something, all previously declared variables are still
+available.
+
+For instance, evaluate the following code:
+
+```javascript
+var name = "World";
+```
+
+Now you can evaluate the following code:
+
+```javascript
+"Hello " + name // it evaluate into "Hello world"
+```
+
+If you want to clear the global scope, so that all variables are removed from
+it, you can do it by clicking in `Run > Clean scope`:
+
+![Clean scope](img/clean-scope.png)
+
+After that, if you try to run the previous code, it will fail:
+
+```javascript
+"Hello " + name // ReferenceError: "name" is not defined
+```
 
 ### Search file (`Ctrl + P`)
 

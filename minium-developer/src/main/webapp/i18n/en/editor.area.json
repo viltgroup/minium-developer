@@ -83,7 +83,7 @@
     },
     "test_msg": {
         "failing": "Test didn't pass!!",
-        "pass": "Test Pass with Sucess",
+        "pass": "Test was successful",
         "not_executed": "No tests executed",
         "executed_passed": "Test Executed and Pass",
         "test_error": "Oops, something went wrong."

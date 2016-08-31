@@ -1,6 +1,6 @@
-# Minium Developer
+<h1> Minium Developer </h1>
 
-## Create a new project
+# Create a new project
 
 * Go to `Project > Create Project`
 * Select the type of project that you want to create
@@ -9,18 +9,18 @@
 
 The following types of project are available:
 
-### Automator
+## Automator
 
 Creates a simple project to automate tasks using Minium.
 
-### Cucumber
+## Cucumber
 
 Creates a base project, with a feature and his step definitions ready to
 execute.
 
 After the project creation you will see the project open in the sidebar.
 
-## Open Project
+# Open Project
 
 If you already have a project in your filesystem you can open it.
 
@@ -31,7 +31,7 @@ If you already have a project in your filesystem you can open it.
 ![minium-developer2](img/minium-dev-exec.png "Minium developer")
 ![minium-developer3](img/minium-dev-js.png "Minium developer")
 
-## Launch a webdriver
+# Launch a webdriver
 
 You can create new webdrivers where you will execute your tests or run your
 code.
@@ -40,7 +40,16 @@ code.
 * Select the desired browser type
 * Click on the button `Create a new webdriver`
 
-### Configure the Firefox WebDriver with a custom profile
+## Internet Explorer Configuration
+
+[In order to run tests on IE, you need to change some configurations](https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration):
+
+* On IE 7 or higher on Windows Vista or Windows 7, you must set the Protected Mode settings for each zone to be the same value. The value can be on or off, as long as it is the same for every zone. To set the Protected Mode settings, choose "Internet Options..." from the Tools menu, and click on the Security tab. For each zone, there will be a check box at the bottom of the tab labeled "Enable Protected Mode".
+* Additionally, "Enhanced Protected Mode" must be disabled for IE 10 and higher. This option is found in the Advanced tab of the Internet Options dialog.
+The browser zoom level must be set to 100% so that the native mouse events can be set to the correct coordinates.
+* For IE 11 only, you will need to set a registry entry on the target computer so that the driver can maintain a connection to the instance of Internet Explorer it creates. For 32-bit Windows installations, the key you must examine in the registry editor is `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BFCACHE`. For 64-bit Windows installations, the key is `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BFCACHE`. Please note that the `FEATURE_BFCACHE` subkey may or may not be present, and should be created if it is not present. Important: Inside this key, create a DWORD value named `iexplore.exe` with the value of 0.
+
+## Configure the Firefox WebDriver with a custom profile
 
 You can configure the Firefox WebDriver with a custom profile by creating a file with name `application-dev.yml` in the folder `minium-tools/config` of your Minium installation directory. Configurations available:
 * Load a profile from a directory
@@ -74,12 +83,17 @@ minium:
     (other WebDrivers)
 ```
 
-## Status Button
+## Firefox issues
+
+You may experience some issues with the Firefox WebDriver. Sometimes, it is just a matter of [updating the WebDrivers](#update-webdrivers). You can see [here](https://github.com/SeleniumHQ/selenium/blob/master/java/CHANGELOG) if the problem has already been solved in the latest version.
+
+
+# Status Button
 
 The floating button in the bottom right corner give you feedback when the test
 is being executed.
 
-### Report
+## Report
 
 After an execution of a feature or a scenario you can see a button with a
 tooltip "Report".
@@ -88,15 +102,15 @@ It will open a modal with the report of your last test execution. There you can
 see the number of steps executed and if your test fails or some step was
 skipped, it give you more details about what happened.
 
-### Cancel test
+## Cancel test
 
 You have the possibility of cancel a test execution.
 
-### Clear markers
+## Clear markers
 
 Clean the markers in the present editor.
 
-## Console tab
+# Console tab
 
 Minium Developer provides you a console where you can put javascript expressions
 that you don't want to put in your test files:
@@ -106,26 +120,26 @@ that you don't want to put in your test files:
  It works like a helper for your
 javascript code, you can evaluate expressions and select elements.
 
-## Features
+# Features
 
-### Run tests (`Ctrl + Enter`)
+## Run tests (`Ctrl + Enter`)
 
 Execute you the scenario from the cursor location. If you put the cursor in a
 scenario it and you can also use a shortcut (`Ctrl + enter`) to run a specific
 scenario.
 
-### Run All
+## Run All
 
 Execute all the scenario of your feature.
 
-### Execution
+## Execution
 
 When you run a scenario, Minium Developer will provide you a real time feedback
 of the step results. Each step executed will be marked on editor with a color
 depending on the result of the step. If the step is marked with red it means
 that the step doesn't pass with success.
 
-### Selector Gadget (`Ctrl + Shift + C`)
+## Selector Gadget (`Ctrl + Shift + C`)
 
 You can select an element or multiple elements in the webdriver. After the
 selection it will automatically generate a CSS expression to find the elements
@@ -134,13 +148,13 @@ that you select.
 You can use this to pick elements of a web page without looking to the source
 code.
 
-### Evaluate (`Ctrl + Enter`)
+## Evaluate (`Ctrl + Enter`)
 
 You can evaluate your expressions in javascript. For example, if you want to
 evaluate an element like `$("#my-div")`, `var x = 10`. Evaluated variables will
 be stored in a scope.
 
-### Variables scope
+## Variables scope
 
 When we evaluate some javascript in Minium Developer, all variables declared
 we'll be maintained in the evaluation global scope. That means that, the next
@@ -170,11 +184,17 @@ After that, if you try to run the previous code, it will fail:
 "Hello " + name // ReferenceError: "name" is not defined
 ```
 
-### Search file (`Ctrl + P`)
+## Search file (`Ctrl + P`)
 
 Search and open files
 
-## Update Minium Tools to the latest release
+# Update WebDrivers
+
+To update the WebDrivers go to `Preferences > Download webdrivers > Update webdrivers`:
+
+![update-webdrivers](img/update-webdrivers.png)
+
+# Update Minium Tools to the latest release
 
 1. Download the latest release from <https://github.com/viltgroup/minium-tools/releases/>.
 2. Update the version of `minium-cucumber-parent` in the `pom.xml` file of your Minium projects. For instance, if you downloaded release 1.3.0, then you would need to change the file to something like:

@@ -48,9 +48,6 @@ public class Result {
     }
 
     public Long getDuration() {
-        if (status == Status.SKIPPED || status == Status.UNDEFINED)
-            return null;
-
         return duration == null ? 0L : duration;
     }
 

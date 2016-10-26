@@ -48,4 +48,9 @@ public abstract class Downloader {
         logger.info("Download complete to " + tmpFile);
         return tmpFile;
     }
+
+    protected void setExecutablePermissions(File executable) {
+        executable.setExecutable(true, false);
+        executable.setReadable(true, false);
+    }
 }

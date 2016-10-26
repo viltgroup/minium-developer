@@ -14,6 +14,7 @@ public class RuntimeConfig {
     private static final String SELENIUM_URL = "https://selenium-release.storage.googleapis.com/";
     private static final String CHROME_DRIVER_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
     private static final String PHANTOMJS_URL = "https://bitbucket.org/ariya/phantomjs/downloads";
+    private static final String GECKO_RELEASES_URL = "https://github.com/mozilla/geckodriver/releases";
 
     public static OS getOS() {
         return currentOS;
@@ -38,5 +39,9 @@ public class RuntimeConfig {
 
     public static String getChromeDriverUrl() {
         return CHROME_DRIVER_URL;
+    }
+
+    public static String getGeckoDriverReleasesUrl() {
+        return GECKO_RELEASES_URL;
     }
 }

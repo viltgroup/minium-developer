@@ -16,14 +16,6 @@ public class PhantomJSDownloader extends Downloader {
         this.version = version;
     }
 
-    private void extractZip(File compressedFile) {
-        Unzipper.unzip(compressedFile.getAbsolutePath(), getDestinationDir());
-    }
-
-    private void extractTar(File compressedFile) {
-        Unzipper.untar(compressedFile.getAbsolutePath(), getDestinationDir());
-    }
-
     @Override
     public void download() throws IOException {
         File compressedFile = doDownload();
@@ -31,9 +23,9 @@ public class PhantomJSDownloader extends Downloader {
         // extract the downloaded archive
         String driver = "phantomjs", driverPath = "phantomjs";
         if (RuntimeConfig.getOS().isWindows() || RuntimeConfig.getOS().isMac()) {
-            extractZip(compressedFile);
+            Unzipper.unzip(compressedFile, getDestinationDir());
         } else {
-            extractTar(compressedFile);
+            Unzipper.untar(compressedFile, getDestinationDir());
         }
 
         // extract the executable
@@ -46,8 +38,7 @@ public class PhantomJSDownloader extends Downloader {
 
         String sourceUrl = String.format("phantomjs-%s-%s", version, getOSName());
         File tempUnzipedExecutable = new File(getDestinationDir(), sourceUrl + "/" + driverPath);
-        tempUnzipedExecutable.setExecutable(true, false);
-        tempUnzipedExecutable.setReadable(true, false);
+        setExecutablePermissions(tempUnzipedExecutable);
 
         File finalExecutable = new File(getDestinationDir(), driver);
 

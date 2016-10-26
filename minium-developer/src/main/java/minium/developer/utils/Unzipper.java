@@ -32,4 +32,20 @@ public class Unzipper {
         }
     }
 
+    public static void unzip(File archive, String destination) {
+        unzip(archive.getAbsolutePath(), destination);
+    }
+
+    public static void untar(File archive, String destination) {
+        untar(archive.getAbsolutePath(), destination);
+    }
+
+    public static void extractArchive(File archive, String destination) {
+        String path = archive.getAbsolutePath();
+        if (path.endsWith(".zip")) {
+            unzip(path, destination);
+        } else if (path.endsWith(".tar.gz")) {
+            untar(path, destination);
+        }
+    }
 }

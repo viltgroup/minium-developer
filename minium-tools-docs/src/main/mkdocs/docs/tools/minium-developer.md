@@ -85,7 +85,7 @@ minium:
 
 ## Firefox issues
 
-You may experience some issues with the Firefox WebDriver. Sometimes, it is just a matter of [updating the WebDrivers](#update-webdrivers). You can see [here](https://github.com/SeleniumHQ/selenium/blob/master/java/CHANGELOG) if the problem has already been solved in the latest version.
+You may experience some issues with the Firefox WebDriver. If that happens, [updating the WebDrivers](#update-webdrivers) might solve the problem.
 
 
 # Status Button

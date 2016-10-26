@@ -30,8 +30,7 @@ public class ChromeDriverDownloader extends Downloader {
         }
 
         File finalExecutable = new File(getDestinationDir(), chromedriver);
-        finalExecutable.setExecutable(true, false);
-        finalExecutable.setReadable(true, false);
+        setExecutablePermissions(finalExecutable);
 
         LOGGER.info("Driver extracted to  " + finalExecutable.getAbsolutePath());
     }

@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.config.WebDriversProperties.RecorderProperties;
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
+import minium.developer.webdriver.GeckoDriverDownloader;
 import minium.developer.webdriver.IEDriverDownloader;
 import minium.developer.webdriver.PhantomJSDownloader;
 import minium.developer.webdriver.RuntimeConfig;
@@ -45,11 +48,17 @@ public class WebDriverService {
     protected WebDriverFactory webDriverFactory;
 
     private ChromeDriverDownloader chromeDownloader;
+    private GeckoDriverDownloader geckoDownloader;
     private IEDriverDownloader ieDownloader;
     private PhantomJSDownloader phantomJSDownloader;
 
     public static enum WebDriverType {
         CHROME, FIREFOX, IE, SAFARI, PHANTOMJS
+    }
+
+    @PostConstruct
+    public void setupGeckodriver() {
+        System.setProperty("webdriver.gecko.driver", driverLocator.getWebDriverPath("firefox"));
     }
 
     public void webDriverExists(String browserName) throws IOException {
@@ -59,6 +68,9 @@ public class WebDriverService {
             switch (browserName) {
             case "chrome":
                 downloadChromeDriver();
+                break;
+            case "firefox":
+                downloadGeckoDriver();
                 break;
             case "internet explorer":
                 downloadIEDriver();
@@ -77,6 +89,12 @@ public class WebDriverService {
         String chromeVersion = chromeDriverLatestVersion.getPrettyPrintVersion(".");
         chromeDownloader = new ChromeDriverDownloader(chromeVersion, driverLocator.getDriversDir().getPath());
         chromeDownloader.download();
+    }
+
+    protected void downloadGeckoDriver() throws IOException {
+        String geckoDriverLatestVersion = releaseManager.getGeckoDriverLatestVersion();
+        geckoDownloader = new GeckoDriverDownloader(geckoDriverLatestVersion, driverLocator.getDriversDir().getPath());
+        geckoDownloader.download();
     }
 
     protected void downloadPhantomJs() throws IOException {
@@ -110,6 +128,9 @@ public class WebDriverService {
             downloadChromeDriver();
         }
 
+        if (!driverLocator.webDriverExists("firefox")) {
+            downloadGeckoDriver();
+        }
     }
 
     /**
@@ -126,6 +147,7 @@ public class WebDriverService {
 
         downloadPhantomJs();
         downloadChromeDriver();
+        downloadGeckoDriver();
     }
 
     public List<DeveloperWebDriverProperties> getAvailableWebdrivers() {

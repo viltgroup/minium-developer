@@ -4,7 +4,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.google.inject.internal.Maps;
 
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
@@ -18,16 +26,6 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 import minium.web.config.WebDriverFactory;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import com.google.inject.internal.Maps;
 
 @Service
 public class WebDriverService {
@@ -54,11 +52,6 @@ public class WebDriverService {
 
     public static enum WebDriverType {
         CHROME, FIREFOX, IE, SAFARI, PHANTOMJS
-    }
-
-    @PostConstruct
-    public void setupGeckodriver() {
-        System.setProperty("webdriver.gecko.driver", driverLocator.getWebDriverPath("firefox"));
     }
 
     public void webDriverExists(String browserName) throws IOException {
@@ -187,4 +180,5 @@ public class WebDriverService {
     public boolean isRecorderAvailableForBrowser(String browser) {
         return this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getRecorder().isAvailable();
     }
+
 }

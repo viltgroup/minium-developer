@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 
 import minium.developer.browser.BrowserLauncher;
 import minium.developer.config.Constants;
+import minium.developer.webdriver.DriverLocator;
 import minium.tools.fs.config.FileSystemConfiguration;
 
 import org.apache.catalina.Context;
@@ -19,6 +20,7 @@ import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -47,6 +49,9 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
     @Inject
     private Environment env;
 
+    @Autowired
+    private DriverLocator driverLocator;
+
     /**
      * Initializes miniumdev.
      * <p/>
@@ -56,6 +61,8 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
      */
     @PostConstruct
     public void initApplication() throws IOException {
+        System.setProperty("webdriver.gecko.driver", driverLocator.getWebDriverPath("firefox"));
+
         if (env.getActiveProfiles().length == 0) {
             log.warn("No Spring profile configured, running with default configuration");
         } else {

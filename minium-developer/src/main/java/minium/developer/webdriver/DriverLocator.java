@@ -19,10 +19,13 @@ public class DriverLocator {
         switch (browser) {
         case "chrome":
             executableName = "chromedriver";
+            break;
         case "firefox":
             executableName = "geckodriver";
+            break;
         case "internet explorer":
             executableName = "IEDriverServer";
+            break;
         case "phantomjs":
             executableName = "phantomjs";
         }

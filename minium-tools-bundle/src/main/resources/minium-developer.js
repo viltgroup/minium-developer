@@ -30,6 +30,8 @@ var close = (() => {
           }, (response) => {
             if (response == 0) {
               shutdown();
+            } else {
+              thereAreUnsavedFiles = undefined;
             }
           });
         } else {

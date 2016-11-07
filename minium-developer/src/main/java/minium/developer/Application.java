@@ -129,11 +129,13 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
     }
 
     private static void maybeLaunchBrowser(ConfigurableApplicationContext context) {
-        try {
-            BrowserLauncher browserLauncher = context.getBean(BrowserLauncher.class);
-            browserLauncher.launch();
-        } catch (BeansException e) {
-            // not a big deal
+        if (System.getProperty("openInBrowser") != null) {
+            try {
+                BrowserLauncher browserLauncher = context.getBean(BrowserLauncher.class);
+                browserLauncher.launch();
+            } catch (BeansException e) {
+                // not a big deal
+            }
         }
     }
 

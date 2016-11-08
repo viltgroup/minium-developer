@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
@@ -23,7 +24,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>minium-tools</finalName>
+		<finalName>minium-tools</finalName> <!-- If this changes, the file src/main/resources/nativefier/main.js must be updated -->
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -80,10 +81,67 @@
 									<name>minium-developer-browser</name>
 								</program>
 								<program>
-                                    <mainClass>minium.automator.Application</mainClass>
-                                    <name>minium-automator</name>
-                                </program>
+									<mainClass>minium.automator.Application</mainClass>
+									<name>minium-automator</name>
+								</program>
 							</programs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.2</version>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<nodeVersion>v6.9.1</nodeVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run nativefier-windows</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run nativefier-windows</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run nativefier-linux</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run nativefier-linux</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run nativefier-osx</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run nativefier-osx</arguments>
 						</configuration>
 					</execution>
 				</executions>
@@ -91,6 +149,25 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
+					<execution> <!-- See #59670 -->
+						<id>copy-node-progress-package</id>
+						<phase>process-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>node_modules/progress/lib</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/nativefier</directory>
+									<includes>
+										<include>node-progress.js</include>
+									</includes>
+								</resource>
+							</resources>
+							<overwrite>true</overwrite>
+						</configuration>
+					</execution>
 					<execution>
 						<id>copy-config</id>
 						<phase>generate-resources</phase>
@@ -98,10 +175,145 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/config</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/config</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-minium-developer-js</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/bin</outputDirectory>
 							<resources>
 								<resource>
 									<directory>src/main/resources</directory>
+									<includes>
+										<include>minium-developer.js</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-loading-page</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/${project.build.finalName}/static</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/loading-page</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-main-js-windows</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/Minium-Developer-win32-x64/resources/app/lib</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/nativefier</directory>
+									<includes>
+										<include>main.js</include>
+									</includes>
+								</resource>
+							</resources>
+							<overwrite>true</overwrite>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-main-js-linux</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/Minium-Developer-linux-x64/resources/app/lib</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/nativefier</directory>
+									<includes>
+										<include>main.js</include>
+									</includes>
+								</resource>
+							</resources>
+							<overwrite>true</overwrite>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-main-js-mac</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/Minium-Developer-darwin-x64/Minium-Developer.app/Contents/Resources/app/lib</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/nativefier</directory>
+									<includes>
+										<include>main.js</include>
+									</includes>
+								</resource>
+							</resources>
+							<overwrite>true</overwrite>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-minium-developer-windows</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/Minium-Developer-win32-x64/${project.build.finalName}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>target/${project.build.finalName}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-minium-developer-linux</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/Minium-Developer-linux-x64/${project.build.finalName}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>target/${project.build.finalName}</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-minium-developer-mac</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/Minium-Developer-darwin-x64/Minium-Developer.app/Contents/${project.build.finalName}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>target/${project.build.finalName}</directory>
 								</resource>
 							</resources>
 						</configuration>
@@ -113,17 +325,71 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>minium-tools-bundle</id>
+						<id>minium-developer-windows</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
 						<configuration>
 							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>minium-tools-${project.version}</finalName>
+							<finalName>Minium-Developer-win32-x64</finalName>
 							<descriptors>
-								<descriptor>src/assembly/assembly.xml</descriptor>
+								<descriptor>src/assembly/assembly-windows.xml</descriptor>
 							</descriptors>
+						</configuration>
+					</execution>
+					<execution>
+						<id>minium-developer-linux</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>Minium-Developer-linux-x64</finalName>
+							<descriptors>
+								<descriptor>src/assembly/assembly-linux.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+					<execution>
+						<id>minium-developer-mac</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>Minium-Developer-osx-x64</finalName>
+							<descriptors>
+								<descriptor>src/assembly/assembly-mac.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>cleanup</id>
+						<phase>package</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+						<configuration>
+							<excludeDefaultDirectories>true</excludeDefaultDirectories>
+							<filesets>
+								<fileset>
+									<directory>target/Minium-Developer-darwin-x64</directory>
+								</fileset>
+								<fileset>
+									<directory>target/Minium-Developer-linux-x64</directory>
+								</fileset>
+								<fileset>
+									<directory>target/Minium-Developer-win32-x64</directory>
+								</fileset>
+							</filesets>
 						</configuration>
 					</execution>
 				</executions>

@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "nativefier": "7.0.1"
+    },
+    "scripts": {
+        "nativefier-windows": "nativefier --platform windows --arch x64 --name \"Minium-Developer\" --icon src/main/resources/nativefier/icon.ico --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target",
+        "nativefier-linux": "nativefier --platform linux --arch x64 --name \"Minium-Developer\" --icon src/main/resources/nativefier/icon.ico --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target",
+        "nativefier-osx": "nativefier --platform osx --arch x64 --name \"Minium-Developer\" --icon src/main/resources/nativefier/icon.ico --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target"
+    }
+}

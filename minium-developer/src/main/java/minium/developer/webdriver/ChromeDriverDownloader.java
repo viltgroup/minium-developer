@@ -23,7 +23,7 @@ public class ChromeDriverDownloader extends Downloader {
     public void download() throws IOException {
         LOGGER.info("Downloading from " + getSourceURL());
         File zipFile = doDownload();
-        Unzipper.unzip(zipFile.getAbsolutePath(), getDestinationDir());
+        Unzipper.unzip(zipFile, getDestinationDir());
         String chromedriver = "chromedriver";
         if (RuntimeConfig.getOS().isWindows()) {
             chromedriver = chromedriver + ".exe";

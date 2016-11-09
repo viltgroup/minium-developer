@@ -61,8 +61,6 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
      */
     @PostConstruct
     public void initApplication() throws IOException {
-        System.setProperty("webdriver.gecko.driver", driverLocator.getWebDriverPath("firefox"));
-
         if (env.getActiveProfiles().length == 0) {
             log.warn("No Spring profile configured, running with default configuration");
         } else {

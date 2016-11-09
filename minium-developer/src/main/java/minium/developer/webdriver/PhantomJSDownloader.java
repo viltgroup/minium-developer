@@ -6,6 +6,7 @@ import java.io.IOException;
 import minium.developer.utils.Unzipper;
 
 import org.apache.commons.io.FileUtils;
+import org.rauschig.jarchivelib.CompressionType;
 
 public class PhantomJSDownloader extends Downloader {
 
@@ -25,7 +26,7 @@ public class PhantomJSDownloader extends Downloader {
         if (RuntimeConfig.getOS().isWindows() || RuntimeConfig.getOS().isMac()) {
             Unzipper.unzip(compressedFile, getDestinationDir());
         } else {
-            Unzipper.untar(compressedFile, getDestinationDir());
+            Unzipper.untar(compressedFile, CompressionType.BZIP2, getDestinationDir());
         }
 
         // extract the executable

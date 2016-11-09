@@ -3,6 +3,8 @@ package minium.developer.webdriver;
 import java.io.File;
 import java.io.IOException;
 
+import org.rauschig.jarchivelib.CompressionType;
+
 import minium.developer.utils.Unzipper;
 
 public class GeckoDriverDownloader extends Downloader {
@@ -30,7 +32,7 @@ public class GeckoDriverDownloader extends Downloader {
         if (RuntimeConfig.getOS().isWindows()) {
             Unzipper.unzip(archive, getDestinationDir());
         } else {
-            Unzipper.untar(archive, getDestinationDir());
+            Unzipper.untar(archive, CompressionType.GZIP, getDestinationDir());
         }
         
         String driverFileName = "geckodriver";

@@ -112,7 +112,7 @@ public class WebDriverReleaseManager {
 
             if (highestVersion == null) {
                 highestVersion = r;
-            } else if (r.getComparableVersion() > highestVersion.getComparableVersion()) {
+            } else if (r.isMoreRecentThan(highestVersion)) {
                 highestVersion = r;
             }
         }

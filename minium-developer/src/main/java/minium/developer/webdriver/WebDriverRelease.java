@@ -44,8 +44,16 @@ public class WebDriverRelease {
         return stringBuilder.toString();
     }
 
-    public int getComparableVersion() {
-        return Integer.valueOf(getPrettyPrintVersion("0"));
+    public boolean isMoreRecentThan(WebDriverRelease otherRelease) {
+        if (getMajorVersion() != otherRelease.getMajorVersion()) {
+            return getMajorVersion() > otherRelease.getMajorVersion();
+        } else {
+            if (getMinorVersion() != otherRelease.getMinorVersion()) {
+                return getMinorVersion() > otherRelease.getMinorVersion();
+            } else {
+                return getPatchVersion() > otherRelease.getPatchVersion();
+            }
+        }
     }
 
     public int getMajorVersion() {

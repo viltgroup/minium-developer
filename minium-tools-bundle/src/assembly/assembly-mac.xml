@@ -14,8 +14,9 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/Minium-Developer-darwin-x64</directory>
-			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/MacOS</outputDirectory>
+			<outputDirectory>Minium-Developer-darwin-x64</outputDirectory>
 			<fileMode>0744</fileMode>
+			<directoryMode>0755</directoryMode>
 			<includes>
 				<include>Minium-Developer.app/Contents/MacOS/Minium-Developer</include>
 			</includes>
@@ -23,7 +24,6 @@
 		<fileSet>
 			<directory>${project.build.directory}/Minium-Developer-darwin-x64</directory>
 			<outputDirectory>Minium-Developer-darwin-x64</outputDirectory>
-			<directoryMode>0755</directoryMode>
 		</fileSet>
 	</fileSets>
 </assembly>

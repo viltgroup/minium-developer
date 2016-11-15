@@ -2766,7 +2766,7 @@
 	        _electron.shell.openExternal(urlToGo);
 	    });
 
-	    require(_path2.default.join(__dirname, '../../..', 'minium-tools/bin/minium-developer.js')).launch(_electron, mainWindow);
+	    require(_path2.default.join(__dirname, 'minium-developer.js')).launch(_electron, mainWindow);
 
 	    mainWindow.on('focus', function () {
 	        setDockBadge('');

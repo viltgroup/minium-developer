@@ -80,14 +80,14 @@ module.exports = {
     electron = _electron;
     window = _window;
 
-    window.loadURL('file://' + _path.join(__dirname, '../static/loading.html'));
+    window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
     window.on('close', close);
 
     isMiniumDeveloperRunning((isRunning) => {
       if (!isRunning) {
         miniumDeveloperProcess = isWindows() ?
-          _child_process.spawn('cmd', ['/c', _path.join(__dirname, 'minium-developer.bat')])
-          :	_child_process.spawn('sh', [_path.join(__dirname, 'minium-developer')]);
+          _child_process.spawn('cmd', ['/c', _path.join(__dirname, '../../../minium-tools/bin/minium-developer.bat')])
+          :	_child_process.spawn('sh', [_path.join(__dirname, '../../../minium-tools/bin/minium-developer')]);
       } else {
         shutdown();
       }

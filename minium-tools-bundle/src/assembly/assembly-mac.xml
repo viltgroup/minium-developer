@@ -11,19 +11,57 @@
 
 	<includeBaseDirectory>false</includeBaseDirectory>
 
+	<files>
+		<file>
+			<source>${project.build.directory}/Minium-Developer-darwin-x64/LICENSE</source>
+			<outputDirectory>/</outputDirectory>
+			<destName>Minium-Developer-darwin-x64/LICENSE.electron.txt</destName>
+		</file>
+	</files>
+
 	<fileSets>
+		<fileSet>
+			<directory>${project.build.directory}/${project.build.finalName}</directory>
+			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/minium-tools</outputDirectory>
+			<fileMode>0744</fileMode>
+			<directoryMode>0755</directoryMode>
+			<includes>
+				<include>bin/**</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/${project.build.finalName}</directory>
+			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/minium-tools</outputDirectory>
+			<excludes>
+				<exclude>bin/**</exclude>
+			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/nativefier</directory>
+			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/Resources/app/lib</outputDirectory>
+			<includes>
+				<include>main.js</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources</directory>
+			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/Resources/app/lib</outputDirectory>
+			<includes>
+				<include>minium-developer.js</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/loading-page</directory>
+			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/Resources/app/lib/static</outputDirectory>
+		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/Minium-Developer-darwin-x64</directory>
 			<outputDirectory>Minium-Developer-darwin-x64</outputDirectory>
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
-			<includes>
-				<include>Minium-Developer.app/Contents/MacOS/Minium-Developer</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>${project.build.directory}/Minium-Developer-darwin-x64</directory>
-			<outputDirectory>Minium-Developer-darwin-x64</outputDirectory>
+			<excludes>
+				<exclude>LICENSE</exclude>
+			</excludes>
 		</fileSet>
 	</fileSets>
 </assembly>

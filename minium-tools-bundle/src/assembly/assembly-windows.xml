@@ -14,7 +14,7 @@
 	<files>
 		<file>
 			<source>${project.build.directory}/Minium-Developer-win32-x64/LICENSE</source>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<destName>Minium-Developer-win32-x64/LICENSE.electron.txt</destName>
 		</file>
 	</files>
@@ -23,6 +23,11 @@
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
 			<outputDirectory>Minium-Developer-win32-x64/minium-tools</outputDirectory>
+			<excludes>
+				<exclude>bin/minium-automator</exclude>
+				<exclude>bin/minium-developer</exclude>
+				<exclude>bin/minium-developer-browser</exclude>
+			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/nativefier</directory>

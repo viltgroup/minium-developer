@@ -14,7 +14,7 @@
 	<files>
 		<file>
 			<source>${project.build.directory}/Minium-Developer-darwin-x64/LICENSE</source>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<destName>Minium-Developer-darwin-x64/LICENSE.electron.txt</destName>
 		</file>
 	</files>
@@ -26,7 +26,8 @@
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
-				<include>bin/**</include>
+				<include>bin/minium-developer</include>
+				<include>bin/minium-developer-browser</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -35,6 +36,14 @@
 			<excludes>
 				<exclude>bin/**</exclude>
 			</excludes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/Minium-Developer-darwin-x64/Minium-Developer.app/Contents/MacOS</directory>
+			<outputDirectory>Minium-Developer-darwin-x64/Minium-Developer.app/Contents/MacOS</outputDirectory>
+			<fileMode>0744</fileMode>
+			<includes>
+				<include>Minium-Developer</include>
+			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/nativefier</directory>
@@ -57,8 +66,6 @@
 		<fileSet>
 			<directory>${project.build.directory}/Minium-Developer-darwin-x64</directory>
 			<outputDirectory>Minium-Developer-darwin-x64</outputDirectory>
-			<fileMode>0744</fileMode>
-			<directoryMode>0755</directoryMode>
 			<excludes>
 				<exclude>LICENSE</exclude>
 			</excludes>

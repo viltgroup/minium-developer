@@ -14,7 +14,7 @@
 	<files>
 		<file>
 			<source>${project.build.directory}/Minium-Developer-linux-x64/LICENSE</source>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory></outputDirectory>
 			<destName>Minium-Developer-linux-x64/LICENSE.electron.txt</destName>
 		</file>
 	</files>
@@ -26,7 +26,8 @@
 			<fileMode>0744</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
-				<include>bin/**</include>
+				<include>bin/minium-developer</include>
+				<include>bin/minium-developer-browser</include>
 			</includes>
 		</fileSet>
 		<fileSet>

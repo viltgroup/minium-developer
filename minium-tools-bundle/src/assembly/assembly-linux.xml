@@ -23,7 +23,7 @@
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
 			<outputDirectory>Minium-Developer-linux-x64/minium-tools</outputDirectory>
-			<fileMode>0744</fileMode>
+			<fileMode>0755</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
 				<include>bin/minium-developer</include>
@@ -40,7 +40,7 @@
 		<fileSet>
 			<directory>${project.build.directory}/Minium-Developer-linux-x64</directory>
 			<outputDirectory>Minium-Developer-linux-x64</outputDirectory>
-			<fileMode>0744</fileMode>
+			<fileMode>0755</fileMode>
 			<includes>
 				<include>Minium-Developer</include>
 			</includes>

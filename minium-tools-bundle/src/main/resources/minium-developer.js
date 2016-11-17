@@ -58,7 +58,12 @@ function isWindows() {
 
 function openMiniumDeveloperWhenReady() {
   isMiniumDeveloperRunning((isRunning) => {
-    isRunning ? window.loadURL('http://localhost:8089') : setTimeout(openMiniumDeveloperWhenReady, 2500);
+    if (isRunning) {
+      window.loadURL('http://localhost:8089');
+      window.on('close', close);
+    } else {
+      setTimeout(openMiniumDeveloperWhenReady, 2500);
+    }
   });
 }
 
@@ -81,7 +86,6 @@ module.exports = {
     window = _window;
 
     window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
-    window.on('close', close);
 
     isMiniumDeveloperRunning((isRunning) => {
       if (!isRunning) {

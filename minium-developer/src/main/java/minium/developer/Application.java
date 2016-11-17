@@ -12,11 +12,14 @@ import javax.servlet.ServletException;
 
 import minium.developer.browser.BrowserLauncher;
 import minium.developer.config.Constants;
+import minium.developer.config.DeveloperProperties;
 import minium.developer.webdriver.DriverLocator;
 import minium.tools.fs.config.FileSystemConfiguration;
 
 import org.apache.catalina.Context;
 import org.apache.commons.lang3.SystemUtils;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -46,11 +49,10 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
 
     private final static Logger log = LoggerFactory.getLogger(Application.class);
 
+    private static DeveloperProperties developerProperties = new DeveloperProperties();
+
     @Inject
     private Environment env;
-
-    @Autowired
-    private DriverLocator driverLocator;
 
     /**
      * Initializes miniumdev.
@@ -85,8 +87,9 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
     /**
      * Main method, used to run the application.
      * @throws UnknownHostException
+     * @throws CmdLineException
      */
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, CmdLineException {
         SpringApplication app  = new SpringApplicationBuilder(Application.class)
         .showBanner(true)
         .profiles("minium-developer")
@@ -94,13 +97,13 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
         .build();
 
         SimpleCommandLinePropertySource source = new SimpleCommandLinePropertySource(args);
-
         // Check if the selected profile has been set as argument.
         // if not the development profile will be added
         addDefaultProfile(app, source);
 
 
         ConfigurableApplicationContext context = app.run(args);
+        new CmdLineParser(developerProperties).parseArgument(args);
         maybeLaunchBrowser(context);
     }
 
@@ -127,7 +130,7 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
     }
 
     private static void maybeLaunchBrowser(ConfigurableApplicationContext context) {
-        if (System.getProperty("openInBrowser") != null) {
+        if (developerProperties.isBrowser()) {
             try {
                 BrowserLauncher browserLauncher = context.getBean(BrowserLauncher.class);
                 browserLauncher.launch();

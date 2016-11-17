@@ -54,32 +54,6 @@
 									<mainClass>minium.developer.Application</mainClass>
 									<name>minium-developer</name>
 								</program>
-							</programs>
-						</configuration>
-					</execution>
-					<execution>
-						<id>generate-scripts-browser</id>
-						<phase>package</phase>
-						<goals>
-							<goal>assemble</goal>
-						</goals>
-						<configuration>
-							<configurationDirectory>config</configurationDirectory>
-							<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-							<assembleDirectory>${project.build.directory}/${project.build.finalName}</assembleDirectory>
-							<extraJvmArguments>-Xms128m -Xmx256m -DopenInBrowser</extraJvmArguments>
-							<repositoryLayout>flat</repositoryLayout>
-							<repositoryName>lib</repositoryName>
-							<useWildcardClassPath>true</useWildcardClassPath>
-							<platforms>
-								<platform>windows</platform>
-								<platform>unix</platform>
-							</platforms>
-							<programs>
-								<program>
-									<mainClass>minium.developer.Application</mainClass>
-									<name>minium-developer-browser</name>
-								</program>
 								<program>
 									<mainClass>minium.automator.Application</mainClass>
 									<name>minium-automator</name>

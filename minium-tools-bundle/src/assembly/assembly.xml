@@ -19,6 +19,10 @@
 			<includes>
 				<include>bin/**</include>
 			</includes>
+			<excludes>
+				<exclude>bin/minium-developer</exclude>
+				<exclude>bin/minium-developer.bat</exclude>
+			</excludes>
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>

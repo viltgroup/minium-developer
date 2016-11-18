@@ -55,6 +55,13 @@
 									<name>minium-developer</name>
 								</program>
 								<program>
+									<mainClass>minium.developer.Application</mainClass>
+									<name>minium-developer-browser</name>
+									<commandLineArguments>
+										<commandLineArgument>--browser</commandLineArgument>
+									</commandLineArguments>
+								</program>
+								<program>
 									<mainClass>minium.automator.Application</mainClass>
 									<name>minium-automator</name>
 								</program>

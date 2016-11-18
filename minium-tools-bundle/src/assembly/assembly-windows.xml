@@ -26,6 +26,7 @@
 			<excludes>
 				<exclude>bin/minium-automator</exclude>
 				<exclude>bin/minium-developer</exclude>
+				<exclude>bin/minium-developer-browser</exclude>
 			</excludes>
 		</fileSet>
 		<fileSet>

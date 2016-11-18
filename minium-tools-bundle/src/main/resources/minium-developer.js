@@ -85,6 +85,7 @@ module.exports = {
     electron = _electron;
     window = _window;
 
+    window.title = 'Minium Developer';
     window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
 
     isMiniumDeveloperRunning((isRunning) => {

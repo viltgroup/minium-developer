@@ -171,7 +171,7 @@
 						</goals>
 						<configuration>
 							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>Minium-Developer-win32-x64</finalName>
+							<finalName>minium-developer-win64</finalName>
 							<descriptors>
 								<descriptor>src/assembly/assembly-windows.xml</descriptor>
 							</descriptors>
@@ -185,7 +185,7 @@
 						</goals>
 						<configuration>
 							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>Minium-Developer-linux-x64</finalName>
+							<finalName>minium-developer-linux64</finalName>
 							<descriptors>
 								<descriptor>src/assembly/assembly-linux.xml</descriptor>
 							</descriptors>
@@ -199,7 +199,7 @@
 						</goals>
 						<configuration>
 							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>Minium-Developer-osx-x64</finalName>
+							<finalName>minium-developer-macos</finalName>
 							<descriptors>
 								<descriptor>src/assembly/assembly-mac.xml</descriptor>
 							</descriptors>
@@ -235,13 +235,13 @@
 							<excludeDefaultDirectories>true</excludeDefaultDirectories>
 							<filesets>
 								<fileset>
-									<directory>target/Minium-Developer-darwin-x64</directory>
+									<directory>target/minium-developer-darwin-x64</directory>
 								</fileset>
 								<fileset>
-									<directory>target/Minium-Developer-linux-x64</directory>
+									<directory>target/minium-developer-linux-x64</directory>
 								</fileset>
 								<fileset>
-									<directory>target/Minium-Developer-win32-x64</directory>
+									<directory>target/minium-developer-win32-x64</directory>
 								</fileset>
 							</filesets>
 						</configuration>

@@ -13,16 +13,16 @@
 
 	<files>
 		<file>
-			<source>${project.build.directory}/Minium-Developer-linux-x64/LICENSE</source>
+			<source>${project.build.directory}/minium-developer-linux-x64/LICENSE</source>
 			<outputDirectory></outputDirectory>
-			<destName>Minium-Developer-linux-x64/LICENSE.electron.txt</destName>
+			<destName>minium-developer-linux64/LICENSE.electron.txt</destName>
 		</file>
 	</files>
 
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory>Minium-Developer-linux-x64/minium-tools</outputDirectory>
+			<outputDirectory>minium-developer-linux64/minium-tools</outputDirectory>
 			<fileMode>0755</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
@@ -32,40 +32,40 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory>Minium-Developer-linux-x64/minium-tools</outputDirectory>
+			<outputDirectory>minium-developer-linux64/minium-tools</outputDirectory>
 			<excludes>
 				<exclude>bin/**</exclude>
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>${project.build.directory}/Minium-Developer-linux-x64</directory>
-			<outputDirectory>Minium-Developer-linux-x64</outputDirectory>
+			<directory>${project.build.directory}/minium-developer-linux-x64</directory>
+			<outputDirectory>minium-developer-linux64</outputDirectory>
 			<fileMode>0755</fileMode>
 			<includes>
-				<include>Minium-Developer</include>
+				<include>minium-developer</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/nativefier</directory>
-			<outputDirectory>Minium-Developer-linux-x64/resources/app/lib</outputDirectory>
+			<outputDirectory>minium-developer-linux64/resources/app/lib</outputDirectory>
 			<includes>
 				<include>main.js</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources</directory>
-			<outputDirectory>Minium-Developer-linux-x64/resources/app/lib</outputDirectory>
+			<outputDirectory>minium-developer-linux64/resources/app/lib</outputDirectory>
 			<includes>
 				<include>minium-developer.js</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>src/main/resources/loading-page</directory>
-			<outputDirectory>Minium-Developer-linux-x64/resources/app/lib/static</outputDirectory>
+			<outputDirectory>minium-developer-linux64/resources/app/lib/static</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>${project.build.directory}/Minium-Developer-linux-x64</directory>
-			<outputDirectory>Minium-Developer-linux-x64</outputDirectory>
+			<directory>${project.build.directory}/minium-developer-linux-x64</directory>
+			<outputDirectory>minium-developer-linux64</outputDirectory>
 			<excludes>
 				<exclude>LICENSE</exclude>
 			</excludes>

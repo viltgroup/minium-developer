@@ -1,6 +1,7 @@
 {
     "dependencies": {
-        "nativefier": "7.0.1"
+        "nativefier": "7.0.1",
+        "js-yaml": "3.7.0"
     },
     "scripts": {
         "nativefier-windows": "nativefier --platform windows --arch x64 --name \"minium-developer\" --icon src/main/resources/icons/icon.ico --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target",

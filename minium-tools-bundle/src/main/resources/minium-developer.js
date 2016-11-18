@@ -1,9 +1,14 @@
 var _child_process = require('child_process'),
-  _http = require('http'),
-  _os = require('os'),
-  _path = require('path');
+    _fs = require('fs'),
+    _http = require('http'),
+    _os = require('os'),
+    _path = require('path'),
+    _yaml = require('./js-yaml.min.js');
 
-var electron, miniumDeveloperProcess, window;
+var electron,
+    process,
+    url,
+    window;
 
 var close = (() => {
   var thereAreUnsavedFiles;
@@ -45,7 +50,7 @@ var close = (() => {
 })();
 
 function isMiniumDeveloperRunning(callback) {
-  _http.get('http://localhost:8089', (response) => {
+  _http.get(url, (response) => {
     callback(true);
   }).on('error', (e) => {
     callback(false);
@@ -59,7 +64,7 @@ function isWindows() {
 function openMiniumDeveloperWhenReady() {
   isMiniumDeveloperRunning((isRunning) => {
     if (isRunning) {
-      window.loadURL('http://localhost:8089');
+      window.loadURL(url);
       window.on('close', close);
     } else {
       setTimeout(openMiniumDeveloperWhenReady, 2500);
@@ -68,11 +73,11 @@ function openMiniumDeveloperWhenReady() {
 }
 
 function shutdown() {
-  if (miniumDeveloperProcess) {
+  if (process) {
     if (isWindows()) {
-      _child_process.spawnSync("taskkill", ["/pid", miniumDeveloperProcess.pid, '/f', '/t']);
+      _child_process.spawnSync("taskkill", ["/pid", process.pid, '/f', '/t']);
     } else {
-      miniumDeveloperProcess.kill();
+      process.kill();
     }
   }
 
@@ -88,11 +93,15 @@ module.exports = {
     window.title = 'Minium Developer';
     window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
 
+    var miniumDeveloperDir = _path.join(__dirname, '../../../minium-tools');
+    var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(miniumDeveloperDir, 'config/application.yml'), 'utf8'));
+    url = 'http://localhost:' + conf.server.port;
+
     isMiniumDeveloperRunning((isRunning) => {
       if (!isRunning) {
-        miniumDeveloperProcess = isWindows() ?
-          _child_process.spawn('cmd', ['/c', _path.join(__dirname, '../../../minium-tools/bin/minium-developer.bat')])
-          :	_child_process.spawn('sh', [_path.join(__dirname, '../../../minium-tools/bin/minium-developer')]);
+        process = isWindows() ?
+          _child_process.spawn('cmd', ['/c', _path.join(miniumDeveloperDir, 'bin/minium-developer.bat')])
+          :	_child_process.spawn('sh', [_path.join(miniumDeveloperDir, 'bin/minium-developer')]);
       } else {
         shutdown();
       }

@@ -53,6 +53,13 @@
 			</includes>
 		</fileSet>
 		<fileSet>
+			<directory>node_modules/js-yaml/dist</directory>
+			<outputDirectory>minium-developer-linux64/resources/app/lib</outputDirectory>
+			<includes>
+				<include>js-yaml.min.js</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>src/main/resources</directory>
 			<outputDirectory>minium-developer-linux64/resources/app/lib</outputDirectory>
 			<includes>

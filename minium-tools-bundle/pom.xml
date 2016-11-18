@@ -164,7 +164,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>minium-developer-windows</id>
+						<id>minium-developer-bundle-windows</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -178,7 +178,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>minium-developer-linux</id>
+						<id>minium-developer-bundle-linux</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -192,7 +192,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>minium-developer-mac</id>
+						<id>minium-developer-bundle-mac</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
@@ -204,6 +204,20 @@
 								<descriptor>src/assembly/assembly-mac.xml</descriptor>
 							</descriptors>
 							<tarLongFileMode>posix</tarLongFileMode>
+						</configuration>
+					</execution>
+					<execution>
+						<id>minium-tools-bundle</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+							<finalName>minium-tools-${project.version}</finalName>
+							<descriptors>
+								<descriptor>src/assembly/assembly.xml</descriptor>
+							</descriptors>
 						</configuration>
 					</execution>
 				</executions>

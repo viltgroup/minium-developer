@@ -1,0 +1,8 @@
+{
+  "name": "minium-developer",
+  "main": "main.js",
+  "dependencies": {
+    "electron": "^1.4.7",
+    "js-yaml": "^3.7.0"
+  }
+}

@@ -30,31 +30,6 @@
 			</excludes>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/resources/nativefier</directory>
-			<outputDirectory>minium-developer-win64/resources/app/lib</outputDirectory>
-			<includes>
-				<include>main.js</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>node_modules/js-yaml/dist</directory>
-			<outputDirectory>minium-developer-win64/resources/app/lib</outputDirectory>
-			<includes>
-				<include>js-yaml.min.js</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>src/main/resources</directory>
-			<outputDirectory>minium-developer-win64/resources/app/lib</outputDirectory>
-			<includes>
-				<include>minium-developer.js</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>src/main/resources/loading-page</directory>
-			<outputDirectory>minium-developer-win64/resources/app/lib/static</outputDirectory>
-		</fileSet>
-		<fileSet>
 			<directory>${project.build.directory}/minium-developer-win32-x64</directory>
 			<outputDirectory>minium-developer-win64</outputDirectory>
 			<excludes>

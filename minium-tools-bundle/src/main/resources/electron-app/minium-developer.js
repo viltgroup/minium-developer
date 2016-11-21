@@ -3,7 +3,7 @@ var _child_process = require('child_process'),
     _http = require('http'),
     _os = require('os'),
     _path = require('path'),
-    _yaml = require('./js-yaml.min.js');
+    _yaml = require('js-yaml');
 
 var electron,
     process,
@@ -93,7 +93,7 @@ module.exports = {
     window.title = 'Minium Developer';
     window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
 
-    var rootDir = _path.join(__dirname, '../../..');
+    var rootDir = _path.join(__dirname, '../..');
     var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(rootDir, 'config/application.yml'), 'utf8'));
     url = 'http://localhost:' + conf.server.port;
 

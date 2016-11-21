@@ -77,7 +77,7 @@
 				<executions>
 					<execution>
 						<id>install node and npm</id>
-						<phase>generate-sources</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>install-node-and-npm</goal>
 						</goals>
@@ -86,8 +86,20 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm install</id>
-						<phase>generate-sources</phase>
+						<id>npm install electron</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<installDirectory>.</installDirectory>
+							<workingDirectory>src/main/resources/electron-app</workingDirectory>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm install electron-packager</id>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
@@ -96,33 +108,13 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm run nativefier-windows</id>
+						<id>build-native-applications</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run nativefier-windows</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm run nativefier-linux</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run nativefier-linux</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>npm run nativefier-osx</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>run nativefier-osx</arguments>
+							<arguments>run build</arguments>
 						</configuration>
 					</execution>
 				</executions>
@@ -130,25 +122,6 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
-					<execution> <!-- See #59670 -->
-						<id>copy-node-progress-package</id>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>node_modules/progress/lib</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/resources/nativefier</directory>
-									<includes>
-										<include>node-progress.js</include>
-									</includes>
-								</resource>
-							</resources>
-							<overwrite>true</overwrite>
-						</configuration>
-					</execution>
 					<execution>
 						<id>copy-config</id>
 						<phase>generate-resources</phase>

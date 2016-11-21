@@ -1,11 +1,11 @@
 {
-    "dependencies": {
-        "nativefier": "7.0.1",
-        "js-yaml": "3.7.0"
-    },
-    "scripts": {
-        "nativefier-windows": "nativefier --platform windows --arch x64 --name \"minium-developer\" --icon src/main/resources/icons/icon.ico --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target",
-        "nativefier-linux": "nativefier --platform linux --arch x64 --name \"minium-developer\" --icon src/main/resources/icons/icon.png --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target",
-        "nativefier-osx": "nativefier --platform osx --arch x64 --name \"minium-developer\" --icon src/main/resources/icons/icon.png --maximize --disable-dev-tools --disable-context-menu \"http://localhost:8089\" ./target"
-    }
+  "dependencies": {
+    "electron-packager": "^8.3.0"
+  },
+  "scripts": {
+    "build-windows-app": "electron-packager src/main/resources/electron-app --platform win32 --arch x64 --icon src/main/resources/icons/icon.ico --out ./target",
+    "build-linux-app": "electron-packager src/main/resources/electron-app --platform linux --arch x64 --icon src/main/resources/icons/icon.png --out ./target",
+    "build-mac-app": "electron-packager src/main/resources/electron-app --platform darwin --icon src/main/resources/icons/icon.icns --out ./target",
+    "build": "npm run build-windows-app && npm run build-linux-app && npm run build-mac-app"
+  }
 }

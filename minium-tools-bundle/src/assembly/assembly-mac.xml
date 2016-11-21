@@ -22,7 +22,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory>minium-developer-macos/minium-developer.app/Contents/minium-tools</outputDirectory>
+			<outputDirectory>minium-developer-macos/minium-developer.app/Contents</outputDirectory>
 			<fileMode>0755</fileMode>
 			<directoryMode>0755</directoryMode>
 			<includes>
@@ -33,7 +33,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory>minium-developer-macos/minium-developer.app/Contents/minium-tools</outputDirectory>
+			<outputDirectory>minium-developer-macos/minium-developer.app/Contents</outputDirectory>
 			<excludes>
 				<exclude>bin/**</exclude>
 			</excludes>

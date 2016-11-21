@@ -93,15 +93,15 @@ module.exports = {
     window.title = 'Minium Developer';
     window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
 
-    var miniumDeveloperDir = _path.join(__dirname, '../../../minium-tools');
-    var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(miniumDeveloperDir, 'config/application.yml'), 'utf8'));
+    var rootDir = _path.join(__dirname, '../../..');
+    var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(rootDir, 'config/application.yml'), 'utf8'));
     url = 'http://localhost:' + conf.server.port;
 
     isMiniumDeveloperRunning((isRunning) => {
       if (!isRunning) {
         process = isWindows() ?
-          _child_process.spawn('cmd', ['/c', _path.join(miniumDeveloperDir, 'bin/minium-developer.bat')])
-          :	_child_process.spawn('sh', [_path.join(miniumDeveloperDir, 'bin/minium-developer')]);
+          _child_process.spawn('cmd', ['/c', _path.join(rootDir, 'bin/minium-developer.bat')])
+          :	_child_process.spawn('sh', [_path.join(rootDir, 'bin/minium-developer')]);
       } else {
         shutdown();
       }

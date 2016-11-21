@@ -22,7 +22,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/${project.build.finalName}</directory>
-			<outputDirectory>minium-developer-win64/minium-tools</outputDirectory>
+			<outputDirectory>minium-developer-win64</outputDirectory>
 			<excludes>
 				<exclude>bin/minium-automator</exclude>
 				<exclude>bin/minium-developer</exclude>

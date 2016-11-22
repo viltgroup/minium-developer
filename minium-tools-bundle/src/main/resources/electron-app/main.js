@@ -11,7 +11,9 @@ let mainWindow
 
 function createWindow () {
   mainWindow = new BrowserWindow({icon: path.join(__dirname, 'static/icon.png'), webPreferences: { nodeIntegration: false }})
-  mainWindow.maximize();
+  mainWindow.hide()
+  mainWindow.maximize()
+  mainWindow.show()
 
   require('./minium-developer.js').launch(electron, mainWindow)
 

@@ -153,14 +153,16 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
     //TODO
     //Another option here is when we close the window
     //try to close tab one by one
-    window.addEventListener("beforeunload", function(e) {
-        var confirmationMessage = $translate('messages.files.unsaved');
+    if (!window.navigator.userAgent.includes("Electron")) {
+      window.addEventListener("beforeunload", function(e) {
+          var confirmationMessage = $translate('messages.files.unsaved');
 
-        if (editors.areDirty()) {
-            (e || window.event).returnValue = confirmationMessage; //Gecko + IE
-            return confirmationMessage; //Webkit, Safari, Chrome
-        }
-    });
+          if (editors.areDirty()) {
+              (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+              return confirmationMessage; //Webkit, Safari, Chrome
+          }
+      });
+    }
 
     $scope.$on('$locationChangeStart', function(event, nextPath, current) {
         if (nextPath.indexOf("editor") == -1 && $scope.isDirty) {

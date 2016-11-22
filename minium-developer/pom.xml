@@ -24,10 +24,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>args4j</groupId>
-            <artifactId>args4j</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
@@ -142,7 +138,7 @@
         <finalName>${project.artifactId}</finalName>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings
+                <!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>

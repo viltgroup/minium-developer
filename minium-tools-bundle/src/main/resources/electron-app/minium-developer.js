@@ -100,8 +100,12 @@ module.exports = {
     isMiniumDeveloperRunning((isRunning) => {
       if (!isRunning) {
         process = isWindows() ?
-          _child_process.spawn('cmd', ['/c', _path.join(rootDir, 'bin/minium-developer.bat')])
-          :	_child_process.spawn('sh', [_path.join(rootDir, 'bin/minium-developer')]);
+          _child_process.spawn('cmd', ['/c', _path.join(rootDir, 'bin/minium-developer.bat')], {
+            cwd: _path.dirname(process.execPath)
+          })
+          :	_child_process.spawn('sh', [_path.join(rootDir, 'bin/minium-developer')], {
+            cwd: _path.dirname(process.execPath)
+          });
       } else {
         shutdown();
       }

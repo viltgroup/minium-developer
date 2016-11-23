@@ -49,9 +49,6 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
     @Inject
     private Environment env;
 
-    @Autowired
-    private DriverLocator driverLocator;
-
     /**
      * Initializes miniumdev.
      * <p/>

@@ -49,6 +49,14 @@ var close = (() => {
   }
 })();
 
+function executeScript(path, args, options) {
+  if (isWindows()) {
+    return _child_process.spawn('cmd', ['/c', _path.join(_path.dirname(process.execPath), path)].concat(args), options);
+  } else {
+    return _child_process.spawn('sh', [_path.join(_path.dirname(process.execPath), path)].concat(args), options);
+  }
+}
+
 function isMiniumDeveloperRunning(callback) {
   _http.get(url, (response) => {
     callback(true);
@@ -86,6 +94,18 @@ function shutdown() {
 }
 
 module.exports = {
+  automate: (args) => {
+    if (isWindows()) {
+      executeScript('bin/minium-automator.bat', args, {
+        detached: true,
+        stdio: 'ignore'
+      }).unref();
+    } else {
+      executeScript('bin/minium-automator', args, {
+        stdio: 'inherit'
+      });
+    }
+  },
   launch: (_electron, _window) => {
     electron = _electron;
     window = _window;
@@ -93,24 +113,33 @@ module.exports = {
     window.title = 'Minium Developer';
     window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
 
-    var rootDir = _path.join(__dirname, '../..');
-    var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(rootDir, 'config/application.yml'), 'utf8'));
+    var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(_path.dirname(process.execPath), 'config/application.yml'), 'utf8'));
     url = 'http://localhost:' + conf.server.port;
 
     isMiniumDeveloperRunning((isRunning) => {
       if (!isRunning) {
         process = isWindows() ?
-          _child_process.spawn('cmd', ['/c', _path.join(rootDir, 'bin/minium-developer.bat')], {
-            cwd: _path.dirname(process.execPath)
-          })
-          :	_child_process.spawn('sh', [_path.join(rootDir, 'bin/minium-developer')], {
-            cwd: _path.dirname(process.execPath)
-          });
+          executeScript('bin/minium-developer.bat', [], { cwd: _path.dirname(process.execPath) })
+          :	executeScript('bin/minium-developer', [], { cwd: _path.dirname(process.execPath) });
       } else {
         shutdown();
       }
     });
 
     openMiniumDeveloperWhenReady();
+  },
+  launchInBrowser: () => {
+    if (isWindows()) {
+      executeScript('bin/minium-developer-browser.bat', [], {
+        detached: true,
+        cwd: _path.dirname(process.execPath),
+        stdio: 'ignore'
+      }).unref();
+    } else {
+      executeScript('bin/minium-developer-browser', [], {
+        cwd: _path.dirname(process.execPath),
+        stdio: 'inherit'
+      });
+    }
   }
 };

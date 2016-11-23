@@ -2,6 +2,7 @@ const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
+const miniumDeveloper = require('./minium-developer.js')
 const path = require('path')
 const url = require('url')
 
@@ -10,16 +11,23 @@ const url = require('url')
 let mainWindow
 
 function createWindow () {
-  mainWindow = new BrowserWindow({icon: path.join(__dirname, 'static/icon.png'), webPreferences: { nodeIntegration: false }})
-  mainWindow.hide()
-  mainWindow.maximize()
-  mainWindow.show()
-
-  require('./minium-developer.js').launch(electron, mainWindow)
-
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
+  if (process.argv.includes("automate")) {
+    miniumDeveloper.automate(process.argv.slice(process.argv.indexOf("automate") + 1))
+    app.quit()
+  } else if (process.argv.includes("--browser")) {
+    miniumDeveloper.launchInBrowser()
+    app.quit()
+  }
+  else {
+    mainWindow = new BrowserWindow({icon: path.join(__dirname, 'static/icon.png'), webPreferences: { nodeIntegration: false }})
+    mainWindow.hide()
+    miniumDeveloper.launch(electron, mainWindow)
+    mainWindow.maximize()
+    mainWindow.show()
+    mainWindow.on('closed', function () {
+      mainWindow = null
+    })
+  }
 }
 
 app.on('ready', createWindow)

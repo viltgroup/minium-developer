@@ -55,7 +55,7 @@
 		</fileSet>
 		<fileSet>
 			<directory>../minium-developer/src/main/resources/config</directory>
-			<outputDirectory>minium-developer-macos/config</outputDirectory>
+			<outputDirectory>minium-developer-macos/minium-developer.app/Contents/config</outputDirectory>
 			<includes>
 				<include>application-macos.yml</include>
 			</includes>

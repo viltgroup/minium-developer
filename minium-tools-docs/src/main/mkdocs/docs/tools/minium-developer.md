@@ -49,9 +49,46 @@ code.
 The browser zoom level must be set to 100% so that the native mouse events can be set to the correct coordinates.
 * For IE 11 only, you will need to set a registry entry on the target computer so that the driver can maintain a connection to the instance of Internet Explorer it creates. For 32-bit Windows installations, the key you must examine in the registry editor is `HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BFCACHE`. For 64-bit Windows installations, the key is `HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BFCACHE`. Please note that the `FEATURE_BFCACHE` subkey may or may not be present, and should be created if it is not present. Important: Inside this key, create a DWORD value named `iexplore.exe` with the value of 0.
 
-## Configure the Firefox WebDriver with a custom profile
+## Firefox issues
 
-You can configure the Firefox WebDriver with a custom profile by creating a file with name `application-dev.yml` in the folder `minium-tools/config` of your Minium installation directory. Configurations available:
+You may experience some issues with the Firefox WebDriver. If that happens, [updating the WebDrivers](#update-webdrivers) might solve the problem.
+
+# WebDriver customization
+
+You can customize the drivers through the `application.yml` file located in the `minium-tools/config` folder.
+
+## Chrome
+
+The Chrome WebDriver can be configured through the `chromeOptions` property. The following configurations are available:
+* Add additional command line arguments to be used when starting Chrome.
+* Set the path to the Chrome executable.
+* Add Chrome extensions to install on browser startup.
+* Set Chrome preferences
+
+Example:
+```
+minium:
+  developer:
+    webdrivers:
+      - name: chrome
+        displayName: Chrome
+        iconClass: icon-chrome
+        desiredCapabilities:
+          browserName: chrome
+        chromeOptions:
+          args:
+            - user-data-dir=/path/to/your/custom/profile
+            - start-maximized
+          binary: /path/to/other/chrome/binary
+          extensions:
+            - /path/to/extension.crx
+          preferences:
+            profile.default_content_settings.popups: 0
+```
+
+## Firefox
+
+The Firefox WebDriver can be configured through the `firefox_profile` property. The following configurations are available:
 * Load a profile from a directory
 * Add extensions
 * Set preferences: enable native events, load the focus library on Linux, accept untrusted SSL certificates
@@ -82,11 +119,6 @@ minium:
               value: true
     (other WebDrivers)
 ```
-
-## Firefox issues
-
-You may experience some issues with the Firefox WebDriver. If that happens, [updating the WebDrivers](#update-webdrivers) might solve the problem.
-
 
 # Status Button
 

@@ -5,60 +5,30 @@ var _child_process = require('child_process'),
     _path = require('path'),
     _yaml = require('js-yaml');
 
-var electron,
+var conf,
     process,
-    url,
-    window;
+    rootDir = _path.dirname(process.execPath);
 
-var close = (() => {
-  var thereAreUnsavedFiles;
-
-  return (event) => {
-    if (thereAreUnsavedFiles === undefined || thereAreUnsavedFiles) {
-      event.preventDefault();
-    }
-
-    if (thereAreUnsavedFiles === undefined) {
-      window.webContents.executeJavaScript(`angular.element(document.body).injector().get('MiniumEditor').areDirty()`, false, (result) => { thereAreUnsavedFiles = result; });
-    }
-
-    function showDialogIfThereAreUnsavedFiles() {
-      if (thereAreUnsavedFiles === undefined) {
-          setTimeout(showDialogIfThereAreUnsavedFiles, 100);
-      } else {
-        if (thereAreUnsavedFiles) {
-          electron.dialog.showMessageBox(window, {
-              type: 'warning',
-              buttons: ['Yes', 'Cancel'],
-              title: 'There are unsaved files',
-              message: 'There are unsaved files, are you sure that you want to close Minium Developer?'
-          }, (response) => {
-            if (response == 0) {
-              shutdown();
-            } else {
-              thereAreUnsavedFiles = undefined;
-            }
-          });
-        } else {
-          shutdown();
-        }
-      }
-    }
-
-    showDialogIfThereAreUnsavedFiles();
-  }
-})();
+function callbackWhenMiniumDeveloperHasLoaded(callback) {
+  isMiniumDeveloperRunning((running) => {
+    running ? callback() : setTimeout(() => { callbackWhenMiniumDeveloperHasLoaded(callback) }, 1000)
+  })
+}
 
 function executeScript(path, args, options) {
   if (isWindows()) {
-    return _child_process.spawn('cmd', ['/c', _path.join(_path.dirname(process.execPath), path)].concat(args), options);
+    return _child_process.spawn('cmd', ['/c', _path.join(rootDir, path)].concat(args), options);
   } else {
-    return _child_process.spawn('sh', [_path.join(_path.dirname(process.execPath), path)].concat(args), options);
+    return _child_process.spawn('sh', [_path.join(rootDir, path)].concat(args), options);
   }
 }
 
+function getUrl() {
+  return 'http://localhost:' + conf.server.port;
+}
+
 function isMiniumDeveloperRunning(callback) {
-  _http.get(url, (response) => {
+  _http.get(getUrl(), (response) => {
     callback(true);
   }).on('error', (e) => {
     callback(false);
@@ -67,30 +37,6 @@ function isMiniumDeveloperRunning(callback) {
 
 function isWindows() {
   return _os.platform() === "win32";
-}
-
-function openMiniumDeveloperWhenReady() {
-  isMiniumDeveloperRunning((isRunning) => {
-    if (isRunning) {
-      window.loadURL(url);
-      window.on('close', close);
-    } else {
-      setTimeout(openMiniumDeveloperWhenReady, 2500);
-    }
-  });
-}
-
-function shutdown() {
-  if (process) {
-    if (isWindows()) {
-      _child_process.spawnSync("taskkill", ["/pid", process.pid, '/f', '/t']);
-    } else {
-      process.kill();
-    }
-  }
-
-  window.removeListener('close', close);
-  electron.app.quit();
 }
 
 module.exports = {
@@ -106,40 +52,43 @@ module.exports = {
       });
     }
   },
-  launch: (_electron, _window) => {
-    electron = _electron;
-    window = _window;
+  getUrl: getUrl,
+  notifyMeWhenReady: callbackWhenMiniumDeveloperHasLoaded,
+  start: new Promise(function(resolve, reject) {
+    conf = _yaml.safeLoad(_fs.readFileSync(_path.join(rootDir, 'config/application.yml'), 'utf8'));
 
-    window.title = 'Minium Developer';
-    window.loadURL('file://' + _path.join(__dirname, 'static/loading.html'));
-
-    var conf = _yaml.safeLoad(_fs.readFileSync(_path.join(_path.dirname(process.execPath), 'config/application.yml'), 'utf8'));
-    url = 'http://localhost:' + conf.server.port;
-
-    isMiniumDeveloperRunning((isRunning) => {
-      if (!isRunning) {
+    isMiniumDeveloperRunning((running) => {
+      if (!running) {
         process = isWindows() ?
-          executeScript('bin/minium-developer.bat', [], { cwd: _path.dirname(process.execPath) })
-          :	executeScript('bin/minium-developer', [], { cwd: _path.dirname(process.execPath) });
+          executeScript('bin/minium-developer.bat', [], { cwd: rootDir })
+          :	executeScript('bin/minium-developer', [], { cwd: rootDir });
+        resolve();
       } else {
-        shutdown();
+        reject();
       }
     });
-
-    openMiniumDeveloperWhenReady();
-  },
-  launchInBrowser: () => {
+  }),
+  startInBrowser: () => {
     if (isWindows()) {
       executeScript('bin/minium-developer-browser.bat', [], {
         detached: true,
-        cwd: _path.dirname(process.execPath),
+        cwd: rootDir,
         stdio: 'ignore'
       }).unref();
     } else {
       executeScript('bin/minium-developer-browser', [], {
-        cwd: _path.dirname(process.execPath),
+        cwd: rootDir,
         stdio: 'inherit'
       });
+    }
+  },
+  shutdown: () => {
+    if (process) {
+      if (isWindows()) {
+        _child_process.spawnSync("taskkill", ["/pid", process.pid, '/f', '/t']);
+      } else {
+        process.kill();
+      }
     }
   }
 };

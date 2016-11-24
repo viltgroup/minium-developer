@@ -117,9 +117,6 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
             additionalProfiles.add("linux");
         }
 
-        if (!source.containsProperty("spring.profiles.active")) {
-            additionalProfiles.add(Constants.SPRING_PROFILE_DEVELOPMENT);
-        }
         String[] additionalProfilesArr = new String[additionalProfiles.size()];
         additionalProfilesArr = additionalProfiles.toArray(additionalProfilesArr);
         app.setAdditionalProfiles(additionalProfilesArr);

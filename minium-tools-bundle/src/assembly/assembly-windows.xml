@@ -36,5 +36,12 @@
 				<exclude>LICENSE</exclude>
 			</excludes>
 		</fileSet>
+		<fileSet>
+			<directory>../minium-developer/src/main/resources/config</directory>
+			<outputDirectory>minium-developer-win64/config</outputDirectory>
+			<includes>
+				<include>application-windows.yml</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 </assembly>

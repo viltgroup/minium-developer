@@ -53,5 +53,12 @@
 				<exclude>LICENSE</exclude>
 			</excludes>
 		</fileSet>
+		<fileSet>
+			<directory>../minium-developer/src/main/resources/config</directory>
+			<outputDirectory>minium-developer-macos/config</outputDirectory>
+			<includes>
+				<include>application-macos.yml</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 </assembly>

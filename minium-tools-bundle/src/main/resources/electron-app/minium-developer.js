@@ -64,7 +64,7 @@ module.exports = {
           :	executeScript('bin/minium-developer', [], { cwd: rootDir });
         resolve();
       } else {
-        reject();
+        reject("Minium Developer is already running or other application is using the port " + conf.server.port + " (you can change the port in the config/application.yml file).");
       }
     });
   }),

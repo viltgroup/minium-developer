@@ -33,7 +33,8 @@ app.on('ready', () => {
         mainWindow.removeListener('close', miniumDeveloper.shutdown);
         mainWindow.on('close', closeHandler);
       })
-    }, () => {
+    }, (errorMessage) => {
+      electron.dialog.showErrorBox("Error", errorMessage);
       closeApp()
     });
   }

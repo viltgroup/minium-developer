@@ -10,23 +10,18 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import minium.developer.browser.BrowserLauncher;
-import minium.developer.config.Constants;
-import minium.developer.webdriver.DriverLocator;
-import minium.tools.fs.config.FileSystemConfiguration;
-
 import org.apache.catalina.Context;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
-import org.springframework.boot.context.embedded.ServletContextInitializer;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
 import org.springframework.boot.context.embedded.tomcat.TomcatContextCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,6 +32,9 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.SimpleCommandLinePropertySource;
 
 import com.google.common.collect.Lists;
+
+import minium.developer.browser.BrowserLauncher;
+import minium.tools.fs.config.FileSystemConfiguration;
 
 @Configuration
 @ComponentScan
@@ -85,7 +83,7 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
      */
     public static void main(String[] args) throws UnknownHostException {
         SpringApplication app  = new SpringApplicationBuilder(Application.class)
-        .showBanner(true)
+        .bannerMode(Mode.CONSOLE)
         .profiles("minium-developer")
         .headless(Boolean.getBoolean("java.awt.headless"))
         .build();

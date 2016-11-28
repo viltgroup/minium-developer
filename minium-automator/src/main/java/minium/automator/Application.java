@@ -5,6 +5,7 @@ import minium.automator.config.AutomatorProperties;
 
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +39,7 @@ public class Application {
         ConfigurableApplicationContext context = null;
         try {
             context = new SpringApplicationBuilder(Application.class)
-                .showBanner(false)
+                .bannerMode(Mode.CONSOLE)
                 .web(false)
                 .build()
                 .run(args);

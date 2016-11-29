@@ -10,6 +10,8 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import minium.developer.config.Constants;
+
 import org.apache.catalina.Context;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
@@ -46,9 +48,6 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
 
     @Inject
     private Environment env;
-
-    @Autowired
-    private DriverLocator driverLocator;
 
     /**
      * Initializes miniumdev.

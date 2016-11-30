@@ -40,25 +40,13 @@ public class ChromeDriverDownloader extends Downloader {
     }
 
     protected static String getOSName() {
-        String os;
-
-        if (RuntimeConfig.getOS().isWindows()) {
-            os = "win";
-        } else if (RuntimeConfig.getOS().isMac()) {
-            os = "mac";
-        } else {
-            os = "linux";
-        }
-
-        return os + getBitVersion();
-    }
-
-    protected static String getBitVersion() {
         OS os = RuntimeConfig.getOS();
-        if (os.isMac() || os.isWindows()) {
-            // HACK - this driver only exists in 32 bits for Mac and Windows
-            return "32";
+        if (os.isWindows()) {
+            return "win32";
+        } else if (os.isMac()) {
+            return "mac64";
+        } else {
+            return "linux" + os.getBitVersion();
         }
-        return os.getBitVersion();
     }
 }

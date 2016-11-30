@@ -33,6 +33,7 @@
         <gson.version>2.3.1</gson.version>
         <ostermiller-utils.version>1.07.00</ostermiller-utils.version>
         <jarchivelib.version>0.7.1</jarchivelib.version>
+        <powermock.version>1.6.6</powermock.version>
 
         <!-- Selenium drivers -->
         <chromedriver.version>2.21</chromedriver.version>

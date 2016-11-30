@@ -15,6 +15,8 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
@@ -88,6 +90,20 @@ public class WebDriverReleaseManager {
         return this.latestChromeDriverVersion;
     }
 
+    public String getGeckoDriverLatestVersion() {
+        try {
+            org.jsoup.nodes.Document doc = Jsoup.connect(RuntimeConfig.getGeckoDriverReleasesUrl()).get();
+            Elements versionElement = doc.select(".release.label-latest span.css-truncate-target");
+            if (versionElement.size() != 1) {
+                logger.debug("The method that returns the latest version of geckodriver might not be working as expected.");
+            }
+            return versionElement.get(0).text().substring(1);
+        } catch (IOException e) {
+            logger.error("Couldn't get the latest version of geckodriver.", e);
+            return "0.11.1";
+        }
+    }
+
     private WebDriverRelease findLatestRelease(List<WebDriverRelease> list) {
 
         WebDriverRelease highestVersion = null;
@@ -96,7 +112,7 @@ public class WebDriverReleaseManager {
 
             if (highestVersion == null) {
                 highestVersion = r;
-            } else if (r.getComparableVersion() > highestVersion.getComparableVersion()) {
+            } else if (r.isMoreRecentThan(highestVersion)) {
                 highestVersion = r;
             }
         }

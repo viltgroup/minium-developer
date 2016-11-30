@@ -4,18 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import minium.developer.config.WebDriversProperties;
-import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
-import minium.developer.config.WebDriversProperties.RecorderProperties;
-import minium.developer.webdriver.ChromeDriverDownloader;
-import minium.developer.webdriver.DriverLocator;
-import minium.developer.webdriver.IEDriverDownloader;
-import minium.developer.webdriver.PhantomJSDownloader;
-import minium.developer.webdriver.RuntimeConfig;
-import minium.developer.webdriver.WebDriverRelease;
-import minium.developer.webdriver.WebDriverReleaseManager;
-import minium.web.config.WebDriverFactory;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
@@ -25,6 +13,19 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.google.inject.internal.Maps;
+
+import minium.developer.config.WebDriversProperties;
+import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
+import minium.developer.config.WebDriversProperties.RecorderProperties;
+import minium.developer.webdriver.ChromeDriverDownloader;
+import minium.developer.webdriver.DriverLocator;
+import minium.developer.webdriver.GeckoDriverDownloader;
+import minium.developer.webdriver.IEDriverDownloader;
+import minium.developer.webdriver.PhantomJSDownloader;
+import minium.developer.webdriver.RuntimeConfig;
+import minium.developer.webdriver.WebDriverRelease;
+import minium.developer.webdriver.WebDriverReleaseManager;
+import minium.web.config.WebDriverFactory;
 
 @Service
 public class WebDriverService {
@@ -45,6 +46,7 @@ public class WebDriverService {
     protected WebDriverFactory webDriverFactory;
 
     private ChromeDriverDownloader chromeDownloader;
+    private GeckoDriverDownloader geckoDownloader;
     private IEDriverDownloader ieDownloader;
     private PhantomJSDownloader phantomJSDownloader;
 
@@ -59,6 +61,9 @@ public class WebDriverService {
             switch (browserName) {
             case "chrome":
                 downloadChromeDriver();
+                break;
+            case "firefox":
+                downloadGeckoDriver();
                 break;
             case "internet explorer":
                 downloadIEDriver();
@@ -77,6 +82,12 @@ public class WebDriverService {
         String chromeVersion = chromeDriverLatestVersion.getPrettyPrintVersion(".");
         chromeDownloader = new ChromeDriverDownloader(chromeVersion, driverLocator.getDriversDir().getPath());
         chromeDownloader.download();
+    }
+
+    protected void downloadGeckoDriver() throws IOException {
+        String geckoDriverLatestVersion = releaseManager.getGeckoDriverLatestVersion();
+        geckoDownloader = new GeckoDriverDownloader(geckoDriverLatestVersion, driverLocator.getDriversDir().getPath());
+        geckoDownloader.download();
     }
 
     protected void downloadPhantomJs() throws IOException {
@@ -110,6 +121,9 @@ public class WebDriverService {
             downloadChromeDriver();
         }
 
+        if (!driverLocator.webDriverExists("firefox")) {
+            downloadGeckoDriver();
+        }
     }
 
     /**
@@ -126,6 +140,7 @@ public class WebDriverService {
 
         downloadPhantomJs();
         downloadChromeDriver();
+        downloadGeckoDriver();
     }
 
     public List<DeveloperWebDriverProperties> getAvailableWebdrivers() {
@@ -165,4 +180,5 @@ public class WebDriverService {
     public boolean isRecorderAvailableForBrowser(String browser) {
         return this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getRecorder().isAvailable();
     }
+
 }

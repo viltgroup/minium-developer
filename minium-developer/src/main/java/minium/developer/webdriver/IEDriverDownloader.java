@@ -19,7 +19,7 @@ public class IEDriverDownloader extends Downloader {
     @Override
     public void download() throws IOException {
         File zipFile = doDownload();
-        Unzipper.unzip(zipFile.getAbsolutePath(), getDestinationDir());
+        Unzipper.unzip(zipFile, getDestinationDir());
         File tempUnzipedExecutable = new File(getDestinationDir(), "IEDriverServer.exe");
         File finalExecutable = new File(getDestinationDir(), "IEDriverServer.exe");
 
@@ -35,8 +35,7 @@ public class IEDriverDownloader extends Downloader {
 
         tempUnzipedExecutable.renameTo(finalExecutable);
 
-        finalExecutable.setExecutable(true, false);
-        finalExecutable.setReadable(true, false);
+        setExecutablePermissions(finalExecutable);
     }
 
     protected static String generateSourceUrl(String version) {

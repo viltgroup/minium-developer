@@ -1,18 +1,22 @@
-package minium.developer.downloader;
+package minium.developer.webdriver;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
-
-import minium.developer.webdriver.ChromeDriverDownloader;
-import minium.developer.webdriver.IEDriverDownloader;
-import minium.developer.webdriver.WebDriverRelease;
-import minium.developer.webdriver.WebDriverReleaseManager;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(RuntimeConfig.class)
 public class WebDriverDownloaderTest {
 
     private ChromeDriverDownloader chromeDownloader;
@@ -33,6 +37,20 @@ public class WebDriverDownloaderTest {
         chromeDownloader.download();
         File executable = new File(downloadDir, "chromedriver" + (SystemUtils.IS_OS_WINDOWS ? ".exe" : ""));
         assertTrue("Cannot execute", executable.canExecute());
+    }
+
+    @Test
+    public void testDownloadOfChromeDriverForMac() throws Exception {
+        OS osMock = spy(new OS());
+        doReturn(false).when(osMock).isWindows();
+        doReturn(true).when(osMock).isMac();
+        PowerMockito.mockStatic(RuntimeConfig.class);
+        when(RuntimeConfig.getOS()).thenReturn(osMock);
+
+        String chromeDriverVersion = releaseManager.getChromeDriverLatestVersion().getPrettyPrintVersion(".");
+        chromeDownloader = new ChromeDriverDownloader(chromeDriverVersion, downloadDir);
+        chromeDownloader.download();
+        assertTrue(new File(downloadDir, "chromedriver").exists());
     }
 
     @Test

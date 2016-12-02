@@ -24,14 +24,13 @@ app.on('ready', () => {
     mainWindow.loadURL('file://' + path.join(__dirname, 'static/loading.html'))
     mainWindow.maximize()
     mainWindow.show()
-    mainWindow.on('close', miniumDeveloper.shutdown)
     mainWindow.on('closed', function () {
+      miniumDeveloper.shutdown()
       mainWindow = null
     })
     miniumDeveloper.start.then(() => {
       miniumDeveloper.notifyMeWhenReady(() => {
         mainWindow.loadURL(miniumDeveloper.getUrl());
-        mainWindow.removeListener('close', miniumDeveloper.shutdown);
         mainWindow.on('close', closeHandler);
       })
     }, (errorMessage) => {
@@ -63,7 +62,6 @@ app.on('ready', () => {
 })
 
 function closeApp() {
-  miniumDeveloper.shutdown();
   mainWindow.removeAllListeners('close');
   app.quit();
 }

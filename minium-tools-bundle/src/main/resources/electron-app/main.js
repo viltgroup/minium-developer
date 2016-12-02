@@ -1,6 +1,7 @@
 const electron = require('electron')
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
+const Menu = electron.Menu
 
 const miniumDeveloper = require('./minium-developer.js')
 const path = require('path')
@@ -37,6 +38,27 @@ app.on('ready', () => {
       electron.dialog.showErrorBox("Error", errorMessage);
       closeApp()
     });
+
+    if (process.platform == 'darwin') {
+      var template = [{
+          label: "Minium Developer",
+          submenu: [
+              { label: "Quit", accelerator: "Command+Q", role: 'quit' }
+          ]}, {
+          label: "Edit",
+          submenu: [
+              { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+              { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+              { type: "separator" },
+              { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+              { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+              { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+              { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+          ]}
+      ];
+
+      Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+    }
   }
 })
 

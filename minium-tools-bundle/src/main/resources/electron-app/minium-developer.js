@@ -7,7 +7,7 @@ var _child_process = require('child_process'),
 
 var conf,
     process,
-    rootDir = _path.dirname(process.execPath);
+    rootDir = _path.join(__dirname, '../..');
 
 function callbackWhenMiniumDeveloperHasLoaded(callback) {
   isMiniumDeveloperRunning((running) => {

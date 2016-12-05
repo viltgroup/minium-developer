@@ -55,15 +55,16 @@ You may experience some issues with the Firefox WebDriver. If that happens, [upd
 
 # WebDriver customization
 
-You can customize the drivers through the `application.yml` file located in the `minium-tools/config` folder.
+You can customize the drivers through the `application-OS.yml` file (where `OS` is `windows`, `linux` or `macos`) located in the `config` folder.
 
 ## Chrome
 
 The Chrome WebDriver can be configured through the `chromeOptions` property. The following configurations are available:
+
 * Add additional command line arguments to be used when starting Chrome.
 * Set the path to the Chrome executable.
 * Add Chrome extensions to install on browser startup.
-* Set Chrome preferences
+* Set Chrome preferences.
 
 Example:
 ```
@@ -89,6 +90,7 @@ minium:
 ## Firefox
 
 The Firefox WebDriver can be configured through the `firefox_profile` property. The following configurations are available:
+
 * Load a profile from a directory
 * Add extensions
 * Set preferences: enable native events, load the focus library on Linux, accept untrusted SSL certificates
@@ -117,7 +119,6 @@ minium:
             - name: accessibility.accesskeycausesactivation
               type: boolean
               value: true
-    (other WebDrivers)
 ```
 
 # Status Button
@@ -226,7 +227,7 @@ To update the WebDrivers go to `Preferences > Download webdrivers > Update webdr
 
 ![update-webdrivers](img/update-webdrivers.png)
 
-# Update Minium Tools to the latest release
+# Update Minium Developer to the latest release
 
 1. Download the latest release from <https://github.com/viltgroup/minium-tools/releases/>.
 2. Update the version of `minium-cucumber-parent` in the `pom.xml` file of your Minium projects. For instance, if you downloaded release 1.3.0, then you would need to change the file to something like:
@@ -248,4 +249,41 @@ To update the WebDrivers go to `Preferences > Download webdrivers > Update webdr
         <artifactId>your-project-artifactId</artifactId>
         <version>your-project-version</version>
 </project>
+```
+
+# Run Minium Developer in the browser
+
+To run Minium Developer in the browser, run the executable from the console and pass it the `--browser` option. After that, Minium Developer should open [http://localhost:8089/#/editor](http://localhost:8089/#/editor) in your default browser.
+
+# Run Minium scripts
+
+<h2>Usage</h2>
+
+```bash
+minium-developer automate [options...] arguments...
+```
+
+<h2>Options</h2>
+
+| Option                   | Description
+| ------------------------ | ----------------------------------------------
+| `-b (--browser) BROWSER` | browser where scripts will be executed against                           (supported values: `chrome`, `ie`, `firefox`, `safari`, `opera`, `phantomjs`)
+| `-f (--file) FILE`      | script file to run
+| `-h (--help)`           | display this help and exit
+| `-v (--version)`        | show version
+
+<h2>Arguments</h2>
+
+| Description |
+| ---------------------------------------------- |
+| script instructions to run. if `--file` or `--dir` is passed, SCRIPT is always executed before, so you can set variables for script file execution |
+
+<h2>Examples</h2>
+
+```bash
+minium-developer automate --browser chrome --file main.js "user = { name : 'auser', password : 'apassword' }"
+```
+
+```
+minium-developer automate --browser firefox --dir minium-task
 ```

@@ -10,8 +10,6 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
-import minium.developer.config.Constants;
-
 import org.apache.catalina.Context;
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
@@ -98,7 +96,9 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
 
 
         ConfigurableApplicationContext context = app.run(args);
-        maybeLaunchBrowser(context);
+        if (source.containsProperty("browser")) {
+            maybeLaunchBrowser(context);
+        }
     }
 
     /**
@@ -115,9 +115,6 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
             additionalProfiles.add("linux");
         }
 
-        if (!source.containsProperty("spring.profiles.active")) {
-            additionalProfiles.add(Constants.SPRING_PROFILE_DEVELOPMENT);
-        }
         String[] additionalProfilesArr = new String[additionalProfiles.size()];
         additionalProfilesArr = additionalProfiles.toArray(additionalProfilesArr);
         app.setAdditionalProfiles(additionalProfilesArr);

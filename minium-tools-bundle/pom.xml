@@ -92,7 +92,6 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<installDirectory>.</installDirectory>
 							<workingDirectory>src/main/resources/electron-app</workingDirectory>
 							<arguments>install</arguments>
 						</configuration>
@@ -118,6 +117,9 @@
 						</configuration>
 					</execution>
 				</executions>
+				<configuration>
+					<installDirectory>.</installDirectory>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>

@@ -49,7 +49,7 @@
         "remote.url": "Remote url",
         "use_remote": "Use remote webdriver",
         "use_local": "Use local webdriver",
-        "error_creating": "Could not create a new WebDriver!!",
+        "error_creating": "Could not create a new webdriver!!",
         "not_launched": "No web driver launched. Please select one!",
         "advanced": "Advanced",
         "advanced.popover": "Use a JSON configuration to launch a new webdriver!!",
@@ -60,12 +60,12 @@
         "download": {
             "started": "Download started",
             "complete": "Download completed",
-            "error": "Couldn't download the wedrivers"
+            "error": "Couldn't download the webdriver"
         },
         "update": {
             "started": "Update started",
             "complete": "Update completed",
-            "error": "Couldn't updated the wedrivers"
+            "error": "Couldn't updated the webdriver"
         },
         "isAvailable": "Minium Recorder is <strong class='success'>available</strong>",
         "how_to_use": "You can use Minium Recorder by opening the Developer tools: Right-click on any page element and select Inspect Element. <br> In Developer tools open the tab 'Minium Recorder' and you are ready to start recording interactions with your browser."
@@ -83,7 +83,7 @@
     },
     "test_msg": {
         "failing": "Test didn't pass!!",
-        "pass": "Test Pass with Sucess",
+        "pass": "Test was successful",
         "not_executed": "No tests executed",
         "executed_passed": "Test Executed and Pass",
         "test_error": "Oops, something went wrong."
@@ -117,26 +117,26 @@
     },
     "help": {
         "help": "help",
-        "selector.gadget": "[Mode Javascript] Selector Gadget",
+        "selector.gadget": "[Mode JavaScript] Selector Gadget",
         "selector.gadget.text": "You can select elements with selector.. ",
-        "evaluator": "[Mode Javascript] Evaluator",
-        "evaluator.text": "You can evaluate your expressions in javascript.",
-        "search": "Seacrh File",
+        "evaluator": "[Mode JavaScript] Evaluator",
+        "evaluator.text": "You can evaluate your expressions in JavaScript.",
+        "search": "Search File",
         "search.text": "You can search and open files",
         "save.file": "Save the file",
         "run.tests": "[Mode Cucumber]  Run Test",
         "run.tests.text": "Run your tests from the cursor location. You can have multiple cursor."
     },
     "backend": {
-        "resgister.backend": "Register a Backend",
-        "backend": "Backend",
+        "resgister.backend": "Register a back-end",
+        "backend": "Back-end",
         "resgister": "Register"
     },
     "project.form": {
         "open": "Open project",
         "directory": "Project Directory",
         "latest": "Latest projects",
-        "artifactId": "Articfact ID",
+        "artifactId": "Artifact ID",
         "groupId": "Group ID",
         "version": "Version",
         "featureFile": "Feature file",
@@ -170,8 +170,8 @@
             }
         },
         "backend": {
-            "success": "Backend registed with success",
-            "error": "Error. Can't register the backend"
+            "success": "Back-end registered with success",
+            "error": "Error. Can't register the back-end"
         },
         "error": {
             "test_executing": "A test is already running!!",

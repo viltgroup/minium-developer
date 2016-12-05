@@ -27,7 +27,6 @@ public class CucumberProject extends ProjectTemplate {
     private static final Logger LOGGER = LoggerFactory.getLogger(CucumberProject.class);
 
 	private static final String APPLICATION_YML = "application.yml";
-	private static final String LOGBACK_XML = "logback-test.xml";
 	private static final String POM_XML = "pom.xml";
 
 	public CucumberProject(ProjectDTO project) {
@@ -84,12 +83,8 @@ public class CucumberProject extends ProjectTemplate {
 			FileUtils.forceMkdir(newFile);
 		}
 
-		// copy logback.xml into "src/test/resources"
-		File fileModules = new File(file, "");
-		copyResource("/templates/cucumber-project/" + LOGBACK_XML, fileModules, LOGBACK_XML);
-
 		// copy application.yml config/application.yml
-		fileModules = new File(file, "config");
+		File fileModules = new File(file, "config");
 		copyResource("/templates/cucumber-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
 	}
 

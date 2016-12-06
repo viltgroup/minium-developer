@@ -178,8 +178,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>minium-developer-win64</finalName>
+							<finalName>minium-developer</finalName>
 							<descriptors>
 								<descriptor>src/assembly/assembly-windows.xml</descriptor>
 							</descriptors>
@@ -192,8 +191,7 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>minium-developer-linux64</finalName>
+							<finalName>minium-developer</finalName>
 							<descriptors>
 								<descriptor>src/assembly/assembly-linux.xml</descriptor>
 							</descriptors>
@@ -206,10 +204,9 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<appendAssemblyId>false</appendAssemblyId>
-							<finalName>minium-developer-macos</finalName>
+							<finalName>minium-developer</finalName>
 							<descriptors>
-								<descriptor>src/assembly/assembly-mac.xml</descriptor>
+								<descriptor>src/assembly/assembly-macos.xml</descriptor>
 							</descriptors>
 							<tarLongFileMode>posix</tarLongFileMode>
 						</configuration>

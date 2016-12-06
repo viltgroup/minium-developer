@@ -23,6 +23,31 @@
 		</dependency>
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>windows</family>
+				</os>
+			</activation>
+			<properties>
+				<npmBuildArguments>run build</npmBuildArguments>
+			</properties>
+		</profile>
+		<profile>
+			<id>linux</id>
+			<activation>
+				<os>
+					<family>unix</family>
+				</os>
+			</activation>
+			<properties>
+				<npmBuildArguments>run build-on-linux</npmBuildArguments>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<finalName>minium-tools</finalName>
 		<plugins>
@@ -114,7 +139,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>run build</arguments>
+							<arguments>${npmBuildArguments}</arguments>
 						</configuration>
 					</execution>
 				</executions>

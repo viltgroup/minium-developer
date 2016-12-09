@@ -19,8 +19,8 @@
 				<include>bin/**</include>
 			</includes>
 			<excludes>
-				<exclude>bin/minium-developer</exclude>
-				<exclude>bin/minium-developer.bat</exclude>
+				<exclude>bin/minium-developer-browser</exclude>
+				<exclude>bin/minium-developer-browser.bat</exclude>
 			</excludes>
 		</fileSet>
 		<fileSet>

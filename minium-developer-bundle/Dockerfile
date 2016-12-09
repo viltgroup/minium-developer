@@ -16,4 +16,4 @@ RUN export JAVA_OPTS="-Djava.awt.headless=true"
 
 ADD ./target/minium-developer $MINIUM_DEVELOPER_HOME/
 
-ENTRYPOINT ["/opt/minium-developer/bin/minium-developer-browser"]
+ENTRYPOINT ["/opt/minium-developer/bin/minium-developer"]

@@ -84,4 +84,10 @@ public class ReleaseComparatorTest {
         assertTrue("Relase 3.4.6 is older than 3.5.1", compare < 0);
     }
 
+    @Test
+    public void testCompareMiniumToolsAndMiniumDeveloperReleases() {
+        Release miniumToolsRelease = new Release("minium-tools-1.4.1", null);
+        Release miniumDeveloperRelease = new Release("minium-developer-1.5.0", null);
+        assertTrue(releaseComparator.compare(miniumToolsRelease, miniumDeveloperRelease) < 0);
+    }
 }

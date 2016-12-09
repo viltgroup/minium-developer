@@ -19,6 +19,6 @@ public class ReleaseComparator implements Comparator<Release>, Serializable {
     }
 
     private String stripVersion(final String tagName) {
-        return tagName.replaceFirst("minium-tools-", "").replaceAll("-\\w*", "");
+        return tagName.replaceFirst("(minium-developer-|minium-tools-)", "").replaceAll("-\\w*", "");
     }
 }

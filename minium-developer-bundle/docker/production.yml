@@ -1,0 +1,5 @@
+developer:
+  image: bia.vilt-group.com/engineering.minium/minium-developer:latest
+  ports:
+  - "8089:8089"
+  restart: always

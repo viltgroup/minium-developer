@@ -8,17 +8,17 @@
 		<version>1.4.2-SNAPSHOT</version>
 	</parent>
 
-	<groupId>io.vilt.minium.tools</groupId>
-	<artifactId>minium-tools</artifactId>
+	<groupId>io.vilt.minium.developer</groupId>
+	<artifactId>minium-developer</artifactId>
 	<version>1.4.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Minium Tools</name>
+	<name>Minium Developer</name>
 
 	<scm>
-		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-tools.git</connection>
-		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-tools.git</developerConnection>
-		<url>https://artemis.vilt-group.com/engineering.minium/minium-tools</url>
+		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-developer.git</connection>
+		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-developer.git</developerConnection>
+		<url>https://artemis.vilt-group.com/engineering.minium/minium-developer</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -43,23 +43,23 @@
 	<dependencyManagement>
 		<dependencies>
        		<dependency>
-				<groupId>io.vilt.minium.tools</groupId>
+				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-automator</artifactId>
 				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
-				<groupId>io.vilt.minium.tools</groupId>
-				<artifactId>minium-tools-fs</artifactId>
+				<groupId>io.vilt.minium.developer</groupId>
+				<artifactId>minium-developer-fs</artifactId>
 				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
 	        <dependency>
-	            <groupId>io.vilt.minium.tools</groupId>
+	            <groupId>io.vilt.minium.developer</groupId>
 	            <artifactId>minium-cucumber-reporting</artifactId>
 				<version>1.4.2-SNAPSHOT</version>
 	        </dependency>
 			<dependency>
-				<groupId>io.vilt.minium.tools</groupId>
-				<artifactId>minium-developer</artifactId>
+				<groupId>io.vilt.minium.developer</groupId>
+				<artifactId>minium-developer-web</artifactId>
 				<version>1.4.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
@@ -92,13 +92,13 @@
 
 	<modules>
 		<module>minium-automator</module>
-		<module>minium-developer</module>
-		<module>minium-tools-fs</module>
+		<module>minium-developer-web</module>
+		<module>minium-developer-fs</module>
 		<module>minium-cucumber-reporting</module>
-		<module>minium-tools-bundle</module>
+		<module>minium-developer-bundle</module>
 		<module>minium-developer-e2e-tests</module>
-		<module>minium-tools-docs</module>
-		<module>minium-tools-parent</module>
+		<module>minium-developer-docs</module>
+		<module>minium-developer-parent</module>
 	</modules>
 
 	<build>

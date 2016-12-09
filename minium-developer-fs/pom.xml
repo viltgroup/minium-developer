@@ -8,26 +8,31 @@
 		<relativePath>../minium-developer-parent</relativePath>
 	</parent>
 
-	<artifactId>minium-automator</artifactId>
-	<name>Minium Automator</name>
+	<artifactId>minium-developer-fs</artifactId>
+	<name>Minium Developer - Filesystem</name>
 
 	<dependencies>
 		<dependency>
-			<groupId>io.vilt.minium</groupId>
-			<artifactId>minium-script-rhinojs</artifactId>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.vilt.minium</groupId>
-			<artifactId>minium-webelements-config</artifactId>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>args4j</groupId>
-			<artifactId>args4j</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	
+
 </project>

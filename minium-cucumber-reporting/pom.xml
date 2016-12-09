@@ -2,14 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>io.vilt.minium.tools</groupId>
-		<artifactId>minium-tools-parent</artifactId>
+		<groupId>io.vilt.minium.developer</groupId>
+		<artifactId>minium-developer-parent</artifactId>
 		<version>1.4.2-SNAPSHOT</version>
-		<relativePath>../minium-tools-parent</relativePath>
+		<relativePath>../minium-developer-parent</relativePath>
 	</parent>
 
 	<artifactId>minium-cucumber-reporting</artifactId>
-	<name>Minium Tools - Cucumber Reporting</name>
+	<name>Minium Developer - Cucumber Reporting</name>
 
 	<dependencies>
 		<dependency>

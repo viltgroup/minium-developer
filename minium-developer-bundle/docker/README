@@ -1,0 +1,19 @@
+BUILDING
+========
+
+please build the minium-developer project first with `mvn install` then
+
+* docker-compose build`
+
+To Push to registry chaning to the CORRECT_VERSION:
+
+```
+docker tag docker_developer bia.vilt-group.com/engineering.minium/minium-developer:1.1.0-SNAPSHOT
+docker push bia.vilt-group.com/engineering.minium/minium-developer:1.1.0-SNAPSHOT
+```
+
+
+RUNNING
+=======
+
+docker-compose up

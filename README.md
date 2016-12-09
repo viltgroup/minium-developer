@@ -29,7 +29,7 @@ Building Minium Developer
 
 ```bash
 git clone https://github.com/viltgroup/minium-tools.git
-cd minium-tools
+cd minium-developer
 mvn install -DskipTests
 ```
 
@@ -37,7 +37,7 @@ Launch Minium Developer
 ============
 ```bash
 git clone https://github.com/viltgroup/minium-tools.git
-cd minium-tools/minium-developer
+cd minium-developer/minium-developer-web
 bower install
 mvn spring-boot:run
 ```
@@ -46,7 +46,7 @@ Minium in 5 minutes
 ============
 ## Dowload Minium Developer
 
-Dowload from [github](https://github.com/viltgroup/minium-tools/releases) your platform minium-tools
+Dowload from [github](https://github.com/viltgroup/minium-tools/releases) your platform minium-developer
 
 ##Run Minium Developer
 

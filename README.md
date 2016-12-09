@@ -10,7 +10,7 @@ What is Minium
 
 Minium has spawned from the work of Rui Figueira @VILT and that initial code base is now known as Minium Core. It combines jQuery and Selenium for browser testing and tasks automation.
 
-[Minium Developer](https://github.com/viltgroup/minium-tools/) is a console aimed at developers, allowing the creation of automatic tasks in the browser to be used in end-to-end testing of your web applications.
+[Minium Developer](https://github.com/viltgroup/minium-developer/) is a console aimed at developers, allowing the creation of automatic tasks in the browser to be used in end-to-end testing of your web applications.
 Minium is both powerful and simple: tests can be written in cucumber even by non-technical people, but you can integrate with your base code in any language by exposing a RESTful service.
 All these features make Minium a great way for you to integrate Behaviour Driven Development practices through out all phases of your project
 
@@ -28,7 +28,7 @@ Building Minium Developer
 ============
 
 ```bash
-git clone https://github.com/viltgroup/minium-tools.git
+git clone https://github.com/viltgroup/minium-developer.git
 cd minium-developer
 mvn install -DskipTests
 ```
@@ -36,7 +36,7 @@ mvn install -DskipTests
 Launch Minium Developer
 ============
 ```bash
-git clone https://github.com/viltgroup/minium-tools.git
+git clone https://github.com/viltgroup/minium-developer.git
 cd minium-developer/minium-developer-web
 bower install
 mvn spring-boot:run
@@ -46,7 +46,7 @@ Minium in 5 minutes
 ============
 ## Dowload Minium Developer
 
-Dowload from [github](https://github.com/viltgroup/minium-tools/releases) your platform minium-developer
+Dowload from [github](https://github.com/viltgroup/minium-developer/releases) your platform minium-developer
 
 ##Run Minium Developer
 

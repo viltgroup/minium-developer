@@ -10,7 +10,7 @@ import minium.developer.utils.HttpClientUtils;
 public class GitHubRelease extends MiniumReleaseManager {
 
     protected static final String GITHUB_OWNER = "viltgroup";
-    protected static final String GITHUB_REPOSITORY = "minium-tools";
+    protected static final String GITHUB_REPOSITORY = "minium-developer";
     protected static final String GITHUB_RELEASES_ALL = "https://api.github.com/repos/{owner}/{repository}/releases";
 
     public GitHubRelease(HttpClientUtils httpClient) {

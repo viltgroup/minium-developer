@@ -17,7 +17,7 @@ Feature: Run features
     And I click on button "Run"
     Then I should see a success notification with text "Test Started..."
     When I wait until the test is completed
-    And I should see a success notification with text "Test Pass with Sucess"
+    And I should see a success notification with text "Test Executed and Pass"
     And only lines 6,7,8,11,12,13 should be marked as passed
 
   Scenario: Run all tests (button 'Run All')
@@ -25,7 +25,7 @@ Feature: Run features
     And I click on button "Run All"
     Then I should see a success notification with text "Test Started..."
     When I wait until the test is completed
-    And I should see a success notification with text "Test Pass with Sucess"
+    And I should see a success notification with text "Test Executed and Pass"
     And only lines 6,7,8,11,12,13 should be marked as passed
 
   Scenario: Run one test (button 'Run Test')
@@ -33,7 +33,7 @@ Feature: Run features
     And I move the cursor to line 5
     And I click on button "Run"
     And I wait until the test is completed
-    And I should see a success notification with text "Test Pass with Sucess"
+    And I should see a success notification with text "Test Executed and Pass"
     And only lines 6,7,8 should be marked as passed
 
   Scenario: Run one scenario outline example test (button 'Run Test')
@@ -41,5 +41,5 @@ Feature: Run features
     And I move the cursor to line 17
     And I click on button "Run"
     And I wait until the test is completed
-    And I should see a success notification with text "Test Pass with Sucess"
+    And I should see a success notification with text "Test Executed and Pass"
     And only lines 11,12,13 should be marked as passed

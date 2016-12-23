@@ -1,5 +1,6 @@
 var timeUnits = require("minium/timeunits"),
     interpolator = require("utils/interpolator");
+var Dimension = Packages.minium.Dimension;
 
 Before(function () {
   interpolator.resetDefaults();
@@ -33,5 +34,7 @@ World(function () {
       .clear()
       .add(minium.interactionListeners.onUnhandledAlert().accept().thenRetry())
       .add(minium.interactionListeners.onStaleElementReference().thenRetry())
-      .add(stableForClickListener);
+      .add(stableForClickListener)
+      .done()
+    .window().setSize(new Dimension(1920, 1080));
 });

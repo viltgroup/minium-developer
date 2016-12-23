@@ -24,6 +24,6 @@ Then(/^links corresponding to (.*) are displayed$/, function (query) {
 
   linkUrls.forEach(function (linkUrl) {
     var link = links.withAttr("data-href", linkUrl).add(links.withAttr("href", linkUrl));
-    expect(link).to.have.size(1);
+    expect(link).to.exist();
   });
 });

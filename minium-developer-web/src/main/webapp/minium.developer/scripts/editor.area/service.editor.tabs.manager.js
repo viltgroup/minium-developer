@@ -39,7 +39,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         //the settings of the editor
         this.defaultSettings = {
             theme: 'ace/theme/monokai',
-            fontSize: 14,
+            fontSize: 16,
             printMargin: false,
             highlightLine: true,
             wrapMode: false,

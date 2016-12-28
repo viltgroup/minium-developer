@@ -49,10 +49,10 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
 
     /**
      * Initializes miniumdev.
-     * <p/>
+     * <p>
      * Spring profiles can be configured with a program arguments
      * --spring.profiles.active=your-active-profile
-     * <p/>
+     * </p>
      */
     @PostConstruct
     public void initApplication() throws IOException {

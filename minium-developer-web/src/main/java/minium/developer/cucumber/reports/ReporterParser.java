@@ -34,8 +34,6 @@ public class ReporterParser {
 	 * @throws IOException
 	 * @throws JsonMappingException
 	 * @throws JsonParseException
-	 * @throws JsonSyntaxException
-	 * @throws JsonIOException
 	 * @throws FileNotFoundException
 	 */
 	public List<Feature> parseJsonResult(String results) throws IOException {

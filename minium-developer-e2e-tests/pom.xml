@@ -13,7 +13,7 @@
 
 	<artifactId>minium-developer-e2e-tests</artifactId>
 	<name>Minium Developer E2E Tests</name>
-	<version>1.5.0</version>
+	<version>1.5.1-SNAPSHOT</version>
 
 	<properties>
 		<!-- cucumber 1.22 doesn't seem to support 4.12 yet -->
@@ -71,8 +71,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-
-  <scm>
-    <tag>minium-developer-1.5.0</tag>
-  </scm>
 </project>

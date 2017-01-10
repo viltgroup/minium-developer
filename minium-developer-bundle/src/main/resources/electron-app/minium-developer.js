@@ -70,13 +70,13 @@ module.exports = {
   }),
   startInBrowser: () => {
     if (isWindows()) {
-      executeScript('bin/minium-developer-browser.bat', [], {
+      executeScript('bin/minium-developer.bat', ['--browser'], {
         detached: true,
         cwd: rootDir,
         stdio: 'ignore'
       }).unref();
     } else {
-      executeScript('bin/minium-developer-browser', [], {
+      executeScript('bin/minium-developer', ['--browser'], {
         cwd: rootDir,
         stdio: 'inherit'
       });

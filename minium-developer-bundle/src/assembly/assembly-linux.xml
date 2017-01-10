@@ -27,7 +27,6 @@
 			<directoryMode>0755</directoryMode>
 			<includes>
 				<include>bin/minium-developer</include>
-				<include>bin/minium-developer-browser</include>
 				<include>bin/minium-automator</include>
 			</includes>
 		</fileSet>

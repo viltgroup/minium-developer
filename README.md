@@ -11,7 +11,7 @@ What is Minium
 Minium has spawned from the work of Rui Figueira @VILT whose source code has dwealed into Minium Core, combining jQuery and Selenium for purposes of browser testing and task automation.
 
 [Minium Developer](https://github.com/viltgroup/minium-developer/) is a console aimed at developers, allowing the creation of automatic tasks in the browser to be used in end-to-end testing of your web applications.
-Minium is both a powerful and to use tool: its tests can be written in Cucumber even by non-technical people, and you can integrate it with your source code in any language by exposing a RESTful service.
+Minium is both a powerful and simple to use tool: its tests can be written in Cucumber even by non-technical people, and you can integrate it with your source code in any language by exposing a RESTful service.
 All these features make Minium a great tool for you to integrate Behaviour Driven Development practices throughout the scope of all the stages of your project.
 
 The last component of Minium is known as Minium Manager. It's aimed at business solutions, being a more powerful console providing useful reports on ongoing projects, featuring a strong continuous integration component.

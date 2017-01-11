@@ -41,7 +41,7 @@ Extract the archive and and double-click on the executable (`minium-developer.ex
 ## Open a feature & Run it
 * Open the file `features/MyFeature.feature` (the project structure is on the left sidebar)
 * Click on the **Run All** button. 
-* Select the **Chrome** webdriver and click on the button **Create new webdriver**
+* Select the **Chrome** webdriver and press the **Create new webdriver** button 
 
 The test execution should start. Enjoy!
 

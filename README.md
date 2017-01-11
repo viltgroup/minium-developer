@@ -14,7 +14,7 @@ Minium has spawned from the work of Rui Figueira @VILT and that initial code bas
 Minium is both a powerful and simple tool to use: its tests can be written in Cucumber even by non-technical people, but you can integrate it with your source code in any language by exposing a RESTful service.
 All these features make Minium a great way for you to integrate Behaviour Driven Development practices throughout all the stages of your project.
 
-The last component of Minium is known as Minium Manager. It's aimed at business solutions, being a more powerful console providing useful reports of ongoing projects, featuring a strong continuous integration component.
+The last component of Minium is known as Minium Manager. It's aimed at business solutions, being a more powerful console providing useful reports on ongoing projects, featuring a strong continuous integration component.
 
 Minium in 5 minutes
 ============

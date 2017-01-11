@@ -8,7 +8,7 @@ What is Minium
 
 [Minium](https://github.com/viltgroup/minium/) is a framework developed at [VILT](http://vilt-group.com) that provides a computer assisted mean for you to test your web applications.
 
-Minium has spawned from the work of Rui Figueira @VILT which source code as dwealed into Minium Core. It combines jQuery and Selenium for purposes of browser testing and task automation.
+Minium has spawned from the work of Rui Figueira @VILT whose source code as dwealed into Minium Core. It combines jQuery and Selenium for purposes of browser testing and task automation.
 
 [Minium Developer](https://github.com/viltgroup/minium-developer/) is a console aimed at developers, allowing the creation of automatic tasks in the browser to be used in end-to-end testing of your web applications.
 Minium is both a powerful and simple tool to use tool: its tests can be written in Cucumber even by non-technical people, and you can integrate it with your source code in any language by exposing a RESTful service.

@@ -31,7 +31,7 @@ Extract the archive and and double-click on the executable (`minium-developer.ex
 * Go to **Project** < **Create Project**
 * **Select** the Cucumber project
 * **Fill** the form with:
-    * The Parent Directory:  parent path where you want to put your project (e.g /home/user/workspace, c:\Tools\ )
+    * The Parent Directory:  consists of the path where your project will be stored (e.g /home/user/workspace, c:\Tools\ )
     * The Project Name :  `minium-developer-test`
     * The Group ID :  `com.minium`
     * The Feature file :  `MyFeature`

@@ -1,7 +1,7 @@
 package minium.developer.internal.webelements;
 
-import minium.web.internal.WebModule;
 import minium.web.internal.WebElementsFactory.Builder;
+import minium.web.internal.WebModule;
 
 public class SelectorGadgetWebModules {
 
@@ -10,10 +10,10 @@ public class SelectorGadgetWebModules {
             @Override
             public void configure(Builder<?> builder) {
                 builder
-                    .withCssResources("minium/developer/internal/webelements/lib/selectorgadget_combined.css")
+                    .withCssResources("minium/web/internal/lib/selectorgadget.min.css")
                     .withJsResources(
-                            "minium/developer/internal/webelements/lib/selectorgadget_combined.js",
-                            "minium/developer/internal/webelements/lib/selectorgadget_minium.js")
+                            "minium/web/internal/lib/selectorgadget.min.js",
+                            "minium/web/internal/lib/jquery.selectorgadget.min.js")
                     .implementingInterfaces(SelectorGadgetWebElements.class);
             }
         };

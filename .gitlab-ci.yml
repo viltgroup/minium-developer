@@ -1,0 +1,197 @@
+variables:
+  DOMAIN_SUFFIX: developer.virtus.io
+  MAVEN_EXTRA_ARGS: -Pprod,generate-docs -DskipITs -pl !minium-developer-e2e-tests --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
+  MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
+
+stages:
+  - build
+  - deploy
+  - test
+  - prepare-release
+  - release
+
+before_script:
+  # login into bia
+  - docker login -u ${DOCKER_REGISTRY_USER:-gitlab-ci-token} -p ${DOCKER_REGISTRY_PASS:-$CI_BUILD_TOKEN} bia.vilt-group.com 2> /dev/null || true
+
+#############################################################
+# Build
+#############################################################
+
+build:
+  stage: build
+  tags:
+    - maven
+  script:
+    - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec > version.txt
+    - mvn clean install -U $MAVEN_EXTRA_ARGS
+  artifacts:
+    paths:
+      - version.txt
+      - minium-developer-bundle/target/minium-developer/*
+      - minium-developer-bundle/Dockerfile
+      - minium-developer-bundle/docker/*
+      - minium-developer-docs/target/mkdocs/docs/
+
+#############################################################
+# Deploy
+#############################################################
+
+.deploy definition: &deploy-template
+  stage: deploy
+  tags:
+    - docker
+  script:
+    - docker-compose -f minium-developer-bundle/docker/docker-compose.yml build
+    - docker-compose -f minium-developer-bundle/docker/docker-compose.yml push
+    # Workaround for https://github.com/docker/docker/issues/31357
+    - docker stack rm $PROJECT_NAME && sleep 8
+    - VIRTUAL_HOST=$VIRTUAL_HOST docker stack deploy --with-registry-auth --compose-file minium-developer-bundle/docker/docker-compose.yml $PROJECT_NAME
+    # Wait for app to be up and running
+    #- timeout $APP_START_TIMEOUT bash -c "until curl --fail --silent --output /dev/null $APP_URL; do printf '.'; sleep 1; done"
+  dependencies:
+    - build
+
+.deploy manual definition: &deploy-manual-template
+  <<: *deploy-template
+  when: manual
+
+.stop deploy manual definition: &stop-deploy-manual-template
+  stage: deploy
+  tags:
+    - docker
+  when: manual
+  script:
+    - docker stack rm $PROJECT_NAME
+
+deploy manual staging:
+  <<: *deploy-manual-template
+  only:
+    - master
+  variables:
+    VIRTUAL_HOST: staging.$DOMAIN_SUFFIX
+    PROJECT_NAME: $CI_PROJECT_NAME-staging
+    IMAGE_TAG: staging
+    APP_URL: http://staging.$DOMAIN_SUFFIX
+  environment:
+    name: staging
+    url: http://staging.$DOMAIN_SUFFIX
+    on_stop: stop deploy manual staging
+
+deploy manual review:
+  <<: *deploy-manual-template
+  only:
+    - /release\/.*$/
+    - /feature\/.*$/
+    - /bug\/.*$/
+  variables:
+    VIRTUAL_HOST: $CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
+    PROJECT_NAME: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+    IMAGE_TAG: $CI_COMMIT_REF_SLUG
+    APP_URL: http://$CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: http://$CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
+    on_stop: stop deploy manual review
+
+deploy uat:
+  <<: *deploy-template
+  only:
+    - /^minium-developer-.*-RC\d+$/
+  variables:
+    VIRTUAL_HOST: uat.$DOMAIN_SUFFIX
+    PROJECT_NAME: $CI_PROJECT_NAME-uat
+    IMAGE_TAG: uat
+    APP_URL: http://uat.$DOMAIN_SUFFIX
+  environment:
+    name: uat
+    url: http://uat.$DOMAIN_SUFFIX
+
+stop deploy manual staging:
+  <<: *stop-deploy-manual-template
+  only:
+    - master
+  variables:
+    PROJECT_NAME: $CI_PROJECT_NAME-staging
+  environment:
+    name: staging
+    action: stop
+
+stop deploy manual review:
+  <<: *stop-deploy-manual-template
+  only:
+    - /release\/.*$/
+    - /feature\/.*$/
+    - /bug\/.*$/
+  variables:
+    PROJECT_NAME: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
+
+#############################################################
+# Test
+#############################################################
+
+test uat:
+  stage: test
+  tags:
+    - docker
+  only:
+    - /^minium-developer-.*-RC\d+$/
+  script:
+    - sh ./scripts/launch-minium-manager-job.sh
+  variables:
+    MINIUM_MANAGER_PROJECT_ID: "100"
+    MINIUM_REPORT_PATH: $CI_PROJECT_DIR/minium-report-uat.pdf
+  dependencies:
+    - deploy uat
+  environment:
+    name: uat
+  artifacts:
+    name: "$CI_BUILD_REF_NAME/$CI_BUILD_ID"
+    when: on_failure
+    paths:
+      - minium-report-uat.pdf
+
+#############################################################
+# Prepare Release
+#############################################################
+
+prepare release candidate:
+  stage: prepare-release
+  tags:
+    - maven
+  when: manual
+  only:
+    - /^release\/.*$/
+  script:
+    # we must ensure we have all remote tags to compute the next release candidate version
+    - git fetch --tags
+    - git checkout -B $CI_COMMIT_REF_NAME
+    - sh ./scripts/prepare-release-candidate.sh
+
+prepare release:
+  stage: prepare-release
+  tags:
+    - maven
+  when: manual
+  only:
+    - /^release\/.*$/
+  script:
+    - git fetch --tags
+    - git checkout -B $CI_COMMIT_REF_NAME
+    - sh ./scripts/prepare-release.sh
+
+#############################################################
+# Release
+#############################################################
+
+release:
+  stage: release
+  tags:
+    - maven
+  only:
+    - tags
+  script:
+    - mvn clean install $MAVEN_EXTRA_ARGS -DperformRelease=true

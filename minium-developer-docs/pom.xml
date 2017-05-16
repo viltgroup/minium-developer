@@ -93,7 +93,7 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
+					<!--<plugin>
 					    <groupId>de.taimos</groupId>
 					    <artifactId>redmine-maven-plugin</artifactId>
 					    <executions>
@@ -111,7 +111,7 @@
    					        <projectIdentifier>minium-developer</projectIdentifier>
 					        <changelogVersion>1.0.0</changelogVersion>
 						</configuration>
-					</plugin>
+					</plugin>-->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>license-maven-plugin</artifactId>
@@ -196,33 +196,6 @@
 										<argument>${project.build.directory}/licenses/THIRD-PARTY.txt</argument>
 										<argument>--bowerLicensesFile</argument>
 										<argument>${basedir}/../minium-developer/target/LICENSES</argument>
-									</arguments>
-								</configuration>
-							</execution>
-							<execution>
-								<id>generate-changelog-md</id>
-								<phase>package</phase>
-								<goals>
-									<goal>java</goal>
-								</goals>
-								<configuration>
-									<mainClass>minium.docs.ChangelogGenerator</mainClass>
-									<killAfter>-1</killAfter>
-									<systemProperties>
-										<systemProperty>
-											<key>org.freemarker.loggerLibrary</key>
-	             							<value>none</value>
-	           							</systemProperty>
-									</systemProperties>
-									<arguments>
-										<argument>--changelogFile</argument>
-										<argument>${project.build.directory}/changelog</argument>
-										<argument>--templateFile</argument>
-										<argument>${basedir}/src/main/resources/templates/changelog.md.ftl</argument>
-										<argument>--outputFile</argument>
-										<argument>${project.build.directory}/mkdocs/docs/developer/changelog.md</argument>
-										<argument>--ticketUrlFormat</argument>
-										<argument>${project.issueManagement.url}/issues/:id</argument>
 									</arguments>
 								</configuration>
 							</execution>

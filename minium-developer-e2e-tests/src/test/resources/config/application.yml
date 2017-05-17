@@ -15,9 +15,23 @@ minium:
   config:
     baseUrl: http://localhost:8089/#/editor/
     tempDir: /tmp
-    defaultBrowser: 
+    defaultBrowser:
       browserName: Firefox
       url: http://styx:4444/wd/hub
+
+---
+spring:
+  profiles: staging
+
+# Configuration that can be injected in your tests
+minium:
+  config:
+    baseUrl: http://staging.developer.virtus.io/
+    remoteWebDriverUrl: ${minium.webdriver.url}
+    tempDir: /tmp
+    defaultBrowser:
+      browserName: Chrome
+      url: ${minium.webdriver.url}
 
 ---
 spring:
@@ -29,6 +43,6 @@ minium:
     baseUrl: http://virtus.vilt-group.com:8089/
     remoteWebDriverUrl: ${minium.webdriver.url}
     tempDir: /tmp
-    defaultBrowser: 
+    defaultBrowser:
       browserName: Chrome
       url: ${minium.webdriver.url}

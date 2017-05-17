@@ -1,4 +1,4 @@
-FROM bia.vilt-group.com/devops/docker-base-images:jdk8
+FROM openjdk:8-jdk
 
 MAINTAINER Mario Lameiras <mario.lameiras@vilt-group.com>
 ##############################################

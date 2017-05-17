@@ -1,4 +1,22 @@
-developer:
-  build: ..
-  ports:
-  - "8089:8089"
+version: '3'
+
+services:
+  developer:
+    image: bia.vilt-group.com/engineering.minium/minium-developer:${IMAGE_TAG}
+    build: ..
+    networks:
+      - traefik-net
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.port=8089"
+        - "traefik.docker.network=traefik-net"
+        - "traefik.frontend.rule=Host:${VIRTUAL_HOST}"
+      placement:
+        constraints:
+          - node.role == manager
+
+networks:
+  traefik-net:
+    external: true

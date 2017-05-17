@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>io.vilt.minium.developer</groupId>
 		<artifactId>minium-developer-parent</artifactId>
-		<version>1.6.0-SNAPSHOT</version>
+		<version>1.6.0-RC1</version>
 		<relativePath>../minium-developer-parent</relativePath>
 	</parent>
 

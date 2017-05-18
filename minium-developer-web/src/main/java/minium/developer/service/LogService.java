@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import com.Ostermiller.util.CircularByteBuffer;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 @Service
 @Profile("!test")

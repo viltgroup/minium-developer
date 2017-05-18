@@ -4,6 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Maps;
+
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.config.WebDriversProperties.RecorderProperties;
@@ -17,20 +25,8 @@ import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 import minium.web.config.WebDriverFactory;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Maps;
-
 @Service
 public class WebDriverService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverService.class);
 
     @Autowired
     private DriverLocator driverLocator;

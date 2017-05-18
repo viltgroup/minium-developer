@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.service.WebDriverService;
 import minium.web.DelegatorWebDriver;
-import minium.web.config.WebDriverProperties;
 
 @Controller
 @RequestMapping("/app/rest/webdrivers")

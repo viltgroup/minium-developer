@@ -40,7 +40,7 @@ spring:
 # Configuration that can be injected in your tests
 minium:
   config:
-    baseUrl: http://virtus.vilt-group.com:8089/
+    baseUrl: http://staging.developer.virtus.io/
     remoteWebDriverUrl: ${minium.webdriver.url}
     tempDir: /tmp
     defaultBrowser:

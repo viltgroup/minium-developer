@@ -3,7 +3,7 @@
 miniumDeveloper.factory('WebDriverFactory', function($http) {
     return {
         create: function(config, withRecorder) {
-            return $http.post("/app/rest/webdrivers/create" + (withRecorder ? "?withRecorder=true" : ""), config);
+            return $http.post("/app/rest/webdrivers/create", config);
         },
         quit: function() {
             return $http.post("/app/rest/webdrivers/quit");

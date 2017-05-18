@@ -1,12 +1,17 @@
 package minium.developer.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.BrowserType;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 import minium.developer.config.WebDriversProperties;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
-import minium.developer.config.WebDriversProperties.RecorderProperties;
 import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
 import minium.developer.webdriver.GeckoDriverDownloader;
@@ -16,21 +21,10 @@ import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
 import minium.web.config.WebDriverFactory;
-
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Maps;
+import minium.web.config.WebDriverProperties.ChromeOptionsProperties;
 
 @Service
 public class WebDriverService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(WebDriverService.class);
 
     @Autowired
     private DriverLocator driverLocator;
@@ -147,38 +141,20 @@ public class WebDriverService {
         return webDriversProperties.getWebdrivers();
     }
 
-    public WebDriver createWebDriver(DeveloperWebDriverProperties webDriverProperties, boolean withRecorder) throws IOException {
-        WebDriver webDriver = null;
-        if (withRecorder) {
-            webDriver = addRecorderPlugin(webDriverProperties, webDriver);
-        }
-        return webDriver != null ? webDriver : webDriverFactory.create(webDriverProperties);
-    }
-
-    protected WebDriver addRecorderPlugin(DeveloperWebDriverProperties webDriverProperties, WebDriver webDriver) throws IOException {
-        RecorderProperties recorderProperties = this.webDriversProperties.getWebDriverPropertiesByBrowserName(webDriverProperties.getName()).getRecorder();
-        if (recorderProperties != null && recorderProperties.isAvailable()) {
-            ChromeOptions options = new ChromeOptions();
-
-            options.addExtensions(recorderProperties.getPath());
-
-            Map<String, Object> prefs = Maps.newHashMap();
-            Map<String, Object> devtoolsPrefs = Maps.newHashMap();
-            devtoolsPrefs.put("InspectorView.panelOrder", "{\"chrome-extension://" + recorderProperties.getId() + "\":1}");
-            devtoolsPrefs.put("shortcutPanelSwitch", true);
-            prefs.put("devtools.preferences", devtoolsPrefs);
-            options.setExperimentalOption("prefs", prefs);
-
-            options.addArguments("start-maximized");
-
-            webDriverProperties.getDesiredCapabilities().put(ChromeOptions.CAPABILITY, options);
-            webDriver = webDriverFactory.create(webDriverProperties);
-        }
-        return webDriver;
+    public WebDriver createWebDriver(DeveloperWebDriverProperties webDriverProperties) throws IOException {
+        return webDriverFactory.create(webDriverProperties);
     }
 
     public boolean isRecorderAvailableForBrowser(String browser) {
-        return this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getRecorder().isAvailable();
+        if (browser.equals(BrowserType.CHROME)) {
+            ChromeOptionsProperties options = this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getChromeOptions();
+            if (options == null) return false;
+
+            List<File> extensions = options.getExtensions();
+            return extensions != null && extensions.stream().anyMatch(extension -> extension.getName().contains("recorder"));
+        } else {
+            return false;
+        }
     }
 
 }

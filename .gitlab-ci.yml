@@ -194,4 +194,4 @@ release:
   only:
     - tags
   script:
-    - mvn clean install $MAVEN_EXTRA_ARGS -DperformRelease=true
+    - mvn clean deploy $MAVEN_EXTRA_ARGS -DperformRelease=true

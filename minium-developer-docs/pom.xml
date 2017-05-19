@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>io.vilt.minium.developer</groupId>
 		<artifactId>minium-developer-parent</artifactId>
-		<version>1.6.1-SNAPSHOT</version>
+		<version>1.7.1-SNAPSHOT</version>
 		<relativePath>../minium-developer-parent</relativePath>
 	</parent>
 
@@ -63,7 +62,7 @@
 									<goal>install-node-and-yarn</goal>
 								</goals>
 								<configuration>
-									<!-- Having node 7.1+ accelerates "Linking dependencies" phase in 
+									<!-- Having node 7.1+ accelerates "Linking dependencies" phase in
 										yarn install significantly: https://github.com/yarnpkg/yarn/issues/1496#issuecomment-290201745 -->
 									<nodeVersion>v7.9.0</nodeVersion>
 									<yarnVersion>v0.23.0</yarnVersion>
@@ -103,7 +102,7 @@
 							<yeomanProjectDirectory>${project.basedir}/../minium-developer-web</yeomanProjectDirectory>
 						</configuration>
 					</plugin>
-					<!-- we need ant to define maven.classpath so that we can use it in 
+					<!-- we need ant to define maven.classpath so that we can use it in
 						javadocs plugin (for some reason docletArtifacts doesn't seem to work -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -124,11 +123,11 @@
 							</execution>
 						</executions>
 					</plugin>
-					<!--<plugin> <groupId>de.taimos</groupId> <artifactId>redmine-maven-plugin</artifactId> 
-						<executions> <execution> <id>generate-changelog</id> <phase>process-resources</phase> 
-						<goals> <goal>changelog</goal> </goals> </execution> </executions> <configuration> 
-						<redmineKey>${athena.redmine.key}</redmineKey> <changelogFile>${project.build.directory}/changelog</changelogFile> 
-						<projectIdentifier>minium-developer</projectIdentifier> <changelogVersion>1.0.0</changelogVersion> 
+					<!--<plugin> <groupId>de.taimos</groupId> <artifactId>redmine-maven-plugin</artifactId>
+						<executions> <execution> <id>generate-changelog</id> <phase>process-resources</phase>
+						<goals> <goal>changelog</goal> </goals> </execution> </executions> <configuration>
+						<redmineKey>${athena.redmine.key}</redmineKey> <changelogFile>${project.build.directory}/changelog</changelogFile>
+						<projectIdentifier>minium-developer</projectIdentifier> <changelogVersion>1.0.0</changelogVersion>
 						</configuration> </plugin> -->
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
@@ -183,7 +182,7 @@
 							<outputDirectory>${project.build.directory}/mkdocs/docs/developer</outputDirectory>
 							<additionalparam>-d
 								${project.build.directory}/mkdocs/docs/developer</additionalparam>
-							<!-- docletArtifacts doesn't seem to work, use it with antrun:run, 
+							<!-- docletArtifacts doesn't seem to work, use it with antrun:run,
 								execution ID define-javadoc-classpathy -->
 							<docletPath>${maven.classpath}</docletPath>
 						</configuration>

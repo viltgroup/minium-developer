@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>io.vilt.minium</groupId>
 		<artifactId>minium-parent</artifactId>
-		<version>1.6.1-SNAPSHOT</version>
+		<version>1.7.0</version>
 	</parent>
 
 	<groupId>io.vilt.minium.developer</groupId>
 	<artifactId>minium-developer</artifactId>
-	<version>1.6.1-SNAPSHOT</version>
+	<version>1.7.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Developer</name>
@@ -23,6 +23,7 @@
 	</scm>
 
 	<properties>
+
 		<commons-io.version>2.4</commons-io.version>
 		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
         <commons-lang3.version>3.4</commons-lang3.version>
@@ -45,22 +46,22 @@
        		<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-automator</artifactId>
-				<version>1.6.1-SNAPSHOT</version>
+				<version>1.7.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-fs</artifactId>
-				<version>1.6.1-SNAPSHOT</version>
+				<version>1.7.1-SNAPSHOT</version>
 			</dependency>
       <dependency>
           <groupId>io.vilt.minium.developer</groupId>
           <artifactId>minium-cucumber-reporting</artifactId>
-		      <version>1.6.1-SNAPSHOT</version>
+		      <version>1.7.1-SNAPSHOT</version>
       </dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-web</artifactId>
-				<version>1.6.1-SNAPSHOT</version>
+				<version>1.7.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

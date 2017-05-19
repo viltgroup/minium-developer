@@ -1,6 +1,6 @@
 variables:
   DOMAIN_SUFFIX: developer.virtus.io
-  MAVEN_EXTRA_ARGS: -Pprod,generate-docs -DskipITs -pl !minium-developer-e2e-tests --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
+  MAVEN_EXTRA_ARGS: -Pprod,generate-electrons,generate-docs -DskipITs -pl !minium-developer-e2e-tests --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
   MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
 
 stages:
@@ -18,13 +18,10 @@ before_script:
 # Build
 #############################################################
 
-build:
+.build definition: &build-template
   stage: build
   tags:
     - maven
-  script:
-    - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec > version.txt
-    - mvn clean install -U $MAVEN_EXTRA_ARGS
   artifacts:
     paths:
       - version.txt
@@ -32,6 +29,22 @@ build:
       - minium-developer-bundle/Dockerfile
       - minium-developer-bundle/docker/*
       - minium-developer-docs/target/mkdocs/docs/
+
+build:
+  <<: *build-template
+  except:
+    - tags
+  script:
+    - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec > version.txt
+    - mvn clean install -U -Pprod,generate-docs -DskipITs -pl !minium-developer-e2e-tests
+
+build complete:
+  <<: *build-template
+  only:
+    - tags
+  script:
+    - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec > version.txt
+    - mvn clean install -U $MAVEN_EXTRA_ARGS
 
 #############################################################
 # Deploy
@@ -49,12 +62,12 @@ build:
     - VIRTUAL_HOST=$VIRTUAL_HOST docker stack deploy --with-registry-auth --compose-file minium-developer-bundle/docker/docker-compose.yml $PROJECT_NAME
     # Wait for app to be up and running
     #- timeout $APP_START_TIMEOUT bash -c "until curl --fail --silent --output /dev/null $APP_URL; do printf '.'; sleep 1; done"
-  dependencies:
-    - build
 
 .deploy manual definition: &deploy-manual-template
   <<: *deploy-template
   when: manual
+  dependencies:
+    - build
 
 .stop deploy manual definition: &stop-deploy-manual-template
   stage: deploy
@@ -106,6 +119,8 @@ deploy uat:
   environment:
     name: uat
     url: http://uat.$DOMAIN_SUFFIX
+  dependencies:
+    - build complete
 
 stop deploy manual staging:
   <<: *stop-deploy-manual-template

@@ -17,7 +17,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 @Component
 public class BaseURLHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {

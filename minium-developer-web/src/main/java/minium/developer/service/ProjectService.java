@@ -17,7 +17,7 @@ import minium.developer.web.rest.dto.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 @Service
 public class ProjectService {

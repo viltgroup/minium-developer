@@ -147,7 +147,7 @@ public class WebDriverService {
 
     public boolean isRecorderAvailableForBrowser(String browser) {
         if (browser.equals(BrowserType.CHROME)) {
-            ChromeOptionsProperties options = this.webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getChromeOptions();
+            ChromeOptionsProperties options = webDriversProperties.getWebDriverPropertiesByBrowserName(browser).getChromeOptions();
             if (options == null) return false;
 
             List<File> extensions = options.getExtensions();

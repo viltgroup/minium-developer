@@ -14,7 +14,7 @@ import minium.developer.utils.HttpClientUtils;
 import minium.developer.web.rest.dto.VersionDTO;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 public abstract class MiniumReleaseManager {
 

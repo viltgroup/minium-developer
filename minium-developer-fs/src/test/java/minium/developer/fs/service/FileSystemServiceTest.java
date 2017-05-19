@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import minium.developer.fs.config.FileSystemConfiguration;
-import minium.developer.fs.service.FileSystemService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = FileSystemServiceTest.TestConfig.class)
@@ -28,9 +27,6 @@ public class FileSystemServiceTest {
 			return new FileSystemService();
 		}
 	}
-
-	@Autowired
-	private FileSystemService service;
 
 	@Test
 	public void testInTempFolder() {

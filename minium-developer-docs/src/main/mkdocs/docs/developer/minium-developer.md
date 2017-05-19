@@ -93,7 +93,7 @@ The Firefox WebDriver can be configured through the `firefox_profile` property. 
 
 * Load a profile from a directory
 * Add extensions
-* Set preferences: enable native events, load the focus library on Linux, accept untrusted SSL certificates
+* Set preferences: load the focus library on Linux, accept untrusted SSL certificates
 * Set any additional preference
 
 Example:
@@ -111,7 +111,6 @@ minium:
           extensions:
             - name: Some Extension
               path: C:\Users\minium\AppData\Roaming\Mozilla\Extensions\extension.xpi
-          enableNativeEvents: true
           loadNoFocusLib: false
           acceptUntrustedCerts: true
           untrustedCertIssuer: false

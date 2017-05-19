@@ -38,7 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.MessageSendingOperations;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -94,11 +94,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         CucumberProperties cucumberProperties = createEvaluationCucumberProperties(resultsFile, featurePath);
 
         try {
-            List<Throwable> failures = run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString(), launchInfo.getFileProps().getPreview());
-
-            for (Throwable failure : failures) {
-                // LOGGER.error("Feature {} failed", featurePath, failure);
-            }
+            run(cucumberProperties, sessionId, launchInfo.getFileProps().getUri().toString(), launchInfo.getFileProps().getPreview());
         } catch (StoppedByUserException e) {
             LOGGER.debug("Stopped by user ", e);
         } catch (CancellationException e) {

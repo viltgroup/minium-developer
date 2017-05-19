@@ -7,7 +7,7 @@ import org.rauschig.jarchivelib.Archiver;
 import org.rauschig.jarchivelib.ArchiverFactory;
 import org.rauschig.jarchivelib.CompressionType;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 public class Unzipper {
 

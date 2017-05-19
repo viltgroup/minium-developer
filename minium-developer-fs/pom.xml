@@ -13,6 +13,10 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>io.vilt.minium</groupId>
+			<artifactId>minium-elements</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>

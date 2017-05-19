@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties;
 import minium.developer.service.WebDriverService;
 import minium.web.DelegatorWebDriver;
-import minium.web.config.WebDriverProperties;
 
 @Controller
 @RequestMapping("/app/rest/webdrivers")
@@ -48,13 +47,12 @@ public class WebDriverResource {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public void create(@RequestBody DeveloperWebDriverProperties webDriverProperties,
-            @RequestParam(value = "withRecorder", defaultValue = "false") boolean withRecorder) throws IOException {
+    public void create(@RequestBody DeveloperWebDriverProperties webDriverProperties) throws IOException {
         String browserName = (String) webDriverProperties.getDesiredCapabilities().get("browserName");
         if (webDriverProperties.getUrl() == null) {
             webDriverService.webDriverExists(browserName);
         }
-        WebDriver webDriver = webDriverService.createWebDriver(webDriverProperties, withRecorder);
+        WebDriver webDriver = webDriverService.createWebDriver(webDriverProperties);
         delegatorWebDriver.setDelegate(webDriver);
     }
 

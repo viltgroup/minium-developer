@@ -35,7 +35,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.base.Charsets;
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 

@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 
 @Component
 @Lazy
@@ -139,7 +139,7 @@ public class WebDriverReleaseManager {
 
     public void loadWebDriverAndIEDriverVersions(Document xml) {
         Element root = xml.getRootElement();
-        for (Iterator i = root.elementIterator("Contents"); i.hasNext();) {
+        for (Iterator<?> i = root.elementIterator("Contents"); i.hasNext();) {
             Element node = (Element) i.next();
 
             WebDriverRelease release = new WebDriverRelease(node.elementText("Key"));

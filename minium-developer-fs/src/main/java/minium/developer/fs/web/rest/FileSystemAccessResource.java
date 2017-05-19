@@ -2,16 +2,7 @@ package minium.developer.fs.web.rest;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Set;
-
-import minium.developer.fs.domain.AutoFormatter;
-import minium.developer.fs.domain.FileContent;
-import minium.developer.fs.domain.FileDTO;
-import minium.developer.fs.domain.FileProps;
-import minium.developer.fs.service.FileSystemService;
-import minium.developer.fs.web.method.support.AntPath;
-import minium.developer.fs.web.method.support.BaseURL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,14 +15,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
+import minium.developer.fs.domain.FileContent;
+import minium.developer.fs.domain.FileDTO;
+import minium.developer.fs.domain.FileProps;
+import minium.developer.fs.service.FileSystemService;
+import minium.developer.fs.web.method.support.AntPath;
+import minium.developer.fs.web.method.support.BaseURL;
 
 @Controller
 @RequestMapping("/app/rest/fs")
 public class FileSystemAccessResource {
-
-    @Autowired(required = false)
-    private List<AutoFormatter> autoFormatters = Lists.newArrayList();
 
     @Autowired
     private FileSystemService service;

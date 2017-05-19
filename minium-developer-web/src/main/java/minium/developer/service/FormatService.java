@@ -27,7 +27,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Throwables;
+import minium.internal.Throwables;
 import com.google.common.collect.Lists;
 
 import cucumber.runtime.model.CucumberFeature;

@@ -37,6 +37,7 @@ build:
   script:
     - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec > version.txt
     - mvn clean install -U -Pprod,generate-docs -DskipITs -pl !minium-developer-e2e-tests
+    - ssh -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima root@decima "mkdir -p /var/www/minium.vilt.io/minium-website/minium-developer/docs"
     - scp -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima -r minium-developer-docs/target/mkdocs/docs/* root@decima:/var/www/minium.vilt.io/minium-website/minium-developer/docs
 
 build complete:
@@ -46,6 +47,7 @@ build complete:
   script:
     - mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec > version.txt
     - mvn clean install -U $MAVEN_EXTRA_ARGS
+    - ssh -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima root@decima "mkdir -p /var/www/minium.vilt.io/minium-website/minium-developer/docs"
     - scp -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima -r minium-developer-docs/target/mkdocs/docs/* root@decima:/var/www/minium.vilt.io/minium-website/minium-developer/docs
 
 #############################################################
@@ -213,4 +215,5 @@ release:
   script:
     - mvn clean deploy $MAVEN_EXTRA_ARGS -DperformRelease=true
     # stored the documentation to be used at the website
+    - ssh -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima root@decima "mkdir -p /var/www/minium.vilt.io/minium-website/minium-developer/docs"
     - scp -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima -r minium-developer-docs/target/mkdocs/docs/* root@decima:/var/www/minium.vilt.io/minium-website/minium-developer/docs

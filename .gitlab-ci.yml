@@ -22,6 +22,8 @@ before_script:
   stage: build
   tags:
     - maven
+  script:
+    - scp -r minium-developer-docs/target/mkdocs/docs/* root@virtus:/var/www/html/products/minium/minium-developer-docs
   artifacts:
     paths:
       - version.txt
@@ -29,8 +31,6 @@ before_script:
       - minium-developer-bundle/Dockerfile
       - minium-developer-bundle/docker/*
       - minium-developer-docs/target/mkdocs/docs/
-  script:
-    - scp -r minium-docs/target/mkdocs/* root@virtus:/var/www/html/products/minium/minium-developer-docs
 
 build:
   <<: *build-template

@@ -210,3 +210,6 @@ release:
     - tags
   script:
     - mvn clean deploy $MAVEN_EXTRA_ARGS -DperformRelease=true
+    # store the documentation to be used at the minium website
+    - ssh -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima root@decima "mkdir -p /var/www/minium.vilt.io/minium-website/minium-developer/docs"
+    - scp -o StrictHostKeyChecking=no -i /mnt/cidata/configs/minium/id_rsa_decima -r minium-developer-docs/target/mkdocs/docs/* root@decima:/var/www/minium.vilt.io/minium-website/minium-developer/docs

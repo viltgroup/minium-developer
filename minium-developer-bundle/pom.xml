@@ -67,6 +67,17 @@
 								</configuration>
 							</execution>
 							<execution>
+							  <id>install node and npm</id>
+							  <phase>generate-resources</phase>
+							  <goals>
+							    <goal>install-node-and-npm</goal>
+							  </goals>
+							  <configuration>
+							    <nodeVersion>v7.9.0</nodeVersion>
+							    <npmVersion>2.15.9</npmVersion>
+							  </configuration>
+							</execution>
+							<execution>
 								<id>npm install electron</id>
 								<phase>generate-resources</phase>
 								<goals>

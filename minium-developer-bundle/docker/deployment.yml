@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: $APP
+  labels:
+    app: $CI_ENVIRONMENT_SLUG
+    id: $APP
+spec:
+  activeDeadlineSeconds: 86400 # 1 day
+  restartPolicy: Never
+  containers:
+  - name: $APP
+    image: $CI_REGISTRY_IMAGE:$APP_VERSION
+    imagePullPolicy: Always
+    ports:
+    - containerPort: 8089
+  imagePullSecrets:
+    - name: $CI_REGISTRY
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: $APP
+  labels:
+    id: $APP
+spec:
+  selector:
+    id: $APP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8089
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: $APP
+  labels:
+    id: $APP
+spec:
+  rules:
+  # recommendation: do not change, hard-coding may cause collisions
+  - host: $APP_HOST
+    http:
+      paths:
+      - backend:
+          serviceName: $APP
+          servicePort: 80

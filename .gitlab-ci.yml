@@ -55,13 +55,8 @@ build complete:
   tags:
     - docker
   script:
-    - docker-compose -f minium-developer-bundle/docker/docker-compose.yml build
-    - docker-compose -f minium-developer-bundle/docker/docker-compose.yml push
-    # Workaround for https://github.com/docker/docker/issues/31357
-    - docker stack rm $PROJECT_NAME && sleep 8
-    - VIRTUAL_HOST=$VIRTUAL_HOST docker stack deploy --with-registry-auth --compose-file minium-developer-bundle/docker/docker-compose.yml $PROJECT_NAME
-    # Wait for app to be up and running
-    #- timeout $APP_START_TIMEOUT bash -c "until curl --fail --silent --output /dev/null $APP_URL; do printf '.'; sleep 1; done"
+    - build minium-developer-bundle
+    - deploy minium-developer-bundle/docker
 
 .deploy manual definition: &deploy-manual-template
   <<: *deploy-template
@@ -75,17 +70,16 @@ build complete:
     - docker
   when: manual
   script:
-    - docker stack rm $PROJECT_NAME
+    - cleanup
 
 deploy manual staging:
   <<: *deploy-manual-template
   only:
     - master
   variables:
-    VIRTUAL_HOST: staging.$DOMAIN_SUFFIX
-    PROJECT_NAME: $CI_PROJECT_NAME-staging
-    IMAGE_TAG: staging
-    APP_URL: http://staging.$DOMAIN_SUFFIX
+    APP: $CI_PROJECT_NAME-staging
+    APP_HOST: staging.$DOMAIN_SUFFIX
+    APP_VERSION: staging
   environment:
     name: staging
     url: http://staging.$DOMAIN_SUFFIX
@@ -98,10 +92,9 @@ deploy manual review:
     - /feature\/.*$/
     - /bug\/.*$/
   variables:
-    VIRTUAL_HOST: $CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
-    PROJECT_NAME: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
-    IMAGE_TAG: $CI_COMMIT_REF_SLUG
-    APP_URL: http://$CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
+    APP: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+    APP_HOST: $CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
+    APP_VERSION: $CI_COMMIT_REF_SLUG
   environment:
     name: review/$CI_COMMIT_REF_NAME
     url: http://$CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
@@ -112,10 +105,9 @@ deploy uat:
   only:
     - /^minium-developer-.*-RC\d+$/
   variables:
-    VIRTUAL_HOST: uat.$DOMAIN_SUFFIX
-    PROJECT_NAME: $CI_PROJECT_NAME-uat
-    IMAGE_TAG: uat
-    APP_URL: http://uat.$DOMAIN_SUFFIX
+    APP: $CI_PROJECT_NAME-uat
+    APP_HOST: uat.$DOMAIN_SUFFIX
+    APP_VERSION: uat
   environment:
     name: uat
     url: http://uat.$DOMAIN_SUFFIX
@@ -127,7 +119,7 @@ stop deploy manual staging:
   only:
     - master
   variables:
-    PROJECT_NAME: $CI_PROJECT_NAME-staging
+    APP: $CI_PROJECT_NAME-staging
   environment:
     name: staging
     action: stop
@@ -139,7 +131,7 @@ stop deploy manual review:
     - /feature\/.*$/
     - /bug\/.*$/
   variables:
-    PROJECT_NAME: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+    APP: $CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop

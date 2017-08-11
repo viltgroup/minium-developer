@@ -1,5 +1,5 @@
 variables:
-  DOMAIN_SUFFIX: developer.virtus.io
+  DOMAIN_SUFFIX: minium.test
   MAVEN_EXTRA_ARGS: -Pprod,generate-electrons,generate-docs -DskipITs -pl !minium-developer-e2e-tests --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
   MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
 

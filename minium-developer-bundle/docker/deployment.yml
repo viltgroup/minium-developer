@@ -14,8 +14,6 @@ spec:
     imagePullPolicy: Always
     ports:
     - containerPort: 8089
-    - name: STAGE
-      value: STAGING
   imagePullSecrets:
     - name: $CI_REGISTRY
 

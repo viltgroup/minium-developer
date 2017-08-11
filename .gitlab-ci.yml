@@ -55,8 +55,8 @@ build complete:
   tags:
     - docker
   script:
-    - build minium-developer-bundle
-    - deploy minium-developer-bundle/docker
+    - build $CI_PROJECT_DIR/minium-developer-bundle
+    - deploy $CI_PROJECT_DIR/minium-developer-bundle/docker
 
 .deploy manual definition: &deploy-manual-template
   <<: *deploy-template

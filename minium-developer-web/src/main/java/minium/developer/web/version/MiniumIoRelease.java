@@ -6,7 +6,7 @@ import minium.developer.utils.HttpClientUtils;
 
 public class MiniumIoRelease extends MiniumReleaseManager {
 
-    protected static final String MINIUM_URl = "http://minium.vilt.io/last-version.json";
+    protected static final String MINIUM_URl = "https://minium.vilt.io/last-version.json";
 
     public MiniumIoRelease(HttpClientUtils httpClient) {
         super(httpClient);

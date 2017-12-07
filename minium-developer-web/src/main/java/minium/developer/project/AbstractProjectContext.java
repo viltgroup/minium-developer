@@ -3,18 +3,6 @@ package minium.developer.project;
 import java.io.File;
 import java.util.Map;
 
-import minium.Elements;
-import minium.cucumber.config.ConfigProperties;
-import minium.script.js.JsBrowserFactory;
-import minium.script.js.JsEngine;
-import minium.script.js.MiniumJsEngineAdapter;
-import minium.script.rhinojs.RhinoBrowserFactory;
-import minium.script.rhinojs.RhinoEngine;
-import minium.script.rhinojs.RhinoProperties;
-import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.actions.Browser;
-
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +19,19 @@ import org.springframework.core.io.FileSystemResource;
 
 import com.google.common.collect.ImmutableMap;
 
+import minium.Elements;
+import minium.cucumber.config.ConfigProperties;
+import minium.script.js.JsBrowserFactory;
+import minium.script.js.JsEngine;
+import minium.script.js.MiniumJsEngineAdapter;
+import minium.script.rhinojs.RhinoBrowserFactory;
+import minium.script.rhinojs.RhinoEngine;
+import minium.script.rhinojs.RhinoProperties;
+import minium.script.rhinojs.RhinoProperties.RequireProperties;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.Browser;
+import minium.web.config.WebDriverFactory;
+
 public class AbstractProjectContext implements InitializingBean, DisposableBean {
 
     protected final File projectDir;
@@ -45,6 +46,9 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     @Lazy
     @Autowired
     private Browser<DefaultWebElements> browser;
+
+    @Autowired
+    private WebDriverFactory webDriverFactory;
 
     public AbstractProjectContext(ProjectProperties projConfiguration) throws Exception {
         this.projectDir = projConfiguration.getDir();
@@ -109,7 +113,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
-        JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine);
+        JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine, webDriverFactory);
         new MiniumJsEngineAdapter(browser, browsers).adapt(rhinoEngine);
         rhinoEngine.putJson("config", configProperties.toJson());
         return rhinoEngine;

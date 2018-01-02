@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.vilt.minium</groupId>
 		<artifactId>minium-parent</artifactId>
-		<version>1.8.0</version>
+		<version>1.9.0</version>
 	</parent>
 
 	<groupId>io.vilt.minium.developer</groupId>
@@ -23,7 +23,6 @@
 	</scm>
 
 	<properties>
-
 		<commons-io.version>2.4</commons-io.version>
 		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
         <commons-lang3.version>3.4</commons-lang3.version>
@@ -31,7 +30,7 @@
         <javax.inject.version>1</javax.inject.version>
         <json-path.version>1.2.0</json-path.version>
         <joda-time.version>2.8.1</joda-time.version>
-        <gson.version>2.3.1</gson.version>
+        <gson.version>2.8.2</gson.version>
         <ostermiller-utils.version>1.07.00</ostermiller-utils.version>
         <jarchivelib.version>0.7.1</jarchivelib.version>
         <powermock.version>1.6.6</powermock.version>

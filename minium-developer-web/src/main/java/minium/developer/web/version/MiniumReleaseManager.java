@@ -9,11 +9,11 @@ import java.util.Date;
 import java.util.jar.Attributes;
 import java.util.jar.Manifest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import minium.developer.Application;
 import minium.developer.utils.HttpClientUtils;
 import minium.developer.web.rest.dto.VersionDTO;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import minium.internal.Throwables;
 
 public abstract class MiniumReleaseManager {
@@ -56,7 +56,7 @@ public abstract class MiniumReleaseManager {
         if (path.contains(".jar")) {
             url = "jar:file:" + path + "!/";
         } else {
-            url = "jar:file:" + path + "minium-developer.jar!/";
+            url = "jar:file:" + path + "minium-developer-web.jar!/";
         }
 
         URL jarUrl = null;

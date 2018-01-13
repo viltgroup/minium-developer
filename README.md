@@ -3,6 +3,18 @@ Minium Developer
 
 [![Minium banner](http://minium.vilt.io/images/minium_logo.png)](http://minium.vilt.io/)
 
+Table of Contents (ToC)
+======================
+
+* [What is Minium](#what-is-minium)
+* [Minium in five minutes](#minium-in-five-minutes)
+* [Download Minium Developer](#download-minium-developer)
+* [Create a new cucumber project](#create-a-new-cucumber-project)
+* [Open a feature and run it](#open-a-feature-and-run-it)
+* [Building minium developer](#building-minium-developer)
+* [Documentation](#documentation)
+* [License](#license)
+
 What is Minium
 =============
 
@@ -12,7 +24,7 @@ Minium has spawned from the work of Rui Figueira @VILT and that initial code bas
 
 [Minium Developer](https://github.com/viltgroup/minium-developer/) is a console aimed at developers, allowing the creation of automatic tasks in the browser to be used in end-to-end testing of your web applications.
 Minium is both powerful and simple: tests can be written in Cucumber even by non-technical people, but you can integrate with your base code in any language by exposing a RESTful service.
-All these features make Minium a great way for you to integrate Behaviour Driven Development practices through out all phases of your project.
+All these features make Minium a great way for you to integrate Behaviour Driven Development practices throughout all phases of your project.
 
 The last component of Minium is known as Minium Manager. It's aimed at business solutions, it's a more powerful console that provides useful reports of the ongoing projects and has a strong component in continuous integration.
 
@@ -20,11 +32,11 @@ Minium in 5 minutes
 ============
 ## Download Minium Developer
 
-Dowload Minium Developer for your platform from [GitHub](https://github.com/viltgroup/minium-developer/releases).
+Download Minium Developer for your platform from [GitHub](https://github.com/viltgroup/minium-developer/releases).
 
 ##Run Minium Developer
 
-Extract the archive and and double-click on the executable (`minium-developer.exe` on Windows, `minium-developer` on Linux and MacOS).
+Extract the archive and double-click on the executable (`minium-developer.exe` on Windows, `minium-developer` on Linux and MacOS).
 
 ## Create a new **Cucumber project**
 

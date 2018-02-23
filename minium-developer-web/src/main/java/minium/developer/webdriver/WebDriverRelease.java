@@ -17,7 +17,7 @@ public class WebDriverRelease {
         if (initialMatcher.find()) {
 
             Matcher detailedMatcher = Pattern.compile(
-                    "(\\d+)\\.(\\d+)\\/((IEDriverServer)|(selenium-server-standalone))[_-]?(Win32_)?(\\d+)\\.(\\d+)\\.(\\d+)(\\.\\w+)").matcher(input);
+                    "^(\\d+)\\.(\\d+)\\/((IEDriverServer)|(selenium-server-standalone))[_-]?(Win32_)?(\\d+)\\.(\\d+)\\.(\\d+)(\\.\\w+)").matcher(input);
 
             if (detailedMatcher.find()) {
                 setRelativePath(detailedMatcher.group(0));

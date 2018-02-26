@@ -10,7 +10,7 @@ public class AutomatorProperties {
     @Option(name = "-f", aliases = "--file", metaVar = "FILE", usage = "script file to run")
     private File file;
 
-    @Option(name = "-b", aliases = "--browser", metaVar = "BROWSER", usage = "browser where scripts will be executed against (supported values: chrome, ie, firefox, safari, opera, phantomjs)")
+    @Option(name = "-b", aliases = "--browser", metaVar = "BROWSER", usage = "browser where scripts will be executed against (supported values: chrome, ie, firefox, safari, opera)")
     private String browser = "chrome";
 
     @Option(name = "-m", aliases = "--module-paths", metaVar = "MODULE_PATHS")

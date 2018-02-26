@@ -266,7 +266,7 @@ minium-developer automate [options...] arguments...
 
 | Option                   | Description
 | ------------------------ | ----------------------------------------------
-| `-b (--browser) BROWSER` | browser where scripts will be executed against                           (supported values: `chrome`, `ie`, `firefox`, `safari`, `opera`, `phantomjs`)
+| `-b (--browser) BROWSER` | browser where scripts will be executed against                           (supported values: `chrome`, `ie`, `firefox`, `safari`, `opera`)
 | `-f (--file) FILE`      | script file to run
 | `-h (--help)`           | display this help and exit
 | `-v (--version)`        | show version

@@ -32,6 +32,6 @@ public class WebDriverServiceTest {
     @Test
     public void testNumberOfWebDriversAvailable() {
         List<DeveloperWebDriverProperties> availableWebdrivers = webDriverService.getAvailableWebdrivers();
-        assertThat(availableWebdrivers, Matchers.hasSize(3));
+        assertThat(availableWebdrivers, Matchers.hasSize(2));
     }
 }

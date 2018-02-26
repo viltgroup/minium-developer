@@ -16,7 +16,6 @@ import minium.developer.webdriver.ChromeDriverDownloader;
 import minium.developer.webdriver.DriverLocator;
 import minium.developer.webdriver.GeckoDriverDownloader;
 import minium.developer.webdriver.IEDriverDownloader;
-import minium.developer.webdriver.PhantomJSDownloader;
 import minium.developer.webdriver.RuntimeConfig;
 import minium.developer.webdriver.WebDriverRelease;
 import minium.developer.webdriver.WebDriverReleaseManager;
@@ -42,10 +41,9 @@ public class WebDriverService {
     private ChromeDriverDownloader chromeDownloader;
     private GeckoDriverDownloader geckoDownloader;
     private IEDriverDownloader ieDownloader;
-    private PhantomJSDownloader phantomJSDownloader;
 
     public static enum WebDriverType {
-        CHROME, FIREFOX, IE, SAFARI, PHANTOMJS
+        CHROME, FIREFOX, IE, SAFARI
     }
 
     public void webDriverExists(String browserName) throws IOException {
@@ -61,9 +59,6 @@ public class WebDriverService {
                 break;
             case "internet explorer":
                 downloadIEDriver();
-                break;
-            case "phantomjs":
-                downloadPhantomJs();
                 break;
             default:
                 break;
@@ -84,11 +79,6 @@ public class WebDriverService {
         geckoDownloader.download();
     }
 
-    protected void downloadPhantomJs() throws IOException {
-        phantomJSDownloader = new PhantomJSDownloader("1.9.8", driverLocator.getDriversDir().getPath());
-        phantomJSDownloader.download();
-    }
-
     protected void downloadIEDriver() throws IOException {
         WebDriverRelease ieDriverLatestVersion = releaseManager.getIeDriverLatestVersion();
         String version = ieDriverLatestVersion.getPrettyPrintVersion(".");
@@ -105,10 +95,6 @@ public class WebDriverService {
 
         if (RuntimeConfig.getOS().isWindows() && !driverLocator.webDriverExists("internet explorer")) {
             downloadIEDriver();
-        }
-
-        if (!driverLocator.webDriverExists("phantomjs")) {
-            downloadPhantomJs();
         }
 
         if (!driverLocator.webDriverExists("chrome")) {
@@ -132,7 +118,6 @@ public class WebDriverService {
             downloadIEDriver();
         }
 
-        downloadPhantomJs();
         downloadChromeDriver();
         downloadGeckoDriver();
     }

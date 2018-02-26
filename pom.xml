@@ -38,7 +38,6 @@
 
         <!-- Selenium drivers -->
         <chromedriver.version>2.21</chromedriver.version>
-        <phantomjs.version>2.0.0</phantomjs.version>
 	</properties>
 
 	<dependencyManagement>

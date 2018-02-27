@@ -44,15 +44,15 @@
         "parsed.stackTrace": "View parsed log"
     },
     "webdriver": {
-        "new": "Created a new WebDriver",
+        "new": "Create a new WebDriver",
         "browsers": "Browsers",
         "remote.url": "Remote url",
-        "use_remote": "Use remote webdriver",
-        "use_local": "Use local webdriver",
-        "error_creating": "Could not create a new webdriver!!",
-        "not_launched": "No web driver launched. Please select one!",
+        "use_remote": "Use remote WebDriver",
+        "use_local": "Use local WebDriver",
+        "error_creating": "Could not create a new WebDriver!",
+        "not_launched": "No WebDriver launched. Please select one!",
         "advanced": "Advanced",
-        "advanced.popover": "Use a JSON configuration to launch a new webdriver!!",
+        "advanced.popover": "Use a JSON configuration to launch a new WebDriver!",
         "messages": {
             "invalidJSON": "Invalid JSON",
             "validJSON":"Valid JSON"
@@ -60,12 +60,12 @@
         "download": {
             "started": "Download started",
             "complete": "Download completed",
-            "error": "Couldn't download the webdriver"
+            "error": "Couldn't download the WebDriver"
         },
         "update": {
             "started": "Update started",
             "complete": "Update completed",
-            "error": "Couldn't updated the webdriver"
+            "error": "Couldn't update the WebDriver"
         },
         "isAvailable": "Minium Recorder is <strong class='success'>available</strong>",
         "how_to_use": "You can use Minium Recorder by opening the Developer tools: Right-click on any page element and select Inspect Element. <br> In Developer tools open the tab 'Minium Recorder' and you are ready to start recording interactions with your browser."

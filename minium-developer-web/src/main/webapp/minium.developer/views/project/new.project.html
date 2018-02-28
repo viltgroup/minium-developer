@@ -16,13 +16,13 @@
                 </label>
 
                 <div class="btn-group" data-toggle="buttons" style="margin-left:10%">
-                    <label class="btn btn-default" ng-click='activate("automator")' ng-class="{'active' : project.type == 'automator'}">
-                        <input type="radio" ng-model="project.type" value="automator" /> 
-                        <span translate="project.form.automator">Automator Project</span>
-                    </label>
                     <label class="btn btn-default" ng-click='activate("cucumber")' ng-class="{'active' : project.type == 'cucumber'}">
                         <input type="radio" ng-model="project.type" value="cucumber" ng-click='activate("cucumber")' /> 
                         <span translate="project.form.cucumber">Cucumber project</span>
+                    </label>
+                    <label class="btn btn-default" ng-click='activate("automator")' ng-class="{'active' : project.type == 'automator'}">
+                        <input type="radio" ng-model="project.type" value="automator" />
+                        <span translate="project.form.automator">Automator Project</span>
                     </label>
                 </div>
 

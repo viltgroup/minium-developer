@@ -25,9 +25,6 @@ public class DriverLocator {
             break;
         case "internet explorer":
             executableName = "IEDriverServer";
-            break;
-        case "phantomjs":
-            executableName = "phantomjs";
         }
 
         if (executableName == null) {

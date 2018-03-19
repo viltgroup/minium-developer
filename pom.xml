@@ -10,7 +10,7 @@
 
 	<groupId>io.vilt.minium.developer</groupId>
 	<artifactId>minium-developer</artifactId>
-	<version>1.9.1-SNAPSHOT</version>
+	<version>1.9.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Developer</name>
@@ -25,20 +25,21 @@
 	<properties>
 		<commons-io.version>2.4</commons-io.version>
 		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
-        <commons-lang3.version>3.4</commons-lang3.version>
-        <commons-codec.version>1.10</commons-codec.version>
-        <javax.inject.version>1</javax.inject.version>
-        <json-path.version>1.2.0</json-path.version>
-        <joda-time.version>2.8.1</joda-time.version>
-        <gson.version>2.8.2</gson.version>
-        <ostermiller-utils.version>1.07.00</ostermiller-utils.version>
-        <jarchivelib.version>0.7.1</jarchivelib.version>
-        <powermock.version>1.6.6</powermock.version>
-        <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+		<commons-lang3.version>3.4</commons-lang3.version>
+		<commons-codec.version>1.10</commons-codec.version>
+		<javax.inject.version>1</javax.inject.version>
+		<json-path.version>1.2.0</json-path.version>
+		<joda-time.version>2.8.1</joda-time.version>
+		<gson.version>2.8.2</gson.version>
+		<ostermiller-utils.version>1.07.00</ostermiller-utils.version>
+		<jarchivelib.version>0.7.1</jarchivelib.version>
+		<powermock.version>1.6.6</powermock.version>
 
-        <!-- Selenium drivers -->
-        <chromedriver.version>2.21</chromedriver.version>
-        <phantomjs.version>2.0.0</phantomjs.version>
+		<!-- Front-end dependencies -->
+		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
+		<nodeVersion>8.9.4</nodeVersion>
+		<yarnVersion>1.3.2</yarnVersion>
+		<npmVersion>4.6.1</npmVersion>
 	</properties>
 
 	<dependencyManagement>
@@ -46,22 +47,22 @@
        		<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-automator</artifactId>
-				<version>1.9.1-SNAPSHOT</version>
+				<version>1.9.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-fs</artifactId>
-				<version>1.9.1-SNAPSHOT</version>
+				<version>1.9.2-SNAPSHOT</version>
 			</dependency>
       <dependency>
           <groupId>io.vilt.minium.developer</groupId>
           <artifactId>minium-cucumber-reporting</artifactId>
-		      <version>1.9.1-SNAPSHOT</version>
+		      <version>1.9.2-SNAPSHOT</version>
       </dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-web</artifactId>
-				<version>1.9.1-SNAPSHOT</version>
+				<version>1.9.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>

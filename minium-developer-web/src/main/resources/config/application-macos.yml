@@ -14,10 +14,6 @@ minium:
         iconClass: icon-firefox
         desiredCapabilities:
           browserName: firefox
-      - name: phantomjs
-        displayName: PhantomJS
-        desiredCapabilities:
-          browserName: phantomjs
       - name: safari
         displayName: Safari
         iconClass: icon-compass

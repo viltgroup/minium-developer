@@ -145,5 +145,5 @@ angular.module('minium.developer')
         };
 
 
-        $scope.activate('automator');
+        $scope.activate('cucumber');
     });

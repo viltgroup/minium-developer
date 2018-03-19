@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>io.vilt.minium.developer</groupId>
 		<artifactId>minium-developer-parent</artifactId>
-		<version>1.9.1-SNAPSHOT</version>
+		<version>1.9.2-SNAPSHOT</version>
 		<relativePath>../minium-developer-parent</relativePath>
 	</parent>
 
@@ -62,8 +62,8 @@
 									<goal>install-node-and-yarn</goal>
 								</goals>
 								<configuration>
-									<nodeVersion>v8.9.4</nodeVersion>
-									<yarnVersion>v1.3.2</yarnVersion>
+									<nodeVersion>v${nodeVersion}</nodeVersion>
+									<yarnVersion>v${yarnVersion}</yarnVersion>
 								</configuration>
 							</execution>
 							<execution>
@@ -73,8 +73,8 @@
 							    <goal>install-node-and-npm</goal>
 							  </goals>
 							  <configuration>
-							    <nodeVersion>v8.9.4</nodeVersion>
-							    <npmVersion>4.6.1</npmVersion>
+							    <nodeVersion>v${nodeVersion}</nodeVersion>
+							    <npmVersion>${npmVersion}</npmVersion>
 							  </configuration>
 							</execution>
 							<execution>

@@ -17,7 +17,3 @@ minium:
         iconClass: icon-firefox
         desiredCapabilities:
           - browserName: firefox
-      - name: phantomjs
-        displayName: PhantomJS
-        desiredCapabilities:
-          - browserName: phantomjs

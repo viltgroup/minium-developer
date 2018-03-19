@@ -13,7 +13,6 @@ public class RuntimeConfig {
 
     private static final String SELENIUM_URL = "https://selenium-release.storage.googleapis.com/";
     private static final String CHROME_DRIVER_URL = "https://chromedriver.storage.googleapis.com/LATEST_RELEASE";
-    private static final String PHANTOMJS_URL = "https://bitbucket.org/ariya/phantomjs/downloads";
     private static final String GECKO_RELEASES_URL = "https://github.com/mozilla/geckodriver/releases";
 
     public static OS getOS() {
@@ -27,10 +26,6 @@ public class RuntimeConfig {
     protected File getDriversDir() {
         File driverDir = homedir == null ? null : new File(homedir, "drivers");
         return driverDir != null && driverDir.exists() && driverDir.isDirectory() ? driverDir : null;
-    }
-
-    public static String getPhantomjsUrl() {
-        return PHANTOMJS_URL;
     }
 
     public static String getSeleniumUrl() {

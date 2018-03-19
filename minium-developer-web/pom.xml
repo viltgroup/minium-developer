@@ -346,8 +346,8 @@
                                     Having node 7.1+ accelerates "Linking dependencies" phase in yarn install significantly:
                                     https://github.com/yarnpkg/yarn/issues/1496#issuecomment-290201745
                                     -->
-                                    <nodeVersion>v7.9.0</nodeVersion>
-                                    <yarnVersion>v0.23.0</yarnVersion>
+                                    <nodeVersion>v${nodeVersion}</nodeVersion>
+                                    <yarnVersion>v${yarnVersion}</yarnVersion>
                                 </configuration>
                             </execution>
                             <execution>

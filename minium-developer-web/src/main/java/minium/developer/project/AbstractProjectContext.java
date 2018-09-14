@@ -1,8 +1,12 @@
 package minium.developer.project;
 
 import java.io.File;
+import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,7 @@ import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.core.io.FileSystemResource;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
 
 import minium.Elements;
 import minium.cucumber.config.ConfigProperties;
@@ -32,13 +37,16 @@ import minium.web.CoreWebElements.DefaultWebElements;
 import minium.web.actions.Browser;
 import minium.web.config.WebDriverFactory;
 
-public class AbstractProjectContext implements InitializingBean, DisposableBean {
+public abstract class AbstractProjectContext implements InitializingBean, DisposableBean {
+
+    private static final Logger logger = LoggerFactory.getLogger(AbstractProjectContext.class);
 
     protected final File projectDir;
     protected File resourcesDir;
     private JsEngine jsEngine;
     private ConfigProperties configProperties;
     private PropertySources propertySources;
+    protected List<URL> additionalClasspath = Lists.newArrayList();
 
     @Autowired
     private ConfigurableApplicationContext applicationContext;
@@ -62,6 +70,11 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
     }
 
     public void resetEngine() {
+        try {
+            destroyJsEngine();
+        } catch (Exception e) {
+            logger.warn("JsEngine could not be destroyed", e);
+        }
         this.jsEngine = createJsEngine();
     }
 
@@ -71,6 +84,13 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         if (jsEngine != null) {
             jsEngine.putJson("config", configProperties.toJson());
         }
+    }
+
+    protected abstract void refreshAdditionalClasspath() throws Exception;
+
+    public void updateDependencies() throws Exception {
+        refreshAdditionalClasspath();
+        resetEngine();
     }
 
     public Elements root() {
@@ -98,6 +118,10 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
 
     @Override
     public void destroy() throws Exception {
+        destroyJsEngine();
+    }
+
+    private void destroyJsEngine() throws Exception {
         if (jsEngine != null) {
             jsEngine.destroy();
         }
@@ -112,6 +136,7 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         require.getModulePaths().add(new File(resourcesDir, "modules").toURI().toString());
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
+        rhinoProperties.setAdditionalClasspath(additionalClasspath);
         RhinoEngine rhinoEngine = new RhinoEngine(rhinoProperties);
         JsBrowserFactory browsers = new RhinoBrowserFactory(rhinoEngine, webDriverFactory);
         new MiniumJsEngineAdapter(browser, browsers).adapt(rhinoEngine);
@@ -150,5 +175,4 @@ public class AbstractProjectContext implements InitializingBean, DisposableBean 
         PropertySources appliedPropertySources = placeholderConfigurer.getAppliedPropertySources();
         return appliedPropertySources;
     }
-
 }

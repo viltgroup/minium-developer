@@ -75,7 +75,10 @@ angular.module('minium.developer')
             if (!path) {
                 return;
             }
-            ProjectService.open(path);
+            var ladda = Ladda.create(document.querySelector('#openProjectBtn')).start();
+            ProjectService.open(path).error(function() {
+                ladda.stop();
+            });
         }
 
 

@@ -4,7 +4,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -91,6 +93,13 @@ public abstract class AbstractProjectContext implements InitializingBean, Dispos
     public void updateDependencies() throws Exception {
         refreshAdditionalClasspath();
         resetEngine();
+    }
+
+    public List<String> loadedDependencies() {
+        return additionalClasspath.stream()
+                .map(URL::getPath)
+                .map(FilenameUtils::getName)
+                .collect(Collectors.toList());
     }
 
     public Elements root() {

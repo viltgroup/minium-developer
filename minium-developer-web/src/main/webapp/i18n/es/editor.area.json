@@ -153,6 +153,13 @@
         "automator": "Proyecto Automatizador",
         "cucumber": "Cucumber project"
     },
+    "project.dependencies": {
+      "messages": {
+        "no_dependency": "Ninguna dependencia está cargada actualmente. Para cargar dependencias, agréguelas al archivo pom.xml del proyecto y haga clic en Actualizar.",
+        "update_succeeded": "Dependencias actualizadas con éxito.",
+        "update_failed": "Se produjo un error al actualizar las dependencias, verifique los logs para obtener más detalles."
+      }
+    },
     "messages": {
         "validate": {
             "directory": {

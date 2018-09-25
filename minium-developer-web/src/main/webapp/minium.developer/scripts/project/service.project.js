@@ -22,6 +22,12 @@ miniumDeveloper.factory('ProjectFactory', function($http) {
         },
         getProjectName: function() {
             return $http.get("/app/rest/project/name");
+        },
+        getDependencies: function() {
+            return $http.get("/app/rest/project/dependencies");
+        },
+        updateDependencies: function() {
+            return $http.get("/app/rest/project/dependencies/update");
         }
     };
 });

@@ -30,8 +30,10 @@ app.on('ready', () => {
     })
     miniumDeveloper.start.then(() => {
       miniumDeveloper.notifyMeWhenReady(() => {
-        mainWindow.loadURL(miniumDeveloper.getUrl());
-        mainWindow.on('close', closeHandler);
+        mainWindow.webContents.session.clearCache(() => {
+          mainWindow.loadURL(miniumDeveloper.getUrl());
+          mainWindow.on('close', closeHandler);
+        })
       })
     }, (errorMessage) => {
       electron.dialog.showErrorBox("Error", errorMessage);

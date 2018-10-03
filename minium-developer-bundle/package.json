@@ -3,10 +3,10 @@
     "electron-packager": "^8.3.0"
   },
   "scripts": {
-    "build-windows-app": "electron-packager src/main/resources/electron-app --platform win32 --arch x64 --icon src/main/resources/icons/icon.ico --out ./target",
-    "build-windows-app-without-icon": "electron-packager src/main/resources/electron-app --platform win32 --arch x64 --out ./target",
-    "build-linux-app": "electron-packager src/main/resources/electron-app --platform linux --arch x64 --icon src/main/resources/icons/icon.png --out ./target",
-    "build-mac-app": "electron-packager src/main/resources/electron-app --platform darwin --icon src/main/resources/icons/icon.icns --out ./target",
+    "build-windows-app": "electron-packager src/main/electron/app --platform win32 --arch x64 --icon src/main/electron/icons/icon.ico --out ./target",
+    "build-windows-app-without-icon": "electron-packager src/main/electron/app --platform win32 --arch x64 --out ./target",
+    "build-linux-app": "electron-packager src/main/electron/app --platform linux --arch x64 --icon src/main/electron/icons/icon.png --out ./target",
+    "build-mac-app": "electron-packager src/main/electron/app --platform darwin --icon src/main/electron/icons/icon.icns --out ./target",
     "build": "npm run build-windows-app && npm run build-linux-app && npm run build-mac-app",
     "build-on-linux": "npm run build-windows-app-without-icon && npm run build-linux-app && npm run build-mac-app"
   }

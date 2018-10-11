@@ -84,7 +84,7 @@
 									<goal>yarn</goal>
 								</goals>
 								<configuration>
-									<workingDirectory>src/main/resources/electron-app</workingDirectory>
+									<workingDirectory>src/main/electron/app</workingDirectory>
 									<arguments>install</arguments>
 								</configuration>
 							</execution>

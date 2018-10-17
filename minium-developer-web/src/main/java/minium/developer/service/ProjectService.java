@@ -7,16 +7,18 @@ import java.nio.file.Paths;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import minium.developer.fs.service.FileSystemService;
 import minium.developer.project.ProjectProperties;
+import minium.developer.project.Workspace;
 import minium.developer.project.templates.AutomatorTemplate;
 import minium.developer.project.templates.CucumberProject;
 import minium.developer.project.templates.ProjectTemplate;
 import minium.developer.web.rest.dto.ProjectDTO;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import minium.internal.Throwables;
 
 @Service
@@ -25,8 +27,13 @@ public class ProjectService {
     private static final String CUCUMBER_PROJECT = "cucumber";
     private static final String AUTOMATOR_PROJECT = "automator";
 
+    private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
+
     @Autowired
     private FileSystemService fileSystemservice;
+
+    @Autowired
+    private Workspace workspace;
 
     private ProjectTemplate projectTemplate;
 
@@ -92,6 +99,11 @@ public class ProjectService {
         if (f.exists()) {
             projectProperties.setDir(f);
             validProject = true;
+            try {
+                workspace.getActiveProject().updateDependencies();
+            } catch (Exception e) {
+                logger.warn("Project dependencies were not loaded", e);
+            }
         }
 
         return validProject;

@@ -82,7 +82,8 @@
 				</a>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-primary" type="submit"
+				<button id="openProjectBtn" data-style="expand-right"
+					class="btn btn-primary ladda-button my-ladda-btn" type="submit"
 					ng-disabled="path == undefined || path == '' || isValid !== true"
 					translate="entity.action.open">Open</button>
 				<button type="button" class="btn btn-default" ng-click="cancel()"

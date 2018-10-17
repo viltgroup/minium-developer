@@ -1,5 +1,6 @@
 package minium.developer.project;
 
+import com.google.common.collect.Lists;
 
 public class RhinoProjectContext extends AbstractProjectContext {
 
@@ -7,4 +8,8 @@ public class RhinoProjectContext extends AbstractProjectContext {
         super(projConfiguration);
     }
 
+    @Override
+    protected void refreshAdditionalClasspath() {
+        additionalClasspath = Lists.newArrayList();
+    }
 }

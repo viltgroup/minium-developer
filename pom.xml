@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>io.vilt.minium</groupId>
 		<artifactId>minium-parent</artifactId>
-		<version>1.9.0</version>
+		<version>1.9.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>io.vilt.minium.developer</groupId>
@@ -34,6 +34,9 @@
 		<ostermiller-utils.version>1.07.00</ostermiller-utils.version>
 		<jarchivelib.version>0.7.1</jarchivelib.version>
 		<powermock.version>1.6.6</powermock.version>
+		<maven-embedder.version>3.3.9</maven-embedder.version>
+		<aether.version>1.1.0</aether.version>
+		<wagon.version>3.2.0</wagon.version>
 
 		<!-- Front-end dependencies -->
 		<frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
@@ -88,6 +91,32 @@
 			    <groupId>org.ostermiller</groupId>
 			    <artifactId>utils</artifactId>
 			    <version>${ostermiller-utils.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-embedder</artifactId>
+				<version>${maven-embedder.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.aether</groupId>
+				<artifactId>aether-connector-basic</artifactId>
+				<version>${aether.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.aether</groupId>
+				<artifactId>aether-transport-wagon</artifactId>
+				<version>${aether.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.maven.wagon</groupId>
+						<artifactId>wagon-provider-api</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven.wagon</groupId>
+				<artifactId>wagon-http-lightweight</artifactId>
+				<version>${wagon.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

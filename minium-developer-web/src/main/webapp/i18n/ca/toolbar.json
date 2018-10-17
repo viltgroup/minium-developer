@@ -27,6 +27,7 @@
         "save": "Guardar",
         "create.project": "Creació Projecte",
         "open.project": "Obrir Projecte",
+        "dependencies": "Dependències",
         "cleanScope":"Net Scope",
         "dowload.webdrivers":"Descargar webdrivers",
         "update.webdrivers":"Actualització webdrivers",

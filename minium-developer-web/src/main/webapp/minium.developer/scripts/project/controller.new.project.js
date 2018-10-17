@@ -126,15 +126,18 @@ angular.module('minium.developer')
                 toastr.error($translate('form_invalid'));
                 return;
             }
+            var ladda = Ladda.create(document.querySelector('#createProjectBtn')).start();
             ProjectFactory.create($scope.project).success(function(data) {
                 if (data == 'true') {
                     toastr.success($translate('messages.created'));
                     ProjectService.storeOpenProjects($scope.location);
                     ProjectService.reload($scope.location);
                 } else {
+                    ladda.stop();
                     toastr.error($translate('messages.cannot_create_project'));
                 }
             }).error(function(data, status) {
+                ladda.stop();
                 toastr.error($translate('messages.cannot_create_project'));
             });
         }

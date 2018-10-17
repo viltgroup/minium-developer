@@ -23,6 +23,7 @@
         "save": "Guardar",
         "create.project": "Criar Projecto",
         "open.project": "Abrir Projecto",
+        "dependencies": "Dependências",
         "cleanScope":"Limpar Scope",
         "dowload.webdrivers":"Descarregar webdrivers",
         "update.webdrivers":"Actualizar webdrivers",

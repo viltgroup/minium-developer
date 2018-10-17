@@ -123,4 +123,9 @@ miniumDeveloper
             templateUrl: 'minium.developer/views/project/import.project.html',
             controller: 'ImportProjectController'
         });
+
+        modalStateProvider.state('global.editorarea.sub.dependencies', {
+            templateUrl: 'minium.developer/views/project/dependencies.project.html',
+            controller: 'DependenciesController'
+        });
     })

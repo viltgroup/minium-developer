@@ -22,6 +22,12 @@ miniumDeveloper.factory('ProjectFactory', function($http) {
         },
         getProjectName: function() {
             return $http.get("/app/rest/project/name");
+        },
+        getDependencies: function() {
+            return $http.get("/app/rest/project/dependencies");
+        },
+        updateDependencies: function() {
+            return $http.get("/app/rest/project/dependencies/update");
         }
     };
 });
@@ -64,7 +70,7 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
 
     this.open = function(path,openTabs) {
 
-        ProjectFactory.open(path).success(function(data) {
+        return ProjectFactory.open(path).success(function(data) {
             $.cookie(PROJECT_COOKIE, path, {
                 expires: 7
             });
@@ -103,5 +109,4 @@ miniumDeveloper.service('ProjectService', function(ProjectFactory, $window, $loc
         // $cookieStore.remove(LAST_PROJECTS_COOKIES)
 
     }
-
 });

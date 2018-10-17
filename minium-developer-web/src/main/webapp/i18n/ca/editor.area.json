@@ -153,6 +153,13 @@
         "automator": "Automatitzador de projecte",
         "cucumber": "Projecte de Cucumber"
     },
+    "project.dependencies": {
+      "messages": {
+        "no_dependency": "Actualment no hi ha cap dependència carregada. Per carregar les dependències, afegiu-les al fitxer pom.xml del projecte i feu clic a Actualitza.",
+        "update_succeeded": "Les dependències s'han actualitzat correctament.",
+        "update_failed": "S'ha produït un error en actualitzar les dependències, consulteu els registres per obtenir més detalls."
+      }
+    },
     "messages": {
         "validate": {
             "directory": {

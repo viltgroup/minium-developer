@@ -148,6 +148,13 @@
         "automator": "Automator Project",
         "cucumber": "Cucumber project"
     },
+    "project.dependencies": {
+      "messages": {
+        "no_dependency": "No dependency is currently loaded. To load dependencies, add them to the pom.xml file of the project and click on Update.",
+        "update_succeeded": "Dependencies successfully updated.",
+        "update_failed": "An error occurred when trying to update the dependencies. Check the logs for more details."
+      }
+    },
     "messages": {
         "validate": {
             "directory": {

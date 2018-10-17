@@ -1,12 +1,9 @@
 package minium.developer.web.rest;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
-
-import minium.developer.project.ProjectProperties;
-import minium.developer.service.ProjectService;
-import minium.developer.web.rest.dto.ProjectDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import minium.developer.project.AbstractProjectContext;
+import minium.developer.project.ProjectProperties;
+import minium.developer.project.Workspace;
+import minium.developer.service.ProjectService;
+import minium.developer.web.rest.dto.ProjectDTO;
+
 @Controller
 @RequestMapping("/app/rest")
 public class ProjectResource {
@@ -26,6 +29,9 @@ public class ProjectResource {
 
     @Autowired
     private ProjectProperties projectProperties;
+
+    @Autowired
+    private Workspace workspace;
 
     @RequestMapping(value = "/project/new", method = RequestMethod.POST, produces = "text/plain; charset=utf-8")
     @ResponseBody
@@ -78,4 +84,17 @@ public class ProjectResource {
         return projectName;
     }
 
+    @RequestMapping(value = "/project/dependencies", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getDependencies() {
+        return workspace.getActiveProject().loadedDependencies();
+    }
+
+    @RequestMapping(value = "/project/dependencies/update", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> updateDependencies() throws Exception {
+        AbstractProjectContext activeProject = workspace.getActiveProject();
+        activeProject.updateDependencies();
+        return activeProject.loadedDependencies();
+    }
 }

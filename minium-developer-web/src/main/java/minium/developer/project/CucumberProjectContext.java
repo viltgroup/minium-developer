@@ -9,25 +9,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.CancellationException;
 
-import minium.cucumber.config.CucumberProperties;
-import minium.cucumber.config.CucumberProperties.OptionsProperties;
-import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
-import minium.cucumber.config.CucumberProperties.SnippetProperties;
-import minium.cucumber.data.MiniumRunTimeOptions;
-import minium.cucumber.internal.ListenerReporter;
-import minium.cucumber.internal.MiniumBackend;
-import minium.cucumber.internal.RuntimeBuilder;
-import minium.cucumber.report.FeatureResult;
-import minium.cucumber.report.domain.Feature;
-import minium.cucumber.rest.RemoteBackend;
-import minium.cucumber.rest.SimpleGlue;
-import minium.developer.cucumber.reports.ReporterParser;
-import minium.developer.service.DeveloperStepListener;
-import minium.developer.web.rest.LaunchInfo;
-import minium.developer.web.rest.dto.StepDTO;
-import minium.developer.web.rest.dto.StepDefinitionDTO;
-import minium.script.rhinojs.RhinoEngine;
-
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.notification.StoppedByUserException;
 import org.mozilla.javascript.Context;
@@ -38,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.MessageSendingOperations;
 
 import com.google.common.base.Joiner;
-import minium.internal.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -54,10 +34,33 @@ import cucumber.runtime.model.CucumberFeature;
 import cucumber.runtime.model.CucumberScenario;
 import cucumber.runtime.model.CucumberScenarioOutline;
 import cucumber.runtime.model.CucumberTagStatement;
+import minium.cucumber.config.CucumberProperties;
+import minium.cucumber.config.CucumberProperties.OptionsProperties;
+import minium.cucumber.config.CucumberProperties.RemoteBackendProperties;
+import minium.cucumber.config.CucumberProperties.SnippetProperties;
+import minium.cucumber.data.MiniumRunTimeOptions;
+import minium.cucumber.internal.ListenerReporter;
+import minium.cucumber.internal.MiniumBackend;
+import minium.cucumber.internal.RuntimeBuilder;
+import minium.cucumber.report.FeatureResult;
+import minium.cucumber.report.domain.Feature;
+import minium.cucumber.rest.RemoteBackend;
+import minium.cucumber.rest.SimpleGlue;
+import minium.developer.cucumber.reports.ReporterParser;
+import minium.developer.project.MavenDependencyProvider.MavenException;
+import minium.developer.service.DeveloperStepListener;
+import minium.developer.web.rest.LaunchInfo;
+import minium.developer.web.rest.dto.StepDTO;
+import minium.developer.web.rest.dto.StepDefinitionDTO;
+import minium.internal.Throwables;
+import minium.script.rhinojs.RhinoEngine;
 
 public class CucumberProjectContext extends AbstractProjectContext {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CucumberProjectContext.class);
+
+    @Autowired
+    private MavenDependencyProvider dependencyProvider;
 
     @Autowired
     private MessageSendingOperations<String> messagingTemplate;
@@ -73,6 +76,11 @@ public class CucumberProjectContext extends AbstractProjectContext {
     protected void refreshConfiguration() throws Exception {
         super.refreshConfiguration();
         this.projectCucumberProperties = getAppConfigBean("minium.cucumber", CucumberProperties.class);
+    }
+
+    @Override
+    protected void refreshAdditionalClasspath() throws MavenException, IOException {
+        additionalClasspath = dependencyProvider.getDependencies(projectDir);
     }
 
     public FeatureResult launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {

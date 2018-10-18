@@ -109,8 +109,7 @@ minium:
         firefox_profile:
           dir: C:\Users\minium\AppData\Roaming\Mozilla\Firefox\Profiles\xxxxxxxx.<profile-name>
           extensions:
-            - name: Some Extension
-              path: C:\Users\minium\AppData\Roaming\Mozilla\Extensions\extension.xpi
+            - ~\firefox-extensions\extension.xpi
           loadNoFocusLib: false
           acceptUntrustedCerts: true
           untrustedCertIssuer: false

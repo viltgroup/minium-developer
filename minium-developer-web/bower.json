@@ -29,7 +29,7 @@
     "angular-loading-bar": "~0.6.0",
     "angularjs-nvd3-directives": "~0.0.7",
     "angular-ui-ace": "~0.2.3",
-    "lodash": "latest",
+    "lodash": "4.17.11",
     "moment": "latest",
     "jsonpath": "*",
     "ladda": "~0.9.4",

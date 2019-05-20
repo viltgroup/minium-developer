@@ -32,7 +32,7 @@ public class WebDriverDownloaderTest {
     @Test
     public void testChromeDownload() throws Exception {
         WebDriverRelease chromeDriverLatestVersion = releaseManager.getChromeDriverLatestVersion();
-        String chromeVersion = chromeDriverLatestVersion.getPrettyPrintVersion(".");
+		String chromeVersion = chromeDriverLatestVersion.getVersion();
         chromeDownloader = new ChromeDriverDownloader(chromeVersion, downloadDir);
         chromeDownloader.download();
         File executable = new File(downloadDir, "chromedriver" + (SystemUtils.IS_OS_WINDOWS ? ".exe" : ""));
@@ -47,7 +47,7 @@ public class WebDriverDownloaderTest {
         PowerMockito.mockStatic(RuntimeConfig.class);
         when(RuntimeConfig.getOS()).thenReturn(osMock);
 
-        String chromeDriverVersion = releaseManager.getChromeDriverLatestVersion().getPrettyPrintVersion(".");
+		String chromeDriverVersion = releaseManager.getChromeDriverLatestVersion().getVersion();
         chromeDownloader = new ChromeDriverDownloader(chromeDriverVersion, downloadDir);
         chromeDownloader.download();
         assertTrue(new File(downloadDir, "chromedriver").exists());

@@ -18,17 +18,18 @@ The last component of Minium is known as Minium Manager. It's aimed at business 
 
 Minium in 5 minutes
 ============
+
 ## Download Minium Developer
 
 Dowload Minium Developer for your platform from [GitHub](https://github.com/viltgroup/minium-developer/releases).
 
-##Run Minium Developer
+## Run Minium Developer
 
 Extract the archive and and double-click on the executable (`minium-developer.exe` on Windows, `minium-developer` on Linux and MacOS).
 
 ## Create a new **Cucumber project**
 
-* Go to **Project** < **Create Project**
+* Go to **Project** > **Create Project**
 * **Select** Cucumber project
 * **Fill** the form with:
     * Parent Directory:  parent path where you want to put your project (e.g /home/user/workspace, c:\Tools\ )
@@ -39,6 +40,7 @@ Extract the archive and and double-click on the executable (`minium-developer.ex
 * Click on **Create**
 
 ## Open a feature & Run it
+
 * Open the file `features/MyFeature.feature` (the project structure is on the left sidebar)
 * Click on button **Run All**
 * Select **Chrome** webdriver and click on button **Create new webdriver**

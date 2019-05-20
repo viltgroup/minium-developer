@@ -68,7 +68,7 @@ public class WebDriverService {
 
     protected void downloadChromeDriver() throws IOException {
         WebDriverRelease chromeDriverLatestVersion = releaseManager.getChromeDriverLatestVersion();
-        String chromeVersion = chromeDriverLatestVersion.getPrettyPrintVersion(".");
+		String chromeVersion = chromeDriverLatestVersion.getVersion();
         chromeDownloader = new ChromeDriverDownloader(chromeVersion, driverLocator.getDriversDir().getPath());
         chromeDownloader.download();
     }

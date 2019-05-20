@@ -10,6 +10,7 @@ public class WebDriverRelease {
     private int patchVersion;
     private String name;
     private String relativePath;
+	private String version;
 
     public WebDriverRelease(String input) {
 
@@ -96,4 +97,11 @@ public class WebDriverRelease {
         this.relativePath = relativePath;
     }
 
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
 }

@@ -87,7 +87,9 @@
             "accept": "Acceptada",
             "open": "Obrir",
             "update": "Actualitzar",
-            "reset": "Valors per defecte"
+            "reset": "Valors per defecte",
+            "advanced": "Avançat",
+            "basic": "Bàsic"
         },
         "project": "Project",
         "detail": {

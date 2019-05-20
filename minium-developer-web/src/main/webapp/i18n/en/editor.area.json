@@ -146,7 +146,9 @@
         "parent.dir": "Parent Directory",
         "name": "Project Name",
         "automator": "Automator Project",
-        "cucumber": "Cucumber project"
+        "cucumber": "Cucumber Project",
+        "monitoring": "Is a Monitoring Project?",
+        "monitoring.description": "This configuration will generate a different Cucumber Project, focuced to retrieve information about the availability of a certain page and performance metrics."
     },
     "project.dependencies": {
       "messages": {

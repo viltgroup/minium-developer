@@ -87,7 +87,9 @@
             "accept": "Accept",
             "open": "Open",
             "update": "Update",
-            "reset": "Reset default"
+            "reset": "Reset default",
+            "advanced": "Advanced",
+            "basic": "Basic"
         },
         "project": "Project",
         "detail": {

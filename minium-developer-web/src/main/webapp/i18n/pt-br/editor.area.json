@@ -145,8 +145,10 @@
         "type": "Tipo de projecto",
         "parent.dir": "Diretório do projecto",
         "name": "Nome do projecto",
-        "automator": "Projecto Automator ",
-        "cucumber": "Projecto Cucumber "
+        "automator": "Projecto Automator",
+        "cucumber": "Projecto Cucumber",
+        "monitoring": "É um Projecto Monitoring?",
+        "monitoring.description": "Essa configuração irá gerar um projecto Cucumber, focado em obter informações sobre a disponibilidade de uma determinada página e métricas de performance."
     },
     "project.dependencies": {
       "messages": {

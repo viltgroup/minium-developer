@@ -87,7 +87,9 @@
             "accept": "Aceitar",
             "open": "Abrir",
             "update": "Atualizar",
-            "reset": "Repor definições padrão"
+            "reset": "Repor definições padrão",
+            "advanced": "Avançado",
+            "basic": "Básico"
         },
         "detail": {
             "field": "Campo",

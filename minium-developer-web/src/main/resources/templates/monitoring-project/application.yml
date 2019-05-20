@@ -1,0 +1,23 @@
+# Web Drivers   
+minium:
+  webdriver:
+    desiredCapabilities:
+      browserName: chrome
+    chromeOptions:
+      args:
+        - headless
+        - no-sandbox
+        - disable-gpu
+        - window-size=1200,600
+    window:
+      maximized: true
+
+# Configuration that can be injected in your tests
+  config:
+    baseURL: https://www.imagin.cafe
+    threshold: 3 # in seconds
+    searches:
+      Minium Github:
+        - https://github.com/viltgroup/minium
+      Selenium:
+        - https://www.seleniumhq.org/

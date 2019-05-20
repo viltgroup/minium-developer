@@ -15,10 +15,13 @@ Creates a simple project to automate tasks using Minium.
 
 ## Cucumber
 
-Creates a base project, with a feature and his step definitions ready to
-execute.
+Creates a base project, with a feature and his step definitions ready to execute.
 
 After the project creation you will see the project open in the sidebar.
+
+### Monitoring
+
+The monitoring project is dedicated to execute with high frequency. It give us information about the availability of a certain page and performance metrics. To obtain the performance metrics, you can use the expressions `browser.get(<url>)` and `browser.getPerformance()`.
 
 # Open Project
 

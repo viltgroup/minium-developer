@@ -118,7 +118,8 @@
         "parent.dir": "Parent Directory",
         "name": "Project Name",
         "automator": "Automator Project",
-        "cucumber": "Cucumber project"
+        "cucumber": "Cucumber Project",
+        "monitoring": "Monitoring Project"
     },
     "messages": {
         "validate": {

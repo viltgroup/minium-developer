@@ -87,7 +87,9 @@
             "accept": "Aceptar",
             "open": "Abrir",
             "update": "Actualizar",
-            "reset": "Valores por defecto"
+            "reset": "Valores por defecto",
+            "advanced": "Avanzado",
+            "basic": "Básico"
         },
         "project": "Proyecto",
         "detail": {

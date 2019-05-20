@@ -15,9 +15,10 @@ import org.springframework.stereotype.Service;
 import minium.developer.fs.service.FileSystemService;
 import minium.developer.project.ProjectProperties;
 import minium.developer.project.Workspace;
-import minium.developer.project.templates.AutomatorTemplate;
+import minium.developer.project.templates.AutomatorProject;
 import minium.developer.project.templates.CucumberProject;
 import minium.developer.project.templates.ProjectTemplate;
+import minium.developer.project.templates.MonitoringProject;
 import minium.developer.web.rest.dto.ProjectDTO;
 import minium.internal.Throwables;
 
@@ -25,6 +26,7 @@ import minium.internal.Throwables;
 public class ProjectService {
 
     private static final String CUCUMBER_PROJECT = "cucumber";
+    private static final String MONITORING_PROJECT = "monitoring";
     private static final String AUTOMATOR_PROJECT = "automator";
 
     private static final Logger logger = LoggerFactory.getLogger(ProjectService.class);
@@ -53,6 +55,8 @@ public class ProjectService {
         try {
             if (projectType.equals(CUCUMBER_PROJECT)) {
                 createCucumberProject(project);
+			} else if (projectType.equals(MONITORING_PROJECT)) {
+				createMonitoringProject(project);
             } else {
                 createAutomatorProject(project);
             }
@@ -80,10 +84,12 @@ public class ProjectService {
         // TODO refactor
         String project;
         path = getPath(path);
-        if (isCucumberProject(path)) {
+		if (isMonitoringProject(path)) {
+			project = MONITORING_PROJECT;
+		} else if (isCucumberProject(path)) {
             project = CUCUMBER_PROJECT;
-        } else if (isAutomatorProject(path)) {
-            project = AUTOMATOR_PROJECT;
+		} else if (isAutomatorProject(path)) {
+			project = AUTOMATOR_PROJECT;
         } else {
             project = "No project here";
         }
@@ -138,7 +144,7 @@ public class ProjectService {
      * @throws IOException
      */
     protected boolean createAutomatorProject(ProjectDTO project) throws IOException {
-        projectTemplate = new AutomatorTemplate(project);
+        projectTemplate = new AutomatorProject(project);
         projectTemplate.buildProject();
         return true;
     }
@@ -156,10 +162,28 @@ public class ProjectService {
         return true;
     }
 
+	/**
+     * Create a monitoring project
+     *
+     * @param project
+     * @return
+     * @throws IOException
+     */
+	protected boolean createMonitoringProject(ProjectDTO project) throws IOException {
+		projectTemplate = new MonitoringProject(project);
+		projectTemplate.buildProject();
+		return true;
+	}
+    
     protected boolean isCucumberProject(String dir) {
         // TODO for now, just checks if pom.xml exists
         return new File(dir, "pom.xml").exists();
     }
+
+	protected boolean isMonitoringProject(String dir) {
+		// TODO for now, just checks if ExecutorTest.java exists
+		return new File(dir + "/src/main/java", "ExecutorTest.java").exists();
+	}
 
     protected boolean isAutomatorProject(String dir) {
         // TODO for now, just checks if main.js exists

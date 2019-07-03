@@ -4,11 +4,19 @@ minium:
     desiredCapabilities:
       browserName: chrome
     chromeOptions:
+      loggingPrefs:
+        performance: INFO
       args:
         - headless
         - no-sandbox
         - disable-gpu
         - window-size=1200,600
+        - disable-local-storage
+        - disk-cache-size=1
+        - media-cache-size=1
+        - disk-cache-dir=/dev/null
+        - media-cache-dir=/dev/null
+        - whitelisted-ips
     window:
       maximized: true
 

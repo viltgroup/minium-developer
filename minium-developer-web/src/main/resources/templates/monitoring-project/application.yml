@@ -14,15 +14,15 @@ minium:
         - disable-local-storage
         - disk-cache-size=1
         - media-cache-size=1
-        - disk-cache-dir=/dev/null
-        - media-cache-dir=/dev/null
+        - disk-cache-dir=null
+        - media-cache-dir=null
         - whitelisted-ips
     window:
       maximized: true
 
 # Configuration that can be injected in your tests
   config:
-    baseURL: https://www.imagin.cafe
+    baseURL: https://minium.vilt.io/
     threshold: 3 # in seconds
     searches:
       Minium Github:

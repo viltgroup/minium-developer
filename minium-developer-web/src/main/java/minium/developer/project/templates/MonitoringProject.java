@@ -22,7 +22,7 @@ public class MonitoringProject extends MavenProjectTemplate {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringProject.class);
 
 	public MonitoringProject(ProjectDTO project) {
-        super(project, "monitoring");
+        super(project, MONITORING);
 	}
 
 	@Override

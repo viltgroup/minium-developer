@@ -19,14 +19,18 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import minium.developer.utils.Utils;
 import minium.developer.web.rest.dto.ProjectDTO;
+import minium.developer.webdriver.RuntimeConfig;
 import minium.web.WebElements;
 
 public class MavenProjectTemplate extends ProjectTemplate {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MavenProjectTemplate.class);
 
-	private static final String APPLICATION_YML = "application.yml";
-	private static final String POM_XML = "pom.xml";
+    private static final String APPLICATION_YML = "application.yml";
+    private static final String POM_XML = "pom.xml";
+
+    protected static final String MONITORING = "monitoring";
+    protected static final String WEB_APP_TESTING = "cucumber";
 
 	private String template;
 
@@ -85,8 +89,16 @@ public class MavenProjectTemplate extends ProjectTemplate {
 		}
 
 		// copy application.yml config/application.yml
-		File fileModules = new File(file, "config");
-		copyResource("/templates/" + this.template + "-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
+        File fileModules = new File(file, "config");
+        if (this.template.equals(WEB_APP_TESTING)) {
+            copyResource("/templates/" + this.template + "-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
+        } else {
+            if (RuntimeConfig.getOS().isWindows()) {
+                copyResource("/templates/" + this.template + "-project/application-win.yml", fileModules, APPLICATION_YML);
+            } else {
+                copyResource("/templates/" + this.template + "-project/application-linux.yml", fileModules, APPLICATION_YML);
+            }
+        }
 	}
 
 	private void buildPom(String path) {

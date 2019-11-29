@@ -1,4 +1,4 @@
-# Web Drivers   
+# Web Drivers
 minium:
   webdriver:
     desiredCapabilities:
@@ -14,8 +14,8 @@ minium:
         - disable-local-storage
         - disk-cache-size=1
         - media-cache-size=1
-        - disk-cache-dir=nul
-        - media-cache-dir=nul
+        - disk-cache-dir=/dev/null
+        - media-cache-dir=/dev/null
         - whitelisted-ips
     window:
       maximized: true

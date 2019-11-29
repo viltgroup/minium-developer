@@ -5,11 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +19,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import minium.developer.utils.Utils;
 import minium.developer.web.rest.dto.ProjectDTO;
-import minium.developer.webdriver.RuntimeConfig;
 import minium.web.WebElements;
 
 public class MavenProjectTemplate extends ProjectTemplate {
@@ -28,15 +27,16 @@ public class MavenProjectTemplate extends ProjectTemplate {
 
     private static final String APPLICATION_YML = "application.yml";
     private static final String POM_XML = "pom.xml";
+    private static final String TEMPLATES_FOLDER = "templates/";
 
     protected static final String MONITORING = "monitoring";
     protected static final String WEB_APP_TESTING = "cucumber";
 
-	private String template;
+    private String templateName;
 
-	public MavenProjectTemplate(ProjectDTO project, String template) {
+	public MavenProjectTemplate(ProjectDTO project, String templateName) {
 		super(project);
-		this.template = template;
+		this.templateName = templateName;
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class MavenProjectTemplate extends ProjectTemplate {
 		file = new File(destPath, "src/test/resources");
 		FileUtils.forceMkdir(file);
 
-		List<String> resourcesFolders = new ArrayList<String>();
+		List<String> resourcesFolders = Lists.newArrayList();
 		resourcesFolders.add("config");
 		resourcesFolders.add("features");
 		resourcesFolders.add("modules");
@@ -90,28 +90,19 @@ public class MavenProjectTemplate extends ProjectTemplate {
 
 		// copy application.yml config/application.yml
         File fileModules = new File(file, "config");
-        if (this.template.equals(WEB_APP_TESTING)) {
-            copyResource("/templates/" + this.template + "-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
-        } else {
-            if (RuntimeConfig.getOS().isWindows()) {
-                copyResource("/templates/" + this.template + "-project/application-win.yml", fileModules, APPLICATION_YML);
-            } else {
-                copyResource("/templates/" + this.template + "-project/application-linux.yml", fileModules, APPLICATION_YML);
-            }
-        }
+		copyResource("/" + TEMPLATES_FOLDER + this.templateName + "-project/" + APPLICATION_YML, fileModules, APPLICATION_YML);
 	}
 
 	private void buildPom(String path) {
 		File newFile = new File(path, POM_XML);
 
-		@SuppressWarnings("deprecation")
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 		cfg.setClassForTemplateLoading(this.getClass(), "/");
 		try {
 			// Load the template
-			Template template = cfg.getTemplate("templates/" + this.template + "-project/pom.ftl");
+			Template template = cfg.getTemplate(TEMPLATES_FOLDER + this.templateName + "-project/pom.ftl");
 
-			Map<String, Object> data = new HashMap<String, Object>();
+			Map<String, Object> data = Maps.newHashMap();
 			data.put("groupId", project.getGroupId());
 			data.put("artifactId", project.getArtifactId());
 			data.put("version", project.getVersion());
@@ -139,14 +130,13 @@ public class MavenProjectTemplate extends ProjectTemplate {
 		String fileName = className + ".java";
 
 		File newFile = new File(f, fileName);
-		@SuppressWarnings("deprecation")
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 		cfg.setClassForTemplateLoading(this.getClass(), "/");
 		try {
 			// Load the template
-			Template template = cfg.getTemplate("templates/" + this.template + "-project/test-class.ftl");
+			Template template = cfg.getTemplate(TEMPLATES_FOLDER + this.templateName + "-project/test-class.ftl");
 
-			Map<String, Object> data = new HashMap<String, Object>();
+			Map<String, Object> data = Maps.newHashMap();
 			data.put("groupId", project.getGroupId());
             data.put("className", className);
 
@@ -164,12 +154,12 @@ public class MavenProjectTemplate extends ProjectTemplate {
 		String resourcesPath = path + "/src/test/resources/";
 		File f = new File(resourcesPath, "features");
 		File fileModules = new File(f, "");
-		copyResource("/templates/" + this.template + "-project/Feature.feature", fileModules, project.getFeatureFile() + ".feature");
+		copyResource("/" + TEMPLATES_FOLDER + this.templateName + "-project/Feature.feature", fileModules, project.getFeatureFile() + ".feature");
 
 		// create the file of src/test/resources/stepFileName.js
 		f = new File(resourcesPath, "steps");
 		fileModules = new File(f, "");
-		copyResource("/templates/" + this.template + "-project/steps.js", fileModules, project.getStepFile() + ".js");
-		copyResource("/templates/" + this.template + "-project/world.js", fileModules, "world.js");
+		copyResource("/" + TEMPLATES_FOLDER + this.templateName + "-project/steps.js", fileModules, project.getStepFile() + ".js");
+		copyResource("/" + TEMPLATES_FOLDER + this.templateName + "-project/world.js", fileModules, "world.js");
 	}
 }

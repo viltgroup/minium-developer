@@ -5,9 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,15 +40,13 @@ public class MonitoringProject extends MavenProjectTemplate {
 		FileUtils.forceMkdir(f);
 
 		File newFile = new File(f, "ExecutorTest.java");
-
-		@SuppressWarnings("deprecation")
-		Configuration cfg = new Configuration();
+		Configuration cfg = new Configuration(Configuration.DEFAULT_INCOMPATIBLE_IMPROVEMENTS);
 		cfg.setClassForTemplateLoading(this.getClass(), "/");
 		try {
 			// Load the template
             Template template = cfg.getTemplate("templates/monitoring-project/ExecutorTest.ftl");
 
-			Map<String, Object> data = new HashMap<String, Object>();
+			Map<String, Object> data = Maps.newHashMap();
 			data.put("className", project.getGroupId() + "." + Utils.toClassName(project.getArtifactId()) + "IT");
 
 			try (Writer out = new OutputStreamWriter(new FileOutputStream(newFile))) {
@@ -66,6 +64,7 @@ public class MonitoringProject extends MavenProjectTemplate {
         copyResource("/templates/monitoring-project/assembly.xml", f, "assembly.xml");
 	}
 
+    @Override
     protected void buildCucumberFiles() throws IOException {
         File f = new File(path + "/src/test/resources/steps");
         copyResource("/templates/monitoring-project/after.js", f, "after.js");

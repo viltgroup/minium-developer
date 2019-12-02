@@ -5,11 +5,11 @@ public class ProjectDTO {
 	private String directory;
 	private String type;
 	private String name;
-	private String groupId;
+    private String groupId = "com.minium.tests";
 	private String artifactId;
 	private String version;
-	private String featureFile;
-	private String stepFile;
+    private String featureFile;
+    private String stepFile;
 	
 	public ProjectDTO() {
 		super();
@@ -76,7 +76,7 @@ public class ProjectDTO {
 	}
 	
 	public String getFeatureFile() {
-		return featureFile;
+        return featureFile != null ? featureFile : (type.equals("monitoring") ? "performance" : "search");
 	}
 	
 	public void setFeatureFile(String featureFile) {
@@ -84,7 +84,7 @@ public class ProjectDTO {
 	}
 	
 	public String getStepFile() {
-		return stepFile;
+        return stepFile != null ? featureFile : (type.equals("monitoring") ? "performance" : "search") + "-steps";
 	}
 	
 	public void setStepFile(String stepFile) {

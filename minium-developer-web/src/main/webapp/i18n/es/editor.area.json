@@ -151,7 +151,9 @@
         "parent.dir": "Directorio Padre",
         "name": "Nombre del Proyecto",
         "automator": "Proyecto Automatizador",
-        "cucumber": "Cucumber project"
+        "cucumber": "Proyecto Cucumber",
+        "monitoring": "¿Es un Proyecto Monitoring?",
+        "monitoring.description": "Esta configuración generará un Proyecto Cucumber diferente, enfocado en obtener información sobre la disponibilidad de una determinada página y métricas de performance."
     },
     "project.dependencies": {
       "messages": {

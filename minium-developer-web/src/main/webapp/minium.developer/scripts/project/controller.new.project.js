@@ -33,7 +33,6 @@ angular.module('minium.developer')
         $scope.popoverDirectoryInput = $translate('messages.popover.directory_input');
 
         $scope.isValidJavaPackageName = function() {
-
             if (!isValidGroupId($scope.project.groupId)) {
                 $scope.projectForm.groupId.$setValidity("default1", false);
                 return false;
@@ -52,6 +51,7 @@ angular.module('minium.developer')
          **/
         $scope.activate = function(value) {
             $scope.project.type = value;
+            $scope.moreDetailsActivated = false;
         }
 
         var isValidProjectName = function(projectName) {
@@ -63,7 +63,6 @@ angular.module('minium.developer')
         }
 
         $scope.validate = function(e) {
-
             var str = $scope.project.name;
             if (isValidProjectName(str) == false) {
                 $scope.isValid = false;
@@ -127,6 +126,7 @@ angular.module('minium.developer')
                 return;
             }
             var ladda = Ladda.create(document.querySelector('#createProjectBtn')).start();
+            $scope.project.type = $scope.isMonitoringProject ? "monitoring" : $scope.project.type;
             ProjectFactory.create($scope.project).success(function(data) {
                 if (data == 'true') {
                     toastr.success($translate('messages.created'));
@@ -147,6 +147,14 @@ angular.module('minium.developer')
             $scope.$dismiss();
         };
 
+        $scope.isMonitoringProject = false;
 
-        $scope.activate('cucumber');
+        $scope.moreDetailsActivated = false;
+        $scope.toggleText = $translate('entity.action.advanced');
+        $scope.showAdvanced = function() {
+            $scope.moreDetailsActivated = !$scope.moreDetailsActivated;
+            $scope.toggleText = $scope.moreDetailsActivated ? $translate('entity.action.basic') : $translate('entity.action.advanced');
+        }
+
+        $scope.activate("cucumber");
     });

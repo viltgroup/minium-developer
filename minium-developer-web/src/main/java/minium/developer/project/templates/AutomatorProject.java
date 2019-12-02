@@ -7,9 +7,9 @@ import minium.developer.web.rest.dto.ProjectDTO;
 
 import org.apache.commons.io.FileUtils;
 
-public class AutomatorTemplate extends ProjectTemplate {
+public class AutomatorProject extends ProjectTemplate {
 
-    public AutomatorTemplate(ProjectDTO project) {
+    public AutomatorProject(ProjectDTO project) {
         super(project);
     }
 

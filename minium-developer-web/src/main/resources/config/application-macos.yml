@@ -9,6 +9,9 @@ minium:
         iconClass: icon-chrome
         desiredCapabilities:
           browserName: chrome
+        chromeOptions:
+          loggingPrefs:
+            performance: INFO
       - name: firefox
         displayName: Firefox
         iconClass: icon-firefox

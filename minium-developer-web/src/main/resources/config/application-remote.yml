@@ -1,0 +1,6 @@
+server:
+  context-path: /developer
+
+minium:
+  rhino:
+    filteredStackTraces: true

@@ -135,7 +135,7 @@ angular.module('minium.developer')
 
             isAlreadySubscribed = true;
 
-            var socket = new SockJS("/app/ws");
+            var socket = new SockJS("app/ws");
             var stompClient = Stomp.over(socket);
 
             //genarate an id to create a private connection

@@ -5,7 +5,7 @@ Factory to register backends
 miniumDeveloper.factory('backendFactory', function($http) {
     return {
         register: function(params) {
-            return $http.post("/app/rest/backends/register", params);
+            return $http.post("app/rest/backends/register", params);
         }
     };
 })

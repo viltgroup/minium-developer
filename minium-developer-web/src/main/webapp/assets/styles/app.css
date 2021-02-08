@@ -692,22 +692,22 @@ div.inline {
 
 li.tree-collapsed i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/folder5.png") no-repeat bottom left!important;
+    background: url("../images/icons/folder5.png") no-repeat bottom left!important;
 }
 
 li.tree-expanded i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/folder99.png") no-repeat bottom left!important;
+    background: url("../images/icons/folder99.png") no-repeat bottom left!important;
 }
 
 treecontrol.tree-classic li.tree-leaf i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/file.png") no-repeat bottom left!important;
+    background: url("../images/icons/file.png") no-repeat bottom left!important;
 }
 
 treecontrol.tree-classic li.feature-node i {
     padding: 6px 10px 0px 10px;
-    background: url("/assets/images/icons/js.png") no-repeat bottom left;
+    background: url("../images/icons/js.png") no-repeat bottom left;
 }
 
 treecontrol ul {

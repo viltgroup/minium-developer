@@ -2,5 +2,7 @@ server:
   context-path: /developer
 
 minium:
+  remote:
+    workspace-dir: ../minium-manager/minium-manager-bundle/target/localws
   rhino:
     filteredStackTraces: true

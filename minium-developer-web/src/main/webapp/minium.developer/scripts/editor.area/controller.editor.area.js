@@ -88,7 +88,8 @@ var EditorAreaController = function($rootScope, $translate, $filter, $scope, $q,
         }
 
         $state.go("global.editorarea.sub", {
-            path: path
+            path: path,
+            project: $rootScope.projectName
         }, {
             location: 'replace', //  update url and replace
             inherit: false,

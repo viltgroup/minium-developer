@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.CancellationException;
 
+import com.google.common.base.Preconditions;
 import org.apache.commons.io.FileUtils;
 import org.junit.runner.notification.StoppedByUserException;
 import org.mozilla.javascript.Context;
@@ -80,7 +81,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
     @Override
     protected void refreshAdditionalClasspath() throws MavenException, IOException {
-        additionalClasspath = dependencyProvider.getDependencies(projectDir);
+        additionalClasspath = dependencyProvider.getDependencies(projectProperties.getDir());
     }
 
     public FeatureResult launchCucumber(LaunchInfo launchInfo, final String sessionId) throws Exception {
@@ -88,7 +89,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
         URI file = launchInfo.getFileProps().getRelativeUri();
 
-        File featureFile = new File(resourcesDir, file.getPath());
+        File featureFile = new File(projectProperties.getResourcesDir(), file.getPath());
 
         String featurePath;
         if (launchInfo.getLine() == null || launchInfo.getLine().get(0) == 1) {
@@ -204,7 +205,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
         for (ListIterator<String> iterator = glues.listIterator(); iterator.hasNext();) {
             String glue = iterator.next();
             if (glue.startsWith("src/test/resources/")) {
-                iterator.set(new File(resourcesDir, glue.substring("src/test/resources/".length())).getAbsolutePath());
+                iterator.set(new File(projectProperties.getResourcesDir(), glue.substring("src/test/resources/".length())).getAbsolutePath());
             }
         }
         options.setGlue(glues);
@@ -216,6 +217,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
 
     protected List<Throwable> run(final CucumberProperties cucumberProperties, final String sessionId, final String uri, final boolean isPreview) {
         cucumberEngine = createJsEngine();
+        Preconditions.checkState(cucumberEngine != null, "No cucumber engine provided");
         try {
             return cucumberEngine.runWithContext(cucumberEngine.new RhinoCallable<List<Throwable>, RuntimeException>() {
                 @Override
@@ -227,7 +229,7 @@ public class CucumberProjectContext extends AbstractProjectContext {
                         List<Backend> allBackends = getAllBackends(cx, scope, resourceLoader, cucumberProperties);
                         MiniumRunTimeOptions miniumRuntimeOptions = null;
                         if (isPreview) {
-                            miniumRuntimeOptions = new MiniumRunTimeOptions(cucumberProperties.getOptions().toArgs(), resourcesDir);
+                            miniumRuntimeOptions = new MiniumRunTimeOptions(cucumberProperties.getOptions().toArgs(), projectProperties.getResourcesDir());
                         }
                         try (ListenerReporter listenerReporter = new ListenerReporter()) {
                             listenerReporter.add(cucumberLiveReporter);

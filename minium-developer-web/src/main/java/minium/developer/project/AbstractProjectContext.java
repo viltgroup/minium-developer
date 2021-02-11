@@ -1,11 +1,20 @@
 package minium.developer.project;
 
-import java.io.File;
-import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import minium.Elements;
+import minium.cucumber.config.ConfigProperties;
+import minium.script.js.JsBrowserFactory;
+import minium.script.js.JsEngine;
+import minium.script.js.MiniumJsEngineAdapter;
+import minium.script.rhinojs.RhinoBrowserFactory;
+import minium.script.rhinojs.RhinoEngine;
+import minium.script.rhinojs.RhinoProperties;
+import minium.script.rhinojs.RhinoProperties.RequireProperties;
+import minium.web.CoreWebElements.DefaultWebElements;
+import minium.web.actions.Browser;
+import minium.web.config.WebDriverFactory;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,28 +32,17 @@ import org.springframework.core.env.PropertySources;
 import org.springframework.core.env.SystemEnvironmentPropertySource;
 import org.springframework.core.io.FileSystemResource;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-
-import minium.Elements;
-import minium.cucumber.config.ConfigProperties;
-import minium.script.js.JsBrowserFactory;
-import minium.script.js.JsEngine;
-import minium.script.js.MiniumJsEngineAdapter;
-import minium.script.rhinojs.RhinoBrowserFactory;
-import minium.script.rhinojs.RhinoEngine;
-import minium.script.rhinojs.RhinoProperties;
-import minium.script.rhinojs.RhinoProperties.RequireProperties;
-import minium.web.CoreWebElements.DefaultWebElements;
-import minium.web.actions.Browser;
-import minium.web.config.WebDriverFactory;
+import java.io.File;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class AbstractProjectContext implements InitializingBean, DisposableBean {
 
     private static final Logger logger = LoggerFactory.getLogger(AbstractProjectContext.class);
 
-    protected final File projectDir;
-    protected File resourcesDir;
+    protected final ProjectProperties projectProperties;
     private JsEngine jsEngine;
     private ConfigProperties configProperties;
     private PropertySources propertySources;
@@ -54,15 +52,14 @@ public abstract class AbstractProjectContext implements InitializingBean, Dispos
     private ConfigurableApplicationContext applicationContext;
 
     @Lazy
-    @Autowired
+    @Autowired(required = false)
     private Browser<DefaultWebElements> browser;
 
-    @Autowired
+    @Autowired(required = false)
     private WebDriverFactory webDriverFactory;
 
-    public AbstractProjectContext(ProjectProperties projConfiguration) throws Exception {
-        this.projectDir = projConfiguration.getDir();
-        this.resourcesDir = projConfiguration.getResourcesDir();
+    public AbstractProjectContext(ProjectProperties projectProperties) throws Exception {
+        this.projectProperties = projectProperties;
     }
 
     @Override
@@ -103,15 +100,18 @@ public abstract class AbstractProjectContext implements InitializingBean, Dispos
     }
 
     public Elements root() {
+        Preconditions.checkState(browser != null, "Browser was not set");
         return browser.root();
     }
 
     public Object eval(Evaluation evaluation) throws Exception {
+        Preconditions.checkState(jsEngine != null, "JS engine was not set");
         refreshConfiguration();
         return jsEngine.eval(evaluation.getExpression(), evaluation.getFilePath(), evaluation.getLineNumber());
     }
 
     public StackTraceElement[] getExecutionStackTrace() {
+        Preconditions.checkState(jsEngine != null, "JS engine was not set");
         return jsEngine.getExecutionStackTrace();
     }
 
@@ -137,12 +137,15 @@ public abstract class AbstractProjectContext implements InitializingBean, Dispos
     }
 
     public String toString(Object obj) {
+        Preconditions.checkState(jsEngine != null, "JS engine was not set");
         return jsEngine.toString(obj);
     }
 
     protected RhinoEngine createJsEngine() {
+        if (browser == null || webDriverFactory == null || !projectProperties.isValidProject()) return null;
+
         RequireProperties require = new RequireProperties();
-        require.getModulePaths().add(new File(resourcesDir, "modules").toURI().toString());
+        require.getModulePaths().add(new File(projectProperties.getResourcesDir(), "modules").toURI().toString());
         RhinoProperties rhinoProperties = new RhinoProperties();
         rhinoProperties.setRequire(require);
         rhinoProperties.setAdditionalClasspath(additionalClasspath);
@@ -156,14 +159,16 @@ public abstract class AbstractProjectContext implements InitializingBean, Dispos
     @SuppressWarnings({ "unchecked", "rawtypes" })
     protected PropertySources loadConfiguration() throws Exception {
         MutablePropertySources propertySources = new MutablePropertySources();
-        Map<String, String> properties = ImmutableMap.<String, String>builder().putAll((Map) System.getProperties()).put("minium.resources.dir", resourcesDir.getAbsolutePath()).build();
-        propertySources.addLast(new SystemEnvironmentPropertySource("systemProperties", (Map) properties));
-        File appConfigFile = new File(resourcesDir, "config/application.yml");
-        if (appConfigFile.exists() && appConfigFile.isFile()) {
-            YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
-            PropertySource<?> source = loader.load("application.yml", new FileSystemResource(appConfigFile), null);
-            if (source != null) {
-                propertySources.addFirst(source);
+        if (projectProperties.isValidProject()) {
+            Map<String, String> properties = ImmutableMap.<String, String>builder().putAll((Map) System.getProperties()).put("minium.resources.dir", projectProperties.getResourcesDir().getAbsolutePath()).build();
+            propertySources.addLast(new SystemEnvironmentPropertySource("systemProperties", (Map) properties));
+            File appConfigFile = new File(projectProperties.getResourcesDir(), "config/application.yml");
+            if (appConfigFile.exists() && appConfigFile.isFile()) {
+                YamlPropertySourceLoader loader = new YamlPropertySourceLoader();
+                PropertySource<?> source = loader.load("application.yml", new FileSystemResource(appConfigFile), null);
+                if (source != null) {
+                    propertySources.addFirst(source);
+                }
             }
         }
         return applyPlaceholderReplacements(propertySources);

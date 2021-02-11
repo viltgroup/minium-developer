@@ -2,7 +2,11 @@
 <script>
 $('.running-data').show();
 </script>
-<div class="running-data">
+<!--
+  The directive hide-if-remote is not supported here because the id 'runningTest' is used to load a Ladda object.
+  If we use the directive hide-if-remote (ng-if) it will break the JS code.
+-->
+<div class="running-data" ng-hide="hasRemoteProfile">
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
         <a class="btn-floating btn-large red">
             <button id="runningTest" class="ladda-button disabled" data-size="xs" data-style="contract">

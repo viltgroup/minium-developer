@@ -18,11 +18,13 @@
             </section>
             <!-- Main content -->
 
-            <section class="content container container-editor full ">
+            <section class="content container container-editor full">
                 <div ui-view="view1"></div>
 
-
-                <div ui-view="console" id="log"></div>
+                <!-- Added wrapper div to avoid the Multiple directives error -->
+                <div hide-if-remote>
+                    <div ui-view="console" id="log"></div>
+                </div>
             </section>
         </aside>
     </div>

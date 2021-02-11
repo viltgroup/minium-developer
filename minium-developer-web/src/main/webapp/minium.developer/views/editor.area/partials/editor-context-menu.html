@@ -2,13 +2,13 @@
     <ul class="dropdown-menu" role="menu">
 
         <li ng-show="activeEditor.mode === 'JS'">
-            <a href id="evaluator" ng-click="evaluate()" title="{{'messages.title.evaluator' | translate}}">
+            <a href id="evaluator" ng-click="evaluate()" title="{{'messages.title.evaluator' | translate}}" hide-if-remote>
                 <span class="fa fa-binoculars"></span>
                 <span translate="actions.evaluate">Evaluate</span>
             </a>
         </li>
 
-        <li ng-show="(activeEditor.mode === 'FEATURE')">
+        <li ng-show="(activeEditor.mode === 'FEATURE')" hide-if-remote>
             <a href ng-click="launchCucumber()" ng-disabled="testExecuting" title="{{'messages.title.run_test' | translate}}">
                 <span class="fa  fa-play"></span>
                 <span class="action-label" translate="actions.run">Run Test</span>
@@ -23,19 +23,19 @@
 
             </a>
         </li>
-        <li ng-show="activeEditor.mode === 'JS' && recorderIsAvailable">
+        <li ng-show="activeEditor.mode === 'JS' && recorderIsAvailable" hide-if-remote>
             <a href ng-click="pasteRecordedScript()" title="{{'messages.title.recorder' | translate}}">
                 <span class="fa fa-video-camera"></span>
                 <span translate="recorder.import_script">Import Recorded Script</span>
             </a>
         </li>
-        <li ng-show="activeEditor.mode === 'JS'">
+        <li ng-show="activeEditor.mode === 'JS'" hide-if-remote>
             <a href id="selector-gadget" ng-click="activateSelectorGadget()" title="{{'messages.title.selector.gadget' | translate}}">
                 <span class="fa  fa-hand-o-up"></span>
                 <span translate="actions.selector.gadget">Selector Gadget</span>
             </a>
         </li>
-        <li class="divider"></li>
+        <li class="divider" hide-if-remote></li>
         <li >
             <a href ng-click="search()">
                 <i class="fa fa-search"></i>
@@ -45,7 +45,7 @@
             </a>
         </li>
 
-        <li class="dropdown-submenu" ng-show=" (activeEditor.mode === 'FEATURE')">
+        <li class="dropdown-submenu" ng-show="(activeEditor.mode === 'FEATURE')">
             <a href tabindex="-1">
                 <i class="fa fa-download"></i>
                 <span translate="">

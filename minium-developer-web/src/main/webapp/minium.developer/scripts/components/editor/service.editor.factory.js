@@ -2,7 +2,7 @@
  * Creates and initialize an editor instance
  *
  */
-miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider, MiniumMethodsProvider) {
+miniumDeveloper.service('EditorFactory', function($rootScope, editorPreferences, StepProvider, SnippetsProvider, StepSnippetsProvider, MiniumMethodsProvider) {
 
     //init the possible modes
     var modeEnum = {
@@ -33,6 +33,18 @@ miniumDeveloper.service('EditorFactory', function(editorPreferences, StepProvide
 
         // resize the editor
         editor.resize();
+
+        //if is empty and it is in remote, then open console with a different text and in readOnly
+        if (fileName === 'console' && $rootScope.hasRemoteProfile) {
+            editor.setOptions({
+                readOnly: true,
+                highlightActiveLine: false,
+                highlightGutterLine: false
+            });
+            // To hide the cursor - https://stackoverflow.com/a/45619158
+            editor.renderer.$cursorLayer.element.style.display = "none";
+            editor.setValue("// Please select the file (at the file navigator) you want to edit.");
+        }
 
         return {
             editor: editor,

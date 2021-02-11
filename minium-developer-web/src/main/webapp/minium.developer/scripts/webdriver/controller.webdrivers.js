@@ -21,7 +21,8 @@ angular.module('minium.developer')
         };
 
         $scope.activate = function(webdriver) {
-            if (!$scope.isActive(webdriver)) {
+            // Disabled when we are at remote mode
+            if (!$rootScope.hasRemoteProfile && !$scope.isActive(webdriver)) {
                 $scope.selectedBrowser = webdriver;
                 WebDriverFactory.isRecorderAvailableForBrowser(webdriver.name).success(function(isAvailable) {
                     // string to boolean

@@ -326,4 +326,23 @@ angular.module('miniumDeveloper.directives', [])
                 });
             }
         }
+    })
+    // https://stackoverflow.com/a/29010910
+    .directive("hideIfRemote", function(ngIfDirective) {
+        var ngIf = ngIfDirective[0];
+        return {
+            transclude: ngIf.transclude,
+            priority: ngIf.priority - 1,
+            terminal: ngIf.terminal,
+            restrict: ngIf.restrict,
+            link: function(scope, elem, attr) {
+                attr.ngIf = function () {
+                    // hasRemoteProfile is defined at app.js at root scope
+                    // At the editors.html, we use the ng-hide="hasRemoteProfile" because the
+                    // element #runningTest cannot be removed from DOM
+                    return !scope.hasRemoteProfile;
+                }
+                ngIf.link.apply(ngIf, arguments);
+            }
+        }
     });

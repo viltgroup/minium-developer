@@ -16,7 +16,7 @@
             <span class="icon-bar"></span>
           </button>
 
-           <ul class="nav navbar-nav" id="actions">
+           <ul class="nav navbar-nav" id="actions" hide-if-remote>
             <li>
                 <a href title="{{'messages.title.selector.gadget' | translate}}" ng-show="activeEditor.mode === 'JS'" ng-click="activateSelectorGadget()" id="selector-gadget">
                     <span class="fa  fa-hand-o-up"></span>
@@ -30,7 +30,7 @@
                 </a>
             </li>
             <li>
-                <a href title="{{'messages.title.run_test' | translate}}" ng-show=" (activeEditor.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
+                <a href title="{{'messages.title.run_test' | translate}}" ng-show="(activeEditor.mode === 'FEATURE')" ng-click="launchCucumber()" ng-disabled="testExecuting">
                     <span class="fa  fa-play"></span>
                     <span translate="actions.run" class="action-label">Run Test</span>
                 </a>
@@ -47,8 +47,6 @@
       <div id="navbar" class="navbar-collapse collapse">
 
         <!-- Navbar Right Menu -->
-
-
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
@@ -72,7 +70,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="dropdown">
+                <li class="dropdown" hide-if-remote>
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span translate="entity.project">
                         Project
@@ -103,7 +101,7 @@
                     </ul>
                 </li>
                 <!-- RUN options -->
-                <li class="dropdown">
+                <li class="dropdown" hide-if-remote>
                     <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
                         <span translate="actions.run">
                          Run
@@ -194,7 +192,7 @@
                                 </span>
                             </a>
                         </li>
-                        <li class="dropdown-submenu" ng-controller="WebDriversDownloadController">
+                        <li class="dropdown-submenu" ng-controller="WebDriversDownloadController" hide-if-remote>
                             <a tabindex="-1" href="#">
                                 <i class="fa fa-download"></i>
                                     <span translate="actions.dowload.webdrivers">
@@ -220,7 +218,6 @@
                             </ul>
 
                         </li>
-
                     </ul>
                 </li>
                 <!-- OTHER ACTIONS -->
@@ -235,7 +232,7 @@
                                 <span class="ladda-label" translate="actions.help">Help</span>
                             </a>
                         </li>
-                        <li>
+                        <li hide-if-remote>
                             <a href ng-click="clearMarkers()">
                                 <i class="fa fa-eraser"></i>
                                 <span class="ladda-label" translate="actions.clear.markers">

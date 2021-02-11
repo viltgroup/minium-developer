@@ -1,2 +1,6 @@
 server:
   port: 8089
+
+spring:
+  resources:
+    static-locations: file:./minium-developer-web/src/main/webapp

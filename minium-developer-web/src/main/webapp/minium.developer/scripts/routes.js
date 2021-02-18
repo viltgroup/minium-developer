@@ -18,6 +18,7 @@ miniumDeveloper
         function regexpMatches(val) { /*jshint validthis:true */
             return this.pattern.test(val);
         }
+
         $urlMatcherFactoryProvider.type("uriType", {
             encode: valToString,
             decode: valToString,
@@ -28,7 +29,10 @@ miniumDeveloper
         $stateProvider
             .state('global.editorarea', {
                 abstract: true,
-                url: '/editor/{path:uriType}?line',
+                url: '/editor/{project}/{path:uriType}?line',
+                params: {
+                    path: {squash: true, value: null },
+                },
                 views: {
                     'content@': {
                         templateUrl: "minium.developer/views/editor.area/index.html",
@@ -43,8 +47,13 @@ miniumDeveloper
                         $translatePartialLoader.addPart('tree.nav');
                         return $translate.refresh();
                     }]
-
-                }
+                },
+                onEnter: ['$rootScope', '$stateParams',
+                    function($rootScope, $stateParams) {
+                        if (!$stateParams.project) return;
+                        $rootScope.projectName = $stateParams.project;
+                    }
+                ]
             })
             .state('global.editorarea.sub', {
                 url: '',

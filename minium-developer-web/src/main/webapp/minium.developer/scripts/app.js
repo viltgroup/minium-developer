@@ -49,7 +49,7 @@ miniumDeveloper.provider('modalState', function($stateProvider) {
     };
 })
 
-.config(function($httpProvider, $urlRouterProvider, $stateProvider, modalStateProvider, $translateProvider, tmhDynamicLocaleProvider) {
+.config(function($httpProvider, $translateProvider, tmhDynamicLocaleProvider) {
 
     // Initialize angular-translate
     $translateProvider.useStaticFilesLoader({
@@ -63,4 +63,19 @@ miniumDeveloper.provider('modalState', function($stateProvider) {
 
     tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
     tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
+
+    $httpProvider.interceptors.push(['$rootScope', '$stateParams',
+        function($rootScope, $stateParams) {
+            return {
+                // run this function before making requests
+                'request': function(config) {
+                    var projectName = $stateParams.project || $rootScope.projectName;
+                    if (projectName) {
+                        config.headers['X-Project'] = projectName;
+                    }
+                    return config;
+                }
+            };
+        }
+    ]);
 });

@@ -65,7 +65,6 @@ public class LogService {
             }
         }
 
-        @Override
         @PreDestroy
         public void destroy() {
             this.interrupt();

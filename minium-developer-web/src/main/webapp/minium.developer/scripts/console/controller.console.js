@@ -11,7 +11,7 @@
         //////////////////////////////////////////////////////////////////
         // websockets
         //////////////////////////////////////////////////////////////////
-        var socket = new SockJS("/app/ws");
+        var socket = new SockJS("app/ws");
         var stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function(frame) {

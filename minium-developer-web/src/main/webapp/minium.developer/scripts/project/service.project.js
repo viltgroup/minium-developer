@@ -3,31 +3,31 @@
 miniumDeveloper.factory('ProjectFactory', function($http) {
     return {
         create: function(project) {
-            return $http.post("/app/rest/project/new", project);
+            return $http.post("app/rest/project/new", project);
         },
         open: function(path) {
-            return $http.post("/app/rest/project/import", path);
+            return $http.post("app/rest/project/import", path);
         },
         isValid: function(path) {
-            return $http.post("/app/rest/project/valid", path);
+            return $http.post("app/rest/project/valid", path);
         },
         isValidName: function(path) {
-            return $http.post("/app/rest/project/valid/name", path);
+            return $http.post("app/rest/project/valid/name", path);
         },
         hasProject: function() {
-            return $http.get("/app/rest/project/hasProject");
+            return $http.get("app/rest/project/hasProject");
         },
         getProjects: function() {
-            return $http.get("/app/rest/project/");
+            return $http.get("app/rest/project/");
         },
         getProjectName: function() {
-            return $http.get("/app/rest/project/name");
+            return $http.get("app/rest/project/name");
         },
         getDependencies: function() {
-            return $http.get("/app/rest/project/dependencies");
+            return $http.get("app/rest/project/dependencies");
         },
         updateDependencies: function() {
-            return $http.get("/app/rest/project/dependencies/update");
+            return $http.get("app/rest/project/dependencies/update");
         }
     };
 });

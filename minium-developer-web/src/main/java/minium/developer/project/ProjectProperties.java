@@ -1,5 +1,7 @@
 package minium.developer.project;
 
+import com.google.common.base.Preconditions;
+
 import java.io.File;
 
 public class ProjectProperties {
@@ -7,12 +9,18 @@ public class ProjectProperties {
     private File dir = new File(".");
     private File resourcesDir;
 
+    ProjectProperties() { }
+
+    public ProjectProperties(File dir) {
+        this.dir = dir;
+    }
+
     public void setDir(File dir) {
         this.dir = dir;
     }
 
     public File getDir() {
-        return dir;
+        return Preconditions.checkNotNull(dir);
     }
 
     public void setResourcesDir(File resourcesDir) {
@@ -35,5 +43,9 @@ public class ProjectProperties {
     public boolean isAutomatorProject() {
         // TODO for now, just checks if main.js exists
         return new File(dir, "main.js").exists();
+    }
+
+    public boolean isValidProject() {
+        return this.dir != null;
     }
 }

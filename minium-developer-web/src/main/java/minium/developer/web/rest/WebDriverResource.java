@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import minium.developer.config.WebDriversProperties.DeveloperWebDriverProperties
 import minium.developer.service.WebDriverService;
 import minium.web.DelegatorWebDriver;
 
+@Profile("!remote")
 @Controller
 @RequestMapping("/app/rest/webdrivers")
 public class WebDriverResource {

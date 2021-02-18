@@ -1,7 +1,7 @@
 'use strict';
 
 miniumDeveloper.factory('FS', function($resource) {
-    return $resource("/app/rest/fs", {
+    return $resource("app/rest/fs", {
         path: "/"
     }, {
         saving:{

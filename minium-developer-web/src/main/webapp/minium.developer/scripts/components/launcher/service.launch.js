@@ -4,28 +4,28 @@ miniumDeveloper.factory('launcherService', function($http) {
             var headers = {
                 'key': socket_key
             };
-            return $http.post("/app/rest/launch", launchParams, {
+            return $http.post("app/rest/launch", launchParams, {
                 headers: headers
             });
         },
         dotcucumber: function() {
-            return $http.get("/app/rest/dry-run", {
+            return $http.get("app/rest/dry-run", {
                 params: {
                     dotcucumber: true
                 }
             });
         },
         autocomplete: function(autocompleteReq) {
-            return $http.post("/app/rest/autocomplete", autocompleteReq);
+            return $http.post("app/rest/autocomplete", autocompleteReq);
         },
         stop: function() {
-            return $http.post("/app/rest/stop", {});
+            return $http.post("app/rest/stop", {});
         },
         isRunning: function() {
-            return $http.get("/app/rest/isRunning");
+            return $http.get("app/rest/isRunning");
         },
         stepDefinitions: function() {
-            return $http.get("/app/rest/stepDefinitions");
+            return $http.get("app/rest/stepDefinitions");
         }
     };
 })

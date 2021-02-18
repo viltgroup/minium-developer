@@ -29,10 +29,13 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
         });
     }
 
+    // Disabled when we are at remote mode
     var getAvailableWebdrivers = function() {
-        WebDriverFactory.getAvailableWebdrivers().then(function(response) {
-            $rootScope.availableWebDrivers = response.data;
-        })
+        if (!$rootScope.hasRemoteProfile) {
+            WebDriverFactory.getAvailableWebdrivers().then(function(response) {
+                $rootScope.availableWebDrivers = response.data;
+            });
+        }
     }
 
     /////////////////////////////////////////////////////////////////

@@ -2,6 +2,7 @@ variables:
   DOMAIN_SUFFIX: minium-developer.test
   MAVEN_EXTRA_ARGS: -Pprod,generate-electrons,generate-docs -DskipITs -pl !minium-developer-e2e-tests --settings $MAVEN_CUSTOM_CONFIGS/engineering.team/engineering-settings.xml
   MAVEN_RELEASE_EXTRA_ARGS: -DpreparationGoals="clean"
+  JAVA_HOME: /usr/lib/jvm/jdk8
 
 stages:
   - build

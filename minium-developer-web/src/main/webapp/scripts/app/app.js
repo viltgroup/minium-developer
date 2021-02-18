@@ -6,7 +6,7 @@ angular.module('miniumdevApp', [
     'minium.developer'
 ])
 
-.run(function($rootScope, $location, $http, $state, $translate, Language, ENV, VERSION, ProjectFactory, ProjectService,openTab) {
+.run(function($rootScope, $location, $http, $state, $translate, $window, Language, ENV, VERSION, ProjectFactory, ProjectService,openTab) {
     $rootScope.ENV = ENV;
     $rootScope.VERSION = VERSION;
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
@@ -46,6 +46,11 @@ angular.module('miniumdevApp', [
             ProjectService.open($.cookie('project'),cookieTabs);
         }
     });
+
+    // Loads the Profile remote by checking if we are at root context path or not
+    // https://stackoverflow.com/a/44664031
+    // https://stackoverflow.com/a/8100532
+    $rootScope.hasRemoteProfile = $window.location.pathname != '/' ? true : false;
 })
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {

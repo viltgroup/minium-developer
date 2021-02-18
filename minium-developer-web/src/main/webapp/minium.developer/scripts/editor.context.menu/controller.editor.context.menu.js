@@ -9,9 +9,12 @@
     function ContextMenuEditorController($rootScope, $scope, $translate, $state, RecorderService, WebDriverFactory) {
 
         $scope.recorderIsAvailable = false;
-        WebDriverFactory.isRecorderAvailableForBrowser("chrome").success(function(isAvailable) {
-            $scope.recorderIsAvailable = isAvailable;
-        });
+        // Disabled when we are at remote mode
+        if (!$rootScope.hasRemoteProfile) {
+            WebDriverFactory.isRecorderAvailableForBrowser("chrome").success(function(isAvailable) {
+                $scope.recorderIsAvailable = isAvailable;
+            });
+        }
 
         $scope.test = function() {
             $scope.previewFeatureWithExternalCucumberData();

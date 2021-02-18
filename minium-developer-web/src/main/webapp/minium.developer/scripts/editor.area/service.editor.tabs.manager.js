@@ -261,7 +261,8 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     /////////////////////////////////////////////////////////////////
     MiniumEditor.prototype.resizeEditors = function(containerHeight) {
         var editor = null;
-        var margin = 80;
+        // Closes the gap of the console log (when hiding) are at remote mode
+        var margin = $rootScope.hasRemoteProfile ? 40 : 80;
         var containerHeight
         if ($(window).width() >= 768) {
             containerHeight = $(window).height() - $('#toolbar').height() - $('.navbar').height() - margin;

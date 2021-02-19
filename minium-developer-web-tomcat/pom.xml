@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>minium-developer</artifactId>
+        <groupId>io.vilt.minium.developer</groupId>
+        <version>2.3.1-SNAPSHOT</version>
+        <relativePath>../minium-developer-parent</relativePath>
+    </parent>
+
+    <artifactId>minium-developer-web-tomcat</artifactId>
+    <name>Minium Developer for Tomcat</name>
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.vilt.minium.developer</groupId>
+            <artifactId>minium-developer-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>minium-developer</finalName>
+    </build>
+
+</project>

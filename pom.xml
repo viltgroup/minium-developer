@@ -130,6 +130,7 @@
 		<module>minium-developer-e2e-tests</module>
 		<module>minium-developer-docs</module>
 		<module>minium-developer-parent</module>
+		<module>minium-developer-web-tomcat</module>
 	</modules>
 
 	<build>

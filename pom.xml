@@ -5,12 +5,12 @@
 	<parent>
 		<groupId>io.vilt.minium</groupId>
 		<artifactId>minium-parent</artifactId>
-		<version>2.3.0</version>
+		<version>2.5.0</version>
 	</parent>
 
 	<groupId>io.vilt.minium.developer</groupId>
 	<artifactId>minium-developer</artifactId>
-	<version>2.3.1-SNAPSHOT</version>
+	<version>2.5.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Developer</name>
@@ -50,33 +50,33 @@
        		<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-automator</artifactId>
-				<version>2.3.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-fs</artifactId>
-				<version>2.3.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
-      <dependency>
-          <groupId>io.vilt.minium.developer</groupId>
-          <artifactId>minium-cucumber-reporting</artifactId>
-		      <version>2.3.1-SNAPSHOT</version>
-      </dependency>
+			<dependency>
+				<groupId>io.vilt.minium.developer</groupId>
+				<artifactId>minium-cucumber-reporting</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-web</artifactId>
-				<version>2.3.1-SNAPSHOT</version>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-io</groupId>
 				<artifactId>commons-io</artifactId>
 				<version>${commons-io.version}</version>
 			</dependency>
-	    <dependency>
-	      <groupId>commons-codec</groupId>
-	      <artifactId>commons-codec</artifactId>
-	      <version>${commons-codec.version}</version>
-	    </dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>
 			<dependency>
 	            <groupId>javax.inject</groupId>
 	            <artifactId>javax.inject</artifactId>
@@ -129,8 +129,8 @@
 		<module>minium-developer-bundle</module>
 		<module>minium-developer-e2e-tests</module>
 		<module>minium-developer-docs</module>
-		<module>minium-developer-parent</module>
 		<module>minium-developer-web-tomcat</module>
+		<module>minium-developer-parent</module>
 	</modules>
 
 	<build>

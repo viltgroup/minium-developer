@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.SessionCookieConfig;
 
 import org.apache.catalina.Context;
 import org.apache.commons.lang3.SystemUtils;
@@ -40,7 +41,7 @@ import minium.developer.fs.config.FileSystemConfiguration;
 @ComponentScan
 @EnableAutoConfiguration
 @Import(FileSystemConfiguration.class)
-public class Application implements EmbeddedServletContainerCustomizer, ServletContextInitializer {
+public class Application implements EmbeddedServletContainerCustomizer {
 
     private final static Logger log = LoggerFactory.getLogger(Application.class);
 
@@ -127,10 +128,5 @@ public class Application implements EmbeddedServletContainerCustomizer, ServletC
         } catch (BeansException e) {
             // not a big deal
         }
-    }
-
-    @Override
-    public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.getSessionCookieConfig().setName("minium.developer.sessionId");
     }
 }

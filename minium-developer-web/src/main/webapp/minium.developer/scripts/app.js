@@ -63,16 +63,22 @@ miniumDeveloper.provider('modalState', function($stateProvider) {
     tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js')
     tmhDynamicLocaleProvider.useCookieStorage('NG_TRANSLATE_LANG_KEY');
 
-    $httpProvider.interceptors.push(['$rootScope', '$stateParams',
-        function($rootScope, $stateParams) {
+    $httpProvider.interceptors.push(['$rootScope', '$stateParams', '$q', '$window',
+        function($rootScope, $stateParams, $q, $window) {
             return {
                 // run this function before making requests
-                'request': function(config) {
+                request: function(config) {
                     var projectName = $stateParams.project || $rootScope.projectName;
                     if (projectName) {
                         config.headers['X-Project'] = projectName;
                     }
                     return config;
+                },
+                responseError: function(response) {
+                    if (response.status === 401) {
+                        $window.location.href = "/#/login";
+                    }
+                    return $q.reject(response);
                 }
             };
         }

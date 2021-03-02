@@ -479,7 +479,9 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
 
     function addEventListeners(editor, fileName, that) {
 
-        specificHandlers(fileName, editor, that);
+        if (!$rootScope.hasRemoteProfile) {
+            specificHandlers(fileName, editor, that);
+        }
 
         if (fileName !== "") {
             // add listener to input

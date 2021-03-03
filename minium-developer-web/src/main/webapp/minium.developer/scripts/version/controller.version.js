@@ -4,9 +4,9 @@
     angular.module('minium.developer')
         .controller('VersionController', VersionController);
 
-    VersionController.$inject = ['$scope', '$modalInstance', 'VersionService'];
+    VersionController.$inject = ['$rootScope', '$scope', '$modalInstance', 'VersionService'];
 
-    function VersionController($scope, $modalInstance, VersionService) {
+    function VersionController($rootScope, $scope, $modalInstance, VersionService) {
 
         /**
          * Get Minium Developer version
@@ -23,24 +23,28 @@
             $scope.$dismiss();
         };
 
-        /**
-         * Check for a new version of minium
-         */
-        $scope.hasNewVersion = true;
-        var checkForNewVersion = function() {
-            VersionService.checkForNewVersion().then(function(response) {
-                console.log(response.data)
-                var version = response.data;
-                if (version.hasNewVersion === false) {
-                    $scope.hasNewVersion = false;
-                } else {
-                    $scope.hasNewVersion = true;
-                    $scope.linkForNewVersion = version.linkForNewVersion;
-                }
-            });
-        }
+        if ($rootScope.hasRemoteProfile) {
+            $scope.hasNewVersion = false;
+        } else {
+            /**
+             * Check for a new version of minium
+             */
+            $scope.hasNewVersion = true;
+            var checkForNewVersion = function() {
+                VersionService.checkForNewVersion().then(function(response) {
+                    console.log(response.data)
+                    var version = response.data;
+                    if (version.hasNewVersion === false) {
+                        $scope.hasNewVersion = false;
+                    } else {
+                        $scope.hasNewVersion = true;
+                        $scope.linkForNewVersion = version.linkForNewVersion;
+                    }
+                });
+            }
 
-        checkForNewVersion();
+            checkForNewVersion();
+        }
     }
 
 })();

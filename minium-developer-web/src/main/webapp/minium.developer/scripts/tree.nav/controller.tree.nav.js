@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('minium.developer')
-    .controller('TreeNavController', function($scope, $translate, $filter, $state, $modal, $q, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager) {
+    .controller('TreeNavController', function($rootScope, $scope, $translate, $filter, $state, $modal, $q, $window, FS, TreeNav, ProjectFactory, ProjectService, FileManager) {
         var $translate = $filter('translate');
         //data for the tree
         $scope.dataForTheTree = [];
@@ -144,21 +144,30 @@ angular.module('minium.developer')
         $scope.hasProject = false;
         var projectName;
         var loadProject = function() {
-            ProjectFactory.hasProject().success(function(data) {
-                if (data !== '') {
+            if (!$rootScope.hasRemoteProfile) {
+                ProjectFactory.hasProject().success(function(data) {
+                    if (data) {
+                        projectName = data;
+                        $scope.hasProject = true;
+                    } else {
+                        $.removeCookie('openTabs');
+                        toastr.info($translate('messages.error.no_project_defined'))
+                            //remove all the open tab int the cookie
+                            //because there's no project defined
+                    }
+                    addProjectToTree(projectName);
+                    asyncLoad($scope.fs.current);
+                }).error(function(data, status) {
+                    toastr.error(data)
+                });
+            } else {
+                projectName = $rootScope.projectName;
+                if (projectName) {
                     $scope.hasProject = true;
-                    projectName = data;
-                } else {
-                    $.removeCookie('openTabs');
-                    toastr.info($translate('messages.error.no_project_defined'))
-                        //remove all the open tab int the cookie
-                        //because there's no project defined
+                    addProjectToTree(projectName);
+                    asyncLoad($scope.fs.current);
                 }
-                addProjectToTree(projectName);
-                asyncLoad($scope.fs.current);
-            }).error(function(data, status) {
-                toastr.error(data)
-            });
+            }
         }
 
         //////////////////////////////////////////////////////////////////

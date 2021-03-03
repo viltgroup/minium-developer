@@ -9,6 +9,12 @@ angular.module('miniumdevApp', [
 .run(function($rootScope, $location, $http, $state, $translate, $window, Language, ENV, VERSION, ProjectFactory, ProjectService,openTab) {
     $rootScope.ENV = ENV;
     $rootScope.VERSION = VERSION;
+
+    // Loads the Profile remote by checking if we are at root context path or not
+    // https://stackoverflow.com/a/44664031
+    // https://stackoverflow.com/a/8100532
+    $rootScope.hasRemoteProfile = $window.location.pathname != '/' ? true : false;
+
     $rootScope.$on('$stateChangeStart', function(event, toState, toStateParams) {
         $rootScope.toState = toState;
         $rootScope.toStateParams = toStateParams;
@@ -40,25 +46,17 @@ angular.module('miniumdevApp', [
     // hack: to stop a refresh of the page
     // on loading the project from a cookie
 
-    ProjectFactory.hasProject().success(function(data) {
-        if ($.cookie('project') != undefined && !(data !== '')) {
-            var cookieTabs = openTab.load();
-            ProjectService.open($.cookie('project'),cookieTabs);
-        }
-    });
-
-    // Loads the Profile remote by checking if we are at root context path or not
-    // https://stackoverflow.com/a/44664031
-    // https://stackoverflow.com/a/8100532
-    $rootScope.hasRemoteProfile = $window.location.pathname != '/' ? true : false;
+    if (!$rootScope.hasRemoteProfile) {
+        ProjectFactory.hasProject().success(function(data) {
+            if ($.cookie('project') != undefined && !(data !== '')) {
+                var cookieTabs = openTab.load();
+                ProjectService.open($.cookie('project'),cookieTabs);
+            }
+        });
+    }
 })
 
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, $locationProvider, $translateProvider, tmhDynamicLocaleProvider, httpRequestInterceptorCacheBusterProvider) {
-
-    //enable CSRF
-    $httpProvider.defaults.xsrfCookieName = 'CSRF-TOKEN';
-    $httpProvider.defaults.xsrfHeaderName = 'X-CSRF-TOKEN';
-
     //Cache everything except rest api requests
     httpRequestInterceptorCacheBusterProvider.setMatchlist([/.*api.*/, /.*protected.*/], true);
 

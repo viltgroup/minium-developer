@@ -21,6 +21,7 @@ var NavbarController = function($rootScope, $scope, $translate, $filter, $locati
      * Check for a new version of minium
      */
     var checkForNewVersion = function() {
+        if ($rootScope.hasRemoteProfile) return;
         VersionService.checkForNewVersion().then(function(response) {
             var version = response.data;
             if (version.hasNewVersion === true) {

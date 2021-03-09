@@ -197,7 +197,8 @@
             "delete": "Are you sure you want to delete this item? \n {{uri}}",
             "saved": "File saved",
             "error": "The file contains {{data}}",
-            "cannot.be.saved": "This file cannot be saved"
+            "cannot.be.saved": "This file cannot be saved",
+            "forbidden": "No permissions to save file"
         },
         "no_project_defined:": "No project defined!! Please define a project!",
         "tooltip": {

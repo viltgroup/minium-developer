@@ -648,12 +648,17 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
             editor.getSession().clearBreakpoints();
             var data = response.data;
             //get the first number on the string && hightlightLine the
-            var line = data.message.match(/\d+/) || 0;
-            _this.hightlightLine((line - 1), editor, "failed");
 
-            toastr.error(data.message, _this.$translate('messages.files.error', {
-                data: data.exception
-            }))
+            if (response.status == 403) {
+                toastr.error(_this.$translate('messages.files.forbidden'));
+            } else {
+                var line = data.message.match(/\d+/) || 0;
+                _this.hightlightLine((line - 1), editor, "failed");
+
+                toastr.error(data.message, _this.$translate('messages.files.error', {
+                    data: data.exception
+                }))
+            }
         });
 
     };

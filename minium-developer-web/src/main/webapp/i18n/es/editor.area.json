@@ -202,7 +202,8 @@
             "delete": "¿Está seguro que desea eliminar éste item? \n {{uri}}",
             "saved": "Archivo salvado",
             "error": "El archivo contiene {{data}}",
-            "cannot.be.saved": "Este archivo no se puede guardar"
+            "cannot.be.saved": "Este archivo no se puede guardar",
+            "forbidden": "Sin permisos para guardar el archivo"
         },
         "no_project_defined:": "No hay ningún proyecto definido!! Por favor defina un proyecto!",
         "tooltip": {

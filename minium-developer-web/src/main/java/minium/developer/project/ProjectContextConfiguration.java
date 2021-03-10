@@ -124,8 +124,11 @@ public class ProjectContextConfiguration {
         @Bean
         @Autowired
         @RequestScope
-        public FileSystemService fileSystemService(ProjectProperties projectProperties) {
-            return new FileSystemService(projectProperties.getResourcesDir());
+        public FileSystemService fileSystemService(ProjectProperties projectProperties, HttpServletRequest req) {
+            String projectName = req.getHeader(PROJECT_HEADER) == null ?
+                req.getParameter("project") :
+                req.getHeader(PROJECT_HEADER);
+             return new FileSystemService(projectName, projectProperties.getResourcesDir());
         }
 
         @Autowired

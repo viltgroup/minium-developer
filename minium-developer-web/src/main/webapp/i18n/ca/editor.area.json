@@ -202,7 +202,8 @@
             "delete": "Està segur que vol eliminar aquest element? \n {{uri}}",
             "saved": "Fitxer guardat",
             "error": "El fitxer conté {{data}}",
-            "cannot.be.saved": "Aquest fitxer no es pot guardar"
+            "cannot.be.saved": "Aquest fitxer no es pot guardar",
+            "forbidden": "No hi ha permisos per desar el fitxer"
         },
         "no_project_defined:": "No hi ha projecte definit!! Si us plau defineix un projecte!",
         "tooltip": {

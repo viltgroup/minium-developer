@@ -30,6 +30,8 @@ import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,6 +41,7 @@ import minium.internal.Throwables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+@Service
 public class FileSystemService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FileSystemService.class);
@@ -46,6 +49,7 @@ public class FileSystemService {
     @Autowired(required = false)
     private List<AutoFormatter> autoFormatters = Lists.newArrayList();
 
+    private String projectName;
     private File baseDir = new File("src/test/resources");
 
     public FileSystemService() {
@@ -55,6 +59,12 @@ public class FileSystemService {
         this.baseDir = baseDir;
     }
 
+    public FileSystemService(String projectName, File baseDir) {
+        this.projectName = projectName;
+        this.baseDir = baseDir;
+    }
+
+    @PreAuthorize("@fileSystemPermissionService.canRead(@fileSystemService.projectName)")
     public FileProps getFileProps(String baseUrl, String path) throws IOException {
         File file = getFile(path);
         if (!file.exists())
@@ -63,6 +73,7 @@ public class FileSystemService {
         return extractFileProps(baseUrl, file);
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canRead(@fileSystemService.projectName)")
     public Set<FileProps> list(String baseUrl, String path) throws IOException {
         File file = getFile(path);
         if (!file.exists())
@@ -83,6 +94,7 @@ public class FileSystemService {
         return fileProps;
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canRead(@fileSystemService.projectName)")
     public Set<FileProps> listAll(String baseUrl, String path) throws IOException {
         String property = System.getProperty("user.home");
         File file;
@@ -108,12 +120,14 @@ public class FileSystemService {
         return fileProps;
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canRead(@fileSystemService.projectName)")
     public FileContent getFileContent(String baseUrl, String path) throws IOException, URISyntaxException {
         FileSystemResource resource = get(path);
         File file = resource.getFile();
         return extractFileContent(baseUrl, file);
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public FileProps create(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
         File file = getFile(path);
         if (file.exists()) {
@@ -125,6 +139,7 @@ public class FileSystemService {
         }
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public FileProps createFolder(String baseUrl, @RequestBody String path) throws IOException, URISyntaxException {
         File theDir = getFile(path);
         FileProps props = null;
@@ -146,6 +161,7 @@ public class FileSystemService {
         return props;
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public void delete(String path) throws IOException {
         File file = getFile(path);
         if (!file.exists())
@@ -154,6 +170,7 @@ public class FileSystemService {
             new IllegalOperationException();
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public void deleteDirectory(String path) throws IOException {
         File directory = getFile(path);
 
@@ -169,6 +186,7 @@ public class FileSystemService {
         }
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public FileProps renameFile(String baseUrl, FileDTO fileDTO) throws IOException {
         File file = getFile(fileDTO.getOldName());
         File newFile = new File(baseDir, fileDTO.getNewName());
@@ -185,6 +203,7 @@ public class FileSystemService {
         return props;
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public FileContent save(String baseUrl, @RequestBody FileContent fileContent) throws IOException {
         FileProps fileProps = fileContent.getFileProps();
         File file = getFile(fileProps.getRelativeUri().getPath());
@@ -201,6 +220,7 @@ public class FileSystemService {
         return extractFileContent(baseUrl, file);
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canRead(@fileSystemService.projectName)")
     public Set<FileProps> search(String baseUrl, String path, @RequestParam("q") String query) throws IOException {
         File file = getFile(path.endsWith("/") ? path.substring(0, path.length() - 1) : path);
         String antQuery = format("file://%s/**/*", file.getAbsolutePath());
@@ -286,6 +306,7 @@ public class FileSystemService {
         return fileProps;
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canWrite(@fileSystemService.projectName)")
     public void recursiveDelete(File file) throws IOException {
         if (file.isDirectory()) {
             // directory is empty, then delete it
@@ -314,6 +335,7 @@ public class FileSystemService {
         }
     }
 
+    @PreAuthorize("@fileSystemPermissionService.canRead(@fileSystemService.projectName)")
     public Set<FileProps> searchContent(String baseUrl, String query) throws IOException {
 
         Set<FileProps> fileProps = Sets.newHashSet();
@@ -359,5 +381,13 @@ public class FileSystemService {
 
     public void setBaseDir(File baseDir) {
         this.baseDir = baseDir;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

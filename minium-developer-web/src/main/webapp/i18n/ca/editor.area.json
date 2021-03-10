@@ -46,7 +46,10 @@
         "selector.gadget": "Seleccionar elements amb el selector de dispositiu",
         "selector.gadget.text": "Seleccionar elements amb el selector de dispositiu genera una expressió selectora CSS.",
         "complete.stackTrace": "Veure registre complet",
-        "parsed.stackTrace": "Veure registre parcial"
+        "parsed.stackTrace": "Veure registre parcial",
+        "save.confirm": "Confirmeu Desa",
+        "save.confirm.text": "Aquests canvis es desaran de forma remota a Minium Manager - Projecte '{{projectName}}'.",
+        "save.confirm.check": "No em demaneu més confirmació d’aquest projecte"
     },
     "webdriver": {
         "new": "Creació de un nou WebDriver",
@@ -203,6 +206,7 @@
             "saved": "Fitxer guardat",
             "error": "El fitxer conté {{data}}",
             "cannot.be.saved": "Aquest fitxer no es pot guardar",
+            "not.saved": "El fitxer no s'ha desat",
             "forbidden": "No hi ha permisos per desar el fitxer"
         },
         "no_project_defined:": "No hi ha projecte definit!! Si us plau defineix un projecte!",

@@ -80,6 +80,7 @@
             "delete": "Delete",
             "edit": "Edit",
             "save": "Save",
+            "save.remote": "Save remotely",
             "view": "View",
             "close": "Close",
             "create": "Create",

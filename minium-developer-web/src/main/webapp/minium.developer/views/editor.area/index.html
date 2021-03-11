@@ -48,3 +48,26 @@
         <button type="submit" class="btn btn-primary" ng-click="accept()" translate="entity.action.accept">Accept</button>
     </div>
 </script>
+
+<!-- ./wrapper -->
+<script type="text/ng-template" id="confirmSave.html">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" translate="labels.save.confirm">Confirm Save</h4>
+    </div>
+    <div class="modal-body">
+        <p translate="labels.save.confirm.text" translate-values="{projectName: '{{ projectName }}'}">
+            These changes will be saved remotely on Minium Manager - Project '{{projectName}}'.
+        </p>
+
+        <span>
+            <input id="editor-soft-tabs" name="softTabs" ng-model="rememberCheck" type="checkbox" value="true" class="ng-pristine ng-valid">
+            <span class="ng-scope" translate="labels.save.confirm.check">Don't ask me again to confirm on this project</span>
+        </span>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()" translate="entity.action.cancel">Cancel</button>
+        <button type="submit" class="btn btn-primary" ng-click="save()" translate="entity.action.save.remote">Save remotely</button>
+    </div>
+</script>

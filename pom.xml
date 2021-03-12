@@ -10,7 +10,7 @@
 
 	<groupId>io.vilt.minium.developer</groupId>
 	<artifactId>minium-developer</artifactId>
-	<version>2.5.1-SNAPSHOT</version>
+	<version>2.5.3-RC1</version>
 	<packaging>pom</packaging>
 
 	<name>Minium Developer</name>
@@ -19,7 +19,7 @@
 		<connection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-developer.git</connection>
 		<developerConnection>scm:git:git@artemis.vilt-group.com:engineering.minium/minium-developer.git</developerConnection>
 		<url>https://artemis.vilt-group.com/engineering.minium/minium-developer</url>
-		<tag>HEAD</tag>
+		<tag>minium-developer-2.5.3-RC1</tag>
 	</scm>
 
 	<properties>

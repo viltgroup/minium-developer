@@ -152,8 +152,8 @@ test uat:
   variables:
     MINIUM_MANAGER_PROJECT_ID: "100"
     MINIUM_REPORT_PATH: $CI_PROJECT_DIR/minium-report-uat.pdf
-  dependencies:
-    - deploy uat
+  #dependencies:
+  #  - deploy uat
   environment:
     name: uat
   artifacts:

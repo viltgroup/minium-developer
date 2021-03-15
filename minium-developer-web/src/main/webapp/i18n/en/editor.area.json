@@ -41,7 +41,10 @@
         "selector.gadget": "Pick elements with Selector Gadget",
         "selector.gadget.text": "Pick elements with Selector Gadget to generate a CSS selector expression.",
         "complete.stackTrace": "View complete log",
-        "parsed.stackTrace": "View parsed log"
+        "parsed.stackTrace": "View parsed log",
+        "save.confirm": "Confirm Save",
+        "save.confirm.text": "These changes will be saved remotely on Minium Manager - Project '{{projectName}}'.",
+        "save.confirm.check": "Don't ask me again to confirm on this project"
     },
     "webdriver": {
         "new": "Create a new WebDriver",
@@ -198,6 +201,7 @@
             "saved": "File saved",
             "error": "The file contains {{data}}",
             "cannot.be.saved": "This file cannot be saved",
+            "not.saved": "The file has not been saved",
             "forbidden": "No permissions to save file"
         },
         "no_project_defined:": "No project defined!! Please define a project!",

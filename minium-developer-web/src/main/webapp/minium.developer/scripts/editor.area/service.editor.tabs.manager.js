@@ -5,7 +5,7 @@
  */
 'use strict';
 
-miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter, $modal, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory, SelectorGadgetService) {
+miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter, $modal, $cookieStore, EvalService, TabFactory, EditorFactory, editorPreferences, openTab, WebDriverFactory, SelectorGadgetService) {
     var MiniumEditor = function() {}
 
     //////////////////////////////////////////////////////////////////
@@ -620,10 +620,43 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
     //  when we save the file we update the content of the editor and
     //  we don't reset the undo manager.
     //
+    // Also, for remote, we confirm if the user want to save the file
+    //  remotely.
+    //
     // Parameters:
     //   editor - instance of the editor
     //////////////////////////////////////////////////////////////////
     function saveFile(editor, that) {
+        var _this = that;
+        if ($rootScope.hasRemoteProfile) {
+            var saveProjectConfirmChecked = $cookieStore.get('saveProjectConfirmChecked');
+            var saveProjectConfirmCheckedArray = saveProjectConfirmChecked ?
+                saveProjectConfirmChecked.split(',') : [];
+
+            if (saveProjectConfirmCheckedArray.indexOf($rootScope.projectName) == -1) {
+                var modalSaveConfirm = $modal.open({
+                    templateUrl: 'confirmSave.html',
+                    controller: 'EditorSaveConfirmCtrl'
+                });
+
+                modalSaveConfirm.result['then'](function() {
+                    // Saved
+                    saveFileAux(editor, that);
+                    $rootScope.activeEditor.instance.focus();
+                }, function() {
+                    // Dismiss
+                    toastr.error(_this.$translate('messages.files.not.saved'));
+                    $rootScope.activeEditor.instance.focus();
+                });
+            } else {
+                saveFileAux(editor, that);
+            }
+        } else {
+            saveFileAux(editor, that);
+        }
+    };
+
+    function saveFileAux(editor, that) {
         var _this = that;
         //flag for the even listener don't mark as dirty the editor
         _this.ignore = true;
@@ -633,6 +666,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
             toastr.error(_this.$translate('messages.files.cannot.be.saved'))
             return;
         }
+
         var item = _this.scope.activeEditor.file;
         item.content = editor.getSession().getValue();
 
@@ -660,8 +694,7 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
                 }))
             }
         });
-
-    };
+    }
 
     //TODO
     function createNewFile(editor, that) {
@@ -904,7 +937,5 @@ miniumDeveloper.factory('MiniumEditor', function($rootScope, $translate, $filter
         scope.launch(launchParams);
     };
 
-
     return new MiniumEditor;
-
 });

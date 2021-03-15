@@ -46,7 +46,10 @@
         "selector.gadget": "Obtener elementos con el selector de dispositivos",
         "selector.gadget.text": "Obtener elementos con el selector de dispositivo generando un CSS del selector de expresión.",
         "complete.stackTrace": "Ver registro completo",
-        "parsed.stackTrace": "Ver registro parcial"
+        "parsed.stackTrace": "Ver registro parcial",
+        "save.confirm": "Confirmar Guardar",
+        "save.confirm.text": "Estos cambios se guardarán de forma remota en Minium Manager - Proyecto '{{projectName}}'.",
+        "save.confirm.check": "No me vuelvas a pedir para confirmar este proyecto."
     },
     "webdriver": {
         "new": "Crear un nuevo WebDriver",
@@ -203,6 +206,7 @@
             "saved": "Archivo salvado",
             "error": "El archivo contiene {{data}}",
             "cannot.be.saved": "Este archivo no se puede guardar",
+            "not.saved": "El archivo no se ha guardado",
             "forbidden": "Sin permisos para guardar el archivo"
         },
         "no_project_defined:": "No hay ningún proyecto definido!! Por favor defina un proyecto!",

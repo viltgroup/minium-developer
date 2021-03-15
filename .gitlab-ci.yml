@@ -101,20 +101,6 @@ deploy manual review:
     url: http://$CI_COMMIT_REF_SLUG.$DOMAIN_SUFFIX
     on_stop: stop deploy manual review
 
-deploy uat:
-  <<: *deploy-template
-  only:
-    - /^minium-developer-.*-RC\d+$/
-  variables:
-    APP: $CI_PROJECT_NAME-uat
-    APP_HOST: uat.$DOMAIN_SUFFIX
-    APP_VERSION: uat
-  environment:
-    name: uat
-    url: http://uat.$DOMAIN_SUFFIX
-  dependencies:
-    - build complete
-
 stop deploy manual staging:
   <<: *stop-deploy-manual-template
   only:
@@ -136,31 +122,6 @@ stop deploy manual review:
   environment:
     name: review/$CI_COMMIT_REF_NAME
     action: stop
-
-#############################################################
-# Test
-#############################################################
-
-test uat:
-  stage: test
-  tags:
-    - docker
-  only:
-    - /^minium-developer-.*-RC\d+$/
-  script:
-    - sh ./scripts/launch-minium-manager-job.sh
-  variables:
-    MINIUM_MANAGER_PROJECT_ID: "100"
-    MINIUM_REPORT_PATH: $CI_PROJECT_DIR/minium-report-uat.pdf
-  dependencies:
-    - deploy uat
-  environment:
-    name: uat
-  artifacts:
-    name: "$CI_BUILD_REF_NAME/$CI_BUILD_ID"
-    when: on_failure
-    paths:
-      - minium-report-uat.pdf
 
 #############################################################
 # Prepare Release

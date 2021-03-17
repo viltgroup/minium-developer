@@ -1,13 +1,21 @@
+var keys = require("minium/keys");
+
 Given(/^I'm at (.*)$/, function (url) {
   browser.get(url);
 });
 
+When(/^I accept the cookies$/, function() {
+  var cookiesFrame = $("iframe").frames();
+  if (cookiesFrame.checkForExistence("immediate")) {
+    cookiesFrame.find("#introAgreeButton").click();
+  }
+});
+
 When(/^I search for (.*)$/, function (query) {
   var searchbox = $(":input").withName("q");
-  var button    = $("button").withAttr("aria-label", "Google Search");
 
   searchbox.fill(query);
-  button.click();
+  searchbox.sendKeys(keys.ENTER);
 });
 
 Then(/^a link for (.*) is displayed$/, function (linkUrl) {

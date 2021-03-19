@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import minium.project.generator.web.rest.dto.ProjectDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,6 @@ import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.ProjectProperties;
 import minium.developer.project.Workspace;
 import minium.developer.service.ProjectService;
-import minium.developer.web.rest.dto.ProjectDTO;
 
 @Controller
 @RequestMapping("/app/rest")

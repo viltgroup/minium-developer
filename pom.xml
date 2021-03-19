@@ -64,6 +64,11 @@
 			</dependency>
 			<dependency>
 				<groupId>io.vilt.minium.developer</groupId>
+				<artifactId>minium-project-generator</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.vilt.minium.developer</groupId>
 				<artifactId>minium-developer-web</artifactId>
 				<version>${project.version}</version>
 			</dependency>
@@ -126,6 +131,7 @@
 		<module>minium-developer-web</module>
 		<module>minium-developer-fs</module>
 		<module>minium-cucumber-reporting</module>
+		<module>minium-project-generator</module>
 		<module>minium-developer-bundle</module>
 		<module>minium-developer-e2e-tests</module>
 		<module>minium-developer-docs</module>

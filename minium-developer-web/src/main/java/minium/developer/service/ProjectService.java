@@ -7,19 +7,20 @@ import java.nio.file.Paths;
 
 import javax.servlet.http.HttpSession;
 
+import minium.project.generator.template.AutomatorProject;
+import minium.project.generator.template.CucumberProject;
+import minium.project.generator.template.MonitoringProject;
+import minium.project.generator.template.ProjectTemplate;
+import minium.web.WebElements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import minium.developer.fs.service.FileSystemService;
 import minium.developer.project.ProjectProperties;
 import minium.developer.project.Workspace;
-import minium.developer.project.templates.AutomatorProject;
-import minium.developer.project.templates.CucumberProject;
-import minium.developer.project.templates.ProjectTemplate;
-import minium.developer.project.templates.MonitoringProject;
-import minium.developer.web.rest.dto.ProjectDTO;
 import minium.internal.Throwables;
 
 @Service
@@ -157,8 +158,7 @@ public class ProjectService {
      * @throws IOException
      */
     protected boolean createCucumberProject(ProjectDTO project) throws IOException {
-        projectTemplate = new CucumberProject(project);
-        projectTemplate.buildProject();
+        createProjectByType(project, false);
         return true;
     }
 
@@ -170,11 +170,21 @@ public class ProjectService {
      * @throws IOException
      */
 	protected boolean createMonitoringProject(ProjectDTO project) throws IOException {
-		projectTemplate = new MonitoringProject(project);
-		projectTemplate.buildProject();
+        createProjectByType(project, true);
 		return true;
 	}
-    
+
+	private void createProjectByType(ProjectDTO project, boolean isMonitoring) throws IOException {
+        String miniumVersionStr = WebElements.class.getPackage().getImplementationVersion();
+        String springVersion = ApplicationContext.class.getPackage().getImplementationVersion();
+        if (isMonitoring) {
+            projectTemplate = new MonitoringProject(project, miniumVersionStr, springVersion);
+        } else {
+            projectTemplate = new CucumberProject(project, miniumVersionStr, springVersion);
+        }
+        projectTemplate.buildProject();
+	}
+
     protected boolean isCucumberProject(String dir) {
         // TODO for now, just checks if pom.xml exists
         return new File(dir, "pom.xml").exists();

@@ -1,4 +1,4 @@
-package minium.developer.utils;
+package minium.project.generator.utils;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Joiner;
@@ -6,7 +6,7 @@ import com.google.common.base.Joiner;
 public final class Utils {
 
     private Utils() {
-
+        // Do nothing
     }
 
     public static String toClassName(String name) {
@@ -29,7 +29,6 @@ public final class Utils {
 
     public static String splitUnderscoreIntoSpace(String str) {
         return str.replaceAll("(.)(\\_+)", "$1 ");
-
     }
 
     public static String replaceSpecialCharsWithSpaces(String name) {
@@ -41,7 +40,6 @@ public final class Utils {
     }
 
     public static String toCamelCase(String name) {
-        String result = CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, name);
-        return result;
+        return CaseFormat.LOWER_HYPHEN.to(CaseFormat.UPPER_CAMEL, name);
     }
 }

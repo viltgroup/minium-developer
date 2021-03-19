@@ -53,6 +53,10 @@
             <artifactId>minium-developer-fs</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.vilt.minium.developer</groupId>
+            <artifactId>minium-project-generator</artifactId>
+        </dependency>
+        <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>

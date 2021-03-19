@@ -18,7 +18,6 @@ import minium.developer.project.AbstractProjectContext;
 import minium.developer.project.ProjectProperties;
 import minium.developer.project.Workspace;
 import minium.developer.service.ProjectService;
-import minium.developer.web.rest.dto.ProjectDTO;
 
 @Controller
 @RequestMapping("/app/rest")

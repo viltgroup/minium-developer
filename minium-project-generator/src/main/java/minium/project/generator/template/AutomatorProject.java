@@ -1,11 +1,9 @@
-package minium.developer.project.templates;
+package minium.project.generator.template;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-
-import minium.developer.web.rest.dto.ProjectDTO;
-
-import org.apache.commons.io.FileUtils;
 
 public class AutomatorProject extends ProjectTemplate {
 
@@ -23,6 +21,7 @@ public class AutomatorProject extends ProjectTemplate {
 
     @Override
     public void buildFiles() {
+        // Do nothing
     }
 
     private void createStructure(String destPath) throws IOException {
@@ -31,6 +30,6 @@ public class AutomatorProject extends ProjectTemplate {
         FileUtils.forceMkdir(file);
         // create a file a main.js in root
         File fileModules = new File(destPath);
-        copyResource("/templates/automator-project/main.js", fileModules, "main.js");
+        copyResource("/automator-project/main.js", fileModules, "main.js");
     }
 }

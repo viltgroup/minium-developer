@@ -11,6 +11,7 @@ import minium.project.generator.template.AutomatorProject;
 import minium.project.generator.template.CucumberProject;
 import minium.project.generator.template.MonitoringProject;
 import minium.project.generator.template.ProjectTemplate;
+import minium.project.generator.web.rest.dto.ProjectDTO;
 import minium.web.WebElements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -23,7 +23,7 @@
 	</scm>
 
 	<properties>
-		<commons-io.version>2.4</commons-io.version>
+		<commons-io.version>2.7</commons-io.version>
 		<cucumber-reporting.version>0.0.25-SNAPSHOT</cucumber-reporting.version>
 		<commons-lang3.version>3.4</commons-lang3.version>
 		<commons-codec.version>1.10</commons-codec.version>

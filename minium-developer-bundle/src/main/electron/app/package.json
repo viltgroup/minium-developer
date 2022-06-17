@@ -2,7 +2,7 @@
   "name": "minium-developer",
   "main": "main.js",
   "dependencies": {
-    "electron": "^1.4.7",
+    "electron": "^15.5.5",
     "js-yaml": "^3.7.0"
   }
 }
